@@ -10,7 +10,7 @@
 namespace ouzel::audio
 {
     Listener::Listener(Audio& initAudio):
-        audio(initAudio)
+        audio{initAudio}
     {
     }
 

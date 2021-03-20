@@ -14,7 +14,7 @@ namespace ouzel::audio
     {
     public:
         explicit DelayProcessor(float initDelay):
-            delay(initDelay)
+            delay{initDelay}
         {
         }
 

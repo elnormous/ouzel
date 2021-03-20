@@ -71,7 +71,7 @@ namespace ouzel::audio
     {
     public:
         explicit VorbisData(const std::vector<std::byte>& initData):
-            data(initData)
+            data{initData}
         {
             stb_vorbis* vorbisStream = stb_vorbis_open_memory(reinterpret_cast<const unsigned char*>(data.data()),
                                                               static_cast<int>(data.size()),
@@ -100,7 +100,7 @@ namespace ouzel::audio
     };
 
     VorbisStream::VorbisStream(VorbisData& vorbisData):
-        Stream(vorbisData)
+        Stream{vorbisData}
     {
         vorbisStream = stb_vorbis_open_memory(reinterpret_cast<const unsigned char*>(vorbisData.getData().data()),
                                               static_cast<int>(vorbisData.getData().size()),
@@ -166,9 +166,11 @@ namespace ouzel::audio
     }
 
     VorbisClip::VorbisClip(Audio& initAudio, const std::vector<std::byte>& initData):
-        Sound(initAudio,
-              initAudio.initData(std::unique_ptr<mixer::Data>(data = new VorbisData(initData))),
-              Sound::Format::vorbis)
+        Sound{
+            initAudio,
+            initAudio.initData(std::unique_ptr<mixer::Data>(data = new VorbisData(initData))),
+            Sound::Format::vorbis
+        }
     {
     }
 }

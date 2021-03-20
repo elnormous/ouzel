@@ -30,11 +30,11 @@ namespace ouzel::audio
     {
     public:
         OscillatorData(float initFrequency, Oscillator::Type initType, float initAmplitude, float initLength):
-            Data(1, 44100),
-            frequency(initFrequency),
-            type(initType),
-            amplitude(initAmplitude),
-            length(initLength)
+            Data{1, 44100},
+            frequency{initFrequency},
+            type{initType},
+            amplitude{initAmplitude},
+            length{initLength}
         {
         }
 
@@ -56,7 +56,7 @@ namespace ouzel::audio
     };
 
     OscillatorStream::OscillatorStream(OscillatorData& oscillatorData):
-        Stream(oscillatorData)
+        Stream{oscillatorData}
     {
     }
 
@@ -151,13 +151,15 @@ namespace ouzel::audio
 
     Oscillator::Oscillator(Audio& initAudio, float initFrequency,
                            Type initType, float initAmplitude, float initLength):
-        Sound(initAudio,
-              initAudio.initData(std::unique_ptr<mixer::Data>(data = new OscillatorData(initFrequency, initType, initAmplitude, initLength))),
-              Sound::Format::pcm),
-        type(initType),
-        frequency(initFrequency),
-        amplitude(initAmplitude),
-        length(initLength)
+        Sound{
+            initAudio,
+            initAudio.initData(std::unique_ptr<mixer::Data>(data = new OscillatorData(initFrequency, initType, initAmplitude, initLength))),
+            Sound::Format::pcm
+        },
+        type{initType},
+        frequency{initFrequency},
+        amplitude{initAmplitude},
+        length{initLength}
     {
     }
 }

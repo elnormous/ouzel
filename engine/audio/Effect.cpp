@@ -8,9 +8,9 @@ namespace ouzel::audio
 {
     Effect::Effect(Audio& initAudio,
                    std::size_t initProcessorId):
-        Node(initAudio),
-        audio(initAudio),
-        processorId(initProcessorId)
+        Node{initAudio},
+        audio{initAudio},
+        processorId{initProcessorId}
     {
     }
 

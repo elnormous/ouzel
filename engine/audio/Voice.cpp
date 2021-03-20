@@ -38,14 +38,14 @@ namespace ouzel::audio
     };
 
     Voice::Voice(Audio& initAudio):
-        Node(initAudio),
-        audio(initAudio)
+        Node{initAudio},
+        audio{initAudio}
     {
     }
 
     Voice::Voice(Audio& initAudio, const Cue& cue):
-        Node(initAudio),
-        audio(initAudio)
+        Node{initAudio},
+        audio{initAudio}
     {
         const auto& sourceDefinition = cue.getSourceDefinition();
 
@@ -126,9 +126,9 @@ namespace ouzel::audio
     }
 
     Voice::Voice(Audio& initAudio, const Sound* initSound):
-        Node(initAudio),
-        audio(initAudio),
-        streamId(audio.initStream(initSound->getSourceId()))
+        Node{initAudio},
+        audio{initAudio},
+        streamId{audio.initStream(initSound->getSourceId())}
     {
         sound = initSound;
     }

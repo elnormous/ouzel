@@ -133,13 +133,19 @@ namespace ouzel::audio
     }
 
     Audio::Audio(Driver driver, const Settings& settings):
-        device(createAudioDevice(driver,
-                                 std::bind(&Audio::getSamples, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4),
-                                 settings)),
-        mixer(device->getBufferSize(), device->getChannels(),
-              std::bind(&Audio::eventCallback, this, std::placeholders::_1)),
-        masterMix(*this),
-        rootNode(*this) // mixer.getRootObjectId()
+        device{createAudioDevice(driver,
+                                 std::bind(&Audio::getSamples, this,
+                                           std::placeholders::_1,
+                                           std::placeholders::_2,
+                                           std::placeholders::_3,
+                                           std::placeholders::_4),
+                                 settings)},
+        mixer{
+            device->getBufferSize(), device->getChannels(),
+            std::bind(&Audio::eventCallback, this, std::placeholders::_1)
+        },
+        masterMix{*this},
+        rootNode{*this} // mixer.getRootObjectId()
     {
         addCommand(std::make_unique<mixer::SetMasterBusCommand>(masterMix.getBusId()));
         device->start();

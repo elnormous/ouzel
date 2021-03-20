@@ -6,7 +6,7 @@
 namespace ouzel::audio
 {
     Submix::Submix(Audio& initAudio):
-        Mix(initAudio)
+        Mix{initAudio}
     {
     }
 

@@ -6,9 +6,9 @@
 namespace ouzel::audio
 {
     Sound::Sound(Audio& initAudio, std::size_t initSourceId, Format initFormat):
-        audio(initAudio),
-        sourceId(initSourceId),
-        format(initFormat)
+        audio{initAudio},
+        sourceId{initSourceId},
+        format{initFormat}
     {
     }
 

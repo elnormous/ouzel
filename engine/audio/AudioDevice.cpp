@@ -10,11 +10,11 @@ namespace ouzel::audio
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
-        driver(initDriver),
-        bufferSize(settings.bufferSize),
-        sampleRate(settings.sampleRate),
-        channels((settings.channels != 0) ? settings.channels : 2), // TODO: leave it zero and let subclasses decide the number of channels
-        dataGetter(initDataGetter)
+        driver{initDriver},
+        bufferSize{settings.bufferSize},
+        sampleRate{settings.sampleRate},
+        channels{(settings.channels != 0) ? settings.channels : 2}, // TODO: leave it zero and let subclasses decide the number of channels
+        dataGetter{initDataGetter}
     {
     }
 

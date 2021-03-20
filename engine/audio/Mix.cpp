@@ -10,8 +10,8 @@
 namespace ouzel::audio
 {
     Mix::Mix(Audio& initAudio):
-        audio(initAudio),
-        busId(audio.initBus())
+        audio{initAudio},
+        busId{audio.initBus()}
     {
     }
 

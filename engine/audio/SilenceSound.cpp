@@ -29,8 +29,8 @@ namespace ouzel::audio
     {
     public:
         explicit SilenceData(float initLength):
-            Data(1, 44100),
-            length(initLength)
+            Data{1, 44100},
+            length{initLength}
         {
         }
 
@@ -46,7 +46,7 @@ namespace ouzel::audio
     };
 
     SilenceStream::SilenceStream(SilenceData& silenceData):
-        Stream(silenceData)
+        Stream{silenceData}
     {
     }
 
@@ -91,10 +91,12 @@ namespace ouzel::audio
     }
 
     SilenceSound::SilenceSound(Audio& initAudio, float initLength):
-        Sound(initAudio,
-              initAudio.initData(std::unique_ptr<mixer::Data>(data = new SilenceData(initLength))),
-              Sound::Format::pcm),
-        length(initLength)
+        Sound{
+            initAudio,
+            initAudio.initData(std::unique_ptr<mixer::Data>(data = new SilenceData(initLength))),
+            Sound::Format::pcm
+        },
+        length{initLength}
     {
     }
 }
