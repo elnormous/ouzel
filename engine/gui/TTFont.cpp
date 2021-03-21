@@ -28,8 +28,8 @@
 namespace ouzel::gui
 {
     TTFont::TTFont(const std::vector<std::byte>& initData, bool initMipmaps):
-        data(initData),
-        mipmaps(initMipmaps)
+        data{initData},
+        mipmaps{initMipmaps}
     {
         const auto offset = stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(data.data()), 0);
 

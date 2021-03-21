@@ -36,11 +36,11 @@ namespace ouzel::gui
                    Color initLabelSelectedColor,
                    Color initLabelPressedColor,
                    Color initLabelDisabledColor):
-        eventHandler(EventHandler::priorityMax + 1),
-        labelColor(initLabelColor),
-        labelSelectedColor(initLabelSelectedColor),
-        labelPressedColor(initLabelPressedColor),
-        labelDisabledColor(initLabelDisabledColor)
+        eventHandler{EventHandler::priorityMax + 1},
+        labelColor{initLabelColor},
+        labelSelectedColor{initLabelSelectedColor},
+        labelPressedColor{initLabelPressedColor},
+        labelDisabledColor{initLabelDisabledColor}
     {
         eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
@@ -190,7 +190,7 @@ namespace ouzel::gui
                        const std::string& pressedImage,
                        const std::string& disabledImage,
                        const std::string& tickImage):
-        eventHandler(EventHandler::priorityMax + 1)
+        eventHandler{EventHandler::priorityMax + 1}
     {
         eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
@@ -351,8 +351,8 @@ namespace ouzel::gui
                  float fontSize,
                  Color color,
                  const Vector<float, 2>& textAnchor):
-        text(initText),
-        labelDrawable(std::make_shared<scene::TextRenderer>(fontFile, fontSize, text, color, textAnchor))
+        text{initText},
+        labelDrawable{std::make_shared<scene::TextRenderer>(fontFile, fontSize, text, color, textAnchor)}
     {
         addComponent(*labelDrawable);
         labelDrawable->setText(text);
@@ -367,7 +367,7 @@ namespace ouzel::gui
     }
 
     Menu::Menu():
-        eventHandler(EventHandler::priorityMax + 1)
+        eventHandler{EventHandler::priorityMax + 1}
     {
         eventHandler.keyboardHandler = std::bind(&Menu::handleKeyboard, this, std::placeholders::_1);
         eventHandler.gamepadHandler = std::bind(&Menu::handleGamepad, this, std::placeholders::_1);
