@@ -59,9 +59,7 @@ namespace ouzel::assets
 
     std::shared_ptr<graphics::Texture> Bundle::getTexture(const std::string& name) const
     {
-        const auto i = textures.find(name);
-
-        if (i != textures.end())
+        if (const auto i = textures.find(name); i != textures.end())
             return i->second;
 
         return nullptr;
@@ -79,9 +77,7 @@ namespace ouzel::assets
 
     const graphics::Shader* Bundle::getShader(const std::string& name) const
     {
-        const auto i = shaders.find(name);
-
-        if (i != shaders.end())
+        if (const auto i = shaders.find(name); i != shaders.end())
             return i->second.get();
 
         return nullptr;
@@ -99,9 +95,7 @@ namespace ouzel::assets
 
     const graphics::BlendState* Bundle::getBlendState(const std::string& name) const
     {
-        const auto i = blendStates.find(name);
-
-        if (i != blendStates.end())
+        if (const auto i = blendStates.find(name); i != blendStates.end())
             return i->second.get();
 
         return nullptr;
@@ -119,9 +113,7 @@ namespace ouzel::assets
 
     const graphics::DepthStencilState* Bundle::getDepthStencilState(const std::string& name) const
     {
-        const auto i = depthStencilStates.find(name);
-
-        if (i != depthStencilStates.end())
+        if (const auto i = depthStencilStates.find(name); i != depthStencilStates.end())
             return i->second.get();
 
         return nullptr;
@@ -194,9 +186,7 @@ namespace ouzel::assets
 
     const scene::SpriteData* Bundle::getSpriteData(const std::string& name) const
     {
-        const auto i = spriteData.find(name);
-
-        if (i != spriteData.end())
+        if (const auto i = spriteData.find(name); i != spriteData.end())
             return &i->second;
 
         return nullptr;
@@ -214,9 +204,7 @@ namespace ouzel::assets
 
     const scene::ParticleSystemData* Bundle::getParticleSystemData(const std::string& name) const
     {
-        const auto i = particleSystemData.find(name);
-
-        if (i != particleSystemData.end())
+        if (const auto i = particleSystemData.find(name); i != particleSystemData.end())
             return &i->second;
 
         return nullptr;
@@ -234,9 +222,7 @@ namespace ouzel::assets
 
     const gui::Font* Bundle::getFont(const std::string& name) const
     {
-        const auto i = fonts.find(name);
-
-        if (i != fonts.end())
+        if (const auto i = fonts.find(name); i != fonts.end())
             return i->second.get();
 
         return nullptr;
@@ -254,9 +240,7 @@ namespace ouzel::assets
 
     const audio::Cue* Bundle::getCue(const std::string& name) const
     {
-        const auto i = cues.find(name);
-
-        if (i != cues.end())
+        if (const auto i = cues.find(name); i != cues.end())
             return i->second.get();
 
         return nullptr;
@@ -274,9 +258,7 @@ namespace ouzel::assets
 
     const audio::Sound* Bundle::getSound(const std::string& name) const
     {
-        const auto i = sounds.find(name);
-
-        if (i != sounds.end())
+        if (const auto i = sounds.find(name); i != sounds.end())
             return i->second.get();
 
         return nullptr;
@@ -294,9 +276,7 @@ namespace ouzel::assets
 
     const graphics::Material* Bundle::getMaterial(const std::string& name) const
     {
-        const auto i = materials.find(name);
-
-        if (i != materials.end())
+        if (const auto i = materials.find(name); i != materials.end())
             return i->second.get();
 
         return nullptr;
@@ -314,9 +294,7 @@ namespace ouzel::assets
 
     const scene::SkinnedMeshData* Bundle::getSkinnedMeshData(const std::string& name) const
     {
-        const auto i = skinnedMeshData.find(name);
-
-        if (i != skinnedMeshData.end())
+        if (const auto i = skinnedMeshData.find(name); i != skinnedMeshData.end())
             return &i->second;
 
         return nullptr;
@@ -334,9 +312,7 @@ namespace ouzel::assets
 
     const scene::StaticMeshData* Bundle::getStaticMeshData(const std::string& name) const
     {
-        const auto i = staticMeshData.find(name);
-
-        if (i != staticMeshData.end())
+        if (const auto i = staticMeshData.find(name); i != staticMeshData.end())
             return &i->second;
 
         return nullptr;

@@ -118,9 +118,7 @@ namespace ouzel
 
     void Localization::addLanguage(const std::string& name, const std::vector<std::byte>& data)
     {
-        const auto i = languages.find(name);
-
-        if (i != languages.end())
+        if (const auto i = languages.find(name); i != languages.end())
             i->second = Language(data);
         else
             languages.insert(std::pair(name, Language(data)));
@@ -128,9 +126,7 @@ namespace ouzel
 
     void Localization::removeLanguage(const std::string& name)
     {
-        const auto i = languages.find(name);
-
-        if (i != languages.end())
+        if (const auto i = languages.find(name); i != languages.end())
         {
             if (currentLanguage == i)
                 currentLanguage = languages.end();
@@ -141,9 +137,7 @@ namespace ouzel
 
     void Localization::setLanguage(const std::string& name)
     {
-        const auto i = languages.find(name);
-
-        if (i != languages.end())
+        if (const auto i = languages.find(name); i != languages.end())
             currentLanguage = i;
         else
             currentLanguage = languages.end();
