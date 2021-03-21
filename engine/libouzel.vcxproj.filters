@@ -145,9 +145,6 @@
     <ClCompile Include="gui\TTFont.cpp">
       <Filter>engine\gui</Filter>
     </ClCompile>
-    <ClCompile Include="gui\Widget.cpp">
-      <Filter>engine\gui</Filter>
-    </ClCompile>
     <ClCompile Include="gui\Widgets.cpp">
       <Filter>engine\gui</Filter>
     </ClCompile>

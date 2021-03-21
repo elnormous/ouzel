@@ -100,7 +100,6 @@ SOURCES=assets/BmfLoader.cpp \
 	graphics/Texture.cpp \
 	gui/BMFont.cpp \
 	gui/TTFont.cpp \
-	gui/Widget.cpp \
 	gui/Widgets.cpp \
 	input/Cursor.cpp \
 	input/Gamepad.cpp \

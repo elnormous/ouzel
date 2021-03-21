@@ -95,7 +95,6 @@
     <ClCompile Include="graphics\Texture.cpp" />
     <ClCompile Include="gui\BMFont.cpp" />
     <ClCompile Include="gui\TTFont.cpp" />
-    <ClCompile Include="gui\Widget.cpp" />
     <ClCompile Include="gui\Widgets.cpp" />
     <ClCompile Include="input\Cursor.cpp" />
     <ClCompile Include="input\GamepadDevice.cpp" />

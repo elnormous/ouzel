@@ -17,13 +17,13 @@ namespace ouzel::gui
 
         auto getMenu() const noexcept { return menu; }
 
-        virtual void setEnabled(bool newEnabled);
+        virtual void setEnabled(bool newEnabled) { enabled = newEnabled; }
         auto isEnabled() const noexcept { return enabled; }
 
         auto isSelected() const noexcept { return selected; }
 
     protected:
-        virtual void setSelected(bool newSelected);
+        virtual void setSelected(bool newSelected) { selected = newSelected; }
 
         Menu* menu = nullptr;
         bool enabled = true;

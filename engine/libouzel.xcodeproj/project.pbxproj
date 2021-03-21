@@ -472,9 +472,6 @@
 		305B68D61ED1B31D003352A2 /* Timer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.hpp */; };
 		305B68D71ED1B31D003352A2 /* Timer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.hpp */; };
 		305B68D81ED1B31D003352A2 /* Timer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B68D21ED1B31D003352A2 /* Timer.hpp */; };
-		305B99911C41F06F008589E1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B998F1C41F06F008589E1 /* Widget.cpp */; };
-		305B99921C41F06F008589E1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B998F1C41F06F008589E1 /* Widget.cpp */; };
-		305B99931C41F06F008589E1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 305B998F1C41F06F008589E1 /* Widget.cpp */; };
 		305B99941C41F06F008589E1 /* Widget.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.hpp */; };
 		305B99951C41F06F008589E1 /* Widget.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.hpp */; };
 		305B99961C41F06F008589E1 /* Widget.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 305B99901C41F06F008589E1 /* Widget.hpp */; };
@@ -962,7 +959,6 @@
 		305B11362250413900EDA4F5 /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
 		305B11372250413900EDA4F5 /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
 		305B68D21ED1B31D003352A2 /* Timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
-		305B998F1C41F06F008589E1 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
 		305B99901C41F06F008589E1 /* Widget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Widget.hpp; sourceTree = "<group>"; };
 		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
 		305B999B1C42A695008589E1 /* BMFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMFont.hpp; sourceTree = "<group>"; };
@@ -1738,7 +1734,6 @@
 				30B859931F3D2F3200A16952 /* Font.hpp */,
 				30B8598A1F3D286600A16952 /* TTFont.cpp */,
 				30B8598B1F3D286600A16952 /* TTFont.hpp */,
-				305B998F1C41F06F008589E1 /* Widget.cpp */,
 				305B99901C41F06F008589E1 /* Widget.hpp */,
 				30575AC31C3B17540009C8A7 /* Widgets.cpp */,
 				30575AC41C3B17540009C8A7 /* Widgets.hpp */,
@@ -2517,7 +2512,6 @@
 				30AEFA1420C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
 				3038202B1D80A55700677CAB /* MetalBuffer.mm in Sources */,
 				303820121D80A40700677CAB /* MetalTexture.mm in Sources */,
-				305B99921C41F06F008589E1 /* Widget.cpp in Sources */,
 				30EEADCB216A44EC00D2F525 /* InputDevice.cpp in Sources */,
 				30231FFF22184518007E0AAD /* Server.cpp in Sources */,
 				30381FE21D80A40700677CAB /* MetalBlendState.mm in Sources */,
@@ -2635,7 +2629,6 @@
 				303B763E1C355A3B00FEDE92 /* SceneManager.cpp in Sources */,
 				30EEADC921618F2C00D2F525 /* TouchpadDevice.cpp in Sources */,
 				30381FE41D80A40700677CAB /* MetalBlendState.mm in Sources */,
-				305B99931C41F06F008589E1 /* Widget.cpp in Sources */,
 				30EEADCD216A44ED00D2F525 /* InputDevice.cpp in Sources */,
 				3023200122184518007E0AAD /* Server.cpp in Sources */,
 				30575AC71C3B17540009C8A7 /* Widgets.cpp in Sources */,
@@ -2787,7 +2780,6 @@
 				30419DF11D162BEF00A63759 /* Sound.cpp in Sources */,
 				3031C1351F0C4350002CA717 /* VorbisClip.cpp in Sources */,
 				305B11392250413900EDA4F5 /* Containers.cpp in Sources */,
-				305B99911C41F06F008589E1 /* Widget.cpp in Sources */,
 				30381F6E1D80A3EC00677CAB /* OGLBuffer.cpp in Sources */,
 				304BB5DB2569E8EF0024DD25 /* CoreVideoErrorCategory.cpp in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
