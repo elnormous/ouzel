@@ -1228,6 +1228,8 @@ namespace ouzel::graphics::opengl
                         break;
                     }
 
+                    case Command::Type::renderScene: break;
+
                     default:
                         throw Error("Invalid command");
                 }
