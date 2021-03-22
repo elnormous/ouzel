@@ -132,8 +132,7 @@ namespace ouzel::input
             {
                 bool handled = false;
 
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     const auto controllerIterator = std::find(controllers.begin(), controllers.end(), i->second.get());
                     if (controllerIterator != controllers.end())
@@ -194,140 +193,99 @@ namespace ouzel::input
                 return handled;
             }
             case InputSystem::Event::Type::deviceDiscoveryComplete:
-            {
                 discovering = false;
                 return true;
-            }
             case InputSystem::Event::Type::gamepadButtonChange:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto gamepad = static_cast<Gamepad*>(i->second.get());
                     return gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
                 }
                 break;
-            }
             case InputSystem::Event::Type::keyboardKeyPress:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto keyboardController = static_cast<Keyboard*>(i->second.get());
                     return keyboardController->handleKeyPress(event.keyboardKey);
                 }
                 break;
-            }
             case InputSystem::Event::Type::keyboardKeyRelease:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto keyboardController = static_cast<Keyboard*>(i->second.get());
                     return keyboardController->handleKeyRelease(event.keyboardKey);
                 }
                 break;
-            }
             case InputSystem::Event::Type::mousePress:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleButtonPress(event.mouseButton, event.position);
                 }
                 break;
-            }
             case InputSystem::Event::Type::mouseRelease:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleButtonRelease(event.mouseButton, event.position);
                 }
                 break;
-            }
             case InputSystem::Event::Type::mouseScroll:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleScroll(event.scroll, event.position);
                 }
                 break;
-            }
             case InputSystem::Event::Type::mouseMove:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleMove(event.position);
                 }
                 break;
-            }
             case InputSystem::Event::Type::mouseRelativeMove:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleRelativeMove(event.position);
                 }
                 break;
-            }
             case InputSystem::Event::Type::mouseLockChanged:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleCursorLockChange(event.locked);
                 }
                 break;
-            }
             case InputSystem::Event::Type::touchBegin:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto touchpadController = static_cast<Touchpad*>(i->second.get());
                     return touchpadController->handleTouchBegin(event.touchId, event.position);
                 }
                 break;
-            }
             case InputSystem::Event::Type::touchMove:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto touchpadController = static_cast<Touchpad*>(i->second.get());
                     return touchpadController->handleTouchMove(event.touchId, event.position);
                 }
                 break;
-            }
             case InputSystem::Event::Type::touchEnd:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto touchpadController = static_cast<Touchpad*>(i->second.get());
                     return touchpadController->handleTouchEnd(event.touchId, event.position);
                 }
                 break;
-            }
             case InputSystem::Event::Type::touchCancel:
-            {
-                const auto i = controllerMap.find(event.deviceId);
-                if (i != controllerMap.end())
+                if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
                     auto touchpadController = static_cast<Touchpad*>(i->second.get());
                     return touchpadController->handleTouchCancel(event.touchId, event.position);
                 }
                 break;
-            }
             default:
                 throw std::runtime_error("Unhandled event");
         }

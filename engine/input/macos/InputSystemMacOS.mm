@@ -312,9 +312,7 @@ namespace ouzel::input::macos
 
     void InputSystem::handleGamepadDisconnected(GCControllerPtr controller)
     {
-        const auto i = gamepadDevicesGC.find(controller);
-
-        if (i != gamepadDevicesGC.end())
+        if (const auto i = gamepadDevicesGC.find(controller); i != gamepadDevicesGC.end())
             gamepadDevicesGC.erase(i);
     }
 
@@ -342,9 +340,7 @@ namespace ouzel::input::macos
 
     void InputSystem::handleGamepadDisconnected(IOHIDDeviceRef device)
     {
-        const auto i = gamepadDevicesIOKit.find(device);
-
-        if (i != gamepadDevicesIOKit.end())
+        if (const auto i = gamepadDevicesIOKit.find(device); i != gamepadDevicesIOKit.end())
             gamepadDevicesIOKit.erase(i);
     }
 

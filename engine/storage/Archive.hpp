@@ -80,17 +80,17 @@ namespace ouzel::storage
 
         std::vector<std::byte> readFile(const std::string& filename)
         {
-            const auto i = entries.find(filename);
+            if (const auto i = entries.find(filename); i != entries.end())
+            {
+                file.seekg(i->second.offset, std::ios::beg);
 
-            if (i == entries.end())
+                std::vector<std::byte> data(i->second.size);
+                file.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(i->second.size));
+
+                return data;
+            }
+            else
                 throw std::runtime_error("File " + filename + " does not exist");
-
-            file.seekg(i->second.offset, std::ios::beg);
-
-            std::vector<std::byte> data(i->second.size);
-            file.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(i->second.size));
-
-            return data;
         }
 
         bool fileExists(const std::string& filename) const

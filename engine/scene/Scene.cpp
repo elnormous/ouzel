@@ -221,9 +221,7 @@ namespace ouzel::scene
                 std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                 pointerEnterActor(0, actor.first, event.position);
 
-                const auto i = pointerDownOnActors.find(0);
-
-                if (i != pointerDownOnActors.end())
+                if (const auto i = pointerDownOnActors.find(0); i != pointerDownOnActors.end())
                     pointerDragActor(0, i->second.first, event.position, event.difference, i->second.second);
                 break;
             }
@@ -260,9 +258,7 @@ namespace ouzel::scene
                     std::pair<Actor*, Vector<float, 3>> actor = pickActor(event.position);
                     pointerEnterActor(0, actor.first, event.position);
 
-                    const auto i = pointerDownOnActors.find(event.touchId);
-
-                    if (i != pointerDownOnActors.end())
+                    if (const auto i = pointerDownOnActors.find(event.touchId); i != pointerDownOnActors.end())
                         pointerDragActor(event.touchId, i->second.first, event.position, event.difference, i->second.second);
                     break;
                 }
@@ -324,9 +320,7 @@ namespace ouzel::scene
 
     void Scene::pointerUpOnActor(std::uint64_t pointerId, Actor* actor, const Vector<float, 2>& position)
     {
-        const auto i = pointerDownOnActors.find(pointerId);
-
-        if (i != pointerDownOnActors.end())
+        if (const auto i = pointerDownOnActors.find(pointerId); i != pointerDownOnActors.end())
         {
             const auto pointerDownOnActor = i->second;
 

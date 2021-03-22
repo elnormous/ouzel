@@ -133,16 +133,15 @@ namespace ouzel::input
 
         auto getResourceId()
         {
-            const auto i = deletedResourceIds.begin();
 
-            if (i == deletedResourceIds.end())
-                return ++lastResourceId; // zero is reserved for null resource
-            else
+            if (const auto i = deletedResourceIds.begin(); i != deletedResourceIds.end())
             {
                 std::size_t resourceId = *i;
                 deletedResourceIds.erase(i);
                 return resourceId;
             }
+            else
+                return ++lastResourceId; // zero is reserved for null resource
         }
 
         void deleteResourceId(std::size_t resourceId)

@@ -137,9 +137,7 @@ namespace ouzel::input::ios
 
     void InputSystem::handleGamepadDisconnected(GCControllerPtr controller)
     {
-        const auto i = gamepadDevices.find(controller);
-
-        if (i != gamepadDevices.end())
+        if (const auto i = gamepadDevices.find(controller); i != gamepadDevices.end())
             gamepadDevices.erase(i);
     }
 
