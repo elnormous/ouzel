@@ -79,16 +79,14 @@ namespace ouzel::audio::mixer
         using ObjectId = std::size_t;
         ObjectId getObjectId()
         {
-            const auto i = deletedObjectIds.begin();
-
-            if (i == deletedObjectIds.end())
-                return ++lastObjectId; // zero is reserved for null node
-            else
+            if (const auto i = deletedObjectIds.begin(); i != deletedObjectIds.end())
             {
                 std::size_t objectId = *i;
                 deletedObjectIds.erase(i);
                 return objectId;
             }
+            else
+                return ++lastObjectId; // zero is reserved for null node
         }
 
         void deleteObjectId(ObjectId objectId)

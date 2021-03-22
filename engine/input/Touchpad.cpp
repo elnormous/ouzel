@@ -35,9 +35,7 @@ namespace ouzel::input
         event->position = position;
         event->force = force;
 
-        const auto i = touchPositions.find(touchId);
-
-        if (i != touchPositions.end())
+        if (const auto i = touchPositions.find(touchId); i != touchPositions.end())
             touchPositions.erase(i);
 
         return engine->getEventDispatcher().dispatchEvent(std::move(event));
@@ -67,9 +65,7 @@ namespace ouzel::input
         event->position = position;
         event->force = force;
 
-        const auto i = touchPositions.find(touchId);
-
-        if (i != touchPositions.end())
+        if (const auto i = touchPositions.find(touchId); i != touchPositions.end())
             touchPositions.erase(i);
 
         return engine->getEventDispatcher().dispatchEvent(std::move(event));

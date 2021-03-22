@@ -108,9 +108,7 @@ namespace ouzel
 
     std::string Language::getString(const std::string& str) const
     {
-        const auto i = strings.find(str);
-
-        if (i != strings.end())
+        if (const auto i = strings.find(str); i != strings.end())
             return i->second;
         else
             return str;

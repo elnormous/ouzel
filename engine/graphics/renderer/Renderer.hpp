@@ -64,16 +64,14 @@ namespace ouzel::graphics::renderer
     private:
         ResourceId createResourceId()
         {
-            const auto i = deletedResourceIds.begin();
-
-            if (i == deletedResourceIds.end())
-                return ++lastResourceId;
-            else
+            if (const auto i = deletedResourceIds.begin(); i != deletedResourceIds.end())
             {
                 std::size_t resourceId = *i;
                 deletedResourceIds.erase(i);
                 return resourceId;
             }
+            else
+                return ++lastResourceId;
         }
 
         void deleteResourceId(ResourceId id)
