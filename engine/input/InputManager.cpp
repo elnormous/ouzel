@@ -130,12 +130,14 @@ namespace ouzel::input
             }
             case InputSystem::Event::Type::deviceDisconnect:
             {
-                bool handled = false;
-
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    const auto controllerIterator = std::find(controllers.begin(), controllers.end(), i->second.get());
-                    if (controllerIterator != controllers.end())
+                    const auto controller = std::move(i->second);
+                    controllerMap.erase(i);
+
+                    if (const auto controllerIterator = std::find(controllers.begin(),
+                                                                  controllers.end(),
+                                                                  controller.get()); controllerIterator != controllers.end())
                         controllers.erase(controllerIterator);
 
                     switch (i->second->getType())
@@ -144,53 +146,61 @@ namespace ouzel::input
                         {
                             auto disconnectEvent = std::make_unique<GamepadEvent>();
                             disconnectEvent->type = Event::Type::gamepadDisconnect;
-                            disconnectEvent->gamepad = static_cast<Gamepad*>(i->second.get());
-                            handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
-                            break;
+                            disconnectEvent->gamepad = static_cast<Gamepad*>(controller.get());
+                            return engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                         }
                         case Controller::Type::keyboard:
                         {
                             auto disconnectEvent = std::make_unique<KeyboardEvent>();
                             disconnectEvent->type = Event::Type::keyboardDisconnect;
-                            disconnectEvent->keyboard = static_cast<Keyboard*>(i->second.get());
-                            keyboard = nullptr;
-                            for (auto controller : controllers)
-                                if (controller->getType() == Controller::Type::keyboard)
-                                    keyboard = static_cast<Keyboard*>(controller);
-                            handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
-                            break;
+                            disconnectEvent->keyboard = static_cast<Keyboard*>(controller.get());
+
+                            if (controller.get() == keyboard)
+                            {
+                                keyboard = nullptr;
+                                for (auto c : controllers)
+                                    if (c->getType() == Controller::Type::keyboard)
+                                        keyboard = static_cast<Keyboard*>(c);
+                            }
+
+                            return engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                         }
                         case Controller::Type::mouse:
                         {
                             auto disconnectEvent = std::make_unique<MouseEvent>();
                             disconnectEvent->type = Event::Type::mouseDisconnect;
-                            disconnectEvent->mouse = static_cast<Mouse*>(i->second.get());
-                            mouse = nullptr;
-                            for (auto controller : controllers)
-                                if (controller->getType() == Controller::Type::mouse)
-                                    mouse = static_cast<Mouse*>(controller);
-                            handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
-                            break;
+                            disconnectEvent->mouse = static_cast<Mouse*>(controller.get());
+
+                            if (controller.get() == mouse)
+                            {
+                                mouse = nullptr;
+                                for (auto c : controllers)
+                                    if (c->getType() == Controller::Type::mouse)
+                                        mouse = static_cast<Mouse*>(c);
+                            }
+
+                            return engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                         }
                         case Controller::Type::touchpad:
                         {
                             auto disconnectEvent = std::make_unique<TouchEvent>();
                             disconnectEvent->type = Event::Type::touchpadDisconnect;
-                            disconnectEvent->touchpad = static_cast<Touchpad*>(i->second.get());
-                            touchpad = nullptr;
-                            for (auto controller : controllers)
-                                if (controller->getType() == Controller::Type::touchpad)
-                                    touchpad = static_cast<Touchpad*>(controller);
-                            handled = engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
-                            break;
+                            disconnectEvent->touchpad = static_cast<Touchpad*>(controller.get());
+
+                            if (controller.get() == touchpad)
+                            {
+                                touchpad = nullptr;
+                                for (auto c : controllers)
+                                    if (c->getType() == Controller::Type::touchpad)
+                                        touchpad = static_cast<Touchpad*>(c);
+                            }
+
+                            return engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                         }
                         default: throw std::runtime_error("Invalid controller type");
                     }
-
-                    controllerMap.erase(i);
                 }
-
-                return handled;
+                break;
             }
             case InputSystem::Event::Type::deviceDiscoveryComplete:
                 discovering = false;
