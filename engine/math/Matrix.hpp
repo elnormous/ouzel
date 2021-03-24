@@ -866,14 +866,14 @@ namespace ouzel
             return *this;
         }
 
-        const Matrix operator*(const float scalar) const noexcept
+        const Matrix operator*(const T scalar) const noexcept
         {
             Matrix result(*this);
             result.multiply(scalar);
             return result;
         }
 
-        Matrix& operator*=(const float scalar) noexcept
+        Matrix& operator*=(const T scalar) noexcept
         {
             multiply(scalar);
             return *this;
