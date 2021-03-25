@@ -379,7 +379,7 @@ namespace ouzel
         }
         else
         {
-            const auto product = {
+            dst.m = {
                 m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3],
                 m[1] * matrix.m[0] + m[5] * matrix.m[1] + m[9] * matrix.m[2] + m[13] * matrix.m[3],
                 m[2] * matrix.m[0] + m[6] * matrix.m[1] + m[10] * matrix.m[2] + m[14] * matrix.m[3],
@@ -400,8 +400,6 @@ namespace ouzel
                 m[2] * matrix.m[12] + m[6] * matrix.m[13] + m[10] * matrix.m[14] + m[14] * matrix.m[15],
                 m[3] * matrix.m[12] + m[7] * matrix.m[13] + m[11] * matrix.m[14] + m[15] * matrix.m[15]
             };
-
-            std::copy(product.begin(), product.end(), dst.m.begin());
         }
     }
 
@@ -649,13 +647,12 @@ namespace ouzel
         }
         else
         {
-            const auto t = {
+            dst.m = {
                 m[0], m[4], m[8], m[12],
                 m[1], m[5], m[9], m[13],
                 m[2], m[6], m[10], m[14],
                 m[3], m[7], m[11], m[15]
             };
-            std::copy(t.begin(), t.end(), dst.m.begin());
         }
     }
 
