@@ -379,7 +379,7 @@ namespace ouzel
         }
         else
         {
-            const std::array<float, 16> product {
+            const auto product = {
                 m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3],
                 m[1] * matrix.m[0] + m[5] * matrix.m[1] + m[9] * matrix.m[2] + m[13] * matrix.m[3],
                 m[2] * matrix.m[0] + m[6] * matrix.m[1] + m[10] * matrix.m[2] + m[14] * matrix.m[3],
@@ -649,7 +649,7 @@ namespace ouzel
         }
         else
         {
-            const std::array<float, 16> t = {
+            const auto t = {
                 m[0], m[4], m[8], m[12],
                 m[1], m[5], m[9], m[13],
                 m[2], m[6], m[10], m[14],
