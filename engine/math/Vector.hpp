@@ -108,7 +108,7 @@ namespace ouzel
 
         auto distance(const Vector& vec) const noexcept
         {
-            T d = 0;
+            T d = T(0);
             for (std::size_t i = 0; i < N; ++i)
                 d += (vec.v[i] - v[i]) * (vec.v[i] - v[i]);
             return std::sqrt(d);
@@ -116,7 +116,7 @@ namespace ouzel
 
         auto distanceSquared(const Vector& vec) const noexcept
         {
-            T d = 0;
+            T d = T(0);
             for (std::size_t i = 0; i < N; ++i)
                 d += (vec.v[i] - v[i]) * (vec.v[i] - v[i]);
             return d;
@@ -124,7 +124,7 @@ namespace ouzel
 
         auto dot(const Vector& vec) const noexcept
         {
-            T d = 0;
+            T d = T(0);
             for (std::size_t i = 0; i < N; ++i)
                 d += v[i] * vec.v[i];
             return d;
@@ -132,7 +132,7 @@ namespace ouzel
 
         auto length() const noexcept
         {
-            T l = 0;
+            T l = T(0);
             for (const auto& c : v)
                 l += c * c;
             return std::sqrt(l);
@@ -140,7 +140,7 @@ namespace ouzel
 
         auto lengthSquared() const noexcept
         {
-            T l = 0;
+            T l = T(0);
             for (const auto& c : v)
                 l += c * c;
             return l;
