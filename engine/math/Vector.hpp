@@ -122,17 +122,14 @@ namespace ouzel
             return d;
         }
 
+        constexpr auto length() const noexcept
+        {
+            return generateLength(std::make_index_sequence<N>{});
+        }
+
         constexpr auto dot(const Vector& vec) const noexcept
         {
             return generateDot(std::make_index_sequence<N>{}, vec);
-        }
-
-        auto length() const noexcept
-        {
-            T l = T(0);
-            for (const auto& c : v)
-                l += c * c;
-            return std::sqrt(l);
         }
 
         auto lengthSquared() const noexcept
@@ -380,6 +377,12 @@ namespace ouzel
         static constexpr auto sum(Args... args) noexcept
         {
             return (args + ...);
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateLength(const std::index_sequence<I...>) const
+        {
+            return std::sqrt(sum((v[I] * v[I])...));
         }
 
         template <std::size_t...I>
