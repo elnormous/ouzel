@@ -122,12 +122,9 @@ namespace ouzel
             return d;
         }
 
-        auto dot(const Vector& vec) const noexcept
+        constexpr auto dot(const Vector& vec) const noexcept
         {
-            T d = T(0);
-            for (std::size_t i = 0; i < N; ++i)
-                d += v[i] * vec.v[i];
-            return d;
+            return generateDot(std::make_index_sequence<N>{}, vec);
         }
 
         auto length() const noexcept
@@ -377,6 +374,18 @@ namespace ouzel
         constexpr auto generateDiv(const std::index_sequence<I...>, T scalar) const
         {
             return Vector{(v[I] / scalar)...};
+        }
+
+        template<typename... Args>
+        static constexpr auto sum(Args... args) noexcept
+        {
+            return (args + ...);
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const
+        {
+            return sum((v[I] * vec.v[I])...);
         }
     };
 
