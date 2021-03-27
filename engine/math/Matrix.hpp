@@ -914,7 +914,7 @@ namespace ouzel
         }
 
     private:
-        template <std::size_t...I>
+        template <std::size_t ...I>
         static constexpr Matrix generateIdentity(const std::index_sequence<I...>)
         {
             return Matrix{
