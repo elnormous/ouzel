@@ -583,7 +583,7 @@ namespace ouzel::xcode
         }
 
     private:
-        template <class T, class ...Args>
+        template <class T>
         T* alloc()
         {
             std::unique_ptr<T> object = std::make_unique<T>();
