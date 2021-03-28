@@ -41,12 +41,12 @@ namespace ouzel
         auto& w() noexcept { return v[3]; }
         constexpr auto w() const noexcept { return v[3]; }
 
-        static constexpr Quaternion identity() noexcept
+        static constexpr auto identity() noexcept
         {
             return Quaternion{0, 0, 0, 1};
         }
 
-        constexpr const Quaternion operator*(const Quaternion& q) const noexcept
+        constexpr auto operator*(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
@@ -56,7 +56,7 @@ namespace ouzel
             };
         }
 
-        constexpr Quaternion& operator*=(const Quaternion& q) noexcept
+        constexpr auto& operator*=(const Quaternion& q) noexcept
         {
             const auto tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
             const auto tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
@@ -71,7 +71,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr const Quaternion operator*(const T scalar) const noexcept
+        constexpr auto operator*(const T scalar) const noexcept
         {
             return Quaternion(v[0] * scalar,
                               v[1] * scalar,
@@ -79,7 +79,7 @@ namespace ouzel
                               v[3] * scalar);
         }
 
-        constexpr Quaternion& operator*=(const T scalar) noexcept
+        constexpr auto& operator*=(const T scalar) noexcept
         {
             v[0] *= scalar;
             v[1] *= scalar;
@@ -89,7 +89,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr const Quaternion operator/(const T scalar) const noexcept
+        constexpr auto operator/(const T scalar) const noexcept
         {
             return Quaternion(v[0] / scalar,
                               v[1] / scalar,
@@ -97,7 +97,7 @@ namespace ouzel
                               v[3] / scalar);
         }
 
-        constexpr Quaternion& operator/=(const T scalar) noexcept
+        constexpr auto& operator/=(const T scalar) noexcept
         {
             v[0] /= scalar;
             v[1] /= scalar;
@@ -107,12 +107,12 @@ namespace ouzel
             return *this;
         }
 
-        constexpr const Quaternion operator-() const noexcept
+        constexpr auto operator-() const noexcept
         {
             return Quaternion(-v[0], -v[1], -v[2], -v[3]);
         }
 
-        constexpr const Quaternion operator+(const Quaternion& q) const noexcept
+        constexpr auto operator+(const Quaternion& q) const noexcept
         {
             return Quaternion(v[0] + q.v[0],
                               v[1] + q.v[1],
@@ -120,7 +120,7 @@ namespace ouzel
                               v[3] + q.v[3]);
         }
 
-        constexpr Quaternion& operator+=(const Quaternion& q) noexcept
+        constexpr auto& operator+=(const Quaternion& q) noexcept
         {
             v[0] += q.v[0];
             v[1] += q.v[1];
@@ -130,7 +130,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr const Quaternion operator-(const Quaternion& q) const noexcept
+        constexpr auto operator-(const Quaternion& q) const noexcept
         {
             return Quaternion(v[0] - q.v[0],
                               v[1] - q.v[1],
@@ -138,7 +138,7 @@ namespace ouzel
                               v[3] - q.v[3]);
         }
 
-        constexpr Quaternion& operator-=(const Quaternion& q) noexcept
+        constexpr auto& operator-=(const Quaternion& q) noexcept
         {
             v[0] -= q.v[0];
             v[1] -= q.v[1];
@@ -148,12 +148,12 @@ namespace ouzel
             return *this;
         }
 
-        constexpr bool operator==(const Quaternion& q) const noexcept
+        constexpr auto operator==(const Quaternion& q) const noexcept
         {
             return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
         }
 
-        constexpr bool operator!=(const Quaternion& q) const noexcept
+        constexpr auto operator!=(const Quaternion& q) const noexcept
         {
             return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
         }
@@ -213,7 +213,7 @@ namespace ouzel
             v[3] *= multiplier;
         }
 
-        Quaternion normalized() const noexcept
+        auto normalized() const noexcept
         {
             constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (squared == T(1)) // already normalized
@@ -261,7 +261,7 @@ namespace ouzel
             }
         }
 
-        Vector<T, 3> getEulerAngles() const noexcept
+        auto getEulerAngles() const noexcept
         {
             return Vector<T, 3>{
                 std::atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]),
@@ -310,34 +310,34 @@ namespace ouzel
             v[3] = cr * cpcy + sr * spsy;
         }
 
-        const Vector<T, 3> operator*(const Vector<T, 3>& vector) const noexcept
+        auto operator*(const Vector<T, 3>& vector) const noexcept
         {
             return rotateVector(vector);
         }
 
-        Vector<T, 3> rotateVector(const Vector<T, 3>& vector) const noexcept
+        auto rotateVector(const Vector<T, 3>& vector) const noexcept
         {
             constexpr Vector<T, 3> q{v[0], v[1], v[2]};
             const auto t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
-        Vector<T, 3> getRightVector() const noexcept
+        auto getRightVector() const noexcept
         {
             return rotateVector(Vector<T, 3>{T(1), T(0), T(0)});
         }
 
-        Vector<T, 3> getUpVector() const noexcept
+        auto getUpVector() const noexcept
         {
             return rotateVector(Vector<T, 3>{T(0), T(1), T(0)});
         }
 
-        Vector<T, 3> getForwardVector() const noexcept
+        auto getForwardVector() const noexcept
         {
             return rotateVector(Vector<T, 3>{T(0), T(0), T(1)});
         }
 
-        constexpr Quaternion& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
+        constexpr auto& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
         {
             *this = (q1 * (T(1) - t)) + (q2 * t);
             return *this;

@@ -43,7 +43,7 @@ namespace ouzel
         auto& d() noexcept { return v[3]; }
         constexpr auto d() const noexcept { return v[3]; }
 
-        constexpr const Plane operator-() const noexcept
+        constexpr auto operator-() const noexcept
         {
             return Plane{-v[0], -v[1], -v[2], -v[3]};
         }
@@ -71,7 +71,7 @@ namespace ouzel
             v[3] *= multiplier;
         }
 
-        Plane normalized() const noexcept
+        auto normalized() const noexcept
         {
             constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (squared == T(1)) // already normalized
@@ -88,17 +88,17 @@ namespace ouzel
                          v[3] * multiplier);
         }
 
-        constexpr bool operator==(const Plane& plane) const noexcept
+        constexpr auto operator==(const Plane& plane) const noexcept
         {
             return v[0] == plane.v[0] && v[1] == plane.v[1] && v[2] == plane.v[2] && v[3] == plane.v[3];
         }
 
-        constexpr bool operator!=(const Plane& plane) const noexcept
+        constexpr auto operator!=(const Plane& plane) const noexcept
         {
             return v[0] != plane.v[0] || v[1] != plane.v[1] || v[2] != plane.v[2] || v[3] != plane.v[3];
         }
 
-        static Plane makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
+        static auto makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
         {
             const auto length = std::sqrt(a * a + b * b + c * c);
             if (length <= std::numeric_limits<T>::min()) // too close to zero

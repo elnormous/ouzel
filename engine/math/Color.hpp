@@ -121,15 +121,15 @@ namespace ouzel
         {
         }
 
-        static constexpr Color black() noexcept { return Color{0, 0, 0, 255}; }
-        static constexpr Color red() noexcept { return Color{255, 0, 0, 255}; }
-        static constexpr Color magenta() noexcept { return Color{255, 0, 255, 255}; }
-        static constexpr Color green() noexcept { return Color{0, 255, 0, 255}; }
-        static constexpr Color cyan() noexcept { return Color{0, 255, 255, 255}; }
-        static constexpr Color blue() noexcept { return Color{0, 0, 255, 255}; }
-        static constexpr Color yellow() noexcept { return Color{255, 255, 0, 255}; }
-        static constexpr Color white() noexcept { return Color{255, 255, 255, 255}; }
-        static constexpr Color gray() noexcept { return Color{128, 128, 128, 255}; }
+        static constexpr auto black() noexcept { return Color{0, 0, 0, 255}; }
+        static constexpr auto red() noexcept { return Color{255, 0, 0, 255}; }
+        static constexpr auto magenta() noexcept { return Color{255, 0, 255, 255}; }
+        static constexpr auto green() noexcept { return Color{0, 255, 0, 255}; }
+        static constexpr auto cyan() noexcept { return Color{0, 255, 255, 255}; }
+        static constexpr auto blue() noexcept { return Color{0, 0, 255, 255}; }
+        static constexpr auto yellow() noexcept { return Color{255, 255, 0, 255}; }
+        static constexpr auto white() noexcept { return Color{255, 255, 255, 255}; }
+        static constexpr auto gray() noexcept { return Color{128, 128, 128, 255}; }
 
         auto& operator[](std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
@@ -150,10 +150,10 @@ namespace ouzel
         {
             return {{v[0] / 255.0F, v[1] / 255.0F, v[2] / 255.0F, v[3] / 255.0F}};
         }
-        constexpr float normR() const noexcept { return v[0] / 255.0F; }
-        constexpr float normG() const noexcept { return v[1] / 255.0F; }
-        constexpr float normB() const noexcept { return v[2] / 255.0F; }
-        constexpr float normA() const noexcept { return v[3] / 255.0F; }
+        constexpr auto normR() const noexcept { return v[0] / 255.0F; }
+        constexpr auto normG() const noexcept { return v[1] / 255.0F; }
+        constexpr auto normB() const noexcept { return v[2] / 255.0F; }
+        constexpr auto normA() const noexcept { return v[3] / 255.0F; }
 
         constexpr auto getIntValue() const noexcept
         {
@@ -163,7 +163,7 @@ namespace ouzel
                    static_cast<std::uint32_t>(v[3]);
         }
 
-        constexpr bool operator<(const Color& c) const noexcept
+        constexpr auto operator<(const Color& c) const noexcept
         {
             return v[0] == c.v[0] ?
                 v[1] == c.v[1] ?
@@ -176,7 +176,7 @@ namespace ouzel
                 v[0] < c.v[0];
         }
 
-        constexpr bool operator==(const Color& c) const noexcept
+        constexpr auto operator==(const Color& c) const noexcept
         {
             return v[0] == c.v[0] &&
                 v[1] == c.v[1] &&
@@ -184,7 +184,7 @@ namespace ouzel
                 v[3] == c.v[3];
         }
 
-        constexpr bool operator!=(const Color& c) const noexcept
+        constexpr auto operator!=(const Color& c) const noexcept
         {
             return v[0] != c.v[0] ||
                 v[1] != c.v[1] ||

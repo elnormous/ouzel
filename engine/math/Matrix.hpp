@@ -431,19 +431,19 @@ namespace ouzel
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 1 && Y == 1)>* = nullptr>
-        constexpr T getDeterminant() const noexcept
+        constexpr auto getDeterminant() const noexcept
         {
             return m[0];
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 2 && Y == 2)>* = nullptr>
-        constexpr T getDeterminant() const noexcept
+        constexpr auto getDeterminant() const noexcept
         {
             return m[0] * m[3] - m[1] * m[2];
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        constexpr T getDeterminant() const noexcept
+        constexpr auto getDeterminant() const noexcept
         {
             constexpr T a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
             constexpr T a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
@@ -452,7 +452,7 @@ namespace ouzel
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        constexpr T getDeterminant() const noexcept
+        constexpr auto getDeterminant() const noexcept
         {
             constexpr T a0 = m[0] * m[5] - m[1] * m[4];
             constexpr T a1 = m[0] * m[6] - m[2] * m[4];
@@ -755,19 +755,19 @@ namespace ouzel
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        constexpr Vector<T, 2> getTranslation() const noexcept
+        constexpr auto getTranslation() const noexcept
         {
             return Vector<T, 2>{m[6], m[7]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        constexpr Vector<T, 3> getTranslation() const noexcept
+        constexpr auto getTranslation() const noexcept
         {
             return Vector<T, 3>{m[12], m[13], m[14]};
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        Vector<T, 2> getScale() const noexcept
+        auto getScale() const noexcept
         {
             Vector<T, 2> scale;
             scale.v[0] = Vector<T, 2>{m[0], m[1]}.length();
@@ -777,7 +777,7 @@ namespace ouzel
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        Vector<T, 3> getScale() const noexcept
+        auto getScale() const noexcept
         {
             Vector<T, 3> scale;
             scale.v[0] = Vector<T, 3>{m[0], m[1], m[2]}.length();
@@ -820,66 +820,66 @@ namespace ouzel
             return result;
         }
 
-        const Matrix operator+(const Matrix& matrix) const noexcept
+        const auto operator+(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.add(matrix);
             return result;
         }
 
-        Matrix& operator+=(const Matrix& matrix) noexcept
+        auto& operator+=(const Matrix& matrix) noexcept
         {
             add(matrix);
             return *this;
         }
 
-        const Matrix operator-(const Matrix& matrix) const noexcept
+        auto operator-(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.subtract(matrix);
             return result;
         }
 
-        Matrix& operator-=(const Matrix& matrix) noexcept
+        auto& operator-=(const Matrix& matrix) noexcept
         {
             subtract(matrix);
             return *this;
         }
 
-        const Matrix operator-() const noexcept
+        auto operator-() const noexcept
         {
             Matrix result(*this);
             result.negate();
             return result;
         }
 
-        const Matrix operator*(const Matrix& matrix) const noexcept
+        auto operator*(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.multiply(matrix);
             return result;
         }
 
-        Matrix& operator*=(const Matrix& matrix) noexcept
+        auto& operator*=(const Matrix& matrix) noexcept
         {
             multiply(matrix);
             return *this;
         }
 
-        const Matrix operator*(const T scalar) const noexcept
+        auto operator*(const T scalar) const noexcept
         {
             Matrix result(*this);
             result.multiply(scalar);
             return result;
         }
 
-        Matrix& operator*=(const T scalar) noexcept
+        auto& operator*=(const T scalar) noexcept
         {
             multiply(scalar);
             return *this;
         }
 
-        constexpr bool operator==(const Matrix& matrix) const noexcept
+        constexpr auto operator==(const Matrix& matrix) const noexcept
         {
             for (std::size_t i = 0; i < C * R; ++i)
                 if (m[i] != matrix.m[i])
@@ -888,7 +888,7 @@ namespace ouzel
             return true;
         }
 
-        constexpr bool operator!=(const Matrix& matrix) const noexcept
+        constexpr auto operator!=(const Matrix& matrix) const noexcept
         {
             for (std::size_t i = 0; i < C * R; ++i)
                 if (m[i] != matrix.m[i])
@@ -898,7 +898,7 @@ namespace ouzel
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        const Vector<T, 3> operator*(const Vector<T, 3>& v) const noexcept
+        auto operator*(const Vector<T, 3>& v) const noexcept
         {
             Vector<T, 3> x;
             transformVector(v, x);
@@ -906,7 +906,7 @@ namespace ouzel
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        const Vector<T, 4> operator*(const Vector<T, 4>& v) const noexcept
+        auto operator*(const Vector<T, 4>& v) const noexcept
         {
             Vector<T, 4> x;
             transformVector(v, x);
@@ -915,30 +915,36 @@ namespace ouzel
 
     private:
         template <std::size_t ...I>
-        static constexpr Matrix generateIdentity(const std::index_sequence<I...>)
+        static constexpr auto generateIdentity(const std::index_sequence<I...>)
         {
             return Matrix{
                 (I % C == I / R) ? T(1) : T(0)...
             };
         }
+
+        template <std::size_t ...I>
+        constexpr auto generateNegative(const std::index_sequence<I...>) const
+        {
+            return Matrix{(-m[I])...};
+        }
     };
 
     template <typename T>
-    Vector<T, 3>& operator*=(Vector<T, 3>& v, const Matrix<T, 4, 4>& m) noexcept
+    auto& operator*=(Vector<T, 3>& v, const Matrix<T, 4, 4>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
     template <typename T>
-    Vector<T, 4>& operator*=(Vector<T, 4>& v, const Matrix<T, 4, 4>& m) noexcept
+    auto& operator*=(Vector<T, 4>& v, const Matrix<T, 4, 4>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
     template <typename T, std::size_t C, std::size_t R>
-    const Matrix<T, C, R> operator*(const T scalar, const Matrix<T, C, R>& m) noexcept
+    auto operator*(const T scalar, const Matrix<T, C, R>& m) noexcept
     {
         return m * scalar;
     }

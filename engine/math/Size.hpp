@@ -62,7 +62,7 @@ namespace ouzel
                 v[i] *= scale.v[i];
         }
 
-        const Size operator+(const Size& size) const noexcept
+        auto operator+(const Size& size) const noexcept
         {
             Size result = *this;
             for (std::size_t i = 0; i < N; ++i)
@@ -70,14 +70,14 @@ namespace ouzel
             return result;
         }
 
-        Size& operator+=(const Size& size) noexcept
+        auto& operator+=(const Size& size) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 v[i] += size.v[i];
             return *this;
         }
 
-        const Size operator-(const Size& size) const noexcept
+        auto operator-(const Size& size) const noexcept
         {
             Size result = *this;
             for (std::size_t i = 0; i < N; ++i)
@@ -85,14 +85,14 @@ namespace ouzel
             return result;
         }
 
-        Size& operator-=(const Size& size) noexcept
+        auto& operator-=(const Size& size) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 v[i] -= size.v[i];
             return *this;
         }
 
-        const Size operator-() const noexcept
+        auto operator-() const noexcept
         {
             Size result = *this;
             for (T& c : result.v)
@@ -100,7 +100,7 @@ namespace ouzel
             return result;
         }
 
-        const Size operator*(const T scalar) const noexcept
+        auto operator*(const T scalar) const noexcept
         {
             Size result = *this;
             for (T& c : result.v)
@@ -108,14 +108,14 @@ namespace ouzel
             return result;
         }
 
-        Size& operator*=(const T scalar) noexcept
+        auto& operator*=(const T scalar) noexcept
         {
             for (auto& c : v)
                 c *= scalar;
             return *this;
         }
 
-        const Size operator/(const T scalar) const noexcept
+        auto operator/(const T scalar) const noexcept
         {
             Size result = *this;
             for (T& c : result.v)
@@ -123,14 +123,14 @@ namespace ouzel
             return result;
         }
 
-        Size& operator/=(const T scalar) noexcept
+        auto& operator/=(const T scalar) noexcept
         {
             for (auto& c : v)
                 c /= scalar;
             return *this;
         }
 
-        bool operator<(const Size& size) const noexcept
+        auto operator<(const Size& size) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] < size.v[i]) return true;
@@ -139,14 +139,14 @@ namespace ouzel
             return false;
         }
 
-        bool operator==(const Size& size) const noexcept
+        auto operator==(const Size& size) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] != size.v[i]) return false;
             return true;
         }
 
-        bool operator!=(const Size& size) const noexcept
+        auto operator!=(const Size& size) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] != size.v[i]) return true;
@@ -160,7 +160,7 @@ namespace ouzel
             return true;
         }
 
-        T volume() const noexcept
+        auto volume() const noexcept
         {
             T result = 0;
             for (const auto& c : v)
@@ -170,7 +170,7 @@ namespace ouzel
     };
 
     template <typename T, std::size_t N>
-    const Size<T, N> operator*(const Size<T, N>& size, const Vector<T, N>& v) noexcept
+    auto operator*(const Size<T, N>& size, const Vector<T, N>& v) noexcept
     {
         auto result = size;
         for (std::size_t i = 0; i < N; ++i)
@@ -179,7 +179,7 @@ namespace ouzel
     }
 
     template <typename T, std::size_t N>
-    const Size<T, N> operator/(const Size<T, N>& size, const Vector<T, N>& v) noexcept
+    auto operator/(const Size<T, N>& size, const Vector<T, N>& v) noexcept
     {
         auto result = size;
         for (std::size_t i = 0; i < N; ++i)
