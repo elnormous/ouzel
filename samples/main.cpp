@@ -43,7 +43,7 @@ namespace samples
                     ouzel::logger.log(ouzel::Log::Level::warning) << "Invalid argument \"" << *arg << "\"";
             }
 
-#if !defined(__ANDROID__)
+#ifndef __ANDROID__
             ouzel::storage::Archive archive(engine->getFileSystem().getPath("gui.zip"));
             engine->getFileSystem().addArchive("gui.zip", std::move(archive));
 #endif

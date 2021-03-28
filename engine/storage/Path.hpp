@@ -20,7 +20,7 @@ namespace ouzel::storage
             native
         };
 
-#if defined(_WIN32)
+#ifdef _WIN32
         using Char = wchar_t;
         using String = std::wstring;
         static constexpr Char preferredSeparator = '\\';
@@ -236,7 +236,7 @@ namespace ouzel::storage
         Path getRoot() const
         {
             Path result;
-#if defined(_WIN32)
+#ifdef _WIN32
             if (path.size() >= 2 &&
                 ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                 path[1] == L':')
@@ -253,7 +253,7 @@ namespace ouzel::storage
             String newPath;
             String::size_type previousPosition = 0;
 
-#if defined(_WIN32)
+#ifdef _WIN32
             if (path.size() >= 2 &&
                 ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                 path[1] == L':')
@@ -324,7 +324,7 @@ namespace ouzel::storage
 
         bool isAbsolute() const noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return path.size() >= 2 &&
                 ((path[0] >= L'a' && path[0] <= L'z') || (path[0] >= L'A' && path[0] <= L'Z')) &&
                 path[1] == L':';
@@ -341,7 +341,7 @@ namespace ouzel::storage
     private:
         static constexpr bool isDirectorySeparator(Char c) noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return c == L'\\' || c == L'/';
 #elif defined(__unix__) || defined(__APPLE__)
             return c == '/';
@@ -351,7 +351,7 @@ namespace ouzel::storage
         static std::size_t findLastDirectorySeparator(const String& str,
                                                       std::size_t position = String::npos) noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return str.find_last_of(L"\\/", position);
 #elif defined(__unix__) || defined(__APPLE__)
             return str.rfind('/', position);
@@ -361,7 +361,7 @@ namespace ouzel::storage
         static std::size_t findFirstDirectorySeparator(const String& str,
                                                        std::size_t position = 0) noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return str.find_first_of(L"\\/", position);
 #elif defined(__unix__) || defined(__APPLE__)
             return str.find('/', position);
@@ -436,7 +436,7 @@ namespace ouzel::storage
             return s;
         }
 
-#if defined(_WIN32)
+#ifdef _WIN32
         static std::wstring convertToWchar(const std::string& p)
         {
             std::wstring s;

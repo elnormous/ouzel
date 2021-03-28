@@ -6,7 +6,7 @@
 #include <CoreGraphics/CGGeometry.h>
 #include <CoreGraphics/CoreGraphics.h>
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <Cocoa/Cocoa.h>
 typedef NSWindow* NSWindowPtr;
 typedef NSView* NSViewPtr;

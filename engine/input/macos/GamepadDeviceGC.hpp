@@ -3,7 +3,7 @@
 #ifndef OUZEL_INPUT_GAMEPADDEVICEGC_HPP
 #define OUZEL_INPUT_GAMEPADDEVICEGC_HPP
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
 #else

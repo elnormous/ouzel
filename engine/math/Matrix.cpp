@@ -1,6 +1,6 @@
 // Ouzel by Elviss Strazdins
 
-#if defined(__SSE__)
+#ifdef __SSE__
 #  include <xmmintrin.h>
 #endif
 #include "Matrix.hpp"
@@ -13,7 +13,7 @@ namespace ouzel
     {
         if (core::isSimdAvailable)
         {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
@@ -86,7 +86,7 @@ namespace ouzel
     {
         if (core::isSimdAvailable)
         {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
@@ -156,7 +156,7 @@ namespace ouzel
     {
         if (core::isSimdAvailable)
         {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
@@ -226,7 +226,7 @@ namespace ouzel
     {
         if (core::isSimdAvailable)
         {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
@@ -408,7 +408,7 @@ namespace ouzel
     {
         if (core::isSimdAvailable)
         {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
@@ -476,7 +476,7 @@ namespace ouzel
     {
         if (core::isSimdAvailable)
         {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
@@ -546,7 +546,7 @@ namespace ouzel
     {
         if (core::isSimdAvailable)
         {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (
@@ -609,7 +609,7 @@ namespace ouzel
     {
         if (core::isSimdAvailable)
         {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__arm64__) || defined(__aarch64__) // NEON64
             asm volatile
             (

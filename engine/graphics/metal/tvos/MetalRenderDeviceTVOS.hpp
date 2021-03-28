@@ -5,7 +5,7 @@
 
 #include "../../../core/Setup.h"
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 

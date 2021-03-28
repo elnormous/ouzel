@@ -31,7 +31,7 @@
 
 namespace ouzel::core
 {
-#if defined(__ARM_NEON__)
+#ifdef __ARM_NEON__
 #  if defined(__ANDROID__) && defined(__arm__)
     // NEON support must be checked at runtime on 32-bit Android
     extern const bool isSimdAvailable;
@@ -136,7 +136,7 @@ namespace ouzel::core
         scene::SceneManager sceneManager;
         network::Network network;
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         thread::Thread updateThread;
         std::mutex updateMutex;
         std::condition_variable updateCondition;

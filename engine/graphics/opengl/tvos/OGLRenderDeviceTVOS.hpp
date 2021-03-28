@@ -5,7 +5,7 @@
 
 #include "../../../core/Setup.h"
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 
@@ -14,7 +14,7 @@
 #include "../OGLRenderDevice.hpp"
 #include "../../../platform/quartzcore/DisplayLink.hpp"
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <UIKit/UIKit.h>
 typedef EAGLSharegroup* EAGLSharegroupPtr;
 typedef EAGLContext* EAGLContextPtr;

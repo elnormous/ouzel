@@ -5,7 +5,7 @@
 
 #include <system_error>
 #include <thread>
-#if defined(_WIN32)
+#ifdef _WIN32
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
 #  ifndef WIN32_LEAN_AND_MEAN
@@ -71,7 +71,7 @@ namespace ouzel::thread
 
         void setPriority(float priority, bool realtime)
         {
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
             static_cast<void>(realtime);
             static constexpr int priorities[] = {
                 THREAD_PRIORITY_IDLE, THREAD_PRIORITY_LOWEST, THREAD_PRIORITY_BELOW_NORMAL, THREAD_PRIORITY_NORMAL,
@@ -106,7 +106,7 @@ namespace ouzel::thread
 
     inline void setCurrentThreadName(const std::string& name)
     {
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
         constexpr DWORD MS_VC_EXCEPTION = 0x406D1388;
 #  pragma pack(push,8)
         typedef struct tagTHREADNAME_INFO

@@ -7,7 +7,7 @@
 #include "mixer/Stream.hpp"
 #include "../utils/Utils.hpp"
 
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 #  pragma warning( push )
 #  pragma warning( disable : 4100 )
 #  pragma warning( disable : 4244 )
@@ -25,7 +25,7 @@
 #  pragma GCC diagnostic ignored "-Wunused-function"
 #  pragma GCC diagnostic ignored "-Wunused-parameter"
 #  pragma GCC diagnostic ignored "-Wunused-value"
-#  if defined(__clang__)
+#  ifdef __clang__
 #    pragma GCC diagnostic ignored "-Wcomma"
 #    pragma GCC diagnostic ignored "-Wconditional-uninitialized"
 #  else
@@ -35,7 +35,7 @@
 
 #include "stb_vorbis.c"
 
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 #  pragma warning( pop )
 #elif defined(__GNUC__)
 #  pragma GCC diagnostic pop

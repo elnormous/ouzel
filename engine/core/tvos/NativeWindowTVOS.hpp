@@ -3,7 +3,7 @@
 #ifndef OUZEL_CORE_NATIVEWINDOWTVOS_HPP
 #define OUZEL_CORE_NATIVEWINDOWTVOS_HPP
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <UIKit/UIKit.h>
 typedef UIScreen* UIScreenPtr;
 typedef UIWindow* UIWindowPtr;

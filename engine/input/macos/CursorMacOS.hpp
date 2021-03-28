@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <vector>
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <AppKit/AppKit.h>
 typedef NSCursor* NSCursorPtr;
 #else

@@ -1,6 +1,6 @@
 // Ouzel by Elviss Strazdins
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 #include <algorithm>
@@ -10,7 +10,7 @@
 #include "../utils/Utils.hpp"
 #include "../graphics/Graphics.hpp"
 #include "../audio/Audio.hpp"
-#if defined(__ANDROID__)
+#ifdef __ANDROID__
 #  include <cpu-features.h>
 #endif
 
@@ -198,7 +198,7 @@ namespace ouzel::core
         paused = true;
         active = false;
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         if (updateThread.isJoinable())
         {
             std::unique_lock lock(updateMutex);
@@ -646,7 +646,7 @@ namespace ouzel::core
             active = true;
             paused = false;
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
             updateThread = thread::Thread(&Engine::engineMain, this);
 #else
             main(args);
@@ -676,7 +676,7 @@ namespace ouzel::core
 
             paused = false;
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
             updateCondition.notify_all();
 #endif
         }
@@ -695,7 +695,7 @@ namespace ouzel::core
             active = false;
         }
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         if (updateThread.isJoinable() &&
             updateThread.getId() != std::this_thread::get_id())
         {
@@ -750,7 +750,7 @@ namespace ouzel::core
         {
             std::unique_ptr<Application> application = ouzel::main(args);
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
             while (active)
             {
                 if (!paused)

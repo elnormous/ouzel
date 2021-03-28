@@ -4,7 +4,7 @@
 #define OUZEL_INPUT_GAMEPADDEVICETVOS_HPP
 
 #include <string>
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
 #else

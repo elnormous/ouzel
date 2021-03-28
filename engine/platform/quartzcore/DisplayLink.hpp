@@ -3,7 +3,7 @@
 #ifndef OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
 #define OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <QuartzCore/QuartzCore.h>
 typedef CADisplayLink* CADisplayLinkPtr;
 typedef NSRunLoop* NSRunLoopPtr;

@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <AppKit/NSCursor.h>
 typedef NSCursor* NSCursorPtr;
 #  include <GameController/GameController.h>

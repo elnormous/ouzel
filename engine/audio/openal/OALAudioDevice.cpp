@@ -4,7 +4,7 @@
 
 #if OUZEL_COMPILE_OPENAL
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 #if TARGET_OS_IOS || TARGET_OS_TV
@@ -236,7 +236,7 @@ namespace ouzel::audio::openal
 
     AudioDevice::~AudioDevice()
     {
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         running = false;
         if (audioThread.isJoinable()) audioThread.join();
 #endif
@@ -301,7 +301,7 @@ namespace ouzel::audio::openal
         if (!alcMakeContextCurrent(nullptr))
             throw std::runtime_error("Failed to unset current ALC context");
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         running = true;
         audioThread = thread::Thread(&AudioDevice::run, this);
 #endif
@@ -309,7 +309,7 @@ namespace ouzel::audio::openal
 
     void AudioDevice::stop()
     {
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         running = false;
         if (audioThread.isJoinable()) audioThread.join();
 #endif
@@ -380,7 +380,7 @@ namespace ouzel::audio::openal
         if (const auto error = alcGetError(device); error != ALC_NO_ERROR)
             throw std::system_error(error, alcErrorCategory, "Failed to make ALC context current");
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         while (running)
         {
             try

@@ -7,7 +7,7 @@
 
 #if OUZEL_COMPILE_METAL
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <CoreVideo/CoreVideo.h>
 #  import <QuartzCore/QuartzCore.h>
 #  import <Metal/Metal.h>

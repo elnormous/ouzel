@@ -10,7 +10,7 @@
 #include <string>
 #include <system_error>
 #include <vector>
-#if defined(_WIN32)
+#ifdef _WIN32
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
 #  ifndef WIN32_LEAN_AND_MEAN
@@ -103,7 +103,7 @@ namespace ouzel::storage
     class FileTime final
     {
     public:
-#if defined(_WIN32)
+#ifdef _WIN32
         using Type = FILETIME;
 #elif defined(__unix__) || defined(__APPLE__)
         using Type = timespec;
@@ -115,7 +115,7 @@ namespace ouzel::storage
 
         operator std::chrono::system_clock::time_point() const noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
 
             const auto t = hundrednanoseconds{
@@ -134,7 +134,7 @@ namespace ouzel::storage
 
         bool operator==(const FileTime& other) const noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime &&
                 time.dwLowDateTime == other.time.dwLowDateTime;
 #elif defined(__unix__) || defined(__APPLE__)
@@ -145,7 +145,7 @@ namespace ouzel::storage
 
         bool operator>(const FileTime& other) const noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime ?
                 time.dwLowDateTime > other.time.dwLowDateTime :
                 time.dwHighDateTime > other.time.dwHighDateTime;
@@ -158,7 +158,7 @@ namespace ouzel::storage
 
         bool operator<(const FileTime& other) const noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime ?
                 time.dwLowDateTime < other.time.dwLowDateTime :
                 time.dwHighDateTime < other.time.dwHighDateTime;
@@ -171,7 +171,7 @@ namespace ouzel::storage
 
         bool operator>=(const FileTime& other) const noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime ?
                 time.dwLowDateTime >= other.time.dwLowDateTime :
                 time.dwHighDateTime > other.time.dwHighDateTime;
@@ -184,7 +184,7 @@ namespace ouzel::storage
 
         bool operator<=(const FileTime& other) const noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime ?
                 time.dwLowDateTime <= other.time.dwLowDateTime :
                 time.dwHighDateTime < other.time.dwHighDateTime;
@@ -208,7 +208,7 @@ namespace ouzel::storage
 
         static Path getTempPath()
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             WCHAR buffer[MAX_PATH + 1];
             if (!GetTempPathW(MAX_PATH + 1, buffer))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get temp directory");
@@ -223,7 +223,7 @@ namespace ouzel::storage
             if (path)
                 return Path{path, Path::Format::native};
             else
-#  if defined(__ANDROID__)
+#  ifdef __ANDROID__
                 return Path{"/data/local/tmp", Path::Format::native};
 #  else
                 return Path{"/tmp", Path::Format::native};
@@ -298,7 +298,7 @@ namespace ouzel::storage
 
         static Path getCurrentPath()
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             DWORD pathLength = GetCurrentDirectoryW(0, 0);
             std::unique_ptr<wchar_t[]> buffer(new wchar_t[pathLength]);
             if (GetCurrentDirectoryW(pathLength, buffer.get()) == 0)
@@ -318,7 +318,7 @@ namespace ouzel::storage
 
         static void setCurrentPath(const Path& path)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             if (SetCurrentDirectoryW(path.getNative().c_str()) == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to set current directory");
 #elif defined(__unix__) || defined(__APPLE__)
@@ -329,7 +329,7 @@ namespace ouzel::storage
 
         static void createDirectory(const Path& path)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             if (CreateDirectoryW(path.getNative().c_str(), nullptr) == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to create directory");
 #elif defined(__unix__) || defined(__APPLE__)
@@ -341,7 +341,7 @@ namespace ouzel::storage
 
         static void copyFile(const Path& from, const Path& to, bool overwrite = false)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             if (!CopyFileW(from.getNative().c_str(), to.getNative().c_str(), !overwrite))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to copy file");
 #elif defined(__unix__) || defined(__APPLE__)
@@ -422,7 +422,7 @@ namespace ouzel::storage
 
         static void renameFile(const Path& from, const Path& to)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             if (!MoveFileExW(from.getNative().c_str(), to.getNative().c_str(), MOVEFILE_REPLACE_EXISTING))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to move file");
 #elif defined(__unix__) || defined(__APPLE__)
@@ -433,7 +433,7 @@ namespace ouzel::storage
 
         static void deleteFile(const Path& path)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             const auto attributes = GetFileAttributesW(path.getNative().c_str());
             if (attributes == INVALID_FILE_ATTRIBUTES)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get file attributes");
@@ -454,7 +454,7 @@ namespace ouzel::storage
 
         static FileType getFileType(const Path& path) noexcept
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             const auto attributes = GetFileAttributesW(path.getNative().c_str());
             if (attributes == INVALID_FILE_ATTRIBUTES)
                 return FileType::notFound;
@@ -491,7 +491,7 @@ namespace ouzel::storage
 
         static size_t getFileSize(const Path& path)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             WIN32_FILE_ATTRIBUTE_DATA attributes;
             if (!GetFileAttributesExW(path.getNative().c_str(), GetFileExInfoStandard, &attributes))
                 throw std::system_error(errno, std::system_category(), "Failed to get file attributes");
@@ -507,7 +507,7 @@ namespace ouzel::storage
 
         static Permissions getPermissions(const Path& path)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             const auto attributes = GetFileAttributesW(path.getNative().c_str());
             if (attributes == INVALID_FILE_ATTRIBUTES)
                 throw std::system_error(errno, std::system_category(), "Failed to get file attributes");
@@ -527,7 +527,7 @@ namespace ouzel::storage
 
         static void setPermissions(const Path& path, Permissions permissions)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             const auto attributes = (permissions & Permissions::ownerWrite) == Permissions::ownerWrite ?
                 FILE_ATTRIBUTE_NORMAL : FILE_ATTRIBUTE_READONLY;
             if (!SetFileAttributesW(path.getNative().c_str(), attributes))
@@ -541,7 +541,7 @@ namespace ouzel::storage
 
         static FileTime getAccessTime(const Path& path)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             HANDLE file = CreateFileW(path.getNative().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
             if (file == INVALID_HANDLE_VALUE)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
@@ -558,7 +558,7 @@ namespace ouzel::storage
             if (lstat(path.getNative().c_str(), &s) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get file status");
 
-#  if defined(__APPLE__)
+#  ifdef __APPLE__
             return FileTime{s.st_atimespec};
 #  else
             return FileTime{s.st_atim};
@@ -568,7 +568,7 @@ namespace ouzel::storage
 
         static FileTime getModifyTime(const Path& path)
         {
-#if defined(_WIN32)
+#ifdef _WIN32
             HANDLE file = CreateFileW(path.getNative().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
             if (file == INVALID_HANDLE_VALUE)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
@@ -585,7 +585,7 @@ namespace ouzel::storage
             if (lstat(path.getNative().c_str(), &s) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get file status");
 
-#  if defined(__APPLE__)
+#  ifdef __APPLE__
             return FileTime{s.st_mtimespec};
 #  else
             return FileTime{s.st_mtim};

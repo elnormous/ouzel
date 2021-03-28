@@ -14,7 +14,7 @@ namespace ouzel
     template <typename T> class Quaternion final
     {
     public:
-#if defined(__SSE__)
+#ifdef __SSE__
         alignas(4 * sizeof(T))
 #endif
         std::array<T, 4> v{};

@@ -181,7 +181,7 @@ namespace ouzel
         {
             if (level <= threshold)
             {
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
                 std::scoped_lock lock(logMutex);
 #endif
                 logString(str, level);
@@ -197,7 +197,7 @@ namespace ouzel
         std::atomic<Log::Level> threshold{Log::Level::info};
 #endif
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         mutable std::mutex logMutex;
 #endif
     };

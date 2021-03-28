@@ -8,11 +8,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  if TARGET_OS_IOS || TARGET_OS_TV
 #    import <UIKit/UIKit.h>
 #  elif TARGET_OS_MAC
@@ -20,14 +20,14 @@
 #  endif
 #endif
 
-#if defined(__ANDROID__)
+#ifdef __ANDROID__
 #  include <android/keycodes.h>
 #  include <android/native_window.h>
 #  include <android/native_window_jni.h>
 #  include <jni.h>
 #endif
 
-#if defined(__EMSCRIPTEN__)
+#ifdef __EMSCRIPTEN__
 #  include <emscripten.h>
 #  include <emscripten/html5.h>
 #endif

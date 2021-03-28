@@ -11,7 +11,7 @@
 #include <atomic>
 #include <thread>
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <OpenAl/al.h>
 #  include <OpenAl/alc.h>
 #else
@@ -54,7 +54,7 @@ namespace ouzel::audio::openal
         std::uint32_t sampleSize = 0;
         std::vector<std::uint8_t> data;
 
-#if !defined(__EMSCRIPTEN__)
+#ifndef __EMSCRIPTEN__
         std::atomic_bool running{false};
         thread::Thread audioThread;
 #endif

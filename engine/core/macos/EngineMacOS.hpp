@@ -3,7 +3,7 @@
 #ifndef OUZEL_CORE_ENGINEMACOS_HPP
 #define OUZEL_CORE_ENGINEMACOS_HPP
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 typedef NSApplication* NSApplicationPtr;
 #else
 #  include <objc/NSObjCRuntime.h>

@@ -35,7 +35,7 @@
 #include "../core/Engine.hpp"
 #include "../utils/Log.hpp"
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include "CfPointer.hpp"
 #endif
 
@@ -309,7 +309,7 @@ namespace ouzel::storage
                 if (archive.second.fileExists(filename))
                     return archive.second.readFile(filename);
 
-#if defined(__ANDROID__)
+#ifdef __ANDROID__
         if (!filename.isAbsolute())
         {
             auto& engineAndroid = static_cast<core::android::Engine&>(engine);
@@ -390,7 +390,7 @@ namespace ouzel::storage
 
     bool FileSystem::directoryExists(const Path& dirname) const
     {
-#if defined(__ANDROID__)
+#ifdef __ANDROID__
         auto& engineAndroid = static_cast<core::android::Engine&>(engine);
 
         auto assetDir = AAssetManager_openDir(engineAndroid.getAssetManager(), dirname.getNative().c_str());
@@ -405,7 +405,7 @@ namespace ouzel::storage
 
     bool FileSystem::fileExists(const Path& filename) const
     {
-#if defined(__ANDROID__)
+#ifdef __ANDROID__
         auto& engineAndroid = static_cast<core::android::Engine&>(engine);
 
         auto asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);

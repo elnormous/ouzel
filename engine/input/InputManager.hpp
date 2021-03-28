@@ -3,7 +3,7 @@
 #ifndef OUZEL_INPUT_INPUTMANAGER_HPP
 #define OUZEL_INPUT_INPUTMANAGER_HPP
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 #include <memory>

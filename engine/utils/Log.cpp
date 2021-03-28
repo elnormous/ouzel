@@ -1,10 +1,10 @@
 // Ouzel by Elviss Strazdins
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 
-#if defined(__ANDROID__)
+#ifdef __ANDROID__
 #  include <android/log.h>
 #elif TARGET_OS_IOS || TARGET_OS_TV
 #  include <sys/syslog.h>
@@ -35,7 +35,7 @@ namespace ouzel
 
     void Logger::logString(const std::string& str, Log::Level level)
     {
-#if defined(__ANDROID__)
+#ifdef __ANDROID__
         int priority = 0;
         switch (level)
         {

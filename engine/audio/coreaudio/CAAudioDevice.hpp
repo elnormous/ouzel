@@ -7,7 +7,7 @@
 
 #if OUZEL_COMPILE_COREAUDIO
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 
@@ -15,7 +15,7 @@
 #  include <CoreAudio/CoreAudio.h>
 #endif
 
-#if !defined(__OBJC__)
+#ifndef __OBJC__
 #  include <objc/objc.h>
 #endif
 

@@ -200,7 +200,7 @@ namespace ouzel
         std::promise<bool> promise;
         std::future<bool> future = promise.get_future();
 
-#if defined(__EMSCRIPTEN__)
+#ifdef __EMSCRIPTEN__
         promise.set_value(dispatchEvent(std::move(event)));
 #else
         std::lock_guard lock(eventQueueMutex);

@@ -5,7 +5,7 @@
 
 #include "../../../core/Setup.h"
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 
@@ -13,7 +13,7 @@
 
 #include <CoreVideo/CoreVideo.h>
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <QuartzCore/QuartzCore.h>
 #  import <Metal/Metal.h>
 typedef CAMetalLayer* CAMetalLayerPtr;

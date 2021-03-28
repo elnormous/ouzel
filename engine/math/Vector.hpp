@@ -16,7 +16,7 @@ namespace ouzel
     template <typename T, std::size_t N> class Vector final
     {
     public:
-#if defined(__SSE__)
+#ifdef __SSE__
         alignas(N == 4 ? 4 * sizeof(T) : alignof(T))
 #endif
         std::array<T, N> v{};

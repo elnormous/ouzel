@@ -3,7 +3,7 @@
 #ifndef OUZEL_CORE_ENGINEIOS_HPP
 #define OUZEL_CORE_ENGINEIOS_HPP
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 @class ExecuteHandler;
 typedef ExecuteHandler* ExecuteHandlerPtr;
 #else

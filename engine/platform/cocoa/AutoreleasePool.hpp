@@ -3,7 +3,7 @@
 #ifndef OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP
 #define OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
 #else
 #  include <objc/NSObjCRuntime.h>

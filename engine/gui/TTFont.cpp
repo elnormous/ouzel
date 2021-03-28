@@ -7,13 +7,13 @@
 #include "../core/Engine.hpp"
 #include "../utils/Utf8.hpp"
 
-#if defined(__GNUC__)
+#ifdef __GNUC__
 #  pragma GCC diagnostic push
 #  pragma GCC diagnostic ignored "-Wold-style-cast"
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 #  pragma GCC diagnostic ignored "-Wdouble-promotion"
 #  pragma GCC diagnostic ignored "-Wunused-parameter"
-#  if defined(__clang__)
+#  ifdef __clang__
 #    pragma GCC diagnostic ignored "-Wcomma"
 #  endif
 #endif
@@ -21,7 +21,7 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
 
-#if defined(__GNUC__)
+#ifdef __GNUC__
 #  pragma GCC diagnostic pop
 #endif
 

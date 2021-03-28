@@ -8,7 +8,7 @@
 #if OUZEL_COMPILE_OPENAL
 
 #include <system_error>
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <OpenAl/alc.h>
 #else
 #  include <AL/alc.h>

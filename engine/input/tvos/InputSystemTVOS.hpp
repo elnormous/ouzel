@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <unordered_map>
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  include <GameController/GameController.h>
 typedef GCController* GCControllerPtr;
 #else

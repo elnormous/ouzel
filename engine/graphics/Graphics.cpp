@@ -1,6 +1,6 @@
 // Ouzel by Elviss Strazdins
 
-#if defined(__APPLE__)
+#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 #include <stdexcept>

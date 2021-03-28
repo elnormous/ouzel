@@ -9,7 +9,7 @@
 
 #if OUZEL_COMPILE_METAL
 
-#if defined(__OBJC__)
+#ifdef __OBJC__
 #  import <Metal/Metal.h>
 typedef id<MTLSamplerState> MTLSamplerStatePtr;
 typedef id<MTLTexture> MTLTexturePtr;
