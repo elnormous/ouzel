@@ -917,15 +917,7 @@ namespace ouzel
         template <std::size_t ...I>
         static constexpr auto generateIdentity(const std::index_sequence<I...>)
         {
-            return Matrix{
-                (I % C == I / R) ? T(1) : T(0)...
-            };
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateNegative(const std::index_sequence<I...>) const
-        {
-            return Matrix{(-m[I])...};
+            return Matrix{(I % C == I / R) ? T(1) : T(0)...};
         }
     };
 
