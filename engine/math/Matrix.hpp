@@ -820,7 +820,7 @@ namespace ouzel
             return result;
         }
 
-        const auto operator+(const Matrix& matrix) const noexcept
+        auto operator+(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.add(matrix);
