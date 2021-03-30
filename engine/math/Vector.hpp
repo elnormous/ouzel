@@ -150,10 +150,7 @@ namespace ouzel
 
         void normalize() noexcept
         {
-            T squared = T(0);
-            for (const auto& c : v)
-                squared += c * c;
-
+            const auto squared = lengthSquared();
             if (squared == T(1)) // already normalized
                 return;
 
@@ -168,10 +165,7 @@ namespace ouzel
 
         auto normalized() const noexcept
         {
-            T squared = T(0);
-            for (const auto& c : v)
-                squared += c * c;
-
+            const auto squared = lengthSquared();
             if (squared == T(1)) // already normalized
                 return *this;
 
