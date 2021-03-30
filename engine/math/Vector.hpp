@@ -228,28 +228,6 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        auto getMin() const noexcept
-        {
-            T result = v[0];
-
-            for (std::size_t i = 1; i < N; ++i)
-                if (v[i] < result)
-                    result = v[i];
-
-            return result;
-        }
-
-        auto getMax() const noexcept
-        {
-            T result = v[0];
-
-            for (std::size_t i = 1; i < N; ++i)
-                if (v[i] > result)
-                    result = v[i];
-
-            return result;
-        }
-
         constexpr auto operator-() const noexcept
         {
             return generateInverse(std::make_index_sequence<N>{});
