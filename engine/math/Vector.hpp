@@ -122,7 +122,7 @@ namespace ouzel
             return d;
         }
 
-        constexpr auto length() const noexcept
+        auto length() const noexcept
         {
             return std::sqrt(generateLengthSquared(std::make_index_sequence<N>{}));
         }
