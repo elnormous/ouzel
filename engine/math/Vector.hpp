@@ -177,18 +177,6 @@ namespace ouzel
             return *this * multiplier;
         }
 
-        void scale(const T scalar) noexcept
-        {
-            for (std::size_t i = 0; i < N; ++i)
-                v[i] *= scalar;
-        }
-
-        void scale(const Vector& scale) noexcept
-        {
-            for (std::size_t i = 0; i < N; ++i)
-                v[i] *= scale.v[i];
-        }
-
         template <auto X = N, std::enable_if_t<(X == 2)>* = nullptr>
         void rotate(const T angle) noexcept
         {
