@@ -43,7 +43,7 @@ namespace ouzel
 
         static constexpr auto identity() noexcept
         {
-            return Quaternion{0, 0, 0, 1};
+            return Quaternion{T(0), T(0), T(0), T(1)};
         }
 
         constexpr auto operator*(const Quaternion& q) const noexcept
