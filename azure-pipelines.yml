@@ -4,10 +4,7 @@ trigger:
 jobs:
 - job: Linux
   pool:
-    vmImage: 'Ubuntu-16.04'
-  variables:
-    CC: gcc-7
-    CXX: g++-7
+    vmImage: 'ubuntu-18.04'
   steps:
   - script: sudo apt-get update --fix-missing
   - script: sudo apt-get install -y libgl1-mesa-dev
