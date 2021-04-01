@@ -93,7 +93,7 @@ namespace ouzel
 
         constexpr auto operator+(const Vector<T, N>& v) const noexcept
         {
-            return Box(min + v, max + v);
+            return Box{min + v, max + v};
         }
 
         auto& operator+=(const Vector<T, N>& v) noexcept
@@ -105,7 +105,7 @@ namespace ouzel
 
         constexpr auto operator-(const Vector<T, N>& v) const noexcept
         {
-            return Box(min - v, max - v);
+            return Box{min - v, max - v};
         }
 
         auto& operator-=(const Vector<T, N>& v) noexcept
