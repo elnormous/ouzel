@@ -85,9 +85,10 @@ namespace ouzel
         void insertPoint(const Vector<T, N>& point) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
+            {
                 if (point.v[i] < min.v[i]) min.v[i] = point.v[i];
-            for (std::size_t i = 0; i < N; ++i)
                 if (point.v[i] > max.v[i]) max.v[i] = point.v[i];
+            }
         }
 
         constexpr auto operator+(const Vector<T, N>& v) const noexcept
