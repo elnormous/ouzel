@@ -70,10 +70,12 @@ namespace ouzel
 
         constexpr auto operator*(const T scalar) const noexcept
         {
-            return Quaternion(v[0] * scalar,
-                              v[1] * scalar,
-                              v[2] * scalar,
-                              v[3] * scalar);
+            return Quaternion{
+                v[0] * scalar,
+                v[1] * scalar,
+                v[2] * scalar,
+                v[3] * scalar
+            };
         }
 
         constexpr auto& operator*=(const T scalar) noexcept
@@ -88,10 +90,12 @@ namespace ouzel
 
         constexpr auto operator/(const T scalar) const noexcept
         {
-            return Quaternion(v[0] / scalar,
-                              v[1] / scalar,
-                              v[2] / scalar,
-                              v[3] / scalar);
+            return Quaternion{
+                v[0] / scalar,
+                v[1] / scalar,
+                v[2] / scalar,
+                v[3] / scalar
+            };
         }
 
         constexpr auto& operator/=(const T scalar) noexcept
@@ -106,15 +110,17 @@ namespace ouzel
 
         constexpr auto operator-() const noexcept
         {
-            return Quaternion(-v[0], -v[1], -v[2], -v[3]);
+            return Quaternion{-v[0], -v[1], -v[2], -v[3]};
         }
 
         constexpr auto operator+(const Quaternion& q) const noexcept
         {
-            return Quaternion(v[0] + q.v[0],
-                              v[1] + q.v[1],
-                              v[2] + q.v[2],
-                              v[3] + q.v[3]);
+            return Quaternion{
+                v[0] + q.v[0],
+                v[1] + q.v[1],
+                v[2] + q.v[2],
+                v[3] + q.v[3]
+            };
         }
 
         constexpr auto& operator+=(const Quaternion& q) noexcept
@@ -129,10 +135,12 @@ namespace ouzel
 
         constexpr auto operator-(const Quaternion& q) const noexcept
         {
-            return Quaternion(v[0] - q.v[0],
-                              v[1] - q.v[1],
-                              v[2] - q.v[2],
-                              v[3] - q.v[3]);
+            return Quaternion{
+                v[0] - q.v[0],
+                v[1] - q.v[1],
+                v[2] - q.v[2],
+                v[3] - q.v[3]
+            };
         }
 
         constexpr auto& operator-=(const Quaternion& q) noexcept
@@ -221,10 +229,12 @@ namespace ouzel
                 return *this;
 
             const auto multiplier = T(1) / length;
-            return Quaternion(v[0] * multiplier,
-                              v[1] * multiplier,
-                              v[2] * multiplier,
-                              v[3] * multiplier);
+            return Quaternion{
+                v[0] * multiplier,
+                v[1] * multiplier,
+                v[2] * multiplier,
+                v[3] * multiplier
+            };
         }
 
         void rotate(const T angle, const Vector<T, 3>& axis) noexcept
