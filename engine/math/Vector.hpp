@@ -108,18 +108,12 @@ namespace ouzel
 
         auto distance(const Vector& vec) const noexcept
         {
-            T d = T(0);
-            for (std::size_t i = 0; i < N; ++i)
-                d += (vec.v[i] - v[i]) * (vec.v[i] - v[i]);
-            return std::sqrt(d);
+            return std::sqrt(generateDistanceSquared(std::make_index_sequence<N>{}, vec));
         }
 
-        auto distanceSquared(const Vector& vec) const noexcept
+        constexpr auto distanceSquared(const Vector& vec) const noexcept
         {
-            T d = T(0);
-            for (std::size_t i = 0; i < N; ++i)
-                d += (vec.v[i] - v[i]) * (vec.v[i] - v[i]);
-            return d;
+            return generateDistanceSquared(std::make_index_sequence<N>{}, vec);
         }
 
         auto length() const noexcept
@@ -346,6 +340,12 @@ namespace ouzel
         constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const
         {
             return sum((v[I] * vec.v[I])...);
+        }
+
+        template <std::size_t ...I>
+        constexpr auto generateDistanceSquared(const std::index_sequence<I...>, const Vector& vec) const
+        {
+            return sum(((v[I] - vec.v[I]) * (v[I] - vec.v[I]))...);
         }
     };
 
