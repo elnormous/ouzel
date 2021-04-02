@@ -48,8 +48,7 @@ namespace ouzel
             return Plane{-v[0], -v[1], -v[2], -v[3]};
         }
 
-        template<std::size_t N, std::enable_if_t<N >= 3>* = nullptr>
-        constexpr auto dot(const Vector<T, N>& vec) const noexcept
+        constexpr auto dot(const Vector<T, 3>& vec) const noexcept
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
         }
