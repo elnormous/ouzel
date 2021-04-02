@@ -152,9 +152,8 @@ namespace ouzel
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            const auto multiplier = T(1) / length;
             for (auto& c : v)
-                c *= multiplier;
+                c /= length;
         }
 
         auto normalized() const noexcept
@@ -167,8 +166,7 @@ namespace ouzel
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
-            const auto multiplier = T(1) / length;
-            return *this * multiplier;
+            return *this / length;
         }
 
         template <auto X = N, std::enable_if_t<(X == 2)>* = nullptr>

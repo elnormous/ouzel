@@ -210,10 +210,9 @@ namespace ouzel
                 const auto length = std::sqrt(squared);
                 if (length > std::numeric_limits<T>::min())
                 {
-                    const auto multiplier = T(1) / length;
-                    x *= multiplier;
-                    y *= multiplier;
-                    z *= multiplier;
+                    x /= length;
+                    y /= length;
+                    z /= length;
                 }
             }
 

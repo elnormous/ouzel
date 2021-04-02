@@ -69,11 +69,10 @@ namespace ouzel
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            const auto multiplier = T(1) / length;
-            v[0] *= multiplier;
-            v[1] *= multiplier;
-            v[2] *= multiplier;
-            v[3] *= multiplier;
+            v[0] /= length;
+            v[1] /= length;
+            v[2] /= length;
+            v[3] /= length;
         }
 
         auto normalized() const noexcept
@@ -86,11 +85,12 @@ namespace ouzel
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
-            const auto multiplier = T(1) / length;
-            return Plane(v[0] * multiplier,
-                         v[1] * multiplier,
-                         v[2] * multiplier,
-                         v[3] * multiplier);
+            return Plane{
+                v[0] / length,
+                v[1] / length,
+                v[2] / length,
+                v[3] / length
+            };
         }
 
         constexpr auto operator==(const Plane& plane) const noexcept
@@ -109,11 +109,12 @@ namespace ouzel
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return Plane();
 
-            const auto multiplier = T(1) / length;
-            return Plane(a * multiplier,
-                         b * multiplier,
-                         c * multiplier,
-                         d * multiplier);
+            return Plane{
+                a / length,
+                b / length,
+                c / length,
+                d / length
+            };
         }
     };
 }

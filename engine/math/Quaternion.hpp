@@ -185,11 +185,10 @@ namespace ouzel
                 return;
 
             // conjugate divided by norm squared
-            const auto multiplier = T(1) / squared;
-            v[0] = -v[0] * multiplier;
-            v[1] = -v[1] * multiplier;
-            v[2] = -v[2] * multiplier;
-            v[3] = v[3] * multiplier;
+            v[0] = -v[0] / squared;
+            v[1] = -v[1] / squared;
+            v[2] = -v[2] / squared;
+            v[3] = v[3] / squared;
         }
 
         auto getNorm() const noexcept
@@ -211,11 +210,10 @@ namespace ouzel
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return;
 
-            const auto multiplier = T(1) / length;
-            v[0] *= multiplier;
-            v[1] *= multiplier;
-            v[2] *= multiplier;
-            v[3] *= multiplier;
+            v[0] /= length;
+            v[1] /= length;
+            v[2] /= length;
+            v[3] /= length;
         }
 
         auto normalized() const noexcept
@@ -228,12 +226,11 @@ namespace ouzel
             if (length <= std::numeric_limits<T>::min()) // too close to zero
                 return *this;
 
-            const auto multiplier = T(1) / length;
             return Quaternion{
-                v[0] * multiplier,
-                v[1] * multiplier,
-                v[2] * multiplier,
-                v[3] * multiplier
+                v[0] / length,
+                v[1] / length,
+                v[2] / length,
+                v[3] / length
             };
         }
 
