@@ -28,12 +28,6 @@ namespace ouzel
         }
 
         constexpr Rect(const Vector<T, 2>& initPosition,
-                       const T width, const T height) noexcept:
-            position{initPosition}, size{width, height}
-        {
-        }
-
-        constexpr Rect(const Vector<T, 2>& initPosition,
                        const Size<T, 2>& initSize) noexcept:
             position{initPosition}, size{initSize}
         {
