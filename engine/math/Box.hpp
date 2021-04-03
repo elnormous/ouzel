@@ -61,9 +61,10 @@ namespace ouzel
         void merge(const Box& box) noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
+            {
                 min.v[i] = std::min(min.v[i], box.min.v[i]);
-            for (std::size_t i = 0; i < N; ++i)
                 max.v[i] = std::max(max.v[i], box.max.v[i]);
+            }
         }
 
         void reset() noexcept

@@ -107,7 +107,7 @@ namespace ouzel
         {
             const auto length = std::sqrt(a * a + b * b + c * c);
             if (length <= std::numeric_limits<T>::min()) // too close to zero
-                return Plane();
+                return Plane{};
 
             return Plane{
                 a / length,
