@@ -395,7 +395,7 @@ namespace ouzel
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        auto getFrustum() const noexcept
+        auto getFrustum() const noexcept(false)
         {
             return ConvexVolume<T>({
                 getFrustumLeftPlane(),
