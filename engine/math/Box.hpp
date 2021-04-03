@@ -43,18 +43,22 @@ namespace ouzel
         auto intersects(const Box& aabb) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
+            {
                 if (aabb.min.v[0] > max.v[0]) return false;
-            for (std::size_t i = 0; i < N; ++i)
                 if (aabb.max.v[0] < min.v[0]) return false;
+            }
+
             return true;
         }
 
         auto containsPoint(const Vector<T, N>& point) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
+            {
                 if (point.v[i] < min.v[i]) return false;
-            for (std::size_t i = 0; i < N; ++i)
                 if (point.v[i] > max.v[i]) return false;
+            }
+
             return true;
         }
 
