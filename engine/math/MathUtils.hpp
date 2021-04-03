@@ -31,13 +31,6 @@ namespace ouzel
     {
         return x * T(57.2957795130823208767);
     }
-
-    template <typename T>
-    constexpr auto isNearlyEqual(const T a, const T b,
-                                 const T tolerance = std::numeric_limits<T>::min()) noexcept
-    {
-        return (a - b) <= tolerance && (a - b) >= -tolerance;
-    }
 }
 
 #endif // OUZEL_MATH_MATHUTILS_HPP
