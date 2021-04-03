@@ -171,34 +171,30 @@ namespace ouzel
         constexpr auto operator*(const T scalar) const noexcept
         {
             return Rect{
-                position.v[0] * scalar, position.v[1] * scalar,
-                size.v[0] * scalar, size.v[1] * scalar
+                position * scalar,
+                size * scalar
             };
         }
 
         constexpr auto& operator*=(const T scalar) noexcept
         {
-            position.v[0] *= scalar;
-            position.v[1] *= scalar;
-            size.v[0] *= scalar;
-            size.v[1] *= scalar;
+            position *= scalar;
+            size *= scalar;
             return *this;
         }
 
         constexpr auto operator/(const T scalar) const noexcept
         {
             return Rect{
-                position.v[0] / scalar, position.v[1] / scalar,
-                size.v[0] / scalar, size.v[1] / scalar
+                position / scalar,
+                size / scalar
             };
         }
 
         constexpr auto& operator/=(const T scalar) noexcept
         {
-            position.v[0] /= scalar;
-            position.v[1] /= scalar;
-            size.v[0] /= scalar;
-            size.v[1] /= scalar;
+            position /= scalar;
+            size /= scalar;
             return *this;
         }
     };
