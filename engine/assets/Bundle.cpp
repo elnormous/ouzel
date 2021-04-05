@@ -166,10 +166,12 @@ namespace ouzel::assets
                 {
                     for (std::uint32_t y = 0; y < spritesY; ++y)
                     {
-                        Rect<float> rectangle(spriteSize.v[0] * x,
-                                        spriteSize.v[1] * y,
-                                        spriteSize.v[0],
-                                        spriteSize.v[1]);
+                        const Rect<float> rectangle{
+                            spriteSize.v[0] * x,
+                            spriteSize.v[1] * y,
+                            spriteSize.v[0],
+                            spriteSize.v[1]
+                        };
 
                         animation.frames.emplace_back(filename, textureSize, rectangle, false, spriteSize, Vector<float, 2>{}, pivot);
                     }

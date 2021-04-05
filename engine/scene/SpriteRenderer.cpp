@@ -227,7 +227,7 @@ namespace ouzel::scene
                 static_cast<float>(texture->getSize().v[1])
             };
 
-            const Rect<float> rectangle(0.0F, 0.0F, size.v[0], size.v[1]);
+            const Rect<float> rectangle{0.0F, 0.0F, size.v[0], size.v[1]};
             animation.frames.emplace_back("", size, rectangle, false, size, Vector<float, 2>{}, Vector<float, 2>{0.5F, 0.5F});
 
             animations[""] = std::move(animation);
@@ -267,10 +267,12 @@ namespace ouzel::scene
         for (std::uint32_t x = 0; x < spritesX; ++x)
             for (std::uint32_t y = 0; y < spritesY; ++y)
             {
-                const Rect<float> rectangle(spriteSize.v[0] * x,
-                                      spriteSize.v[1] * y,
-                                      spriteSize.v[0],
-                                      spriteSize.v[1]);
+                const Rect<float> rectangle{
+                    spriteSize.v[0] * x,
+                    spriteSize.v[1] * y,
+                    spriteSize.v[0],
+                    spriteSize.v[1]
+                };
                 animation.frames.emplace_back("", size, rectangle, false, spriteSize, Vector<float, 2>{}, pivot);
             }
 

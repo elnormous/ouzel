@@ -122,7 +122,7 @@ namespace ouzel::scene
 
         Matrix<float, 4> projection;
 
-        Rect<float> viewport = Rect<float>(0.0F, 0.0F, 1.0F, 1.0F);
+        Rect<float> viewport = Rect<float>{0.0F, 0.0F, 1.0F, 1.0F};
         Rect<float> renderViewport;
         Size<float, 2> targetContentSize;
 

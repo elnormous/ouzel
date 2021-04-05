@@ -252,10 +252,12 @@ namespace ouzel::scene
             halfWorldSize.v[1] *= (std::fabs(viewProjection.m[1]) + std::fabs(viewProjection.m[5])) / 2.0F;
 
             // create visible rect in clip space
-            const Rect<float> visibleRect(-halfWorldSize.v[0],
-                                    -halfWorldSize.v[1],
-                                    1.0F + halfWorldSize.v[0] * 2.0F,
-                                    1.0F + halfWorldSize.v[1] * 2.0F);
+            const Rect<float> visibleRect{
+                -halfWorldSize.v[0],
+                -halfWorldSize.v[1],
+                1.0F + halfWorldSize.v[0] * 2.0F,
+                1.0F + halfWorldSize.v[1] * 2.0F
+            };
 
             return visibleRect.containsPoint(v2p);
         }
