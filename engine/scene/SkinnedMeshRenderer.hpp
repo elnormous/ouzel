@@ -3,6 +3,7 @@
 #ifndef OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
 #define OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
 
+#include <memory>
 #include <vector>
 #include "../scene/Component.hpp"
 #include "../graphics/Material.hpp"
@@ -22,8 +23,8 @@ namespace ouzel::scene
         SkinnedMeshData() = default;
         SkinnedMeshData(const Box<float, 3>& initBoundingBox,
                         const std::shared_ptr<graphics::Material>& initMaterial):
-            boundingBox(initBoundingBox),
-            material(initMaterial)
+            boundingBox{initBoundingBox},
+            material{initMaterial}
         {
         }
 

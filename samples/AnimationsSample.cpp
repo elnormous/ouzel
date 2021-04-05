@@ -87,7 +87,7 @@ namespace samples
         shapeDrawable.polygon({Vector<float, 2>{15.0F, 75.0F},
                                Vector<float, 2>{25.0F, 75.0F},
                                Vector<float, 2>{25.0F, 55.0F}},
-                              Color("#ff0000"), false);
+                              Color{"#ff0000"}, false);
 
         drawActor.addComponent(shapeDrawable);
         drawActor.setPosition(Vector<float, 2>{-300.0F, 0.0F});
