@@ -165,25 +165,6 @@ namespace ouzel
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
-        void setScale(const T x, const T y) noexcept
-        {
-            setIdentity();
-
-            m[0] = x;
-            m[4] = y;
-        }
-
-        template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
-        void setScale(const T x, const T y, const T z) noexcept
-        {
-            setIdentity();
-
-            m[0] = x;
-            m[5] = y;
-            m[10] = z;
-        }
-
-        template <auto X = C, auto Y = R, std::enable_if_t<(X == 3 && Y == 3)>* = nullptr>
         void setRotation(const T angle) noexcept
         {
             setIdentity();
