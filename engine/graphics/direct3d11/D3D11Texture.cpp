@@ -355,7 +355,7 @@ namespace ouzel::graphics::d3d11
                     const auto rowSize = levels[level].first.v[0] * pixelSize;
                     const auto rows = static_cast<UINT>(levels[level].first.v[1]);
                     auto source = levels[level].second.data();
-                    auto destination = mappedSubresource.pData;
+                    auto destination = static_cast<BYTE*>(mappedSubresource.pData);
 
                     for (UINT row = 0; row < rows; ++row)
                     {
