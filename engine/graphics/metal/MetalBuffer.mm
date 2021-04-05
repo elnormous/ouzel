@@ -4,7 +4,7 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include <algorithm>
+#include <cstring>
 #include "MetalBuffer.hpp"
 #include "MetalError.hpp"
 #include "MetalRenderDevice.hpp"
@@ -23,7 +23,7 @@ namespace ouzel::graphics::metal
         createBuffer(initSize);
 
         if (!data.empty())
-            std::copy(data.begin(), data.end(), static_cast<std::uint8_t*>([buffer.get() contents]));
+            std::memcpy([buffer.get() contents], data.data(), data.size());
     }
 
     void Buffer::setData(const std::vector<std::uint8_t>& data)
@@ -37,7 +37,7 @@ namespace ouzel::graphics::metal
         if (!buffer || data.size() > size)
             createBuffer(static_cast<std::uint32_t>(data.size()));
 
-        std::copy(data.begin(), data.end(), static_cast<std::uint8_t*>([buffer.get() contents]));
+        std::memcpy([buffer.get() contents], data.data(), data.size());
     }
 
     void Buffer::createBuffer(NSUInteger newSize)

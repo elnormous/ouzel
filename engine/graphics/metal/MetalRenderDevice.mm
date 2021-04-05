@@ -7,6 +7,7 @@
 #include <Availability.h>
 #include <TargetConditionals.h>
 #include <cassert>
+#include <cstring>
 #include "MetalRenderDevice.hpp"
 #include "MetalBlendState.hpp"
 #include "MetalBuffer.hpp"
@@ -663,9 +664,8 @@ namespace ouzel::graphics::metal
 
                         MTLBufferPtr currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index].get();
 
-                        std::copy(reinterpret_cast<const char*>(shaderData.data()),
-                                  reinterpret_cast<const char*>(shaderData.data()) + sizeof(float) * shaderData.size(),
-                                  static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
+                        std::memcpy(static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset,
+                                    shaderData.data(), shaderData.size() * sizeof(float));
 
                         [currentRenderCommandEncoder setFragmentBuffer:currentBuffer
                                                                 offset:shaderConstantBuffer.offset
@@ -714,9 +714,8 @@ namespace ouzel::graphics::metal
 
                         currentBuffer = shaderConstantBuffer.buffers[shaderConstantBuffer.index].get();
 
-                        std::copy(reinterpret_cast<const char*>(shaderData.data()),
-                                  reinterpret_cast<const char*>(shaderData.data()) + sizeof(float) * shaderData.size(),
-                                  static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset);
+                        std::memcpy(static_cast<char*>([currentBuffer contents]) + shaderConstantBuffer.offset,
+                                    shaderData.data(), shaderData.size() * sizeof(float));
 
                         [currentRenderCommandEncoder setVertexBuffer:currentBuffer
                                                               offset:shaderConstantBuffer.offset

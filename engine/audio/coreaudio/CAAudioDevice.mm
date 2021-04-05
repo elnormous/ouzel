@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_COREAUDIO
 
+#include <cstring>
 #include <system_error>
 #if TARGET_OS_IOS || TARGET_OS_TV
 #  import <AVFoundation/AVFoundation.h>
@@ -405,7 +406,7 @@ namespace ouzel::audio::coreaudio
         {
             AudioBuffer& buffer = ioData->mBuffers[i];
             getData(buffer.mDataByteSize / (sampleSize * channels), data);
-            std::copy(data.begin(), data.end(), static_cast<std::uint8_t*>(buffer.mData));
+            std::memcpy(buffer.mData, data.data(), data.size());
         }
     }
 }

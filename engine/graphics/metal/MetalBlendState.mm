@@ -64,10 +64,14 @@ namespace ouzel::graphics::metal
         blendingEnabled(enableBlending)
     {
         colorWriteMask = MTLColorWriteMaskNone;
-        if ((colorMask & ColorMask::red) == ColorMask::red) colorWriteMask |= MTLColorWriteMaskRed;
-        if ((colorMask & ColorMask::green) == ColorMask::green) colorWriteMask |= MTLColorWriteMaskGreen;
-        if ((colorMask & ColorMask::blue) == ColorMask::blue) colorWriteMask |= MTLColorWriteMaskBlue;
-        if ((colorMask & ColorMask::alpha) == ColorMask::alpha) colorWriteMask |= MTLColorWriteMaskAlpha;
+        if ((colorMask & ColorMask::red) == ColorMask::red)
+            colorWriteMask |= MTLColorWriteMaskRed;
+        if ((colorMask & ColorMask::green) == ColorMask::green)
+            colorWriteMask |= MTLColorWriteMaskGreen;
+        if ((colorMask & ColorMask::blue) == ColorMask::blue)
+            colorWriteMask |= MTLColorWriteMaskBlue;
+        if ((colorMask & ColorMask::alpha) == ColorMask::alpha)
+            colorWriteMask |= MTLColorWriteMaskAlpha;
     }
 }
 

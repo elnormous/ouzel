@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <cstring>
 #include "D3D11Buffer.hpp"
 #include "D3D11RenderDevice.hpp"
 
@@ -44,7 +45,7 @@ namespace ouzel::graphics::d3d11
                 if (const auto hr = renderDevice.getContext()->Map(buffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to lock Direct3D 11 buffer");
 
-                std::copy(data.begin(), data.end(), static_cast<std::uint8_t*>(mappedSubresource.pData));
+                std::memcpy(mappedSubresource.pData, data.data(), data.size());
 
                 renderDevice.getContext()->Unmap(buffer.get(), 0);
             }

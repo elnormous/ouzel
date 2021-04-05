@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_WASAPI
 
+#include <cstring>
 #include <mmdeviceapi.h>
 #include <Functiondiscoverykeys_devpkey.h>
 #include "WASAPIAudioDevice.hpp"
@@ -312,7 +313,7 @@ namespace ouzel::audio::wasapi
 
                         getData(frameCount, data);
 
-                        std::copy(data.begin(), data.end(), renderBuffer);
+                        std::memcpy(renderBuffer, data.data(), data.size());
 
                         if (const auto hr = renderClient->ReleaseBuffer(frameCount, 0); FAILED(hr))
                             throw std::system_error(hr, errorCategory, "Failed to release buffer");

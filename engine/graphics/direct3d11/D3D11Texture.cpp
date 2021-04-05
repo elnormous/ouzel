@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <cstring>
 #include <stdexcept>
 #include "D3D11Texture.hpp"
 #include "D3D11RenderDevice.hpp"
@@ -342,27 +343,27 @@ namespace ouzel::graphics::d3d11
                                                                    0, &mappedSubresource); FAILED(hr))
                     throw std::system_error(hr, getErrorCategory(), "Failed to map Direct3D 11 texture");
 
-                auto destination = static_cast<std::uint8_t*>(mappedSubresource.pData);
 
                 if (mappedSubresource.RowPitch == levels[level].first.v[0] * pixelSize)
                 {
-                    std::copy(levels[level].second.begin(),
-                              levels[level].second.end(),
-                              destination);
+                    std::memcpy(mappedSubresource.pData,
+                                levels[level].second.data(),
+                                levels[level].second.size());
                 }
                 else
                 {
-                    auto source = levels[level].second.begin();
-                    auto rowSize = static_cast<std::uint32_t>(levels[level].first.v[0]) * pixelSize;
-                    auto rows = static_cast<UINT>(levels[level].first.v[1]);
+                    const auto rowSize = levels[level].first.v[0] * pixelSize;
+                    const auto rows = static_cast<UINT>(levels[level].first.v[1]);
+                    auto source = levels[level].second.data();
+                    auto destination = mappedSubresource.pData;
 
                     for (UINT row = 0; row < rows; ++row)
                     {
-                        std::copy(source,
-                                  source + rowSize,
-                                  destination);
+                        std::memcpy(destination,
+                                    source,
+                                    rowSize);
 
-                        source += levels[level].first.v[0] * pixelSize;
+                        source += rowSize;
                         destination += mappedSubresource.RowPitch;
                     }
                 }

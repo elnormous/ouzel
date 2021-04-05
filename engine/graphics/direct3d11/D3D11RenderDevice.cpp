@@ -5,6 +5,7 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <cassert>
+#include <cstring>
 #include "D3D11RenderDevice.hpp"
 #include "D3D11BlendState.hpp"
 #include "D3D11Buffer.hpp"
@@ -1009,7 +1010,7 @@ namespace ouzel::graphics::d3d11
         if (const auto hr = context->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource); FAILED(hr))
             throw std::system_error(hr, errorCategory, "Failed to lock Direct3D 11 buffer");
 
-        std::copy(static_cast<const std::uint8_t*>(data), static_cast<const std::uint8_t*>(data) + dataSize, static_cast<std::uint8_t*>(mappedSubresource.pData));
+        std::memcpy(mappedSubresource.pData, data, dataSize);
 
         context->Unmap(buffer, 0);
     }
