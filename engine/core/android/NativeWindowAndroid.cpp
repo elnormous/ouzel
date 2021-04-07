@@ -17,7 +17,7 @@ namespace ouzel::core::android
                            true)
     {
         const auto engineAndroid = static_cast<Engine*>(engine);
-        auto javaVm = engineAndroid->getJavaVm();
+        const auto javaVm = engineAndroid->getJavaVm();
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
@@ -84,7 +84,7 @@ namespace ouzel::core::android
     void NativeWindow::handleSurfaceChange(jobject surface)
     {
         const auto engineAndroid = static_cast<Engine*>(engine);
-        auto javaVm = engineAndroid->getJavaVm();
+        const auto javaVm = engineAndroid->getJavaVm();
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)

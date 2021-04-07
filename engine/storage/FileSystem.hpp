@@ -125,7 +125,7 @@ namespace ouzel::storage
 
             return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(t)};
 #elif defined(__unix__) || defined(__APPLE__)
-            auto nanoseconds = std::chrono::seconds{time.tv_sec} +
+            const auto nanoseconds = std::chrono::seconds{time.tv_sec} +
                 std::chrono::nanoseconds{time.tv_nsec};
 
             return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
@@ -547,7 +547,7 @@ namespace ouzel::storage
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
 
             FILETIME time;
-            auto ret = GetFileTime(file, nullptr, &time, nullptr);
+            const auto ret = GetFileTime(file, nullptr, &time, nullptr);
             CloseHandle(file);
             if (!ret)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");
@@ -574,7 +574,7 @@ namespace ouzel::storage
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to open file");
 
             FILETIME time;
-            auto ret = GetFileTime(file, nullptr, nullptr, &time);
+            const auto ret = GetFileTime(file, nullptr, nullptr, &time);
             CloseHandle(file);
             if (!ret)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get file time");

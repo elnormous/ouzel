@@ -127,8 +127,8 @@ namespace ouzel::core::android
         jmethodID getFilesDirMethod = jniEnv->GetMethodID(mainActivityClass, "getFilesDir", "()Ljava/io/File;");
         jobject filesDirFile = jniEnv->CallObjectMethod(mainActivity, getFilesDirMethod);
 
-        auto filesDirString = static_cast<jstring>(jniEnv->CallObjectMethod(filesDirFile, getAbsolutePathMethod));
-        auto filesDirCString = jniEnv->GetStringUTFChars(filesDirString, 0);
+        const auto filesDirString = static_cast<jstring>(jniEnv->CallObjectMethod(filesDirFile, getAbsolutePathMethod));
+        const auto filesDirCString = jniEnv->GetStringUTFChars(filesDirString, 0);
         filesDirectory = filesDirCString;
         jniEnv->ReleaseStringUTFChars(filesDirString, filesDirCString);
 
@@ -136,8 +136,8 @@ namespace ouzel::core::android
         jmethodID getCacheDirMethod = jniEnv->GetMethodID(mainActivityClass, "getCacheDir", "()Ljava/io/File;");
         jobject cacheDirFile = jniEnv->CallObjectMethod(mainActivity, getCacheDirMethod);
 
-        auto cacheDirString = static_cast<jstring>(jniEnv->CallObjectMethod(cacheDirFile, getAbsolutePathMethod));
-        auto cacheDirCString = jniEnv->GetStringUTFChars(cacheDirString, 0);
+        const auto cacheDirString = static_cast<jstring>(jniEnv->CallObjectMethod(cacheDirFile, getAbsolutePathMethod));
+        const auto cacheDirCString = jniEnv->GetStringUTFChars(cacheDirString, 0);
         cacheDirectory = cacheDirCString;
         jniEnv->ReleaseStringUTFChars(cacheDirString, cacheDirCString);
 

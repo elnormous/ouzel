@@ -388,7 +388,7 @@ namespace ouzel::core::linux
                     case KeyRelease:
                     {
                         auto& inputSystemLinux = inputManager->getInputSystem();
-                        auto keyboardDevice = inputSystemLinux.getKeyboardDevice();
+                        const auto keyboardDevice = inputSystemLinux.getKeyboardDevice();
 
                         const auto keySym = XkbKeycodeToKeysym(display,
                                                                event.xkey.keycode, 0,
@@ -404,7 +404,7 @@ namespace ouzel::core::linux
                     case ButtonRelease:
                     {
                         auto& inputSystemLinux = inputManager->getInputSystem();
-                        auto mouseDevice = inputSystemLinux.getMouseDevice();
+                        const auto mouseDevice = inputSystemLinux.getMouseDevice();
 
                         const Vector<float, 2> position{
                             static_cast<float>(event.xbutton.x),
@@ -432,7 +432,7 @@ namespace ouzel::core::linux
                     case MotionNotify:
                     {
                         auto& inputSystemLinux = inputManager->getInputSystem();
-                        auto mouseDevice = inputSystemLinux.getMouseDevice();
+                        const auto mouseDevice = inputSystemLinux.getMouseDevice();
 
                         const Vector<float, 2> position{
                             static_cast<float>(event.xmotion.x),
@@ -464,7 +464,7 @@ namespace ouzel::core::linux
                         if (cookie->extension == xInputOpCode)
                         {
                             auto& inputSystemLinux = inputManager->getInputSystem();
-                            auto touchpadDevice = inputSystemLinux.getTouchpadDevice();
+                            const auto touchpadDevice = inputSystemLinux.getTouchpadDevice();
 
                             switch (cookie->evtype)
                             {

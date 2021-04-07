@@ -482,7 +482,7 @@ namespace ouzel::graphics::metal
 
                         if (setDepthStencilStateCommand->depthStencilState)
                         {
-                            auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
+                            const auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
                             [currentRenderCommandEncoder setDepthStencilState:depthStencilState->getDepthStencilState().get()];
                         }
                         else
@@ -501,8 +501,8 @@ namespace ouzel::graphics::metal
                         if (!currentRenderCommandEncoder)
                             throw Error("Metal render command encoder not initialized");
 
-                        auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
-                        auto shader = getResource<Shader>(setPipelineStateCommand->shader);
+                        const auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
+                        const auto shader = getResource<Shader>(setPipelineStateCommand->shader);
                         currentShader = shader;
 
                         currentPipelineStateDesc.blendState = blendState;
@@ -525,8 +525,8 @@ namespace ouzel::graphics::metal
                             throw Error("Metal render command encoder not initialized");
 
                         // mesh buffer
-                        auto indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
-                        auto vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
+                        const auto indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
+                        const auto vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
 
                         assert(indexBuffer);
                         assert(indexBuffer->getBuffer());
@@ -589,7 +589,7 @@ namespace ouzel::graphics::metal
                     {
                         const auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                        auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
+                        const auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
                         buffer->setData(setBufferDataCommand->data);
                         break;
                     }
@@ -749,7 +749,7 @@ namespace ouzel::graphics::metal
                     {
                         const auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        auto texture = getResource<Texture>(setTextureDataCommand->texture);
+                        const auto texture = getResource<Texture>(setTextureDataCommand->texture);
                         texture->setData(setTextureDataCommand->levels);
 
                         break;
@@ -759,7 +759,7 @@ namespace ouzel::graphics::metal
                     {
                         const auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        auto texture = getResource<Texture>(setTextureParametersCommand->texture);
+                        const auto texture = getResource<Texture>(setTextureParametersCommand->texture);
                         texture->setFilter(setTextureParametersCommand->filter);
                         texture->setAddressX(setTextureParametersCommand->addressX);
                         texture->setAddressY(setTextureParametersCommand->addressY);

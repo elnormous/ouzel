@@ -13,7 +13,7 @@
 - (void)touchesBegan:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
-    auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
+    const auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
     for (UITouch* touch in touches)
     {
         const CGPoint location = [touch locationInView:self];
@@ -35,7 +35,7 @@
 - (void)touchesMoved:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
-    auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
+    const auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
     for (UITouch* touch in touches)
     {
         const CGPoint location = [touch locationInView:self];
@@ -57,7 +57,7 @@
 - (void)touchesEnded:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
-    auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
+    const auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
     for (UITouch* touch in touches)
     {
         const CGPoint location = [touch locationInView:self];
@@ -79,7 +79,7 @@
 - (void)touchesCancelled:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
-    auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
+    const auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
     for (UITouch* touch in touches)
     {
         const CGPoint location = [touch locationInView:self];
@@ -121,7 +121,7 @@ namespace
     bool forward = false;
 
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
-    auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
+    const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         std::future<bool> f = keyboardDevice->handleKeyPress(convertKeyCode(press.type));
@@ -138,7 +138,7 @@ namespace
     bool forward = false;
 
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
-    auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
+    const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
@@ -155,7 +155,7 @@ namespace
     bool forward = false;
 
     auto& inputSystemIOS = ouzel::engine->getInputManager()->getInputSystem();
-    auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
+    const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));

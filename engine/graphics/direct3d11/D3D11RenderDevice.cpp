@@ -518,7 +518,7 @@ namespace ouzel::graphics::d3d11
 
                         if (setDepthStencilStateCommand->depthStencilState)
                         {
-                            auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
+                            const auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
                             context->OMSetDepthStencilState(depthStencilState->getDepthStencilState().get(),
                                                             setDepthStencilStateCommand->stencilReferenceValue);
                         }
@@ -584,8 +584,8 @@ namespace ouzel::graphics::d3d11
                         const auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
                         // draw mesh buffer
-                        auto indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
-                        auto vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
+                        const auto indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
+                        const auto vertexBuffer = getResource<Buffer>(drawCommand->vertexBuffer);
 
                         assert(indexBuffer);
                         assert(indexBuffer->getBuffer());
@@ -649,7 +649,7 @@ namespace ouzel::graphics::d3d11
                     {
                         const auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                        auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
+                        const auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
                         buffer->setData(setBufferDataCommand->data);
                         break;
                     }
@@ -758,7 +758,7 @@ namespace ouzel::graphics::d3d11
                     {
                         const auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        auto texture = getResource<Texture>(setTextureDataCommand->texture);
+                        const auto texture = getResource<Texture>(setTextureDataCommand->texture);
                         texture->setData(setTextureDataCommand->levels);
 
                         break;
@@ -768,7 +768,7 @@ namespace ouzel::graphics::d3d11
                     {
                         const auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        auto texture = getResource<Texture>(setTextureParametersCommand->texture);
+                        const auto texture = getResource<Texture>(setTextureParametersCommand->texture);
                         texture->setFilter(setTextureParametersCommand->filter);
                         texture->setAddressX(setTextureParametersCommand->addressX);
                         texture->setAddressY(setTextureParametersCommand->addressY);

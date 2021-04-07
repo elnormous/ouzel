@@ -249,7 +249,7 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onLowMemory(
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)
 {
     auto& inputSystemAndroid = ouzel::engine->getInputManager()->getInputSystem();
-    auto keyboardDevice = inputSystemAndroid.getKeyboardDevice();
+    const auto keyboardDevice = inputSystemAndroid.getKeyboardDevice();
     std::future<bool> f = keyboardDevice->handleKeyPress(convertKeyCode(keyCode));
 
     if (keyCode == AKEYCODE_BACK)
@@ -261,7 +261,7 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyDow
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyUp(JNIEnv*, jclass, jint keyCode)
 {
     auto& inputSystemAndroid = ouzel::engine->getInputManager()->getInputSystem();
-    auto keyboardDevice = inputSystemAndroid.getKeyboardDevice();
+    const auto keyboardDevice = inputSystemAndroid.getKeyboardDevice();
     std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(keyCode));
 
     if (keyCode == AKEYCODE_BACK)

@@ -50,7 +50,7 @@ namespace ouzel::audio::mixer
                 for (std::uint32_t channel = 0; channel < channels; ++channel)
                 {
                     const auto sourceChannel = &sourceSamples[channel * sourceFrames];
-                    auto outputChannel = &samples[channel * frames];
+                    const auto outputChannel = &samples[channel * frames];
 
                     outputChannel[frame] = lerp(sourceChannel[sourceCurrentFrame],
                                                 sourceChannel[sourceNextFrame],
@@ -64,7 +64,7 @@ namespace ouzel::audio::mixer
             for (std::uint32_t channel = 0; channel < channels; ++channel)
             {
                 const auto sourceChannel = &sourceSamples[channel * sourceFrames];
-                auto outputChannel = &samples[channel * frames];
+                const auto outputChannel = &samples[channel * frames];
                 outputChannel[frames - 1] = sourceChannel[sourceFrames - 1];
             }
         }

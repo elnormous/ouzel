@@ -180,7 +180,7 @@ namespace ouzel::assets
                     {
                         for (std::uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            auto outputChannel = &samples[channel * frames];
+                            const auto outputChannel = &samples[channel * frames];
 
                             for (std::uint32_t frame = 0; frame < frames; ++frame)
                             {
@@ -195,7 +195,7 @@ namespace ouzel::assets
                     {
                         for (std::uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            auto outputChannel = &samples[channel * frames];
+                            const auto outputChannel = &samples[channel * frames];
 
                             for (std::uint32_t frame = 0; frame < frames; ++frame)
                             {
@@ -211,7 +211,7 @@ namespace ouzel::assets
                     {
                         for (std::uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            auto outputChannel = &samples[channel * frames];
+                            const auto outputChannel = &samples[channel * frames];
 
                             for (std::uint32_t frame = 0; frame < frames; ++frame)
                             {
@@ -227,7 +227,7 @@ namespace ouzel::assets
                     {
                         for (std::uint32_t channel = 0; channel < channels; ++channel)
                         {
-                            auto outputChannel = &samples[channel * frames];
+                            const auto outputChannel = &samples[channel * frames];
 
                             for (std::uint32_t frame = 0; frame < frames; ++frame)
                             {
@@ -251,7 +251,7 @@ namespace ouzel::assets
                 {
                     for (std::uint32_t channel = 0; channel < channels; ++channel)
                     {
-                        auto outputChannel = &samples[channel * frames];
+                        const auto outputChannel = &samples[channel * frames];
 
                         for (std::uint32_t frame = 0; frame < frames; ++frame)
                         {

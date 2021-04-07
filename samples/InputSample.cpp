@@ -53,7 +53,7 @@ namespace samples
                         break;
                 }
 
-                auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(flamePosition));
+                const auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(flamePosition));
 
                 flame.setPosition(worldLocation);
             }
@@ -78,7 +78,7 @@ namespace samples
             {
                 case Event::Type::mouseMove:
                 {
-                    auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(event.position));
+                    const auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(event.position));
                     flame.setPosition(worldLocation);
                     break;
                 }
@@ -92,7 +92,7 @@ namespace samples
         handler.touchHandler = [this](const TouchEvent& event) {
             if (event.touchpad->isScreen())
             {
-                auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(event.position));
+                const auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(event.position));
                 flame.setPosition(worldLocation);
             }
 
@@ -133,7 +133,7 @@ namespace samples
                         break;
                 }
 
-                auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(flamePosition));
+                const auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(flamePosition));
                 flame.setPosition(worldLocation);
             }
 
@@ -202,7 +202,7 @@ namespace samples
         {
             mouse->setCursor(&cursor);
 
-            auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(mouse->getPosition()));
+            const auto worldLocation = Vector<float, 2>(camera.convertNormalizedToWorld(mouse->getPosition()));
             flame.setPosition(worldLocation);
         }
     }

@@ -921,7 +921,7 @@ namespace ouzel::graphics::opengl
 
                         if (setDepthStencilStateCommand->depthStencilState)
                         {
-                            auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
+                            const auto depthStencilState = getResource<DepthStencilState>(setDepthStencilStateCommand->depthStencilState);
 
                             enableDepthTest(depthStencilState->getDepthTest());
                             setDepthMask(depthStencilState->getDepthMask());
@@ -964,8 +964,8 @@ namespace ouzel::graphics::opengl
                     {
                         const auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
-                        auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
-                        auto shader = getResource<Shader>(setPipelineStateCommand->shader);
+                        const auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
+                        const auto shader = getResource<Shader>(setPipelineStateCommand->shader);
                         currentShader = shader;
 
                         if (blendState)
@@ -1105,7 +1105,7 @@ namespace ouzel::graphics::opengl
                     {
                         const auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
-                        auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
+                        const auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
                         buffer->setData(setBufferDataCommand->data);
                         break;
                     }
@@ -1194,7 +1194,7 @@ namespace ouzel::graphics::opengl
                     {
                         const auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
-                        auto texture = getResource<Texture>(setTextureDataCommand->texture);
+                        const auto texture = getResource<Texture>(setTextureDataCommand->texture);
                         texture->setData(setTextureDataCommand->levels);
 
                         break;
@@ -1204,7 +1204,7 @@ namespace ouzel::graphics::opengl
                     {
                         const auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
-                        auto texture = getResource<Texture>(setTextureParametersCommand->texture);
+                        const auto texture = getResource<Texture>(setTextureParametersCommand->texture);
                         texture->setFilter(setTextureParametersCommand->filter);
                         texture->setAddressX(setTextureParametersCommand->addressX);
                         texture->setAddressY(setTextureParametersCommand->addressY);
