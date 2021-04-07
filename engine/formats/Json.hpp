@@ -305,10 +305,10 @@ namespace ouzel::json
         public:
             static Value parse(Iterator begin, Iterator end)
             {
-                auto iterator = hasByteOrderMark(begin, end) ? begin + 3 : begin;
-                auto [result, valueIterator] = parseValue(iterator, end);
-                iterator = skipWhitespaces(valueIterator, end);
-                if (iterator != end)
+                const auto startIterator = hasByteOrderMark(begin, end) ? begin + 3 : begin;
+                const auto [result, valueIterator] = parseValue(startIterator, end);
+                const auto endIterator = skipWhitespaces(valueIterator, end);
+                if (endIterator != end)
                     throw ParseError("Unexpected data");
 
                 return result;

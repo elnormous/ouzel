@@ -369,7 +369,7 @@ namespace ouzel::assets
 
                         std::uint32_t index = 0;
 
-                        auto vertexIterator = vertexMap.find(i);
+                        const auto vertexIterator = vertexMap.find(i);
                         if (vertexIterator == vertexMap.end())
                         {
                             index = static_cast<std::uint32_t>(vertices.size());
