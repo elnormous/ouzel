@@ -1137,7 +1137,7 @@ namespace ouzel::graphics::opengl
                             throw Error("No shader set");
 
                         // pixel shader constants
-                        const std::vector<Shader::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
+                        const auto& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                         if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
                             throw Error("Invalid pixel shader constant size");
@@ -1153,7 +1153,7 @@ namespace ouzel::graphics::opengl
                         }
 
                         // vertex shader constants
-                        const std::vector<Shader::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+                        const auto& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                             throw Error("Invalid vertex shader constant size");
@@ -1218,12 +1218,10 @@ namespace ouzel::graphics::opengl
                         const auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
                         for (std::uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
-                        {
                             if (auto texture = getResource<Texture>(setTexturesCommand->textures[layer]))
                                 bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
                             else
                                 bindTexture(GL_TEXTURE_2D, layer, 0);
-                        }
 
                         break;
                     }
@@ -1275,7 +1273,6 @@ namespace ouzel::graphics::opengl
 
             std::copy(temp.begin(), temp.end(),
                       data.begin() + bottomRowOffset);
-
         }
 
         if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))

@@ -404,7 +404,7 @@ namespace ouzel::audio::coreaudio
     {
         for (UInt32 i = 0; i < ioData->mNumberBuffers; ++i)
         {
-            AudioBuffer& buffer = ioData->mBuffers[i];
+            auto& buffer = ioData->mBuffers[i];
             getData(buffer.mDataByteSize / (sampleSize * channels), data);
             std::memcpy(buffer.mData, data.data(), data.size());
         }

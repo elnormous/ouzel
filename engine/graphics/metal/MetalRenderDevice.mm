@@ -253,7 +253,7 @@ namespace ouzel::graphics::metal
         std::vector<float> shaderData;
 
         if (++shaderConstantBufferIndex >= bufferCount) shaderConstantBufferIndex = 0;
-        ShaderConstantBuffer& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
+        auto& shaderConstantBuffer = shaderConstantBuffers[shaderConstantBufferIndex];
         shaderConstantBuffer.index = 0;
         shaderConstantBuffer.offset = 0;
         const RenderTarget* currentRenderTarget = nullptr;
@@ -624,7 +624,7 @@ namespace ouzel::graphics::metal
                             throw Error("No shader set");
 
                         // pixel shader constants
-                        const std::vector<Shader::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
+                        const auto& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                         if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
                             throw Error("Invalid pixel shader constant size");
@@ -633,8 +633,8 @@ namespace ouzel::graphics::metal
 
                         for (std::size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
-                            const Shader::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
-                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
+                            const auto& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                            const auto& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
                             if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
                                 throw Error("Invalid pixel shader constant size");
@@ -674,7 +674,7 @@ namespace ouzel::graphics::metal
                         shaderConstantBuffer.offset += static_cast<std::uint32_t>(getVectorSize(shaderData));
 
                         // vertex shader constants
-                        const std::vector<Shader::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+                        const auto& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                             throw Error("Invalid vertex shader constant size");
@@ -683,8 +683,8 @@ namespace ouzel::graphics::metal
 
                         for (std::size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                         {
-                            const Shader::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+                            const auto& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const auto& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
                             if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
                                 throw Error("Invalid vertex shader constant size");

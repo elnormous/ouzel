@@ -341,7 +341,7 @@ namespace ouzel::audio
 
             for (std::uint32_t channel = 0; channel < channels; ++channel)
             {
-                std::vector<float>& buffer = buffers[channel];
+                auto& buffer = buffers[channel];
                 buffer.resize(bufferFrames);
 
                 const auto outputChannel = &samples[channel * frames];
