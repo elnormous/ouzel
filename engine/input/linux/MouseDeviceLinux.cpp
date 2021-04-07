@@ -18,8 +18,8 @@ namespace ouzel::input::linux
     void MouseDevice::setPosition(const Vector<float, 2>& position)
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto engineLinux = static_cast<core::linux::Engine*>(engine);
+        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto display = engineLinux->getDisplay();
         auto window = windowLinux->getNativeWindow();
 
@@ -43,8 +43,8 @@ namespace ouzel::input::linux
     void MouseDevice::setCursorLocked(bool locked)
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto engineLinux = static_cast<core::linux::Engine*>(engine);
+        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto display = engineLinux->getDisplay();
         auto window = windowLinux->getNativeWindow();
 

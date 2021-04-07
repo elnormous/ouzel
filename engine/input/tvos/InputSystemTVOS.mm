@@ -81,18 +81,18 @@ namespace ouzel::input::tvos
                 break;
             case Command::Type::setAbsoluteDpadValues:
             {
-                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                if (const auto inputDevice = getInputDevice(command.deviceId))
                 {
-                    auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
+                    const auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
                     gamepadDevice->setAbsoluteDpadValues(command.absoluteDpadValues);
                 }
                 break;
             }
             case Command::Type::setPlayerIndex:
             {
-                if (InputDevice* inputDevice = getInputDevice(command.deviceId))
+                if (const auto inputDevice = getInputDevice(command.deviceId))
                 {
-                    auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
+                    const auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
                     gamepadDevice->setPlayerIndex(command.playerIndex);
                 }
                 break;
@@ -151,14 +151,14 @@ namespace ouzel::input::tvos
 
     void InputSystem::showVirtualKeyboard()
     {
-        auto windowTVOS = static_cast<core::tvos::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto textField = windowTVOS->getTextField();
         [textField becomeFirstResponder];
     }
 
     void InputSystem::hideVirtualKeyboard()
     {
-        auto windowTVOS = static_cast<core::tvos::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto textField = windowTVOS->getTextField();
         [textField resignFirstResponder];
     }

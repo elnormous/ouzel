@@ -144,7 +144,7 @@ namespace ouzel::graphics::d3d11
             }
         }
 
-        auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
+        const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
 
         frameBufferWidth = static_cast<UINT>(window.getResolution().v[0]);
         frameBufferHeight = static_cast<UINT>(window.getResolution().v[1]);
@@ -219,9 +219,7 @@ namespace ouzel::graphics::d3d11
         std::uint32_t rasterStateIndex = 0;
 
         for (std::uint32_t fillMode = 0; fillMode < 2; ++fillMode)
-        {
             for (std::uint32_t scissorEnable = 0; scissorEnable < 2; ++scissorEnable)
-            {
                 for (std::uint32_t cullMode = 0; cullMode < 3; ++cullMode)
                 {
                     rasterStateDesc.FillMode = (fillMode == 0) ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
@@ -242,8 +240,6 @@ namespace ouzel::graphics::d3d11
 
                     ++rasterStateIndex;
                 }
-            }
-        }
 
         if (depth)
         {
@@ -352,9 +348,9 @@ namespace ouzel::graphics::d3d11
                 {
                     case Command::Type::resize:
                     {
-                        auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
+                        const auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
                         resizeBackBuffer(static_cast<UINT>(resizeCommand->size.v[0]),
-                                            static_cast<UINT>(resizeCommand->size.v[1]));
+                                         static_cast<UINT>(resizeCommand->size.v[1]));
                         break;
                     }
 
@@ -369,22 +365,22 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::deleteResource:
                     {
-                        auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
+                        const auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
                         resources[deleteResourceCommand->resource - 1].reset();
                         break;
                     }
 
                     case Command::Type::initRenderTarget:
                     {
-                        auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
+                        const auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
                         std::set<Texture*> colorTextures;
                         for (const auto colorTextureId : initRenderTargetCommand->colorTextures)
                             colorTextures.insert(getResource<Texture>(colorTextureId));
 
                         auto renderTarget = std::make_unique<RenderTarget>(*this,
-                                                                            colorTextures,
-                                                                            getResource<Texture>(initRenderTargetCommand->depthTexture));
+                                                                           colorTextures,
+                                                                           getResource<Texture>(initRenderTargetCommand->depthTexture));
 
                         if (initRenderTargetCommand->renderTarget > resources.size())
                             resources.resize(initRenderTargetCommand->renderTarget);
@@ -394,7 +390,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setRenderTarget:
                     {
-                        auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+                        const auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
                         if (currentRenderTarget)
                             currentRenderTarget->resolve();
@@ -418,7 +414,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::clearRenderTarget:
                     {
-                        auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                        const auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                         FLOAT frameBufferClearColor[4]{clearCommand->clearColor.normR(),
                             clearCommand->clearColor.normG(),
@@ -434,9 +430,9 @@ namespace ouzel::graphics::d3d11
                             if (clearCommand->clearDepthBuffer || clearCommand->clearStencilBuffer)
                                 if (ID3D11DepthStencilView* view = currentRenderTarget->getDepthStencilView())
                                     context->ClearDepthStencilView(view,
-                                                                    (clearCommand->clearDepthBuffer ? D3D11_CLEAR_DEPTH : 0) | (clearCommand->clearStencilBuffer ? D3D11_CLEAR_STENCIL : 0),
-                                                                    clearCommand->clearDepth,
-                                                                    static_cast<UINT8>(clearCommand->clearStencil));
+                                                                   (clearCommand->clearDepthBuffer ? D3D11_CLEAR_DEPTH : 0) | (clearCommand->clearStencilBuffer ? D3D11_CLEAR_STENCIL : 0),
+                                                                   clearCommand->clearDepth,
+                                                                   static_cast<UINT8>(clearCommand->clearStencil));
                         }
                         else
                         {
@@ -445,9 +441,9 @@ namespace ouzel::graphics::d3d11
 
                             if (clearCommand->clearDepthBuffer)
                                 context->ClearDepthStencilView(depthStencilView.get(),
-                                                                (clearCommand->clearDepthBuffer ? D3D11_CLEAR_DEPTH : 0) | (clearCommand->clearStencilBuffer ? D3D11_CLEAR_STENCIL : 0),
-                                                                clearCommand->clearDepth,
-                                                                static_cast<UINT8>(clearCommand->clearStencil));
+                                                               (clearCommand->clearDepthBuffer ? D3D11_CLEAR_DEPTH : 0) | (clearCommand->clearStencilBuffer ? D3D11_CLEAR_STENCIL : 0),
+                                                               clearCommand->clearDepth,
+                                                               static_cast<UINT8>(clearCommand->clearStencil));
                         }
 
                         break;
@@ -455,7 +451,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setScissorTest:
                     {
-                        auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
+                        const auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
                         if (setScissorTestCommand->enabled)
                         {
@@ -477,7 +473,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setViewport:
                     {
-                        auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
+                        const auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
                         D3D11_VIEWPORT viewport;
                         viewport.MinDepth = 0.0F;
@@ -493,22 +489,22 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::initDepthStencilState:
                     {
-                        auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                        const auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
                         auto depthStencilState = std::make_unique<DepthStencilState>(*this,
-                                                                                        initDepthStencilStateCommand->depthTest,
-                                                                                        initDepthStencilStateCommand->depthWrite,
-                                                                                        initDepthStencilStateCommand->compareFunction,
-                                                                                        initDepthStencilStateCommand->stencilEnabled,
-                                                                                        initDepthStencilStateCommand->stencilReadMask,
-                                                                                        initDepthStencilStateCommand->stencilWriteMask,
-                                                                                        initDepthStencilStateCommand->frontFaceStencilFailureOperation,
-                                                                                        initDepthStencilStateCommand->frontFaceStencilDepthFailureOperation,
-                                                                                        initDepthStencilStateCommand->frontFaceStencilPassOperation,
-                                                                                        initDepthStencilStateCommand->frontFaceStencilCompareFunction,
-                                                                                        initDepthStencilStateCommand->backFaceStencilFailureOperation,
-                                                                                        initDepthStencilStateCommand->backFaceStencilDepthFailureOperation,
-                                                                                        initDepthStencilStateCommand->backFaceStencilPassOperation,
-                                                                                        initDepthStencilStateCommand->backFaceStencilCompareFunction);
+                                                                                     initDepthStencilStateCommand->depthTest,
+                                                                                     initDepthStencilStateCommand->depthWrite,
+                                                                                     initDepthStencilStateCommand->compareFunction,
+                                                                                     initDepthStencilStateCommand->stencilEnabled,
+                                                                                     initDepthStencilStateCommand->stencilReadMask,
+                                                                                     initDepthStencilStateCommand->stencilWriteMask,
+                                                                                     initDepthStencilStateCommand->frontFaceStencilFailureOperation,
+                                                                                     initDepthStencilStateCommand->frontFaceStencilDepthFailureOperation,
+                                                                                     initDepthStencilStateCommand->frontFaceStencilPassOperation,
+                                                                                     initDepthStencilStateCommand->frontFaceStencilCompareFunction,
+                                                                                     initDepthStencilStateCommand->backFaceStencilFailureOperation,
+                                                                                     initDepthStencilStateCommand->backFaceStencilDepthFailureOperation,
+                                                                                     initDepthStencilStateCommand->backFaceStencilPassOperation,
+                                                                                     initDepthStencilStateCommand->backFaceStencilCompareFunction);
 
                         if (initDepthStencilStateCommand->depthStencilState > resources.size())
                             resources.resize(initDepthStencilStateCommand->depthStencilState);
@@ -518,7 +514,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setDepthStencilState:
                     {
-                        auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
+                        const auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
                         if (setDepthStencilStateCommand->depthStencilState)
                         {
@@ -535,10 +531,10 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setPipelineState:
                     {
-                        auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
+                        const auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
-                        auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
-                        auto shader = getResource<Shader>(setPipelineStateCommand->shader);
+                        const auto blendState = getResource<BlendState>(setPipelineStateCommand->blendState);
+                        const auto shader = getResource<Shader>(setPipelineStateCommand->shader);
                         currentShader = shader;
 
                         if (blendState)
@@ -585,7 +581,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::draw:
                     {
-                        auto drawCommand = static_cast<const DrawCommand*>(command.get());
+                        const auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
                         // draw mesh buffer
                         auto indexBuffer = getResource<Buffer>(drawCommand->indexBuffer);
@@ -615,17 +611,17 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::initBlendState:
                     {
-                        auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
+                        const auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
                         auto blendState = std::make_unique<BlendState>(*this,
-                                                                        initBlendStateCommand->enableBlending,
-                                                                        initBlendStateCommand->colorBlendSource,
-                                                                        initBlendStateCommand->colorBlendDest,
-                                                                        initBlendStateCommand->colorOperation,
-                                                                        initBlendStateCommand->alphaBlendSource,
-                                                                        initBlendStateCommand->alphaBlendDest,
-                                                                        initBlendStateCommand->alphaOperation,
-                                                                        initBlendStateCommand->colorMask);
+                                                                       initBlendStateCommand->enableBlending,
+                                                                       initBlendStateCommand->colorBlendSource,
+                                                                       initBlendStateCommand->colorBlendDest,
+                                                                       initBlendStateCommand->colorOperation,
+                                                                       initBlendStateCommand->alphaBlendSource,
+                                                                       initBlendStateCommand->alphaBlendDest,
+                                                                       initBlendStateCommand->alphaOperation,
+                                                                       initBlendStateCommand->colorMask);
 
                         if (initBlendStateCommand->blendState > resources.size())
                             resources.resize(initBlendStateCommand->blendState);
@@ -635,13 +631,13 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::initBuffer:
                     {
-                        auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
+                        const auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
                         auto buffer = std::make_unique<Buffer>(*this,
-                                                                initBufferCommand->bufferType,
-                                                                initBufferCommand->flags,
-                                                                initBufferCommand->data,
-                                                                initBufferCommand->size);
+                                                               initBufferCommand->bufferType,
+                                                               initBufferCommand->flags,
+                                                               initBufferCommand->data,
+                                                               initBufferCommand->size);
 
                         if (initBufferCommand->buffer > resources.size())
                             resources.resize(initBufferCommand->buffer);
@@ -651,7 +647,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setBufferData:
                     {
-                        auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
+                        const auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
                         auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
                         buffer->setData(setBufferDataCommand->data);
@@ -660,16 +656,16 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::initShader:
                     {
-                        auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
+                        const auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
                         auto shader = std::make_unique<Shader>(*this,
-                                                                initShaderCommand->fragmentShader,
-                                                                initShaderCommand->vertexShader,
-                                                                initShaderCommand->vertexAttributes,
-                                                                initShaderCommand->fragmentShaderConstantInfo,
-                                                                initShaderCommand->vertexShaderConstantInfo,
-                                                                initShaderCommand->fragmentShaderFunction,
-                                                                initShaderCommand->vertexShaderFunction);
+                                                               initShaderCommand->fragmentShader,
+                                                               initShaderCommand->vertexShader,
+                                                               initShaderCommand->vertexAttributes,
+                                                               initShaderCommand->fragmentShaderConstantInfo,
+                                                               initShaderCommand->vertexShaderConstantInfo,
+                                                               initShaderCommand->fragmentShaderFunction,
+                                                               initShaderCommand->vertexShaderFunction);
 
                         if (initShaderCommand->shader > resources.size())
                             resources.resize(initShaderCommand->shader);
@@ -679,7 +675,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setShaderConstants:
                     {
-                        auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
+                        const auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                         if (!currentShader)
                             throw std::runtime_error("No shader set");
@@ -741,16 +737,16 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::initTexture:
                     {
-                        auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+                        const auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
                         auto texture = std::make_unique<Texture>(*this,
-                                                                    initTextureCommand->levels,
-                                                                    initTextureCommand->textureType,
-                                                                    initTextureCommand->flags,
-                                                                    initTextureCommand->sampleCount,
-                                                                    initTextureCommand->pixelFormat,
-                                                                    initTextureCommand->filter,
-                                                                    initTextureCommand->maxAnisotropy);
+                                                                 initTextureCommand->levels,
+                                                                 initTextureCommand->textureType,
+                                                                 initTextureCommand->flags,
+                                                                 initTextureCommand->sampleCount,
+                                                                 initTextureCommand->pixelFormat,
+                                                                 initTextureCommand->filter,
+                                                                 initTextureCommand->maxAnisotropy);
 
                         if (initTextureCommand->texture > resources.size())
                             resources.resize(initTextureCommand->texture);
@@ -760,7 +756,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setTextureData:
                     {
-                        auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+                        const auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
                         auto texture = getResource<Texture>(setTextureDataCommand->texture);
                         texture->setData(setTextureDataCommand->levels);
@@ -770,7 +766,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setTextureParameters:
                     {
-                        auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+                        const auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
                         auto texture = getResource<Texture>(setTextureParametersCommand->texture);
                         texture->setFilter(setTextureParametersCommand->filter);
@@ -784,7 +780,7 @@ namespace ouzel::graphics::d3d11
 
                     case Command::Type::setTextures:
                     {
-                        auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
+                        const auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
                         currentResourceViews.clear();
                         currentSamplerStates.clear();
@@ -820,8 +816,8 @@ namespace ouzel::graphics::d3d11
 
     IDXGIOutput* RenderDevice::getOutput() const
     {
-        auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
-        auto monitor = windowWin->getMonitor();
+        const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
+        const auto monitor = windowWin->getMonitor();
 
         if (!monitor)
             throw std::runtime_error("Window is not on any monitor");

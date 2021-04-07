@@ -278,7 +278,7 @@ namespace ouzel::graphics::metal
                 {
                     case Command::Type::resize:
                     {
-                        auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
+                        const auto resizeCommand = static_cast<const ResizeCommand*>(command.get());
                         const CGSize drawableSize = CGSizeMake(resizeCommand->size.v[0],
                                                                resizeCommand->size.v[1]);
                         metalLayer.drawableSize = drawableSize;
@@ -300,14 +300,14 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::deleteResource:
                     {
-                        auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
+                        const auto deleteResourceCommand = static_cast<const DeleteResourceCommand*>(command.get());
                         resources[deleteResourceCommand->resource - 1].reset();
                         break;
                     }
 
                     case Command::Type::initRenderTarget:
                     {
-                        auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
+                        const auto initRenderTargetCommand = static_cast<const InitRenderTargetCommand*>(command.get());
 
                         std::set<Texture*> colorTextures;
                         for (const auto colorTextureId : initRenderTargetCommand->colorTextures)
@@ -325,7 +325,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setRenderTarget:
                     {
-                        auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
+                        const auto setRenderTargetCommand = static_cast<const SetRenderTargetCommand*>(command.get());
 
                         MTLRenderPassDescriptorPtr newRenderPassDescriptor;
 
@@ -371,7 +371,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::clearRenderTarget:
                     {
-                        auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
+                        const auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
                         if (currentRenderCommandEncoder)
                             [currentRenderCommandEncoder endEncoding];
@@ -407,7 +407,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setScissorTest:
                     {
-                        auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
+                        const auto setScissorTestCommand = static_cast<const SetScissorTestCommand*>(command.get());
 
                         // create a new render command encoder to set up a new scissor rect
                         if (currentRenderCommandEncoder)
@@ -429,7 +429,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setViewport:
                     {
-                        auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
+                        const auto setViewportCommand = static_cast<const SetViewportCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw Error("Metal render command encoder not initialized");
@@ -449,7 +449,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::initDepthStencilState:
                     {
-                        auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
+                        const auto initDepthStencilStateCommand = static_cast<const InitDepthStencilStateCommand*>(command.get());
                         auto depthStencilState = std::make_unique<DepthStencilState>(*this,
                                                                                      initDepthStencilStateCommand->depthTest,
                                                                                      initDepthStencilStateCommand->depthWrite,
@@ -475,7 +475,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setDepthStencilState:
                     {
-                        auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
+                        const auto setDepthStencilStateCommand = static_cast<const SetDepthStencilStateCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw Error("Metal render command encoder not initialized");
@@ -496,7 +496,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setPipelineState:
                     {
-                        auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
+                        const auto setPipelineStateCommand = static_cast<const SetPipelineStateCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw Error("Metal render command encoder not initialized");
@@ -519,7 +519,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::draw:
                     {
-                        auto drawCommand = static_cast<const DrawCommand*>(command.get());
+                        const auto drawCommand = static_cast<const DrawCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw Error("Metal render command encoder not initialized");
@@ -551,7 +551,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::initBlendState:
                     {
-                        auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
+                        const auto initBlendStateCommand = static_cast<const InitBlendStateCommand*>(command.get());
 
                         auto blendState = std::make_unique<BlendState>(*this,
                                                                        initBlendStateCommand->enableBlending,
@@ -571,7 +571,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::initBuffer:
                     {
-                        auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
+                        const auto initBufferCommand = static_cast<const InitBufferCommand*>(command.get());
 
                         auto buffer = std::make_unique<Buffer>(*this,
                                                                 initBufferCommand->bufferType,
@@ -587,7 +587,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setBufferData:
                     {
-                        auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
+                        const auto setBufferDataCommand = static_cast<const SetBufferDataCommand*>(command.get());
 
                         auto buffer = getResource<Buffer>(setBufferDataCommand->buffer);
                         buffer->setData(setBufferDataCommand->data);
@@ -596,7 +596,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::initShader:
                     {
-                        auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
+                        const auto initShaderCommand = static_cast<const InitShaderCommand*>(command.get());
 
                         auto shader = std::make_unique<Shader>(*this,
                                                                initShaderCommand->fragmentShader,
@@ -615,7 +615,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setShaderConstants:
                     {
-                        auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
+                        const auto setShaderConstantsCommand = static_cast<const SetShaderConstantsCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw Error("Metal render command encoder not initialized");
@@ -728,7 +728,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::initTexture:
                     {
-                        auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
+                        const auto initTextureCommand = static_cast<const InitTextureCommand*>(command.get());
 
                         auto texture = std::make_unique<Texture>(*this,
                                                                  initTextureCommand->levels,
@@ -747,7 +747,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setTextureData:
                     {
-                        auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
+                        const auto setTextureDataCommand = static_cast<const SetTextureDataCommand*>(command.get());
 
                         auto texture = getResource<Texture>(setTextureDataCommand->texture);
                         texture->setData(setTextureDataCommand->levels);
@@ -757,7 +757,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setTextureParameters:
                     {
-                        auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
+                        const auto setTextureParametersCommand = static_cast<const SetTextureParametersCommand*>(command.get());
 
                         auto texture = getResource<Texture>(setTextureParametersCommand->texture);
                         texture->setFilter(setTextureParametersCommand->filter);
@@ -771,7 +771,7 @@ namespace ouzel::graphics::metal
 
                     case Command::Type::setTextures:
                     {
-                        auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
+                        const auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
                         if (!currentRenderCommandEncoder)
                             throw Error("Metal render command encoder not initialized");

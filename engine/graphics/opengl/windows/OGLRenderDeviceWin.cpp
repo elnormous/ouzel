@@ -174,7 +174,7 @@ namespace ouzel::graphics::opengl::windows
 
         const TempContext tempContext;
 
-        auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
+        const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
 
         deviceContext = GetDC(windowWin->getNativeWindow());
         if (!deviceContext)
@@ -326,7 +326,7 @@ namespace ouzel::graphics::opengl::windows
 
         if (deviceContext)
         {
-            auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
+            const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
             ReleaseDC(windowWin->getNativeWindow(), deviceContext);
         }
     }

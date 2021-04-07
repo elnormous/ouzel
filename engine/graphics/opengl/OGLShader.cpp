@@ -119,8 +119,8 @@ namespace ouzel::graphics::opengl
 
         vertexShaderId = renderDevice.glCreateShaderProc(GL_VERTEX_SHADER);
 
-        auto vertexShaderBuffer = reinterpret_cast<const GLchar*>(vertexShaderData.data());
-        auto vertexShaderSize = static_cast<GLint>(vertexShaderData.size());
+        const auto vertexShaderBuffer = reinterpret_cast<const GLchar*>(vertexShaderData.data());
+        const auto vertexShaderSize = static_cast<GLint>(vertexShaderData.size());
 
         renderDevice.glShaderSourceProc(vertexShaderId, 1, &vertexShaderBuffer, &vertexShaderSize);
         renderDevice.glCompileShaderProc(vertexShaderId);

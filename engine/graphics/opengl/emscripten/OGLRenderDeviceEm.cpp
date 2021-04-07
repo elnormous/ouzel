@@ -16,7 +16,7 @@ namespace ouzel::graphics::opengl::emscripten
     {
         EM_BOOL contextCallback(int eventType, const void* reserved, void* userData)
         {
-            auto renderDevice = static_cast<RenderDevice*>(userData);
+            const auto renderDevice = static_cast<RenderDevice*>(userData);
 
             if (eventType == EMSCRIPTEN_EVENT_WEBGLCONTEXTLOST)
             {

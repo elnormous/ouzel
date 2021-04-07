@@ -23,7 +23,7 @@ namespace ouzel::graphics::metal::ios
         {
             try
             {
-                auto renderDevice = static_cast<RenderDevice*>(userInfo);
+                const auto renderDevice = static_cast<RenderDevice*>(userInfo);
                 renderDevice->renderCallback();
             }
             catch (const std::exception& e)
@@ -39,7 +39,7 @@ namespace ouzel::graphics::metal::ios
         metal::RenderDevice(settings, initWindow, initCallback),
         displayLink(ios::renderCallback, this)
     {
-        auto windowIOS = static_cast<core::ios::NativeWindow*>(window.getNativeWindow());
+        const auto windowIOS = static_cast<core::ios::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowIOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

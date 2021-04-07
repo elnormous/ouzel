@@ -72,7 +72,7 @@ namespace ouzel::graphics::opengl::linux
         embedded = false;
 #endif
 
-        auto windowLinux = static_cast<core::linux::NativeWindow*>(window.getNativeWindow());
+        const auto windowLinux = static_cast<core::linux::NativeWindow*>(window.getNativeWindow());
 
 #if OUZEL_OPENGLES
         const auto nativeDisplay = EGL_DEFAULT_DISPLAY;
@@ -195,7 +195,7 @@ namespace ouzel::graphics::opengl::linux
         std::vector<Size<std::uint32_t, 2>> result;
 
 #if OUZEL_OPENGL_INTERFACE_GLX
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
+        const auto engineLinux = static_cast<core::linux::Engine*>(engine);
 
         int modeCount;
         XF86VidModeModeInfo** modeInfo;

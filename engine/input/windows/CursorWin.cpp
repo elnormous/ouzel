@@ -113,7 +113,7 @@ namespace ouzel::input::windows
                                nullptr,
                                DWORD{0}};
 
-            auto target = static_cast<unsigned char*>(targetPointer);
+            const auto target = static_cast<unsigned char*>(targetPointer);
 
             for (LONG i = 0; i < width * height; ++i)
             {

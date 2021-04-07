@@ -150,7 +150,7 @@ namespace ouzel::input::emscripten
 
         EM_BOOL emKeyCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent, void* userData)
         {
-            auto keyboardDevice = static_cast<KeyboardDevice*>(userData);
+            const auto keyboardDevice = static_cast<KeyboardDevice*>(userData);
 
             switch (eventType)
             {
@@ -168,7 +168,7 @@ namespace ouzel::input::emscripten
 
         EM_BOOL emMouseCallback(int eventType, const EmscriptenMouseEvent* mouseEvent, void* userData)
         {
-            auto mouseDevice = static_cast<MouseDevice*>(userData);
+            const auto mouseDevice = static_cast<MouseDevice*>(userData);
             Mouse::Button button;
 
             switch (mouseEvent->button)
@@ -212,7 +212,7 @@ namespace ouzel::input::emscripten
 
         EM_BOOL emWheelCallback(int eventType, const EmscriptenWheelEvent* wheelEvent, void* userData)
         {
-            auto mouseDevice = static_cast<MouseDevice*>(userData);
+            const auto mouseDevice = static_cast<MouseDevice*>(userData);
 
             if (eventType == EMSCRIPTEN_EVENT_WHEEL)
             {
@@ -232,7 +232,7 @@ namespace ouzel::input::emscripten
 
         EM_BOOL emPointerLockChangeCallback(int eventType, const EmscriptenPointerlockChangeEvent* pointerlockChangeEvent, void* userData)
         {
-            auto mouseDevice = static_cast<MouseDevice*>(userData);
+            const auto mouseDevice = static_cast<MouseDevice*>(userData);
 
             if (eventType == EMSCRIPTEN_EVENT_POINTERLOCKCHANGE)
             {
@@ -245,7 +245,7 @@ namespace ouzel::input::emscripten
 
         EM_BOOL emGamepadCallback(int eventType, const EmscriptenGamepadEvent* gamepadEvent, void* userData)
         {
-            auto inputSystemEm = static_cast<InputSystem*>(userData);
+            const auto inputSystemEm = static_cast<InputSystem*>(userData);
 
             if (eventType == EMSCRIPTEN_EVENT_GAMEPADCONNECTED)
             {
@@ -263,7 +263,7 @@ namespace ouzel::input::emscripten
 
         EM_BOOL emTouchCallback(int eventType, const EmscriptenTouchEvent* touchEvent, void* userData)
         {
-            auto touchpadDevice = static_cast<TouchpadDevice*>(userData);
+            const auto touchpadDevice = static_cast<TouchpadDevice*>(userData);
 
             for (int i = 0; i < touchEvent->numTouches; ++i)
             {
@@ -390,7 +390,7 @@ namespace ouzel::input::emscripten
     {
         for (const auto& i : gamepadDevices)
         {
-            auto gamepadDevice = static_cast<GamepadDevice*>(i.second.get());
+            const auto gamepadDevice = static_cast<GamepadDevice*>(i.second.get());
             gamepadDevice->update();
         }
     }

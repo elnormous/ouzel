@@ -70,11 +70,10 @@ namespace ouzel::graphics::opengl
         if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error(makeErrorCode(error), "Failed to upload texture data");
 
-        for (auto colorTexture : colorTextures)
-        {
+        for (const auto colorTexture : colorTextures)
             if (colorTexture)
             {
-                auto index = static_cast<GLenum>(colorTextures.size() - 1);
+                const auto index = static_cast<GLenum>(colorTextures.size() - 1);
                 renderDevice.bindFrameBuffer(frameBufferId);
 
                 if (colorTexture->getTextureId())
@@ -97,7 +96,6 @@ namespace ouzel::graphics::opengl
                 if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to check frame buffer status");
             }
-        }
 
         if (depthTexture)
         {

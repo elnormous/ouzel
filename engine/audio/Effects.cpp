@@ -68,7 +68,7 @@ namespace ouzel::audio
         delay = newDelay;
 
         audio.updateProcessor(processorId, [newDelay](mixer::Object* node) {
-            auto delayProcessor = static_cast<DelayProcessor*>(node);
+            const auto delayProcessor = static_cast<DelayProcessor*>(node);
             delayProcessor->setDelay(newDelay);
         });
     }
@@ -118,7 +118,7 @@ namespace ouzel::audio
         gain = newGain;
 
         audio.updateProcessor(processorId, [newGain](mixer::Object* node) {
-            auto gainProcessor = static_cast<GainProcessor*>(node);
+            const auto gainProcessor = static_cast<GainProcessor*>(node);
             gainProcessor->setGain(newGain);
         });
     }
@@ -179,7 +179,7 @@ namespace ouzel::audio
         position = newPosition;
 
         audio.updateProcessor(processorId, [newPosition](mixer::Object* node) {
-            auto pannerProcessor = static_cast<PannerProcessor*>(node);
+            const auto pannerProcessor = static_cast<PannerProcessor*>(node);
             pannerProcessor->setPosition(newPosition);
         });
     }
@@ -189,7 +189,7 @@ namespace ouzel::audio
         rolloffFactor = newRolloffFactor;
 
         audio.updateProcessor(processorId, [newRolloffFactor](mixer::Object* node) {
-            auto pannerProcessor = static_cast<PannerProcessor*>(node);
+            const auto pannerProcessor = static_cast<PannerProcessor*>(node);
             pannerProcessor->setRolloffFactor(newRolloffFactor);
         });
     }
@@ -199,7 +199,7 @@ namespace ouzel::audio
         minDistance = newMinDistance;
 
         audio.updateProcessor(processorId, [newMinDistance](mixer::Object* node) {
-            auto pannerProcessor = static_cast<PannerProcessor*>(node);
+            const auto pannerProcessor = static_cast<PannerProcessor*>(node);
             pannerProcessor->setMinDistance(newMinDistance);
         });
     }
@@ -209,7 +209,7 @@ namespace ouzel::audio
         maxDistance = newMaxDistance;
 
         audio.updateProcessor(processorId, [newMaxDistance](mixer::Object* node) {
-            auto pannerProcessor = static_cast<PannerProcessor*>(node);
+            const auto pannerProcessor = static_cast<PannerProcessor*>(node);
             pannerProcessor->setMaxDistance(newMaxDistance);
         });
     }
@@ -266,7 +266,7 @@ namespace ouzel::audio
         scale = newScale;
 
         audio.updateProcessor(processorId, [newScale](mixer::Object* node) {
-            auto pitchScaleProcessor = static_cast<PitchScaleProcessor*>(node);
+            const auto pitchScaleProcessor = static_cast<PitchScaleProcessor*>(node);
             pitchScaleProcessor->setScale(newScale);
         });
     }
@@ -312,7 +312,7 @@ namespace ouzel::audio
         shift = newShift;
 
         audio.updateProcessor(processorId, [newShift](mixer::Object* node) {
-            auto pitchShiftProcessor = static_cast<PitchShiftProcessor*>(node);
+            const auto pitchShiftProcessor = static_cast<PitchShiftProcessor*>(node);
             pitchShiftProcessor->setShift(newShift);
         });
     }

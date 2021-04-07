@@ -159,7 +159,7 @@ namespace ouzel::storage
                            &translationPointer,
                            &translationLength))
         {
-            auto translation = static_cast<const LANGANDCODEPAGE*>(translationPointer);
+            const auto translation = static_cast<const LANGANDCODEPAGE*>(translationPointer);
 
             for (UINT i = 0; i < translationLength / sizeof(LANGANDCODEPAGE); ++i)
             {

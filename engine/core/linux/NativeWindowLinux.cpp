@@ -134,7 +134,7 @@ namespace ouzel::core::linux
                 throw std::system_error(getLastError(), getErrorCategory(), "Failed to send X11 fullscreen message");
         }
 #elif OUZEL_SUPPORTS_DISPMANX
-        auto engineLinux = static_cast<Engine*>(engine);
+        const auto engineLinux = static_cast<Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
         DISPMANX_MODEINFO_T modeInfo;

@@ -32,7 +32,7 @@ namespace ouzel::graphics::metal::macos
 
             try
             {
-                auto renderDevice = static_cast<RenderDevice*>(userInfo);
+                const auto renderDevice = static_cast<RenderDevice*>(userInfo);
                 renderDevice->renderCallback();
             }
             catch (const std::exception& e)
@@ -50,7 +50,7 @@ namespace ouzel::graphics::metal::macos
                                const std::function<void(const Event&)>& initCallback):
         metal::RenderDevice(settings, initWindow, initCallback)
     {
-        auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
+        const auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

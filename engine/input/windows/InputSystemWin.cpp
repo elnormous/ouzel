@@ -31,7 +31,7 @@ namespace ouzel::input::windows
 
         BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
         {
-            auto inputSystemWin = static_cast<InputSystem*>(context);
+            const auto inputSystemWin = static_cast<InputSystem*>(context);
             inputSystemWin->handleDeviceConnect(didInstance);
 
             return DIENUM_CONTINUE;
@@ -239,7 +239,7 @@ namespace ouzel::input::windows
                                                  __uuidof(IWbemLocator), &wbemLocatorPointer); FAILED(result))
             throw std::system_error(result, std::system_category(), "Failed to create WMI locator instance");
 
-        auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
+        const auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
 
         BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
         BSTR className = SysAllocString(L"Win32_PNPEntity");
@@ -320,7 +320,7 @@ namespace ouzel::input::windows
 
             if (!found)
             {
-                auto windowWin = static_cast<core::windows::NativeWindow*>(engine->getWindow()->getNativeWindow());
+                const auto windowWin = static_cast<core::windows::NativeWindow*>(engine->getWindow()->getNativeWindow());
 
                 gamepadsDI.emplace_back(std::make_unique<GamepadDeviceDI>(*this, getNextDeviceId(),
                                                                           didInstance, directInput,

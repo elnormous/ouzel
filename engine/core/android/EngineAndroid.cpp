@@ -24,7 +24,7 @@ namespace ouzel::core::android
                     if (errno != EINTR)
                         throw std::system_error(errno, std::system_category(), "Failed to read from pipe");
 
-                auto engineAndroid = static_cast<Engine*>(data);
+                const auto engineAndroid = static_cast<Engine*>(data);
 
                 if (command == 1)
                     engineAndroid->executeAll();
@@ -48,7 +48,7 @@ namespace ouzel::core::android
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
-        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+        const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
         uriClass = static_cast<jclass>(jniEnv->NewGlobalRef(jniEnv->FindClass("android/net/Uri")));
         parseMethod = jniEnv->GetStaticMethodID(uriClass, "parse", "(Ljava/lang/String;)Landroid/net/Uri;");
@@ -64,7 +64,7 @@ namespace ouzel::core::android
 
         if (javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6) == JNI_OK)
         {
-            auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+            const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             if (mainActivity) jniEnv->DeleteGlobalRef(mainActivity);
             if (androidWindow) jniEnv->DeleteGlobalRef(androidWindow);
@@ -85,7 +85,7 @@ namespace ouzel::core::android
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
-        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+        const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
         mainActivity = jniEnv->NewGlobalRef(initMainActivity);
 
@@ -162,14 +162,14 @@ namespace ouzel::core::android
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
-        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+        const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
         if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(newSurface);
 
         if (active)
         {
-            auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
+            const auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
             windowAndroid->handleSurfaceChange(surface);
 
             if (graphics)
@@ -177,7 +177,7 @@ namespace ouzel::core::android
                 graphics::RenderDevice* renderDevice = graphics->getDevice();
                 if (renderDevice->getDriver() == graphics::Driver::openGL)
                 {
-                    auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
+                    const auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
                     renderDeviceOGLAndroid->reload();
                 }
             }
@@ -191,7 +191,7 @@ namespace ouzel::core::android
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
-        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+        const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
         const jint newOrientation = jniEnv->GetIntField(newConfig, orientationField);
 
@@ -228,7 +228,7 @@ namespace ouzel::core::android
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
             throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
-        auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+        const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
         if (surface)
         {
@@ -238,7 +238,7 @@ namespace ouzel::core::android
 
         if (active)
         {
-            auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
+            const auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
             windowAndroid->handleSurfaceDestroy();
 
             if (graphics)
@@ -246,7 +246,7 @@ namespace ouzel::core::android
                 graphics::RenderDevice* renderDevice = graphics->getDevice();
                 if (renderDevice->getDriver() == graphics::Driver::openGL)
                 {
-                    auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
+                    const auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
                     renderDeviceOGLAndroid->destroy();
                 }
             }
@@ -279,7 +279,7 @@ namespace ouzel::core::android
             if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
                 throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
-            auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+            const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             jstring actionString = jniEnv->NewStringUTF("android.intent.action.VIEW");
             jstring urlString = jniEnv->NewStringUTF(url.c_str());
@@ -311,7 +311,7 @@ namespace ouzel::core::android
             if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
                 throw std::system_error(result, errorCategory, "Failed to get JNI environment");
 
-            auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
+            const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
             if (newScreenSaverEnabled)
                 jniEnv->CallVoidMethod(androidWindow, clearFlagsMethod, AWINDOW_FLAG_KEEP_SCREEN_ON);

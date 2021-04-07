@@ -30,7 +30,7 @@ namespace ouzel::core::emscripten
         {
             if (eventType == EMSCRIPTEN_EVENT_ORIENTATIONCHANGE)
             {
-                auto engine = static_cast<Engine*>(userData);
+                const auto engine = static_cast<Engine*>(userData);
                 engine->handleOrientationChange(orientationChangeEvent->orientationIndex);
                 return EM_TRUE;
             }
@@ -89,7 +89,7 @@ namespace ouzel::core::emscripten
 
             if (audio->getDevice()->getDriver() == audio::Driver::openAL)
             {
-                auto audioDevice = static_cast<audio::openal::AudioDevice*>(audio->getDevice());
+                const auto audioDevice = static_cast<audio::openal::AudioDevice*>(audio->getDevice());
                 try
                 {
                     audioDevice->process();

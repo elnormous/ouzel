@@ -15,7 +15,7 @@ namespace ouzel::input::macos
 
         void deviceInput(void* ctx, IOReturn, void*, IOHIDValueRef value)
         {
-            auto gamepadDevice = static_cast<GamepadDeviceIOKit*>(ctx);
+            const auto gamepadDevice = static_cast<GamepadDeviceIOKit*>(ctx);
             gamepadDevice->handleInput(value);
         }
 

@@ -26,8 +26,7 @@ namespace ouzel::audio::opensl
         {
             try
             {
-                auto audioDevice = static_cast<AudioDevice*>(context);
-
+                const auto audioDevice = static_cast<AudioDevice*>(context);
                 audioDevice->enqueue(bufferQueue);
             }
             catch (const std::exception& e)

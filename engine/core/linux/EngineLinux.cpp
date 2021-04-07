@@ -325,7 +325,7 @@ namespace ouzel::core::linux
         auto& inputSystemLinux = inputManager->getInputSystem();
 
 #if OUZEL_SUPPORTS_X11
-        auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
+        const auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
 
         int xInputOpCode = 0;
         int eventCode;
@@ -528,7 +528,7 @@ namespace ouzel::core::linux
     void Engine::runOnMainThread(const std::function<void()>& func)
     {
 #if OUZEL_SUPPORTS_X11
-        auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
+        const auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
 
         XEvent event;
         event.type = ClientMessage;

@@ -33,7 +33,7 @@ namespace ouzel::graphics::opengl::macos
 
             try
             {
-                auto renderDevice = static_cast<RenderDevice*>(userInfo);
+                const auto renderDevice = static_cast<RenderDevice*>(userInfo);
                 renderDevice->renderCallback();
             }
             catch (const std::exception& e)
@@ -101,7 +101,7 @@ namespace ouzel::graphics::opengl::macos
         openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
         [openGLContext makeCurrentContext];
 
-        auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
+        const auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
         OpenGLView* openGLView = (OpenGLView*)windowMacOS->getNativeView();
 
         [openGLView setOpenGLContext:openGLContext];

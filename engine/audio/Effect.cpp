@@ -25,7 +25,7 @@ namespace ouzel::audio
         enabled = newEnabled;
 
         audio.updateProcessor(processorId, [newEnabled](mixer::Object* node) {
-            auto processor = static_cast<mixer::Processor*>(node);
+            const auto processor = static_cast<mixer::Processor*>(node);
             processor->setEnabled(newEnabled);
         });
     }

@@ -373,7 +373,7 @@ namespace
             }
             case WM_USER:
             {
-                auto engineWin = static_cast<ouzel::core::windows::Engine*>(ouzel::engine);
+                const auto engineWin = static_cast<ouzel::core::windows::Engine*>(ouzel::engine);
                 engineWin->executeAll();
                 break;
             }
@@ -633,7 +633,7 @@ namespace ouzel::core::windows
         {
             if (engine->getGraphics()->getDevice()->getDriver() == graphics::Driver::direct3D11)
             {
-                auto renderDevice = static_cast<graphics::d3d11::RenderDevice*>(engine->getGraphics()->getDevice());
+                const auto renderDevice = static_cast<graphics::d3d11::RenderDevice*>(engine->getGraphics()->getDevice());
                 renderDevice->setFullscreen(newFullscreen);
             }
         }

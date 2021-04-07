@@ -24,7 +24,7 @@ namespace ouzel::graphics::opengl::ios
         {
             try
             {
-                auto renderDevice = static_cast<RenderDevice*>(userInfo);
+                const auto renderDevice = static_cast<RenderDevice*>(userInfo);
                 renderDevice->renderCallback();
             }
             catch (const std::exception& e)
@@ -42,7 +42,7 @@ namespace ouzel::graphics::opengl::ios
     {
         embedded = true;
 
-        auto view = static_cast<core::ios::NativeWindow*>(window.getNativeWindow())->getNativeView();
+        const auto view = static_cast<core::ios::NativeWindow*>(window.getNativeWindow())->getNativeView();
 
         eaglLayer = (CAEAGLLayer*)view.layer;
         eaglLayer.opaque = YES;

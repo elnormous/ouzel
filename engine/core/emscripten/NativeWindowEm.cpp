@@ -13,7 +13,7 @@ namespace ouzel::core::emscripten
         {
             if (eventType == EMSCRIPTEN_EVENT_RESIZE)
             {
-                auto nativeWindowEm = static_cast<NativeWindow*>(userData);
+                const auto nativeWindowEm = static_cast<NativeWindow*>(userData);
                 nativeWindowEm->handleResize();
                 return EM_TRUE;
             }
@@ -25,7 +25,7 @@ namespace ouzel::core::emscripten
         {
             if (eventType == EMSCRIPTEN_EVENT_CANVASRESIZED)
             {
-                auto nativeWindowEm = static_cast<NativeWindow*>(userData);
+                const auto nativeWindowEm = static_cast<NativeWindow*>(userData);
                 nativeWindowEm->handleResize();
                 return EM_TRUE;
             }
@@ -37,7 +37,7 @@ namespace ouzel::core::emscripten
         {
             if (eventType == EMSCRIPTEN_EVENT_FULLSCREENCHANGE)
             {
-                auto nativeWindowEm = static_cast<NativeWindow*>(userData);
+                const auto nativeWindowEm = static_cast<NativeWindow*>(userData);
                 nativeWindowEm->handleFullscreenChange(fullscreenChangeEvent->isFullscreen == EM_TRUE);
                 return EM_TRUE;
             }

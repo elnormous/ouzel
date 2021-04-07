@@ -19,7 +19,7 @@ namespace ouzel::graphics::metal::tvos
         {
             try
             {
-                auto renderDevice = static_cast<RenderDevice*>(userInfo);
+                const auto renderDevice = static_cast<RenderDevice*>(userInfo);
                 renderDevice->renderCallback();
             }
             catch (const std::exception& e)
@@ -35,7 +35,7 @@ namespace ouzel::graphics::metal::tvos
         metal::RenderDevice(settings, initWindow, initCallback),
         displayLink(tvos::renderCallback, this)
     {
-        auto windowTVOS = static_cast<core::tvos::NativeWindow*>(window.getNativeWindow());
+        const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowTVOS->getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;

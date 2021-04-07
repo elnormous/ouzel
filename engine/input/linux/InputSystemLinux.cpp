@@ -30,7 +30,7 @@ namespace ouzel::input::linux
 #endif
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
+        const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
         char data[1] = {0};
@@ -71,7 +71,7 @@ namespace ouzel::input::linux
     InputSystem::~InputSystem()
     {
 #if OUZEL_SUPPORTS_X11
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
+        const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         if (emptyCursor != None) XFreeCursor(engineLinux->getDisplay(), emptyCursor);
 #endif
     }
@@ -247,8 +247,8 @@ namespace ouzel::input::linux
 #if OUZEL_SUPPORTS_X11
     void InputSystem::updateCursor() const
     {
-        auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto engineLinux = static_cast<core::linux::Engine*>(engine);
+        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
         auto display = engineLinux->getDisplay();
         auto window = windowLinux->getNativeWindow();
 

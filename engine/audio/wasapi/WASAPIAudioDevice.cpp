@@ -195,7 +195,7 @@ namespace ouzel::audio::wasapi
         CoTaskMemFree(audioClientWaveFormat);
 
         constexpr std::uint64_t timesPerSecond = 10'000'000U;
-        auto bufferPeriod = static_cast<REFERENCE_TIME>(512U * timesPerSecond / waveFormat.nSamplesPerSec);
+        const auto bufferPeriod = static_cast<REFERENCE_TIME>(512U * timesPerSecond / waveFormat.nSamplesPerSec);
 
         WAVEFORMATEX* closesMatch;
         if (!FAILED(audioClient->IsFormatSupported(AUDCLNT_SHAREMODE_SHARED,
@@ -208,11 +208,11 @@ namespace ouzel::audio::wasapi
         CoTaskMemFree(closesMatch);
 
         if (const auto floatResult = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
-                                                                streamFlags,
-                                                                bufferPeriod,
-                                                                0,
-                                                                &waveFormat,
-                                                                nullptr); FAILED(floatResult))
+                                                             streamFlags,
+                                                             bufferPeriod,
+                                                             0,
+                                                             &waveFormat,
+                                                             nullptr); FAILED(floatResult))
         {
             waveFormat.wFormatTag = WAVE_FORMAT_PCM;
             waveFormat.wBitsPerSample = sizeof(std::int16_t) * 8;
@@ -220,11 +220,11 @@ namespace ouzel::audio::wasapi
             waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 
             if (const auto pcmResult = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
-                                                                streamFlags,
-                                                                bufferPeriod,
-                                                                0,
-                                                                &waveFormat,
-                                                                nullptr); FAILED(pcmResult))
+                                                               streamFlags,
+                                                               bufferPeriod,
+                                                               0,
+                                                               &waveFormat,
+                                                               nullptr); FAILED(pcmResult))
                 throw std::system_error(pcmResult, errorCategory, "Failed to initialize audio client");
 
             sampleFormat = SampleFormat::signedInt16;

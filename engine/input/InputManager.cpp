@@ -208,91 +208,91 @@ namespace ouzel::input
             case InputSystem::Event::Type::gamepadButtonChange:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto gamepad = static_cast<Gamepad*>(i->second.get());
+                    const auto gamepad = static_cast<Gamepad*>(i->second.get());
                     return gamepad->handleButtonValueChange(event.gamepadButton, event.pressed, event.value);
                 }
                 break;
             case InputSystem::Event::Type::keyboardKeyPress:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto keyboardController = static_cast<Keyboard*>(i->second.get());
+                    const auto keyboardController = static_cast<Keyboard*>(i->second.get());
                     return keyboardController->handleKeyPress(event.keyboardKey);
                 }
                 break;
             case InputSystem::Event::Type::keyboardKeyRelease:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto keyboardController = static_cast<Keyboard*>(i->second.get());
+                    const auto keyboardController = static_cast<Keyboard*>(i->second.get());
                     return keyboardController->handleKeyRelease(event.keyboardKey);
                 }
                 break;
             case InputSystem::Event::Type::mousePress:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto mouseController = static_cast<Mouse*>(i->second.get());
+                    const auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleButtonPress(event.mouseButton, event.position);
                 }
                 break;
             case InputSystem::Event::Type::mouseRelease:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto mouseController = static_cast<Mouse*>(i->second.get());
+                    const auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleButtonRelease(event.mouseButton, event.position);
                 }
                 break;
             case InputSystem::Event::Type::mouseScroll:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto mouseController = static_cast<Mouse*>(i->second.get());
+                    const auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleScroll(event.scroll, event.position);
                 }
                 break;
             case InputSystem::Event::Type::mouseMove:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto mouseController = static_cast<Mouse*>(i->second.get());
+                    const auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleMove(event.position);
                 }
                 break;
             case InputSystem::Event::Type::mouseRelativeMove:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto mouseController = static_cast<Mouse*>(i->second.get());
+                    const auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleRelativeMove(event.position);
                 }
                 break;
             case InputSystem::Event::Type::mouseLockChanged:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto mouseController = static_cast<Mouse*>(i->second.get());
+                    const auto mouseController = static_cast<Mouse*>(i->second.get());
                     return mouseController->handleCursorLockChange(event.locked);
                 }
                 break;
             case InputSystem::Event::Type::touchBegin:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto touchpadController = static_cast<Touchpad*>(i->second.get());
+                    const auto touchpadController = static_cast<Touchpad*>(i->second.get());
                     return touchpadController->handleTouchBegin(event.touchId, event.position);
                 }
                 break;
             case InputSystem::Event::Type::touchMove:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto touchpadController = static_cast<Touchpad*>(i->second.get());
+                    const auto touchpadController = static_cast<Touchpad*>(i->second.get());
                     return touchpadController->handleTouchMove(event.touchId, event.position);
                 }
                 break;
             case InputSystem::Event::Type::touchEnd:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto touchpadController = static_cast<Touchpad*>(i->second.get());
+                    const auto touchpadController = static_cast<Touchpad*>(i->second.get());
                     return touchpadController->handleTouchEnd(event.touchId, event.position);
                 }
                 break;
             case InputSystem::Event::Type::touchCancel:
                 if (const auto i = controllerMap.find(event.deviceId); i != controllerMap.end())
                 {
-                    auto touchpadController = static_cast<Touchpad*>(i->second.get());
+                    const auto touchpadController = static_cast<Touchpad*>(i->second.get());
                     return touchpadController->handleTouchCancel(event.touchId, event.position);
                 }
                 break;
