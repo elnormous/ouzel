@@ -67,7 +67,7 @@ namespace ouzel::input
             std::size_t cursorResource;
             SystemCursor systemCursor;
             std::vector<std::uint8_t> data;
-            Size<float, 2> size;
+            Size<std::uint32_t, 2> size;
             graphics::PixelFormat pixelFormat;
             Vector<float, 2> hotSpot;
         };

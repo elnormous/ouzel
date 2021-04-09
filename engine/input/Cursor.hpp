@@ -31,7 +31,7 @@ namespace ouzel::input
         void init(SystemCursor systemCursor);
         void init(const std::string& filename, const Vector<float, 2>& hotSpot = Vector<float, 2>{});
         void init(const std::vector<std::uint8_t>& data,
-                  const Size<float, 2>& size,
+                  const Size<std::uint32_t, 2>& size,
                   graphics::PixelFormat pixelFormat,
                   const Vector<float, 2>& hotSpot);
 

@@ -142,14 +142,16 @@ namespace ouzel::input
                 throw std::runtime_error("Unsupported pixel size");
         }
 
-        init(imageData,
-             Size<float, 2>{static_cast<float>(width), static_cast<float>(height)},
-             pixelFormat,
-             hotSpot);
+        const auto size = Size<std::uint32_t, 2>{
+            static_cast<std::uint32_t>(width),
+            static_cast<std::uint32_t>(height)
+        };
+
+        init(imageData, size, pixelFormat, hotSpot);
     }
 
     void Cursor::init(const std::vector<std::uint8_t>& data,
-                      const Size<float, 2>& size,
+                      const Size<std::uint32_t, 2>& size,
                       graphics::PixelFormat pixelFormat,
                       const Vector<float, 2>& hotSpot)
     {

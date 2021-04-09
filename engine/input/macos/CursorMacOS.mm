@@ -30,7 +30,7 @@ namespace ouzel::input::macos
     }
 
     Cursor::Cursor(const std::vector<std::uint8_t>& newData,
-                   const Size<float, 2>& size,
+                   const Size<std::uint32_t, 2>& size,
                    graphics::PixelFormat pixelFormat,
                    const Vector<float, 2>& hotSpot):
         data(newData)
@@ -62,7 +62,7 @@ namespace ouzel::input::macos
 
             [image addRepresentation:imageRep];
             cursor = [[NSCursor alloc] initWithImage:image
-                                                hotSpot:NSMakePoint(hotSpot.v[0], size.v[1] - hotSpot.v[1] - 1.0F)];
+                                             hotSpot:NSMakePoint(hotSpot.v[0], static_cast<float>(size.v[1]) - hotSpot.v[1] - 1.0F)];
         }
     }
 
