@@ -10,7 +10,7 @@ namespace ouzel
 {
     Language::Language(const std::vector<std::byte>& data)
     {
-        if (data.size() < 5 * sizeof(std::uint32_t))
+        if (data.size() < 5U * sizeof(std::uint32_t))
             throw std::runtime_error("Not enough data");
 
         const auto magic = static_cast<std::uint32_t>(data[0]) |

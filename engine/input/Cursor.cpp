@@ -81,7 +81,6 @@ namespace ouzel::input
                 imageData.resize(static_cast<std::size_t>(width * height * 4));
 
                 for (int y = 0; y < height; ++y)
-                {
                     for (int x = 0; x < width; ++x)
                     {
                         const auto sourceOffset = static_cast<std::size_t>(y * height + x);
@@ -91,7 +90,6 @@ namespace ouzel::input
                         imageData[destinationOffset + 2] = tempData.get()[sourceOffset];
                         imageData[destinationOffset + 3] = 255;
                     }
-                }
                 break;
             }
             case STBI_grey_alpha:
@@ -102,7 +100,6 @@ namespace ouzel::input
                 imageData.resize(static_cast<std::size_t>(width * height * 4));
 
                 for (int y = 0; y < height; ++y)
-                {
                     for (int x = 0; x < width; ++x)
                     {
                         const auto sourceOffset = static_cast<std::size_t>((y * height + x) * 2);
@@ -112,7 +109,6 @@ namespace ouzel::input
                         imageData[destinationOffset + 2] = tempData.get()[sourceOffset + 0];
                         imageData[destinationOffset + 3] = tempData.get()[sourceOffset + 1];
                     }
-                }
                 break;
             }
             case STBI_rgb:
@@ -123,7 +119,6 @@ namespace ouzel::input
                 imageData.resize(static_cast<std::size_t>(width * height * 4));
 
                 for (int y = 0; y < height; ++y)
-                {
                     for (int x = 0; x < width; ++x)
                     {
                         const auto sourceOffset = static_cast<std::size_t>((y * height + x) * 3);
@@ -133,7 +128,6 @@ namespace ouzel::input
                         imageData[destinationOffset + 2] = tempData.get()[sourceOffset + 2];
                         imageData[destinationOffset + 3] = 255;
                     }
-                }
                 break;
             }
             case STBI_rgb_alpha:
