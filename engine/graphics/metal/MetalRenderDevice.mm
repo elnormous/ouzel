@@ -835,7 +835,7 @@ namespace ouzel::graphics::metal
     {
         if (!desc.blendState || !desc.shader || !desc.sampleCount) return nil;
 
-        auto pipelineStateIterator = pipelineStates.find(desc);
+        const auto pipelineStateIterator = pipelineStates.find(desc);
 
         if (pipelineStateIterator != pipelineStates.end())
             return pipelineStateIterator->second.get();

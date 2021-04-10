@@ -382,7 +382,7 @@ namespace ouzel::json
                             iterator = skipWhitespaces(iterator, end);
                         }
 
-                        auto [key, stringIterator] = parseString(iterator, end);
+                        const auto [key, stringIterator] = parseString(iterator, end);
                         iterator = skipWhitespaces(stringIterator, end);
 
                         if (static_cast<char>(*iterator++) != ':')
@@ -390,7 +390,7 @@ namespace ouzel::json
 
                         iterator = skipWhitespaces(iterator, end);
 
-                        auto [value, valueIterator] = parseValue(iterator, end);
+                        const auto [value, valueIterator] = parseValue(iterator, end);
                         iterator = valueIterator;
                         result[key] = std::move(value);
                     }
@@ -423,7 +423,7 @@ namespace ouzel::json
                             iterator = skipWhitespaces(iterator, end);
                         }
 
-                        auto [value, valueIterator] = parseValue(iterator, end);
+                        const auto [value, valueIterator] = parseValue(iterator, end);
                         iterator = valueIterator;
                         result.pushBack(value);
                     }
@@ -508,7 +508,7 @@ namespace ouzel::json
                 }
                 else if (static_cast<char>(*iterator) == '"')
                 {
-                    auto [stringValue, stringIterator] = parseString(iterator, end);
+                    const auto [stringValue, stringIterator] = parseString(iterator, end);
                     iterator = stringIterator;
                     return std::pair(Value{stringValue}, iterator);
                 }
@@ -518,17 +518,17 @@ namespace ouzel::json
                     constexpr char falseString[] = {'f', 'a', 'l', 's', 'e'};
                     constexpr char nullString[] = {'n', 'u', 'l', 'l'};
 
-                    auto [isTrue, trueIterator] = isSame(iterator, end, std::begin(trueString), std::end(trueString));
+                    const auto [isTrue, trueIterator] = isSame(iterator, end, std::begin(trueString), std::end(trueString));
                     iterator = trueIterator;
                     if (isTrue)
                         return std::pair(Value{true}, iterator);
 
-                    auto [isFalse, falseIterator] = isSame(iterator, end, std::begin(falseString), std::end(falseString));
+                    const auto [isFalse, falseIterator] = isSame(iterator, end, std::begin(falseString), std::end(falseString));
                     iterator = falseIterator;
                     if (isFalse)
                         return std::pair(Value{false}, iterator);
 
-                    auto [isNull, nullIterator] = isSame(iterator, end, std::begin(nullString), std::end(nullString));
+                    const auto [isNull, nullIterator] = isSame(iterator, end, std::begin(nullString), std::end(nullString));
                     iterator = nullIterator;
                     if (isNull)
                         return std::pair(Value{nullptr}, iterator);
