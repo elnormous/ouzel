@@ -27,8 +27,8 @@ namespace ouzel::visualstudio
         const auto libouzelProject = VcxProject(libouzelUuid, cppProjectGuid, "libouzel", storage::Path{"libouzel.vxxproj"}, {}, configurations);
         const auto ouzelProject = VcxProject(ouzelUuid, cppProjectGuid, "ouzel", storage::Path{"ouzel.vxxproj"}, {}, configurations);
 
-        const storage::Path projectFilename = project.getPath().getFilename();
-        const storage::Path projectDirectory = project.getPath().getDirectory();
+        const auto projectFilename = project.getPath().getFilename();
+        const auto projectDirectory = project.getPath().getDirectory();
 
         std::vector<VcxProject> platformProjects;
 
