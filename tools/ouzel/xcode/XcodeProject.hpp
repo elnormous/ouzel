@@ -33,8 +33,8 @@ namespace ouzel::xcode
     public:
         Project(const ouzel::Project& project)
         {
-            const storage::Path projectFilename = project.getPath().getFilename();
-            const storage::Path projectDirectory = project.getPath().getDirectory();
+            const auto projectFilename = project.getPath().getFilename();
+            const auto projectDirectory = project.getPath().getDirectory();
 
             auto pbxProject = alloc<PBXProject>();
             pbxProject->organization = project.getOrganization();
@@ -151,7 +151,7 @@ namespace ouzel::xcode
             std::vector<const PBXBuildFile*> buildFiles;
             std::vector<const PBXFileElement*> sourceFiles;
 
-            for (const auto sourceFile : project.getSourceFiles())
+            for (const auto& sourceFile : project.getSourceFiles())
             {
                 const auto extension = sourceFile.getExtension();
 
@@ -272,7 +272,7 @@ namespace ouzel::xcode
                     target.platform == Platform::iOs ||
                     target.platform == Platform::tvOs)
                 {
-                    const storage::Path targetPath = target.name;
+                    const storage::Path targetPath{target.name};
 
                     auto nativeTarget = alloc<PBXNativeTarget>();
                     nativeTarget->name = target.name;

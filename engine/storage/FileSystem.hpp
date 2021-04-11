@@ -246,7 +246,7 @@ namespace ouzel::storage
             }
             else
             {
-                Path result = appPath / filename;
+                auto result = appPath / filename;
 
                 if (fileExists(result))
                     return result;

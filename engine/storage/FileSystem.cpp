@@ -114,7 +114,7 @@ namespace ouzel::storage
                                              appDataPath); FAILED(hr))
             throw std::system_error(hr, std::system_category(), "Failed to get the path of the AppData directory");
 
-        Path path = Path{appDataPath, Path::Format::native};
+        auto path = Path{appDataPath, Path::Format::native};
 
         const auto instance = GetModuleHandleW(nullptr);
         if (!instance)
@@ -368,7 +368,7 @@ namespace ouzel::storage
             return fileExists(filename);
         else
         {
-            Path result = appPath / filename;
+            auto result = appPath / filename;
 
             if (fileExists(result))
                 return true;
