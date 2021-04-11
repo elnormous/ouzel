@@ -24,7 +24,7 @@ namespace ouzel
         Project(const storage::Path& initPath):
             path{initPath}
         {
-            storage::Path directoryPath = path.getDirectory();
+            const auto directoryPath = path.getDirectory();
 
             std::ifstream f(path, std::ios::binary);
             std::vector<char> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
@@ -86,11 +86,11 @@ namespace ouzel
         {
             for (const auto& asset : assets)
             {
-                const storage::Path assetPath = assetsPath / asset.path;
+                const auto assetPath = assetsPath / asset.path;
 
-                storage::Path resourceName = asset.path;
+                auto resourceName = asset.path;
                 resourceName.replaceExtension("otexture");
-                const storage::Path resourcePath = assetPath / resourceName;
+                const auto resourcePath = assetPath / resourceName;
 
                 const auto targetIterator = std::find_if(targets.begin(), targets.end(),
                                                          [targetName](const auto& target) noexcept {
