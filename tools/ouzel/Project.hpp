@@ -29,7 +29,7 @@ namespace ouzel
             std::ifstream f(path, std::ios::binary);
             std::vector<char> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
 
-            json::Value j = json::parse(data);
+            const auto j = json::parse(data);
             name = j["name"].as<std::string>();
             identifier = j["identifier"].as<std::string>();
             organization = j["organization"].as<std::string>();

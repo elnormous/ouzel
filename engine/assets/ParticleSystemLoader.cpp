@@ -20,7 +20,7 @@ namespace ouzel::assets
     {
         scene::ParticleSystemData particleSystemData;
 
-        const json::Value d = json::parse(data);
+        const auto d = json::parse(data);
 
         if (!d.hasMember("textureFileName") ||
             !d.hasMember("configName"))
