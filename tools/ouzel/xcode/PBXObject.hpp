@@ -30,7 +30,7 @@ namespace ouzel::xcode
     {
     public:
         PBXObject() = default;
-        PBXObject(const Id& initId): id(initId) {}
+        PBXObject(const Id& initId): id{initId} {}
         virtual ~PBXObject() = default;
 
         virtual std::string getIsa() const { return "PBXObject"; }

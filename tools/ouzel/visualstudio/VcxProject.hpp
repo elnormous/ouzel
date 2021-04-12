@@ -131,14 +131,14 @@ namespace ouzel::visualstudio
                    const storage::Path& p,
                    const std::vector<Guid>& d,
                    const std::vector<Configuration>& c):
-            type{t}, name{n}, path{p}, dependencies(d), configurations(c) {}
-        explicit VcxProject(const Guid& g,
-                            const Guid& t,
-                            const std::string& n,
-                            const storage::Path& p,
-                            const std::vector<Guid>& d,
-                            const std::vector<Configuration>& c):
-            guid{g}, type{t}, name{n}, path{p}, dependencies(d), configurations(c) {}
+            type{t}, name{n}, path{p}, dependencies{d}, configurations{c} {}
+        VcxProject(const Guid& g,
+                   const Guid& t,
+                   const std::string& n,
+                   const storage::Path& p,
+                   const std::vector<Guid>& d,
+                   const std::vector<Configuration>& c):
+            guid{g}, type{t}, name{n}, path{p}, dependencies{d}, configurations{c} {}
 
         std::string encode() const
         {

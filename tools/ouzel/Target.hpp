@@ -13,7 +13,7 @@ namespace ouzel
     public:
         Target(Platform initPlatform,
                const std::string& initName):
-            platform{initPlatform}, name(initName) {}
+            platform{initPlatform}, name{initName} {}
 
         const Platform platform;
         const std::string name;

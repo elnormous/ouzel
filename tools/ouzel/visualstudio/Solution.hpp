@@ -13,7 +13,7 @@ namespace ouzel::visualstudio
     {
     public:
         explicit Solution(const std::vector<std::reference_wrapper<const VcxProject>>& p):
-            projects(p) {}
+            projects{p} {}
 
         std::string encode() const
         {
