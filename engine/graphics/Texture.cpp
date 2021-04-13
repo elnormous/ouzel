@@ -51,14 +51,14 @@ namespace ouzel::graphics
             const std::uint32_t dstHeight = height >> 1;
             const std::uint32_t pitch = width * 1;
             resized.resize(dstWidth * dstHeight * 1);
-            const float* src = original.data();
-            float* dst = resized.data();
+            const auto* src = original.data();
+            auto* dst = resized.data();
 
             if (dstWidth > 0 && dstHeight > 0)
             {
                 for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                 {
-                    const float* pixel = src;
+                    const auto* pixel = src;
                     for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                     {
                         float a = 0.0F;
@@ -74,8 +74,7 @@ namespace ouzel::graphics
             {
                 for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 1)
                 {
-                    const float* pixel = src;
-
+                    const auto* pixel = src;
                     float a = 0.0F;
                     a += pixel[0];
                     a += pixel[pitch + 0];
@@ -84,7 +83,7 @@ namespace ouzel::graphics
             }
             else if (dstWidth > 0)
             {
-                const float* pixel = src;
+                const auto* pixel = src;
                 for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                 {
                     float a = 0.0F;
@@ -104,14 +103,14 @@ namespace ouzel::graphics
             const std::uint32_t dstHeight = height >> 1;
             const std::uint32_t pitch = width * 1;
             resized.resize(dstWidth * dstHeight * 1);
-            const float* src = original.data();
-            float* dst = resized.data();
+            const auto* src = original.data();
+            auto* dst = resized.data();
 
             if (dstWidth > 0 && dstHeight > 0)
             {
                 for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                 {
-                    const float* pixel = src;
+                    const auto* pixel = src;
                     for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                     {
                         float r = 0.0F;
@@ -127,8 +126,7 @@ namespace ouzel::graphics
             {
                 for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 1)
                 {
-                    const float* pixel = src;
-
+                    const auto* pixel = src;
                     float r = 0.0F;
                     r += pixel[0];
                     r += pixel[pitch + 0];
@@ -137,7 +135,7 @@ namespace ouzel::graphics
             }
             else if (dstWidth > 0)
             {
-                const float* pixel = src;
+                const auto* pixel = src;
                 for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 2, dst += 1)
                 {
                     float r = 0.0F;
@@ -157,14 +155,14 @@ namespace ouzel::graphics
             const std::uint32_t dstHeight = height >> 1;
             const std::uint32_t pitch = width * 2;
             resized.resize(dstWidth * dstHeight * 2);
-            const float* src = original.data();
-            float* dst = resized.data();
+            const auto* src = original.data();
+            auto* dst = resized.data();
 
             if (dstWidth > 0 && dstHeight > 0)
             {
                 for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                 {
-                    const float* pixel = src;
+                    const auto* pixel = src;
                     for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                     {
                         float r = 0.0F;
@@ -191,7 +189,7 @@ namespace ouzel::graphics
             {
                 for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 2)
                 {
-                    const float* pixel = src;
+                    const auto* pixel = src;
                     float r = 0.0F;
                     float g = 0.0F;
 
@@ -207,7 +205,7 @@ namespace ouzel::graphics
             }
             else if (dstWidth > 0)
             {
-                const float* pixel = src;
+                const auto* pixel = src;
                 for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 4, dst += 2)
                 {
                     float r = 0.0F;
@@ -232,14 +230,14 @@ namespace ouzel::graphics
             const std::uint32_t dstHeight = height >> 1;
             const std::uint32_t pitch = width * 4;
             resized.resize(dstWidth * dstHeight * 4);
-            const float* src = original.data();
-            float* dst = resized.data();
+            const auto* src = original.data();
+            auto* dst = resized.data();
 
             if (dstWidth > 0 && dstHeight > 0)
             {
                 for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2)
                 {
-                    const float* pixel = src;
+                    const auto* pixel = src;
                     for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                     {
                         float pixels = 0.0F;
@@ -305,7 +303,7 @@ namespace ouzel::graphics
             {
                 for (std::uint32_t y = 0; y < dstHeight; ++y, src += pitch * 2, dst += 4)
                 {
-                    const float* pixel = src;
+                    const auto* pixel = src;
 
                     float pixels = 0.0F;
                     float r = 0.0F;
@@ -349,7 +347,7 @@ namespace ouzel::graphics
             }
             else if (dstWidth > 0)
             {
-                const float* pixel = src;
+                const auto* pixel = src;
                 for (std::uint32_t x = 0; x < dstWidth; ++x, pixel += 8, dst += 4)
                 {
                     float pixels = 0.0F;
@@ -413,7 +411,7 @@ namespace ouzel::graphics
             const std::uint32_t pitch = size.width() * channelCount;
             decodedData.resize(size.width() * size.height() * channelCount);
             const std::uint8_t* src = encodedData.data();
-            float* dst = decodedData.data();
+            auto* dst = decodedData.data();
 
             switch (pixelFormat)
             {
@@ -479,8 +477,8 @@ namespace ouzel::graphics
             const std::uint32_t pixelSize = getPixelSize(pixelFormat);
             const std::uint32_t pitch = size.width() * pixelSize;
             encodedData.resize(size.width() * size.height() * pixelSize);
-            const float* src = decodedData.data();
-            std::uint8_t* dst = encodedData.data();
+            const auto* src = decodedData.data();
+            auto* dst = encodedData.data();
 
             switch (pixelFormat)
             {
@@ -488,7 +486,7 @@ namespace ouzel::graphics
                 case PixelFormat::rgba8UnsignedNormSRGB:
                     for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
-                        const float* pixel = src;
+                        const auto* pixel = src;
                         for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
                         {
                             dst[0] = gammaEncode(pixel[0]); // red
@@ -502,7 +500,7 @@ namespace ouzel::graphics
                 case PixelFormat::rg8UnsignedNorm:
                     for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
-                        const float* pixel = src;
+                        const auto* pixel = src;
                         for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
                         {
                             dst[0] = gammaEncode(pixel[0]); // red
@@ -514,7 +512,7 @@ namespace ouzel::graphics
                 case PixelFormat::r8UnsignedNorm:
                     for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
-                        const float* pixel = src;
+                        const auto* pixel = src;
                         for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                         {
                             dst[0] = gammaEncode(pixel[0]); // red
@@ -525,7 +523,7 @@ namespace ouzel::graphics
                 case PixelFormat::a8UnsignedNorm:
                     for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
                     {
-                        const float* pixel = src;
+                        const auto* pixel = src;
                         for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
                         {
                             dst[0] = static_cast<std::uint8_t>(std::round(pixel[0] * 255.0F)); // alpha

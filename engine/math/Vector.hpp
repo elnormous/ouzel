@@ -183,8 +183,8 @@ namespace ouzel
         template <auto X = N, std::enable_if_t<(X == 2)>* = nullptr>
         void rotate(const Vector<T, 2>& point, T angle) noexcept
         {
-            const float sinAngle = std::sin(angle);
-            const float cosAngle = std::cos(angle);
+            const auto sinAngle = std::sin(angle);
+            const auto cosAngle = std::cos(angle);
 
             if (point.isZero())
             {
