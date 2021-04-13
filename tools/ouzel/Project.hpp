@@ -14,8 +14,7 @@ namespace ouzel
     class ProjectError final: public std::logic_error
     {
     public:
-        explicit ProjectError(const std::string& str): std::logic_error(str) {}
-        explicit ProjectError(const char* str): std::logic_error(str) {}
+        using std::logic_error::logic_error;
     };
 
     class Project final

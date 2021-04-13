@@ -11,8 +11,7 @@ namespace ouzel::utf8
     class ParseError final: public std::logic_error
     {
     public:
-        explicit ParseError(const std::string& str): std::logic_error{str} {}
-        explicit ParseError(const char* str): std::logic_error{str} {}
+        using std::logic_error::logic_error;
     };
 
     template <class Iterator>

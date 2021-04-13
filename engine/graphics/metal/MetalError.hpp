@@ -10,8 +10,7 @@ namespace ouzel::graphics::metal
     class Error final: public std::runtime_error
     {
     public:
-        explicit Error(const std::string& str): std::runtime_error(str) {}
-        explicit Error(const char* str): std::runtime_error(str) {}
+        using std::runtime_error::runtime_error;
     };
 }
 

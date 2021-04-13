@@ -12,15 +12,13 @@ namespace ouzel::plist
     class TypeError final: public std::runtime_error
     {
     public:
-        explicit TypeError(const std::string& str): std::runtime_error(str) {}
-        explicit TypeError(const char* str): std::runtime_error(str) {}
+        using std::runtime_error::runtime_error;
     };
 
     class RangeError final: public std::runtime_error
     {
     public:
-        explicit RangeError(const std::string& str): std::runtime_error(str) {}
-        explicit RangeError(const char* str): std::runtime_error(str) {}
+        using std::runtime_error::runtime_error;
     };
 
     class Value final

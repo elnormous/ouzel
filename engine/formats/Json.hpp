@@ -16,22 +16,19 @@ namespace ouzel::json
     class ParseError final: public std::logic_error
     {
     public:
-        explicit ParseError(const std::string& str): std::logic_error(str) {}
-        explicit ParseError(const char* str): std::logic_error(str) {}
+        using std::logic_error::logic_error;
     };
 
     class TypeError final: public std::runtime_error
     {
     public:
-        explicit TypeError(const std::string& str): std::runtime_error(str) {}
-        explicit TypeError(const char* str): std::runtime_error(str) {}
+        using std::runtime_error::runtime_error;
     };
 
     class RangeError final: public std::runtime_error
     {
     public:
-        explicit RangeError(const std::string& str): std::runtime_error(str) {}
-        explicit RangeError(const char* str): std::runtime_error(str) {}
+        using std::runtime_error::runtime_error;
     };
 
     class Value final
