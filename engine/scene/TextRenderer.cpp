@@ -74,7 +74,12 @@ namespace ouzel::scene
         }
 
         const auto modelViewProj = renderViewProjection * transformMatrix;
-        const float colorVector[] = {color.normR(), color.normG(), color.normB(), color.normA() * opacity};
+        const auto colorVector = {
+            color.normR(),
+            color.normG(),
+            color.normB(),
+            color.normA() * opacity
+        };
 
         std::vector<std::vector<float>> fragmentShaderConstants(1);
         fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};

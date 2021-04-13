@@ -40,7 +40,7 @@ namespace ouzel::scene
         }
 
         const auto modelViewProj = renderViewProjection * transformMatrix;
-        const float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
+        const auto colorVector = {1.0F, 1.0F, 1.0F, opacity};
 
         for (const DrawCommand& drawCommand : drawCommands)
         {

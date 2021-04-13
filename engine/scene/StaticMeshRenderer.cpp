@@ -79,7 +79,7 @@ namespace ouzel::scene
                         wireframe);
 
         const auto modelViewProj = renderViewProjection * transformMatrix;
-        const float colorVector[] = {
+        const auto colorVector = {
             material->diffuseColor.normR(),
             material->diffuseColor.normG(),
             material->diffuseColor.normB(),

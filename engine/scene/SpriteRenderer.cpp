@@ -369,7 +369,7 @@ namespace ouzel::scene
                 currentFrame = currentAnimation->animation->frames.size() - 1;
 
             const auto modelViewProj = renderViewProjection * transformMatrix * offsetMatrix;
-            const float colorVector[] = {
+            const auto colorVector = {
                 material->diffuseColor.normR(),
                 material->diffuseColor.normG(),
                 material->diffuseColor.normB(),

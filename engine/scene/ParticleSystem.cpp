@@ -65,7 +65,7 @@ namespace ouzel::scene
                 renderViewProjection * transformMatrix :
                 throw std::runtime_error("Invalid position type");
 
-            const float colorVector[] = {1.0F, 1.0F, 1.0F, opacity};
+            const auto colorVector = {1.0F, 1.0F, 1.0F, opacity};
 
             std::vector<std::vector<float>> pixelShaderConstants(1);
             pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
