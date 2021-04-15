@@ -304,8 +304,7 @@ namespace ouzel::json
             {
                 const auto startIterator = hasByteOrderMark(begin, end) ? begin + 3 : begin;
                 const auto [result, valueIterator] = parseValue(startIterator, end);
-                const auto endIterator = skipWhitespaces(valueIterator, end);
-                if (endIterator != end)
+                if (const auto endIterator = skipWhitespaces(valueIterator, end); endIterator != end)
                     throw ParseError("Unexpected data");
 
                 return result;
