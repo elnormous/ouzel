@@ -61,7 +61,7 @@ namespace ouzel::input
                                   static_cast<int>(data.size()),
                                   &width, &height,
                                   &comp, STBI_default),
-            stbi_image_free
+            &stbi_image_free
         };
 
         if (!tempData)

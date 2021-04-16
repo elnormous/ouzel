@@ -46,7 +46,7 @@ namespace ouzel::core::linux
         using FreeMonitorsFunction = void(*)(XRRMonitorInfo*);
         std::unique_ptr<XRRMonitorInfo, FreeMonitorsFunction> monitors{
             XRRGetMonitors(display, rootWindow, True, &monitorCount),
-            XRRFreeMonitors
+            &XRRFreeMonitors
         };
 
         XRRMonitorInfo* primaryMonitor = (monitorCount > 0) ? &monitors.get()[0] : nullptr;

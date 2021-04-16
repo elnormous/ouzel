@@ -609,7 +609,7 @@ namespace ouzel::input::linux
                                 using FreeFunction = void(*)(void*);
                                 std::unique_ptr<input_mt_request_layout, FreeFunction> request{
                                     static_cast<input_mt_request_layout*>(malloc(size)),
-                                    free
+                                    &free
                                 };
 
                                 request->code = ABS_MT_TRACKING_ID;
