@@ -42,7 +42,7 @@ namespace ouzel::scene
         Ease(Animator& animator, Mode initModee, Func initFunc);
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
 
         Mode mode;
         Func func;
@@ -53,10 +53,10 @@ namespace ouzel::scene
     public:
         Fade(float initLength, float initOpacity, bool initRelative = false);
 
-        void play() final;
+        void play() override;
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
 
         float opacity;
         float startOpacity = 0.0F;
@@ -70,10 +70,10 @@ namespace ouzel::scene
     public:
         Move(float initLength, const Vector<float, 3>& initPosition, bool initRelative = false);
 
-        void play() final;
+        void play() override;
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
 
         Vector<float, 3> position;
         Vector<float, 3> startPosition;
@@ -89,7 +89,7 @@ namespace ouzel::scene
         explicit Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
     };
 
     class Repeat final: public Animator
@@ -97,10 +97,10 @@ namespace ouzel::scene
     public:
         explicit Repeat(Animator& animator, std::uint32_t initCount = 0);
 
-        void reset() final;
+        void reset() override;
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
 
         std::uint32_t count = 0;
         std::uint32_t currentCount = 0;
@@ -111,10 +111,10 @@ namespace ouzel::scene
     public:
         Rotate(float initLength, const Vector<float, 3>& initRotation, bool initRelative = false);
 
-        void play() final;
+        void play() override;
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
 
         Vector<float, 3> rotation;
         Vector<float, 3> startRotation;
@@ -128,10 +128,10 @@ namespace ouzel::scene
     public:
         Scale(float initLength, const Vector<float, 3>& initScale, bool initRelative = false);
 
-        void play() final;
+        void play() override;
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
 
         Vector<float, 3> scale;
         Vector<float, 3> startScale;
@@ -146,10 +146,10 @@ namespace ouzel::scene
         explicit Sequence(const std::vector<Animator*>& initAnimators);
         explicit Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
-        void play() final;
+        void play() override;
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
 
         Animator* currentAnimator = nullptr;
     };
@@ -159,10 +159,10 @@ namespace ouzel::scene
     public:
         Shake(float initLength, const Vector<float, 3>& initDistance, float initTimeScale);
 
-        void play() final;
+        void play() override;
 
     private:
-        void updateProgress() final;
+        void updateProgress() override;
 
         std::uint32_t seedX;
         std::uint32_t seedY;

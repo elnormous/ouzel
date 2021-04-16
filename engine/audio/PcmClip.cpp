@@ -16,12 +16,12 @@ namespace ouzel::audio
     public:
         explicit PcmStream(PcmData& pcmData);
 
-        void reset() final
+        void reset() override
         {
             position = 0;
         }
 
-        void generateSamples(std::uint32_t frames, std::vector<float>& samples) final;
+        void generateSamples(std::uint32_t frames, std::vector<float>& samples) override;
 
     private:
         std::uint32_t position = 0;
@@ -39,7 +39,7 @@ namespace ouzel::audio
 
         auto& getData() const noexcept { return data; }
 
-        std::unique_ptr<mixer::Stream> createStream() final
+        std::unique_ptr<mixer::Stream> createStream() override
         {
             return std::make_unique<PcmStream>(*this);
         }

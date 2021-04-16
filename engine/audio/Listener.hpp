@@ -38,7 +38,7 @@ namespace ouzel::audio
         void setRotation(const Quaternion<float>& newRotation) { rotation = newRotation; }
 
     private:
-        void updateTransform() final;
+        void updateTransform() override;
 
         Audio& audio;
 

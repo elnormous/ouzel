@@ -21,7 +21,7 @@ namespace ouzel::audio::mixer
     class RootObject final: public Object
     {
     public:
-        void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples) final
+        void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples) override
         {
             samples.resize(frames * channels);
             std::fill(samples.begin(), samples.end(), 0.0F);

@@ -76,7 +76,7 @@ namespace ouzel::audio
         void setMaxDistance(float newMaxDistance);
 
     private:
-        void updateTransform() final;
+        void updateTransform() override;
 
         Vector<float, 3> position;
         float rolloffFactor = 1.0F;

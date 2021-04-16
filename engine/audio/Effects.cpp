@@ -19,7 +19,7 @@ namespace ouzel::audio
         }
 
         void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                     std::vector<float>& samples) final
+                     std::vector<float>& samples) override
         {
             const auto delayFrames = static_cast<std::uint32_t>(delay * sampleRate);
             const auto bufferFrames = frames + delayFrames;
@@ -89,7 +89,7 @@ namespace ouzel::audio
         }
 
         void process(std::uint32_t, std::uint32_t, std::uint32_t,
-                     std::vector<float>& samples) final
+                     std::vector<float>& samples) override
         {
             for (auto& sample : samples)
                 sample *= gainFactor;
@@ -137,7 +137,7 @@ namespace ouzel::audio
         }
 
         void process(std::uint32_t, std::uint32_t, std::uint32_t,
-                     std::vector<float>&) final
+                     std::vector<float>&) override
         {
         }
 
@@ -234,7 +234,7 @@ namespace ouzel::audio
         }
 
         void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                     std::vector<float>& samples) final
+                     std::vector<float>& samples) override
         {
             pitchShift.resize(channels);
 
@@ -286,7 +286,7 @@ namespace ouzel::audio
         }
 
         void process(std::uint32_t, std::uint32_t, std::uint32_t,
-                     std::vector<float>&) final
+                     std::vector<float>&) override
         {
             // TODO: implement
         }
@@ -332,7 +332,7 @@ namespace ouzel::audio
         }
 
         void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                     std::vector<float>& samples) final
+                     std::vector<float>& samples) override
         {
             const auto delayFrames = static_cast<std::uint32_t>(delay * sampleRate);
             const auto bufferFrames = frames + delayFrames;
@@ -378,7 +378,7 @@ namespace ouzel::audio
     {
     public:
         void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                     std::vector<float>& samples) final
+                     std::vector<float>& samples) override
         {
         }
     };
@@ -393,7 +393,7 @@ namespace ouzel::audio
     {
     public:
         void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                     std::vector<float>& samples) final
+                     std::vector<float>& samples) override
         {
         }
     };

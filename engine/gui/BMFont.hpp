@@ -16,7 +16,7 @@ namespace ouzel::gui
         RenderData getRenderData(const std::string& text,
                                  Color color,
                                  float fontSize,
-                                 const Vector<float, 2>& anchor) const final;
+                                 const Vector<float, 2>& anchor) const override;
 
         float getStringWidth(const std::string& text) const;
 
