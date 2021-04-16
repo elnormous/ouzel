@@ -95,10 +95,9 @@ namespace ouzel::input
         auto getVibration(Motor motor) { return vibration[static_cast<std::uint32_t>(motor)]; }
         void setVibration(Motor motor, float speed);
 
-    protected:
+    private:
         bool handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
 
-    private:
         ButtonState buttonStates[static_cast<std::uint32_t>(Button::count)];
         std::int32_t playerIndex = -1;
         bool absoluteDpadValues = false;
