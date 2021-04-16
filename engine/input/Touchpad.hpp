@@ -20,13 +20,12 @@ namespace ouzel::input
 
         auto isScreen() const noexcept { return screen; }
 
-    protected:
+    private:
         bool handleTouchBegin(std::uint64_t touchId, const Vector<float, 2>& position, float force = 1.0F);
         bool handleTouchEnd(std::uint64_t touchId, const Vector<float, 2>& position, float force = 1.0F);
         bool handleTouchMove(std::uint64_t touchId, const Vector<float, 2>& position, float force = 1.0F);
         bool handleTouchCancel(std::uint64_t touchId, const Vector<float, 2>& position, float force = 1.0F);
 
-    private:
         std::unordered_map<std::uint64_t, Vector<float, 2>> touchPositions;
         bool screen = false;
     };

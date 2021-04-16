@@ -41,10 +41,9 @@ namespace ouzel::scene
 
         Ease(Animator& animator, Mode initModee, Func initFunc);
 
-    protected:
+    private:
         void updateProgress() final;
 
-    private:
         Mode mode;
         Func func;
     };
@@ -56,10 +55,9 @@ namespace ouzel::scene
 
         void play() final;
 
-    protected:
+    private:
         void updateProgress() final;
 
-    private:
         float opacity;
         float startOpacity = 0.0F;
         float targetOpacity = 0.0F;
@@ -74,10 +72,9 @@ namespace ouzel::scene
 
         void play() final;
 
-    protected:
+    private:
         void updateProgress() final;
 
-    private:
         Vector<float, 3> position;
         Vector<float, 3> startPosition;
         Vector<float, 3> targetPosition;
@@ -91,7 +88,7 @@ namespace ouzel::scene
         explicit Parallel(const std::vector<Animator*>& initAnimators);
         explicit Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
-    protected:
+    private:
         void updateProgress() final;
     };
 
@@ -102,10 +99,9 @@ namespace ouzel::scene
 
         void reset() final;
 
-    protected:
+    private:
         void updateProgress() final;
 
-    private:
         std::uint32_t count = 0;
         std::uint32_t currentCount = 0;
     };
@@ -117,10 +113,9 @@ namespace ouzel::scene
 
         void play() final;
 
-    protected:
+    private:
         void updateProgress() final;
 
-    private:
         Vector<float, 3> rotation;
         Vector<float, 3> startRotation;
         Vector<float, 3> targetRotation;
@@ -135,10 +130,9 @@ namespace ouzel::scene
 
         void play() final;
 
-    protected:
+    private:
         void updateProgress() final;
 
-    private:
         Vector<float, 3> scale;
         Vector<float, 3> startScale;
         Vector<float, 3> targetScale;
@@ -154,10 +148,9 @@ namespace ouzel::scene
 
         void play() final;
 
-    protected:
+    private:
         void updateProgress() final;
 
-    private:
         Animator* currentAnimator = nullptr;
     };
 
@@ -168,10 +161,9 @@ namespace ouzel::scene
 
         void play() final;
 
-    protected:
+    private:
         void updateProgress() final;
 
-    private:
         std::uint32_t seedX;
         std::uint32_t seedY;
         std::uint32_t seedZ;

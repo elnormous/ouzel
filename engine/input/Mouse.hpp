@@ -41,7 +41,7 @@ namespace ouzel::input
         auto getCursor() const noexcept { return cursor; }
         void setCursor(const Cursor* newCursor);
 
-    protected:
+    private:
         bool handleButtonPress(Mouse::Button button, const Vector<float, 2>& pos);
         bool handleButtonRelease(Mouse::Button button, const Vector<float, 2>& pos);
         bool handleMove(const Vector<float, 2>& pos);
@@ -49,7 +49,6 @@ namespace ouzel::input
         bool handleScroll(const Vector<float, 2>& scroll, const Vector<float, 2>& pos);
         bool handleCursorLockChange(bool locked);
 
-    private:
         Vector<float, 2> position;
         bool buttonStates[static_cast<std::uint32_t>(Button::count)]{false};
         bool cursorVisible = true;

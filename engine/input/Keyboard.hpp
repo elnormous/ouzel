@@ -188,11 +188,10 @@ namespace ouzel::input
 
         auto isKeyDown(Key key) const noexcept { return keyStates[static_cast<std::uint32_t>(key)]; }
 
-    protected:
+    private:
         bool handleKeyPress(Keyboard::Key key);
         bool handleKeyRelease(Keyboard::Key key);
 
-    private:
         bool keyStates[static_cast<std::uint32_t>(Key::count)]{false};
     };
 }
