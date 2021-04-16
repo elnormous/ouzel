@@ -155,27 +155,25 @@ namespace ouzel::assets
             if (newSpriteData.texture)
             {
                 const auto spriteSize = Size<float, 2>{
-                    textureSize.v[0] / spritesX,
-                    textureSize.v[1] / spritesY
+                    textureSize.v[0] / static_cast<float>(spritesX),
+                    textureSize.v[1] / static_cast<float>(spritesY)
                 };
 
                 scene::SpriteData::Animation animation;
                 animation.frames.reserve(spritesX * spritesY);
 
                 for (std::uint32_t x = 0; x < spritesX; ++x)
-                {
                     for (std::uint32_t y = 0; y < spritesY; ++y)
                     {
                         const Rect<float> rectangle{
-                            spriteSize.v[0] * x,
-                            spriteSize.v[1] * y,
+                            spriteSize.v[0] * static_cast<float>(x),
+                            spriteSize.v[1] * static_cast<float>(y),
                             spriteSize.v[0],
                             spriteSize.v[1]
                         };
 
                         animation.frames.emplace_back(filename, textureSize, rectangle, false, spriteSize, Vector<float, 2>{}, pivot);
                     }
-                }
 
                 newSpriteData.animations[""] = std::move(animation);
 
