@@ -33,11 +33,6 @@ namespace ouzel
         {
         }
 
-        constexpr auto isEmpty() const noexcept
-        {
-            return size.isZero();
-        }
-
         constexpr void setPosition(const T x, const T y) noexcept
         {
             position.v[0] = x;

@@ -186,7 +186,7 @@ namespace ouzel
             const auto sinAngle = std::sin(angle);
             const auto cosAngle = std::cos(angle);
 
-            if (point.isZero())
+            if (point.v[0] == T(0) || point.v[1] == T(0))
             {
                 const auto tempX = v[0] * cosAngle - v[1] * sinAngle;
                 v[1] = v[1] * cosAngle + v[0] * sinAngle;
@@ -282,13 +282,6 @@ namespace ouzel
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] != vec.v[i]) return true;
             return false;
-        }
-
-        auto isZero() const noexcept
-        {
-            for (const auto& c : v)
-                if (c != T(0)) return false;
-            return true;
         }
 
     private:

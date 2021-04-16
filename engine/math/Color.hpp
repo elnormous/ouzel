@@ -192,14 +192,6 @@ namespace ouzel
                 v[3] != c.v[3];
         }
 
-        constexpr auto isZero() const noexcept
-        {
-            return v[0] == 0 &&
-                v[1] == 0 &&
-                v[2] == 0 &&
-                v[3] == 0;
-        }
-
     private:
         static constexpr std::uint8_t hexToInt(const char c)
         {

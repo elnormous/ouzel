@@ -153,13 +153,6 @@ namespace ouzel
             return false;
         }
 
-        auto isZero() const noexcept
-        {
-            for (const auto& c : v)
-                if (c != T(0)) return false;
-            return true;
-        }
-
         auto volume() const noexcept
         {
             T result = 0;
