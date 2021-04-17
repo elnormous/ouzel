@@ -30,8 +30,8 @@
 
 namespace
 {
-    constexpr LONG_PTR SIGNATURE_MASK = 0xFFFFFF00;
-    constexpr LONG_PTR MI_WP_SIGNATURE = 0xFF515700;
+    constexpr LONG_PTR SIGNATURE_MASK = 0xFFFFFF00U;
+    constexpr LONG_PTR MI_WP_SIGNATURE = 0xFF515700U;
 
     ouzel::input::Keyboard::Key convertKeyCode(LPARAM lParam, WPARAM wParam) noexcept
     {

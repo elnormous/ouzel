@@ -72,7 +72,7 @@ namespace ouzel::graphics::opengl
         GLboolean depthMask = GL_TRUE;
         GLenum depthFunc = GL_LESS;
         bool stencilTestEnabled = false;
-        GLuint stencilMask = 0xFFFFFFFF;
+        GLuint stencilMask = 0xFFFFFFFFU;
 
         GLint viewportX = 0;
         GLint viewportY = 0;

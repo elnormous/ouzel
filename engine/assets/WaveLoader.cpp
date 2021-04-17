@@ -159,7 +159,7 @@ namespace ouzel::assets
                     soundData.assign(data.begin() + static_cast<int>(offset), data.begin() + static_cast<int>(offset + chunkSize));
 
                 // padding
-                offset += ((chunkSize + 1) & 0xFFFFFFFE);
+                offset += ((chunkSize + 1) & 0xFFFFFFFEU);
             }
 
             if (!formatTag)

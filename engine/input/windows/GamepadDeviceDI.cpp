@@ -18,7 +18,7 @@ namespace ouzel::input::windows
         // converts the angle to the hat value
         constexpr std::uint32_t getHatValue(std::uint32_t value) noexcept
         {
-            return (value == 0xFFFFFFFF) ?
+            return (value == 0xFFFFFFFFU) ?
                 8 : ((value + 4500 / 2) % 36000) / 4500; // round up
         }
     }

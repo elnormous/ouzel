@@ -21,10 +21,10 @@ namespace ouzel
 
         explicit constexpr Color(const std::uint32_t color) noexcept:
             v{{
-                static_cast<std::uint8_t>((color & 0xFF000000) >> 24),
-                static_cast<std::uint8_t>((color & 0x00FF0000) >> 16),
-                static_cast<std::uint8_t>((color & 0x0000FF00) >> 8),
-                static_cast<std::uint8_t>(color & 0x000000FF)
+                static_cast<std::uint8_t>((color & 0xFF000000U) >> 24),
+                static_cast<std::uint8_t>((color & 0x00FF0000U) >> 16),
+                static_cast<std::uint8_t>((color & 0x0000FF00U) >> 8),
+                static_cast<std::uint8_t>(color & 0x000000FFU)
             }}
         {
         }
@@ -59,10 +59,10 @@ namespace ouzel
                     for (const auto c : color)
                         intValue = intValue * 10 + decToInt(c);
 
-                    v[0] = static_cast<std::uint8_t>((intValue & 0xFF000000) >> 24);
-                    v[1] = static_cast<std::uint8_t>((intValue & 0x00FF0000) >> 16);
-                    v[2] = static_cast<std::uint8_t>((intValue & 0x0000FF00) >> 8);
-                    v[3] = static_cast<std::uint8_t>(intValue & 0x000000FF);
+                    v[0] = static_cast<std::uint8_t>((intValue & 0xFF000000U) >> 24);
+                    v[1] = static_cast<std::uint8_t>((intValue & 0x00FF0000U) >> 16);
+                    v[2] = static_cast<std::uint8_t>((intValue & 0x0000FF00U) >> 8);
+                    v[3] = static_cast<std::uint8_t>(intValue & 0x000000FFU);
                 }
             }
             else

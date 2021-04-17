@@ -836,7 +836,7 @@ namespace ouzel::graphics::opengl
                             if (clearCommand->clearStencilBuffer)
                             {
                                 setClearStencilValue(static_cast<GLint>(clearCommand->clearStencil));
-                                glStencilMaskProc(0xFFFFFFFF);
+                                glStencilMaskProc(0xFFFFFFFFU);
                             }
 
                             // disable the scissor test to clear entire render target
@@ -951,7 +951,7 @@ namespace ouzel::graphics::opengl
                             setDepthMask(GL_FALSE);
                             setDepthFunc(GL_LESS);
                             enableStencilTest(false);
-                            setStencilMask(0xFFFFFFFF);
+                            setStencilMask(0xFFFFFFFFU);
                         }
 
                         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)

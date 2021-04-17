@@ -50,7 +50,7 @@ namespace ouzel::input::windows
 
         const DIDEVICEINSTANCEW* instance = nullptr;
         IDirectInputDevice8W* device = nullptr;
-        DWORD hatValue = 0xFFFFFFFF;
+        DWORD hatValue = 0xFFFFFFFFU;
 
         struct Button final
         {

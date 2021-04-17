@@ -538,9 +538,9 @@ namespace ouzel::graphics::d3d11
                         currentShader = shader;
 
                         if (blendState)
-                            context->OMSetBlendState(blendState->getBlendState().get(), nullptr, 0xFFFFFFFF);
+                            context->OMSetBlendState(blendState->getBlendState().get(), nullptr, 0xFFFFFFFFU);
                         else
-                            context->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFF);
+                            context->OMSetBlendState(nullptr, nullptr, 0xFFFFFFFFU);
 
                         if (shader)
                         {

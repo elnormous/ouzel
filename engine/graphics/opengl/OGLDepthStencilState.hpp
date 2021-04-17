@@ -69,8 +69,8 @@ namespace ouzel::graphics::opengl
         GLboolean depthMask = GL_TRUE;
         GLenum compareFunction;
         bool stencilTest = false;
-        GLuint stencilReadMask = 0xFFFFFFFF;
-        GLuint stencilWriteMask = 0xFFFFFFFF;
+        GLuint stencilReadMask = 0xFFFFFFFFU;
+        GLuint stencilWriteMask = 0xFFFFFFFFU;
         GLenum frontFaceFail;
         GLenum frontFaceDepthFail;
         GLenum frontFacePass;

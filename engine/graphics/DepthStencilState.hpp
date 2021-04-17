@@ -42,8 +42,8 @@ namespace ouzel::graphics
         bool depthWrite = false;
         CompareFunction compareFunction;
         bool stencilEnabled = false;
-        std::uint32_t stencilReadMask = 0xFFFFFFFF;
-        std::uint32_t stencilWriteMask = 0xFFFFFFFF;
+        std::uint32_t stencilReadMask = 0xFFFFFFFFU;
+        std::uint32_t stencilWriteMask = 0xFFFFFFFFU;
         StencilOperation frontFaceStencilFailureOperation;
         StencilOperation frontFaceStencilDepthFailureOperation;
         StencilOperation frontFaceStencilPassOperation;
