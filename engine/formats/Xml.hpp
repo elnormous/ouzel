@@ -601,9 +601,7 @@ namespace ouzel::xml
                                     ++iterator; // skip the left angle bracket
                                     ++iterator; // skip the slash
 
-                                    std::string tag = parseName(iterator, end);
-
-                                    if (tag != result.getValue())
+                                    if (std::string tag = parseName(iterator, end); tag != result.getValue())
                                         throw ParseError("Tag not closed properly");
 
                                     if (iterator == end)
@@ -618,7 +616,7 @@ namespace ouzel::xml
                                 }
                                 else
                                 {
-                                    Node node = parse(iterator, end, preserveWhitespaces, preserveComments, preserveProcessingInstructions);
+                                    const auto node = parse(iterator, end, preserveWhitespaces, preserveComments, preserveProcessingInstructions);
 
                                     if ((preserveComments || node.getType() != Node::Type::comment) &&
                                         (preserveProcessingInstructions || node.getType() != Node::Type::processingInstruction))
@@ -794,8 +792,7 @@ namespace ouzel::xml
                             result.insert(result.end(), '"');
                         }
 
-                        const auto& children = node.getChildren();
-                        if (children.empty())
+                        if (const auto& children = node.getChildren(); children.empty())
                             result.insert(result.end(), {'/', '>'});
                         else
                         {

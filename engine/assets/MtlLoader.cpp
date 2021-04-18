@@ -179,9 +179,8 @@ namespace ouzel::assets
             else
             {
                 skipWhitespaces(iterator, data.end());
-                const auto keyword = parseString(iterator, data.end());
 
-                if (keyword == "newmtl")
+                if (const auto keyword = parseString(iterator, data.end()); keyword == "newmtl")
                 {
                     if (materialCount)
                     {

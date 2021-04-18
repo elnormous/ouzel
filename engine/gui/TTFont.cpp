@@ -161,11 +161,9 @@ namespace ouzel::gui
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
-            auto iter = chars.find(*i);
-
-            if (iter != chars.end())
+            if (auto iterator = chars.find(*i); iterator != chars.end())
             {
-                const auto& f = iter->second;
+                const auto& f = iterator->second;
 
                 const auto startIndex = static_cast<std::uint16_t>(vertices.size());
                 indices.push_back(startIndex + 0);

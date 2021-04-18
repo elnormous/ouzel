@@ -62,9 +62,8 @@ namespace ouzel::audio
         if (length > 0.0F)
         {
             const auto frameCount = static_cast<std::uint32_t>(length * data.getSampleRate());
-            auto neededSize = frames;
 
-            if (neededSize > 0)
+            if (auto neededSize = frames; neededSize > 0)
             {
                 if (frameCount - position < neededSize)
                 {

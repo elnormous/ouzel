@@ -146,8 +146,7 @@ namespace ouzel::ini
 
         Section operator[](const std::string& name) const
         {
-            const auto sectionIterator = sections.find(name);
-            if (sectionIterator != sections.end())
+            if (const auto sectionIterator = sections.find(name); sectionIterator != sections.end())
                 return sectionIterator->second;
 
             return Section();
@@ -155,8 +154,7 @@ namespace ouzel::ini
 
         void eraseSection(const std::string& name)
         {
-            const auto sectionIterator = sections.find(name);
-            if (sectionIterator != sections.end())
+            if (const auto sectionIterator = sections.find(name); sectionIterator != sections.end())
                 sections.erase(sectionIterator);
         }
 
@@ -387,9 +385,7 @@ namespace ouzel::ini
 
         for (const auto& section : data)
         {
-            const auto& name = section.first;
-
-            if (!name.empty())
+            if (const auto& name = section.first; !name.empty())
             {
                 result.push_back('[');
                 result.insert(result.end(), name.begin(), name.end());

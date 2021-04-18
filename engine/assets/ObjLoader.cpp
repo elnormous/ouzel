@@ -225,9 +225,8 @@ namespace ouzel::assets
             else
             {
                 skipWhitespaces(iterator, data.end());
-                const auto keyword = parseString(iterator, data.end());
 
-                if (keyword == "mtllib")
+                if (const auto keyword = parseString(iterator, data.end()); keyword == "mtllib")
                 {
                     skipWhitespaces(iterator, data.end());
                     const auto filename = parseString(iterator, data.end());
@@ -369,8 +368,7 @@ namespace ouzel::assets
 
                         std::uint32_t index = 0;
 
-                        const auto vertexIterator = vertexMap.find(i);
-                        if (vertexIterator == vertexMap.end())
+                        if (const auto vertexIterator = vertexMap.find(i); vertexIterator == vertexMap.end())
                         {
                             index = static_cast<std::uint32_t>(vertices.size());
                             vertexMap[i] = index;

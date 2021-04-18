@@ -370,9 +370,7 @@ namespace ouzel::gui
 
         for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
         {
-            const auto iterator = chars.find(*i);
-
-            if (iterator != chars.end())
+            if (const auto iterator = chars.find(*i); iterator != chars.end())
             {
                 const auto& f = iterator->second;
 
