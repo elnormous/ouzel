@@ -24,6 +24,7 @@
 #endif
 #include "Network.hpp"
 #include "Client.hpp"
+#include "../utils/Utils.hpp"
 
 namespace ouzel::network
 {
@@ -41,7 +42,7 @@ namespace ouzel::network
         if (const auto ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info); ret != 0)
             throw std::system_error(errno, std::system_category(), "Failed to get address info of " + address);
 
-        sockaddr_in* addr = reinterpret_cast<sockaddr_in*>(info->ai_addr);
+        sockaddr_in* addr = bitCast<sockaddr_in*>(info->ai_addr);
         const std::uint32_t result = ntohl(addr->sin_addr.s_addr);
 
         freeaddrinfo(info);
