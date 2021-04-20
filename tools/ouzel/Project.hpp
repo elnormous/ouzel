@@ -43,7 +43,7 @@ namespace ouzel
 
                     for (const auto& otherTarget : targets)
                         if (otherTarget.name == targetName)
-                            throw ProjectError("Name of the target must be unique");
+                            throw ProjectError{"Name of the target must be unique"};
 
                     targets.emplace_back(platform, targetName);
                 }

@@ -203,7 +203,7 @@ namespace ouzel::ini
                                 static_cast<char>(*iterator) == '\r')
                             {
                                 if (!parsedSection)
-                                    throw ParseError("Unexpected end of section");
+                                    throw ParseError{"Unexpected end of section"};
 
                                 ++iterator; // skip the newline
                                 break;
@@ -213,7 +213,7 @@ namespace ouzel::ini
                                 ++iterator; // skip the semicolon
 
                                 if (!parsedSection)
-                                    throw ParseError("Unexpected comment");
+                                    throw ParseError{"Unexpected comment"};
 
                                 while (iterator != end)
                                 {
@@ -234,7 +234,7 @@ namespace ouzel::ini
                                      static_cast<char>(*iterator) != '\t')
                             {
                                 if (parsedSection)
-                                    throw ParseError("Unexpected character after section");
+                                    throw ParseError{"Unexpected character after section"};
                             }
 
                             if (!parsedSection)
@@ -246,7 +246,7 @@ namespace ouzel::ini
                         trim(section);
 
                         if (section.empty())
-                            throw ParseError("Invalid section name");
+                            throw ParseError{"Invalid section name"};
 
                         result[section] = Section{};
                     }
@@ -281,7 +281,7 @@ namespace ouzel::ini
                                 if (!parsedKey)
                                     parsedKey = true;
                                 else
-                                    throw ParseError("Unexpected character");
+                                    throw ParseError{"Unexpected character"};
                             }
                             else if (static_cast<char>(*iterator) == ';')
                             {
@@ -312,7 +312,7 @@ namespace ouzel::ini
                         }
 
                         if (key.empty())
-                            throw ParseError("Invalid key name");
+                            throw ParseError{"Invalid key name"};
 
                         trim(key);
                         trim(value);

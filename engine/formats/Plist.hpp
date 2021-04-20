@@ -122,28 +122,28 @@ namespace ouzel::plist
         template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::string) throw TypeError("Wrong type");
+            if (type != Type::string) throw TypeError{"Wrong type"};
             return stringValue;
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
         T as() const
         {
-            if (type != Type::boolean) throw TypeError("Wrong type");
+            if (type != Type::boolean) throw TypeError{"Wrong type"};
             return booleanValue;
         }
 
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
         T as() const
         {
-            if (type != Type::real) throw TypeError("Wrong type");
+            if (type != Type::real) throw TypeError{"Wrong type"};
             return static_cast<T>(realValue);
         }
 
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
         T as() const
         {
-            if (type != Type::integer) throw TypeError("Wrong type");
+            if (type != Type::integer) throw TypeError{"Wrong type"};
             return static_cast<T>(integerValue);
         }
 
@@ -157,7 +157,7 @@ namespace ouzel::plist
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::dictionary) throw TypeError("Wrong type");
+            if (type != Type::dictionary) throw TypeError{"Wrong type"};
             return dictionaryValue;
         }
 
@@ -171,44 +171,44 @@ namespace ouzel::plist
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue;
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Data>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::data) throw TypeError("Wrong type");
+            if (type != Type::data) throw TypeError{"Wrong type"};
             return dataValue;
         }
 
         Array::iterator begin()
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.begin();
         }
 
         Array::iterator end()
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.end();
         }
 
         Array::const_iterator begin() const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.begin();
         }
 
         Array::const_iterator end() const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.end();
         }
 
         auto hasMember(const std::string& member) const
         {
-            if (type != Type::dictionary) throw TypeError("Wrong type");
+            if (type != Type::dictionary) throw TypeError{"Wrong type"};
             return dictionaryValue.find(member) != dictionaryValue.end();
         }
 
@@ -220,13 +220,13 @@ namespace ouzel::plist
 
         const Value& operator[](const std::string& member) const
         {
-            if (type != Type::dictionary) throw TypeError("Wrong type");
+            if (type != Type::dictionary) throw TypeError{"Wrong type"};
 
             const auto i = dictionaryValue.find(member);
             if (i != dictionaryValue.end())
                 return i->second;
             else
-                throw RangeError("Member does not exist");
+                throw RangeError{"Member does not exist"};
         }
 
         Value& operator[](std::size_t index)
@@ -238,35 +238,35 @@ namespace ouzel::plist
 
         const Value& operator[](std::size_t index) const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
 
             if (index < arrayValue.size())
                 return arrayValue[index];
             else
-                throw RangeError("Index out of range");
+                throw RangeError{"Index out of range"};
         }
 
         auto getSize() const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.size();
         }
 
         void resize(std::size_t size)
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             arrayValue.resize(size);
         }
 
         void pushBack(std::byte value)
         {
-            if (type != Type::data) throw TypeError("Wrong type");
+            if (type != Type::data) throw TypeError{"Wrong type"};
             dataValue.push_back(value);
         }
 
         void pushBack(const Value& value)
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             arrayValue.push_back(value);
         }
 

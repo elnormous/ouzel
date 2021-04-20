@@ -230,7 +230,7 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < 1)
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             Marker marker;
             std::memcpy(&marker, buffer.data() + offset, sizeof(marker));
@@ -321,7 +321,7 @@ namespace ouzel::obf
                     break;
                 }
                 default:
-                    throw DecodeError("Unsupported marker");
+                    throw DecodeError{"Unsupported marker"};
             }
 
             offset += ret;
@@ -455,21 +455,21 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
         const std::string& as() const
         {
-            if (type != Type::string) throw TypeError("Wrong type");
+            if (type != Type::string) throw TypeError{"Wrong type"};
             return stringValue;
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, const char*>>* = nullptr>
         const char* as() const
         {
-            if (type != Type::string) throw TypeError("Wrong type");
+            if (type != Type::string) throw TypeError{"Wrong type"};
             return stringValue.c_str();
         }
 
         template <typename T, typename std::enable_if_t<std::is_integral_v<T>>* = nullptr>
         T as() const
         {
-            if (type != Type::integer) throw TypeError("Wrong type");
+            if (type != Type::integer) throw TypeError{"Wrong type"};
             return static_cast<T>(intValue);
         }
 
@@ -477,7 +477,7 @@ namespace ouzel::obf
         T as() const
         {
             if (type != Type::floatingPoint && type != Type::doublePrecision)
-                throw TypeError("Wrong type");
+                throw TypeError{"Wrong type"};
             return static_cast<T>(doubleValue);
         }
 
@@ -491,7 +491,7 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, ByteArray>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::byteArray) throw TypeError("Wrong type");
+            if (type != Type::byteArray) throw TypeError{"Wrong type"};
             return byteArrayValue;
         }
 
@@ -505,7 +505,7 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::object) throw TypeError("Wrong type");
+            if (type != Type::object) throw TypeError{"Wrong type"};
             return objectValue;
         }
 
@@ -519,7 +519,7 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue;
         }
 
@@ -533,37 +533,37 @@ namespace ouzel::obf
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::dictionary) throw TypeError("Wrong type");
+            if (type != Type::dictionary) throw TypeError{"Wrong type"};
             return dictionaryValue;
         }
 
         Array::iterator begin()
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.begin();
         }
 
         Array::const_iterator begin() const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.begin();
         }
 
         Array::iterator end()
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.end();
         }
 
         Array::const_iterator end() const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return arrayValue.end();
         }
 
         auto getSize() const
         {
-            if (type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::array) throw TypeError{"Wrong type"};
             return static_cast<std::uint32_t>(arrayValue.size());
         }
 
@@ -576,22 +576,22 @@ namespace ouzel::obf
                 if (i != objectValue.end())
                     return i->second;
                 else
-                    throw RangeError("Index out of range");
+                    throw RangeError{"Index out of range"};
             }
             else if (type == Type::array)
             {
                 if (key < arrayValue.size())
                     return arrayValue[key];
                 else
-                    throw RangeError("Index out of range");
+                    throw RangeError{"Index out of range"};
             }
             else
-                throw TypeError("Wrong type");
+                throw TypeError{"Wrong type"};
         }
 
         Value& operator[](std::uint32_t key)
         {
-            if (type != Type::object && type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::object && type != Type::array) throw TypeError{"Wrong type"};
 
             if (type == Type::object)
                 return objectValue[key];
@@ -604,26 +604,26 @@ namespace ouzel::obf
 
         const Value& operator[](const std::string& key) const
         {
-            if (type != Type::dictionary) throw TypeError("Wrong type");
+            if (type != Type::dictionary) throw TypeError{"Wrong type"};
 
             const auto i = dictionaryValue.find(key);
 
             if (i != dictionaryValue.end())
                 return i->second;
             else
-                throw RangeError("Invalid key");
+                throw RangeError{"Invalid key"};
         }
 
         Value& operator[](const std::string& key)
         {
-            if (type != Type::dictionary) throw TypeError("Wrong type");
+            if (type != Type::dictionary) throw TypeError{"Wrong type"};
 
             return dictionaryValue[key];
         }
 
         bool hasElement(std::uint32_t key) const
         {
-            if (type != Type::object && type != Type::array) throw TypeError("Wrong type");
+            if (type != Type::object && type != Type::array) throw TypeError{"Wrong type"};
 
             if (type == Type::object)
                 return objectValue.find(key) != objectValue.end();
@@ -635,7 +635,7 @@ namespace ouzel::obf
 
         bool hasElement(const std::string& key) const
         {
-            if (type != Type::dictionary) throw TypeError("Wrong type");
+            if (type != Type::dictionary) throw TypeError{"Wrong type"};
 
             return dictionaryValue.find(key) != dictionaryValue.end();
         }
@@ -652,7 +652,7 @@ namespace ouzel::obf
                                       std::uint8_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             std::memcpy(&result, buffer.data() + offset, sizeof(result));
 
@@ -664,7 +664,7 @@ namespace ouzel::obf
                                        std::uint16_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             result = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
 
@@ -676,7 +676,7 @@ namespace ouzel::obf
                                        std::uint32_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             result = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -688,7 +688,7 @@ namespace ouzel::obf
                                        std::uint64_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             result = decodeBigEndian<std::uint64_t>(buffer.data() + offset);
 
@@ -700,7 +700,7 @@ namespace ouzel::obf
                                        float& result)
         {
             if (buffer.size() - offset < sizeof(float))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             std::memcpy(&result, buffer.data() + offset, sizeof(result));
 
@@ -712,7 +712,7 @@ namespace ouzel::obf
                                         double& result)
         {
             if (buffer.size() - offset < sizeof(double))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             std::memcpy(&result, buffer.data() + offset, sizeof(result));
 
@@ -726,14 +726,14 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint16_t))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             const std::uint16_t length = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
             offset += length;
@@ -748,14 +748,14 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             const std::uint32_t length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             result.assign(reinterpret_cast<const char*>(buffer.data() + offset), length);
             offset += length;
@@ -770,14 +770,14 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             const std::uint32_t length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
             if (buffer.size() - offset < length)
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             result.assign(reinterpret_cast<const std::uint8_t*>(buffer.data() + offset),
                           reinterpret_cast<const std::uint8_t*>(buffer.data() + offset) + length);
@@ -793,7 +793,7 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -802,7 +802,7 @@ namespace ouzel::obf
             for (std::uint32_t i = 0; i < count; ++i)
             {
                 if (buffer.size() - offset < sizeof(std::uint32_t))
-                    throw DecodeError("Not enough data");
+                    throw DecodeError{"Not enough data"};
 
                 const std::uint32_t key = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -827,7 +827,7 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -853,7 +853,7 @@ namespace ouzel::obf
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
-                throw DecodeError("Not enough data");
+                throw DecodeError{"Not enough data"};
 
             const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
@@ -862,14 +862,14 @@ namespace ouzel::obf
             for (std::uint32_t i = 0; i < count; ++i)
             {
                 if (buffer.size() - offset < sizeof(std::uint16_t))
-                    throw DecodeError("Not enough data");
+                    throw DecodeError{"Not enough data"};
 
                 const std::uint16_t length = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
 
                 offset += sizeof(length);
 
                 if (buffer.size() - offset < length)
-                    throw DecodeError("Not enough data");
+                    throw DecodeError{"Not enough data"};
 
                 std::string key(reinterpret_cast<const char*>(buffer.data() + offset), length);
                 offset += length;
