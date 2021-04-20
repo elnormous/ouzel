@@ -91,10 +91,10 @@ namespace
             // scan codes
             default:
             {
-                const std::uint8_t scanCode = (lParam >> 16) & 0xFF;
+                const std::uint8_t scanCode = HIWORD(lParam) & 0xFF;
                 if (scanCode <= 127)
                 {
-                    const bool isExtended = (lParam & (1 << 24)) != 0;
+                    const bool isExtended = (HIWORD(lParam) & KF_EXTENDED) != 0;
 
                     switch (scanCode)
                     {
