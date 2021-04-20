@@ -25,7 +25,7 @@ namespace ouzel
         {
             const auto directoryPath = path.getDirectory();
 
-            std::ifstream f(path, std::ios::binary);
+            std::ifstream f{path, std::ios::binary};
             std::vector<char> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
 
             const auto j = json::parse(data);

@@ -346,7 +346,7 @@ namespace ouzel::storage
         if (path.isEmpty())
             throw std::runtime_error("Failed to find file " + std::string(filename));
 
-        std::ifstream file(path, std::ios::binary);
+        std::ifstream file{path, std::ios::binary};
         if (!file)
             throw std::runtime_error("Failed to open file " + std::string(filename));
 
