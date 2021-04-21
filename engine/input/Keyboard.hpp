@@ -94,6 +94,7 @@ namespace ouzel::input
             menu, // Applications key (Natural keyboard)
             sleep, // Computer sleep key
             power, // Computer power key
+            wake,  // Computer wake key
             numpad0, // Numeric keypad 0 key
             numpad1, // Numeric keypad 1 key
             numpad2, // Numeric keypad 2 key
@@ -111,7 +112,7 @@ namespace ouzel::input
             numpadDecimal, // Numeric keypad decimal key
             numpadDivide, // Numeric keypad divide key
             numpadEnter, // Numeric keypad enter key
-            numpadEqual, // Numeric keypad comma key
+            numpadEqual, // Numeric keypad equal key
             numpadPlusminus, // Numeric keypad plus/minus key
             numpadLeftParen, // Numeric keypad comma key
             numpadRightParen, // Numeric keypad comma key
