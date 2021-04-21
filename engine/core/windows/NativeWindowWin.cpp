@@ -858,7 +858,7 @@ namespace ouzel::core::windows
         if (!GetTouchInputInfo(reinterpret_cast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get touch info");
 
-        for (const TOUCHINPUT& touch : touches)
+        for (const auto& touch : touches)
         {
             const Vector<float, 2> position{
                 static_cast<float>(touch.x / 100),
