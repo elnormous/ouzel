@@ -266,7 +266,7 @@ namespace ouzel::graphics::opengl::windows
 
         if (wglCreateContextAttribsProc)
         {
-            for (int openGlVersion = 4; openGlVersion >= 2; --openGlVersion)
+            for (const auto openGlVersion : {4, 3, 2})
             {
                 const int contextAttribs[] = {
                     WGL_CONTEXT_MAJOR_VERSION_ARB, openGlVersion,
