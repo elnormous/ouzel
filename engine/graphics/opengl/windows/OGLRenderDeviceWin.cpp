@@ -160,8 +160,10 @@ namespace ouzel::graphics::opengl::windows
 
             FreeLibrary(module);
 
-            return ApiVersion(static_cast<std::uint16_t>(std::stoi(versionParts[0])),
-                              static_cast<std::uint16_t>(std::stoi(versionParts[1])));
+            return ApiVersion{
+                static_cast<std::uint16_t>(std::stoi(versionParts[0])),
+                static_cast<std::uint16_t>(std::stoi(versionParts[1]))
+            };
         }
     }
 

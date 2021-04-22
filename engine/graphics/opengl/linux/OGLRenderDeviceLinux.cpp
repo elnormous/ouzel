@@ -135,7 +135,7 @@ namespace ouzel::graphics::opengl::linux
 
             if (context != EGL_NO_CONTEXT)
             {
-                apiVersion = ApiVersion(version, 0);
+                apiVersion = ApiVersion{version, 0};
 #if OUZEL_OPENGLES
                 logger.log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
 #else

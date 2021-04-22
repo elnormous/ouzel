@@ -39,12 +39,12 @@ namespace ouzel::graphics::opengl
         ProcedureGetter(ApiVersion version):
             apiVersion(version)
         {
-            const auto glGetErrorProc = getProcAddress<PFNGLGETERRORPROC>("glGetError", ApiVersion(1, 0));
+            const auto glGetErrorProc = getProcAddress<PFNGLGETERRORPROC>("glGetError", ApiVersion{1, 0});
 
-            if (apiVersion >= ApiVersion(3, 0))
+            if (apiVersion >= ApiVersion{3, 0})
             {
-                const auto glGetIntegervProc = getProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion(1, 0));
-                const auto glGetStringiProc = getProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion(3, 0));
+                const auto glGetIntegervProc = getProcAddress<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion{1, 0});
+                const auto glGetStringiProc = getProcAddress<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion{3, 0});
 
                 GLint extensionCount;
                 glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
@@ -66,7 +66,7 @@ namespace ouzel::graphics::opengl
             }
             else
             {
-                const auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
+                const auto glGetStringProc = getProcAddress<PFNGLGETSTRINGPROC>("glGetString", ApiVersion{1, 0});
                 const auto extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
@@ -118,7 +118,7 @@ namespace ouzel::graphics::opengl
         {
 #if OUZEL_OPENGL_INTERFACE_EGL
 #  if OUZEL_OPENGLES
-            return procApiVersion >= ApiVersion(3, 0) ?
+            return procApiVersion >= ApiVersion{3, 0} ?
                 reinterpret_cast<T>(eglGetProcAddress(name)) :
                 reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
 #  else
@@ -126,7 +126,7 @@ namespace ouzel::graphics::opengl
             return reinterpret_cast<T>(eglGetProcAddress(name));
 #  endif
 #elif OUZEL_OPENGL_INTERFACE_WGL
-            return procApiVersion > ApiVersion(1, 1) ?
+            return procApiVersion > ApiVersion{1, 1} ?
                 reinterpret_cast<T>(wglGetProcAddress(name)) :
                 reinterpret_cast<T>(GetProcAddress(module.getModule(), name));
 #else

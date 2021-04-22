@@ -44,8 +44,8 @@ namespace ouzel::graphics::opengl::emscripten
         embedded = true;
 
         constexpr std::array<std::pair<int, ApiVersion>, 2> openGlVersions = {
-            std::pair(2, ApiVersion(3, 0)),
-            std::pair(1, ApiVersion(2, 0))
+            std::pair(2, ApiVersion{3, 0}),
+            std::pair(1, ApiVersion{2, 0})
         };
 
         for (const auto& openGlVersion : openGlVersions)
@@ -99,8 +99,8 @@ namespace ouzel::graphics::opengl::emscripten
     void RenderDevice::handleContextRestored()
     {
         constexpr std::array<std::pair<int, ApiVersion>, 2> openGlVersions = {
-            std::pair(2, ApiVersion(3, 0)),
-            std::pair(1, ApiVersion(2, 0))
+            std::pair(2, ApiVersion{3, 0}),
+            std::pair(1, ApiVersion{2, 0})
         };
 
         for (const auto& openGlVersion : openGlVersions)

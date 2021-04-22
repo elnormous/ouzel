@@ -301,10 +301,10 @@ namespace ouzel::graphics::opengl
 
         const ProcedureGetter getter(apiVersion);
 
-        glGetStringProc = getter.get<PFNGLGETSTRINGPROC>("glGetString", ApiVersion(1, 0));
-        glGetIntegervProc = getter.get<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion(1, 0));
-        glGetErrorProc = getter.get<PFNGLGETERRORPROC>("glGetError", ApiVersion(1, 0));
-        glGetStringiProc = getter.get<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion(3, 0));
+        glGetStringProc = getter.get<PFNGLGETSTRINGPROC>("glGetString", ApiVersion{1, 0});
+        glGetIntegervProc = getter.get<PFNGLGETINTEGERVPROC>("glGetIntegerv", ApiVersion{1, 0});
+        glGetErrorProc = getter.get<PFNGLGETERRORPROC>("glGetError", ApiVersion{1, 0});
+        glGetStringiProc = getter.get<PFNGLGETSTRINGIPROC>("glGetStringi", ApiVersion{3, 0});
 
         std::string rendererName;
         const auto rendererNamePointer = glGetStringProc(GL_RENDERER);
@@ -328,131 +328,131 @@ namespace ouzel::graphics::opengl
         logger.log(Log::Level::info) << "Using " << rendererName << " by " << vendorName << " for rendering";
 
 #if OUZEL_OPENGLES
-        npotTexturesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_OES_texture_npot");
-        renderTargetsSupported = apiVersion >= ApiVersion(3, 0);
-        clampToBorderSupported = apiVersion >= ApiVersion(3, 2) || getter.hasExtension("GL_EXT_texture_border_clamp");
-        multisamplingSupported = apiVersion >= ApiVersion(3, 0) ||
+        npotTexturesSupported = apiVersion >= ApiVersion{3, 0} || getter.hasExtension("GL_OES_texture_npot");
+        renderTargetsSupported = apiVersion >= ApiVersion{3, 0};
+        clampToBorderSupported = apiVersion >= ApiVersion{3, 2} || getter.hasExtension("GL_EXT_texture_border_clamp");
+        multisamplingSupported = apiVersion >= ApiVersion{3, 0} ||
             getter.hasExtension("GL_APPLE_framebuffer_multisample") ||
             getter.hasExtension("GL_EXT_multisampled_render_to_texture") ||
             getter.hasExtension("GL_IMG_multisampled_render_to_texture");
-        textureBaseLevelSupported = apiVersion >= ApiVersion(3, 0);
-        textureMaxLevelSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("GL_APPLE_texture_max_level");
-        uintIndicesSupported = apiVersion >= ApiVersion(3, 0) || getter.hasExtension("OES_element_index_uint");
+        textureBaseLevelSupported = apiVersion >= ApiVersion{3, 0};
+        textureMaxLevelSupported = apiVersion >= ApiVersion{3, 0} || getter.hasExtension("GL_APPLE_texture_max_level");
+        uintIndicesSupported = apiVersion >= ApiVersion{3, 0} || getter.hasExtension("OES_element_index_uint");
         anisotropicFilteringSupported = getter.hasExtension("GL_EXT_texture_filter_anisotropic");
 
-        glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion(1, 0));
-        glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion(1, 0));
-        glFrontFaceProc = getter.get<PFNGLFRONTFACEPROC>("glFrontFace", ApiVersion(1, 0));
-        glBindTextureProc = getter.get<PFNGLBINDTEXTUREPROC>("glBindTexture", ApiVersion(1, 0));
-        glGenTexturesProc = getter.get<PFNGLGENTEXTURESPROC>("glGenTextures", ApiVersion(1, 0));
-        glDeleteTexturesProc = getter.get<PFNGLDELETETEXTURESPROC>("glDeleteTextures", ApiVersion(1, 0));
-        glTexParameteriProc = getter.get<PFNGLTEXPARAMETERIPROC>("glTexParameteri", ApiVersion(1, 0));
-        glTexParameterivProc = getter.get<PFNGLTEXPARAMETERIVPROC>("glTexParameteriv", ApiVersion(1, 0));
-        glTexParameterfProc = getter.get<PFNGLTEXPARAMETERFPROC>("glTexParameterf", ApiVersion(1, 0));
-        glTexParameterfvProc = getter.get<PFNGLTEXPARAMETERFVPROC>("glTexParameterfv", ApiVersion(1, 0));
-        glTexImage2DProc = getter.get<PFNGLTEXIMAGE2DPROC>("glTexImage2D", ApiVersion(1, 0));
-        glTexSubImage2DProc = getter.get<PFNGLTEXSUBIMAGE2DPROC>("glTexSubImage2D", ApiVersion(1, 0));
-        glViewportProc = getter.get<PFNGLVIEWPORTPROC>("glViewport", ApiVersion(1, 0));
-        glClearProc = getter.get<PFNGLCLEARPROC>("glClear", ApiVersion(1, 0));
-        glClearColorProc = getter.get<PFNGLCLEARCOLORPROC>("glClearColor", ApiVersion(1, 0));
-        glClearStencilProc = getter.get<PFNGLCLEARSTENCILPROC>("glClearStencil", ApiVersion(1, 0));
-        glColorMaskProc = getter.get<PFNGLCOLORMASKPROC>("glColorMask", ApiVersion(1, 0));
-        glDepthMaskProc = getter.get<PFNGLDEPTHMASKPROC>("glDepthMask", ApiVersion(1, 0));
-        glDepthFuncProc = getter.get<PFNGLDEPTHFUNCPROC>("glDepthFunc", ApiVersion(1, 0));
-        glStencilMaskProc = getter.get<PFNGLSTENCILMASKPROC>("glStencilMask", ApiVersion(1, 0));
-        glStencilFuncSeparateProc = getter.get<PFNGLSTENCILFUNCSEPARATEPROC>("glStencilFuncSeparate", ApiVersion(2, 0));
-        glStencilOpSeparateProc = getter.get<PFNGLSTENCILOPSEPARATEPROC>("glStencilOpSeparate", ApiVersion(2, 0));
-        glCullFaceProc = getter.get<PFNGLCULLFACEPROC>("glCullFace", ApiVersion(1, 0));
-        glScissorProc = getter.get<PFNGLSCISSORPROC>("glScissor", ApiVersion(1, 0));
-        glDrawElementsProc = getter.get<PFNGLDRAWELEMENTSPROC>("glDrawElements", ApiVersion(1, 0));
-        glReadPixelsProc = getter.get<PFNGLREADPIXELSPROC>("glReadPixels", ApiVersion(1, 0));
+        glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion{1, 0});
+        glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion{1, 0});
+        glFrontFaceProc = getter.get<PFNGLFRONTFACEPROC>("glFrontFace", ApiVersion{1, 0});
+        glBindTextureProc = getter.get<PFNGLBINDTEXTUREPROC>("glBindTexture", ApiVersion{1, 0});
+        glGenTexturesProc = getter.get<PFNGLGENTEXTURESPROC>("glGenTextures", ApiVersion{1, 0});
+        glDeleteTexturesProc = getter.get<PFNGLDELETETEXTURESPROC>("glDeleteTextures", ApiVersion{1, 0});
+        glTexParameteriProc = getter.get<PFNGLTEXPARAMETERIPROC>("glTexParameteri", ApiVersion{1, 0});
+        glTexParameterivProc = getter.get<PFNGLTEXPARAMETERIVPROC>("glTexParameteriv", ApiVersion{1, 0});
+        glTexParameterfProc = getter.get<PFNGLTEXPARAMETERFPROC>("glTexParameterf", ApiVersion{1, 0});
+        glTexParameterfvProc = getter.get<PFNGLTEXPARAMETERFVPROC>("glTexParameterfv", ApiVersion{1, 0});
+        glTexImage2DProc = getter.get<PFNGLTEXIMAGE2DPROC>("glTexImage2D", ApiVersion{1, 0});
+        glTexSubImage2DProc = getter.get<PFNGLTEXSUBIMAGE2DPROC>("glTexSubImage2D", ApiVersion{1, 0});
+        glViewportProc = getter.get<PFNGLVIEWPORTPROC>("glViewport", ApiVersion{1, 0});
+        glClearProc = getter.get<PFNGLCLEARPROC>("glClear", ApiVersion{1, 0});
+        glClearColorProc = getter.get<PFNGLCLEARCOLORPROC>("glClearColor", ApiVersion{1, 0});
+        glClearStencilProc = getter.get<PFNGLCLEARSTENCILPROC>("glClearStencil", ApiVersion{1, 0});
+        glColorMaskProc = getter.get<PFNGLCOLORMASKPROC>("glColorMask", ApiVersion{1, 0});
+        glDepthMaskProc = getter.get<PFNGLDEPTHMASKPROC>("glDepthMask", ApiVersion{1, 0});
+        glDepthFuncProc = getter.get<PFNGLDEPTHFUNCPROC>("glDepthFunc", ApiVersion{1, 0});
+        glStencilMaskProc = getter.get<PFNGLSTENCILMASKPROC>("glStencilMask", ApiVersion{1, 0});
+        glStencilFuncSeparateProc = getter.get<PFNGLSTENCILFUNCSEPARATEPROC>("glStencilFuncSeparate", ApiVersion{2, 0});
+        glStencilOpSeparateProc = getter.get<PFNGLSTENCILOPSEPARATEPROC>("glStencilOpSeparate", ApiVersion{2, 0});
+        glCullFaceProc = getter.get<PFNGLCULLFACEPROC>("glCullFace", ApiVersion{1, 0});
+        glScissorProc = getter.get<PFNGLSCISSORPROC>("glScissor", ApiVersion{1, 0});
+        glDrawElementsProc = getter.get<PFNGLDRAWELEMENTSPROC>("glDrawElements", ApiVersion{1, 0});
+        glReadPixelsProc = getter.get<PFNGLREADPIXELSPROC>("glReadPixels", ApiVersion{1, 0});
 
-        glBlendFuncSeparateProc = getter.get<PFNGLBLENDFUNCSEPARATEPROC>("glBlendFuncSeparate", ApiVersion(2, 0));
-        glBlendEquationSeparateProc = getter.get<PFNGLBLENDEQUATIONSEPARATEPROC>("glBlendEquationSeparate", ApiVersion(2, 0));
+        glBlendFuncSeparateProc = getter.get<PFNGLBLENDFUNCSEPARATEPROC>("glBlendFuncSeparate", ApiVersion{2, 0});
+        glBlendEquationSeparateProc = getter.get<PFNGLBLENDEQUATIONSEPARATEPROC>("glBlendEquationSeparate", ApiVersion{2, 0});
 
-        glActiveTextureProc = getter.get<PFNGLACTIVETEXTUREPROC>("glActiveTexture", ApiVersion(1, 0));
-        glClearDepthfProc = getter.get<PFNGLCLEARDEPTHFPROC>("glClearDepthf", ApiVersion(1, 0));
+        glActiveTextureProc = getter.get<PFNGLACTIVETEXTUREPROC>("glActiveTexture", ApiVersion{1, 0});
+        glClearDepthfProc = getter.get<PFNGLCLEARDEPTHFPROC>("glClearDepthf", ApiVersion{1, 0});
 
-        glUniform1iProc = getter.get<PFNGLUNIFORM1IPROC>("glUniform1i", ApiVersion(2, 0));
-        glUniform1fvProc = getter.get<PFNGLUNIFORM1FVPROC>("glUniform1fv", ApiVersion(2, 0));
-        glUniform2fvProc = getter.get<PFNGLUNIFORM2FVPROC>("glUniform2fv", ApiVersion(2, 0));
-        glUniform3fvProc = getter.get<PFNGLUNIFORM3FVPROC>("glUniform3fv", ApiVersion(2, 0));
-        glUniform4fvProc = getter.get<PFNGLUNIFORM4FVPROC>("glUniform4fv", ApiVersion(2, 0));
-        glUniform1ivProc = getter.get<PFNGLUNIFORM1IVPROC>("glUniform1iv", ApiVersion(2, 0));
-        glUniform2ivProc = getter.get<PFNGLUNIFORM2IVPROC>("glUniform2iv", ApiVersion(2, 0));
-        glUniform3ivProc = getter.get<PFNGLUNIFORM3IVPROC>("glUniform3iv", ApiVersion(2, 0));
-        glUniform4ivProc = getter.get<PFNGLUNIFORM4IVPROC>("glUniform4iv", ApiVersion(2, 0));
-        glUniformMatrix3fvProc = getter.get<PFNGLUNIFORMMATRIX3FVPROC>("glUniformMatrix3fv", ApiVersion(2, 0));
-        glUniformMatrix4fvProc = getter.get<PFNGLUNIFORMMATRIX4FVPROC>("glUniformMatrix4fv", ApiVersion(2, 0));
+        glUniform1iProc = getter.get<PFNGLUNIFORM1IPROC>("glUniform1i", ApiVersion{2, 0});
+        glUniform1fvProc = getter.get<PFNGLUNIFORM1FVPROC>("glUniform1fv", ApiVersion{2, 0});
+        glUniform2fvProc = getter.get<PFNGLUNIFORM2FVPROC>("glUniform2fv", ApiVersion{2, 0});
+        glUniform3fvProc = getter.get<PFNGLUNIFORM3FVPROC>("glUniform3fv", ApiVersion{2, 0});
+        glUniform4fvProc = getter.get<PFNGLUNIFORM4FVPROC>("glUniform4fv", ApiVersion{2, 0});
+        glUniform1ivProc = getter.get<PFNGLUNIFORM1IVPROC>("glUniform1iv", ApiVersion{2, 0});
+        glUniform2ivProc = getter.get<PFNGLUNIFORM2IVPROC>("glUniform2iv", ApiVersion{2, 0});
+        glUniform3ivProc = getter.get<PFNGLUNIFORM3IVPROC>("glUniform3iv", ApiVersion{2, 0});
+        glUniform4ivProc = getter.get<PFNGLUNIFORM4IVPROC>("glUniform4iv", ApiVersion{2, 0});
+        glUniformMatrix3fvProc = getter.get<PFNGLUNIFORMMATRIX3FVPROC>("glUniformMatrix3fv", ApiVersion{2, 0});
+        glUniformMatrix4fvProc = getter.get<PFNGLUNIFORMMATRIX4FVPROC>("glUniformMatrix4fv", ApiVersion{2, 0});
 
-        glCreateShaderProc = getter.get<PFNGLCREATESHADERPROC>("glCreateShader", ApiVersion(2, 0));
-        glDeleteShaderProc = getter.get<PFNGLDELETESHADERPROC>("glDeleteShader", ApiVersion(2, 0));
-        glAttachShaderProc = getter.get<PFNGLATTACHSHADERPROC>("glAttachShader", ApiVersion(2, 0));
-        glDetachShaderProc = getter.get<PFNGLDETACHSHADERPROC>("glDetachShader", ApiVersion(2, 0));
-        glShaderSourceProc = getter.get<PFNGLSHADERSOURCEPROC>("glShaderSource", ApiVersion(2, 0));
-        glCompileShaderProc = getter.get<PFNGLCOMPILESHADERPROC>("glCompileShader", ApiVersion(2, 0));
-        glBindAttribLocationProc = getter.get<PFNGLBINDATTRIBLOCATIONPROC>("glBindAttribLocation", ApiVersion(2, 0));
-        glGetShaderivProc = getter.get<PFNGLGETSHADERIVPROC>("glGetShaderiv", ApiVersion(2, 0));
-        glGetShaderInfoLogProc = getter.get<PFNGLGETSHADERINFOLOGPROC>("glGetShaderInfoLog", ApiVersion(2, 0));
+        glCreateShaderProc = getter.get<PFNGLCREATESHADERPROC>("glCreateShader", ApiVersion{2, 0});
+        glDeleteShaderProc = getter.get<PFNGLDELETESHADERPROC>("glDeleteShader", ApiVersion{2, 0});
+        glAttachShaderProc = getter.get<PFNGLATTACHSHADERPROC>("glAttachShader", ApiVersion{2, 0});
+        glDetachShaderProc = getter.get<PFNGLDETACHSHADERPROC>("glDetachShader", ApiVersion{2, 0});
+        glShaderSourceProc = getter.get<PFNGLSHADERSOURCEPROC>("glShaderSource", ApiVersion{2, 0});
+        glCompileShaderProc = getter.get<PFNGLCOMPILESHADERPROC>("glCompileShader", ApiVersion{2, 0});
+        glBindAttribLocationProc = getter.get<PFNGLBINDATTRIBLOCATIONPROC>("glBindAttribLocation", ApiVersion{2, 0});
+        glGetShaderivProc = getter.get<PFNGLGETSHADERIVPROC>("glGetShaderiv", ApiVersion{2, 0});
+        glGetShaderInfoLogProc = getter.get<PFNGLGETSHADERINFOLOGPROC>("glGetShaderInfoLog", ApiVersion{2, 0});
 
-        glCreateProgramProc = getter.get<PFNGLCREATEPROGRAMPROC>("glCreateProgram", ApiVersion(2, 0));
-        glDeleteProgramProc = getter.get<PFNGLDELETEPROGRAMPROC>("glDeleteProgram", ApiVersion(2, 0));
-        glUseProgramProc = getter.get<PFNGLUSEPROGRAMPROC>("glUseProgram", ApiVersion(2, 0));
-        glLinkProgramProc = getter.get<PFNGLLINKPROGRAMPROC>("glLinkProgram", ApiVersion(2, 0));
-        glGetProgramivProc = getter.get<PFNGLGETPROGRAMIVPROC>("glGetProgramiv", ApiVersion(2, 0));
-        glGetProgramInfoLogProc = getter.get<PFNGLGETPROGRAMINFOLOGPROC>("glGetProgramInfoLog", ApiVersion(2, 0));
-        glGetUniformLocationProc = getter.get<PFNGLGETUNIFORMLOCATIONPROC>("glGetUniformLocation", ApiVersion(2, 0));
+        glCreateProgramProc = getter.get<PFNGLCREATEPROGRAMPROC>("glCreateProgram", ApiVersion{2, 0});
+        glDeleteProgramProc = getter.get<PFNGLDELETEPROGRAMPROC>("glDeleteProgram", ApiVersion{2, 0});
+        glUseProgramProc = getter.get<PFNGLUSEPROGRAMPROC>("glUseProgram", ApiVersion{2, 0});
+        glLinkProgramProc = getter.get<PFNGLLINKPROGRAMPROC>("glLinkProgram", ApiVersion{2, 0});
+        glGetProgramivProc = getter.get<PFNGLGETPROGRAMIVPROC>("glGetProgramiv", ApiVersion{2, 0});
+        glGetProgramInfoLogProc = getter.get<PFNGLGETPROGRAMINFOLOGPROC>("glGetProgramInfoLog", ApiVersion{2, 0});
+        glGetUniformLocationProc = getter.get<PFNGLGETUNIFORMLOCATIONPROC>("glGetUniformLocation", ApiVersion{2, 0});
 
-        glBindBufferProc = getter.get<PFNGLBINDBUFFERPROC>("glBindBuffer", ApiVersion(1, 1));
-        glDeleteBuffersProc = getter.get<PFNGLDELETEBUFFERSPROC>("glDeleteBuffers", ApiVersion(1, 1));
-        glGenBuffersProc = getter.get<PFNGLGENBUFFERSPROC>("glGenBuffers", ApiVersion(1, 1));
-        glBufferDataProc = getter.get<PFNGLBUFFERDATAPROC>("glBufferData", ApiVersion(1, 1));
-        glBufferSubDataProc = getter.get<PFNGLBUFFERSUBDATAPROC>("glBufferSubData", ApiVersion(1, 1));
+        glBindBufferProc = getter.get<PFNGLBINDBUFFERPROC>("glBindBuffer", ApiVersion{1, 1});
+        glDeleteBuffersProc = getter.get<PFNGLDELETEBUFFERSPROC>("glDeleteBuffers", ApiVersion{1, 1});
+        glGenBuffersProc = getter.get<PFNGLGENBUFFERSPROC>("glGenBuffers", ApiVersion{1, 1});
+        glBufferDataProc = getter.get<PFNGLBUFFERDATAPROC>("glBufferData", ApiVersion{1, 1});
+        glBufferSubDataProc = getter.get<PFNGLBUFFERSUBDATAPROC>("glBufferSubData", ApiVersion{1, 1});
 
-        glEnableVertexAttribArrayProc = getter.get<PFNGLENABLEVERTEXATTRIBARRAYPROC>("glEnableVertexAttribArray", ApiVersion(2, 0));
-        glDisableVertexAttribArrayProc = getter.get<PFNGLDISABLEVERTEXATTRIBARRAYPROC>("glDisableVertexAttribArray", ApiVersion(2, 0));
-        glVertexAttribPointerProc = getter.get<PFNGLVERTEXATTRIBPOINTERPROC>("glVertexAttribPointer", ApiVersion(2, 0));
+        glEnableVertexAttribArrayProc = getter.get<PFNGLENABLEVERTEXATTRIBARRAYPROC>("glEnableVertexAttribArray", ApiVersion{2, 0});
+        glDisableVertexAttribArrayProc = getter.get<PFNGLDISABLEVERTEXATTRIBARRAYPROC>("glDisableVertexAttribArray", ApiVersion{2, 0});
+        glVertexAttribPointerProc = getter.get<PFNGLVERTEXATTRIBPOINTERPROC>("glVertexAttribPointer", ApiVersion{2, 0});
 
-        glGenFramebuffersProc = getter.get<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers", ApiVersion(2, 0));
-        glDeleteFramebuffersProc = getter.get<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers", ApiVersion(2, 0));
-        glBindFramebufferProc = getter.get<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer", ApiVersion(2, 0));
-        glCheckFramebufferStatusProc = getter.get<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus", ApiVersion(2, 0));
-        glFramebufferRenderbufferProc = getter.get<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer", ApiVersion(2, 0));
-        glFramebufferTexture2DProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D", ApiVersion(2, 0));
+        glGenFramebuffersProc = getter.get<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers", ApiVersion{2, 0});
+        glDeleteFramebuffersProc = getter.get<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers", ApiVersion{2, 0});
+        glBindFramebufferProc = getter.get<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer", ApiVersion{2, 0});
+        glCheckFramebufferStatusProc = getter.get<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus", ApiVersion{2, 0});
+        glFramebufferRenderbufferProc = getter.get<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer", ApiVersion{2, 0});
+        glFramebufferTexture2DProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D", ApiVersion{2, 0});
 
-        glBlitFramebufferProc = getter.get<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer", ApiVersion(3, 0));
+        glBlitFramebufferProc = getter.get<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer", ApiVersion{3, 0});
 
-        glGenRenderbuffersProc = getter.get<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers", ApiVersion(2, 0));
-        glDeleteRenderbuffersProc = getter.get<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers", ApiVersion(2, 0));
-        glBindRenderbufferProc = getter.get<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer", ApiVersion(2, 0));
-        glRenderbufferStorageProc = getter.get<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage", ApiVersion(2, 0));
+        glGenRenderbuffersProc = getter.get<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers", ApiVersion{2, 0});
+        glDeleteRenderbuffersProc = getter.get<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers", ApiVersion{2, 0});
+        glBindRenderbufferProc = getter.get<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer", ApiVersion{2, 0});
+        glRenderbufferStorageProc = getter.get<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage", ApiVersion{2, 0});
 
-        glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample", ApiVersion(3, 1),
+        glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample", ApiVersion{3, 1},
                                                                                      {{"glTexStorage2DMultisampleEXT", "GL_EXT_multisampled_render_to_texture"}});
 
-        glUniform1uivProc = getter.get<PFNGLUNIFORM1UIVPROC>("glUniform1uiv", ApiVersion(3, 0));
-        glUniform2uivProc = getter.get<PFNGLUNIFORM2UIVPROC>("glUniform2uiv", ApiVersion(3, 0));
-        glUniform3uivProc = getter.get<PFNGLUNIFORM3UIVPROC>("glUniform3uiv", ApiVersion(3, 0));
-        glUniform4uivProc = getter.get<PFNGLUNIFORM4UIVPROC>("glUniform4uiv", ApiVersion(3, 0));
+        glUniform1uivProc = getter.get<PFNGLUNIFORM1UIVPROC>("glUniform1uiv", ApiVersion{3, 0});
+        glUniform2uivProc = getter.get<PFNGLUNIFORM2UIVPROC>("glUniform2uiv", ApiVersion{3, 0});
+        glUniform3uivProc = getter.get<PFNGLUNIFORM3UIVPROC>("glUniform3uiv", ApiVersion{3, 0});
+        glUniform4uivProc = getter.get<PFNGLUNIFORM4UIVPROC>("glUniform4uiv", ApiVersion{3, 0});
 
-        glMapBufferRangeProc = getter.get<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange", ApiVersion(3, 0),
+        glMapBufferRangeProc = getter.get<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange", ApiVersion{3, 0},
                                                                    {{"glMapBufferRangeEXT", "GL_EXT_map_buffer_range"}});
-        glUnmapBufferProc = getter.get<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer", ApiVersion(3, 0),
+        glUnmapBufferProc = getter.get<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer", ApiVersion{3, 0},
                                                              {{"glUnmapBufferOES", "GL_OES_mapbuffer"}});
 
-        glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion(3, 0),
+        glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion{3, 0},
                                                                      {{"glGenVertexArraysOES", "GL_OES_vertex_array_object"}});
-        glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion(3, 0),
+        glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion{3, 0},
                                                                      {{"glBindVertexArrayOES", "GL_OES_vertex_array_object"}});
-        glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion(3, 0),
+        glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion{3, 0},
                                                                            {{"glDeleteVertexArraysOES", "GL_OES_vertex_array_object"}});
 
         glPushGroupMarkerEXTProc = getter.get<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT", "GL_EXT_debug_marker");
         glPopGroupMarkerEXTProc = getter.get<PFNGLPOPGROUPMARKEREXTPROC>("glPopGroupMarkerEXT", "GL_EXT_debug_marker");
 
-        glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(3, 2));
+        glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion{3, 2});
 
-        glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0),
+        glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion{3, 0},
                                                                                                    {{"glRenderbufferStorageMultisampleEXT", "GL_EXT_multisampled_render_to_texture"},
                                                                                                     {"glRenderbufferStorageMultisampleIMG", "GL_IMG_multisampled_render_to_texture"},
                                                                                                     {"glRenderbufferStorageMultisampleAPPLE", "GL_APPLE_framebuffer_multisample"}});
@@ -462,172 +462,172 @@ namespace ouzel::graphics::opengl
             glFramebufferTexture2DMultisampleProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleIMG", "GL_IMG_multisampled_render_to_texture");
 
 #  if OUZEL_OPENGL_INTERFACE_EAGL
-        glDiscardFramebufferEXTProc = getter.get<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT", ApiVersion(2, 0));
-        glResolveMultisampleFramebufferAPPLEProc = getter.get<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE", ApiVersion(2, 0));
+        glDiscardFramebufferEXTProc = getter.get<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT", ApiVersion{2, 0});
+        glResolveMultisampleFramebufferAPPLEProc = getter.get<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE", ApiVersion{2, 0});
 
-        glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBufferOES", ApiVersion(3, 0),
+        glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBufferOES", ApiVersion{3, 0},
                                                             {{"glMapBufferOES", "GL_OES_mapbuffer"}});
 
         if (getter.hasExtension("GL_APPLE_framebuffer_multisample")) multisamplingSupported = true;
 #  else
-        glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBuffer", ApiVersion(3, 0),
+        glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBuffer", ApiVersion{3, 0},
                                                             {{"glMapBufferOES", "GL_OES_mapbuffer"}});
 #  endif
 #else // OUZEL_OPENGLES
-        clampToBorderSupported = apiVersion >= ApiVersion(1, 3) || getter.hasExtension("GL_EXT_texture_mirror_clamp");
-        textureBaseLevelSupported = apiVersion >= ApiVersion(1, 3);
-        textureMaxLevelSupported = apiVersion >= ApiVersion(1, 3);
-        uintIndicesSupported = apiVersion >= ApiVersion(2, 0);
-        npotTexturesSupported = apiVersion >= ApiVersion(2, 0);
-        renderTargetsSupported = apiVersion >= ApiVersion(3, 0) ||
+        clampToBorderSupported = apiVersion >= ApiVersion{1, 3} || getter.hasExtension("GL_EXT_texture_mirror_clamp");
+        textureBaseLevelSupported = apiVersion >= ApiVersion{1, 3};
+        textureMaxLevelSupported = apiVersion >= ApiVersion{1, 3};
+        uintIndicesSupported = apiVersion >= ApiVersion{2, 0};
+        npotTexturesSupported = apiVersion >= ApiVersion{2, 0};
+        renderTargetsSupported = apiVersion >= ApiVersion{3, 0} ||
             getter.hasExtension("GL_ARB_framebuffer_object") ||
             getter.hasExtension("GL_EXT_framebuffer_object");
-        multisamplingSupported = apiVersion >= ApiVersion(3, 0);
-        anisotropicFilteringSupported = apiVersion >= ApiVersion(4, 6) ||
+        multisamplingSupported = apiVersion >= ApiVersion{3, 0};
+        anisotropicFilteringSupported = apiVersion >= ApiVersion{4, 6} ||
             getter.hasExtension("GL_EXT_texture_filter_anisotropic") ||
             getter.hasExtension("GL_ARB_texture_filter_anisotropic");
 
-        glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion(1, 0));
-        glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion(1, 0));
-        glFrontFaceProc = getter.get<PFNGLFRONTFACEPROC>("glFrontFace", ApiVersion(1, 0));
-        glBindTextureProc = getter.get<PFNGLBINDTEXTUREPROC>("glBindTexture", ApiVersion(1, 1));
-        glGenTexturesProc = getter.get<PFNGLGENTEXTURESPROC>("glGenTextures", ApiVersion(1, 1));
-        glDeleteTexturesProc = getter.get<PFNGLDELETETEXTURESPROC>("glDeleteTextures", ApiVersion(1, 1));
-        glTexParameteriProc = getter.get<PFNGLTEXPARAMETERIPROC>("glTexParameteri", ApiVersion(1, 0));
-        glTexParameterivProc = getter.get<PFNGLTEXPARAMETERIVPROC>("glTexParameteriv", ApiVersion(1, 0));
-        glTexParameterfProc = getter.get<PFNGLTEXPARAMETERFPROC>("glTexParameterf", ApiVersion(1, 0));
-        glTexParameterfvProc = getter.get<PFNGLTEXPARAMETERFVPROC>("glTexParameterfv", ApiVersion(1, 0));
-        glTexImage2DProc = getter.get<PFNGLTEXIMAGE2DPROC>("glTexImage2D", ApiVersion(1, 0));
-        glTexSubImage2DProc = getter.get<PFNGLTEXSUBIMAGE2DPROC>("glTexSubImage2D", ApiVersion(1, 1));
-        glViewportProc = getter.get<PFNGLVIEWPORTPROC>("glViewport", ApiVersion(1, 0));
-        glClearProc = getter.get<PFNGLCLEARPROC>("glClear", ApiVersion(1, 0));
-        glClearColorProc = getter.get<PFNGLCLEARCOLORPROC>("glClearColor", ApiVersion(1, 0));
-        glClearStencilProc = getter.get<PFNGLCLEARSTENCILPROC>("glClearStencil", ApiVersion(1, 0));
-        glColorMaskProc = getter.get<PFNGLCOLORMASKPROC>("glColorMask", ApiVersion(1, 0));
-        glDepthMaskProc = getter.get<PFNGLDEPTHMASKPROC>("glDepthMask", ApiVersion(1, 0));
-        glDepthFuncProc = getter.get<PFNGLDEPTHFUNCPROC>("glDepthFunc", ApiVersion(1, 0));
-        glStencilMaskProc = getter.get<PFNGLSTENCILMASKPROC>("glStencilMask", ApiVersion(1, 0));
-        glStencilFuncSeparateProc = getter.get<PFNGLSTENCILFUNCSEPARATEPROC>("glStencilFuncSeparate", ApiVersion(2, 0));
-        glStencilOpSeparateProc = getter.get<PFNGLSTENCILOPSEPARATEPROC>("glStencilOpSeparate", ApiVersion(2, 0));
-        glCullFaceProc = getter.get<PFNGLCULLFACEPROC>("glCullFace", ApiVersion(1, 0));
-        glScissorProc = getter.get<PFNGLSCISSORPROC>("glScissor", ApiVersion(1, 0));
-        glDrawElementsProc = getter.get<PFNGLDRAWELEMENTSPROC>("glDrawElements", ApiVersion(1, 1));
-        glReadPixelsProc = getter.get<PFNGLREADPIXELSPROC>("glReadPixels", ApiVersion(1, 0));
+        glEnableProc = getter.get<PFNGLENABLEPROC>("glEnable", ApiVersion{1, 0});
+        glDisableProc = getter.get<PFNGLDISABLEPROC>("glDisable", ApiVersion{1, 0});
+        glFrontFaceProc = getter.get<PFNGLFRONTFACEPROC>("glFrontFace", ApiVersion{1, 0});
+        glBindTextureProc = getter.get<PFNGLBINDTEXTUREPROC>("glBindTexture", ApiVersion{1, 1});
+        glGenTexturesProc = getter.get<PFNGLGENTEXTURESPROC>("glGenTextures", ApiVersion{1, 1});
+        glDeleteTexturesProc = getter.get<PFNGLDELETETEXTURESPROC>("glDeleteTextures", ApiVersion{1, 1});
+        glTexParameteriProc = getter.get<PFNGLTEXPARAMETERIPROC>("glTexParameteri", ApiVersion{1, 0});
+        glTexParameterivProc = getter.get<PFNGLTEXPARAMETERIVPROC>("glTexParameteriv", ApiVersion{1, 0});
+        glTexParameterfProc = getter.get<PFNGLTEXPARAMETERFPROC>("glTexParameterf", ApiVersion{1, 0});
+        glTexParameterfvProc = getter.get<PFNGLTEXPARAMETERFVPROC>("glTexParameterfv", ApiVersion{1, 0});
+        glTexImage2DProc = getter.get<PFNGLTEXIMAGE2DPROC>("glTexImage2D", ApiVersion{1, 0});
+        glTexSubImage2DProc = getter.get<PFNGLTEXSUBIMAGE2DPROC>("glTexSubImage2D", ApiVersion{1, 1});
+        glViewportProc = getter.get<PFNGLVIEWPORTPROC>("glViewport", ApiVersion{1, 0});
+        glClearProc = getter.get<PFNGLCLEARPROC>("glClear", ApiVersion{1, 0});
+        glClearColorProc = getter.get<PFNGLCLEARCOLORPROC>("glClearColor", ApiVersion{1, 0});
+        glClearStencilProc = getter.get<PFNGLCLEARSTENCILPROC>("glClearStencil", ApiVersion{1, 0});
+        glColorMaskProc = getter.get<PFNGLCOLORMASKPROC>("glColorMask", ApiVersion{1, 0});
+        glDepthMaskProc = getter.get<PFNGLDEPTHMASKPROC>("glDepthMask", ApiVersion{1, 0});
+        glDepthFuncProc = getter.get<PFNGLDEPTHFUNCPROC>("glDepthFunc", ApiVersion{1, 0});
+        glStencilMaskProc = getter.get<PFNGLSTENCILMASKPROC>("glStencilMask", ApiVersion{1, 0});
+        glStencilFuncSeparateProc = getter.get<PFNGLSTENCILFUNCSEPARATEPROC>("glStencilFuncSeparate", ApiVersion{2, 0});
+        glStencilOpSeparateProc = getter.get<PFNGLSTENCILOPSEPARATEPROC>("glStencilOpSeparate", ApiVersion{2, 0});
+        glCullFaceProc = getter.get<PFNGLCULLFACEPROC>("glCullFace", ApiVersion{1, 0});
+        glScissorProc = getter.get<PFNGLSCISSORPROC>("glScissor", ApiVersion{1, 0});
+        glDrawElementsProc = getter.get<PFNGLDRAWELEMENTSPROC>("glDrawElements", ApiVersion{1, 1});
+        glReadPixelsProc = getter.get<PFNGLREADPIXELSPROC>("glReadPixels", ApiVersion{1, 0});
 
-        glBlendFuncSeparateProc = getter.get<PFNGLBLENDFUNCSEPARATEPROC>("glBlendFuncSeparate", ApiVersion(2, 0));
-        glBlendEquationSeparateProc = getter.get<PFNGLBLENDEQUATIONSEPARATEPROC>("glBlendEquationSeparate", ApiVersion(2, 0));
+        glBlendFuncSeparateProc = getter.get<PFNGLBLENDFUNCSEPARATEPROC>("glBlendFuncSeparate", ApiVersion{2, 0});
+        glBlendEquationSeparateProc = getter.get<PFNGLBLENDEQUATIONSEPARATEPROC>("glBlendEquationSeparate", ApiVersion{2, 0});
 
-        glActiveTextureProc = getter.get<PFNGLACTIVETEXTUREPROC>("glActiveTexture", ApiVersion(2, 0));
+        glActiveTextureProc = getter.get<PFNGLACTIVETEXTUREPROC>("glActiveTexture", ApiVersion{2, 0});
 
-        glPolygonModeProc = getter.get<PFNGLPOLYGONMODEPROC>("glPolygonMode", ApiVersion(1, 0));
-        glClearDepthProc = getter.get<PFNGLCLEARDEPTHPROC>("glClearDepth", ApiVersion(1, 0));
+        glPolygonModeProc = getter.get<PFNGLPOLYGONMODEPROC>("glPolygonMode", ApiVersion{1, 0});
+        glClearDepthProc = getter.get<PFNGLCLEARDEPTHPROC>("glClearDepth", ApiVersion{1, 0});
 
-        glUniform1iProc = getter.get<PFNGLUNIFORM1IPROC>("glUniform1i", ApiVersion(2, 0));
-        glUniform1fvProc = getter.get<PFNGLUNIFORM1FVPROC>("glUniform1fv", ApiVersion(2, 0));
-        glUniform2fvProc = getter.get<PFNGLUNIFORM2FVPROC>("glUniform2fv", ApiVersion(2, 0));
-        glUniform3fvProc = getter.get<PFNGLUNIFORM3FVPROC>("glUniform3fv", ApiVersion(2, 0));
-        glUniform4fvProc = getter.get<PFNGLUNIFORM4FVPROC>("glUniform4fv", ApiVersion(2, 0));
-        glUniform1ivProc = getter.get<PFNGLUNIFORM1IVPROC>("glUniform1iv", ApiVersion(2, 0));
-        glUniform2ivProc = getter.get<PFNGLUNIFORM2IVPROC>("glUniform2iv", ApiVersion(2, 0));
-        glUniform3ivProc = getter.get<PFNGLUNIFORM3IVPROC>("glUniform3iv", ApiVersion(2, 0));
-        glUniform4ivProc = getter.get<PFNGLUNIFORM4IVPROC>("glUniform4iv", ApiVersion(2, 0));
-        glUniformMatrix3fvProc = getter.get<PFNGLUNIFORMMATRIX3FVPROC>("glUniformMatrix3fv", ApiVersion(2, 0));
-        glUniformMatrix4fvProc = getter.get<PFNGLUNIFORMMATRIX4FVPROC>("glUniformMatrix4fv", ApiVersion(2, 0));
+        glUniform1iProc = getter.get<PFNGLUNIFORM1IPROC>("glUniform1i", ApiVersion{2, 0});
+        glUniform1fvProc = getter.get<PFNGLUNIFORM1FVPROC>("glUniform1fv", ApiVersion{2, 0});
+        glUniform2fvProc = getter.get<PFNGLUNIFORM2FVPROC>("glUniform2fv", ApiVersion{2, 0});
+        glUniform3fvProc = getter.get<PFNGLUNIFORM3FVPROC>("glUniform3fv", ApiVersion{2, 0});
+        glUniform4fvProc = getter.get<PFNGLUNIFORM4FVPROC>("glUniform4fv", ApiVersion{2, 0});
+        glUniform1ivProc = getter.get<PFNGLUNIFORM1IVPROC>("glUniform1iv", ApiVersion{2, 0});
+        glUniform2ivProc = getter.get<PFNGLUNIFORM2IVPROC>("glUniform2iv", ApiVersion{2, 0});
+        glUniform3ivProc = getter.get<PFNGLUNIFORM3IVPROC>("glUniform3iv", ApiVersion{2, 0});
+        glUniform4ivProc = getter.get<PFNGLUNIFORM4IVPROC>("glUniform4iv", ApiVersion{2, 0});
+        glUniformMatrix3fvProc = getter.get<PFNGLUNIFORMMATRIX3FVPROC>("glUniformMatrix3fv", ApiVersion{2, 0});
+        glUniformMatrix4fvProc = getter.get<PFNGLUNIFORMMATRIX4FVPROC>("glUniformMatrix4fv", ApiVersion{2, 0});
 
-        glCreateShaderProc = getter.get<PFNGLCREATESHADERPROC>("glCreateShader", ApiVersion(2, 0));
-        glDeleteShaderProc = getter.get<PFNGLDELETESHADERPROC>("glDeleteShader", ApiVersion(2, 0));
-        glAttachShaderProc = getter.get<PFNGLATTACHSHADERPROC>("glAttachShader", ApiVersion(2, 0));
-        glDetachShaderProc = getter.get<PFNGLDETACHSHADERPROC>("glDetachShader", ApiVersion(2, 0));
-        glShaderSourceProc = getter.get<PFNGLSHADERSOURCEPROC>("glShaderSource", ApiVersion(2, 0));
-        glCompileShaderProc = getter.get<PFNGLCOMPILESHADERPROC>("glCompileShader", ApiVersion(2, 0));
-        glBindAttribLocationProc = getter.get<PFNGLBINDATTRIBLOCATIONPROC>("glBindAttribLocation", ApiVersion(2, 0));
-        glGetShaderivProc = getter.get<PFNGLGETSHADERIVPROC>("glGetShaderiv", ApiVersion(2, 0));
-        glGetShaderInfoLogProc = getter.get<PFNGLGETSHADERINFOLOGPROC>("glGetShaderInfoLog", ApiVersion(2, 0));
+        glCreateShaderProc = getter.get<PFNGLCREATESHADERPROC>("glCreateShader", ApiVersion{2, 0});
+        glDeleteShaderProc = getter.get<PFNGLDELETESHADERPROC>("glDeleteShader", ApiVersion{2, 0});
+        glAttachShaderProc = getter.get<PFNGLATTACHSHADERPROC>("glAttachShader", ApiVersion{2, 0});
+        glDetachShaderProc = getter.get<PFNGLDETACHSHADERPROC>("glDetachShader", ApiVersion{2, 0});
+        glShaderSourceProc = getter.get<PFNGLSHADERSOURCEPROC>("glShaderSource", ApiVersion{2, 0});
+        glCompileShaderProc = getter.get<PFNGLCOMPILESHADERPROC>("glCompileShader", ApiVersion{2, 0});
+        glBindAttribLocationProc = getter.get<PFNGLBINDATTRIBLOCATIONPROC>("glBindAttribLocation", ApiVersion{2, 0});
+        glGetShaderivProc = getter.get<PFNGLGETSHADERIVPROC>("glGetShaderiv", ApiVersion{2, 0});
+        glGetShaderInfoLogProc = getter.get<PFNGLGETSHADERINFOLOGPROC>("glGetShaderInfoLog", ApiVersion{2, 0});
 
-        glCreateProgramProc = getter.get<PFNGLCREATEPROGRAMPROC>("glCreateProgram", ApiVersion(2, 0));
-        glDeleteProgramProc = getter.get<PFNGLDELETEPROGRAMPROC>("glDeleteProgram", ApiVersion(2, 0));
-        glUseProgramProc = getter.get<PFNGLUSEPROGRAMPROC>("glUseProgram", ApiVersion(2, 0));
-        glLinkProgramProc = getter.get<PFNGLLINKPROGRAMPROC>("glLinkProgram", ApiVersion(2, 0));
-        glGetProgramivProc = getter.get<PFNGLGETPROGRAMIVPROC>("glGetProgramiv", ApiVersion(2, 0));
-        glGetProgramInfoLogProc = getter.get<PFNGLGETPROGRAMINFOLOGPROC>("glGetProgramInfoLog", ApiVersion(2, 0));
-        glGetUniformLocationProc = getter.get<PFNGLGETUNIFORMLOCATIONPROC>("glGetUniformLocation", ApiVersion(2, 0));
+        glCreateProgramProc = getter.get<PFNGLCREATEPROGRAMPROC>("glCreateProgram", ApiVersion{2, 0});
+        glDeleteProgramProc = getter.get<PFNGLDELETEPROGRAMPROC>("glDeleteProgram", ApiVersion{2, 0});
+        glUseProgramProc = getter.get<PFNGLUSEPROGRAMPROC>("glUseProgram", ApiVersion{2, 0});
+        glLinkProgramProc = getter.get<PFNGLLINKPROGRAMPROC>("glLinkProgram", ApiVersion{2, 0});
+        glGetProgramivProc = getter.get<PFNGLGETPROGRAMIVPROC>("glGetProgramiv", ApiVersion{2, 0});
+        glGetProgramInfoLogProc = getter.get<PFNGLGETPROGRAMINFOLOGPROC>("glGetProgramInfoLog", ApiVersion{2, 0});
+        glGetUniformLocationProc = getter.get<PFNGLGETUNIFORMLOCATIONPROC>("glGetUniformLocation", ApiVersion{2, 0});
 
-        glBindBufferProc = getter.get<PFNGLBINDBUFFERPROC>("glBindBuffer", ApiVersion(2, 0));
-        glDeleteBuffersProc = getter.get<PFNGLDELETEBUFFERSPROC>("glDeleteBuffers", ApiVersion(2, 0));
-        glGenBuffersProc = getter.get<PFNGLGENBUFFERSPROC>("glGenBuffers", ApiVersion(2, 0));
-        glBufferDataProc = getter.get<PFNGLBUFFERDATAPROC>("glBufferData", ApiVersion(2, 0));
-        glBufferSubDataProc = getter.get<PFNGLBUFFERSUBDATAPROC>("glBufferSubData", ApiVersion(2, 0));
+        glBindBufferProc = getter.get<PFNGLBINDBUFFERPROC>("glBindBuffer", ApiVersion{2, 0});
+        glDeleteBuffersProc = getter.get<PFNGLDELETEBUFFERSPROC>("glDeleteBuffers", ApiVersion{2, 0});
+        glGenBuffersProc = getter.get<PFNGLGENBUFFERSPROC>("glGenBuffers", ApiVersion{2, 0});
+        glBufferDataProc = getter.get<PFNGLBUFFERDATAPROC>("glBufferData", ApiVersion{2, 0});
+        glBufferSubDataProc = getter.get<PFNGLBUFFERSUBDATAPROC>("glBufferSubData", ApiVersion{2, 0});
 
-        glEnableVertexAttribArrayProc = getter.get<PFNGLENABLEVERTEXATTRIBARRAYPROC>("glEnableVertexAttribArray", ApiVersion(2, 0));
-        glDisableVertexAttribArrayProc = getter.get<PFNGLDISABLEVERTEXATTRIBARRAYPROC>("glDisableVertexAttribArray", ApiVersion(2, 0));
-        glVertexAttribPointerProc = getter.get<PFNGLVERTEXATTRIBPOINTERPROC>("glVertexAttribPointer", ApiVersion(2, 0));
+        glEnableVertexAttribArrayProc = getter.get<PFNGLENABLEVERTEXATTRIBARRAYPROC>("glEnableVertexAttribArray", ApiVersion{2, 0});
+        glDisableVertexAttribArrayProc = getter.get<PFNGLDISABLEVERTEXATTRIBARRAYPROC>("glDisableVertexAttribArray", ApiVersion{2, 0});
+        glVertexAttribPointerProc = getter.get<PFNGLVERTEXATTRIBPOINTERPROC>("glVertexAttribPointer", ApiVersion{2, 0});
 
-        glMapBufferProc = getter.get<PFNGLMAPBUFFERPROC>("glMapBuffer", ApiVersion(2, 0));
-        glUnmapBufferProc = getter.get<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer", ApiVersion(2, 0));
+        glMapBufferProc = getter.get<PFNGLMAPBUFFERPROC>("glMapBuffer", ApiVersion{2, 0});
+        glUnmapBufferProc = getter.get<PFNGLUNMAPBUFFERPROC>("glUnmapBuffer", ApiVersion{2, 0});
 
-        glUniform1uivProc = getter.get<PFNGLUNIFORM1UIVPROC>("glUniform1uiv", ApiVersion(3, 0));
-        glUniform2uivProc = getter.get<PFNGLUNIFORM2UIVPROC>("glUniform2uiv", ApiVersion(3, 0));
-        glUniform3uivProc = getter.get<PFNGLUNIFORM3UIVPROC>("glUniform3uiv", ApiVersion(3, 0));
-        glUniform4uivProc = getter.get<PFNGLUNIFORM4UIVPROC>("glUniform4uiv", ApiVersion(3, 0));
+        glUniform1uivProc = getter.get<PFNGLUNIFORM1UIVPROC>("glUniform1uiv", ApiVersion{3, 0});
+        glUniform2uivProc = getter.get<PFNGLUNIFORM2UIVPROC>("glUniform2uiv", ApiVersion{3, 0});
+        glUniform3uivProc = getter.get<PFNGLUNIFORM3UIVPROC>("glUniform3uiv", ApiVersion{3, 0});
+        glUniform4uivProc = getter.get<PFNGLUNIFORM4UIVPROC>("glUniform4uiv", ApiVersion{3, 0});
 
-        glMapBufferRangeProc = getter.get<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange", ApiVersion(3, 0),
+        glMapBufferRangeProc = getter.get<PFNGLMAPBUFFERRANGEPROC>("glMapBufferRange", ApiVersion{3, 0},
                                                                    {{"glMapBufferRange", "GL_ARB_map_buffer_range"}});
 
-        glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion(3, 0),
+        glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion{3, 0},
                                                                      {{"glGenVertexArrays", "GL_ARB_vertex_array_object"}});
-        glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion(3, 0),
+        glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion{3, 0},
                                                                      {{"glBindVertexArray", "GL_ARB_vertex_array_object"}});
-        glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion(3, 0),
+        glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion{3, 0},
                                                                            {{"glDeleteVertexArrays", "GL_ARB_vertex_array_object"}});
 
-        glGenFramebuffersProc = getter.get<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers", ApiVersion(3, 0),
+        glGenFramebuffersProc = getter.get<PFNGLGENFRAMEBUFFERSPROC>("glGenFramebuffers", ApiVersion{3, 0},
                                                                      {{"glGenFramebuffers", "GL_ARB_framebuffer_object"},
                                                                       {"glGenFramebuffersEXT", "GL_EXT_framebuffer_object"}});
-        glDeleteFramebuffersProc = getter.get<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers", ApiVersion(3, 0),
+        glDeleteFramebuffersProc = getter.get<PFNGLDELETEFRAMEBUFFERSPROC>("glDeleteFramebuffers", ApiVersion{3, 0},
                                                                            {{"glDeleteFramebuffers", "GL_ARB_framebuffer_object"},
                                                                             {"glDeleteFramebuffersEXT", "GL_EXT_framebuffer_object"}});
-        glBindFramebufferProc = getter.get<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer", ApiVersion(3, 0),
+        glBindFramebufferProc = getter.get<PFNGLBINDFRAMEBUFFERPROC>("glBindFramebuffer", ApiVersion{3, 0},
                                                                      {{"glBindFramebuffer", "GL_ARB_framebuffer_object"},
                                                                       {"glBindFramebufferEXT", "GL_EXT_framebuffer_object"}});
-        glCheckFramebufferStatusProc = getter.get<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus", ApiVersion(3, 0),
+        glCheckFramebufferStatusProc = getter.get<PFNGLCHECKFRAMEBUFFERSTATUSPROC>("glCheckFramebufferStatus", ApiVersion{3, 0},
                                                                                    {{"glCheckFramebufferStatus", "GL_ARB_framebuffer_object"},
                                                                                     {"CheckFramebufferStatusEXT", "GL_EXT_framebuffer_object"}});
-        glFramebufferRenderbufferProc = getter.get<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer", ApiVersion(3, 0),
+        glFramebufferRenderbufferProc = getter.get<PFNGLFRAMEBUFFERRENDERBUFFERPROC>("glFramebufferRenderbuffer", ApiVersion{3, 0},
                                                                                      {{"glFramebufferRenderbuffer", "GL_ARB_framebuffer_object"},
                                                                                       {"glFramebufferRenderbufferEXT", "GL_EXT_framebuffer_object"}});
-        glBlitFramebufferProc = getter.get<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer", ApiVersion(3, 0),
+        glBlitFramebufferProc = getter.get<PFNGLBLITFRAMEBUFFERPROC>("glBlitFramebuffer", ApiVersion{3, 0},
                                                                      {{"glBlitFramebuffer", "GL_ARB_framebuffer_object"},
                                                                       {"glBlitFramebufferEXT", "GL_EXT_framebuffer_blit"}});
-        glFramebufferTexture2DProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D", ApiVersion(3, 0),
+        glFramebufferTexture2DProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DPROC>("glFramebufferTexture2D", ApiVersion{3, 0},
                                                                                {{"glFramebufferTexture2D", "GL_ARB_framebuffer_object"},
                                                                                 {"glFramebufferTexture2DEXT", "GL_EXT_framebuffer_object"}});
-        glGenRenderbuffersProc = getter.get<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers", ApiVersion(3, 0),
+        glGenRenderbuffersProc = getter.get<PFNGLGENRENDERBUFFERSPROC>("glGenRenderbuffers", ApiVersion{3, 0},
                                                                        {{"glGenRenderbuffers", "GL_ARB_framebuffer_object"},
                                                                         {"glGenRenderbuffersEXT", "GL_EXT_framebuffer_object"}});
-        glDeleteRenderbuffersProc = getter.get<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers", ApiVersion(3, 0),
+        glDeleteRenderbuffersProc = getter.get<PFNGLDELETERENDERBUFFERSPROC>("glDeleteRenderbuffers", ApiVersion{3, 0},
                                                                              {{"glDeleteRenderbuffers", "GL_ARB_framebuffer_object"},
                                                                               {"glDeleteRenderbuffersEXT", "GL_EXT_framebuffer_object"}});
-        glBindRenderbufferProc = getter.get<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer", ApiVersion(3, 0),
+        glBindRenderbufferProc = getter.get<PFNGLBINDRENDERBUFFERPROC>("glBindRenderbuffer", ApiVersion{3, 0},
                                                                        {{"glBindRenderbuffer", "GL_ARB_framebuffer_object"},
                                                                         {"glBindRenderbufferEXT", "GL_EXT_framebuffer_object"}});
-        glRenderbufferStorageProc = getter.get<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage", ApiVersion(3, 0),
+        glRenderbufferStorageProc = getter.get<PFNGLRENDERBUFFERSTORAGEPROC>("glRenderbufferStorage", ApiVersion{3, 0},
                                                                              {{"glRenderbufferStorage", "GL_ARB_framebuffer_object"},
                                                                               {"glRenderbufferStorageEXT", "GL_EXT_framebuffer_object"}});
 
-        glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion(3, 0),
+        glRenderbufferStorageMultisampleProc = getter.get<PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC>("glRenderbufferStorageMultisample", ApiVersion{3, 0},
                                                                                                    {{"glRenderbufferStorageMultisampleEXT", "GL_EXT_multisampled_render_to_texture"}});
 
-        glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample", ApiVersion(4, 3),
+        glTexStorage2DMultisampleProc = getter.get<PFNGLTEXSTORAGE2DMULTISAMPLEPROC>("glTexStorage2DMultisample", ApiVersion{4, 3},
                                                                                      {{"glTexStorage2DMultisample", "GL_ARB_texture_storage_multisample"}});
 
-        glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion(3, 0),
+        glGenVertexArraysProc = getter.get<PFNGLGENVERTEXARRAYSPROC>("glGenVertexArrays", ApiVersion{3, 0},
                                                                      {{"glGenVertexArrays", "GL_ARB_vertex_array_object"}});
-        glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion(3, 0),
+        glBindVertexArrayProc = getter.get<PFNGLBINDVERTEXARRAYPROC>("glBindVertexArray", ApiVersion{3, 0},
                                                                      {{"glBindVertexArray", "GL_ARB_vertex_array_object"}});
-        glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion(3, 0),
+        glDeleteVertexArraysProc = getter.get<PFNGLDELETEVERTEXARRAYSPROC>("glDeleteVertexArrays", ApiVersion{3, 0},
                                                                            {{"glDeleteVertexArrays", "GL_ARB_vertex_array_object"}});
 
-        glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion(4, 3),
+        glCopyImageSubDataProc = getter.get<PFNGLCOPYIMAGESUBDATAPROC>("glCopyImageSubData", ApiVersion{4, 3},
                                                                        {{"glCopyImageSubData", "GL_ARB_copy_image"}, {"glCopyImageSubDataEXT", "GL_EXT_copy_image"}});
 
         glPushGroupMarkerEXTProc = getter.get<PFNGLPUSHGROUPMARKEREXTPROC>("glPushGroupMarkerEXT", "GL_EXT_debug_marker");

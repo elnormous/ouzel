@@ -106,7 +106,7 @@ namespace ouzel::graphics::metal
         depthFormat(MTLPixelFormatInvalid),
         stencilFormat(MTLPixelFormatInvalid)
     {
-        apiVersion = ApiVersion(1, 0);
+        apiVersion = ApiVersion{1, 0};
 
         npotTexturesSupported = true;
         anisotropicFilteringSupported = true;

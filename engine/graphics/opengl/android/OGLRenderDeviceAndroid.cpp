@@ -117,7 +117,7 @@ namespace ouzel::graphics::opengl::android
 
                 if (context != EGL_NO_CONTEXT)
                 {
-                    apiVersion = ApiVersion(3, 0);
+                    apiVersion = ApiVersion{3, 0};
                     logger.log(Log::Level::info) << "EGL OpenGL ES " << 3 << " context created";
                 }
                 else // TODO: use RAII for surface
@@ -155,7 +155,7 @@ namespace ouzel::graphics::opengl::android
             if (context == EGL_NO_CONTEXT)
                 throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL context");
 
-            apiVersion = ApiVersion(2, 0);
+            apiVersion = ApiVersion{2, 0};
             logger.log(Log::Level::info) << "EGL OpenGL ES " << 2 << " context created";
         }
 
@@ -252,7 +252,7 @@ namespace ouzel::graphics::opengl::android
 
                 if (context != EGL_NO_CONTEXT)
                 {
-                    apiVersion = ApiVersion(3, 0);
+                    apiVersion = ApiVersion{3, 0};
                     logger.log(Log::Level::info) << "EGL OpenGL ES " << 3 << " context created";
                 }
                 else // TODO: use RAII for surface
@@ -290,7 +290,7 @@ namespace ouzel::graphics::opengl::android
             if (context == EGL_NO_CONTEXT)
                 throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL context");
 
-            apiVersion = ApiVersion(2, 0);
+            apiVersion = ApiVersion{2, 0};
             logger.log(Log::Level::info) << "EGL OpenGL ES " << 2 << " context created";
         }
 

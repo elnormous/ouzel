@@ -77,7 +77,7 @@ namespace ouzel::graphics::d3d11
                                const std::function<void(const Event&)>& initCallback):
         graphics::RenderDevice(Driver::direct3D11, settings, initWindow, initCallback)
     {
-        apiVersion = ApiVersion(11, 0);
+        apiVersion = ApiVersion{11, 0};
     
         anisotropicFilteringSupported = true;
         renderTargetsSupported = true;
