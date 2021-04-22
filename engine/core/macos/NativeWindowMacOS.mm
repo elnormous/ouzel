@@ -176,7 +176,7 @@ namespace ouzel::core::macos
                 view = [[View alloc] initWithFrame:windowFrame];
                 break;
 #if OUZEL_COMPILE_OPENGL
-            case graphics::Driver::openGL:
+            case graphics::Driver::openGl:
                 view = [[OpenGLView alloc] initWithFrame:windowFrame];
                 [view setWantsBestResolutionOpenGLSurface:highDpi ? YES : NO];
                 break;

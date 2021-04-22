@@ -53,20 +53,20 @@ namespace ouzel::graphics::opengl::macos
     {
         embedded = false;
 
-        constexpr std::array<std::pair<NSOpenGLPixelFormatAttribute, ApiVersion>, 3> openGLVersions = {
+        constexpr std::array<std::pair<NSOpenGLPixelFormatAttribute, ApiVersion>, 3> openGlVersions = {
             std::pair(NSOpenGLProfileVersion4_1Core, ApiVersion(4, 1)),
             std::pair(NSOpenGLProfileVersion3_2Core, ApiVersion(3, 2)),
             std::pair(NSOpenGLProfileVersionLegacy, ApiVersion(2, 0))
         };
 
-        for (const auto& openGLVersion : openGLVersions)
+        for (const auto& openGlVersion : openGlVersions)
         {
             // Create pixel format
             std::vector<NSOpenGLPixelFormatAttribute> attributes = {
                 NSOpenGLPFAAccelerated,
                 NSOpenGLPFANoRecovery,
                 NSOpenGLPFADoubleBuffer,
-                NSOpenGLPFAOpenGLProfile, openGLVersion.first,
+                NSOpenGLPFAOpenGLProfile, openGlVersion.first,
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
                 NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(settings.depth ? 24 : 0),
@@ -88,7 +88,7 @@ namespace ouzel::graphics::opengl::macos
 
             if (pixelFormat)
             {
-                apiVersion = openGLVersion.second;
+                apiVersion = openGlVersion.second;
                 logger.log(Log::Level::info) << "OpenGL " << apiVersion.v[0] << '.' << apiVersion.v[1] << " pixel format created";
                 break;
             }
@@ -98,17 +98,17 @@ namespace ouzel::graphics::opengl::macos
             throw std::runtime_error("Failed to crete OpenGL pixel format");
 
         // Create OpenGL context
-        openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
-        [openGLContext makeCurrentContext];
+        openGlContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+        [openGlContext makeCurrentContext];
 
         const auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
-        OpenGLView* openGLView = (OpenGLView*)windowMacOS->getNativeView();
+        OpenGLView* openGlView = (OpenGLView*)windowMacOS->getNativeView();
 
-        [openGLView setOpenGLContext:openGLContext];
-        [openGLContext setView:openGLView];
+        [openGlView setOpenGLContext:openGlContext];
+        [openGlContext setView:openGlView];
 
         const GLint swapInterval = settings.verticalSync ? 1 : 0;
-        [openGLContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
+        [openGlContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
         init(static_cast<GLsizei>(window.getResolution().v[0]),
              static_cast<GLsizei>(window.getResolution().v[1]));
@@ -142,10 +142,10 @@ namespace ouzel::graphics::opengl::macos
             CVDisplayLinkRelease(displayLink);
         }
 
-        if (openGLContext)
+        if (openGlContext)
         {
             [NSOpenGLContext clearCurrentContext];
-            [openGLContext release];
+            [openGlContext release];
         }
 
         if (pixelFormat)
@@ -154,7 +154,7 @@ namespace ouzel::graphics::opengl::macos
 
     void RenderDevice::resizeFrameBuffer()
     {
-        [openGLContext update];
+        [openGlContext update];
     }
 
     std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
@@ -179,7 +179,7 @@ namespace ouzel::graphics::opengl::macos
 
     void RenderDevice::present()
     {
-        [openGLContext flushBuffer];
+        [openGlContext flushBuffer];
     }
 
     bool RenderDevice::handleWindow(const WindowEvent& event)
@@ -212,8 +212,8 @@ namespace ouzel::graphics::opengl::macos
 
     void RenderDevice::renderCallback()
     {
-        if ([NSOpenGLContext currentContext] != openGLContext)
-            [openGLContext makeCurrentContext];
+        if ([NSOpenGLContext currentContext] != openGlContext)
+            [openGlContext makeCurrentContext];
 
         if (running) process();
     }

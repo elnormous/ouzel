@@ -39,7 +39,7 @@ namespace ouzel::graphics::opengl::macos
 
         std::vector<Size<std::uint32_t, 2>> getSupportedResolutions() const final;
 
-        auto getOpenGLContext() const noexcept { return openGLContext; }
+        auto getContext() const noexcept { return openGlContext; }
 
         void renderCallback();
 
@@ -49,7 +49,7 @@ namespace ouzel::graphics::opengl::macos
 
         bool handleWindow(const WindowEvent& event);
 
-        NSOpenGLContextPtr openGLContext = nil;
+        NSOpenGLContextPtr openGlContext = nil;
         NSOpenGLPixelFormatPtr pixelFormat = nil;
 
         CVDisplayLinkRef displayLink = nullptr;

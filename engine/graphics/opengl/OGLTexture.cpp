@@ -12,10 +12,10 @@ namespace ouzel::graphics::opengl
 {
     namespace
     {
-        constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, std::uint32_t openGLVersion)
+        constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, std::uint32_t openGlVersion)
         {
 #if OUZEL_OPENGLES
-            if (openGLVersion >= 3)
+            if (openGlVersion >= 3)
             {
                 switch (pixelFormat)
                 {
@@ -66,7 +66,7 @@ namespace ouzel::graphics::opengl
                 }
             }
 #else
-            static_cast<void>(openGLVersion);
+            static_cast<void>(openGlVersion);
 
             switch (pixelFormat)
             {

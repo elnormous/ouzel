@@ -241,7 +241,7 @@ namespace ouzel::core
         switch (settings.graphicsDriver)
         {
 #if OUZEL_COMPILE_OPENGL
-            case graphics::Driver::openGL:
+            case graphics::Driver::openGl:
             {
                 std::unique_ptr<graphics::Shader> textureShader;
 

@@ -8,7 +8,7 @@ namespace ouzel::graphics
     enum class Driver
     {
         empty,
-        openGL,
+        openGl,
         direct3D11,
         metal
     };

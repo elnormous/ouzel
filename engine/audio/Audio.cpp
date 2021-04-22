@@ -29,23 +29,23 @@ namespace ouzel::audio
                 return Driver::coreAudio;
             else if (availableDrivers.find(Driver::alsa) != availableDrivers.end())
                 return Driver::alsa;
-            else if (availableDrivers.find(Driver::openAL) != availableDrivers.end())
-                return Driver::openAL;
+            else if (availableDrivers.find(Driver::openAl) != availableDrivers.end())
+                return Driver::openAl;
             else if (availableDrivers.find(Driver::xAudio2) != availableDrivers.end())
                 return Driver::xAudio2;
-            else if (availableDrivers.find(Driver::openSL) != availableDrivers.end())
-                return Driver::openSL;
+            else if (availableDrivers.find(Driver::openSl) != availableDrivers.end())
+                return Driver::openSl;
             else
                 return Driver::empty;
         }
         else if (driver == "empty")
             return Driver::empty;
         else if (driver == "openal")
-            return Driver::openAL;
+            return Driver::openAl;
         else if (driver == "xaudio2")
             return Driver::xAudio2;
         else if (driver == "opensl")
-            return Driver::openSL;
+            return Driver::openSl;
         else if (driver == "coreaudio")
             return Driver::coreAudio;
         else if (driver == "alsa")
@@ -65,13 +65,13 @@ namespace ouzel::audio
             availableDrivers.insert(Driver::empty);
 
 #if OUZEL_COMPILE_OPENAL
-            availableDrivers.insert(Driver::openAL);
+            availableDrivers.insert(Driver::openAl);
 #endif
 #if OUZEL_COMPILE_XAUDIO2
             availableDrivers.insert(Driver::xAudio2);
 #endif
 #if OUZEL_COMPILE_OPENSL
-            availableDrivers.insert(Driver::openSL);
+            availableDrivers.insert(Driver::openSl);
 #endif
 #if OUZEL_COMPILE_COREAUDIO
             availableDrivers.insert(Driver::coreAudio);
@@ -96,7 +96,7 @@ namespace ouzel::audio
             switch (driver)
             {
 #if OUZEL_COMPILE_OPENAL
-                case Driver::openAL:
+                case Driver::openAl:
                     logger.log(Log::Level::info) << "Using OpenAL audio driver";
                     return std::make_unique<openal::AudioDevice>(settings, dataGetter);
 #endif
@@ -106,7 +106,7 @@ namespace ouzel::audio
                     return std::make_unique<xaudio2::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_OPENSL
-                case Driver::openSL:
+                case Driver::openSl:
                     logger.log(Log::Level::info) << "Using OpenSL ES audio driver";
                     return std::make_unique<opensl::AudioDevice>(settings, dataGetter);
 #endif

@@ -56,7 +56,7 @@ namespace ouzel::audio::opensl
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::openSL, settings, initDataGetter)
+        audio::AudioDevice(Driver::openSl, settings, initDataGetter)
     {
         const std::array engineInterfaces = { SL_IID_ENGINE, SL_IID_ENGINECAPABILITIES };
         constexpr std::array engineRequirements = { SL_BOOLEAN_TRUE, SL_BOOLEAN_FALSE };

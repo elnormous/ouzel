@@ -87,7 +87,7 @@ namespace ouzel::core::emscripten
                 logger.log(Log::Level::error) << e.what();
             }
 
-            if (audio->getDevice()->getDriver() == audio::Driver::openAL)
+            if (audio->getDevice()->getDriver() == audio::Driver::openAl)
             {
                 const auto audioDevice = static_cast<audio::openal::AudioDevice*>(audio->getDevice());
                 try

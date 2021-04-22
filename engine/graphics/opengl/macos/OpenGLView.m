@@ -8,19 +8,19 @@
 
 @implementation OpenGLView
 {
-    NSOpenGLContext* openGLContext;
+    NSOpenGLContext* openGlContext;
 }
 
 - (void)setOpenGLContext:(NSOpenGLContext*)context
 {
-    openGLContext = context;
+    openGlContext = context;
 }
 
 - (void)setLayer:(CALayer*)layer
 {
     [super setLayer:layer];
 
-    [openGLContext update];
+    [openGlContext update];
 }
 @end
 

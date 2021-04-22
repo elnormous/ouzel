@@ -266,10 +266,10 @@ namespace ouzel::graphics::opengl::windows
 
         if (wglCreateContextAttribsProc)
         {
-            for (int openGLVersion = 4; openGLVersion >= 2; --openGLVersion)
+            for (int openGlVersion = 4; openGlVersion >= 2; --openGlVersion)
             {
                 const int contextAttribs[] = {
-                    WGL_CONTEXT_MAJOR_VERSION_ARB, openGLVersion,
+                    WGL_CONTEXT_MAJOR_VERSION_ARB, openGlVersion,
                     WGL_CONTEXT_MINOR_VERSION_ARB, 0,
                     WGL_CONTEXT_FLAGS_ARB, settings.debugRenderer ? WGL_CONTEXT_DEBUG_BIT_ARB : 0,
                     0
@@ -279,7 +279,7 @@ namespace ouzel::graphics::opengl::windows
 
                 if (renderContext)
                 {
-                    logger.log(Log::Level::info) << "OpenGL " << openGLVersion << " context created";
+                    logger.log(Log::Level::info) << "OpenGL " << openGlVersion << " context created";
                     break;
                 }
             }

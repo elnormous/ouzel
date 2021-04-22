@@ -8,9 +8,9 @@ namespace ouzel::audio
     enum class Driver
     {
         empty,
-        openAL,
+        openAl,
         xAudio2,
-        openSL,
+        openSl,
         coreAudio,
         alsa,
         wasapi

@@ -43,12 +43,12 @@ namespace ouzel::graphics::opengl::emscripten
 
         embedded = true;
 
-        constexpr std::array<std::pair<int, ApiVersion>, 2> openGLVersions = {
+        constexpr std::array<std::pair<int, ApiVersion>, 2> openGlVersions = {
             std::pair(2, ApiVersion(3, 0)),
             std::pair(1, ApiVersion(2, 0))
         };
 
-        for (const auto& openGLVersion : openGLVersions)
+        for (const auto& openGlVersion : openGlVersions)
         {
             EmscriptenWebGLContextAttributes attrs;
             emscripten_webgl_init_context_attributes(&attrs);
@@ -57,15 +57,15 @@ namespace ouzel::graphics::opengl::emscripten
             attrs.depth = settings.depth;
             attrs.stencil = settings.stencil;
             attrs.antialias = settings.sampleCount > 0;
-            attrs.majorVersion = openGLVersion.first;
+            attrs.majorVersion = openGlVersion.first;
             attrs.minorVersion = 0;
 
             webGLContext = emscripten_webgl_create_context("#canvas", &attrs);
 
             if (webGLContext)
             {
-                apiVersion = openGLVersion.second;
-                logger.log(Log::Level::info) << "WebGL " << openGLVersion.first << " context created";
+                apiVersion = openGlVersion.second;
+                logger.log(Log::Level::info) << "WebGL " << openGlVersion.first << " context created";
                 break;
             }
         }
@@ -98,12 +98,12 @@ namespace ouzel::graphics::opengl::emscripten
 
     void RenderDevice::handleContextRestored()
     {
-        constexpr std::array<std::pair<int, ApiVersion>, 2> openGLVersions = {
+        constexpr std::array<std::pair<int, ApiVersion>, 2> openGlVersions = {
             std::pair(2, ApiVersion(3, 0)),
             std::pair(1, ApiVersion(2, 0))
         };
 
-        for (const auto& openGLVersion : openGLVersions)
+        for (const auto& openGlVersion : openGlVersions)
         {
             EmscriptenWebGLContextAttributes attrs;
             emscripten_webgl_init_context_attributes(&attrs);
@@ -112,15 +112,15 @@ namespace ouzel::graphics::opengl::emscripten
             attrs.depth = depth;
             attrs.stencil = stencil;
             attrs.antialias = sampleCount > 0;
-            attrs.majorVersion = openGLVersion.first;
+            attrs.majorVersion = openGlVersion.first;
             attrs.minorVersion = 0;
 
             webGLContext = emscripten_webgl_create_context("#canvas", &attrs);
 
             if (webGLContext)
             {
-                apiVersion = openGLVersion.second;
-                logger.log(Log::Level::info) << "WebGL " << openGLVersion.first << " context created";
+                apiVersion = openGlVersion.second;
+                logger.log(Log::Level::info) << "WebGL " << openGlVersion.first << " context created";
                 break;
             }
         }
