@@ -98,17 +98,17 @@ namespace ouzel::graphics::opengl::macos
             throw std::runtime_error("Failed to crete OpenGL pixel format");
 
         // Create OpenGL context
-        openGlContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
-        [openGlContext makeCurrentContext];
+        context = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+        [context makeCurrentContext];
 
         const auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
         OpenGLView* openGlView = (OpenGLView*)windowMacOS->getNativeView();
 
-        [openGlView setOpenGLContext:openGlContext];
-        [openGlContext setView:openGlView];
+        [openGlView setOpenGLContext:context];
+        [context setView:openGlView];
 
         const GLint swapInterval = settings.verticalSync ? 1 : 0;
-        [openGlContext setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
+        [context setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 
         init(static_cast<GLsizei>(window.getResolution().v[0]),
              static_cast<GLsizei>(window.getResolution().v[1]));
@@ -142,10 +142,10 @@ namespace ouzel::graphics::opengl::macos
             CVDisplayLinkRelease(displayLink);
         }
 
-        if (openGlContext)
+        if (context)
         {
             [NSOpenGLContext clearCurrentContext];
-            [openGlContext release];
+            [context release];
         }
 
         if (pixelFormat)
@@ -154,7 +154,7 @@ namespace ouzel::graphics::opengl::macos
 
     void RenderDevice::resizeFrameBuffer()
     {
-        [openGlContext update];
+        [context update];
     }
 
     std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
@@ -179,7 +179,7 @@ namespace ouzel::graphics::opengl::macos
 
     void RenderDevice::present()
     {
-        [openGlContext flushBuffer];
+        [context flushBuffer];
     }
 
     bool RenderDevice::handleWindow(const WindowEvent& event)
@@ -212,8 +212,8 @@ namespace ouzel::graphics::opengl::macos
 
     void RenderDevice::renderCallback()
     {
-        if ([NSOpenGLContext currentContext] != openGlContext)
-            [openGlContext makeCurrentContext];
+        if ([NSOpenGLContext currentContext] != context)
+            [context makeCurrentContext];
 
         if (running) process();
     }
