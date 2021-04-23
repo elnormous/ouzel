@@ -154,7 +154,7 @@ namespace ouzel::graphics::opengl
         {
         public:
             Module():
-                module(LoadLibraryW(L"opengl32.dll"))
+                module(LoadLibraryA("opengl32.dll"))
             {
                 if (!module)
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
