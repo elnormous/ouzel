@@ -6,7 +6,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <string>
+#include <string_view>
 #include <type_traits>
 #include "Vector.hpp"
 
@@ -29,7 +29,7 @@ namespace ouzel
         {
         }
 
-        explicit Color(const std::string& color)
+        explicit Color(const std::string_view& color)
         {
             if (!color.empty())
             {
@@ -68,11 +68,6 @@ namespace ouzel
             else
                 for (std::size_t i = 0; i < 4; ++i)
                     v[i] = 0;
-        }
-
-        explicit Color(const char* color):
-            Color(std::string(color))
-        {
         }
 
         template <typename T, std::enable_if_t<std::is_integral_v<T>>* = nullptr>
