@@ -4,6 +4,7 @@
 #define OUZEL_PLATFORM_WINAPI_LIBRARY_HPP
 
 #include <string>
+#include <system_error>
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
@@ -23,9 +24,11 @@ namespace ouzel::platform::winapi
     {
     public:
         Library() noexcept = default;
-        Library(const std::string& filename) noexcept:
+        Library(const std::string& filename):
             handle(LoadLibraryA(filename.c_str()))
         {
+            if (!handle)
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
         }
 
         Library(const Library&) = delete;
