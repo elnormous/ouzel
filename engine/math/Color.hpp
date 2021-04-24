@@ -101,7 +101,7 @@ namespace ouzel
                 static_cast<std::uint8_t>(std::round(vec.v[0] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[1] * 255.0F)),
                 static_cast<std::uint8_t>(std::round(vec.v[2] * 255.0F)),
-                0
+                static_cast<std::uint8_t>(0xFFU)
             }}
         {
         }
