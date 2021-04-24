@@ -50,7 +50,7 @@ namespace ouzel
                         }
                     }
 
-                    v[3] = 0xFF; // alpha
+                    v[3] = static_cast<std::uint8_t>(0xFFU); // alpha
                 }
                 else
                 {
