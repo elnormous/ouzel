@@ -29,7 +29,7 @@ namespace ouzel::assets
 
         for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
         {
-            Loader* loader = i->get();
+            const auto loader = i->get();
             if (loader->getType() == loaderType &&
                 loader->loadAsset(cache, *this, name, data, mipmaps))
                 return;
