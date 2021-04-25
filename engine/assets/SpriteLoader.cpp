@@ -9,12 +9,13 @@
 
 namespace ouzel::assets
 {
-    SpriteLoader::SpriteLoader(Cache& initCache):
-        Loader{initCache, Type::sprite}
+    SpriteLoader::SpriteLoader():
+        Loader{Type::sprite}
     {
     }
 
-    bool SpriteLoader::loadAsset(Bundle& bundle,
+    bool SpriteLoader::loadAsset(Cache& cache,
+                                 Bundle& bundle,
                                  const std::string& name,
                                  const std::vector<std::byte>& data,
                                  bool mipmaps)

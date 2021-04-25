@@ -44,12 +44,13 @@
 
 namespace ouzel::assets
 {
-    ImageLoader::ImageLoader(Cache& initCache):
-        Loader{initCache, Type::image}
+    ImageLoader::ImageLoader():
+        Loader{Type::image}
     {
     }
 
-    bool ImageLoader::loadAsset(Bundle& bundle,
+    bool ImageLoader::loadAsset(Cache& cache,
+                                Bundle& bundle,
                                 const std::string& name,
                                 const std::vector<std::byte>& data,
                                 bool mipmaps)

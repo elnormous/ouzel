@@ -10,8 +10,9 @@ namespace ouzel::assets
     class SpriteLoader final: public Loader
     {
     public:
-        explicit SpriteLoader(Cache& initCache);
-        bool loadAsset(Bundle& bundle,
+        explicit SpriteLoader();
+        bool loadAsset(Cache& cache,
+                       Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
                        bool mipmaps = true) override;

@@ -9,8 +9,8 @@
 
 namespace ouzel::assets
 {
-    CueLoader::CueLoader(Cache& initCache):
-        Loader{initCache, Type::cue}
+    CueLoader::CueLoader():
+        Loader{Type::cue}
     {
     }
 
@@ -102,7 +102,8 @@ namespace ouzel::assets
         }
     }
 
-    bool CueLoader::loadAsset(Bundle& bundle,
+    bool CueLoader::loadAsset(Cache& cache,
+                              Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
                               bool)

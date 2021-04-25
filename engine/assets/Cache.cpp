@@ -22,18 +22,18 @@ namespace ouzel::assets
 {
     Cache::Cache()
     {
-        addLoader(std::make_unique<BmfLoader>(*this));
-        addLoader(std::make_unique<ColladaLoader>(*this));
-        addLoader(std::make_unique<CueLoader>(*this));
-        addLoader(std::make_unique<GltfLoader>(*this));
-        addLoader(std::make_unique<ImageLoader>(*this));
-        addLoader(std::make_unique<MtlLoader>(*this));
-        addLoader(std::make_unique<ObjLoader>(*this));
-        addLoader(std::make_unique<ParticleSystemLoader>(*this));
-        addLoader(std::make_unique<SpriteLoader>(*this));
-        addLoader(std::make_unique<TtfLoader>(*this));
-        addLoader(std::make_unique<VorbisLoader>(*this));
-        addLoader(std::make_unique<WaveLoader>(*this));
+        addLoader(std::make_unique<BmfLoader>());
+        addLoader(std::make_unique<ColladaLoader>());
+        addLoader(std::make_unique<CueLoader>());
+        addLoader(std::make_unique<GltfLoader>());
+        addLoader(std::make_unique<ImageLoader>());
+        addLoader(std::make_unique<MtlLoader>());
+        addLoader(std::make_unique<ObjLoader>());
+        addLoader(std::make_unique<ParticleSystemLoader>());
+        addLoader(std::make_unique<SpriteLoader>());
+        addLoader(std::make_unique<TtfLoader>());
+        addLoader(std::make_unique<VorbisLoader>());
+        addLoader(std::make_unique<WaveLoader>());
     }
 
     void Cache::addBundle(const Bundle* bundle)

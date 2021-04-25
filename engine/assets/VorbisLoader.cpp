@@ -7,12 +7,13 @@
 
 namespace ouzel::assets
 {
-    VorbisLoader::VorbisLoader(Cache& initCache):
-        Loader{initCache, Type::sound}
+    VorbisLoader::VorbisLoader():
+        Loader{Type::sound}
     {
     }
 
-    bool VorbisLoader::loadAsset(Bundle& bundle,
+    bool VorbisLoader::loadAsset(Cache& cache,
+                                 Bundle& bundle,
                                  const std::string& name,
                                  const std::vector<std::byte>& data,
                                  bool)

@@ -31,7 +31,7 @@ namespace ouzel::assets
         {
             Loader* loader = i->get();
             if (loader->getType() == loaderType &&
-                loader->loadAsset(*this, name, data, mipmaps))
+                loader->loadAsset(cache, *this, name, data, mipmaps))
                 return;
         }
 

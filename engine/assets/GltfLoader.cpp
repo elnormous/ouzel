@@ -7,16 +7,19 @@
 
 namespace ouzel::assets
 {
-    GltfLoader::GltfLoader(Cache& initCache):
-        Loader{initCache, Type::skinnedMesh}
+    GltfLoader::GltfLoader():
+        Loader{Type::skinnedMesh}
     {
     }
 
-    bool GltfLoader::loadAsset(Bundle& bundle,
+    bool GltfLoader::loadAsset(Cache& cache,
+                               Bundle& bundle,
                                const std::string& name,
                                const std::vector<std::byte>& data,
                                bool mipmaps)
     {
+        (void)cache;
+
         const auto d = json::parse(data);
 
         const auto& nodesValue = d["nodes"];

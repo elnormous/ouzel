@@ -10,8 +10,9 @@ namespace ouzel::assets
     class WaveLoader final: public Loader
     {
     public:
-        explicit WaveLoader(Cache& initCache);
-        bool loadAsset(Bundle& bundle,
+        explicit WaveLoader();
+        bool loadAsset(Cache& cache,
+                       Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
                        bool mipmaps = true) override;

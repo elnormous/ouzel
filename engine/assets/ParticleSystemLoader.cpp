@@ -8,12 +8,13 @@
 
 namespace ouzel::assets
 {
-    ParticleSystemLoader::ParticleSystemLoader(Cache& initCache):
-        Loader{initCache, Type::particleSystem}
+    ParticleSystemLoader::ParticleSystemLoader():
+        Loader{Type::particleSystem}
     {
     }
 
-    bool ParticleSystemLoader::loadAsset(Bundle& bundle,
+    bool ParticleSystemLoader::loadAsset(Cache& cache,
+                                         Bundle& bundle,
                                          const std::string& name,
                                          const std::vector<std::byte>& data,
                                          bool mipmaps)

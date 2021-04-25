@@ -10,8 +10,9 @@ namespace ouzel::assets
     class VorbisLoader final: public Loader
     {
     public:
-        explicit VorbisLoader(Cache& initCache);
-        bool loadAsset(Bundle& bundle,
+        explicit VorbisLoader();
+        bool loadAsset(Cache& cache,
+                       Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
                        bool mipmaps = true) override;

@@ -8,16 +8,19 @@
 
 namespace ouzel::assets
 {
-    ColladaLoader::ColladaLoader(Cache& initCache):
-        Loader{initCache, Type::skinnedMesh}
+    ColladaLoader::ColladaLoader():
+        Loader{Type::skinnedMesh}
     {
     }
 
-    bool ColladaLoader::loadAsset(Bundle& bundle,
+    bool ColladaLoader::loadAsset(Cache& cache,
+                                  Bundle& bundle,
                                   const std::string& name,
                                   const std::vector<std::byte>& data,
                                   bool)
     {
+        (void)cache;
+
         const auto colladaData = xml::parse(data);
 
         if (colladaData.getChildren().empty())

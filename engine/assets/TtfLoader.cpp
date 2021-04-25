@@ -7,16 +7,19 @@
 
 namespace ouzel::assets
 {
-    TtfLoader::TtfLoader(Cache& initCache):
-        Loader{initCache, Type::font}
+    TtfLoader::TtfLoader():
+        Loader{Type::font}
     {
     }
 
-    bool TtfLoader::loadAsset(Bundle& bundle,
+    bool TtfLoader::loadAsset(Cache& cache,
+                              Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
                               bool mipmaps)
     {
+        (void)cache;
+
         try
         {
             // TODO: move the loader here

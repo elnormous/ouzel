@@ -144,12 +144,13 @@ namespace ouzel::assets
         }
     }
 
-    MtlLoader::MtlLoader(Cache& initCache):
-        Loader{initCache, Type::material}
+    MtlLoader::MtlLoader():
+        Loader{Type::material}
     {
     }
 
-    bool MtlLoader::loadAsset(Bundle& bundle,
+    bool MtlLoader::loadAsset(Cache& cache,
+                              Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
                               bool mipmaps)

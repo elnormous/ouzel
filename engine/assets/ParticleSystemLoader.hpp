@@ -10,8 +10,9 @@ namespace ouzel::assets
     class ParticleSystemLoader final: public Loader
     {
     public:
-        explicit ParticleSystemLoader(Cache& initCache);
-        bool loadAsset(Bundle& bundle,
+        explicit ParticleSystemLoader();
+        bool loadAsset(Cache& cache,
+                       Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
                        bool mipmaps = true) override;

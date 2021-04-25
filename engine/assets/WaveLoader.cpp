@@ -26,16 +26,19 @@ namespace
 
 namespace ouzel::assets
 {
-    WaveLoader::WaveLoader(Cache& initCache):
-        Loader{initCache, Type::sound}
+    WaveLoader::WaveLoader():
+        Loader{Type::sound}
     {
     }
 
-    bool WaveLoader::loadAsset(Bundle& bundle,
+    bool WaveLoader::loadAsset(Cache& cache,
+                               Bundle& bundle,
                                const std::string& name,
                                const std::vector<std::byte>& data,
                                bool)
     {
+        (void)cache;
+
         try
         {
             std::uint32_t channels = 0U;

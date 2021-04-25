@@ -29,10 +29,7 @@ namespace ouzel::assets
             cue
         };
 
-        Loader(Cache& initCache, Type initType):
-            cache{initCache}, type{initType}
-        {
-        }
+        Loader(Type initType): type{initType} {}
 
         virtual ~Loader() = default;
 
@@ -44,13 +41,13 @@ namespace ouzel::assets
 
         auto getType() const noexcept { return type; }
 
-        virtual bool loadAsset(Bundle& bundle,
+        virtual bool loadAsset(Cache& cache,
+                               Bundle& bundle,
                                const std::string& name,
                                const std::vector<std::byte>& data,
                                bool mipmaps = true) = 0;
 
-    protected:
-        Cache& cache;
+    private:
         Type type;
     };
 }

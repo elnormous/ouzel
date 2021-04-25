@@ -10,8 +10,9 @@ namespace ouzel::assets
     class CueLoader final: public Loader
     {
     public:
-        explicit CueLoader(Cache& initCache);
-        bool loadAsset(Bundle& bundle,
+        explicit CueLoader();
+        bool loadAsset(Cache& cache,
+                       Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
                        bool mipmaps = true) override;

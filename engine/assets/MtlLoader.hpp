@@ -10,8 +10,9 @@ namespace ouzel::assets
     class MtlLoader final: public Loader
     {
     public:
-        explicit MtlLoader(Cache& initCache);
-        bool loadAsset(Bundle& bundle,
+        explicit MtlLoader();
+        bool loadAsset(Cache& cache,
+                       Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
                        bool mipmaps = true) override;

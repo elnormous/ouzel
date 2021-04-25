@@ -10,8 +10,9 @@ namespace ouzel::assets
     class GltfLoader final: public Loader
     {
     public:
-        explicit GltfLoader(Cache& initCache);
-        bool loadAsset(Bundle& bundle,
+        explicit GltfLoader();
+        bool loadAsset(Cache& cache,
+                       Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
                        bool mipmaps = true) override;

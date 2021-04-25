@@ -6,16 +6,19 @@
 
 namespace ouzel::assets
 {
-    BmfLoader::BmfLoader(Cache& initCache):
-        Loader{initCache, Type::font}
+    BmfLoader::BmfLoader():
+        Loader{Type::font}
     {
     }
 
-    bool BmfLoader::loadAsset(Bundle& bundle,
+    bool BmfLoader::loadAsset(Cache& cache,
+                              Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
                               bool)
     {
+        (void)cache;
+
         try
         {
             // TODO: move the loader here

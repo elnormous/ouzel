@@ -186,12 +186,13 @@ namespace ouzel::assets
         }
     }
 
-    ObjLoader::ObjLoader(Cache& initCache):
-        Loader{initCache, Type::staticMesh}
+    ObjLoader::ObjLoader():
+        Loader{Type::staticMesh}
     {
     }
 
-    bool ObjLoader::loadAsset(Bundle& bundle,
+    bool ObjLoader::loadAsset(Cache& cache,
+                              Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
                               bool mipmaps)
