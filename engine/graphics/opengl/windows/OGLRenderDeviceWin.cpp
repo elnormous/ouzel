@@ -13,6 +13,7 @@
 #include "../../../core/Window.hpp"
 #include "../../../core/windows/NativeWindowWin.hpp"
 #include "../../../utils/Log.hpp"
+#include "../../../platform/winapi/Library.hpp"
 
 namespace ouzel::graphics::opengl::windows
 {
@@ -137,11 +138,9 @@ namespace ouzel::graphics::opengl::windows
 
         ApiVersion getVersion()
         {
-            const HMODULE module = LoadLibraryA("opengl32.dll");
-            if (!module)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
+            platform::winapi::Library library{"opengl32.dll"};
 
-            const auto glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GetProcAddress(module, "glGetString"));
+            const auto glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GetProcAddress(library.get(), "glGetString"));
 
             const auto versionPtr = glGetStringProc(GL_VERSION);
 
@@ -157,8 +156,6 @@ namespace ouzel::graphics::opengl::windows
                     versionParts[part] += c;
                 else if (++part > 1)
                     break;
-
-            FreeLibrary(module);
 
             return ApiVersion{
                 static_cast<std::uint16_t>(std::stoi(versionParts[0])),
