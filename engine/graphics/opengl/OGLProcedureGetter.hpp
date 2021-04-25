@@ -26,6 +26,7 @@
 #  include "EGL/egl.h"
 #elif OUZEL_OPENGL_INTERFACE_WGL
 #  include "GL/wglext.h"
+#  include "../../platform/winapi/Library.hpp"
 #endif
 
 #include "../../core/Engine.hpp"
@@ -128,7 +129,7 @@ namespace ouzel::graphics::opengl
 #elif OUZEL_OPENGL_INTERFACE_WGL
             return procApiVersion > ApiVersion{1, 1} ?
                 reinterpret_cast<T>(wglGetProcAddress(name)) :
-                reinterpret_cast<T>(GetProcAddress(module.getModule(), name));
+                reinterpret_cast<T>(GetProcAddress(library.get(), name));
 #else
             (void)procApiVersion;
             return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
@@ -150,42 +151,7 @@ namespace ouzel::graphics::opengl
         ApiVersion apiVersion;
         std::vector<std::string> extensions;
 #if OUZEL_OPENGL_INTERFACE_WGL
-        class Module final
-        {
-        public:
-            Module():
-                module(LoadLibraryA("opengl32.dll"))
-            {
-                if (!module)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to load opengl32.dll");
-            }
-            ~Module()
-            {
-                if (module) FreeLibrary(module);
-            }
-
-            Module(const Module&) = delete;
-            Module& operator=(const Module&) = delete;
-
-            Module(Module&& other) noexcept:
-                module{other.module}
-            {
-                other.module = nullptr;
-            }
-
-            Module& operator=(Module&& other) noexcept
-            {
-                if (this == &other) return *this;
-                if (module) FreeLibrary(module);
-                module = other.module;
-                other.module = nullptr;
-                return *this;
-            }
-
-            HMODULE getModule() const noexcept { return module; }
-        private:
-            HMODULE module = nullptr;
-        } module;
+        platform::winapi::Library library{"opengl32.dll"};
 #endif
     };
 }
