@@ -21,7 +21,7 @@ namespace ouzel
         constexpr std::uint32_t magicBig = 0xDE120495U;
         constexpr std::uint32_t magicLittle = 0x950412DEU;
 
-        const auto decodeUInt32 =
+        const std::function<std::uint32_t(const std::byte*)> decodeUInt32 =
             (magic == magicBig) ?
                 [](const std::byte* bytes) noexcept {
                     return static_cast<std::uint32_t>(bytes[3]) |
