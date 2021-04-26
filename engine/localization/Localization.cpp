@@ -18,27 +18,25 @@ namespace ouzel
             (static_cast<std::uint32_t>(data[2]) << 16) |
             (static_cast<std::uint32_t>(data[3]) << 24);
 
-        const auto decodeUInt32 = [magic]() -> std::function<std::uint32_t(const std::byte*)> {
-            constexpr std::uint32_t magicBig = 0xDE120495U;
-            constexpr std::uint32_t magicLittle = 0x950412DEU;
+        constexpr std::uint32_t magicBig = 0xDE120495U;
+        constexpr std::uint32_t magicLittle = 0x950412DEU;
 
-            if (magic == magicBig)
-                return [](const std::byte* bytes) noexcept {
+        const auto decodeUInt32 =
+            (magic == magicBig) ?
+                [](const std::byte* bytes) noexcept {
                     return static_cast<std::uint32_t>(bytes[3]) |
                         (static_cast<std::uint32_t>(bytes[2]) << 8) |
                         (static_cast<std::uint32_t>(bytes[1]) << 16) |
                         (static_cast<std::uint32_t>(bytes[0]) << 24);
-                };
-            else if (magic == magicLittle)
-                return [](const std::byte* bytes) noexcept {
+                } :
+            (magic == magicLittle) ?
+                [](const std::byte* bytes) noexcept {
                     return static_cast<std::uint32_t>(bytes[0]) |
                         (static_cast<std::uint32_t>(bytes[1]) << 8) |
                         (static_cast<std::uint32_t>(bytes[2]) << 16) |
                         (static_cast<std::uint32_t>(bytes[3]) << 24);
-                };
-            else
-                throw std::runtime_error("Wrong magic " + std::to_string(magic));
-        }();
+                } :
+            throw std::runtime_error("Wrong magic " + std::to_string(magic));
 
         const std::uint32_t revisionOffset = sizeof(magic);
         const std::uint32_t revision = decodeUInt32(data.data() + revisionOffset);
@@ -117,7 +115,7 @@ namespace ouzel
     void Localization::addLanguage(const std::string& name, const std::vector<std::byte>& data)
     {
         if (const auto i = languages.find(name); i != languages.end())
-            i->second = Language(data);
+        i->second = Language{data};
         else
             languages.insert(std::pair(name, Language(data)));
     }
