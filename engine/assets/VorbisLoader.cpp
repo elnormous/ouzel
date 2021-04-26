@@ -18,6 +18,8 @@ namespace ouzel::assets
                                  const std::vector<std::byte>& data,
                                  bool)
     {
+        (void)cache;
+
         try
         {
             auto sound = std::make_unique<audio::VorbisClip>(*engine->getAudio(), data);

@@ -55,6 +55,7 @@ namespace ouzel::assets
                                 const std::vector<std::byte>& data,
                                 bool mipmaps)
     {
+        (void)cache;
         int width;
         int height;
         int comp;
