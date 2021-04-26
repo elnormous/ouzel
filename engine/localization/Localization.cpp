@@ -8,6 +8,34 @@
 
 namespace ouzel
 {
+    namespace
+    {
+        std::function<std::uint32_t(const std::byte*)> getDecodeFunction(std::uint32_t magic)
+        {
+            constexpr std::uint32_t magicBig = 0xDE120495U;
+            constexpr std::uint32_t magicLittle = 0x950412DEU;
+            switch (magic)
+            {
+                case magicBig:
+                    return [](const std::byte* bytes) noexcept {
+                        return static_cast<std::uint32_t>(bytes[3]) |
+                            (static_cast<std::uint32_t>(bytes[2]) << 8) |
+                            (static_cast<std::uint32_t>(bytes[1]) << 16) |
+                            (static_cast<std::uint32_t>(bytes[0]) << 24);
+                    };
+                case magicLittle:
+                    return [](const std::byte* bytes) noexcept {
+                        return static_cast<std::uint32_t>(bytes[0]) |
+                            (static_cast<std::uint32_t>(bytes[1]) << 8) |
+                            (static_cast<std::uint32_t>(bytes[2]) << 16) |
+                            (static_cast<std::uint32_t>(bytes[3]) << 24);
+                    };
+                default:
+                    throw std::runtime_error("Wrong magic " + std::to_string(magic));
+            }
+        };
+    }
+
     Language::Language(const std::vector<std::byte>& data)
     {
         if (data.size() < 5U * sizeof(std::uint32_t))
@@ -18,25 +46,7 @@ namespace ouzel
             (static_cast<std::uint32_t>(data[2]) << 16) |
             (static_cast<std::uint32_t>(data[3]) << 24);
 
-        constexpr std::uint32_t magicBig = 0xDE120495U;
-        constexpr std::uint32_t magicLittle = 0x950412DEU;
-
-        const std::function<std::uint32_t(const std::byte*)> decodeUInt32 =
-            (magic == magicBig) ?
-                [](const std::byte* bytes) noexcept {
-                    return static_cast<std::uint32_t>(bytes[3]) |
-                        (static_cast<std::uint32_t>(bytes[2]) << 8) |
-                        (static_cast<std::uint32_t>(bytes[1]) << 16) |
-                        (static_cast<std::uint32_t>(bytes[0]) << 24);
-                } :
-            (magic == magicLittle) ?
-                [](const std::byte* bytes) noexcept {
-                    return static_cast<std::uint32_t>(bytes[0]) |
-                        (static_cast<std::uint32_t>(bytes[1]) << 8) |
-                        (static_cast<std::uint32_t>(bytes[2]) << 16) |
-                        (static_cast<std::uint32_t>(bytes[3]) << 24);
-                } :
-            throw std::runtime_error("Wrong magic " + std::to_string(magic));
+        const auto decodeUInt32 = getDecodeFunction(magic);
 
         const std::uint32_t revisionOffset = sizeof(magic);
         const std::uint32_t revision = decodeUInt32(data.data() + revisionOffset);
@@ -115,7 +125,7 @@ namespace ouzel
     void Localization::addLanguage(const std::string& name, const std::vector<std::byte>& data)
     {
         if (const auto i = languages.find(name); i != languages.end())
-        i->second = Language{data};
+            i->second = Language{data};
         else
             languages.insert(std::pair(name, Language(data)));
     }
