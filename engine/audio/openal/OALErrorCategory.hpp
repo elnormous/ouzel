@@ -24,7 +24,7 @@ namespace ouzel::audio::openal
             return "OpenAL";
         }
 
-        std::string message(int condition) const final
+        std::string message(const int condition) const final
         {
             switch (condition)
             {
