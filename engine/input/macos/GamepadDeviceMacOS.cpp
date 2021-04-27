@@ -6,7 +6,7 @@
 namespace ouzel::input::macos
 {
     GamepadDevice::GamepadDevice(InputSystem& initInputSystem, DeviceId initId):
-        input::GamepadDevice(initInputSystem, initId)
+        input::GamepadDevice{initInputSystem, initId}
     {
     }
 }

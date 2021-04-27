@@ -14,8 +14,8 @@ namespace ouzel::input::windows
     GamepadDeviceXI::GamepadDeviceXI(InputSystem& initInputSystem,
                                      DeviceId initId,
                                      DWORD initPlayerIndex):
-        GamepadDevice(initInputSystem, initId),
-        playerIndex(initPlayerIndex)
+        GamepadDevice{initInputSystem, initId},
+        playerIndex{initPlayerIndex}
     {
     }
 

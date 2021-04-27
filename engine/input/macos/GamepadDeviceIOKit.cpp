@@ -37,8 +37,8 @@ namespace ouzel::input::macos
     GamepadDeviceIOKit::GamepadDeviceIOKit(InputSystem& initInputSystem,
                                            DeviceId initId,
                                            IOHIDDeviceRef initDevice):
-        GamepadDevice(initInputSystem, initId),
-        device(initDevice)
+        GamepadDevice{initInputSystem, initId},
+        device{initDevice}
     {
         if (const auto result = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone); result != kIOReturnSuccess)
             throw std::system_error(result, getErrorCategory(), "Failed to open HID device");

@@ -67,10 +67,10 @@ namespace ouzel::input::macos
     }
 
     InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
-        input::InputSystem(initCallback),
-        keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
-        mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
-        touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), false))
+        input::InputSystem{initCallback},
+        keyboardDevice{std::make_unique<KeyboardDevice>(*this, getNextDeviceId())},
+        mouseDevice{std::make_unique<MouseDevice>(*this, getNextDeviceId())},
+        touchpadDevice{std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), false)}
     {
         defaultCursor = [NSCursor arrowCursor];
 

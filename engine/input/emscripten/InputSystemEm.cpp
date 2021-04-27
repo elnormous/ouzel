@@ -305,10 +305,10 @@ namespace ouzel::input::emscripten
     }
 
     InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
-        input::InputSystem(initCallback),
-        keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
-        mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
-        touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
+        input::InputSystem{initCallback},
+        keyboardDevice{std::make_unique<KeyboardDevice>(*this, getNextDeviceId())},
+        mouseDevice{std::make_unique<MouseDevice>(*this, getNextDeviceId())},
+        touchpadDevice{std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true)}
     {
         emscripten_set_keypress_callback(nullptr, keyboardDevice.get(), EM_TRUE, emKeyCallback);
         emscripten_set_keydown_callback(nullptr, keyboardDevice.get(), EM_TRUE, emKeyCallback);

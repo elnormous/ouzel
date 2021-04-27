@@ -9,7 +9,7 @@
 namespace ouzel::input::macos
 {
     MouseDevice::MouseDevice(InputSystem& initInputSystem, DeviceId initId):
-        input::MouseDevice(initInputSystem, initId)
+        input::MouseDevice{initInputSystem, initId}
     {
     }
 

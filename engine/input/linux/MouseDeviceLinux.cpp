@@ -11,7 +11,7 @@ namespace ouzel::input::linux
 {
     MouseDevice::MouseDevice(InputSystem& initInputSystem,
                              DeviceId initId):
-        input::MouseDevice(initInputSystem, initId)
+        input::MouseDevice{initInputSystem, initId}
     {
     }
 

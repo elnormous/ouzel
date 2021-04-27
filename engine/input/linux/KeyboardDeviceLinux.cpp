@@ -8,7 +8,7 @@ namespace ouzel::input::linux
 {
     KeyboardDevice::KeyboardDevice(InputSystem& initInputSystem,
                                    DeviceId initId):
-        input::KeyboardDevice(initInputSystem, initId)
+        input::KeyboardDevice{initInputSystem, initId}
     {
     }
 }

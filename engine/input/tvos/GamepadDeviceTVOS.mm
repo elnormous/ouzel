@@ -8,8 +8,8 @@ namespace ouzel::input::tvos
     GamepadDevice::GamepadDevice(InputSystem& initInputSystem,
                                  DeviceId initId,
                                  GCControllerPtr initController):
-        input::GamepadDevice(initInputSystem, initId),
-        controller(initController)
+        input::GamepadDevice{initInputSystem, initId},
+        controller{initController}
     {
         if (controller.extendedGamepad)
         {

@@ -28,8 +28,8 @@ namespace ouzel::input::windows
                                      const DIDEVICEINSTANCEW* initInstance,
                                      IDirectInput8W* directInput,
                                      HWND window):
-        GamepadDevice(initInputSystem, initId),
-        instance(initInstance)
+        GamepadDevice{initInputSystem, initId},
+        instance{initInstance}
     {
         const std::int32_t vendorId = LOWORD(instance->guidProduct.Data1);
         const std::int32_t productId = HIWORD(instance->guidProduct.Data1);

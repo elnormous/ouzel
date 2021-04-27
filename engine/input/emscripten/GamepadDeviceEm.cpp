@@ -37,8 +37,8 @@ namespace ouzel::input::emscripten
     GamepadDevice::GamepadDevice(InputSystem& initInputSystem,
                                  DeviceId initId,
                                  long initIndex):
-        input::GamepadDevice(initInputSystem, initId),
-        index(initIndex)
+        input::GamepadDevice{initInputSystem, initId},
+        index{initIndex}
     {
     }
 
