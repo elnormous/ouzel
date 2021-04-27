@@ -37,18 +37,19 @@ namespace ouzel::input::windows
         {
             HWND nativeWindow = static_cast<core::windows::NativeWindow*>(engine->getWindow()->getNativeWindow())->getNativeWindow();
 
-            RECT rect;
-            GetWindowRect(nativeWindow, &rect);
+            RECT windowRect;
+            if (!GetWindowRect(nativeWindow, &windowRect))
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get window rectangle");
 
-            const LONG centerX = (rect.left + rect.right) / 2;
-            const LONG centerY = (rect.top + rect.bottom) / 2;
+            const LONG centerX = (windowRect.left + windowRect.right) / 2;
+            const LONG centerY = (windowRect.top + windowRect.bottom) / 2;
 
-            rect.left = centerX;
-            rect.right = centerX + 1;
-            rect.top = centerY;
-            rect.bottom = centerY + 1;
+            windowRect.left = centerX;
+            windowRect.right = centerX + 1;
+            windowRect.top = centerY;
+            windowRect.bottom = centerY + 1;
 
-            if (!ClipCursor(&rect))
+            if (!ClipCursor(&windowRect))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to grab pointer");
         }
         else if (!ClipCursor(nullptr))
