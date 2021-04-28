@@ -68,13 +68,13 @@ namespace ouzel::input::windows
         {
             switch (systemCursor)
             {
-            case SystemCursor::arrow: return LoadCursor(nullptr, IDC_ARROW);
-            case SystemCursor::hand: return LoadCursor(nullptr, IDC_HAND);
-            case SystemCursor::horizontalResize: return LoadCursor(nullptr, IDC_SIZEWE);
-            case SystemCursor::verticalResize: return LoadCursor(nullptr, IDC_SIZENS);
-            case SystemCursor::cross: return LoadCursor(nullptr, IDC_CROSS);
-            case SystemCursor::iBeam: return LoadCursor(nullptr, IDC_IBEAM);
-            default: throw std::runtime_error("Invalid cursor");
+                case SystemCursor::arrow: return LoadCursor(nullptr, IDC_ARROW);
+                case SystemCursor::hand: return LoadCursor(nullptr, IDC_HAND);
+                case SystemCursor::horizontalResize: return LoadCursor(nullptr, IDC_SIZEWE);
+                case SystemCursor::verticalResize: return LoadCursor(nullptr, IDC_SIZENS);
+                case SystemCursor::cross: return LoadCursor(nullptr, IDC_CROSS);
+                case SystemCursor::iBeam: return LoadCursor(nullptr, IDC_IBEAM);
+                default: throw std::runtime_error("Invalid cursor");
             }
         }
     }

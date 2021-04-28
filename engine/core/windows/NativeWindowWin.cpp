@@ -402,6 +402,10 @@ namespace ouzel::core::windows
         if (!instance)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
 
+        HCURSOR arrowCursor = LoadCursor(nullptr, IDC_ARROW);
+        if (!arrowCursor)
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
+
         WNDCLASSEXW wc;
         wc.cbSize = sizeof(wc);
         wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -411,7 +415,7 @@ namespace ouzel::core::windows
         wc.hInstance = instance;
         // Application icon should be the first resource
         wc.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(101));
-        wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+        wc.hCursor = arrowCursor;
         wc.hbrBackground = nullptr;
         wc.lpszMenuName = nullptr;
         wc.lpszClassName = L"OuzelWindow";

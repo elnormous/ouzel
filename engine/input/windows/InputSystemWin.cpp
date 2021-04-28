@@ -50,6 +50,8 @@ namespace ouzel::input::windows
                              touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
         defaultCursor = LoadCursor(nullptr, IDC_ARROW);
+        if (!defaultCursor)
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
 
         HINSTANCE instance = GetModuleHandleW(nullptr);
         if (!instance)
