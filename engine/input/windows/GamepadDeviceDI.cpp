@@ -74,7 +74,6 @@ namespace ouzel::input::windows
         }};
 
         for (std::size_t i = 0; i < 6; ++i)
-        {
             if (gamepadConfig.axisMap[i] != Gamepad::Axis::none)
             {
                 const auto usage = axisUsageMap[i].first;
@@ -149,7 +148,6 @@ namespace ouzel::input::windows
                     axes.insert(std::pair(offset, axis));
                 }
             }
-        }
 
         DIDEVCAPS capabilities;
         capabilities.dwSize = sizeof(capabilities);
@@ -266,9 +264,7 @@ namespace ouzel::input::windows
                 hatValue = events[e].dwData;
             }
 
-            auto buttonIterator = buttons.find(events[e].dwOfs);
-
-            if (buttonIterator != buttons.end())
+            if (const auto buttonIterator = buttons.find(events[e].dwOfs); buttonIterator != buttons.end())
             {
                 Button& button = buttonIterator->second;
 
@@ -281,9 +277,7 @@ namespace ouzel::input::windows
                 button.value = static_cast<BYTE>(events[e].dwData);
             }
 
-            auto axisIterator = axes.find(events[e].dwOfs);
-
-            if (axisIterator != axes.end())
+            if (const auto axisIterator = axes.find(events[e].dwOfs); axisIterator != axes.end())
             {
                 Axis& axis = axisIterator->second;
 
