@@ -22,8 +22,11 @@ namespace ouzel::input::windows
         POINT p;
         p.x = static_cast<LONG>(windowLocation.v[0]);
         p.y = static_cast<LONG>(windowLocation.v[1]);
-        ClientToScreen(nativeWindow, &p);
-        SetCursorPos(static_cast<int>(p.x), static_cast<int>(p.y));
+        if (!ClientToScreen(nativeWindow, &p))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert client to screen coordinates");
+
+        if (!SetCursorPos(static_cast<int>(p.x), static_cast<int>(p.y)))
+            throw std::system_error(GetLastError(), std::system_category(), "Failed to set cursor position");
     }
 
     void MouseDevice::setCursorVisible(bool visible)
