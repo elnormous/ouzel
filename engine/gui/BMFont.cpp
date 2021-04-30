@@ -450,7 +450,7 @@ namespace ouzel::gui
         return 0;
     }
 
-    float BMFont::getStringWidth(const std::string& text) const
+    float BMFont::getStringWidth(const std::string& text) const noexcept
     {
         float total = 0.0F;
 

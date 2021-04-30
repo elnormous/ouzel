@@ -18,7 +18,7 @@ namespace ouzel::gui
                                  float fontSize,
                                  const Vector<float, 2>& anchor) const override;
 
-        float getStringWidth(const std::string& text) const;
+        float getStringWidth(const std::string& text) const noexcept;
 
     private:
         std::int16_t getKerningPair(char32_t, char32_t) const;
