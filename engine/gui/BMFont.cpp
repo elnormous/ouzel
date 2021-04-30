@@ -449,27 +449,4 @@ namespace ouzel::gui
 
         return 0;
     }
-
-    float BMFont::getStringWidth(const std::string& text) const noexcept
-    {
-        float total = 0.0F;
-
-        const auto utf32Text = utf8::toUtf32(text);
-
-        for (auto i = utf32Text.begin(); i != utf32Text.end(); ++i)
-        {
-            const auto iter = chars.find(*i);
-
-            if (iter != chars.end())
-            {
-                if ((i + 1) != utf32Text.end())
-                    total += static_cast<float>(getKerningPair(*i, *(i + 1)));
-
-                const auto& f = iter->second;
-                total += f.xAdvance;
-            }
-        }
-
-        return total;
-    }
 }

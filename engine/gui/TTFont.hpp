@@ -20,8 +20,6 @@ namespace ouzel::gui
                                  float fontSize,
                                  const Vector<float, 2>& anchor) const override;
 
-        float getStringWidth(const std::string& text);
-
     private:
         std::unique_ptr<stbtt_fontinfo> font;
         std::vector<std::byte> data;
