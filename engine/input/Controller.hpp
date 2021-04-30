@@ -22,7 +22,7 @@ namespace ouzel::input
         };
 
         Controller(InputManager& initInputManager, Type initType, DeviceId initDeviceId):
-            inputManager(initInputManager), type(initType), deviceId(initDeviceId)
+            inputManager{initInputManager}, type{initType}, deviceId{initDeviceId}
         {}
         virtual ~Controller() = default;
 
