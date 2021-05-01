@@ -29,9 +29,11 @@ namespace
     int errorHandler(Display* display, XErrorEvent* errorEvent)
     {
         error = errorEvent->error_code;
-        char text[256];
-        XGetErrorText(nullptr, errorEvent->error_code, text, sizeof(text));
-        ouzel::logger.log(ouzel::Log::Level::error) << "X11 error: " << text;
+        std::array<char, 256> text;
+        if (XGetErrorText(nullptr, errorEvent->error_code, text.data(), text.size()) == 0)
+            ouzel::logger.log(ouzel::Log::Level::error) << "X11 error: " << text.data();
+        else
+            ouzel::logger.log(ouzel::Log::Level::error) << "X11 error";
         return 0;
     }
 
