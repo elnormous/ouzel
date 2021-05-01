@@ -1,5 +1,6 @@
 // Ouzel by Elviss Strazdins
 
+#include <array>
 #include <cstring>
 #include "WaveLoader.hpp"
 #include "Bundle.hpp"
@@ -11,7 +12,7 @@ namespace
     constexpr std::uint16_t WAVE_FORMAT_PCM = 1;
     constexpr std::uint16_t WAVE_FORMAT_IEEE_FLOAT = 3;
 
-    constexpr std::int32_t convert24bitTo232bit(std::byte data[3]) noexcept
+    constexpr std::int32_t convert24bitTo32bit(std::byte data[3]) noexcept
     {
         return (static_cast<std::uint8_t>(data[2]) & 0x80) ?
             static_cast<int32_t>(static_cast<std::uint8_t>(data[0]) |
@@ -83,7 +84,7 @@ namespace ouzel::assets
                 if (data.size() < offset + 8)
                     throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
 
-                const std::byte chunkHeader[4] = {
+                const std::array chunkHeader = {
                     data[offset + 0],
                     data[offset + 1],
                     data[offset + 2],
@@ -219,7 +220,7 @@ namespace ouzel::assets
                             for (std::uint32_t frame = 0; frame < frames; ++frame)
                             {
                                 const auto sourceData = &soundData[(frame * channels + channel) * 3];
-                                const auto value = convert24bitTo232bit(sourceData);
+                                const auto value = convert24bitTo32bit(sourceData);
 
                                 outputChannel[frame] = static_cast<float>(value / 8388607.0);
                             }
