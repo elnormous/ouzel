@@ -125,7 +125,7 @@ namespace ouzel::audio::wasapi
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::wasapi, settings, initDataGetter)
+        audio::AudioDevice{Driver::wasapi, settings, initDataGetter}
     {
         LPVOID enumeratorPointer;
         if (const auto hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, &enumeratorPointer); FAILED(hr))

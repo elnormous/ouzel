@@ -97,7 +97,7 @@ namespace ouzel::audio::coreaudio
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::coreAudio, settings, initDataGetter)
+        audio::AudioDevice{Driver::coreAudio, settings, initDataGetter}
     {
 #if TARGET_OS_IOS || TARGET_OS_TV
         AVAudioSession* audioSession = [AVAudioSession sharedInstance];

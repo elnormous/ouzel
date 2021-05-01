@@ -27,7 +27,7 @@ namespace ouzel::audio::xaudio2
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::xAudio2, settings, initDataGetter)
+        audio::AudioDevice{Driver::xAudio2, settings, initDataGetter}
     {
         constexpr char* xaudio2dll28 = "xaudio2_8.dll";
         constexpr char* xaudio2dll27 = "xaudio2_7.dll";

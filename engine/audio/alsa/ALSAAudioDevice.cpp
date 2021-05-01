@@ -16,7 +16,7 @@ namespace ouzel::audio::alsa
                                                       std::uint32_t channels,
                                                       std::uint32_t sampleRate,
                                                       std::vector<float>& samples)>& initDataGetter):
-        audio::AudioDevice(Driver::alsa, settings, initDataGetter)
+        audio::AudioDevice{Driver::alsa, settings, initDataGetter}
     {
         const char* device = settings.audioDevice.empty() ? "default" : settings.audioDevice.c_str();
 

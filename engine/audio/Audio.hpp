@@ -53,7 +53,10 @@ namespace ouzel::audio
         auto& getRootNode() { return rootNode; }
 
     private:
-        void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples);
+        void getSamples(std::uint32_t frames,
+                        std::uint32_t channels,
+                        std::uint32_t sampleRate,
+                        std::vector<float>& samples);
         void eventCallback(const mixer::Mixer::Event& event);
 
         std::unique_ptr<AudioDevice> device;

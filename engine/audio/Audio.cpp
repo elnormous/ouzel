@@ -90,7 +90,10 @@ namespace ouzel::audio
     namespace
     {
         std::unique_ptr<AudioDevice> createAudioDevice(Driver driver,
-                                                       const std::function<void(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples)>& dataGetter,
+                                                       const std::function<void(std::uint32_t frames,
+                                                                                std::uint32_t channels,
+                                                                                std::uint32_t sampleRate,
+                                                                                std::vector<float>& samples)>& dataGetter,
                                                        const Settings& settings)
         {
             switch (driver)
