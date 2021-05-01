@@ -84,7 +84,7 @@ namespace ouzel::assets
                 if (data.size() < offset + 8)
                     throw std::runtime_error("Failed to load sound file, not enough data to read chunk");
 
-                const std::array chunkHeader = {
+                const std::array<std::byte, 4> chunkHeader = {
                     data[offset + 0],
                     data[offset + 1],
                     data[offset + 2],
