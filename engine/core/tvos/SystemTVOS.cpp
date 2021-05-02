@@ -39,7 +39,7 @@ namespace ouzel::core::tvos
     }
 
     System::System(int argc, char* argv[]):
-        {parseArgs(argc, argv)}
+        core::System{parseArgs(argc, argv)}
     {
     }
 }
