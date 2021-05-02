@@ -30,7 +30,7 @@ namespace ouzel::graphics::d3d11
             return "Direct3D11";
         }
 
-        std::string message(const int condition) const final
+        std::string message(int condition) const final
         {
             switch (condition)
             {

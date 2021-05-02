@@ -16,7 +16,7 @@ namespace ouzel::platform::x11
             return "X11";
         }
 
-        std::string message(const int condition) const final
+        std::string message(int condition) const final
         {
             switch (condition)
             {

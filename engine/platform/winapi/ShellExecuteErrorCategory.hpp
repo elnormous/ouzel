@@ -28,7 +28,7 @@ namespace ouzel::platform::winapi
             return "ShellExecute";
         }
 
-        std::string message(const int condition) const final
+        std::string message(int condition) const final
         {
             switch (condition)
             {

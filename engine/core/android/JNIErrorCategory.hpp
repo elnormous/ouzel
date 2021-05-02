@@ -16,7 +16,7 @@ namespace ouzel::core::android
             return "JNI";
         }
 
-        std::string message(const int condition) const final
+        std::string message(int condition) const final
         {
             switch (condition)
             {

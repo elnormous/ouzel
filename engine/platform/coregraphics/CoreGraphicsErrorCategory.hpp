@@ -16,7 +16,7 @@ namespace ouzel::platform::coregraphics
             return "CoreGraphics";
         }
 
-        std::string message(const int condition) const final
+        std::string message(int condition) const final
         {
             switch (condition)
             {
