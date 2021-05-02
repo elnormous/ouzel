@@ -25,12 +25,12 @@ namespace ouzel::graphics::d3d11
     class ErrorCategory final: public std::error_category
     {
     public:
-        const char* name() const noexcept final
+        const char* name() const noexcept override
         {
             return "Direct3D11";
         }
 
-        std::string message(int condition) const final
+        std::string message(int condition) const override
         {
             switch (condition)
             {

@@ -15,12 +15,12 @@ namespace ouzel::audio::opensl
     class ErrorCategory final: public std::error_category
     {
     public:
-        const char* name() const noexcept final
+        const char* name() const noexcept override
         {
             return "OpenSL";
         }
 
-        std::string message(int condition) const final
+        std::string message(int condition) const override
         {
             switch (condition)
             {
