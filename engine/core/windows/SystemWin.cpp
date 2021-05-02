@@ -56,7 +56,7 @@ namespace ouzel::core::windows
     }
 
     System::System(int argc, LPWSTR* argv):
-        core::System(parseArgs(argc, argv))
+        core::System{parseArgs(argc, argv)}
     {
     }
 }

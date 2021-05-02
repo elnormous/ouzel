@@ -285,7 +285,7 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onGeneri
 namespace ouzel::core::android
 {
     System::System():
-        core::System(std::vector<std::string>{})
+        core::System{std::vector<std::string>{}}
     {
     }
 }

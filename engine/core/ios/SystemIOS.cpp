@@ -39,7 +39,7 @@ namespace ouzel::core::ios
     }
 
     System::System(int argc, char* argv[]):
-        core::System(parseArgs(argc, argv))
+        core::System{parseArgs(argc, argv)}
     {
     }
 }

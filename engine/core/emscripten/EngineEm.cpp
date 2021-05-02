@@ -40,7 +40,7 @@ namespace ouzel::core::emscripten
     }
 
     Engine::Engine(int argc, char* argv[]):
-        core::Engine(parseArgs(argc, argv))
+        core::Engine{parseArgs(argc, argv)}
     {
         emscripten_set_orientationchange_callback(this, EM_TRUE, emOrientationChangeCallback);
     }

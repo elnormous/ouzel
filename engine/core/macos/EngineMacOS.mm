@@ -95,7 +95,7 @@ namespace ouzel::core::macos
     }
 
     Engine::Engine(int argc, char* argv[]):
-        core::Engine(parseArgs(argc, argv))
+        core::Engine{parseArgs(argc, argv)}
     {
         application = [NSApplication sharedApplication];
         [application activateIgnoringOtherApps:YES];

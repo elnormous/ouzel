@@ -289,7 +289,7 @@ namespace ouzel::core::linux
 #endif
 
     Engine::Engine(int argc, char* argv[]):
-        core::Engine(parseArgs(argc, argv))
+        core::Engine{parseArgs(argc, argv)}
     {
 #if OUZEL_SUPPORTS_X11
         XSetErrorHandler(errorHandler);

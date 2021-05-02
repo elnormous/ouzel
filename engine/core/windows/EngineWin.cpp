@@ -50,7 +50,7 @@ namespace ouzel::core::windows
     }
 
     Engine::Engine(int argc, LPWSTR* argv):
-        core::Engine(parseArgs(argc, argv))
+        core::Engine{parseArgs(argc, argv)}
     {
     }
 

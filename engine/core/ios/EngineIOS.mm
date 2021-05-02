@@ -135,7 +135,7 @@ namespace ouzel::core::ios
     }
 
     Engine::Engine(int argc, char* argv[]):
-        core::Engine(parseArgs(argc, argv))
+        core::Engine{parseArgs(argc, argv)}
     {
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }

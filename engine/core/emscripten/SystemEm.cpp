@@ -36,7 +36,7 @@ namespace ouzel::core::emscripten
     }
 
     System::System(int argc, char* argv[]):
-        core::System(parseArgs(argc, argv))
+        core::System{parseArgs(argc, argv)}
     {
     }
 }
