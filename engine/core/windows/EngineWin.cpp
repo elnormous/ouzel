@@ -20,6 +20,7 @@
 #include "NativeWindowWin.hpp"
 #include "../../platform/winapi/ShellExecuteErrorCategory.hpp"
 #include "../../input/windows/InputSystemWin.hpp"
+#include "../../utils/Bit.hpp"
 #include "../../utils/Log.hpp"
 
 namespace ouzel::core::windows
@@ -159,9 +160,7 @@ namespace ouzel::core::windows
 
         // Result of the ShellExecuteW can be cast only to an int (https://docs.microsoft.com/en-us/windows/desktop/api/shellapi/nf-shellapi-shellexecutew)
         const auto result = ShellExecuteW(nullptr, L"open", buffer.get(), nullptr, nullptr, SW_SHOWNORMAL);
-        int status;
-        std::memcpy(&status, &result, sizeof(status));
-        if (status <= 32)
+        if (const auto status = bitCast<std::intptr_t>(result); status <= 32)
             throw std::system_error(status, shellExecuteErrorCategory, "Failed to execute open");
     }
 }
