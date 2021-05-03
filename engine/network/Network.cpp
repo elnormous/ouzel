@@ -24,7 +24,7 @@
 #endif
 #include "Network.hpp"
 #include "Client.hpp"
-#include "../utils/Utils.hpp"
+#include "../utils/Bit.hpp"
 
 namespace ouzel::network
 {

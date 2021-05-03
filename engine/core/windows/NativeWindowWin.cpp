@@ -25,8 +25,8 @@
 #include "../../graphics/Graphics.hpp"
 #include "../../graphics/RenderDevice.hpp"
 #include "../../graphics/direct3d11/D3D11RenderDevice.hpp"
+#include "../../utils/Bit.hpp"
 #include "../../utils/Log.hpp"
-#include "../../utils/Utils.hpp"
 
 namespace
 {

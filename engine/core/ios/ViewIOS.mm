@@ -6,7 +6,7 @@
 #include "../Engine.hpp"
 #include "../Window.hpp"
 #include "../../input/ios/InputSystemIOS.hpp"
-#include "../../utils/Utils.hpp"
+#include "../../utils/Bit.hpp"
 
 @implementation View
 

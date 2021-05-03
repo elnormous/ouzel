@@ -348,6 +348,7 @@
     <ClInclude Include="scene\SpriteRenderer.hpp" />
     <ClInclude Include="scene\TextRenderer.hpp" />
     <ClInclude Include="thread\Thread.hpp" />
+    <ClInclude Include="utils\Bit.hpp" />
     <ClInclude Include="utils\Log.hpp" />
     <ClInclude Include="utils\Utf8.hpp" />
     <ClInclude Include="utils\Utils.hpp" />

@@ -13,8 +13,8 @@
 #include "../MouseDevice.hpp"
 #include "../TouchpadDevice.hpp"
 #include "../../core/Engine.hpp"
+#include "../../utils/Bit.hpp"
 #include "../../utils/Log.hpp"
-#include "../../utils/Utils.hpp"
 
 namespace
 {

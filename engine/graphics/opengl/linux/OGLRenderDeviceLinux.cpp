@@ -13,6 +13,7 @@
 #include "../../../core/linux/EngineLinux.hpp"
 #include "../../../core/linux/NativeWindowLinux.hpp"
 #include "../../../utils/Log.hpp"
+#include "../../../utils/Bit.hpp"
 #include "../../../utils/Utils.hpp"
 
 namespace ouzel::graphics::opengl::linux

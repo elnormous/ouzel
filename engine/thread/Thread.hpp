@@ -20,7 +20,7 @@
 #elif defined(__unix__) || defined(__APPLE__)
 #  include <pthread.h>
 #endif
-#include "../utils/Utils.hpp"
+#include "../utils/Bit.hpp"
 
 namespace ouzel::thread
 {

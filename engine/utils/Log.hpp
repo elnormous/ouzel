@@ -13,7 +13,7 @@
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
 #include "../storage/Path.hpp"
-#include "Utils.hpp"
+#include "Bit.hpp"
 
 namespace ouzel
 {

@@ -5,7 +5,7 @@
 #include "InputSystemMacOS.hpp"
 #include "IOKitErrorCategory.hpp"
 #include "../GamepadConfig.hpp"
-#include "../../utils/Utils.hpp"
+#include "../../utils/Bit.hpp"
 
 namespace ouzel::input::macos
 {

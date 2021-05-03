@@ -7,7 +7,7 @@
 #include "../Engine.hpp"
 #include "../Window.hpp"
 #include "../../input/macos/InputSystemMacOS.hpp"
-#include "../../utils/Utils.hpp"
+#include "../../utils/Bit.hpp"
 
 @implementation View
 

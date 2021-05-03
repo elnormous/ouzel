@@ -525,6 +525,9 @@
     <ClInclude Include="utils\Utf8.hpp">
       <Filter>engine\utils</Filter>
     </ClInclude>
+    <ClInclude Include="utils\Bit.hpp">
+      <Filter>engine\utils</Filter>
+    </ClInclude>
     <ClInclude Include="utils\Utils.hpp">
       <Filter>engine\utils</Filter>
     </ClInclude>
