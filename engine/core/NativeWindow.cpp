@@ -12,13 +12,13 @@ namespace ouzel::core
                                bool newExclusiveFullscreen,
                                const std::string& newTitle,
                                bool newHighDpi):
-        size(newSize),
-        resizable(newResizable),
-        fullscreen(newFullscreen),
-        exclusiveFullscreen(newExclusiveFullscreen),
-        highDpi(newHighDpi),
-        title(newTitle),
-        callback(initCallback)
+        size{newSize},
+        resizable{newResizable},
+        fullscreen{newFullscreen},
+        exclusiveFullscreen{newExclusiveFullscreen},
+        highDpi{newHighDpi},
+        title{newTitle},
+        callback{initCallback}
     {
     }
 

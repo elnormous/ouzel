@@ -31,7 +31,7 @@ namespace ouzel::core
             };
 
             Command() = default;
-            explicit Command(Type initType) noexcept: type(initType) {}
+            explicit Command(Type initType) noexcept: type{initType} {}
 
             Type type;
             Size<std::uint32_t, 2> size;
@@ -58,7 +58,7 @@ namespace ouzel::core
             };
 
             Event() = default;
-            explicit Event(Type initType) noexcept: type(initType) {}
+            explicit Event(Type initType) noexcept: type{initType} {}
 
             Type type;
 
