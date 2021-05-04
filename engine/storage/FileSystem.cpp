@@ -272,7 +272,10 @@ namespace ouzel::storage
                 if (result == ERANGE)
                     buffer.resize(buffer.size() * 2);
                 else
-                    throw std::system_error(result, std::system_category(), "Failed to get home directory");
+                    throw std::system_error(result, std::system_category(), "Failed to get password record");
+
+            if (!pwentp)
+                throw std::system_error(result, std::system_category(), "No matching password record found");
 
             path = Path{pwent.pw_dir, Path::Format::native};
             path /= ".local";
