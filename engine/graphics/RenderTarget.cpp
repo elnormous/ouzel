@@ -20,6 +20,6 @@ namespace ouzel::graphics
 
         initGraphics.addCommand(std::make_unique<InitRenderTargetCommand>(resource,
                                                                           colorTextureIds,
-                                                                          depthTexture ? depthTexture->getResource() : std::size_t(0)));
+                                                                          depthTexture ? depthTexture->getResource() : RenderDevice::ResourceId(0)));
     }
 }
