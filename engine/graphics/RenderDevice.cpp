@@ -9,22 +9,22 @@ namespace ouzel::graphics
                                const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        driver(initDriver),
-        window(initWindow),
-        callback(initCallback),
-        sampleCount(settings.sampleCount),
-        verticalSync(settings.verticalSync),
-        srgb(settings.srgb),
-        depth(settings.depth),
-        stencil(settings.stencil),
-        debugRenderer(settings.debugRenderer),
-        npotTexturesSupported(false),
-        anisotropicFilteringSupported(false),
-        renderTargetsSupported(false),
-        clampToBorderSupported(false),
-        multisamplingSupported(false),
-        uintIndicesSupported(false),
-        previousFrameTime(std::chrono::steady_clock::now())
+        driver{initDriver},
+        window{initWindow},
+        callback{initCallback},
+        sampleCount{settings.sampleCount},
+        verticalSync{settings.verticalSync},
+        srgb{settings.srgb},
+        depth{settings.depth},
+        stencil{settings.stencil},
+        debugRenderer{settings.debugRenderer},
+        npotTexturesSupported{false},
+        anisotropicFilteringSupported{false},
+        renderTargetsSupported{false},
+        clampToBorderSupported{false},
+        multisamplingSupported{false},
+        uintIndicesSupported{false},
+        previousFrameTime{std::chrono::steady_clock::now()}
     {
     }
 
