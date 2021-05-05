@@ -535,7 +535,7 @@ namespace ouzel::graphics
     class RenderSceneCommand final: public Command
     {
     public:
-        explicit RenderSceneCommand() noexcept:
+        explicit RenderSceneCommand() noexcept(false):
             Command{Type::renderScene}
         {
         }

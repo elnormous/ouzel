@@ -28,7 +28,7 @@ namespace ouzel::hash::fnv1
     constexpr Result hash(const Value value, const std::size_t i = 0,
                           const Result result = Constants<Result>::offsetBasis) noexcept
     {
-        return (i < sizeof(Value)) ? hash<Result>(value, i + 1, (result * Constants<Result>::prime) ^ ((value >> (i * 8)) & 0xFF)) : result;
+        return (i < sizeof(Value)) ? hash<Result>(value, i + 1, (result * Constants<Result>::prime) ^ ((value >> (i * 8)) & 0xFFU)) : result;
     }
 }
 
