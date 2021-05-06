@@ -235,7 +235,7 @@ namespace ouzel::graphics::metal
         else
             renderPassDescriptor.get().depthAttachment.texture = nil;
 
-        dispatch_semaphore_wait(inflightSemaphore, DISPATCH_TIME_FOREVER);
+        inflightSemaphore.wait(DISPATCH_TIME_FOREVER);
 
         id<MTLCommandBuffer> currentCommandBuffer = [metalCommandQueue.get() commandBuffer];
 
@@ -244,7 +244,7 @@ namespace ouzel::graphics::metal
 
         __block auto& renderer = *this;
         [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>) {
-             dispatch_semaphore_signal(renderer.inflightSemaphore);
+            renderer.inflightSemaphore.signal();
          }];
 
         MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;

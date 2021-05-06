@@ -53,6 +53,16 @@ namespace ouzel::platform::dispatch
             return *this;
         }
 
+        void wait(dispatch_time_t timeout) noexcept
+        {
+            if (semaphore) dispatch_semaphore_wait(semaphore, timeout);
+        }
+
+        void signal() noexcept
+        {
+            if (semaphore) dispatch_semaphore_signal(semaphore);
+        }
+
         operator dispatch_semaphore_t() const noexcept
         {
             return semaphore;
