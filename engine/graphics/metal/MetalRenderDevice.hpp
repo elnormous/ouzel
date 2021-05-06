@@ -7,6 +7,7 @@
 
 #if OUZEL_COMPILE_METAL
 
+#include <array>
 #include <map>
 #include <memory>
 #include <vector>
@@ -112,7 +113,7 @@ namespace ouzel::graphics::metal
         };
 
         std::uint32_t shaderConstantBufferIndex = 0;
-        ShaderConstantBuffer shaderConstantBuffers[bufferCount];
+        std::array<ShaderConstantBuffer, bufferCount> shaderConstantBuffers;
 
         Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
         Pointer<MTLDepthStencilStatePtr> defaultDepthStencilState;
