@@ -1166,6 +1166,7 @@
 		301116C62595A8EB0093FF14 /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				308E37FC2643ECD000CD49B8 /* dispatch */,
 				307F4C2024E20CFE00994B7A /* cocoa */,
 				304BB5DF256B3A420024DD25 /* coregraphics */,
 				304BB5D32569E40F0024DD25 /* corevideo */,
@@ -1702,7 +1703,6 @@
 		30547E351CB3D6570055EE79 /* metal */ = {
 			isa = PBXGroup;
 			children = (
-				3082B56E24DA04C400489B19 /* DispatchSemaphore.hpp */,
 				303B04741E207A3E00011CBE /* ios */,
 				303B04751E207A4800011CBE /* macos */,
 				30381FC71D80A40700677CAB /* MetalBlendState.hpp */,
@@ -1788,6 +1788,14 @@
 				307237111FAFDAC9002EA399 /* Xml.hpp */,
 			);
 			path = formats;
+			sourceTree = "<group>";
+		};
+		308E37FC2643ECD000CD49B8 /* dispatch */ = {
+			isa = PBXGroup;
+			children = (
+				3082B56E24DA04C400489B19 /* DispatchSemaphore.hpp */,
+			);
+			path = dispatch;
 			sourceTree = "<group>";
 		};
 		3098A5511EA01C6600528A54 /* macos */ = {

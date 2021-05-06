@@ -1,17 +1,17 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_GRAPHICS_DISPATCHSEMAPHORE_HPP
-#define OUZEL_GRAPHICS_DISPATCHSEMAPHORE_HPP
+#ifndef OUZEL_PLATFORM_DISPATCH_DISPATCHSEMAPHORE_HPP
+#define OUZEL_PLATFORM_DISPATCH_DISPATCHSEMAPHORE_HPP
 
 #include <stdexcept>
 #include <dispatch/dispatch.h>
 
-namespace ouzel::graphics::metal
+namespace ouzel::platform::dispatch
 {
     class DispatchSemaphore final
     {
     public:
-        explicit DispatchSemaphore(long value):
+        explicit DispatchSemaphore(intptr_t value):
             semaphore{dispatch_semaphore_create(value)}
         {
             if (!semaphore)
@@ -63,4 +63,4 @@ namespace ouzel::graphics::metal
     };
 }
 
-#endif // OUZEL_GRAPHICS_DISPATCHSEMAPHORE_HPP
+#endif // OUZEL_PLATFORM_DISPATCH_DISPATCHSEMAPHORE_HPP
