@@ -38,7 +38,7 @@ namespace ouzel::graphics::opengl
     {
     public:
         ProcedureGetter(ApiVersion version):
-            apiVersion(version)
+            apiVersion{version}
         {
             const auto glGetErrorProc = getProcAddress<PFNGLGETERRORPROC>("glGetError", ApiVersion{1, 0});
 

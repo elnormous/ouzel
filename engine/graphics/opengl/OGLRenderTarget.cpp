@@ -40,9 +40,9 @@ namespace ouzel::graphics::opengl
     RenderTarget::RenderTarget(RenderDevice& initRenderDevice,
                                const std::set<Texture*>& initColorTextures,
                                Texture* initDepthTexture):
-        RenderResource(initRenderDevice),
-        colorTextures(initColorTextures),
-        depthTexture(initDepthTexture)
+        RenderResource{initRenderDevice},
+        colorTextures{initColorTextures},
+        depthTexture{initDepthTexture}
     {
         createFrameBuffer();
     }

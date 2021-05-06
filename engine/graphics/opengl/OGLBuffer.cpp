@@ -15,11 +15,11 @@ namespace ouzel::graphics::opengl
                    Flags initFlags,
                    const std::vector<std::uint8_t>& initData,
                    std::uint32_t initSize):
-        RenderResource(initRenderDevice),
-        type(initType),
-        flags(initFlags),
-        data(initData),
-        size(static_cast<GLsizeiptr>(initSize))
+        RenderResource{initRenderDevice},
+        type{initType},
+        flags{initFlags},
+        data{initData},
+        size{static_cast<GLsizeiptr>(initSize)}
     {
         createBuffer();
 

@@ -9,7 +9,7 @@
 namespace ouzel::graphics::renderer
 {
     Renderer::Renderer(RenderDevice& initRenderDevice):
-        renderDevice(initRenderDevice)
+        renderDevice{initRenderDevice}
     {
     }
 

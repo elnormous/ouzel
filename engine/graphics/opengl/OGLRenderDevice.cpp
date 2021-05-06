@@ -268,9 +268,9 @@ namespace ouzel::graphics::opengl
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& newWindow,
                                const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice(Driver::openGl, settings, newWindow, initCallback),
-        textureBaseLevelSupported(false),
-        textureMaxLevelSupported(false)
+        graphics::RenderDevice{Driver::openGl, settings, newWindow, initCallback},
+        textureBaseLevelSupported{false},
+        textureMaxLevelSupported{false}
     {
         projectionTransform = Matrix<float, 4>{
             1.0F, 0.0F, 0.0F, 0.0F,

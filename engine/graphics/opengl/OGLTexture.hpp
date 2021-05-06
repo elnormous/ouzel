@@ -38,7 +38,8 @@ namespace ouzel::graphics::opengl
     {
     public:
         Texture(RenderDevice& initRenderDevice,
-                const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
+                const std::vector<std::pair<Size<std::uint32_t, 2>,
+                std::vector<std::uint8_t>>>& initLevels,
                 TextureType type,
                 Flags initFlags,
                 std::uint32_t initSampleCount,
@@ -49,7 +50,8 @@ namespace ouzel::graphics::opengl
 
         void reload() final;
 
-        void setData(const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& newLevels);
+        void setData(const std::vector<std::pair<Size<std::uint32_t, 2>,
+                     std::vector<std::uint8_t>>>& newLevels);
         void setFilter(SamplerFilter newFilter);
         void setAddressX(SamplerAddressMode newAddressX);
         void setAddressY(SamplerAddressMode newAddressY);

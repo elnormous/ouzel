@@ -253,24 +253,25 @@ namespace ouzel::graphics::opengl
     }
 
     Texture::Texture(RenderDevice& initRenderDevice,
-                     const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
+                     const std::vector<std::pair<Size<std::uint32_t, 2>,
+                     std::vector<std::uint8_t>>>& initLevels,
                      TextureType type,
                      Flags initFlags,
                      std::uint32_t initSampleCount,
                      PixelFormat initPixelFormat,
                      SamplerFilter initFilter,
                      std::uint32_t initMaxAnisotropy):
-        RenderResource(initRenderDevice),
-        levels(initLevels),
-        flags(initFlags),
-        mipmaps(static_cast<std::uint32_t>(initLevels.size())),
-        sampleCount(initSampleCount),
-        filter(initFilter),
-        maxAnisotropy(static_cast<GLint>(initMaxAnisotropy)),
-        textureTarget(getTextureTarget(type)),
-        internalPixelFormat(getOpenGlInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())),
-        pixelFormat(getOpenGlPixelFormat(initPixelFormat)),
-        pixelType(getOpenGlPixelType(initPixelFormat))
+        RenderResource{initRenderDevice},
+        levels{initLevels},
+        flags{initFlags},
+        mipmaps{static_cast<std::uint32_t>(initLevels.size())},
+        sampleCount{initSampleCount},
+        filter{initFilter},
+        maxAnisotropy{static_cast<GLint>(initMaxAnisotropy)},
+        textureTarget{getTextureTarget(type)},
+        internalPixelFormat{getOpenGlInternalPixelFormat(initPixelFormat, renderDevice.getAPIMajorVersion())},
+        pixelFormat{getOpenGlPixelFormat(initPixelFormat)},
+        pixelType{getOpenGlPixelType(initPixelFormat)}
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
@@ -371,7 +372,8 @@ namespace ouzel::graphics::opengl
         }
     }
 
-    void Texture::setData(const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& newLevels)
+    void Texture::setData(const std::vector<std::pair<Size<std::uint32_t, 2>,
+                          std::vector<std::uint8_t>>>& newLevels)
     {
         if ((flags & Flags::dynamic) != Flags::dynamic ||
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)

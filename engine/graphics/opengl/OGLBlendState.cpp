@@ -58,8 +58,8 @@ namespace ouzel::graphics::opengl
                            BlendFactor alphaBlendDest,
                            BlendOperation alphaOperation,
                            ColorMask colorMask):
-        RenderResource(initRenderDevice),
-        blendEnabled(enableBlending)
+        RenderResource{initRenderDevice},
+        blendEnabled{enableBlending}
     {
         modeRGB = getBlendOperation(colorOperation);
         modeAlpha = getBlendOperation(alphaOperation);

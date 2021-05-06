@@ -60,21 +60,21 @@ namespace ouzel::graphics::opengl
                                          StencilOperation initBackFaceStencilDepthFailureOperation,
                                          StencilOperation initBackFaceStencilPassOperation,
                                          CompareFunction initBackFaceStencilCompareFunction):
-        RenderResource(initRenderDevice),
-        depthTest(initDepthTest),
+        RenderResource{initRenderDevice},
+        depthTest{initDepthTest},
         depthMask(initDepthWrite ? GL_TRUE : GL_FALSE),
-        compareFunction(getFunction(initCompareFunction)),
-        stencilTest(initStencilEnabled),
-        stencilReadMask(initStencilReadMask),
-        stencilWriteMask(initStencilWriteMask),
-        frontFaceFail(getOperation(initFrontFaceStencilFailureOperation)),
-        frontFaceDepthFail(getOperation(initFrontFaceStencilDepthFailureOperation)),
-        frontFacePass(getOperation(initFrontFaceStencilPassOperation)),
-        frontFaceFunction(getFunction(initFrontFaceStencilCompareFunction)),
-        backFaceFail(getOperation(initBackFaceStencilFailureOperation)),
-        backFaceDepthFail(getOperation(initBackFaceStencilDepthFailureOperation)),
-        backFacePass(getOperation(initBackFaceStencilPassOperation)),
-        backFaceFunction(getFunction(initBackFaceStencilCompareFunction))
+        compareFunction{getFunction(initCompareFunction)},
+        stencilTest{initStencilEnabled},
+        stencilReadMask{initStencilReadMask},
+        stencilWriteMask{initStencilWriteMask},
+        frontFaceFail{getOperation(initFrontFaceStencilFailureOperation)},
+        frontFaceDepthFail{getOperation(initFrontFaceStencilDepthFailureOperation)},
+        frontFacePass{getOperation(initFrontFaceStencilPassOperation)},
+        frontFaceFunction{getFunction(initFrontFaceStencilCompareFunction)},
+        backFaceFail{getOperation(initBackFaceStencilFailureOperation)},
+        backFaceDepthFail{getOperation(initBackFaceStencilDepthFailureOperation)},
+        backFacePass{getOperation(initBackFaceStencilPassOperation)},
+        backFaceFunction{getFunction(initBackFaceStencilCompareFunction)}
     {
     }
 }

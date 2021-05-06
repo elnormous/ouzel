@@ -15,7 +15,7 @@ namespace ouzel::graphics::opengl
     {
     public:
         explicit RenderResource(RenderDevice& initRenderDevice):
-            renderDevice(initRenderDevice)
+            renderDevice{initRenderDevice}
         {
         }
         virtual ~RenderResource() = default;

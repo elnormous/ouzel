@@ -18,12 +18,12 @@ namespace ouzel::graphics::opengl
                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                    const std::string&,
                    const std::string&):
-        RenderResource(initRenderDevice),
-        fragmentShaderData(initFragmentShader),
-        vertexShaderData(initVertexShader),
-        vertexAttributes(initVertexAttributes),
-        fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
-        vertexShaderConstantInfo(initVertexShaderConstantInfo)
+        RenderResource{initRenderDevice},
+        fragmentShaderData{initFragmentShader},
+        vertexShaderData{initVertexShader},
+        vertexAttributes{initVertexAttributes},
+        fragmentShaderConstantInfo{initFragmentShaderConstantInfo},
+        vertexShaderConstantInfo{initVertexShaderConstantInfo}
     {
         compileShader();
     }
