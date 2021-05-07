@@ -7,6 +7,7 @@
 
 #if OUZEL_COMPILE_DIRECT3D11
 
+#include <array>
 #include <atomic>
 #include <map>
 #include <memory>
@@ -74,7 +75,7 @@ namespace ouzel::graphics::d3d11
         Pointer<ID3D11Texture2D> backBuffer;
         Pointer<ID3D11RenderTargetView> renderTargetView;
         std::map<SamplerStateDesc, Pointer<ID3D11SamplerState>> samplerStates;
-        Pointer<ID3D11RasterizerState> rasterizerStates[12];
+        std::array<Pointer<ID3D11RasterizerState>, 12> rasterizerStates;
         Pointer<ID3D11Texture2D> depthStencilTexture;
         Pointer<ID3D11DepthStencilView> depthStencilView;
         Pointer<ID3D11DepthStencilState> defaultDepthStencilState;
