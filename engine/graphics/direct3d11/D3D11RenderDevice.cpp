@@ -413,16 +413,18 @@ namespace ouzel::graphics::d3d11
                     {
                         const auto clearCommand = static_cast<const ClearRenderTargetCommand*>(command.get());
 
-                        FLOAT frameBufferClearColor[4]{clearCommand->clearColor.normR(),
+                        const std::array<FLOAT, 4> frameBufferClearColor{
+                            clearCommand->clearColor.normR(),
                             clearCommand->clearColor.normG(),
                             clearCommand->clearColor.normB(),
-                            clearCommand->clearColor.normA()};
+                            clearCommand->clearColor.normA()
+                        };
 
                         if (currentRenderTarget)
                         {
                             if (clearCommand->clearColorBuffer)
                                 for (ID3D11RenderTargetView* view : currentRenderTarget->getRenderTargetViews())
-                                    context->ClearRenderTargetView(view, frameBufferClearColor);
+                                    context->ClearRenderTargetView(view, frameBufferClearColor.data());
 
                             if (clearCommand->clearDepthBuffer || clearCommand->clearStencilBuffer)
                                 if (ID3D11DepthStencilView* view = currentRenderTarget->getDepthStencilView())
@@ -434,7 +436,7 @@ namespace ouzel::graphics::d3d11
                         else
                         {
                             if (clearCommand->clearColorBuffer)
-                                context->ClearRenderTargetView(renderTargetView.get(), frameBufferClearColor);
+                                context->ClearRenderTargetView(renderTargetView.get(), frameBufferClearColor.data());
 
                             if (clearCommand->clearDepthBuffer)
                                 context->ClearDepthStencilView(depthStencilView.get(),
