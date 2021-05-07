@@ -218,21 +218,17 @@ namespace ouzel::graphics::d3d11
 
         std::uint32_t rasterStateIndex = 0;
 
+        const std::array<D3D11_CULL_MODE, 3> cullModes = {D3D11_CULL_NONE, D3D11_CULL_FRONT, D3D11_CULL_BACK};
+
         for (std::uint32_t fillMode = 0; fillMode < 2; ++fillMode)
             for (std::uint32_t scissorEnable = 0; scissorEnable < 2; ++scissorEnable)
                 for (std::uint32_t cullMode = 0; cullMode < 3; ++cullMode)
                 {
                     rasterStateDesc.FillMode = (fillMode == 0) ? D3D11_FILL_SOLID : D3D11_FILL_WIREFRAME;
                     rasterStateDesc.ScissorEnable = (scissorEnable == 0) ? FALSE : TRUE;
-                    switch (cullMode)
-                    {
-                        case 0: rasterStateDesc.CullMode = D3D11_CULL_NONE; break;
-                        case 1: rasterStateDesc.CullMode = D3D11_CULL_FRONT; break;
-                        case 2: rasterStateDesc.CullMode = D3D11_CULL_BACK; break;
-                    }
+                    rasterStateDesc.CullMode = cullModes[cullMode];
 
                     ID3D11RasterizerState* newRasterizerState;
-
                     if (const auto hr = device->CreateRasterizerState(&rasterStateDesc, &newRasterizerState); FAILED(hr))
                         throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 rasterizer state");
 
