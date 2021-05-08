@@ -33,8 +33,7 @@ namespace ouzel::core::windows
             if (argv)
                 for (int i = 0; i < argc; ++i)
                 {
-                    const int bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
-                    if (bufferSize == 0)
+                    if (const auto bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr); bufferSize == 0)
                         throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
 
                     auto buffer = std::make_unique<char[]>(bufferSize);
@@ -150,7 +149,7 @@ namespace ouzel::core::windows
 
     void Engine::openUrl(const std::string& url)
     {
-        const int buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
+        const auto buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
         if (buferSize == 0)
             throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
 
