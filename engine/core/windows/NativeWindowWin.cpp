@@ -479,7 +479,7 @@ namespace ouzel::core::windows
         SetLastError(ERROR_SUCCESS);
 
         if (!SetWindowLongPtr(window, GWLP_USERDATA, bitCast<LONG_PTR>(this)))
-            if (DWORD error = GetLastError())
+            if (const auto error = GetLastError())
                 throw std::system_error(error, std::system_category(), "Failed to set window pointer");
     }
 
@@ -843,7 +843,7 @@ namespace ouzel::core::windows
         const UINT inputCount = LOWORD(wParam);
         std::vector<TOUCHINPUT> touches(inputCount);
 
-        if (!GetTouchInputInfo(reinterpret_cast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
+        if (!GetTouchInputInfo(bitCast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get touch info");
 
         for (const auto& touch : touches)
@@ -866,7 +866,7 @@ namespace ouzel::core::windows
                                                 engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
 
-        if (!CloseTouchInputHandle(reinterpret_cast<HTOUCHINPUT>(lParam)))
+        if (!CloseTouchInputHandle(bitCast<HTOUCHINPUT>(lParam)))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to close touch input handle");
     }
 
