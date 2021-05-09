@@ -11,12 +11,11 @@ namespace ouzel::platform::winapi
     class Console final
     {
     public:
-        Console()
+        Console():
+            allocated{AllocConsole() != FALSE}
         {
-            if (!AllocConsole())
+            if (!allocated)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to allocate console");
-
-            allocated = true;
         }
 
         ~Console()
@@ -24,8 +23,8 @@ namespace ouzel::platform::winapi
             if (allocated) FreeConsole();
         }
 
-        Console(Console&& other) noexcept :
-            allocated(other.allocated)
+        Console(Console&& other) noexcept:
+            allocated{other.allocated}
         {
             other.allocated = false;
         }
