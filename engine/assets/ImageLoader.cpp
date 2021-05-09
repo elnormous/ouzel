@@ -142,10 +142,13 @@ namespace ouzel::assets
                 throw std::runtime_error("Unsupported pixel format");
         }
 
-        graphics::Image image(pixelFormat,
-                              Size<std::uint32_t, 2>{static_cast<std::uint32_t>(width),
-                                                     static_cast<std::uint32_t>(height)},
-                              imageData);
+        const graphics::Image image{
+            pixelFormat,
+            Size<std::uint32_t, 2>{
+                static_cast<std::uint32_t>(width),
+                static_cast<std::uint32_t>(height)},
+            imageData
+        };
 
         auto texture = std::make_shared<graphics::Texture>(*engine->getGraphics(),
                                                            image.getData(),
