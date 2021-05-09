@@ -61,7 +61,7 @@ namespace ouzel::graphics::metal
         static constexpr std::size_t bufferSize = 1024U * 1024U; // size of shader constant buffer
         static constexpr std::size_t bufferCount = 3U; // allow encoding up to 3 command buffers simultaneously
 
-        static bool available();
+        static bool available() noexcept;
 
         auto& getDevice() const noexcept { return device; }
 
