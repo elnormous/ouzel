@@ -243,9 +243,10 @@ namespace ouzel::input::windows
 
         const auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
 
-        BSTR namespaceStr = SysAllocString(L"\\\\.\\root\\cimv2");
-        BSTR className = SysAllocString(L"Win32_PNPEntity");
-        BSTR deviceID = SysAllocString(L"DeviceID");
+        using SysFreeStringFunction = void(*)(BSTR*);
+        std::unique_ptr<BSTR, SysFreeStringFunction> namespaceStr{SysAllocString(L"\\\\.\\root\\cimv2"), &SysFreeString};
+        std::unique_ptr<BSTR, SysFreeStringFunction> className{SysAllocString(L"Win32_PNPEntity"), &SysFreeString};
+        std::unique_ptr<BSTR, SysFreeStringFunction> deviceID{SysAllocString(L"DeviceID"), &SysFreeString};
 
         if (className && namespaceStr && deviceID)
         {
@@ -300,10 +301,6 @@ namespace ouzel::input::windows
             enumDevices->Release();
             wbemServices->Release();
         }
-
-        if (namespaceStr) SysFreeString(namespaceStr);
-        if (deviceID) SysFreeString(deviceID);
-        if (className) SysFreeString(className);
 
         wbemLocator->Release();
 
