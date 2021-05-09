@@ -244,7 +244,7 @@ namespace ouzel::input::windows
 
         const auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
 
-        using SysFreeStringFunction = void(*)(BSTR);
+        using SysFreeStringFunction = void(__stdcall*)(BSTR);
         std::unique_ptr<WCHAR, SysFreeStringFunction> namespaceStr(SysAllocString(L"\\\\.\\root\\cimv2"), &SysFreeString);
         std::unique_ptr<WCHAR, SysFreeStringFunction> className(SysAllocString(L"Win32_PNPEntity"), &SysFreeString);
         std::unique_ptr<WCHAR, SysFreeStringFunction> deviceID(SysAllocString(L"DeviceID"), &SysFreeString);
