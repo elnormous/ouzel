@@ -251,7 +251,7 @@ namespace ouzel::input::windows
         if (className && namespaceStr && deviceID)
         {
             IWbemServices* wbemServices = nullptr;
-            if (const auto result = wbemLocator->ConnectServer(namespaceStr, nullptr, nullptr, 0L,
+            if (const auto result = wbemLocator->ConnectServer(namespaceStr.get(), nullptr, nullptr, 0L,
                                                                0L, nullptr, nullptr, &wbemServices); FAILED(result))
                 throw std::system_error(result, errorCategory, "Failed to create a connection to the WMI namespace");
 
@@ -260,7 +260,7 @@ namespace ouzel::input::windows
                 throw std::system_error(result, errorCategory, "Failed to set authentication information");
 
             IEnumWbemClassObject* enumDevices = nullptr;
-            if (const auto result = wbemServices->CreateInstanceEnum(className, 0, nullptr, &enumDevices); FAILED(result))
+            if (const auto result = wbemServices->CreateInstanceEnum(className.get(), 0, nullptr, &enumDevices); FAILED(result))
                 throw std::system_error(result, errorCategory, "Failed to create the device enumerator");
 
             // Get 20 at a time
@@ -272,7 +272,7 @@ namespace ouzel::input::windows
                 {
                     // For each device, get its device ID
                     VARIANT var;
-                    const auto result = devices[device]->Get(deviceID, 0L, &var, nullptr, nullptr);
+                    const auto result = devices[device]->Get(deviceID.get(), 0L, &var, nullptr, nullptr);
                     if (SUCCEEDED(result) && var.vt == VT_BSTR && var.bstrVal != nullptr)
                     {
                         // Check if the device ID contains "IG_". If it does, then it's an XInput device
