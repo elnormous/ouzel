@@ -8,6 +8,7 @@
 #ifndef NOMINMAX
 #  define NOMINMAX
 #endif
+#include <array>
 #include <Windows.h>
 #include <WbemIdl.h>
 #include <OleAuto.h>
@@ -243,10 +244,10 @@ namespace ouzel::input::windows
 
         const auto wbemLocator = static_cast<IWbemLocator*>(wbemLocatorPointer);
 
-        using SysFreeStringFunction = void(*)(BSTR*);
-        std::unique_ptr<BSTR, SysFreeStringFunction> namespaceStr{SysAllocString(L"\\\\.\\root\\cimv2"), &SysFreeString};
-        std::unique_ptr<BSTR, SysFreeStringFunction> className{SysAllocString(L"Win32_PNPEntity"), &SysFreeString};
-        std::unique_ptr<BSTR, SysFreeStringFunction> deviceID{SysAllocString(L"DeviceID"), &SysFreeString};
+        using SysFreeStringFunction = void(*)(BSTR);
+        std::unique_ptr<WCHAR, SysFreeStringFunction> namespaceStr(SysAllocString(L"\\\\.\\root\\cimv2"), &SysFreeString);
+        std::unique_ptr<WCHAR, SysFreeStringFunction> className(SysAllocString(L"Win32_PNPEntity"), &SysFreeString);
+        std::unique_ptr<WCHAR, SysFreeStringFunction> deviceID(SysAllocString(L"DeviceID"), &SysFreeString);
 
         if (className && namespaceStr && deviceID)
         {
@@ -264,11 +265,11 @@ namespace ouzel::input::windows
                 throw std::system_error(result, errorCategory, "Failed to create the device enumerator");
 
             // Get 20 at a time
-            ULONG returned = 0;
-            IWbemClassObject* devices[20];
-            while (enumDevices->Next(10000, 20, devices, &returned) == WBEM_S_NO_ERROR)
+            ULONG deviceCount = 0;
+            std::array<IWbemClassObject*, 20> devices;
+            while (enumDevices->Next(10000, devices.size(), devices.data(), &deviceCount) == WBEM_S_NO_ERROR)
             {
-                for (ULONG device = 0; device < returned; ++device)
+                for (ULONG device = 0; device < deviceCount; ++device)
                 {
                     // For each device, get its device ID
                     VARIANT var;

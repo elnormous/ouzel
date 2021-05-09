@@ -47,7 +47,7 @@ namespace ouzel::input::linux
 #endif
 
         using CloseDirFunction = int(*)(DIR*);
-        std::unique_ptr<DIR, CloseDirFunction> dir{opendir("/dev/input"), &closedir};
+        std::unique_ptr<DIR, CloseDirFunction> dir(opendir("/dev/input"), &closedir);
         if (!dir)
             throw std::system_error(errno, std::system_category(), "Failed to open directory");
 
