@@ -10,6 +10,7 @@
 #include "MetalShader.hpp"
 #include "MetalError.hpp"
 #include "MetalRenderDevice.hpp"
+#include "../../platform/dispatch/DispatchData.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -125,9 +126,14 @@ namespace ouzel::graphics::metal
 
         NSError* err;
 
-        dispatch_data_t fragmentShaderDispatchData = dispatch_data_create(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+        const platform::dispatch::DispatchData fragmentShaderDispatchData{
+            fragmentShaderData.data(),
+            fragmentShaderData.size(),
+            nullptr,
+            DISPATCH_DATA_DESTRUCTOR_DEFAULT
+        };
+
         Pointer<id<MTLLibrary>> fragmentShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:fragmentShaderDispatchData error:&err];
-        dispatch_release(fragmentShaderDispatchData);
 
         if (!fragmentShaderLibrary || err != nil)
             throw Error("Failed to load pixel shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
@@ -149,9 +155,14 @@ namespace ouzel::graphics::metal
             }
         }
 
-        dispatch_data_t vertexShaderDispatchData = dispatch_data_create(vertexShaderData.data(), vertexShaderData.size(), nullptr, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+        const platform::dispatch::DispatchData vertexShaderDispatchData{
+            vertexShaderData.data(),
+            vertexShaderData.size(),
+            nullptr,
+            DISPATCH_DATA_DESTRUCTOR_DEFAULT
+        };
+
         Pointer<id<MTLLibrary>> vertexShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:vertexShaderDispatchData error:&err];
-        dispatch_release(vertexShaderDispatchData);
 
         if (!vertexShaderLibrary || err != nil)
             throw Error("Failed to load vertex shader, " + std::string(err ? [err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding] : "unknown error"));
