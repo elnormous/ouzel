@@ -90,10 +90,10 @@ namespace ouzel::graphics::metal
                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                    const std::string& fragmentShaderFunction,
                    const std::string& vertexShaderFunction):
-        RenderResource(initRenderDevice),
-        vertexAttributes(initVertexAttributes),
-        fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
-        vertexShaderConstantInfo(initVertexShaderConstantInfo)
+        RenderResource{initRenderDevice},
+        vertexAttributes{initVertexAttributes},
+        fragmentShaderConstantInfo{initFragmentShaderConstantInfo},
+        vertexShaderConstantInfo{initVertexShaderConstantInfo}
     {
         std::uint32_t index = 0;
         NSUInteger offset = 0;

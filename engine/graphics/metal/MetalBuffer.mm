@@ -16,9 +16,9 @@ namespace ouzel::graphics::metal
                    Flags initFlags,
                    const std::vector<std::uint8_t>& data,
                    std::uint32_t initSize):
-        RenderResource(initRenderDevice),
-        type(initType),
-        flags(initFlags)
+        RenderResource{initRenderDevice},
+        type{initType},
+        flags{initFlags}
     {
         createBuffer(initSize);
 

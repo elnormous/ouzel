@@ -15,7 +15,7 @@ namespace ouzel::graphics::metal
     {
     public:
         explicit RenderResource(RenderDevice& initRenderDevice) noexcept:
-            renderDevice(initRenderDevice)
+            renderDevice{initRenderDevice}
         {
         }
 

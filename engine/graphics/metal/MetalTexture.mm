@@ -100,13 +100,13 @@ namespace ouzel::graphics::metal
                      PixelFormat initPixelFormat,
                      SamplerFilter initFilter,
                      std::uint32_t initMaxAnisotropy):
-        RenderResource(initRenderDevice),
-        flags(initFlags),
-        mipmaps(static_cast<std::uint32_t>(levels.size())),
-        sampleCount(initSampleCount),
-        pixelFormat(getMetalPixelFormat(initPixelFormat)),
-        pixelSize(getPixelSize(initPixelFormat)),
-        stencilBuffer(initPixelFormat == PixelFormat::depthStencil)
+        RenderResource{initRenderDevice},
+        flags{initFlags},
+        mipmaps{static_cast<std::uint32_t>(levels.size())},
+        sampleCount{initSampleCount},
+        pixelFormat{getMetalPixelFormat(initPixelFormat)},
+        pixelSize{getPixelSize(initPixelFormat)},
+        stencilBuffer{initPixelFormat == PixelFormat::depthStencil}
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))

@@ -54,14 +54,14 @@ namespace ouzel::graphics::metal
                            BlendFactor alphaBlendDest,
                            BlendOperation alphaOperation,
                            ColorMask colorMask):
-        RenderResource(initRenderDevice),
-        rgbBlendOperation(getBlendOperation(colorOperation)),
-        alphaBlendOperation(getBlendOperation(alphaOperation)),
-        sourceRgbBlendFactor(getBlendFactor(colorBlendSource)),
-        destinationRgbBlendFactor(getBlendFactor(colorBlendDest)),
-        sourceAlphaBlendFactor(getBlendFactor(alphaBlendSource)),
-        destinationAlphaBlendFactor(getBlendFactor(alphaBlendDest)),
-        blendingEnabled(enableBlending)
+        RenderResource{initRenderDevice},
+        rgbBlendOperation{getBlendOperation(colorOperation)},
+        alphaBlendOperation{getBlendOperation(alphaOperation)},
+        sourceRgbBlendFactor{getBlendFactor(colorBlendSource)},
+        destinationRgbBlendFactor{getBlendFactor(colorBlendDest)},
+        sourceAlphaBlendFactor{getBlendFactor(alphaBlendSource)},
+        destinationAlphaBlendFactor{getBlendFactor(alphaBlendDest)},
+        blendingEnabled{enableBlending}
     {
         colorWriteMask = MTLColorWriteMaskNone;
         if ((colorMask & ColorMask::red) == ColorMask::red)

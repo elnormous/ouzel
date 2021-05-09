@@ -14,11 +14,11 @@ namespace ouzel::graphics::metal
     RenderTarget::RenderTarget(RenderDevice& initRenderDevice,
                                const std::set<Texture*>& initColorTextures,
                                Texture* initDepthTexture):
-        RenderResource(initRenderDevice),
-        colorTextures(initColorTextures),
-        depthTexture(initDepthTexture),
-        depthFormat(MTLPixelFormatInvalid),
-        stencilFormat(MTLPixelFormatInvalid)
+        RenderResource{initRenderDevice},
+        colorTextures{initColorTextures},
+        depthTexture{initDepthTexture},
+        depthFormat{MTLPixelFormatInvalid},
+        stencilFormat{MTLPixelFormatInvalid}
     {
         renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 

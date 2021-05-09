@@ -48,7 +48,7 @@ namespace ouzel::graphics::metal::macos
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        metal::RenderDevice(settings, initWindow, initCallback)
+        metal::RenderDevice{settings, initWindow, initCallback}
     {
         const auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();

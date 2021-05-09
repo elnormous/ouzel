@@ -59,7 +59,7 @@ namespace ouzel::graphics::metal
                                          StencilOperation initBackFaceStencilDepthFailureOperation,
                                          StencilOperation initBackFaceStencilPassOperation,
                                          CompareFunction initBackFaceStencilCompareFunction):
-        RenderResource(initRenderDevice)
+        RenderResource{initRenderDevice}
     {
         Pointer<MTLDepthStencilDescriptor*> depthStencilDescriptor = [[MTLDepthStencilDescriptor alloc] init];
 

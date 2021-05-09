@@ -101,10 +101,10 @@ namespace ouzel::graphics::metal
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& newWindow,
                                const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice(Driver::metal, settings, newWindow, initCallback),
-        colorFormat(MTLPixelFormatInvalid),
-        depthFormat(MTLPixelFormatInvalid),
-        stencilFormat(MTLPixelFormatInvalid)
+        graphics::RenderDevice{Driver::metal, settings, newWindow, initCallback},
+        colorFormat{MTLPixelFormatInvalid},
+        depthFormat{MTLPixelFormatInvalid},
+        stencilFormat{MTLPixelFormatInvalid}
     {
         apiVersion = ApiVersion{1, 0};
 
