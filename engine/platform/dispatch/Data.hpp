@@ -1,17 +1,17 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_PLATFORM_DISPATCH_DISPATCHDATA_HPP
-#define OUZEL_PLATFORM_DISPATCH_DISPATCHDATA_HPP
+#ifndef OUZEL_PLATFORM_DISPATCH_DATA_HPP
+#define OUZEL_PLATFORM_DISPATCH_DATA_HPP
 
 #include <stdexcept>
 #include <dispatch/data.h>
 
 namespace ouzel::platform::dispatch
 {
-    class DispatchData final
+    class Data final
     {
     public:
-        explicit DispatchData(const void* buffer,
+        explicit Data(const void* buffer,
                               size_t size,
                               dispatch_queue_t queue,
                               dispatch_block_t destructor):
@@ -21,24 +21,24 @@ namespace ouzel::platform::dispatch
                 throw std::runtime_error("Failed to create dispatch data");
         }
 
-        ~DispatchData()
+        ~Data()
         {
             if (data) dispatch_release(data);
         }
 
-        DispatchData(DispatchData&& other) noexcept:
+        Data(Data&& other) noexcept:
             data{other.data}
         {
             other.data = nullptr;
         }
 
-        DispatchData(const DispatchData& other):
+        Data(const Data& other):
             data{other.data}
         {
             if (data) dispatch_retain(data);
         }
 
-        DispatchData& operator=(DispatchData&& other) noexcept
+        Data& operator=(Data&& other) noexcept
         {
             if (this == &other) return *this;
             if (data) dispatch_release(data);
@@ -47,7 +47,7 @@ namespace ouzel::platform::dispatch
             return *this;
         }
 
-        DispatchData& operator=(const DispatchData& other) noexcept
+        Data& operator=(const Data& other) noexcept
         {
             if (this == &other) return *this;
             if (data) dispatch_release(data);
@@ -66,4 +66,4 @@ namespace ouzel::platform::dispatch
     };
 }
 
-#endif // OUZEL_PLATFORM_DISPATCH_DISPATCHDATA_HPP
+#endif // OUZEL_PLATFORM_DISPATCH_DATA_HPP

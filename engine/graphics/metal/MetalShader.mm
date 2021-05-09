@@ -10,7 +10,7 @@
 #include "MetalShader.hpp"
 #include "MetalError.hpp"
 #include "MetalRenderDevice.hpp"
-#include "../../platform/dispatch/DispatchData.hpp"
+#include "../../platform/dispatch/Data.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -126,7 +126,7 @@ namespace ouzel::graphics::metal
 
         NSError* err;
 
-        const platform::dispatch::DispatchData fragmentShaderDispatchData{
+        const platform::dispatch::Data fragmentShaderDispatchData{
             fragmentShaderData.data(),
             fragmentShaderData.size(),
             nullptr,
@@ -155,7 +155,7 @@ namespace ouzel::graphics::metal
             }
         }
 
-        const platform::dispatch::DispatchData vertexShaderDispatchData{
+        const platform::dispatch::Data vertexShaderDispatchData{
             vertexShaderData.data(),
             vertexShaderData.size(),
             nullptr,

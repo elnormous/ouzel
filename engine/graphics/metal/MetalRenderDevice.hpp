@@ -47,7 +47,7 @@ using MTLLoadAction = NSUInteger;
 #include "MetalPointer.hpp"
 #include "MetalShader.hpp"
 #include "MetalTexture.hpp"
-#include "../../platform/dispatch/DispatchSemaphore.hpp"
+#include "../../platform/dispatch/Semaphore.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -126,7 +126,7 @@ namespace ouzel::graphics::metal
         MTLPixelFormat depthFormat;
         MTLPixelFormat stencilFormat;
 
-        platform::dispatch::DispatchSemaphore inflightSemaphore{bufferCount};
+        platform::dispatch::Semaphore inflightSemaphore{bufferCount};
 
         std::map<PipelineStateDesc, Pointer<MTLRenderPipelineStatePtr>> pipelineStates;
 

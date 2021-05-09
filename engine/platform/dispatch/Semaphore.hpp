@@ -1,41 +1,41 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_PLATFORM_DISPATCH_DISPATCHSEMAPHORE_HPP
-#define OUZEL_PLATFORM_DISPATCH_DISPATCHSEMAPHORE_HPP
+#ifndef OUZEL_PLATFORM_DISPATCH_SEMAPHORE_HPP
+#define OUZEL_PLATFORM_DISPATCH_SEMAPHORE_HPP
 
 #include <stdexcept>
 #include <dispatch/dispatch.h>
 
 namespace ouzel::platform::dispatch
 {
-    class DispatchSemaphore final
+    class Semaphore final
     {
     public:
-        explicit DispatchSemaphore(intptr_t value):
+        explicit Semaphore(intptr_t value):
             semaphore{dispatch_semaphore_create(value)}
         {
             if (!semaphore)
                 throw std::runtime_error("Failed to create dispatch semaphore");
         }
 
-        ~DispatchSemaphore()
+        ~Semaphore()
         {
             if (semaphore) dispatch_release(semaphore);
         }
 
-        DispatchSemaphore(DispatchSemaphore&& other) noexcept:
+        Semaphore(Semaphore&& other) noexcept:
             semaphore{other.semaphore}
         {
             other.semaphore = nullptr;
         }
 
-        DispatchSemaphore(const DispatchSemaphore& other):
+        Semaphore(const Semaphore& other):
             semaphore{other.semaphore}
         {
             if (semaphore) dispatch_retain(semaphore);
         }
 
-        DispatchSemaphore& operator=(DispatchSemaphore&& other) noexcept
+        Semaphore& operator=(Semaphore&& other) noexcept
         {
             if (this == &other) return *this;
             if (semaphore) dispatch_release(semaphore);
@@ -44,7 +44,7 @@ namespace ouzel::platform::dispatch
             return *this;
         }
 
-        DispatchSemaphore& operator=(const DispatchSemaphore& other) noexcept
+        Semaphore& operator=(const Semaphore& other) noexcept
         {
             if (this == &other) return *this;
             if (semaphore) dispatch_release(semaphore);
@@ -73,4 +73,4 @@ namespace ouzel::platform::dispatch
     };
 }
 
-#endif // OUZEL_PLATFORM_DISPATCH_DISPATCHSEMAPHORE_HPP
+#endif // OUZEL_PLATFORM_DISPATCH_SEMAPHORE_HPP

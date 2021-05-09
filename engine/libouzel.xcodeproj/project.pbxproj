@@ -992,7 +992,7 @@
 		307F4C2C24E3590500994B7A /* OGLError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLError.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
 		307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamepadDeviceGC.mm; sourceTree = "<group>"; };
-		3082B56E24DA04C400489B19 /* DispatchSemaphore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DispatchSemaphore.hpp; sourceTree = "<group>"; };
+		3082B56E24DA04C400489B19 /* Semaphore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Semaphore.hpp; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
@@ -1004,7 +1004,7 @@
 		30898FE122EFA380001C13F2 /* CueLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CueLoader.cpp; sourceTree = "<group>"; };
 		30898FE222EFA380001C13F2 /* CueLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CueLoader.hpp; sourceTree = "<group>"; };
 		3089C32224586F93004CDF16 /* CfPointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CfPointer.hpp; sourceTree = "<group>"; };
-		308E37FF2648102B00CD49B8 /* DispatchData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DispatchData.hpp; sourceTree = "<group>"; };
+		308E37FF2648102B00CD49B8 /* Data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
 		3098A5531EA01C8A00528A54 /* GamepadDeviceIOKit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceIOKit.hpp; sourceTree = "<group>"; };
 		3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceIOKit.cpp; sourceTree = "<group>"; };
 		3098A55B1EA01CA900528A54 /* GamepadDeviceTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceTVOS.hpp; sourceTree = "<group>"; };
@@ -1794,8 +1794,8 @@
 		308E37FC2643ECD000CD49B8 /* dispatch */ = {
 			isa = PBXGroup;
 			children = (
-				3082B56E24DA04C400489B19 /* DispatchSemaphore.hpp */,
-				308E37FF2648102B00CD49B8 /* DispatchData.hpp */,
+				308E37FF2648102B00CD49B8 /* Data.hpp */,
+				3082B56E24DA04C400489B19 /* Semaphore.hpp */,
 			);
 			path = dispatch;
 			sourceTree = "<group>";
