@@ -37,8 +37,8 @@ namespace ouzel::graphics::opengl::tvos
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice(settings, initWindow, initCallback),
-        displayLink(tvos::renderCallback, this)
+        opengl::RenderDevice{settings, initWindow, initCallback},
+        displayLink{tvos::renderCallback, this}
     {
         embedded = true;
 

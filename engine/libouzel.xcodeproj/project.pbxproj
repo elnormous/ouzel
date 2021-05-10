@@ -959,6 +959,7 @@
 		305B11362250413900EDA4F5 /* Containers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Containers.cpp; sourceTree = "<group>"; };
 		305B11372250413900EDA4F5 /* Containers.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Containers.hpp; sourceTree = "<group>"; };
 		305B68D21ED1B31D003352A2 /* Timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
+		305B76042649E6ED001F9322 /* DisplayLink.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DisplayLink.hpp; sourceTree = "<group>"; };
 		305B99901C41F06F008589E1 /* Widget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Widget.hpp; sourceTree = "<group>"; };
 		305B999A1C42A695008589E1 /* BMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BMFont.cpp; sourceTree = "<group>"; };
 		305B999B1C42A695008589E1 /* BMFont.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BMFont.hpp; sourceTree = "<group>"; };
@@ -1636,8 +1637,9 @@
 		304BB5D32569E40F0024DD25 /* corevideo */ = {
 			isa = PBXGroup;
 			children = (
-				304BB5D22569E3900024DD25 /* CoreVideoErrorCategory.hpp */,
 				304BB5D72569E8390024DD25 /* CoreVideoErrorCategory.cpp */,
+				304BB5D22569E3900024DD25 /* CoreVideoErrorCategory.hpp */,
+				305B76042649E6ED001F9322 /* DisplayLink.hpp */,
 			);
 			path = corevideo;
 			sourceTree = "<group>";

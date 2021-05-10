@@ -48,7 +48,8 @@ namespace ouzel::graphics::metal::macos
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        metal::RenderDevice{settings, initWindow, initCallback}
+        metal::RenderDevice{settings, initWindow, initCallback},
+        displayLink{static_cast<core::macos::NativeWindow*>(window.getNativeWindow())->getDisplayId()}
     {
         const auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowMacOS->getNativeView();
@@ -64,17 +65,11 @@ namespace ouzel::graphics::metal::macos
         eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
-        const CGDirectDisplayID displayId = windowMacOS->getDisplayId();
-        if (const auto result = CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink); result != kCVReturnSuccess)
-            throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to create display link");
-
-        if (const auto result = CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this); result != kCVReturnSuccess)
-            throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to set output callback for the display link");
+        displayLink.setCallback(macos::renderCallback, this);
 
         running = true;
 
-        if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
-            throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to start display link");
+        displayLink.start();
     }
 
     RenderDevice::~RenderDevice()
@@ -83,12 +78,6 @@ namespace ouzel::graphics::metal::macos
         CommandBuffer commandBuffer;
         commandBuffer.pushCommand(std::make_unique<PresentCommand>());
         submitCommandBuffer(std::move(commandBuffer));
-
-        if (displayLink)
-        {
-            CVDisplayLinkStop(displayLink);
-            CVDisplayLinkRelease(displayLink);
-        }
     }
 
     std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
@@ -122,25 +111,13 @@ namespace ouzel::graphics::metal::macos
                 commandBuffer.pushCommand(std::make_unique<PresentCommand>());
                 submitCommandBuffer(std::move(commandBuffer));
 
-                if (displayLink)
-                {
-                    CVDisplayLinkStop(displayLink);
-                    CVDisplayLinkRelease(displayLink);
-                    displayLink = nullptr;
-                }
-
                 const CGDirectDisplayID displayId = event.screenId;
-
-                if (const auto result = CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink); result != kCVReturnSuccess)
-                    throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to create display link");
-
-                if (const auto result = CVDisplayLinkSetOutputCallback(displayLink, macos::renderCallback, this); result != kCVReturnSuccess)
-                    throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to set output callback for the display link");
+                displayLink = platform::corevideo::DisplayLink{displayId};
+                displayLink.setCallback(macos::renderCallback, this);
 
                 running = true;
 
-                if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
-                    throw std::system_error(result, platform::corevideo::getErrorCategory(), "Failed to start display link");
+                displayLink.start();
             });
         }
 

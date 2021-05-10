@@ -11,8 +11,6 @@
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_METAL
 
-#include <CoreVideo/CoreVideo.h>
-
 #ifdef __OBJC__
 #  import <QuartzCore/QuartzCore.h>
 #  import <Metal/Metal.h>
@@ -43,6 +41,7 @@ typedef id MTLDepthStencilStatePtr;
 
 #include "../MetalRenderDevice.hpp"
 #include "../../../events/EventHandler.hpp"
+#include "../../../platform/corevideo/DisplayLink.hpp"
 
 namespace ouzel::graphics::metal::macos
 {
@@ -62,7 +61,7 @@ namespace ouzel::graphics::metal::macos
     private:
         bool handleWindow(const WindowEvent& event);
 
-        CVDisplayLinkRef displayLink = nullptr;
+        platform::corevideo::DisplayLink displayLink;
         EventHandler eventHandler;
 
         std::atomic_bool running{false};
