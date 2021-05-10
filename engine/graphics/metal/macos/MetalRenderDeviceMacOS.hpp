@@ -11,34 +11,6 @@
 
 #if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_METAL
 
-#ifdef __OBJC__
-#  import <QuartzCore/QuartzCore.h>
-#  import <Metal/Metal.h>
-typedef CAMetalLayer* CAMetalLayerPtr;
-typedef id<MTLDevice> MTLDevicePtr;
-typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
-typedef id<MTLSamplerState> MTLSamplerStatePtr;
-typedef id<MTLCommandQueue> MTLCommandQueuePtr;
-typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
-typedef id<MTLCommandBuffer> MTLCommandBufferPtr;
-typedef id<MTLRenderCommandEncoder> MTLRenderCommandEncoderPtr;
-typedef id<MTLTexture> MTLTexturePtr;
-typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
-#else
-#  include <objc/objc.h>
-#  include <objc/NSObjCRuntime.h>
-typedef id CAMetalLayerPtr;
-typedef id MTLDevicePtr;
-typedef id MTLRenderPassDescriptorPtr;
-typedef id MTLSamplerStatePtr;
-typedef id MTLCommandQueuePtr;
-typedef id MTLRenderPipelineStatePtr;
-typedef id MTLCommandBufferPtr;
-typedef id MTLRenderCommandEncoderPtr;
-typedef id MTLTexturePtr;
-typedef id MTLDepthStencilStatePtr;
-#endif
-
 #include "../MetalRenderDevice.hpp"
 #include "../../../events/EventHandler.hpp"
 #include "../../../platform/corevideo/DisplayLink.hpp"
