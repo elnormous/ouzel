@@ -23,8 +23,7 @@ namespace ouzel::platform::winapi
         WinSock()
         {
             WSADATA wsaData;
-            const auto error = WSAStartup(MAKEWORD(2, 2), &wsaData);
-            if (error != 0)
+            if (const auto error = WSAStartup(MAKEWORD(2, 2), &wsaData); error != 0)
                 throw std::system_error(error, std::system_category(), "WSAStartup failed");
 
             if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2)
