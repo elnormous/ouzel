@@ -146,7 +146,8 @@ namespace ouzel::assets
             pixelFormat,
             Size<std::uint32_t, 2>{
                 static_cast<std::uint32_t>(width),
-                static_cast<std::uint32_t>(height)},
+                static_cast<std::uint32_t>(height)
+            },
             imageData
         };
 

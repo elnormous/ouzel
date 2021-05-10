@@ -4,7 +4,6 @@
 
 #if OUZEL_COMPILE_METAL
 
-#include <dispatch/data.h>
 #include <TargetConditionals.h>
 #include <algorithm>
 #include "MetalShader.hpp"
