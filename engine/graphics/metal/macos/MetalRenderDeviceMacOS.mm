@@ -14,6 +14,7 @@
 #include "../../../core/Engine.hpp"
 #include "../../../platform/cocoa/AutoreleasePool.hpp"
 #include "../../../core/macos/NativeWindowMacOS.hpp"
+#include "../../../utils/Bit.hpp"
 #include "../../../utils/Log.hpp"
 
 namespace ouzel::graphics::metal::macos
@@ -88,7 +89,7 @@ namespace ouzel::graphics::metal::macos
 
         for (CFIndex i = 0; i < displayModeCount; ++i)
         {
-            const CGDisplayModeRef displayMode = (const CGDisplayModeRef)CFArrayGetValueAtIndex(displayModes, i);
+            const auto displayMode = bitCast<CGDisplayModeRef>(CFArrayGetValueAtIndex(displayModes, i));
 
             result.emplace_back(static_cast<std::uint32_t>(CGDisplayModeGetWidth(displayMode)),
                                 static_cast<std::uint32_t>(CGDisplayModeGetHeight(displayMode)));
