@@ -39,7 +39,7 @@ namespace ouzel::audio::xaudio2
             apiMajorVersion = 2;
             apiMinorVersion = 8;
 
-            using XAudio2CreateProc = HRESULT(__stdcall *)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
+            using XAudio2CreateProc = HRESULT(__stdcall*)(IXAudio2** ppXAudio2, UINT32 Flags, XAUDIO2_PROCESSOR XAudio2Processor);
             const auto xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
 
             if (!xAudio2CreateProc)

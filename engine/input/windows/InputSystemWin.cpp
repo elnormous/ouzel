@@ -267,7 +267,10 @@ namespace ouzel::input::windows
             // Get 20 at a time
             ULONG deviceCount = 0;
             std::array<IWbemClassObject*, 20> devices;
-            while (enumDevices->Next(10000, devices.size(), devices.data(), &deviceCount) == WBEM_S_NO_ERROR)
+            while (enumDevices->Next(10000,
+                                     static_cast<ULONG>(devices.size()),
+                                     devices.data(),
+                                     &deviceCount) == WBEM_S_NO_ERROR)
             {
                 for (ULONG device = 0; device < deviceCount; ++device)
                 {

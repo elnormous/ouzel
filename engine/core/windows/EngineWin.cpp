@@ -161,6 +161,6 @@ namespace ouzel::core::windows
         // Result of the ShellExecuteW can be cast only to an int (https://docs.microsoft.com/en-us/windows/desktop/api/shellapi/nf-shellapi-shellexecutew)
         const auto result = ShellExecuteW(nullptr, L"open", buffer.get(), nullptr, nullptr, SW_SHOWNORMAL);
         if (const auto status = bitCast<std::intptr_t>(result); status <= 32)
-            throw std::system_error(status, shellExecuteErrorCategory, "Failed to execute open");
+            throw std::system_error(static_cast<int>(status), shellExecuteErrorCategory, "Failed to execute open");
     }
 }
