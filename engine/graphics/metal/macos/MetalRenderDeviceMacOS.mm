@@ -13,7 +13,6 @@
 #include "MetalView.h"
 #include "../../../core/Engine.hpp"
 #include "../../../platform/cocoa/AutoreleasePool.hpp"
-#include "../../../platform/corevideo/CoreVideoErrorCategory.hpp"
 #include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../utils/Log.hpp"
 
