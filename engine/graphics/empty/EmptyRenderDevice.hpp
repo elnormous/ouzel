@@ -13,7 +13,7 @@ namespace ouzel::graphics::empty
         RenderDevice(const Settings& settings,
                      core::Window& initWindow,
                      const std::function<void(const Event&)>& initCallback):
-            graphics::RenderDevice(Driver::empty, settings, initWindow, initCallback)
+            graphics::RenderDevice{Driver::empty, settings, initWindow, initCallback}
         {
         }
 

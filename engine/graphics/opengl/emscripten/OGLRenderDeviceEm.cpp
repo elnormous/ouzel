@@ -36,7 +36,7 @@ namespace ouzel::graphics::opengl::emscripten
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice(settings, initWindow, initCallback)
+        opengl::RenderDevice{settings, initWindow, initCallback}
     {
         emscripten_set_webglcontextlost_callback("#canvas", this, EM_TRUE, contextCallback);
         emscripten_set_webglcontextrestored_callback("#canvas", this, EM_TRUE, contextCallback);
