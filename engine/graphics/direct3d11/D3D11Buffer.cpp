@@ -15,10 +15,10 @@ namespace ouzel::graphics::d3d11
                    Flags initFlags,
                    const std::vector<std::uint8_t>& data,
                    std::uint32_t initSize):
-        RenderResource(initRenderDevice),
-        type(initType),
-        flags(initFlags),
-        size(static_cast<UINT>(initSize))
+        RenderResource{initRenderDevice},
+        type{initType},
+        flags{initFlags},
+        size{static_cast<UINT>(initSize)}
     {
         createBuffer(initSize, data);
     }

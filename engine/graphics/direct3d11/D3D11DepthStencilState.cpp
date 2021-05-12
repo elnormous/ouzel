@@ -59,7 +59,7 @@ namespace ouzel::graphics::d3d11
                                          StencilOperation initBackFaceStencilDepthFailureOperation,
                                          StencilOperation initBackFaceStencilPassOperation,
                                          CompareFunction initBackFaceStencilCompareFunction):
-        RenderResource(initRenderDevice)
+        RenderResource{initRenderDevice}
     {
         D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
         depthStencilStateDesc.DepthEnable = initDepthTest ? TRUE : FALSE;

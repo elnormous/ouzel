@@ -13,9 +13,9 @@ namespace ouzel::graphics::d3d11
     RenderTarget::RenderTarget(RenderDevice& initRenderDevice,
                                const std::set<Texture*>& initColorTextures,
                                Texture* initDepthTexture):
-        RenderResource(initRenderDevice),
-        colorTextures(initColorTextures),
-        depthTexture(initDepthTexture)
+        RenderResource{initRenderDevice},
+        colorTextures{initColorTextures},
+        depthTexture{initDepthTexture}
     {
         for (const auto colorTexture : colorTextures)
             if (colorTexture)

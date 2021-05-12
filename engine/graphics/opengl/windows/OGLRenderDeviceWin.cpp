@@ -4,6 +4,7 @@
 
 #if defined(_WIN32) && OUZEL_COMPILE_OPENGL
 
+#include <array>
 #include <system_error>
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
@@ -148,7 +149,7 @@ namespace ouzel::graphics::opengl::windows
                 throw std::runtime_error("Failed to get OpenGL version");
 
             const std::string versionStr(reinterpret_cast<const char*>(versionPtr));
-            std::string versionParts[2];
+            std::array<std::string, 2> versionParts;
             std::uint32_t part = 0;
 
             for (const auto c : versionStr)
@@ -167,7 +168,7 @@ namespace ouzel::graphics::opengl::windows
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice(settings, initWindow, initCallback)
+        opengl::RenderDevice{settings, initWindow, initCallback}
     {
         embedded = false;
 

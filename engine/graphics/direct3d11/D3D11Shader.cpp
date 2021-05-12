@@ -88,10 +88,10 @@ namespace ouzel::graphics::d3d11
                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                    const std::string&,
                    const std::string&):
-        RenderResource(initRenderDevice),
-        vertexAttributes(initVertexAttributes),
-        fragmentShaderConstantInfo(initFragmentShaderConstantInfo),
-        vertexShaderConstantInfo(initVertexShaderConstantInfo)
+        RenderResource{initRenderDevice},
+        vertexAttributes{initVertexAttributes},
+        fragmentShaderConstantInfo{initFragmentShaderConstantInfo},
+        vertexShaderConstantInfo{initVertexShaderConstantInfo}
     {
         ID3D11PixelShader* newPixelShader;
         if (const auto hr = renderDevice.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &newPixelShader); FAILED(hr))

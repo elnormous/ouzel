@@ -55,7 +55,7 @@ namespace ouzel::graphics::d3d11
                            BlendFactor alphaBlendDest,
                            BlendOperation alphaOperation,
                            ColorMask colorMask):
-        RenderResource(initRenderDevice)
+        RenderResource{initRenderDevice}
     {
         D3D11_BLEND_DESC blendStateDesc;
         blendStateDesc.AlphaToCoverageEnable = FALSE;

@@ -100,12 +100,12 @@ namespace ouzel::graphics::d3d11
                      PixelFormat initPixelFormat,
                      SamplerFilter initFilter,
                      std::uint32_t initMaxAnisotropy):
-        RenderResource(initRenderDevice),
-        flags(initFlags),
-        mipmaps(static_cast<std::uint32_t>(levels.size())),
-        sampleCount(initSampleCount),
-        pixelFormat(d3d11::getPixelFormat(initPixelFormat)),
-        pixelSize(getPixelSize(initPixelFormat))
+        RenderResource{initRenderDevice},
+        flags{initFlags},
+        mipmaps{static_cast<std::uint32_t>(levels.size())},
+        sampleCount{initSampleCount},
+        pixelFormat{d3d11::getPixelFormat(initPixelFormat)},
+        pixelSize{getPixelSize(initPixelFormat)}
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
