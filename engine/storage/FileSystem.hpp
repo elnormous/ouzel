@@ -362,7 +362,7 @@ namespace ouzel::storage
                     other.fd = -1;
                     return *this;
                 }
-                operator int() const noexcept { return fd; }
+                auto get() const noexcept { return fd; }
             private:
                 int fd = -1;
             };
@@ -379,7 +379,7 @@ namespace ouzel::storage
             const auto flags = O_CREAT | O_WRONLY | O_TRUNC | (overwrite ? 0 : O_EXCL);
 
             struct stat s;
-            if (fstat(in, &s) == -1)
+            if (fstat(in.get(), &s) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get file status");
 
             auto outFileDescriptor = open(to.getNative().c_str(), flags, s.st_mode);
@@ -394,9 +394,9 @@ namespace ouzel::storage
             std::vector<char> buffer(16384);
             for (;;)
             {
-                auto bytesRead = read(in, buffer.data(), buffer.size());
+                auto bytesRead = read(in.get(), buffer.data(), buffer.size());
                 while (bytesRead == -1 && errno == EINTR)
-                    bytesRead = read(in, buffer.data(), buffer.size());
+                    bytesRead = read(in.get(), buffer.data(), buffer.size());
 
                 if (bytesRead == -1)
                     throw std::system_error(errno, std::system_category(), "Failed to read from file");
@@ -406,9 +406,9 @@ namespace ouzel::storage
                 ssize_t offset = 0;
                 do
                 {
-                    auto bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
+                    auto bytesWritten = write(out.get(), buffer.data() + offset, static_cast<size_t>(bytesRead));
                     while (bytesWritten == -1 && errno == EINTR)
-                        bytesWritten = write(out, buffer.data() + offset, static_cast<size_t>(bytesRead));
+                        bytesWritten = write(out.get(), buffer.data() + offset, static_cast<size_t>(bytesRead));
 
                     if (bytesWritten == -1)
                         throw std::system_error(errno, std::system_category(), "Failed to write to file");
