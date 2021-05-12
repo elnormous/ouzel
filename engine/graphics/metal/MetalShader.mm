@@ -132,7 +132,7 @@ namespace ouzel::graphics::metal
             DISPATCH_DATA_DESTRUCTOR_DEFAULT
         };
 
-        Pointer<id<MTLLibrary>> fragmentShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:fragmentShaderDispatchData error:&err];
+        Pointer<id<MTLLibrary>> fragmentShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:fragmentShaderDispatchData.get() error:&err];
 
         if (err != nil)
             throw Error("Failed to load fragment shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]));
@@ -167,7 +167,7 @@ namespace ouzel::graphics::metal
             DISPATCH_DATA_DESTRUCTOR_DEFAULT
         };
 
-        Pointer<id<MTLLibrary>> vertexShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:vertexShaderDispatchData error:&err];
+        Pointer<id<MTLLibrary>> vertexShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:vertexShaderDispatchData.get() error:&err];
 
         if (err != nil)
             throw Error("Failed to load vertex shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]));

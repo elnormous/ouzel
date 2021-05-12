@@ -63,11 +63,6 @@ namespace ouzel::platform::dispatch
             if (semaphore) dispatch_semaphore_signal(semaphore);
         }
 
-        operator dispatch_semaphore_t() const noexcept
-        {
-            return semaphore;
-        }
-
     private:
         dispatch_semaphore_t semaphore = nullptr;
     };

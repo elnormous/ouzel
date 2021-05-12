@@ -56,7 +56,7 @@ namespace ouzel::platform::dispatch
             return *this;
         }
 
-        operator dispatch_data_t() const noexcept
+        auto get() const noexcept
         {
             return data;
         }
