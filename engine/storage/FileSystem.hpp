@@ -299,15 +299,15 @@ namespace ouzel::storage
         static Path getCurrentPath()
         {
 #ifdef _WIN32
-            DWORD pathLength = GetCurrentDirectoryW(0, 0);
-            std::unique_ptr<wchar_t[]> buffer(new wchar_t[pathLength]);
+            const auto pathLength = GetCurrentDirectoryW(0, 0);
+            auto buffer = std::make_unique<wchar_t[]>(pathLength);
             if (GetCurrentDirectoryW(pathLength, buffer.get()) == 0)
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get current directory");
             return Path{buffer.get(), Path::Format::native};
 #elif defined(__unix__) || defined(__APPLE__)
             const auto pathMaxConfig = pathconf(".", _PC_PATH_MAX);
-            const auto pathMax = static_cast<size_t>(pathMaxConfig == -1 ? PATH_MAX : pathMaxConfig);
-            std::unique_ptr<char[]> buffer(new char[pathMax + 1]);
+            const auto pathMax = static_cast<std::size_t>(pathMaxConfig == -1 ? PATH_MAX : pathMaxConfig);
+            auto buffer = std::make_unique<char[]>(pathMax + 1);
             if (!getcwd(buffer.get(), pathMax))
                 throw std::system_error(errno, std::system_category(), "Failed to get current directory");
             return Path{buffer.get(), Path::Format::native};
@@ -489,19 +489,19 @@ namespace ouzel::storage
 #endif
         }
 
-        static size_t getFileSize(const Path& path)
+        static std::size_t getFileSize(const Path& path)
         {
 #ifdef _WIN32
             WIN32_FILE_ATTRIBUTE_DATA attributes;
             if (!GetFileAttributesExW(path.getNative().c_str(), GetFileExInfoStandard, &attributes))
                 throw std::system_error(errno, std::system_category(), "Failed to get file attributes");
             const auto fileSize = static_cast<std::uint64_t>(attributes.nFileSizeHigh) << (sizeof(attributes.nFileSizeLow) * 8) | attributes.nFileSizeLow;
-            return static_cast<size_t>(fileSize);
+            return static_cast<std::size_t>(fileSize);
 #elif defined(__unix__) || defined(__APPLE__)
             struct stat s;
             if (lstat(path.getNative().c_str(), &s) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get file status");
-            return static_cast<size_t>(s.st_size);
+            return static_cast<std::size_t>(s.st_size);
 #endif
         }
 
