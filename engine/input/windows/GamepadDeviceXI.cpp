@@ -21,7 +21,7 @@ namespace ouzel::input::windows
 
     void GamepadDeviceXI::update()
     {
-        XINPUT_STATE newState = {};
+        XINPUT_STATE newState{};
 
         if (const auto result = XInputGetState(playerIndex, &newState); result != ERROR_SUCCESS)
         {

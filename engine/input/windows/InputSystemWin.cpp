@@ -66,7 +66,7 @@ namespace ouzel::input::windows
 
         for (DWORD userIndex = 0; userIndex < XUSER_MAX_COUNT; ++userIndex)
         {
-            XINPUT_STATE state = {};
+            XINPUT_STATE state{};
             DWORD result = XInputGetState(userIndex, &state);
 
             if (result == ERROR_SUCCESS)
@@ -219,7 +219,7 @@ namespace ouzel::input::windows
             {
                 if (!gamepadsXI[userIndex])
                 {
-                    XINPUT_STATE state = {};
+                    XINPUT_STATE state{};
 
                     if (const auto result = XInputGetState(userIndex, &state); result == ERROR_SUCCESS)
                         gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, getNextDeviceId(), userIndex);
@@ -276,8 +276,8 @@ namespace ouzel::input::windows
                 {
                     // For each device, get its device ID
                     VARIANT var;
-                    const auto result = devices[device]->Get(deviceID.get(), 0L, &var, nullptr, nullptr);
-                    if (SUCCEEDED(result) && var.vt == VT_BSTR && var.bstrVal != nullptr)
+                    if (const auto result = devices[device]->Get(deviceID.get(), 0L, &var, nullptr, nullptr);
+                        SUCCEEDED(result) && var.vt == VT_BSTR && var.bstrVal != nullptr)
                     {
                         // Check if the device ID contains "IG_". If it does, then it's an XInput device
                         // This information can not be found from DirectInput

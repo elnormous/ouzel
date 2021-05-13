@@ -127,7 +127,7 @@ namespace ouzel::input::windows
             
             const Bitmap maskBitmap{width, height, 1, 1, nullptr};
 
-            ICONINFO iconInfo = {};
+            ICONINFO iconInfo{};
             iconInfo.fIcon = FALSE;
             iconInfo.xHotspot = static_cast<DWORD>(hotSpot.v[0]);
             iconInfo.yHotspot = static_cast<int>(size.v[1]) - static_cast<DWORD>(hotSpot.v[1]) - 1;
