@@ -24,7 +24,7 @@ namespace ouzel::input::windows
                    void** bits,
                    HANDLE section,
                    DWORD offset):
-                bitmap{CreateDIBSection(deviceContext,
+                bitmap{CreateDIBSection(deviceContext.get(),
                                         bitmapInfo,
                                         usage,
                                         bits,
