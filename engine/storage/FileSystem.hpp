@@ -426,7 +426,7 @@ namespace ouzel::storage
             if (!MoveFileExW(from.getNative().c_str(), to.getNative().c_str(), MOVEFILE_REPLACE_EXISTING))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to move file");
 #elif defined(__unix__) || defined(__APPLE__)
-            if (::rename(from.getNative().c_str(), to.getNative().c_str()) == -1)
+            if (rename(from.getNative().c_str(), to.getNative().c_str()) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to move file");
 #endif
         }
