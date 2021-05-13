@@ -55,7 +55,7 @@ namespace ouzel::input::windows
                 return *this;
             }
 
-            operator HBITMAP() const noexcept { return bitmap; }
+            auto get() const noexcept { return bitmap; }
 
         private:
             HBITMAP bitmap = nullptr;
@@ -106,12 +106,14 @@ namespace ouzel::input::windows
 
             platform::winapi::DeviceContext deviceContext;
             void* targetPointer = nullptr;
-            Bitmap colorBitmap{deviceContext,
-                               &bitmapInfo,
-                               DIB_RGB_COLORS,
-                               &targetPointer,
-                               nullptr,
-                               DWORD{0}};
+            const Bitmap colorBitmap{
+                deviceContext,
+                &bitmapInfo,
+                DIB_RGB_COLORS,
+                &targetPointer,
+                nullptr,
+                DWORD{0}
+            };
 
             const auto target = static_cast<unsigned char*>(targetPointer);
 
@@ -123,14 +125,14 @@ namespace ouzel::input::windows
                 target[i * 4 + 3] = data[i * 4 + 3];
             }
             
-            Bitmap maskBitmap{width, height, 1, 1, nullptr};
+            const Bitmap maskBitmap{width, height, 1, 1, nullptr};
 
             ICONINFO iconInfo = {};
             iconInfo.fIcon = FALSE;
             iconInfo.xHotspot = static_cast<DWORD>(hotSpot.v[0]);
             iconInfo.yHotspot = static_cast<int>(size.v[1]) - static_cast<DWORD>(hotSpot.v[1]) - 1;
-            iconInfo.hbmMask = maskBitmap;
-            iconInfo.hbmColor = colorBitmap;
+            iconInfo.hbmMask = maskBitmap.get();
+            iconInfo.hbmColor = colorBitmap.get();
 
             ownedCursor = CreateIconIndirect(&iconInfo);
             if (!ownedCursor)
