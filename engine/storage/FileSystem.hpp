@@ -342,7 +342,7 @@ namespace ouzel::storage
         static void copyFile(const Path& from, const Path& to, bool overwrite = false)
         {
 #ifdef _WIN32
-            if (!CopyFileW(from.getNative().c_str(), to.getNative().c_str(), !overwrite))
+            if (!CopyFileW(from.getNative().c_str(), to.getNative().c_str(), overwrite ? FALSE : TRUE))
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to copy file");
 #elif defined(__unix__) || defined(__APPLE__)
             class FileDescriptor final

@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_UTILS_THREAD_HPP
-#define OUZEL_UTILS_THREAD_HPP
+#ifndef OUZEL_THREAD_THREAD_HPP
+#define OUZEL_THREAD_THREAD_HPP
 
 #include <system_error>
 #include <thread>
@@ -147,4 +147,4 @@ namespace ouzel::thread
     }
 }
 
-#endif // OUZEL_UTILS_THREAD_HPP
+#endif // OUZEL_THREAD_THREAD_HPP
