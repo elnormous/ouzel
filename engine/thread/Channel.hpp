@@ -92,6 +92,13 @@ namespace ouzel::thread
             return *this;
         }
 
+        ChannelIterator operator++(int) noexcept
+        {
+            auto p = std::move(ptr);
+            ptr = container.next();
+            return ChannelIterator{container, std::move(p)};
+        }
+
     private:
         const ChannelContainer<Type>& container;
         std::unique_ptr<Type> ptr;
