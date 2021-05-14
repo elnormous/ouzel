@@ -57,7 +57,7 @@ enum
 
 namespace
 {
-    ouzel::input::Keyboard::Key convertKeyCode(std::uint16_t keyCode)
+    ouzel::input::Keyboard::Key convertKeyCode(unsigned short keyCode)
     {
         switch (keyCode)
         {
@@ -191,6 +191,19 @@ namespace
             default: return ouzel::input::Keyboard::Key::none;
         }
     }
+
+    ouzel::input::Mouse::Button convertMouseButtonNumber(NSInteger buttonNumber)
+    {
+        switch (buttonNumber)
+        {
+            case 0:  return ouzel::input::Mouse::Button::left;
+            case 1:  return ouzel::input::Mouse::Button::right;
+            case 2:  return ouzel::input::Mouse::Button::middle;
+            case 3:  return ouzel::input::Mouse::Button::x1;
+            case 4:  return ouzel::input::Mouse::Button::x2;
+            default: return ouzel::input::Mouse::Button::none;
+        }
+    }
 }
 
 - (void)keyDown:(NSEvent*)event
@@ -311,7 +324,7 @@ namespace
         static_cast<float>(location.y)
     };
 
-    mouseDevice->handleButtonPress(ouzel::input::Mouse::Button::middle,
+    mouseDevice->handleButtonPress(convertMouseButtonNumber(event.buttonNumber),
                                    ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
 }
 
@@ -326,7 +339,7 @@ namespace
         static_cast<float>(location.y)
     };
 
-    mouseDevice->handleButtonRelease(ouzel::input::Mouse::Button::middle,
+    mouseDevice->handleButtonRelease(convertMouseButtonNumber(event.buttonNumber),
                                      ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
 }
 
