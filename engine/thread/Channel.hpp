@@ -45,19 +45,19 @@ namespace ouzel::thread
             queueCondition.notify_all();
         }
 
-        Type* next() const
+        std::unique_ptr<Type> next() const
         {
             std::unique_lock lock(queueMutex);
             while (!closed && queue.empty()) queueCondition.wait(lock);
 
             if (!queue.empty())
             {
-                ptr.reset(new Type{std::move(queue.front())});
+                auto result = std::make_unique<Type>(std::move(queue.front()));
                 queue.pop();
-                return ptr.get();
+                return result;
             }
             else
-                return nullptr;
+                return std::unique_ptr<Type>{};
         }
 
     private:
@@ -65,7 +65,6 @@ namespace ouzel::thread
         mutable std::queue<Type> queue;
         mutable std::mutex queueMutex;
         mutable std::condition_variable queueCondition;
-        mutable std::unique_ptr<Type> ptr;
     };
 
     template <class Type>
@@ -74,8 +73,8 @@ namespace ouzel::thread
     public:
         explicit ChannelIterator(const ChannelContainer<Type>& c) noexcept:
             container{c} {}
-        ChannelIterator(const ChannelContainer<Type>& c, Type* p) noexcept:
-            container{c}, ptr{p} {}
+        ChannelIterator(const ChannelContainer<Type>& c, std::unique_ptr<Type> p) noexcept:
+            container{c}, ptr{std::move(p)} {}
 
         operator bool() const noexcept { return ptr != nullptr; }
 
@@ -95,7 +94,7 @@ namespace ouzel::thread
 
     private:
         const ChannelContainer<Type>& container;
-        Type* ptr = nullptr;
+        std::unique_ptr<Type> ptr;
     };
 
     template <class Type>
