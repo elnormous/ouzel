@@ -47,13 +47,14 @@
     [cursor set];
 }
 
-#if !defined(__MAC_10_12) || __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_12
-// kVK_RightCommand is not defined in macOS SDK older than 10.12
 enum
 {
-    kVK_RightCommand = 0x36
-};
+#if !defined(__MAC_10_12) || __MAC_OS_X_VERSION_MAX_ALLOWED < __MAC_10_12
+// kVK_RightCommand is not defined in macOS SDK older than 10.12
+    kVK_RightCommand = 0x36,
 #endif
+    kVK_ContextMenu = 0x6E
+};
 
 namespace
 {
@@ -178,7 +179,7 @@ namespace
             case kVK_ANSI_LeftBracket: return ouzel::input::Keyboard::Key::leftBracket;
             case kVK_ANSI_Backslash: return ouzel::input::Keyboard::Key::backslash;
             case kVK_ANSI_RightBracket: return ouzel::input::Keyboard::Key::rightBracket;
-            case 0x6E: return ouzel::input::Keyboard::Key::menu;
+            case kVK_ContextMenu: return ouzel::input::Keyboard::Key::menu;
             case 0x7F: return ouzel::input::Keyboard::Key::power;
 
             case kVK_JIS_Yen: return ouzel::input::Keyboard::Key::yen;
@@ -196,11 +197,11 @@ namespace
     {
         switch (buttonNumber)
         {
-            case 0:  return ouzel::input::Mouse::Button::left;
-            case 1:  return ouzel::input::Mouse::Button::right;
-            case 2:  return ouzel::input::Mouse::Button::middle;
-            case 3:  return ouzel::input::Mouse::Button::x1;
-            case 4:  return ouzel::input::Mouse::Button::x2;
+            case 0: return ouzel::input::Mouse::Button::left;
+            case 1: return ouzel::input::Mouse::Button::right;
+            case 2: return ouzel::input::Mouse::Button::middle;
+            case 3: return ouzel::input::Mouse::Button::x1;
+            case 4: return ouzel::input::Mouse::Button::x2;
             default: return ouzel::input::Mouse::Button::none;
         }
     }
