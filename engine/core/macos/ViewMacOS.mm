@@ -53,7 +53,8 @@ enum
 // kVK_RightCommand is not defined in macOS SDK older than 10.12
     kVK_RightCommand = 0x36,
 #endif
-    kVK_ContextMenu = 0x6E
+    kVK_ContextMenu = 0x6E,
+    kVK_Power = 0x7F
 };
 
 namespace
@@ -180,7 +181,7 @@ namespace
             case kVK_ANSI_Backslash: return ouzel::input::Keyboard::Key::backslash;
             case kVK_ANSI_RightBracket: return ouzel::input::Keyboard::Key::rightBracket;
             case kVK_ContextMenu: return ouzel::input::Keyboard::Key::menu;
-            case 0x7F: return ouzel::input::Keyboard::Key::power;
+            case kVK_Power: return ouzel::input::Keyboard::Key::power;
 
             case kVK_JIS_Yen: return ouzel::input::Keyboard::Key::yen;
             case kVK_JIS_KeypadComma: return ouzel::input::Keyboard::Key::numpadJpcomma;
