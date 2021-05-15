@@ -41,7 +41,7 @@ namespace ouzel::platform::winapi
 
         Library& operator=(Library&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (handle) FreeLibrary(handle);
             handle = other.handle;
             other.handle = nullptr;

@@ -30,7 +30,7 @@ namespace ouzel::audio::wasapi
 
         Pointer& operator=(const Pointer& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (p) p->Release();
             p = other.p;
             if (p) p->AddRef();
@@ -43,7 +43,7 @@ namespace ouzel::audio::wasapi
 
         Pointer& operator=(Pointer&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (p) p->Release();
             p = other.p;
             other.p = nullptr;

@@ -356,7 +356,7 @@ namespace ouzel::storage
                 }
                 FileDescriptor& operator=(FileDescriptor&& other) noexcept
                 {
-                    if (this == &other) return *this;
+                    if (&other == this) return *this;
                     if (fd != -1) close(fd);
                     fd = other.fd;
                     other.fd = -1;

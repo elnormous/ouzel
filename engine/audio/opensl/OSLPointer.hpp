@@ -35,7 +35,7 @@ namespace ouzel::audio::opensl
 
         Pointer& operator=(Pointer&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (p) (*p)->Destroy(p);
             p = other.p;
             other.p = nullptr;

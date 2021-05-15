@@ -37,7 +37,7 @@ namespace ouzel::platform::dispatch
 
         Semaphore& operator=(Semaphore&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (semaphore) dispatch_release(semaphore);
             semaphore = other.semaphore;
             other.semaphore = nullptr;
@@ -46,7 +46,7 @@ namespace ouzel::platform::dispatch
 
         Semaphore& operator=(const Semaphore& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (semaphore) dispatch_release(semaphore);
             semaphore = other.semaphore;
             if (semaphore) dispatch_retain(semaphore);

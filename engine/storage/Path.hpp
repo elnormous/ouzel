@@ -54,14 +54,14 @@ namespace ouzel::storage
 
         Path& operator=(const Path& other)
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             path = other.path;
             return *this;
         }
 
         Path& operator=(Path&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             path = std::move(other.path);
             return *this;
         }

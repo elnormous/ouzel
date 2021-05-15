@@ -40,7 +40,7 @@ namespace ouzel::platform::dispatch
 
         Data& operator=(Data&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (data) dispatch_release(data);
             data = other.data;
             other.data = nullptr;
@@ -49,7 +49,7 @@ namespace ouzel::platform::dispatch
 
         Data& operator=(const Data& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (data) dispatch_release(data);
             data = other.data;
             if (data) dispatch_retain(data);

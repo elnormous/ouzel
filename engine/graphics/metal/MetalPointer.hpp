@@ -44,7 +44,7 @@ namespace ouzel::graphics::metal
 
         Pointer& operator=(const Pointer& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
 #ifdef __OBJC__
             [p release];
 #else
@@ -68,7 +68,7 @@ namespace ouzel::graphics::metal
 
         Pointer& operator=(Pointer&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
 #ifdef __OBJC__
             [p release];
 #else

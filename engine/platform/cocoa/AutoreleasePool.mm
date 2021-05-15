@@ -27,7 +27,7 @@ namespace ouzel::platform::cocoa
 
     AutoreleasePool& AutoreleasePool::operator=(const AutoreleasePool& other) noexcept
     {
-        if (this == &other) return *this;
+        if (&other == this) return *this;
         [pool release];
         pool = [other.pool retain];
         return *this;
@@ -35,7 +35,7 @@ namespace ouzel::platform::cocoa
 
     AutoreleasePool& AutoreleasePool::operator=(AutoreleasePool&& other) noexcept
     {
-        if (this == &other) return *this;
+        if (&other == this) return *this;
         [pool release];
         pool = other.pool;
         other.pool = nil;

@@ -33,7 +33,7 @@ namespace ouzel::audio
 
         Voice& operator=(Voice&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
 
             return *this;
         }

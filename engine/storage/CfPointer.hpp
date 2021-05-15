@@ -28,7 +28,7 @@ namespace ouzel::storage
 
         CfPointer& operator=(const CfPointer& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (p) CFRelease(p);
             p = other.p;
             if (p) CFRetain(p);
@@ -42,7 +42,7 @@ namespace ouzel::storage
 
         CfPointer& operator=(CfPointer&& other) noexcept
         {
-            if (this == &other) return *this;
+            if (&other == this) return *this;
             if (p) CFRelease(p);
             p = other.p;
             other.p = nil;
