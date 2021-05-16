@@ -519,6 +519,12 @@
     <ClInclude Include="formats\Plist.hpp">
       <Filter>engine\formats</Filter>
     </ClInclude>
+    <ClInclude Include="thread\Channel.hpp">
+      <Filter>engine\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="thread\Semaphore.hpp">
+      <Filter>engine\thread</Filter>
+    </ClInclude>
     <ClInclude Include="thread\Thread.hpp">
       <Filter>engine\thread</Filter>
     </ClInclude>
