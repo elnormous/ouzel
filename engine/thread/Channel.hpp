@@ -7,6 +7,7 @@
 #include <memory>
 #include <mutex>
 #include <vector>
+#include "Semaphore.hpp"
 
 namespace ouzel::thread
 {
@@ -14,7 +15,11 @@ namespace ouzel::thread
     class ChannelContainer final
     {
     public:
-        ChannelContainer() = default;
+        ChannelContainer(std::size_t c):
+            capacity{c},
+            semaphore{static_cast<std::ptrdiff_t>(c == 0 ? 1 : c)}
+        {}
+
         ~ChannelContainer()
         {
             std::unique_lock lock(queueMutex);
@@ -34,6 +39,7 @@ namespace ouzel::thread
             std::unique_lock lock(queueMutex);
             if (!closed) queue.push(std::forward<T>(entry));
             lock.unlock();
+            if (capacity > 0) semaphore.acquire();
             queueCondition.notify_all();
         }
 
@@ -42,6 +48,7 @@ namespace ouzel::thread
             std::unique_lock lock(queueMutex);
             closed = true;
             lock.unlock();
+            if (capacity > 0) semaphore.acquire();
             queueCondition.notify_all();
         }
 
@@ -54,6 +61,8 @@ namespace ouzel::thread
             {
                 auto result = std::make_unique<Type>(std::move(queue.front()));
                 queue.pop();
+                lock.unlock();
+                if (capacity > 0) semaphore.release();
                 return result;
             }
             else
@@ -65,6 +74,8 @@ namespace ouzel::thread
         mutable std::queue<Type> queue;
         mutable std::mutex queueMutex;
         mutable std::condition_variable queueCondition;
+        std::size_t capacity = 0;
+        mutable Semaphore semaphore;
     };
 
     template <class Type>
@@ -111,7 +122,7 @@ namespace ouzel::thread
         using Iterator = ChannelIterator<Type>;
         using ConstIterator = ChannelIterator<const Type>;
 
-        Channel() = default;
+        Channel(std::size_t capacity = 0): container{capacity} {}
 
         Iterator begin() noexcept { return Iterator{container, container.next()}; }
         ConstIterator begin() const noexcept { return Iterator{container, container.next()}; }
