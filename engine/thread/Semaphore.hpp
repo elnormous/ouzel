@@ -100,8 +100,9 @@ namespace ouzel::thread
             if (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER) != 0)
                 throw std::runtime_error("Failed to wait for semaphore");
 #else
-            if (sem_wait(&semaphore) == -1)
-                throw std::system_error(errno, std::system_category(), "Failed to wait for semaphore");
+            while (sem_wait(&semaphore) == -1)
+                if (errno != EINTR)
+                    throw std::system_error(errno, std::system_category(), "Failed to wait for semaphore");
 #endif
         }
 
