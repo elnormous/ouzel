@@ -106,7 +106,7 @@ namespace ouzel::thread
 #endif
         }
 
-        void release(std::ptrdiff_t count)
+        void release(std::ptrdiff_t count = 1)
         {
 #ifdef _MSC_VER
             if (!ReleaseSemaphore(semaphore, static_cast<LONG>(count), nullptr))
