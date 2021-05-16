@@ -220,6 +220,42 @@ namespace
         }
     }
 
+    ouzel::input::Mouse::Button getMouseButton(UINT message, WPARAM wParam) noexcept
+    {
+        switch (message)
+        {
+            case WM_LBUTTONDOWN:
+            case WM_LBUTTONUP:
+                return ouzel::input::Mouse::Button::left;
+            case WM_RBUTTONDOWN:
+            case WM_RBUTTONUP:
+                return ouzel::input::Mouse::Button::right;
+            case WM_MBUTTONDOWN:
+            case WM_MBUTTONUP:
+                return ouzel::input::Mouse::Button::middle;
+            case WM_XBUTTONDOWN:
+            case WM_XBUTTONUP:
+            {
+                switch (GET_XBUTTON_WPARAM(wParam))
+                {
+                    case XBUTTON1: return ouzel::input::Mouse::Button::x1;
+                    case XBUTTON2: return ouzel::input::Mouse::Button::x2;
+                    default: ouzel::input::Mouse::Button::none;
+                }
+            }
+            default:
+                return ouzel::input::Mouse::Button::none;
+        }
+    }
+
+    bool isMouseButtonDown(UINT message)
+    {
+        return message == WM_LBUTTONDOWN ||
+            message == WM_RBUTTONDOWN ||
+            message == WM_MBUTTONDOWN ||
+            message == WM_XBUTTONDOWN;
+    }
+
     LRESULT CALLBACK windowProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
     {
         auto userData = GetWindowLongPtr(window, GWLP_USERDATA);
@@ -785,31 +821,11 @@ namespace ouzel::core::windows
             static_cast<float>(GET_Y_LPARAM(lParam))
         };
 
-        input::Mouse::Button button;
-
-        if (message == WM_LBUTTONDOWN || message == WM_LBUTTONUP)
-            button = input::Mouse::Button::left;
-        else if (message == WM_RBUTTONDOWN || message == WM_RBUTTONUP)
-            button = input::Mouse::Button::right;
-        else if (message == WM_MBUTTONDOWN || message == WM_MBUTTONUP)
-            button = input::Mouse::Button::middle;
-        else if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)
-        {
-            if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
-                button = input::Mouse::Button::x1;
-            else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
-                button = input::Mouse::Button::x2;
-            else
-                return;
-        }
-        else
-            return;
-
-        if (message == WM_LBUTTONDOWN || message == WM_RBUTTONDOWN || message == WM_MBUTTONDOWN || message == WM_XBUTTONDOWN)
-            mouseDevice->handleButtonPress(button,
+        if (isMouseButtonDown(message))
+            mouseDevice->handleButtonPress(getMouseButton(message, wParam),
                                            engine->getWindow()->convertWindowToNormalizedLocation(position));
-        else if (message == WM_LBUTTONUP || message == WM_RBUTTONUP || message == WM_MBUTTONUP || message == WM_XBUTTONUP)
-            mouseDevice->handleButtonRelease(button,
+        else
+            mouseDevice->handleButtonRelease(getMouseButton(message, wParam),
                                              engine->getWindow()->convertWindowToNormalizedLocation(position));
     }
 
