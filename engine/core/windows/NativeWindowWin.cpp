@@ -33,6 +33,133 @@ namespace
     constexpr LONG_PTR SIGNATURE_MASK = 0xFFFFFF00U;
     constexpr LONG_PTR MI_WP_SIGNATURE = 0xFF515700U;
 
+    ouzel::input::Keyboard::Key convertScanCode(LPARAM lParam) noexcept
+    {
+        const std::uint8_t scanCode = HIWORD(lParam) & 0xFF;
+        if (scanCode <= 127)
+        {
+            const bool isExtended = (HIWORD(lParam) & KF_EXTENDED) != 0;
+
+            // extracted from "USB HID to PS/2 Scan Code Translation Table" (https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/translate.pdf)
+            switch (scanCode)
+            {
+                case 0x01: return ouzel::input::Keyboard::Key::escape;
+                case 0x02: return ouzel::input::Keyboard::Key::num1;
+                case 0x03: return ouzel::input::Keyboard::Key::num2;
+                case 0x04: return ouzel::input::Keyboard::Key::num3;
+                case 0x05: return ouzel::input::Keyboard::Key::num4;
+                case 0x06: return ouzel::input::Keyboard::Key::num5;
+                case 0x07: return ouzel::input::Keyboard::Key::num6;
+                case 0x08: return ouzel::input::Keyboard::Key::num7;
+                case 0x09: return ouzel::input::Keyboard::Key::num8;
+                case 0x0A: return ouzel::input::Keyboard::Key::num9;
+                case 0x0B: return ouzel::input::Keyboard::Key::num0;
+                case 0x0C: return ouzel::input::Keyboard::Key::minus;
+                case 0x0D: return ouzel::input::Keyboard::Key::equal;
+                case 0x0E: return ouzel::input::Keyboard::Key::backspace;
+                case 0x0F: return ouzel::input::Keyboard::Key::tab;
+                case 0x10: return ouzel::input::Keyboard::Key::q;
+                case 0x11: return ouzel::input::Keyboard::Key::w;
+                case 0x12: return ouzel::input::Keyboard::Key::e;
+                case 0x13: return ouzel::input::Keyboard::Key::r;
+                case 0x14: return ouzel::input::Keyboard::Key::t;
+                case 0x15: return ouzel::input::Keyboard::Key::y;
+                case 0x16: return ouzel::input::Keyboard::Key::u;
+                case 0x17: return ouzel::input::Keyboard::Key::i;
+                case 0x18: return ouzel::input::Keyboard::Key::o;
+                case 0x19: return ouzel::input::Keyboard::Key::p;
+                case 0x1A: return ouzel::input::Keyboard::Key::leftBracket;
+                case 0x1B: return ouzel::input::Keyboard::Key::rightBracket;
+                case 0x1C: return isExtended ? ouzel::input::Keyboard::Key::numpadEnter : ouzel::input::Keyboard::Key::enter;
+                case 0x1D: return isExtended ? ouzel::input::Keyboard::Key::rightControl : ouzel::input::Keyboard::Key::leftControl;
+                case 0x1E: return ouzel::input::Keyboard::Key::a;
+                case 0x1F: return ouzel::input::Keyboard::Key::s;
+                case 0x20: return ouzel::input::Keyboard::Key::d;
+                case 0x21: return ouzel::input::Keyboard::Key::f;
+                case 0x22: return ouzel::input::Keyboard::Key::g;
+                case 0x23: return ouzel::input::Keyboard::Key::h;
+                case 0x24: return ouzel::input::Keyboard::Key::j;
+                case 0x25: return ouzel::input::Keyboard::Key::k;
+                case 0x26: return ouzel::input::Keyboard::Key::l;
+                case 0x27: return ouzel::input::Keyboard::Key::semicolon;
+                case 0x28: return ouzel::input::Keyboard::Key::quote;
+                case 0x29: return ouzel::input::Keyboard::Key::grave;
+                case 0x2A: return ouzel::input::Keyboard::Key::leftShift;
+                case 0x2B: return ouzel::input::Keyboard::Key::backslash;
+                case 0x2C: return ouzel::input::Keyboard::Key::z;
+                case 0x2D: return ouzel::input::Keyboard::Key::x;
+                case 0x2E: return ouzel::input::Keyboard::Key::c;
+                case 0x2F: return ouzel::input::Keyboard::Key::v;
+                case 0x30: return ouzel::input::Keyboard::Key::b;
+                case 0x31: return ouzel::input::Keyboard::Key::n;
+                case 0x32: return ouzel::input::Keyboard::Key::m;
+                case 0x33: return ouzel::input::Keyboard::Key::comma;
+                case 0x34: return ouzel::input::Keyboard::Key::period;
+                case 0x35: return isExtended ? ouzel::input::Keyboard::Key::numpadDivide : ouzel::input::Keyboard::Key::slash;
+                case 0x36: return ouzel::input::Keyboard::Key::rightShift;
+                case 0x37: return isExtended ? ouzel::input::Keyboard::Key::printScreen : ouzel::input::Keyboard::Key::numpadMultiply;
+                case 0x38: return isExtended ? ouzel::input::Keyboard::Key::rightAlt : ouzel::input::Keyboard::Key::leftAlt;
+                case 0x39: return ouzel::input::Keyboard::Key::space;
+                case 0x3A: return ouzel::input::Keyboard::Key::capsLock;
+                case 0x3B: return ouzel::input::Keyboard::Key::f1;
+                case 0x3C: return ouzel::input::Keyboard::Key::f2;
+                case 0x3D: return ouzel::input::Keyboard::Key::f3;
+                case 0x3E: return ouzel::input::Keyboard::Key::f4;
+                case 0x3F: return ouzel::input::Keyboard::Key::f5;
+                case 0x40: return ouzel::input::Keyboard::Key::f6;
+                case 0x41: return ouzel::input::Keyboard::Key::f7;
+                case 0x42: return ouzel::input::Keyboard::Key::f8;
+                case 0x43: return ouzel::input::Keyboard::Key::f9;
+                case 0x44: return ouzel::input::Keyboard::Key::f10;
+                case 0x45: return ouzel::input::Keyboard::Key::numLock;
+                case 0x46: return isExtended ? ouzel::input::Keyboard::Key::pause : ouzel::input::Keyboard::Key::scrollLock;
+                case 0x47: return isExtended ? ouzel::input::Keyboard::Key::home : ouzel::input::Keyboard::Key::numpad7;
+                case 0x48: return isExtended ? ouzel::input::Keyboard::Key::up : ouzel::input::Keyboard::Key::numpad8;
+                case 0x49: return isExtended ? ouzel::input::Keyboard::Key::pageUp : ouzel::input::Keyboard::Key::numpad9;
+                case 0x4A: return ouzel::input::Keyboard::Key::numpadMinus;
+                case 0x4B: return isExtended ? ouzel::input::Keyboard::Key::left : ouzel::input::Keyboard::Key::numpad4;
+                case 0x4C: return ouzel::input::Keyboard::Key::numpad5;
+                case 0x4D: return isExtended ? ouzel::input::Keyboard::Key::right : ouzel::input::Keyboard::Key::numpad6;
+                case 0x4E: return ouzel::input::Keyboard::Key::numpadPlus;
+                case 0x4F: return isExtended ? ouzel::input::Keyboard::Key::end : ouzel::input::Keyboard::Key::numpad1;
+                case 0x50: return isExtended ? ouzel::input::Keyboard::Key::down : ouzel::input::Keyboard::Key::numpad2;
+                case 0x51: return isExtended ? ouzel::input::Keyboard::Key::pageDown : ouzel::input::Keyboard::Key::numpad3;
+                case 0x52: return isExtended ? ouzel::input::Keyboard::Key::insert : ouzel::input::Keyboard::Key::numpad0;
+                case 0x53: return isExtended ? ouzel::input::Keyboard::Key::del : ouzel::input::Keyboard::Key::numpadDecimal;
+                case 0x56: return ouzel::input::Keyboard::Key::intlBackslash;
+                case 0x57: return ouzel::input::Keyboard::Key::f11;
+                case 0x58: return ouzel::input::Keyboard::Key::f12;
+                case 0x59: return ouzel::input::Keyboard::Key::numpadEqual;
+                case 0x5B: return ouzel::input::Keyboard::Key::leftSuper;
+                case 0x5C: return ouzel::input::Keyboard::Key::rightSuper;
+                case 0x5D: return isExtended ? ouzel::input::Keyboard::Key::menu : ouzel::input::Keyboard::Key::none;
+                case 0x5E: return isExtended ? ouzel::input::Keyboard::Key::power : ouzel::input::Keyboard::Key::none;
+                case 0x5F: return isExtended ? ouzel::input::Keyboard::Key::sleep : ouzel::input::Keyboard::Key::none;
+                case 0x63: return isExtended ? ouzel::input::Keyboard::Key::wake : ouzel::input::Keyboard::Key::none;
+                case 0x64: return ouzel::input::Keyboard::Key::f13;
+                case 0x65: return ouzel::input::Keyboard::Key::f14;
+                case 0x66: return ouzel::input::Keyboard::Key::f15;
+                case 0x67: return ouzel::input::Keyboard::Key::f16;
+                case 0x68: return ouzel::input::Keyboard::Key::f17;
+                case 0x69: return ouzel::input::Keyboard::Key::f18;
+                case 0x6A: return ouzel::input::Keyboard::Key::f19;
+                case 0x6B: return ouzel::input::Keyboard::Key::f20;
+                case 0x6C: return ouzel::input::Keyboard::Key::f21;
+                case 0x6D: return ouzel::input::Keyboard::Key::f22;
+                case 0x6E: return ouzel::input::Keyboard::Key::f23;
+                case 0x70: return ouzel::input::Keyboard::Key::katakanaHiragana;
+                case 0x73: return ouzel::input::Keyboard::Key::ro;
+                case 0x76: return ouzel::input::Keyboard::Key::f24;
+                case 0x79: return ouzel::input::Keyboard::Key::henkan;
+                case 0x7B: return ouzel::input::Keyboard::Key::muhenkan;
+                case 0x7D: return ouzel::input::Keyboard::Key::yen;
+                default: return ouzel::input::Keyboard::Key::none;
+            }
+        }
+        else
+            return ouzel::input::Keyboard::Key::none;
+    }
+
     ouzel::input::Keyboard::Key convertKeyCode(LPARAM lParam, WPARAM wParam) noexcept
     {
         switch (wParam)
@@ -89,132 +216,7 @@ namespace
             case VK_LAUNCH_APP2: return ouzel::input::Keyboard::Key::app2;
 
             // scan codes
-            default:
-            {
-                const std::uint8_t scanCode = HIWORD(lParam) & 0xFF;
-                if (scanCode <= 127)
-                {
-                    const bool isExtended = (HIWORD(lParam) & KF_EXTENDED) != 0;
-
-                    // extracted from "USB HID to PS/2 Scan Code Translation Table" (https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/translate.pdf)
-                    switch (scanCode)
-                    {
-                        case 0x01: return ouzel::input::Keyboard::Key::escape;
-                        case 0x02: return ouzel::input::Keyboard::Key::num1;
-                        case 0x03: return ouzel::input::Keyboard::Key::num2;
-                        case 0x04: return ouzel::input::Keyboard::Key::num3;
-                        case 0x05: return ouzel::input::Keyboard::Key::num4;
-                        case 0x06: return ouzel::input::Keyboard::Key::num5;
-                        case 0x07: return ouzel::input::Keyboard::Key::num6;
-                        case 0x08: return ouzel::input::Keyboard::Key::num7;
-                        case 0x09: return ouzel::input::Keyboard::Key::num8;
-                        case 0x0A: return ouzel::input::Keyboard::Key::num9;
-                        case 0x0B: return ouzel::input::Keyboard::Key::num0;
-                        case 0x0C: return ouzel::input::Keyboard::Key::minus;
-                        case 0x0D: return ouzel::input::Keyboard::Key::equal;
-                        case 0x0E: return ouzel::input::Keyboard::Key::backspace;
-                        case 0x0F: return ouzel::input::Keyboard::Key::tab;
-                        case 0x10: return ouzel::input::Keyboard::Key::q;
-                        case 0x11: return ouzel::input::Keyboard::Key::w;
-                        case 0x12: return ouzel::input::Keyboard::Key::e;
-                        case 0x13: return ouzel::input::Keyboard::Key::r;
-                        case 0x14: return ouzel::input::Keyboard::Key::t;
-                        case 0x15: return ouzel::input::Keyboard::Key::y;
-                        case 0x16: return ouzel::input::Keyboard::Key::u;
-                        case 0x17: return ouzel::input::Keyboard::Key::i;
-                        case 0x18: return ouzel::input::Keyboard::Key::o;
-                        case 0x19: return ouzel::input::Keyboard::Key::p;
-                        case 0x1A: return ouzel::input::Keyboard::Key::leftBracket;
-                        case 0x1B: return ouzel::input::Keyboard::Key::rightBracket;
-                        case 0x1C: return isExtended ? ouzel::input::Keyboard::Key::numpadEnter : ouzel::input::Keyboard::Key::enter;
-                        case 0x1D: return isExtended ? ouzel::input::Keyboard::Key::rightControl : ouzel::input::Keyboard::Key::leftControl;
-                        case 0x1E: return ouzel::input::Keyboard::Key::a;
-                        case 0x1F: return ouzel::input::Keyboard::Key::s;
-                        case 0x20: return ouzel::input::Keyboard::Key::d;
-                        case 0x21: return ouzel::input::Keyboard::Key::f;
-                        case 0x22: return ouzel::input::Keyboard::Key::g;
-                        case 0x23: return ouzel::input::Keyboard::Key::h;
-                        case 0x24: return ouzel::input::Keyboard::Key::j;
-                        case 0x25: return ouzel::input::Keyboard::Key::k;
-                        case 0x26: return ouzel::input::Keyboard::Key::l;
-                        case 0x27: return ouzel::input::Keyboard::Key::semicolon;
-                        case 0x28: return ouzel::input::Keyboard::Key::quote;
-                        case 0x29: return ouzel::input::Keyboard::Key::grave;
-                        case 0x2A: return ouzel::input::Keyboard::Key::leftShift;
-                        case 0x2B: return ouzel::input::Keyboard::Key::backslash;
-                        case 0x2C: return ouzel::input::Keyboard::Key::z;
-                        case 0x2D: return ouzel::input::Keyboard::Key::x;
-                        case 0x2E: return ouzel::input::Keyboard::Key::c;
-                        case 0x2F: return ouzel::input::Keyboard::Key::v;
-                        case 0x30: return ouzel::input::Keyboard::Key::b;
-                        case 0x31: return ouzel::input::Keyboard::Key::n;
-                        case 0x32: return ouzel::input::Keyboard::Key::m;
-                        case 0x33: return ouzel::input::Keyboard::Key::comma;
-                        case 0x34: return ouzel::input::Keyboard::Key::period;
-                        case 0x35: return isExtended ? ouzel::input::Keyboard::Key::numpadDivide : ouzel::input::Keyboard::Key::slash;
-                        case 0x36: return ouzel::input::Keyboard::Key::rightShift;
-                        case 0x37: return isExtended ? ouzel::input::Keyboard::Key::printScreen : ouzel::input::Keyboard::Key::numpadMultiply;
-                        case 0x38: return isExtended ? ouzel::input::Keyboard::Key::rightAlt : ouzel::input::Keyboard::Key::leftAlt;
-                        case 0x39: return ouzel::input::Keyboard::Key::space;
-                        case 0x3A: return ouzel::input::Keyboard::Key::capsLock;
-                        case 0x3B: return ouzel::input::Keyboard::Key::f1;
-                        case 0x3C: return ouzel::input::Keyboard::Key::f2;
-                        case 0x3D: return ouzel::input::Keyboard::Key::f3;
-                        case 0x3E: return ouzel::input::Keyboard::Key::f4;
-                        case 0x3F: return ouzel::input::Keyboard::Key::f5;
-                        case 0x40: return ouzel::input::Keyboard::Key::f6;
-                        case 0x41: return ouzel::input::Keyboard::Key::f7;
-                        case 0x42: return ouzel::input::Keyboard::Key::f8;
-                        case 0x43: return ouzel::input::Keyboard::Key::f9;
-                        case 0x44: return ouzel::input::Keyboard::Key::f10;
-                        case 0x45: return ouzel::input::Keyboard::Key::numLock;
-                        case 0x46: return isExtended ? ouzel::input::Keyboard::Key::pause : ouzel::input::Keyboard::Key::scrollLock;
-                        case 0x47: return isExtended ? ouzel::input::Keyboard::Key::home : ouzel::input::Keyboard::Key::numpad7;
-                        case 0x48: return isExtended ? ouzel::input::Keyboard::Key::up : ouzel::input::Keyboard::Key::numpad8;
-                        case 0x49: return isExtended ? ouzel::input::Keyboard::Key::pageUp : ouzel::input::Keyboard::Key::numpad9;
-                        case 0x4A: return ouzel::input::Keyboard::Key::numpadMinus;
-                        case 0x4B: return isExtended ? ouzel::input::Keyboard::Key::left : ouzel::input::Keyboard::Key::numpad4;
-                        case 0x4C: return ouzel::input::Keyboard::Key::numpad5;
-                        case 0x4D: return isExtended ? ouzel::input::Keyboard::Key::right : ouzel::input::Keyboard::Key::numpad6;
-                        case 0x4E: return ouzel::input::Keyboard::Key::numpadPlus;
-                        case 0x4F: return isExtended ? ouzel::input::Keyboard::Key::end : ouzel::input::Keyboard::Key::numpad1;
-                        case 0x50: return isExtended ? ouzel::input::Keyboard::Key::down : ouzel::input::Keyboard::Key::numpad2;
-                        case 0x51: return isExtended ? ouzel::input::Keyboard::Key::pageDown : ouzel::input::Keyboard::Key::numpad3;
-                        case 0x52: return isExtended ? ouzel::input::Keyboard::Key::insert : ouzel::input::Keyboard::Key::numpad0;
-                        case 0x53: return isExtended ? ouzel::input::Keyboard::Key::del : ouzel::input::Keyboard::Key::numpadDecimal;
-                        case 0x56: return ouzel::input::Keyboard::Key::intlBackslash;
-                        case 0x57: return ouzel::input::Keyboard::Key::f11;
-                        case 0x58: return ouzel::input::Keyboard::Key::f12;
-                        case 0x59: return ouzel::input::Keyboard::Key::numpadEqual;
-                        case 0x5B: return ouzel::input::Keyboard::Key::leftSuper;
-                        case 0x5C: return ouzel::input::Keyboard::Key::rightSuper;
-                        case 0x5D: return isExtended ? ouzel::input::Keyboard::Key::menu : ouzel::input::Keyboard::Key::none;
-                        case 0x5E: return isExtended ? ouzel::input::Keyboard::Key::power : ouzel::input::Keyboard::Key::none;
-                        case 0x5F: return isExtended ? ouzel::input::Keyboard::Key::sleep : ouzel::input::Keyboard::Key::none;
-                        case 0x63: return isExtended ? ouzel::input::Keyboard::Key::wake : ouzel::input::Keyboard::Key::none;
-                        case 0x64: return ouzel::input::Keyboard::Key::f13;
-                        case 0x65: return ouzel::input::Keyboard::Key::f14;
-                        case 0x66: return ouzel::input::Keyboard::Key::f15;
-                        case 0x67: return ouzel::input::Keyboard::Key::f16;
-                        case 0x68: return ouzel::input::Keyboard::Key::f17;
-                        case 0x69: return ouzel::input::Keyboard::Key::f18;
-                        case 0x6A: return ouzel::input::Keyboard::Key::f19;
-                        case 0x6B: return ouzel::input::Keyboard::Key::f20;
-                        case 0x6C: return ouzel::input::Keyboard::Key::f21;
-                        case 0x6D: return ouzel::input::Keyboard::Key::f22;
-                        case 0x6E: return ouzel::input::Keyboard::Key::f23;
-                        case 0x70: return ouzel::input::Keyboard::Key::katakanaHiragana;
-                        case 0x73: return ouzel::input::Keyboard::Key::ro;
-                        case 0x76: return ouzel::input::Keyboard::Key::f24;
-                        case 0x79: return ouzel::input::Keyboard::Key::henkan;
-                        case 0x7B: return ouzel::input::Keyboard::Key::muhenkan;
-                        case 0x7D: return ouzel::input::Keyboard::Key::yen;
-                        default: return ouzel::input::Keyboard::Key::none;
-                    }
-                }
-                else
-                    return ouzel::input::Keyboard::Key::none;
-            }
+            default: return convertScanCode(lParam);
         }
     }
 
