@@ -25,6 +25,7 @@ namespace ouzel::thread
             std::unique_lock lock(queueMutex);
             closed = true;
             lock.unlock();
+            if (capacity > 0) semaphore.acquire();
             queueCondition.notify_all();
         }
 
