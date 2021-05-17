@@ -17,7 +17,7 @@ namespace ouzel::thread
     public:
         ChannelContainer(std::size_t c):
             capacity{c},
-            semaphore{static_cast<std::ptrdiff_t>(c == 0 ? 1 : c)}
+            semaphore{static_cast<std::ptrdiff_t>(c)}
         {}
 
         ~ChannelContainer()
