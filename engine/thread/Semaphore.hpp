@@ -49,47 +49,19 @@ namespace ouzel::thread
         ~Semaphore()
         {
 #ifdef _MSC_VER
-            if (semaphore != INVALID_HANDLE_VALUE)
                 CloseHandle(semaphore);
 #elif defined(__APPLE__)
-            if (semaphore)
                 dispatch_release(semaphore);
 #else
-            if (semaphore != -1)
                 sem_destroy(&semaphore);
 #endif
         }
 
         Semaphore(const Semaphore&) = delete;
-        Semaphore(Semaphore&& other) noexcept:
-            semaphore{other.semaphore}
-        {
-#ifdef _MSC_VER
-            other.semaphore = INVALID_HANDLE_VALUE;
-#elif defined(__APPLE__)
-            other.semaphore = nullptr;
-#else
-            other.semaphore = -1;
-#endif
-        }
+        Semaphore(Semaphore&& other) = delete;
 
         Semaphore& operator=(const Semaphore&) = delete;
-        Semaphore& operator=(Semaphore&& other) noexcept
-        {
-            if (&other == this) return *this;
-
-            semaphore = other.semaphore;
-
-#ifdef _MSC_VER
-            other.semaphore = INVALID_HANDLE_VALUE;
-#elif defined(__APPLE__)
-            other.semaphore = nullptr;
-#else
-            other.semaphore = -1;
-#endif
-
-            return *this;
-        }
+        Semaphore& operator=(Semaphore&& other) = delete;
 
         void acquire()
         {
@@ -124,11 +96,11 @@ namespace ouzel::thread
 
     private:
 #ifdef _MSC_VER
-        HANDLE semaphore = INVALID_HANDLE_VALUE;
+        HANDLE semaphore;
 #elif defined(__APPLE__)
-        dispatch_semaphore_t semaphore = nullptr;
+        dispatch_semaphore_t semaphore;
 #else
-        sem_t semaphore = -1;
+        sem_t semaphore;
 #endif
     };
 }
