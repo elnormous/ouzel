@@ -15,9 +15,9 @@ namespace ouzel::thread
     class ChannelContainer final
     {
     public:
-        ChannelContainer(std::size_t c):
+        ChannelContainer(std::ptrdiff_t c):
             capacity{c},
-            semaphore{static_cast<std::ptrdiff_t>(c)}
+            semaphore{c}
         {}
 
         ~ChannelContainer()
@@ -75,7 +75,7 @@ namespace ouzel::thread
         mutable std::queue<Type> queue;
         mutable std::mutex queueMutex;
         mutable std::condition_variable queueCondition;
-        std::size_t capacity = 0;
+        std::ptrdiff_t capacity = 0;
         mutable Semaphore semaphore;
     };
 
@@ -123,7 +123,7 @@ namespace ouzel::thread
         using Iterator = ChannelIterator<Type>;
         using ConstIterator = ChannelIterator<const Type>;
 
-        Channel(std::size_t capacity = 0): container{capacity} {}
+        Channel(std::ptrdiff_t capacity = 0): container{capacity} {}
 
         Iterator begin() noexcept { return Iterator{container, container.next()}; }
         ConstIterator begin() const noexcept { return Iterator{container, container.next()}; }
