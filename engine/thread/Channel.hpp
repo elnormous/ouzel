@@ -95,8 +95,8 @@ namespace ouzel::thread
 
         Type& operator*() noexcept { return *ptr; }
         const Type& operator*() const noexcept { return *ptr; }
-        Type* operator->() noexcept { return ptr; }
-        const Type* operator->() const noexcept { return ptr; }
+        Type* operator->() noexcept { return ptr.get(); }
+        const Type* operator->() const noexcept { return ptr.get(); }
 
         ChannelIterator& operator++() noexcept
         {
