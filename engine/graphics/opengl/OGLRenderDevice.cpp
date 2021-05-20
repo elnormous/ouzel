@@ -739,7 +739,7 @@ namespace ouzel::graphics::opengl
         for (;;)
         {
             std::unique_lock lock(commandQueueMutex);
-            while (commandQueue.empty()) commandQueueCondition.wait(lock);
+            commandQueueCondition.wait(lock, [this]() { return !commandQueue.empty(); });
             commandBuffer = std::move(commandQueue.front());
             commandQueue.pop();
             lock.unlock();

@@ -268,7 +268,7 @@ namespace ouzel::graphics
     void Graphics::waitForNextFrame()
     {
         std::unique_lock lock(frameMutex);
-        while (!newFrame) frameCondition.wait(lock);
+        frameCondition.wait(lock, [this]() { return newFrame; });
         newFrame = false;
     }
 }
