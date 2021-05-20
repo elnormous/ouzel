@@ -758,7 +758,7 @@ namespace ouzel::core
                 else
                 {
                     std::unique_lock lock(updateMutex);
-                    updateCondition.wait(lock, [this]() { return !active || !paused; });
+                    updateCondition.wait(lock, [this]() noexcept { return !active || !paused; });
                 }
             }
 

@@ -56,7 +56,7 @@ namespace ouzel::thread
         std::unique_ptr<Type> next() const
         {
             std::unique_lock lock(queueMutex);
-            queueCondition.wait(lock, [this]() { return closed || !queue.empty(); });
+            queueCondition.wait(lock, [this]() noexcept { return closed || !queue.empty(); });
 
             if (!queue.empty())
             {
