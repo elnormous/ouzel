@@ -3,9 +3,7 @@
 #ifndef OUZEL_CORE_NATIVEWINDOW_HPP
 #define OUZEL_CORE_NATIVEWINDOW_HPP
 
-#include <mutex>
 #include <string>
-#include <queue>
 #include "../math/Size.hpp"
 
 namespace ouzel::core
@@ -112,9 +110,6 @@ namespace ouzel::core
 
     private:
         std::function<void(const Event&)> callback;
-
-        std::mutex commandQueueMutex;
-        std::queue<Event> commandQueue;
     };
 }
 
