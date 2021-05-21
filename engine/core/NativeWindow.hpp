@@ -3,6 +3,7 @@
 #ifndef OUZEL_CORE_NATIVEWINDOW_HPP
 #define OUZEL_CORE_NATIVEWINDOW_HPP
 
+#include <functional>
 #include <string>
 #include "../math/Size.hpp"
 
