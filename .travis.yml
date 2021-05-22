@@ -30,7 +30,7 @@ matrix:
     - name: macOS
       compiler: clang
       os: osx
-      osx_image: xcode9.4
+      osx_image: xcode10
       addons:
         sonarcloud:
           organization: "elnormous-github"
@@ -48,7 +48,7 @@ matrix:
     - name: iOS
       compiler: clang
       os: osx
-      osx_image: xcode9.4
+      osx_image: xcode10
       addons:
         sonarcloud:
           organization: "elnormous-github"
@@ -66,7 +66,7 @@ matrix:
     - name: tvOS
       compiler: clang
       os: osx
-      osx_image: xcode9.4
+      osx_image: xcode10
       addons:
         sonarcloud:
           organization: "elnormous-github"
