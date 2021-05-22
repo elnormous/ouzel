@@ -552,9 +552,9 @@ namespace ouzel::json
                 }
                 else
                 {
-                    constexpr char trueString[] = "true";
-                    constexpr char falseString[] = "false";
-                    constexpr char nullString[] = "null";
+                    constexpr char trueString[] = {'t', 'r', 'u', 'e'};
+                    constexpr char falseString[] = {'f', 'a', 'l', 's', 'e'};
+                    constexpr char nullString[] = {'n', 'u', 'l', 'l'};
 
                     const auto [isTrue, trueIterator] = isSame(iterator, end,
                                                                std::begin(trueString),
