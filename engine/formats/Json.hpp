@@ -4,11 +4,14 @@
 #define OUZEL_FORMATS_JSON_HPP
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <cstdint>
 #include <map>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <variant>
 #include <vector>
 
 namespace ouzel::json
@@ -36,262 +39,300 @@ namespace ouzel::json
     public:
         using Array = std::vector<Value>;
         using Object = std::map<std::string, Value>;
+        using String = std::string;
 
-        enum class Type
+        Value() noexcept = default;
+
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, std::nullptr_t> ||
+            std::is_same_v<T, bool>
+        >* = nullptr>
+        Value(const T v) noexcept: value{v} {}
+
+        template <typename T, typename std::enable_if_t<
+            std::is_arithmetic_v<T> &&
+            !std::is_same_v<T, bool>
+        >* = nullptr>
+        Value(const T value): value{static_cast<double>(value)} {}
+
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, Array> ||
+            std::is_same_v<T, Object> ||
+            std::is_same_v<T, String>
+        >* = nullptr>
+        Value(const T& v): value{v} {}
+
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, char*> ||
+            std::is_same_v<T, const char*>
+        >* = nullptr>
+        Value(const T v): value{String{v}} {}
+
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, std::nullptr_t> ||
+            std::is_same_v<T, bool>
+        >* = nullptr>
+        Value& operator=(const T v) noexcept
         {
-            null,
-            number,
-            string,
-            object,
-            array,
-            boolean
-        };
-
-        Value() = default;
-
-        Value(const Type initType): type(initType) {}
-
-        template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value(const T value): type(Type::number), doubleValue(static_cast<double>(value)) {}
-
-        Value(const std::string& value): type(Type::string), stringValue(value) {}
-
-        Value(const char* value): type(Type::string), stringValue(value) {}
-
-        Value(const bool value): type(Type::boolean), boolValue(value) {}
-
-        Value(const std::nullptr_t): type(Type::null) {}
-
-        Value(const Array& value): type(Type::array), arrayValue(value) {}
-
-        Value(const Object& value): type(Type::object), objectValue(value) {}
-
-        Value& operator=(const Type newType) noexcept
-        {
-            type = newType;
+            value = v;
             return *this;
         }
 
-        template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value& operator=(const T value) noexcept
+        template <typename T, typename std::enable_if_t<
+            std::is_arithmetic_v<T> &&
+            !std::is_same_v<T, bool>
+        >* = nullptr>
+        Value& operator=(const T v) noexcept
         {
-            type = Type::number;
-            doubleValue = static_cast<double>(value);
+            value = static_cast<double>(v);
             return *this;
         }
 
-        Value& operator=(const std::string& value)
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, Array> ||
+            std::is_same_v<T, Object> ||
+            std::is_same_v<T, String>
+        >* = nullptr>
+        Value& operator=(T&& v)
         {
-            type = Type::string;
-            stringValue = value;
+            value = std::forward<T>(v);
             return *this;
         }
 
-        Value& operator=(const char* value)
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, char*> ||
+            std::is_same_v<T, const char*>
+        >* = nullptr>
+        Value& operator=(const T v)
         {
-            type = Type::string;
-            stringValue = value;
+            value = String{v};
             return *this;
         }
 
-        Value& operator=(const bool value) noexcept
+        template <typename T>
+        bool is() const noexcept
         {
-            type = Type::boolean;
-            boolValue = value;
-            return *this;
-        }
-
-        Value& operator=(std::nullptr_t) noexcept
-        {
-            type = Type::null;
-            objectValue.clear();
-            return *this;
-        }
-
-        Value& operator=(const Array& value)
-        {
-            type = Type::array;
-            arrayValue = value;
-            return *this;
-        }
-
-        Value& operator=(const Object& value)
-        {
-            type = Type::object;
-            objectValue = value;
-            return *this;
-        }
-
-        Type getType() const noexcept { return type; }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
-        std::string& as() noexcept
-        {
-            type = Type::string;
-            return stringValue;
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
-        const std::string& as() const
-        {
-            if (type != Type::string) throw TypeError{"Wrong type"};
-            return stringValue;
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, const char*>>* = nullptr>
-        T as() const
-        {
-            if (type != Type::string) throw TypeError{"Wrong type"};
-            return stringValue.c_str();
+            return std::holds_alternative<T>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
         T as() const
         {
-            if (type != Type::boolean && type != Type::number)
+            if (const auto b = std::get_if<bool>(&value))
+                return *b;
+            else if (const auto d = std::get_if<double>(&value))
+                return *d != 0.0;
+            else
                 throw TypeError{"Wrong type"};
-            if (type == Type::boolean) return boolValue;
-            else return doubleValue != 0.0;
         }
 
-        template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T> && !std::is_same_v<T, bool>>* = nullptr>
+        template <typename T, typename std::enable_if_t<
+            std::is_arithmetic_v<T> &&
+            !std::is_same_v<T, bool>
+        >* = nullptr>
         T as() const
         {
-            if (type != Type::boolean && type != Type::number)
+            if (const auto d = std::get_if<double>(&value))
+                return static_cast<T>(*d);
+            else if (const auto b = std::get_if<bool>(&value))
+                return *b ? 1.0 : 0.0;
+            else
                 throw TypeError{"Wrong type"};
-            if (type == Type::boolean) return boolValue;
-            else return static_cast<T>(doubleValue);
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
-        T& as() noexcept
-        {
-            type = Type::object;
-            return objectValue;
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
-        const T& as() const
-        {
-            if (type != Type::object) throw TypeError{"Wrong type"};
-            return objectValue;
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
-        T& as() noexcept
+        T& as()
         {
-            type = Type::array;
-            return arrayValue;
+            if (const auto p = std::get_if<Array>(&value))
+                return *p;
+            else
+                throw TypeError{"Wrong type"};
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
         const T& as() const
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue;
+            if (const auto p = std::get_if<Array>(&value))
+                return *p;
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
+        T& as()
+        {
+            if (const auto p = std::get_if<Object>(&value))
+                return *p;
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
+        const T& as() const
+        {
+            if (const auto p = std::get_if<Object>(&value))
+                return *p;
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, String>>* = nullptr>
+        String& as()
+        {
+            if (const auto p = std::get_if<String>(&value))
+                return *p;
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, String>>* = nullptr>
+        const String& as() const
+        {
+            if (const auto p = std::get_if<String>(&value))
+                return *p;
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, char*> ||
+            std::is_same_v<T, const char*>
+        >* = nullptr>
+        T as() const
+        {
+            if (const auto p = std::get_if<String>(&value))
+                return p->c_str();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         Array::iterator begin()
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.begin();
+            if (const auto p = std::get_if<Array>(&value))
+                return p->begin();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         Array::iterator end()
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.end();
+            if (const auto p = std::get_if<Array>(&value))
+                return p->end();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         Array::const_iterator begin() const
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.begin();
+            if (const auto p = std::get_if<Array>(&value))
+                return p->begin();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         Array::const_iterator end() const
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.end();
-        }
-
-        bool isNull() const noexcept
-        {
-            return type == Type::null;
+            if (const auto p = std::get_if<Array>(&value))
+                return p->end();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         bool hasMember(const std::string& member) const
         {
-            if (type != Type::object) throw TypeError{"Wrong type"};
-            return objectValue.find(member) != objectValue.end();
+            if (const auto p = std::get_if<Object>(&value))
+                return p->find(member) != p->end();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         Value& operator[](const std::string& member) &
         {
-            type = Type::object;
-            return objectValue[member];
+            if (const auto p = std::get_if<Object>(&value))
+                return (*p)[member];
+            else
+                throw TypeError{"Wrong type"};
         }
 
         const Value& operator[](const std::string& member) const&
         {
-            if (type != Type::object) throw TypeError{"Wrong type"};
-
-            if (const auto i = objectValue.find(member); i != objectValue.end())
-                return i->second;
+            if (const auto p = std::get_if<Object>(&value))
+            {
+                const auto i = p->find(member);
+                if (i != p->end())
+                    return i->second;
+                else
+                    throw RangeError{"Member does not exist"};
+            }
             else
-                throw RangeError{"Member does not exist"};
+                throw TypeError{"Wrong type"};
         }
 
         Value& operator[](std::size_t index) &
         {
-            type = Type::array;
-            if (index >= arrayValue.size()) arrayValue.resize(index + 1);
-            return arrayValue[index];
+            if (const auto p = std::get_if<Array>(&value))
+            {
+                if (index >= p->size()) p->resize(index + 1);
+                return (*p)[index];
+            }
+            else
+                throw TypeError{"Wrong type"};
         }
 
         const Value& operator[](std::size_t index) const&
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-
-            if (index < arrayValue.size())
-                return arrayValue[index];
+            if (const auto p = std::get_if<Array>(&value))
+            {
+                if (index < p->size())
+                    return (*p)[index];
+                else
+                    throw RangeError{"Index out of range"};
+            }
             else
-                throw RangeError{"Index out of range"};
+                throw TypeError{"Wrong type"};
+        }
+
+        bool isEmpty() const
+        {
+            if (const auto p = std::get_if<Array>(&value))
+                return p->empty();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         std::size_t getSize() const
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.size();
+            if (const auto p = std::get_if<Array>(&value))
+                return p->size();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         void resize(std::size_t size) &
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            arrayValue.resize(size);
+            if (const auto p = std::get_if<Array>(&value))
+                return p->resize(size);
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        void pushBack(const Value& value) &
+        void pushBack(const Value& v) &
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            arrayValue.push_back(value);
+            if (const auto p = std::get_if<Array>(&value))
+                return p->push_back(v);
+            else
+                throw TypeError{"Wrong type"};
         }
+
+        auto& getValue() const noexcept { return value; }
 
     private:
-        Type type = Type::object;
-        union
-        {
-            bool boolValue = false;
-            double doubleValue;
-        };
-        Object objectValue;
-        Array arrayValue;
-        std::string stringValue;
+        std::variant<std::nullptr_t, bool, double, Object, Array, String> value;
     };
 
     inline namespace detail
     {
-        constexpr std::uint8_t utf8ByteOrderMark[] = {0xEF, 0xBB, 0xBF};
+        constexpr std::array<std::uint8_t, 3> utf8ByteOrderMark{0xEF, 0xBB, 0xBF};
     }
 
     template <class Iterator>
@@ -362,7 +403,7 @@ namespace ouzel::json
                 {
                     ++iterator;
 
-                    Value result = Value::Type::object;
+                    Value result = Value::Object{};
 
                     bool firstValue = true;
 
@@ -403,7 +444,7 @@ namespace ouzel::json
                 {
                     ++iterator;
 
-                    Value result = Value::Type::array;
+                    Value result = Value::Array{};
 
                     bool firstValue = true;
 
@@ -511,9 +552,9 @@ namespace ouzel::json
                 }
                 else
                 {
-                    constexpr char trueString[] = {'t', 'r', 'u', 'e'};
-                    constexpr char falseString[] = {'f', 'a', 'l', 's', 'e'};
-                    constexpr char nullString[] = {'n', 'u', 'l', 'l'};
+                    constexpr std::array trueString{'t', 'r', 'u', 'e'};
+                    constexpr std::array falseString{'f', 'a', 'l', 's', 'e'};
+                    constexpr std::array nullString{'n', 'u', 'l', 'l'};
 
                     const auto [isTrue, trueIterator] = isSame(iterator, end,
                                                                std::begin(trueString),
@@ -682,7 +723,10 @@ namespace ouzel::json
                     {
                         result.insert(result.end(), {'\\', 'u'});
 
-                        constexpr char digits[] = "0123456789abcdef";
+                        constexpr std::array digits{
+                            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                            'a', 'b', 'c', 'd', 'e', 'f'
+                        };
                         for (std::uint32_t p = 0; p < 4; ++p)
                             result.push_back(digits[(c >> (12 - p * 4)) & 0x0F]);
                     }
@@ -692,75 +736,69 @@ namespace ouzel::json
 
             static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
             {
-                switch (value.getType())
+                const auto& v = value.getValue();
+
+                if (std::holds_alternative<std::nullptr_t>(v))
                 {
-                    case Value::Type::null:
-                    {
-                        result.insert(result.end(), {'n', 'u', 'l', 'l'});
-                        break;
-                    }
-                    case Value::Type::number:
-                    {
-                        const auto d = value.as<double>();
-                        const auto str = (std::floor(d) == d) ? std::to_string(static_cast<std::int64_t>(d)) : std::to_string(d);
-                        result.insert(result.end(), str.begin(), str.end());
-                        break;
-                    }
-                    case Value::Type::string:
-                        result.push_back('"');
-                        encode(value.as<std::string>(), result);
-                        result.push_back('"');
-                        break;
-                    case Value::Type::object:
-                    {
-                        result.push_back('{');
-                        if (whitespaces) result.push_back('\n');
-
-                        const auto& entries = value.as<Value::Object>();
-
-                        for (auto entryIterator = entries.begin(); entryIterator != entries.end();)
-                        {
-                            const auto& entry = *entryIterator;
-                            if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            result.push_back('"');
-                            encode(entry.first, result);
-                            result.insert(result.end(), {'"', ':'});
-                            encode(entry.second, result, whitespaces, level + 1);
-                            if (++entryIterator != entries.end()) result.push_back(',');
-                            if (whitespaces) result.push_back('\n');
-                        }
-
-                        if (whitespaces) result.insert(result.end(), level, '\t');
-                        result.push_back('}');
-                        break;
-                    }
-                    case Value::Type::array:
-                    {
-                        result.push_back('[');
-                        if (whitespaces) result.push_back('\n');
-
-                        const auto& entries = value.as<Value::Array>();
-
-                        for (auto entryIterator = entries.begin(); entryIterator != entries.end();)
-                        {
-                            const auto& entry = *entryIterator;
-                            if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            encode(entry, result, whitespaces, level + 1);
-                            if (++entryIterator != entries.end()) result.push_back(',');
-                            if (whitespaces) result.push_back('\n');
-                        }
-
-                        if (whitespaces) result.insert(result.end(), level, '\t');
-                        result.push_back(']');
-                        break;
-                    }
-                    case Value::Type::boolean:
-                        if (value.as<bool>()) result.insert(result.end(), {'t', 'r', 'u', 'e'});
-                        else result.insert(result.end(), {'f', 'a', 'l', 's', 'e'});
-                        break;
-                    default:
-                        throw ParseError{"Unknown value type"};
+                    result.insert(result.end(), {'n', 'u', 'l', 'l'});
                 }
+                else if (auto d = std::get_if<double>(&v))
+                {
+                    const auto str = (std::floor(*d) == *d) ?
+                        std::to_string(static_cast<std::int64_t>(*d)) :
+                        std::to_string(*d);
+                    result.insert(result.end(), str.begin(), str.end());
+                }
+                else if (auto s = std::get_if<Value::String>(&v))
+                {
+                    result.push_back('"');
+                    encode(*s, result);
+                    result.push_back('"');
+                }
+                else if (auto o = std::get_if<Value::Object>(&v))
+                {
+                    result.push_back('{');
+                    if (whitespaces) result.push_back('\n');
+
+                    for (auto entryIterator = o->begin(); entryIterator != o->end();)
+                    {
+                        const auto& entry = *entryIterator;
+                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        result.push_back('"');
+                        encode(entry.first, result);
+                        result.insert(result.end(), {'"', ':'});
+                        encode(entry.second, result, whitespaces, level + 1);
+                        if (++entryIterator != o->end()) result.push_back(',');
+                        if (whitespaces) result.push_back('\n');
+                    }
+
+                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    result.push_back('}');
+                }
+                else if (auto a = std::get_if<Value::Array>(&v))
+                {
+                    result.push_back('[');
+                    if (whitespaces) result.push_back('\n');
+
+                    for (auto entryIterator = a->begin(); entryIterator != a->end();)
+                    {
+                        const auto& entry = *entryIterator;
+                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        encode(entry, result, whitespaces, level + 1);
+                        if (++entryIterator != a->end()) result.push_back(',');
+                        if (whitespaces) result.push_back('\n');
+                    }
+
+                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    result.push_back(']');
+                }
+                else if (auto b = std::get_if<bool>(&v))
+                {
+                    if (*b) result.insert(result.end(), {'t', 'r', 'u', 'e'});
+                    else result.insert(result.end(), {'f', 'a', 'l', 's', 'e'});
+                }
+                else
+                    throw ParseError{"Unknown value type"};
             }
         };
 
