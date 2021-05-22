@@ -723,7 +723,7 @@ namespace ouzel::json
                     {
                         result.insert(result.end(), {'\\', 'u'});
 
-                        constexpr std::array digits{
+                        constexpr std::array<char, 3> digits{
                             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                             'a', 'b', 'c', 'd', 'e', 'f'
                         };
