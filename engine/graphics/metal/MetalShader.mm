@@ -188,9 +188,10 @@ namespace ouzel::graphics::metal
         {
             vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
-            for (const auto& info : vertexShaderConstantInfo)
+            for (const auto& [name, dataType] : vertexShaderConstantInfo)
             {
-                const std::uint32_t size = getDataTypeSize(info.second);
+                (void)name;
+                const auto size = getDataTypeSize(dataType);
                 vertexShaderConstantLocations.emplace_back(vertexShaderConstantSize, size);
                 vertexShaderConstantSize += size;
             }

@@ -198,9 +198,9 @@ namespace ouzel::graphics::opengl
             vertexShaderConstantLocations.clear();
             vertexShaderConstantLocations.reserve(vertexShaderConstantInfo.size());
 
-            for (const auto& info : vertexShaderConstantInfo)
+            for (const auto& [name, dataType] : vertexShaderConstantInfo)
             {
-                const auto location = renderDevice.glGetUniformLocationProc(programId, info.first.c_str());
+                const auto location = renderDevice.glGetUniformLocationProc(programId, name.c_str());
 
                 if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to get OpenGL uniform location");
@@ -208,7 +208,7 @@ namespace ouzel::graphics::opengl
                 if (location == -1)
                     throw Error("Failed to get OpenGL uniform location");
 
-                vertexShaderConstantLocations.emplace_back(location, info.second);
+                vertexShaderConstantLocations.emplace_back(location, dataType);
             }
         }
     }
