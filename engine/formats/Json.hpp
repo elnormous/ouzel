@@ -762,12 +762,12 @@ namespace ouzel::json
 
                     for (auto entryIterator = o->begin(); entryIterator != o->end();)
                     {
-                        const auto& entry = *entryIterator;
+                        const auto& [key, entryValue] = *entryIterator;
                         if (whitespaces) result.insert(result.end(), level + 1, '\t');
                         result.push_back('"');
-                        encode(entry.first, result);
+                        encode(key, result);
                         result.insert(result.end(), {'"', ':'});
-                        encode(entry.second, result, whitespaces, level + 1);
+                        encode(entryValue, result, whitespaces, level + 1);
                         if (++entryIterator != o->end()) result.push_back(',');
                         if (whitespaces) result.push_back('\n');
                     }
