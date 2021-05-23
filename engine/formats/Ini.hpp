@@ -393,11 +393,8 @@ namespace ouzel::ini
                 result.push_back('\n');
             }
 
-            for (const auto& entry : section.second)
+            for (const auto& [key, value] : section.second)
             {
-                const auto& key = entry.first;
-                const auto& value = entry.second;
-
                 result.insert(result.end(), key.begin(), key.end());
                 result.push_back('=');
                 result.insert(result.end(), value.begin(), value.end());
