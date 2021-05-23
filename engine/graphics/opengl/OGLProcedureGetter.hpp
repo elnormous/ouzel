@@ -101,8 +101,8 @@ namespace ouzel::graphics::opengl
             if (apiVersion >= procApiVersion)
                 return getProcAddress<T>(name, procApiVersion);
             else
-                for (const auto& extension : procExtensions)
-                    if (auto result = get<T>(extension.first, extension.second))
+                for (const auto [procName, extension] : procExtensions)
+                    if (auto result = get<T>(procName, extension))
                         return result;
 
             return nullptr;
