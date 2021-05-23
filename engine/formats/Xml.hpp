@@ -764,12 +764,12 @@ namespace ouzel::xml
                         result.insert(result.end(), value.begin(), value.end());
 
                         const auto& attributes = node.getAttributes();
-                        for (const auto& attribute : attributes)
+                        for (const auto& [key, value] : attributes)
                         {
                             result.insert(result.end(), ' ');
-                            result.insert(result.end(), attribute.first.begin(), attribute.first.end());
+                            result.insert(result.end(), key.begin(), key.end());
                             result.insert(result.end(), {'=', '"'});
-                            encode(attribute.second, result);
+                            encode(value, result);
                             result.insert(result.end(), '"');
                         }
 
@@ -783,12 +783,12 @@ namespace ouzel::xml
                         result.insert(result.end(), value.begin(), value.end());
 
                         const auto& attributes = node.getAttributes();
-                        for (const auto& attribute : attributes)
+                        for (const auto& [key, value] : attributes)
                         {
                             result.insert(result.end(), ' ');
-                            result.insert(result.end(), attribute.first.begin(), attribute.first.end());
+                            result.insert(result.end(), key.begin(), key.end());
                             result.insert(result.end(), {'=', '"'});
-                            result.insert(result.end(), attribute.second.begin(), attribute.second.end());
+                            result.insert(result.end(), value.begin(), value.end());
                             result.insert(result.end(), '"');
                         }
 
