@@ -336,14 +336,14 @@ namespace ouzel::plist
                     {
                         result.push_back('{');
                         if (whitespaces) result.push_back('\n');
-                        for (const auto& entry : value.as<Value::Dictionary>())
+                        for (const auto& [key, entryValue] : value.as<Value::Dictionary>())
                         {
                             if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            encode(entry.first, result);
+                            encode(key, result);
                             if (whitespaces) result.push_back(' ');
                             result.push_back('=');
                             if (whitespaces) result.push_back(' ');
-                            encode(entry.second, result, whitespaces, level + 1);
+                            encode(entryValue, result, whitespaces, level + 1);
                             result.push_back(';');
                             if (whitespaces) result.push_back('\n');
                         }
@@ -430,15 +430,15 @@ namespace ouzel::plist
                     {
                         result += "<dict>";
                         if (whitespaces) result.push_back('\n');
-                        for (const auto& entry : value.as<Value::Dictionary>())
+                        for (const auto& [key, entryValue] : value.as<Value::Dictionary>())
                         {
                             if (whitespaces) result.insert(result.end(), level + 1, '\t');
                             result += "<key>";
-                            encode(entry.first, result);
+                            encode(key, result);
                             result += "</key>";
                             if (whitespaces) result += '\n';
                             if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            encode(entry.second, result, whitespaces, level + 1);
+                            encode(entryValue, result, whitespaces, level + 1);
                             if (whitespaces) result += '\n';
                         }
                         result.insert(result.end(), level, '\t');
