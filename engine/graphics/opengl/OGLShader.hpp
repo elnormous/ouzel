@@ -46,7 +46,7 @@ namespace ouzel::graphics::opengl
 
         struct Location final
         {
-            Location(GLint initLocation, DataType initDataType):
+            Location(GLint initLocation, DataType initDataType) noexcept:
                 location(initLocation), dataType(initDataType)
             {
             }

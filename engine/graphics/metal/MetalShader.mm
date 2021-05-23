@@ -152,9 +152,10 @@ namespace ouzel::graphics::metal
         {
             fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-            for (const auto& info : fragmentShaderConstantInfo)
+            for (const auto& [name, dataType] : fragmentShaderConstantInfo)
             {
-                const std::uint32_t size = getDataTypeSize(info.second);
+                (void)name;
+                const auto size = getDataTypeSize(dataType);
                 fragmentShaderConstantLocations.emplace_back(fragmentShaderConstantSize, size);
                 fragmentShaderConstantSize += size;
             }

@@ -179,9 +179,9 @@ namespace ouzel::graphics::opengl
             fragmentShaderConstantLocations.clear();
             fragmentShaderConstantLocations.reserve(fragmentShaderConstantInfo.size());
 
-            for (const auto& info : fragmentShaderConstantInfo)
+            for (const auto& [name, dataType] : fragmentShaderConstantInfo)
             {
-                const auto location = renderDevice.glGetUniformLocationProc(programId, info.first.c_str());
+                const auto location = renderDevice.glGetUniformLocationProc(programId, name.c_str());
 
                 if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to get OpenGL uniform location");
@@ -189,7 +189,7 @@ namespace ouzel::graphics::opengl
                 if (location == -1)
                     throw Error("Failed to get OpenGL uniform location");
 
-                fragmentShaderConstantLocations.emplace_back(location, info.second);
+                fragmentShaderConstantLocations.emplace_back(location, dataType);
             }
         }
 
