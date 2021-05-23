@@ -383,9 +383,9 @@ namespace ouzel::ini
         if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark),
                                          std::end(utf8ByteOrderMark));
 
-        for (const auto& section : data)
+        for (const auto& [name, section] : data)
         {
-            if (const auto& name = section.first; !name.empty())
+            if (!name.empty())
             {
                 result.push_back('[');
                 result.insert(result.end(), name.begin(), name.end());
@@ -393,7 +393,7 @@ namespace ouzel::ini
                 result.push_back('\n');
             }
 
-            for (const auto& [key, value] : section.second)
+            for (const auto& [key, value] : section)
             {
                 result.insert(result.end(), key.begin(), key.end());
                 result.push_back('=');
