@@ -29,7 +29,7 @@ namespace ouzel::xcode
             };
             if (buildConfigurationList)
                 result["buildConfigurationList"] = toString(buildConfigurationList->getId());
-            result["compatibilityVersion"] = "Xcode 9.3";
+            result["compatibilityVersion"] = "Xcode 10.0";
             result["developmentRegion"] = "en";
             result["hasScannedForEncodings"] = 0;
             result["knownRegions"] = plist::Value::Array{"en", "Base"};

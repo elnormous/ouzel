@@ -597,7 +597,7 @@ namespace ouzel::xcode
             plist::Value result = plist::Value::Dictionary{
                 {"archiveVersion", 1},
                 {"classes", plist::Value::Dictionary{}},
-                {"objectVersion", 50},
+                {"objectVersion", 51},
                 {"objects", plist::Value::Dictionary{}},
                 {"rootObject", rootObject ? toString(rootObject->getId()): ""}
             };
