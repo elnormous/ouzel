@@ -340,19 +340,19 @@ namespace ouzel::input::android
             {AMOTION_EVENT_BUTTON_FORWARD, Mouse::Button::x2}
         }};
 
-        for (const auto& button : buttons)
+        for (const auto [state, button] : buttons)
         {
-            if ((newButtonState & button.first) != (buttonState & button.first))
+            if ((newButtonState & state) != (buttonState & state))
             {
                 const Vector<float, 2> position{
                     static_cast<float>(x),
                     static_cast<float>(y)
                 };
 
-                if (newButtonState & button.first)
-                    mouseDevice->handleButtonPress(button.second, engine->getWindow()->convertWindowToNormalizedLocation(position));
+                if (newButtonState & buttonState)
+                    mouseDevice->handleButtonPress(button, engine->getWindow()->convertWindowToNormalizedLocation(position));
                 else
-                    mouseDevice->handleButtonRelease(button.second, engine->getWindow()->convertWindowToNormalizedLocation(position));
+                    mouseDevice->handleButtonRelease(button, engine->getWindow()->convertWindowToNormalizedLocation(position));
 
                 result = true;
             }

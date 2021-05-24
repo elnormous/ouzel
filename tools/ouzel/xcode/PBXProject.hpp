@@ -50,11 +50,8 @@ namespace ouzel::xcode
                 {
                     plist::Value::Dictionary reference;
 
-                    for (const auto& entry : projectReference)
-                    {
-                        auto object = entry.second;
-                        if (object) reference[entry.first] = toString(object->getId());
-                    }
+                    for (const auto& [name, object] : projectReference)
+                        if (object) reference[name] = toString(object->getId());
 
                     result["projectReferences"].pushBack(reference);
                 }
