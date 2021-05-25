@@ -75,13 +75,12 @@ namespace ouzel::input::windows
         for (std::size_t i = 0; i < 6; ++i)
             if (gamepadConfig.axisMap[i] != Gamepad::Axis::none)
             {
-                const auto usage = axisUsageMap[i].first;
-                const auto offset = axisUsageMap[i].second;
+                const auto [usage, offset] = axisUsageMap[i];
 
                 DIDEVICEOBJECTINSTANCEW didObjectInstance;
                 didObjectInstance.dwSize = sizeof(didObjectInstance);
 
-                if (SUCCEEDED(device->GetObjectInfo(&didObjectInstance, axisUsageMap[i].second, DIPH_BYOFFSET)) &&
+                if (SUCCEEDED(device->GetObjectInfo(&didObjectInstance, offset, DIPH_BYOFFSET)) &&
                     didObjectInstance.wUsage == usage &&
                     (didObjectInstance.dwType & DIDFT_AXIS))
                 {
@@ -338,10 +337,8 @@ namespace ouzel::input::windows
             hatValue = newDIState.rgdwPOV[0];
         }
 
-        for (auto& buttonPair : buttons)
+        for (auto& [offset, button] : buttons)
         {
-            const auto offset = buttonPair.first;
-            Button& button = buttonPair.second;
             const auto newValue = *reinterpret_cast<const BYTE*>(reinterpret_cast<const std::uint8_t*>(&newDIState) + offset);
 
             if (button.value != newValue)
@@ -356,10 +353,8 @@ namespace ouzel::input::windows
             }
         }
 
-        for (auto& axisPair : axes)
+        for (auto& [offset, axis] : axes)
         {
-            const auto offset = axisPair.first;
-            Axis& axis = axisPair.second;
             const auto newValue = *reinterpret_cast<const LONG*>(reinterpret_cast<const std::uint8_t*>(&newDIState) + offset);
 
             if (axis.value != newValue)
