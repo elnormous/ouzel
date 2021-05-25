@@ -20,8 +20,8 @@ namespace ouzel::xcode
         {
             auto result = PBXObject::encode();
             result["buildSettings"] = plist::Value::Dictionary{};
-            for (const auto& buildSetting : buildSettings)
-                result["buildSettings"][buildSetting.first] = buildSetting.second;
+            for (const auto& [key, value] : buildSettings)
+                result["buildSettings"][key] = value;
 
             result["name"] = name;
 
