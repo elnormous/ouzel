@@ -1011,17 +1011,17 @@ namespace ouzel::obf
 
             std::uint32_t size = sizeof(lengthData);
 
-            for (const auto& i : value)
+            for (const auto& [key, entryValue] : value)
             {
                 std::uint8_t keyData[sizeof(std::uint32_t)];
 
-                encodeBigEndian<std::uint32_t>(keyData, i.first);
+                encodeBigEndian<std::uint32_t>(keyData, key);
 
                 buffer.insert(buffer.end(), std::begin(keyData), std::end(keyData));
 
                 size += sizeof(keyData);
 
-                size += i.second.encode(buffer);
+                size += entryValue.encode(buffer);
             }
 
             return size;
@@ -1055,11 +1055,11 @@ namespace ouzel::obf
 
             std::uint32_t size = sizeof(sizeData);
 
-            for (const auto& i : value)
+            for (const auto& [key, entryValue] : value)
             {
                 std::uint8_t lengthData[sizeof(std::uint16_t)];
 
-                encodeBigEndian<std::uint16_t>(lengthData, static_cast<std::uint16_t>(i.first.length()));
+                encodeBigEndian<std::uint16_t>(lengthData, static_cast<std::uint16_t>(key.length()));
 
                 buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
 
@@ -1070,7 +1070,7 @@ namespace ouzel::obf
                               reinterpret_cast<const std::uint8_t*>(i.first.data()) + i.first.length());
                 size += static_cast<std::uint32_t>(i.first.length());
 
-                size += i.second.encode(buffer);
+                size += entryValue.encode(buffer);
             }
 
             return size;
