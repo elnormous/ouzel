@@ -48,7 +48,7 @@ namespace ouzel::graphics::opengl::emscripten
             std::pair(1, ApiVersion{2, 0})
         };
 
-        for (const auto& openGlVersion : openGlVersions)
+        for (const auto [webGlVersion, openGlVersion] : openGlVersions)
         {
             EmscriptenWebGLContextAttributes attrs;
             emscripten_webgl_init_context_attributes(&attrs);
@@ -57,15 +57,15 @@ namespace ouzel::graphics::opengl::emscripten
             attrs.depth = settings.depth;
             attrs.stencil = settings.stencil;
             attrs.antialias = settings.sampleCount > 0;
-            attrs.majorVersion = openGlVersion.first;
+            attrs.majorVersion = webGlVersion;
             attrs.minorVersion = 0;
 
             webGLContext = emscripten_webgl_create_context("#canvas", &attrs);
 
             if (webGLContext)
             {
-                apiVersion = openGlVersion.second;
-                logger.log(Log::Level::info) << "WebGL " << openGlVersion.first << " context created";
+                apiVersion = openGlVersion;
+                logger.log(Log::Level::info) << "WebGL " << webGlVersion << " context created";
                 break;
             }
         }
@@ -103,7 +103,7 @@ namespace ouzel::graphics::opengl::emscripten
             std::pair(1, ApiVersion{2, 0})
         };
 
-        for (const auto& openGlVersion : openGlVersions)
+        for (const auto& [webGlVersion, openGlVersion] : openGlVersions)
         {
             EmscriptenWebGLContextAttributes attrs;
             emscripten_webgl_init_context_attributes(&attrs);
@@ -112,15 +112,15 @@ namespace ouzel::graphics::opengl::emscripten
             attrs.depth = depth;
             attrs.stencil = stencil;
             attrs.antialias = sampleCount > 0;
-            attrs.majorVersion = openGlVersion.first;
+            attrs.majorVersion = webGlVersion;
             attrs.minorVersion = 0;
 
             webGLContext = emscripten_webgl_create_context("#canvas", &attrs);
 
             if (webGLContext)
             {
-                apiVersion = openGlVersion.second;
-                logger.log(Log::Level::info) << "WebGL " << openGlVersion.first << " context created";
+                apiVersion = openGlVersion;
+                logger.log(Log::Level::info) << "WebGL " << webGlVersion << " context created";
                 break;
             }
         }
