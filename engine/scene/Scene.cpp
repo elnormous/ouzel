@@ -38,10 +38,10 @@ namespace ouzel::scene
 
         std::set<graphics::RenderTarget*> clearedRenderTargets;
 
-        for (auto layer : layers)
+        for (const auto layer : layers)
         {
             // clear all the render targets
-            for (Camera* camera : layer->getCameras())
+            for (const auto camera : layer->getCameras())
             {
                 if ((camera->getClearColorBuffer() || camera->getClearDepthBuffer() || camera->getClearStencilBuffer()) &&
                     clearedRenderTargets.insert(camera->getRenderTarget()).second)
