@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <vector>
 
@@ -52,7 +53,7 @@ namespace ouzel
             buffer[i] = static_cast<std::uint8_t>(value >> (i * 8));
     }
 
-    inline auto explodeString(const std::string& str, char delimiter = ' ')
+    inline auto explodeString(const std::string_view& str, char delimiter = ' ')
     {
         std::vector<std::string> result;
         for (std::size_t position = 0, beginPosition = 0; position != std::string::npos; beginPosition = position + 1)
@@ -60,7 +61,7 @@ namespace ouzel
             position = str.find(delimiter, beginPosition);
             const std::size_t endPosition = (position == std::string::npos) ? str.size() : position;
             if (endPosition != beginPosition)
-                result.push_back(str.substr(beginPosition, endPosition - beginPosition));
+                result.push_back(std::string{str.substr(beginPosition, endPosition - beginPosition)});
         }
         return result;
     }

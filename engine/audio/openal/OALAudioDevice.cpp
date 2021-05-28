@@ -137,7 +137,7 @@ namespace ouzel::audio::openal
         else if (!extensionsPtr)
             logger.log(Log::Level::warning) << "Failed to get OpenGL extensions";
         else
-            extensions = explodeString(std::string(extensionsPtr), ' ');
+            extensions = explodeString(extensionsPtr, ' ');
 
         logger.log(Log::Level::all) << "Supported OpenAL extensions: " << extensions;
 

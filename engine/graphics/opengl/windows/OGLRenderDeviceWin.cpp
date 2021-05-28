@@ -187,7 +187,7 @@ namespace ouzel::graphics::opengl::windows
         if (const auto wglGetExtensionsStringProc = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB")))
         {
             if (const char* extensionsPtr = wglGetExtensionsStringProc(deviceContext))
-                extensions = explodeString(std::string(extensionsPtr), ' ');
+                extensions = explodeString(extensionsPtr, ' ');
 
             logger.log(Log::Level::all) << "Supported WGL extensions: " << extensions;
         }
