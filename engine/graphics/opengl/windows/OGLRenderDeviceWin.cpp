@@ -4,6 +4,7 @@
 
 #if defined(_WIN32) && OUZEL_COMPILE_OPENGL
 
+#include <string_view>
 #include <system_error>
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
@@ -147,7 +148,7 @@ namespace ouzel::graphics::opengl::windows
             if (!versionPtr)
                 throw std::runtime_error("Failed to get OpenGL version");
 
-            const std::string versionStr(reinterpret_cast<const char*>(versionPtr));
+            const std::string_view versionStr{reinterpret_cast<const char*>(versionPtr)};
             ApiVersion version;
             std::size_t part = 0;
 
