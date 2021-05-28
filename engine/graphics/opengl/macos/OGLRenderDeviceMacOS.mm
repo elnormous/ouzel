@@ -60,14 +60,14 @@ namespace ouzel::graphics::opengl::macos
             std::pair(NSOpenGLProfileVersionLegacy, ApiVersion{2, 0})
         };
 
-        for (const auto& openGlVersion : openGlVersions)
+        for (const auto [openGlProfileVersion, openGlVersion] : openGlVersions)
         {
             // Create pixel format
             std::vector<NSOpenGLPixelFormatAttribute> attributes = {
                 NSOpenGLPFAAccelerated,
                 NSOpenGLPFANoRecovery,
                 NSOpenGLPFADoubleBuffer,
-                NSOpenGLPFAOpenGLProfile, openGlVersion.first,
+                NSOpenGLPFAOpenGLProfile, openGlProfileVersion,
                 NSOpenGLPFAColorSize, 24,
                 NSOpenGLPFAAlphaSize, 8,
                 NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(settings.depth ? 24 : 0),
@@ -89,7 +89,7 @@ namespace ouzel::graphics::opengl::macos
 
             if (pixelFormat)
             {
-                apiVersion = openGlVersion.second;
+                apiVersion = openGlVersion;
                 logger.log(Log::Level::info) << "OpenGL " << apiVersion.v[0] << '.' << apiVersion.v[1] << " pixel format created";
                 break;
             }
