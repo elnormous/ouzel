@@ -4,7 +4,6 @@
 
 #if defined(_WIN32) && OUZEL_COMPILE_OPENGL
 
-#include <array>
 #include <system_error>
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
@@ -149,19 +148,21 @@ namespace ouzel::graphics::opengl::windows
                 throw std::runtime_error("Failed to get OpenGL version");
 
             const std::string versionStr(reinterpret_cast<const char*>(versionPtr));
-            std::array<std::string, 2> versionParts;
-            std::uint32_t part = 0;
+            ApiVersion version;
+            std::size_t part = 0;
 
             for (const auto c : versionStr)
                 if (c != '.')
-                    versionParts[part] += c;
+                {
+                    if (c < '0' || c > '9')
+                        throw std::runtime_error("Invalid OpenGL version");
+
+                    version.v[part] = static_cast<std::uint16_t>(version.v[part] * 10 + c - '0');
+                }
                 else if (++part > 1)
                     break;
 
-            return ApiVersion{
-                static_cast<std::uint16_t>(std::stoi(versionParts[0])),
-                static_cast<std::uint16_t>(std::stoi(versionParts[1]))
-            };
+            return version;
         }
     }
 
