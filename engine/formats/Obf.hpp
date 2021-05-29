@@ -1066,9 +1066,9 @@ namespace ouzel::obf
                 size += sizeof(lengthData);
 
                 buffer.insert(buffer.end(),
-                              reinterpret_cast<const std::uint8_t*>(i.first.data()),
-                              reinterpret_cast<const std::uint8_t*>(i.first.data()) + i.first.length());
-                size += static_cast<std::uint32_t>(i.first.length());
+                              reinterpret_cast<const std::uint8_t*>(key.data()),
+                              reinterpret_cast<const std::uint8_t*>(key.data()) + key.length());
+                size += static_cast<std::uint32_t>(key.length());
 
                 size += entryValue.encode(buffer);
             }
