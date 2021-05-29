@@ -81,7 +81,7 @@ namespace ouzel::graphics::opengl
         bool cullEnabled = false;
         GLenum cullFace = GL_NONE;
 
-        std::array<GLfloat, 4> clearColor{{0.0F, 0.0F, 0.0F, 0.0F}};
+        std::array<GLfloat, 4> clearColor{};
         GLfloat clearDepth = 1.0F;
         GLint clearStencil = 0;
     };

@@ -233,9 +233,9 @@ namespace ouzel::graphics::opengl::ios
 
             RenderDevice::bindFrameBuffer(msaaFrameBufferId);
             glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
-                                        GL_COLOR_ATTACHMENT0,
-                                        GL_RENDERBUFFER,
-                                        msaaColorRenderBufferId);
+                                          GL_COLOR_ATTACHMENT0,
+                                          GL_RENDERBUFFER,
+                                          msaaColorRenderBufferId);
 
             if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color render buffer");
@@ -243,9 +243,9 @@ namespace ouzel::graphics::opengl::ios
             if (depth)
             {
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
-                                            GL_DEPTH_ATTACHMENT,
-                                            GL_RENDERBUFFER,
-                                            depthRenderBufferId);
+                                              GL_DEPTH_ATTACHMENT,
+                                              GL_RENDERBUFFER,
+                                              depthRenderBufferId);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");
@@ -271,9 +271,9 @@ namespace ouzel::graphics::opengl::ios
 
             RenderDevice::bindFrameBuffer(resolveFrameBufferId);
             glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
-                                        GL_COLOR_ATTACHMENT0,
-                                        GL_RENDERBUFFER,
-                                        resolveColorRenderBufferId);
+                                          GL_COLOR_ATTACHMENT0,
+                                          GL_RENDERBUFFER,
+                                          resolveColorRenderBufferId);
 
             if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's color render buffer");
@@ -283,17 +283,17 @@ namespace ouzel::graphics::opengl::ios
                 glGenRenderbuffersProc(1, &depthRenderBufferId);
                 glBindRenderbufferProc(GL_RENDERBUFFER, depthRenderBufferId);
                 glRenderbufferStorageProc(GL_RENDERBUFFER,
-                                        stencil ? GL_DEPTH_COMPONENT24_OES : GL_DEPTH24_STENCIL8_OES,
-                                        frameBufferWidth,
-                                        frameBufferHeight);
+                                          stencil ? GL_DEPTH_COMPONENT24_OES : GL_DEPTH24_STENCIL8_OES,
+                                          frameBufferWidth,
+                                          frameBufferHeight);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set depth render buffer's storage");
 
                 glFramebufferRenderbufferProc(GL_FRAMEBUFFER,
-                                            GL_DEPTH_ATTACHMENT,
-                                            GL_RENDERBUFFER,
-                                            depthRenderBufferId);
+                                              GL_DEPTH_ATTACHMENT,
+                                              GL_RENDERBUFFER,
+                                              depthRenderBufferId);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error(makeErrorCode(error), "Failed to set frame buffer's depth render buffer");

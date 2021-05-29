@@ -465,17 +465,14 @@ namespace ouzel::graphics::opengl
     {
         addressZ = newAddressZ;
 
-        if (textureTarget == GL_TEXTURE_3D)
-        {
-            if (!textureId)
-                throw Error("Texture not initialized");
+        if (!textureId)
+            throw Error("Texture not initialized");
 
-            renderDevice.bindTexture(textureTarget, 0, textureId);
-            renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_R, getWrapMode(addressZ));
+        renderDevice.bindTexture(textureTarget, 0, textureId);
+        renderDevice.glTexParameteriProc(textureTarget, GL_TEXTURE_WRAP_R, getWrapMode(addressZ));
 
-            if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
-                throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
-        }
+        if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
+            throw std::system_error(makeErrorCode(error), "Failed to set texture wrap mode");
     }
 
     void Texture::setMaxAnisotropy(std::uint32_t newMaxAnisotropy)
