@@ -3,6 +3,7 @@
 #ifndef OUZEL_FORMATS_OBF_HPP
 #define OUZEL_FORMATS_OBF_HPP
 
+#include <array>
 #include <cstdint>
 #include <cstring>
 #include <limits>
@@ -896,33 +897,33 @@ namespace ouzel::obf
 
         static std::uint32_t writeInt16(std::vector<std::uint8_t>& buffer, std::uint16_t value)
         {
-            std::uint8_t data[sizeof(value)];
+            std::array<std::uint8_t, sizeof(value)> data;
 
-            encodeBigEndian<std::uint16_t>(data, value);
+            encodeBigEndian<std::uint16_t>(data.data(), value);
 
-            buffer.insert(buffer.end(), std::begin(data), std::end(data));
+            buffer.insert(buffer.end(), data.begin(), data.end());
 
             return sizeof(value);
         }
 
         static std::uint32_t writeInt32(std::vector<std::uint8_t>& buffer, std::uint32_t value)
         {
-            std::uint8_t data[sizeof(value)];
+            std::array<std::uint8_t, sizeof(value)> data;
 
-            encodeBigEndian<std::uint32_t>(data, value);
+            encodeBigEndian<std::uint32_t>(data.data(), value);
 
-            buffer.insert(buffer.end(), std::begin(data), std::end(data));
+            buffer.insert(buffer.end(), data.begin(), data.end());
 
             return sizeof(value);
         }
 
         static std::uint32_t writeInt64(std::vector<std::uint8_t>& buffer, std::uint64_t value)
         {
-            std::uint8_t data[sizeof(value)];
+            std::array<std::uint8_t, sizeof(value)> data;
 
-            encodeBigEndian<std::uint64_t>(data, value);
+            encodeBigEndian<std::uint64_t>(data.data(), value);
 
-            buffer.insert(buffer.end(), std::begin(data), std::end(data));
+            buffer.insert(buffer.end(), data.begin(), data.end());
 
             return sizeof(value);
         }
