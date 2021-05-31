@@ -949,13 +949,13 @@ namespace ouzel::obf
         static std::uint32_t writeString(std::vector<std::uint8_t>& buffer,
                                          const std::string& value)
         {
-            std::uint8_t lengthData[sizeof(std::uint16_t)];
+            std::array<std::uint8_t, sizeof(std::uint16_t)> lengthData;
 
-            encodeBigEndian<std::uint16_t>(lengthData, static_cast<std::uint16_t>(value.length()));
+            encodeBigEndian<std::uint16_t>(lengthData.data(), static_cast<std::uint16_t>(value.length()));
 
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+            buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = sizeof(lengthData);
+            std::uint32_t size = lengthData.size();
 
             buffer.insert(buffer.end(),
                           reinterpret_cast<const std::uint8_t*>(value.data()),
@@ -968,13 +968,13 @@ namespace ouzel::obf
         static std::uint32_t writeLongString(std::vector<std::uint8_t>& buffer,
                                              const std::string& value)
         {
-            std::uint8_t lengthData[sizeof(std::uint32_t)];
+            std::array<std::uint8_t, sizeof(std::uint32_t)> lengthData;
 
-            encodeBigEndian<std::uint32_t>(lengthData, static_cast<std::uint32_t>(value.length()));
+            encodeBigEndian<std::uint32_t>(lengthData.data(), static_cast<std::uint32_t>(value.length()));
 
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+            buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = sizeof(lengthData);
+            std::uint32_t size = lengthData.size();
 
             buffer.insert(buffer.end(),
                           reinterpret_cast<const std::uint8_t*>(value.data()),
@@ -987,13 +987,13 @@ namespace ouzel::obf
         static std::uint32_t writeByteArray(std::vector<std::uint8_t>& buffer,
                                             const ByteArray& value)
         {
-            std::uint8_t lengthData[sizeof(std::uint32_t)];
+            std::array<std::uint8_t, sizeof(std::uint32_t)> lengthData;
 
-            encodeBigEndian<std::uint32_t>(lengthData, static_cast<std::uint32_t>(value.size()));
+            encodeBigEndian<std::uint32_t>(lengthData.data(), static_cast<std::uint32_t>(value.size()));
 
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+            buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = sizeof(lengthData);
+            std::uint32_t size = lengthData.size();
 
             buffer.insert(buffer.end(), value.begin(), value.end());
             size += static_cast<std::uint32_t>(value.size());
@@ -1004,13 +1004,13 @@ namespace ouzel::obf
         static std::uint32_t writeObject(std::vector<std::uint8_t>& buffer,
                                          const Object& value)
         {
-            std::uint8_t lengthData[sizeof(std::uint32_t)];
+            std::array<std::uint8_t, sizeof(std::uint32_t)> lengthData;
 
-            encodeBigEndian<std::uint32_t>(lengthData, static_cast<std::uint32_t>(value.size()));
+            encodeBigEndian<std::uint32_t>(lengthData.data(), static_cast<std::uint32_t>(value.size()));
 
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+            buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = sizeof(lengthData);
+            std::uint32_t size = lengthData.size();
 
             for (const auto& [key, entryValue] : value)
             {
@@ -1031,13 +1031,13 @@ namespace ouzel::obf
         static std::uint32_t writeArray(std::vector<std::uint8_t>& buffer,
                                         const Array& value)
         {
-            std::uint8_t lengthData[sizeof(std::uint32_t)];
+            std::array<std::uint8_t, sizeof(std::uint32_t)> lengthData;
 
-            encodeBigEndian<std::uint32_t>(lengthData, static_cast<std::uint32_t>(value.size()));
+            encodeBigEndian<std::uint32_t>(lengthData.data(), static_cast<std::uint32_t>(value.size()));
 
-            buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+            buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = sizeof(lengthData);
+            std::uint32_t size = lengthData.size();
 
             for (const auto& i : value)
                 size += i.encode(buffer);
@@ -1048,13 +1048,13 @@ namespace ouzel::obf
         static std::uint32_t writeDictionary(std::vector<std::uint8_t>& buffer,
                                              const Dictionary& value)
         {
-            std::uint8_t sizeData[sizeof(std::uint32_t)];
+            std::array<std::uint8_t, sizeof(std::uint32_t)> sizeData;
 
-            encodeBigEndian<std::uint32_t>(sizeData, static_cast<std::uint32_t>(value.size()));
+            encodeBigEndian<std::uint32_t>(sizeData.data(), static_cast<std::uint32_t>(value.size()));
 
-            buffer.insert(buffer.end(), std::begin(sizeData), std::end(sizeData));
+            buffer.insert(buffer.end(), sizeData.begin(), sizeData.end());
 
-            std::uint32_t size = sizeof(sizeData);
+            std::uint32_t size = sizeData.size();
 
             for (const auto& [key, entryValue] : value)
             {
