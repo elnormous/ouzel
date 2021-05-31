@@ -226,7 +226,7 @@ namespace ouzel::obf
         auto isFloatType() const noexcept { return type == Type::floatingPoint || type == Type::doublePrecision; }
         auto isStringType() const noexcept { return type == Type::string; }
 
-        std::uint32_t decode(const std::vector<std::uint8_t>& buffer, std::uint32_t offset)
+        std::size_t decode(const std::vector<std::uint8_t>& buffer, std::uint32_t offset)
         {
             const std::uint32_t originalOffset = offset;
 
@@ -237,7 +237,7 @@ namespace ouzel::obf
             std::memcpy(&marker, buffer.data() + offset, sizeof(marker));
             offset += 1;
 
-            std::uint32_t ret = 0;
+            std::size_t ret = 0;
 
             switch (marker)
             {
@@ -330,11 +330,11 @@ namespace ouzel::obf
             return offset - originalOffset;
         }
 
-        std::uint32_t encode(std::vector<std::uint8_t>& buffer) const
+        std::size_t encode(std::vector<std::uint8_t>& buffer) const
         {
-            std::uint32_t size = 0;
+            std::size_t size = 0;
 
-            std::uint32_t ret = 0;
+            std::size_t ret = 0;
 
             switch (type)
             {
@@ -648,9 +648,9 @@ namespace ouzel::obf
 
     private:
         // reading
-        static std::uint32_t readInt8(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
-                                      std::uint8_t& result)
+        static std::size_t readInt8(const std::vector<std::uint8_t>& buffer,
+                                    std::uint32_t offset,
+                                    std::uint8_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
                 throw DecodeError{"Not enough data"};
@@ -660,9 +660,9 @@ namespace ouzel::obf
             return sizeof(result);
         }
 
-        static std::uint32_t readInt16(const std::vector<std::uint8_t>& buffer,
-                                       std::uint32_t offset,
-                                       std::uint16_t& result)
+        static std::size_t readInt16(const std::vector<std::uint8_t>& buffer,
+                                     std::uint32_t offset,
+                                     std::uint16_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
                 throw DecodeError{"Not enough data"};
@@ -672,9 +672,9 @@ namespace ouzel::obf
             return sizeof(result);
         }
 
-        static std::uint32_t readInt32(const std::vector<std::uint8_t>& buffer,
-                                       std::uint32_t offset,
-                                       std::uint32_t& result)
+        static std::size_t readInt32(const std::vector<std::uint8_t>& buffer,
+                                     std::uint32_t offset,
+                                     std::uint32_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
                 throw DecodeError{"Not enough data"};
@@ -684,9 +684,9 @@ namespace ouzel::obf
             return sizeof(result);
         }
 
-        static std::uint32_t readInt64(const std::vector<std::uint8_t>& buffer,
-                                       std::uint32_t offset,
-                                       std::uint64_t& result)
+        static std::size_t readInt64(const std::vector<std::uint8_t>& buffer,
+                                     std::uint32_t offset,
+                                     std::uint64_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
                 throw DecodeError{"Not enough data"};
@@ -696,9 +696,9 @@ namespace ouzel::obf
             return sizeof(result);
         }
 
-        static std::uint32_t readFloat(const std::vector<std::uint8_t>& buffer,
-                                       std::uint32_t offset,
-                                       float& result)
+        static std::size_t readFloat(const std::vector<std::uint8_t>& buffer,
+                                     std::uint32_t offset,
+                                     float& result)
         {
             if (buffer.size() - offset < sizeof(float))
                 throw DecodeError{"Not enough data"};
@@ -708,9 +708,9 @@ namespace ouzel::obf
             return sizeof(result);
         }
 
-        static std::uint32_t readDouble(const std::vector<std::uint8_t>& buffer,
-                                        std::uint32_t offset,
-                                        double& result)
+        static std::size_t readDouble(const std::vector<std::uint8_t>& buffer,
+                                      std::uint32_t offset,
+                                      double& result)
         {
             if (buffer.size() - offset < sizeof(double))
                 throw DecodeError{"Not enough data"};
@@ -720,9 +720,9 @@ namespace ouzel::obf
             return sizeof(result);
         }
 
-        static std::uint32_t readString(const std::vector<std::uint8_t>& buffer,
-                                        std::uint32_t offset,
-                                        std::string& result)
+        static std::size_t readString(const std::vector<std::uint8_t>& buffer,
+                                      std::uint32_t offset,
+                                      std::string& result)
         {
             const std::uint32_t originalOffset = offset;
 
@@ -742,9 +742,9 @@ namespace ouzel::obf
             return offset - originalOffset;
         }
 
-        static std::uint32_t readLongString(const std::vector<std::uint8_t>& buffer,
-                                            std::uint32_t offset,
-                                            std::string& result)
+        static std::size_t readLongString(const std::vector<std::uint8_t>& buffer,
+                                          std::uint32_t offset,
+                                          std::string& result)
         {
             const std::uint32_t originalOffset = offset;
 
@@ -764,16 +764,16 @@ namespace ouzel::obf
             return offset - originalOffset;
         }
 
-        static std::uint32_t readByteArray(const std::vector<std::uint8_t>& buffer,
-                                           std::uint32_t offset,
-                                           ByteArray& result)
+        static std::size_t readByteArray(const std::vector<std::uint8_t>& buffer,
+                                         std::uint32_t offset,
+                                         ByteArray& result)
         {
             const std::uint32_t originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
                 throw DecodeError{"Not enough data"};
 
-            const std::uint32_t length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
+            const std::size_t length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
@@ -787,9 +787,9 @@ namespace ouzel::obf
             return offset - originalOffset;
         }
 
-        static std::uint32_t readObject(const std::vector<std::uint8_t>& buffer,
-                                        std::uint32_t offset,
-                                        Object& result)
+        static std::size_t readObject(const std::vector<std::uint8_t>& buffer,
+                                      std::uint32_t offset,
+                                      Object& result)
         {
             const std::uint32_t originalOffset = offset;
 
@@ -821,9 +821,9 @@ namespace ouzel::obf
             return offset - originalOffset;
         }
 
-        static std::uint32_t readArray(const std::vector<std::uint8_t>& buffer,
-                                       std::uint32_t offset,
-                                       Array& result)
+        static std::size_t readArray(const std::vector<std::uint8_t>& buffer,
+                                     std::uint32_t offset,
+                                     Array& result)
         {
             const std::uint32_t originalOffset = offset;
 
@@ -847,9 +847,9 @@ namespace ouzel::obf
             return offset - originalOffset;
         }
 
-        static std::uint32_t readDictionary(const std::vector<std::uint8_t>& buffer,
-                                            std::uint32_t offset,
-                                            Dictionary& result)
+        static std::size_t readDictionary(const std::vector<std::uint8_t>& buffer,
+                                          std::uint32_t offset,
+                                          Dictionary& result)
         {
             const std::uint32_t originalOffset = offset;
 
@@ -888,14 +888,14 @@ namespace ouzel::obf
         }
 
         // writing
-        static std::uint32_t writeInt8(std::vector<std::uint8_t>& buffer, std::uint8_t value)
+        static std::size_t writeInt8(std::vector<std::uint8_t>& buffer, std::uint8_t value)
         {
             buffer.push_back(value);
 
             return sizeof(value);
         }
 
-        static std::uint32_t writeInt16(std::vector<std::uint8_t>& buffer, std::uint16_t value)
+        static std::size_t writeInt16(std::vector<std::uint8_t>& buffer, std::uint16_t value)
         {
             std::array<std::uint8_t, sizeof(value)> data;
 
@@ -906,7 +906,7 @@ namespace ouzel::obf
             return sizeof(value);
         }
 
-        static std::uint32_t writeInt32(std::vector<std::uint8_t>& buffer, std::uint32_t value)
+        static std::size_t writeInt32(std::vector<std::uint8_t>& buffer, std::uint32_t value)
         {
             std::array<std::uint8_t, sizeof(value)> data;
 
@@ -917,7 +917,7 @@ namespace ouzel::obf
             return sizeof(value);
         }
 
-        static std::uint32_t writeInt64(std::vector<std::uint8_t>& buffer, std::uint64_t value)
+        static std::size_t writeInt64(std::vector<std::uint8_t>& buffer, std::uint64_t value)
         {
             std::array<std::uint8_t, sizeof(value)> data;
 
@@ -928,7 +928,7 @@ namespace ouzel::obf
             return sizeof(value);
         }
 
-        static std::uint32_t writeFloat(std::vector<std::uint8_t>& buffer, float value)
+        static std::size_t writeFloat(std::vector<std::uint8_t>& buffer, float value)
         {
             buffer.insert(buffer.end(),
                           reinterpret_cast<const std::uint8_t*>(&value),
@@ -937,7 +937,7 @@ namespace ouzel::obf
             return sizeof(float);
         }
 
-        static std::uint32_t writeDouble(std::vector<std::uint8_t>& buffer, double value)
+        static std::size_t writeDouble(std::vector<std::uint8_t>& buffer, double value)
         {
             buffer.insert(buffer.end(),
                           reinterpret_cast<const std::uint8_t*>(&value),
@@ -946,8 +946,8 @@ namespace ouzel::obf
             return sizeof(double);
         }
 
-        static std::uint32_t writeString(std::vector<std::uint8_t>& buffer,
-                                         const std::string& value)
+        static std::size_t writeString(std::vector<std::uint8_t>& buffer,
+                                       const std::string& value)
         {
             std::array<std::uint8_t, sizeof(std::uint16_t)> lengthData;
 
@@ -955,18 +955,18 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = lengthData.size();
+            std::size_t size = lengthData.size();
 
             buffer.insert(buffer.end(),
                           reinterpret_cast<const std::uint8_t*>(value.data()),
                           reinterpret_cast<const std::uint8_t*>(value.data()) + value.length());
-            size += static_cast<std::uint32_t>(value.length());
+            size += value.length();
 
             return size;
         }
 
-        static std::uint32_t writeLongString(std::vector<std::uint8_t>& buffer,
-                                             const std::string& value)
+        static std::size_t writeLongString(std::vector<std::uint8_t>& buffer,
+                                           const std::string& value)
         {
             std::array<std::uint8_t, sizeof(std::uint32_t)> lengthData;
 
@@ -974,18 +974,18 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = lengthData.size();
+            std::size_t size = lengthData.size();
 
             buffer.insert(buffer.end(),
                           reinterpret_cast<const std::uint8_t*>(value.data()),
                           reinterpret_cast<const std::uint8_t*>(value.data()) + value.length());
-            size += static_cast<std::uint32_t>(value.length());
+            size += value.length();
 
             return size;
         }
 
-        static std::uint32_t writeByteArray(std::vector<std::uint8_t>& buffer,
-                                            const ByteArray& value)
+        static std::size_t writeByteArray(std::vector<std::uint8_t>& buffer,
+                                          const ByteArray& value)
         {
             std::array<std::uint8_t, sizeof(std::uint32_t)> lengthData;
 
@@ -993,16 +993,16 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = lengthData.size();
+            std::size_t size = lengthData.size();
 
             buffer.insert(buffer.end(), value.begin(), value.end());
-            size += static_cast<std::uint32_t>(value.size());
+            size += value.size();
 
             return size;
         }
 
-        static std::uint32_t writeObject(std::vector<std::uint8_t>& buffer,
-                                         const Object& value)
+        static std::size_t writeObject(std::vector<std::uint8_t>& buffer,
+                                       const Object& value)
         {
             std::array<std::uint8_t, sizeof(std::uint32_t)> lengthData;
 
@@ -1010,7 +1010,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = lengthData.size();
+            std::size_t size = lengthData.size();
 
             for (const auto& [key, entryValue] : value)
             {
@@ -1028,8 +1028,8 @@ namespace ouzel::obf
             return size;
         }
 
-        static std::uint32_t writeArray(std::vector<std::uint8_t>& buffer,
-                                        const Array& value)
+        static std::size_t writeArray(std::vector<std::uint8_t>& buffer,
+                                      const Array& value)
         {
             std::array<std::uint8_t, sizeof(std::uint32_t)> lengthData;
 
@@ -1037,7 +1037,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::uint32_t size = lengthData.size();
+            std::size_t size = lengthData.size();
 
             for (const auto& i : value)
                 size += i.encode(buffer);
@@ -1045,8 +1045,8 @@ namespace ouzel::obf
             return size;
         }
 
-        static std::uint32_t writeDictionary(std::vector<std::uint8_t>& buffer,
-                                             const Dictionary& value)
+        static std::size_t writeDictionary(std::vector<std::uint8_t>& buffer,
+                                           const Dictionary& value)
         {
             std::array<std::uint8_t, sizeof(std::uint32_t)> sizeData;
 
@@ -1054,7 +1054,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), sizeData.begin(), sizeData.end());
 
-            std::uint32_t size = sizeData.size();
+            std::size_t size = sizeData.size();
 
             for (const auto& [key, entryValue] : value)
             {
