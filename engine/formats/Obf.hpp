@@ -238,15 +238,13 @@ namespace ouzel::obf
             std::memcpy(&marker, buffer.data() + offset, sizeof(marker));
             offset += 1;
 
-            std::size_t ret = 0;
-
             switch (marker)
             {
                 case Marker::int8:
                 {
                     type = Type::integer;
                     std::uint8_t int8Value;
-                    ret = readInt8(buffer, offset, int8Value);
+                    offset += readInt8(buffer, offset, int8Value);
                     intValue = int8Value;
                     break;
                 }
@@ -254,7 +252,7 @@ namespace ouzel::obf
                 {
                     type = Type::integer;
                     std::uint16_t int16Value;
-                    ret = readInt16(buffer, offset, int16Value);
+                    offset += readInt16(buffer, offset, int16Value);
                     intValue = int16Value;
                     break;
                 }
@@ -262,71 +260,69 @@ namespace ouzel::obf
                 {
                     type = Type::integer;
                     std::uint32_t int32Value;
-                    ret = readInt32(buffer, offset, int32Value);
+                    offset += readInt32(buffer, offset, int32Value);
                     intValue = int32Value;
                     break;
                 }
                 case Marker::int64:
                 {
                     type = Type::integer;
-                    ret = readInt64(buffer, offset, intValue);
+                    offset += readInt64(buffer, offset, intValue);
                     break;
                 }
                 case Marker::floatingPoint:
                 {
                     type = Type::floatingPoint;
                     float floatValue;
-                    ret = readFloat(buffer, offset, floatValue);
+                    offset += readFloat(buffer, offset, floatValue);
                     doubleValue = floatValue;
                     break;
                 }
                 case Marker::doublePrecision:
                 {
                     type = Type::doublePrecision;
-                    ret = readDouble(buffer, offset, doubleValue);
+                    offset += readDouble(buffer, offset, doubleValue);
                     break;
                 }
                 case Marker::string:
                 {
                     type = Type::string;
-                    ret = readString(buffer, offset, stringValue);
+                    offset += readString(buffer, offset, stringValue);
                     break;
                 }
                 case Marker::longString:
                 {
                     type = Type::string;
-                    ret = readLongString(buffer, offset, stringValue);
+                    offset += readLongString(buffer, offset, stringValue);
                     break;
                 }
                 case Marker::byteArray:
                 {
                     type = Type::byteArray;
-                    ret = readByteArray(buffer, offset, byteArrayValue);
+                    offset += readByteArray(buffer, offset, byteArrayValue);
                     break;
                 }
                 case Marker::object:
                 {
                     type = Type::object;
-                    ret = readObject(buffer, offset, objectValue);
+                    offset += readObject(buffer, offset, objectValue);
                     break;
                 }
                 case Marker::array:
                 {
                     type = Type::array;
-                    ret = readArray(buffer, offset, arrayValue);
+                    offset += readArray(buffer, offset, arrayValue);
                     break;
                 }
                 case Marker::dictionary:
                 {
                     type = Type::dictionary;
-                    ret = readDictionary(buffer, offset, dictionaryValue);
+                    offset += readDictionary(buffer, offset, dictionaryValue);
                     break;
                 }
                 default:
                     throw DecodeError{"Unsupported marker"};
             }
-
-            offset += ret;
 
             return offset - originalOffset;
         }
@@ -334,8 +330,6 @@ namespace ouzel::obf
         std::size_t encode(std::vector<std::uint8_t>& buffer) const
         {
             std::size_t size = 0;
-
-            std::size_t ret = 0;
 
             switch (type)
             {
@@ -345,25 +339,25 @@ namespace ouzel::obf
                     {
                         buffer.push_back(static_cast<std::uint8_t>(Marker::int64));
                         size += 1;
-                        ret = writeInt64(buffer, intValue);
+                        size += writeInt64(buffer, intValue);
                     }
                     else if (intValue > std::numeric_limits<std::uint16_t>::max())
                     {
                         buffer.push_back(static_cast<std::uint8_t>(Marker::int32));
                         size += 1;
-                        ret = writeInt32(buffer, static_cast<std::uint32_t>(intValue));
+                        size += writeInt32(buffer, static_cast<std::uint32_t>(intValue));
                     }
                     else if (intValue > std::numeric_limits<std::uint8_t>::max())
                     {
                         buffer.push_back(static_cast<std::uint8_t>(Marker::int16));
                         size += 1;
-                        ret = writeInt16(buffer, static_cast<std::uint16_t>(intValue));
+                        size += writeInt16(buffer, static_cast<std::uint16_t>(intValue));
                     }
                     else
                     {
                         buffer.push_back(static_cast<std::uint8_t>(Marker::int8));
                         size += 1;
-                        ret = writeInt8(buffer, static_cast<std::uint8_t>(intValue));
+                        size += writeInt8(buffer, static_cast<std::uint8_t>(intValue));
                     }
                     break;
                 }
@@ -371,14 +365,14 @@ namespace ouzel::obf
                 {
                     buffer.push_back(static_cast<std::uint8_t>(Marker::floatingPoint));
                     size += 1;
-                    ret = writeFloat(buffer, static_cast<float>(doubleValue));
+                    size += writeFloat(buffer, static_cast<float>(doubleValue));
                     break;
                 }
                 case Type::doublePrecision:
                 {
                     buffer.push_back(static_cast<std::uint8_t>(Marker::doublePrecision));
                     size += 1;
-                    ret = writeDouble(buffer, doubleValue);
+                    size += writeDouble(buffer, doubleValue);
                     break;
                 }
                 case Type::string:
@@ -387,13 +381,13 @@ namespace ouzel::obf
                     {
                         buffer.push_back(static_cast<std::uint8_t>(Marker::longString));
                         size += 1;
-                        ret = writeLongString(buffer, stringValue);
+                        size += writeLongString(buffer, stringValue);
                     }
                     else
                     {
                         buffer.push_back(static_cast<std::uint8_t>(Marker::string));
                         size += 1;
-                        ret = writeString(buffer, stringValue);
+                        size += writeString(buffer, stringValue);
                     }
                     break;
                 }
@@ -401,35 +395,33 @@ namespace ouzel::obf
                 {
                     buffer.push_back(static_cast<std::uint8_t>(Marker::byteArray));
                     size += 1;
-                    ret = writeByteArray(buffer, byteArrayValue);
+                    size += writeByteArray(buffer, byteArrayValue);
                     break;
                 }
                 case Type::object:
                 {
                     buffer.push_back(static_cast<std::uint8_t>(Marker::object));
                     size += 1;
-                    ret = writeObject(buffer, objectValue);
+                    size += writeObject(buffer, objectValue);
                     break;
                 }
                 case Type::array:
                 {
                     buffer.push_back(static_cast<std::uint8_t>(Marker::array));
                     size += 1;
-                    ret = writeArray(buffer, arrayValue);
+                    size += writeArray(buffer, arrayValue);
                     break;
                 }
                 case Type::dictionary:
                 {
                     buffer.push_back(static_cast<std::uint8_t>(Marker::dictionary));
                     size += 1;
-                    ret = writeDictionary(buffer, dictionaryValue);
+                    size += writeDictionary(buffer, dictionaryValue);
                     break;
                 }
                 default:
                     throw std::runtime_error("Unsupported type");
             }
-
-            size += ret;
 
             return size;
         }
@@ -797,7 +789,7 @@ namespace ouzel::obf
             if (buffer.size() - offset < sizeof(std::uint32_t))
                 throw DecodeError{"Not enough data"};
 
-            const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
+            const auto count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(count);
 
@@ -812,9 +804,7 @@ namespace ouzel::obf
 
                 Value node;
 
-                const auto ret = node.decode(buffer, offset);
-
-                offset += ret;
+                offset += node.decode(buffer, offset);
 
                 result[static_cast<std::uint32_t>(key)] = node;
             }
@@ -838,9 +828,7 @@ namespace ouzel::obf
             for (std::uint32_t i = 0; i < count; ++i)
             {
                 Value node;
-                const auto ret = node.decode(buffer, offset);
-
-                offset += ret;
+                offset += node.decode(buffer, offset);
 
                 result.push_back(node);
             }
@@ -878,9 +866,7 @@ namespace ouzel::obf
 
                 Value node;
 
-                const auto ret = node.decode(buffer, offset);
-
-                offset += ret;
+                offset += node.decode(buffer, offset);
 
                 result[key] = node;
             }
