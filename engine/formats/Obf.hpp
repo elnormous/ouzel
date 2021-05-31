@@ -226,9 +226,10 @@ namespace ouzel::obf
         auto isFloatType() const noexcept { return type == Type::floatingPoint || type == Type::doublePrecision; }
         auto isStringType() const noexcept { return type == Type::string; }
 
-        std::size_t decode(const std::vector<std::uint8_t>& buffer, std::uint32_t offset)
+        std::size_t decode(const std::vector<std::uint8_t>& buffer,
+                           std::size_t offset)
         {
-            const std::uint32_t originalOffset = offset;
+            const auto originalOffset = offset;
 
             if (buffer.size() - offset < 1)
                 throw DecodeError{"Not enough data"};
@@ -649,7 +650,7 @@ namespace ouzel::obf
     private:
         // reading
         static std::size_t readInt8(const std::vector<std::uint8_t>& buffer,
-                                    std::uint32_t offset,
+                                    std::size_t offset,
                                     std::uint8_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
@@ -661,7 +662,7 @@ namespace ouzel::obf
         }
 
         static std::size_t readInt16(const std::vector<std::uint8_t>& buffer,
-                                     std::uint32_t offset,
+                                     std::size_t offset,
                                      std::uint16_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
@@ -673,7 +674,7 @@ namespace ouzel::obf
         }
 
         static std::size_t readInt32(const std::vector<std::uint8_t>& buffer,
-                                     std::uint32_t offset,
+                                     std::size_t offset,
                                      std::uint32_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
@@ -685,7 +686,7 @@ namespace ouzel::obf
         }
 
         static std::size_t readInt64(const std::vector<std::uint8_t>& buffer,
-                                     std::uint32_t offset,
+                                     std::size_t offset,
                                      std::uint64_t& result)
         {
             if (buffer.size() - offset < sizeof(result))
@@ -697,7 +698,7 @@ namespace ouzel::obf
         }
 
         static std::size_t readFloat(const std::vector<std::uint8_t>& buffer,
-                                     std::uint32_t offset,
+                                     std::size_t offset,
                                      float& result)
         {
             if (buffer.size() - offset < sizeof(float))
@@ -709,7 +710,7 @@ namespace ouzel::obf
         }
 
         static std::size_t readDouble(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
+                                      std::size_t offset,
                                       double& result)
         {
             if (buffer.size() - offset < sizeof(double))
@@ -721,15 +722,15 @@ namespace ouzel::obf
         }
 
         static std::size_t readString(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
+                                      std::size_t offset,
                                       std::string& result)
         {
-            const std::uint32_t originalOffset = offset;
+            const auto originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint16_t))
                 throw DecodeError{"Not enough data"};
 
-            const std::uint16_t length = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
+            const auto length = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
@@ -743,15 +744,15 @@ namespace ouzel::obf
         }
 
         static std::size_t readLongString(const std::vector<std::uint8_t>& buffer,
-                                          std::uint32_t offset,
+                                          std::size_t offset,
                                           std::string& result)
         {
-            const std::uint32_t originalOffset = offset;
+            const auto originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
                 throw DecodeError{"Not enough data"};
 
-            const std::uint32_t length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
+            const auto length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
@@ -765,15 +766,15 @@ namespace ouzel::obf
         }
 
         static std::size_t readByteArray(const std::vector<std::uint8_t>& buffer,
-                                         std::uint32_t offset,
+                                         std::size_t offset,
                                          ByteArray& result)
         {
-            const std::uint32_t originalOffset = offset;
+            const auto originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
                 throw DecodeError{"Not enough data"};
 
-            const std::size_t length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
+            const auto length = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(length);
 
@@ -788,10 +789,10 @@ namespace ouzel::obf
         }
 
         static std::size_t readObject(const std::vector<std::uint8_t>& buffer,
-                                      std::uint32_t offset,
+                                      std::size_t offset,
                                       Object& result)
         {
-            const std::uint32_t originalOffset = offset;
+            const auto originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
                 throw DecodeError{"Not enough data"};
@@ -805,13 +806,13 @@ namespace ouzel::obf
                 if (buffer.size() - offset < sizeof(std::uint32_t))
                     throw DecodeError{"Not enough data"};
 
-                const std::uint32_t key = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
+                const auto key = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
                 offset += sizeof(key);
 
                 Value node;
 
-                const std::uint32_t ret = node.decode(buffer, offset);
+                const auto ret = node.decode(buffer, offset);
 
                 offset += ret;
 
@@ -822,22 +823,22 @@ namespace ouzel::obf
         }
 
         static std::size_t readArray(const std::vector<std::uint8_t>& buffer,
-                                     std::uint32_t offset,
+                                     std::size_t offset,
                                      Array& result)
         {
-            const std::uint32_t originalOffset = offset;
+            const auto originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
                 throw DecodeError{"Not enough data"};
 
-            const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
+            const auto count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(count);
 
             for (std::uint32_t i = 0; i < count; ++i)
             {
                 Value node;
-                const std::uint32_t ret = node.decode(buffer, offset);
+                const auto ret = node.decode(buffer, offset);
 
                 offset += ret;
 
@@ -848,15 +849,15 @@ namespace ouzel::obf
         }
 
         static std::size_t readDictionary(const std::vector<std::uint8_t>& buffer,
-                                          std::uint32_t offset,
+                                          std::size_t offset,
                                           Dictionary& result)
         {
-            const std::uint32_t originalOffset = offset;
+            const auto originalOffset = offset;
 
             if (buffer.size() - offset < sizeof(std::uint32_t))
                 throw DecodeError{"Not enough data"};
 
-            const std::uint32_t count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
+            const auto count = decodeBigEndian<std::uint32_t>(buffer.data() + offset);
 
             offset += sizeof(count);
 
@@ -865,7 +866,7 @@ namespace ouzel::obf
                 if (buffer.size() - offset < sizeof(std::uint16_t))
                     throw DecodeError{"Not enough data"};
 
-                const std::uint16_t length = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
+                const auto length = decodeBigEndian<std::uint16_t>(buffer.data() + offset);
 
                 offset += sizeof(length);
 
@@ -877,7 +878,7 @@ namespace ouzel::obf
 
                 Value node;
 
-                const std::uint32_t ret = node.decode(buffer, offset);
+                const auto ret = node.decode(buffer, offset);
 
                 offset += ret;
 
@@ -955,7 +956,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::size_t size = lengthData.size();
+            auto size = lengthData.size();
 
             buffer.insert(buffer.end(),
                           reinterpret_cast<const std::uint8_t*>(value.data()),
@@ -974,7 +975,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::size_t size = lengthData.size();
+            auto size = lengthData.size();
 
             buffer.insert(buffer.end(),
                           reinterpret_cast<const std::uint8_t*>(value.data()),
@@ -993,7 +994,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::size_t size = lengthData.size();
+            auto size = lengthData.size();
 
             buffer.insert(buffer.end(), value.begin(), value.end());
             size += value.size();
@@ -1010,7 +1011,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::size_t size = lengthData.size();
+            auto size = lengthData.size();
 
             for (const auto& [key, entryValue] : value)
             {
@@ -1037,7 +1038,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
-            std::size_t size = lengthData.size();
+            auto size = lengthData.size();
 
             for (const auto& i : value)
                 size += i.encode(buffer);
@@ -1054,7 +1055,7 @@ namespace ouzel::obf
 
             buffer.insert(buffer.end(), sizeData.begin(), sizeData.end());
 
-            std::size_t size = sizeData.size();
+            auto size = sizeData.size();
 
             for (const auto& [key, entryValue] : value)
             {
