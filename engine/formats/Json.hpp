@@ -354,8 +354,8 @@ namespace ouzel::json
         private:
             static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
             {
-                for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i)
-                    if (begin == end || static_cast<std::uint8_t>(*begin) != *i)
+                for (const auto b : utf8ByteOrderMark)
+                    if (begin == end || static_cast<std::uint8_t>(*begin) != b)
                         return false;
                     else
                         ++begin;
@@ -701,8 +701,8 @@ namespace ouzel::json
             static std::string encode(const Value& value, bool whitespaces, bool byteOrderMark)
             {
                 std::string result;
-                if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark),
-                                                 std::end(utf8ByteOrderMark));
+                if (byteOrderMark) result.assign(utf8ByteOrderMark.begin(),
+                                                 utf8ByteOrderMark.end());
                 encode(value, result, whitespaces);
                 return result;
             }
