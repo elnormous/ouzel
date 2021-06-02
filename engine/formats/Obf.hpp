@@ -1001,11 +1001,11 @@ namespace ouzel::obf
 
             for (const auto& [key, entryValue] : value)
             {
-                std::uint8_t keyData[sizeof(std::uint32_t)];
+                std::array<std::uint8_t, sizeof(std::uint32_t)> keyData;
 
-                encodeBigEndian<std::uint32_t>(keyData, key);
+                encodeBigEndian<std::uint32_t>(keyData.data(), key);
 
-                buffer.insert(buffer.end(), std::begin(keyData), std::end(keyData));
+                buffer.insert(buffer.end(), keyData.begin(), keyData.end());
 
                 size += sizeof(keyData);
 
@@ -1045,11 +1045,11 @@ namespace ouzel::obf
 
             for (const auto& [key, entryValue] : value)
             {
-                std::uint8_t lengthData[sizeof(std::uint16_t)];
+                std::array<std::uint8_t, sizeof(std::uint16_t)> lengthData;
 
-                encodeBigEndian<std::uint16_t>(lengthData, static_cast<std::uint16_t>(key.length()));
+                encodeBigEndian<std::uint16_t>(lengthData.data(), static_cast<std::uint16_t>(key.length()));
 
-                buffer.insert(buffer.end(), std::begin(lengthData), std::end(lengthData));
+                buffer.insert(buffer.end(), lengthData.begin(), lengthData.end());
 
                 size += sizeof(lengthData);
 
