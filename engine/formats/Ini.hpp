@@ -4,6 +4,7 @@
 #define OUZEL_FORMATS_INI_HPP
 
 #include <algorithm>
+#include <array>
 #include <cstdint>
 #include <functional>
 #include <iterator>
@@ -169,7 +170,7 @@ namespace ouzel::ini
 
     inline namespace detail
     {
-        constexpr std::uint8_t utf8ByteOrderMark[] = {0xEF, 0xBB, 0xBF};
+        constexpr std::array<std::uint8_t, 3> utf8ByteOrderMark = {0xEF, 0xBB, 0xBF};
     }
 
     template <class Iterator>
@@ -327,8 +328,8 @@ namespace ouzel::ini
         private:
             static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
             {
-                for (auto i = std::begin(utf8ByteOrderMark); i != std::end(utf8ByteOrderMark); ++i)
-                    if (begin == end || static_cast<char>(*begin) != *i)
+                for (const auto b : utf8ByteOrderMark)
+                    if (begin == end || static_cast<char>(*begin) != b)
                         return false;
                     else
                         ++begin;
@@ -380,8 +381,8 @@ namespace ouzel::ini
     {
         std::string result;
 
-        if (byteOrderMark) result.assign(std::begin(utf8ByteOrderMark),
-                                         std::end(utf8ByteOrderMark));
+        if (byteOrderMark) result.assign(utf8ByteOrderMark.begin(),
+                                         utf8ByteOrderMark.end());
 
         for (const auto& [name, section] : data)
         {
