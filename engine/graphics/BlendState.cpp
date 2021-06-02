@@ -19,15 +19,15 @@ namespace ouzel::graphics
                            BlendFactor initAlphaBlendDest,
                            BlendOperation initAlphaOperation,
                            ColorMask initColorMask):
-        resource(*initGraphics.getDevice()),
-        colorBlendSource(initColorBlendSource),
-        colorBlendDest(initColorBlendDest),
-        colorOperation(initColorOperation),
-        alphaBlendSource(initAlphaBlendSource),
-        alphaBlendDest(initAlphaBlendDest),
-        alphaOperation(initAlphaOperation),
-        colorMask(initColorMask),
-        enableBlending(initEnableBlending)
+        resource{*initGraphics.getDevice()},
+        colorBlendSource{initColorBlendSource},
+        colorBlendDest{initColorBlendDest},
+        colorOperation{initColorOperation},
+        alphaBlendSource{initAlphaBlendSource},
+        alphaBlendDest{initAlphaBlendDest},
+        alphaOperation{initAlphaOperation},
+        colorMask{initColorMask},
+        enableBlending{initEnableBlending}
     {
         initGraphics.addCommand(std::make_unique<InitBlendStateCommand>(resource,
                                                                         initEnableBlending,

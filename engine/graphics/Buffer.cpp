@@ -16,11 +16,11 @@ namespace ouzel::graphics
                    BufferType initType,
                    Flags initFlags,
                    std::uint32_t initSize):
-        graphics(&initGraphics),
-        resource(*initGraphics.getDevice()),
-        type(initType),
-        flags(initFlags),
-        size(initSize)
+        graphics{&initGraphics},
+        resource{*initGraphics.getDevice()},
+        type{initType},
+        flags{initFlags},
+        size{initSize}
     {
         initGraphics.addCommand(std::make_unique<InitBufferCommand>(resource,
                                                                     initType,
