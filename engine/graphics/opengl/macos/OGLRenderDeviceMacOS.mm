@@ -90,7 +90,7 @@ namespace ouzel::graphics::opengl::macos
             if (pixelFormat)
             {
                 apiVersion = openGlVersion;
-                logger.log(Log::Level::info) << "OpenGL " << apiVersion.v[0] << '.' << apiVersion.v[1] << " pixel format created";
+                logger.log(Log::Level::info) << "OpenGL " << apiVersion << " pixel format created";
                 break;
             }
         }

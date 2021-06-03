@@ -1199,10 +1199,10 @@
 		303820C91D817E3400677CAB /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				303B04AF1E207B6100011CBE /* OpenGLView.h */,
-				303B04B01E207B6100011CBE /* OpenGLView.m */,
 				303B04B11E207B6100011CBE /* OGLRenderDeviceIOS.hpp */,
 				303B04B21E207B6100011CBE /* OGLRenderDeviceIOS.mm */,
+				303B04AF1E207B6100011CBE /* OpenGLView.h */,
+				303B04B01E207B6100011CBE /* OpenGLView.m */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1210,10 +1210,10 @@
 		303820CA1D817E3800677CAB /* tvos */ = {
 			isa = PBXGroup;
 			children = (
-				303B04BF1E207B7800011CBE /* OpenGLView.h */,
-				303B04C01E207B7800011CBE /* OpenGLView.m */,
 				303B04C11E207B7800011CBE /* OGLRenderDeviceTVOS.hpp */,
 				303B04C21E207B7800011CBE /* OGLRenderDeviceTVOS.mm */,
+				303B04BF1E207B7800011CBE /* OpenGLView.h */,
+				303B04C01E207B7800011CBE /* OpenGLView.m */,
 			);
 			path = tvos;
 			sourceTree = "<group>";

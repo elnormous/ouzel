@@ -106,9 +106,9 @@ namespace ouzel::graphics::opengl::linux
 #endif
 
 #if OUZEL_OPENGLES
-        for (EGLint version = 3; version >= 2; --version)
+        for (const EGLint version : {3, 2})
 #else
-        for (EGLint version = 4; version >= 3; --version)
+        for (const EGLint version : {4, 3})
 #endif
         {
             const auto configs = chooseConfig(display, settings.depth, settings.stencil, settings.sampleCount, version);
@@ -138,9 +138,9 @@ namespace ouzel::graphics::opengl::linux
             {
                 apiVersion = ApiVersion{version, 0};
 #if OUZEL_OPENGLES
-                logger.log(Log::Level::info) << "EGL OpenGL ES " << apiVersion.v[0] << " context created";
+                logger.log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
 #else
-                logger.log(Log::Level::info) << "EGL OpenGL " << apiVersion.v[0] << " context created";
+                logger.log(Log::Level::info) << "EGL OpenGL " << version << " context created";
 #endif
                 break;
             }

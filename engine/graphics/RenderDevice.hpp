@@ -17,6 +17,7 @@
 #include "Vertex.hpp"
 #include "../math/Matrix.hpp"
 #include "../math/Size.hpp"
+#include "../utils/Log.hpp"
 
 namespace ouzel::core
 {
@@ -50,6 +51,12 @@ namespace ouzel::graphics
 
         std::uint16_t v[2]{0, 0};
     };
+
+    inline Log& operator<<(Log& log, const ApiVersion& val)
+    {
+        log << val.v[0] << '.' << val.v[1];
+        return log;
+    }
 
     class RenderDevice
     {
