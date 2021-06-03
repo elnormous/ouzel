@@ -87,6 +87,11 @@ namespace ouzel::storage
             return path == convertToNative(p);
         }
 
+        bool operator!=(const Path& p) const noexcept
+        {
+            return path != p.path;
+        }
+
         Path& operator+=(const Path& p)
         {
             path += p.path;
