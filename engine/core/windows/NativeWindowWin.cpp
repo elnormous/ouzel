@@ -340,13 +340,17 @@ namespace
                         windowWin->handleMinimize();
                         break;
                     case SIZE_RESTORED:
-                        windowWin->handleResize(ouzel::Size<std::uint32_t, 2>(static_cast<std::uint32_t>(LOWORD(lParam)),
-                                                              static_cast<std::uint32_t>(HIWORD(lParam))));
+                        windowWin->handleResize(ouzel::Size<std::uint32_t, 2>{
+                            static_cast<std::uint32_t>(LOWORD(lParam)),
+                            static_cast<std::uint32_t>(HIWORD(lParam))
+                        });
                         windowWin->handleRestore();
                         break;
                     case SIZE_MAXIMIZED:
-                        windowWin->handleResize(ouzel::Size<std::uint32_t, 2>(static_cast<std::uint32_t>(LOWORD(lParam)),
-                                                              static_cast<std::uint32_t>(HIWORD(lParam))));
+                        windowWin->handleResize(ouzel::Size<std::uint32_t, 2>{
+                            static_cast<std::uint32_t>(LOWORD(lParam)),
+                            static_cast<std::uint32_t>(HIWORD(lParam))
+                        });
                         windowWin->handleMaximize();
                         break;
                 }
