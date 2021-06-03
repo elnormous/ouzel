@@ -46,6 +46,11 @@ namespace ouzel::storage
         {
         }
 
+        Path(String&& p) noexcept:
+            path{std::move(p)}
+        {
+        }
+
         template <class Source>
         Path(const Source& p, Format format = Format::generic):
             path{format == Format::generic ? convertToNative(p) : encode(p)}
