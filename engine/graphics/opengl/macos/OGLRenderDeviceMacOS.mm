@@ -60,7 +60,7 @@ namespace ouzel::graphics::opengl::macos
             std::pair(NSOpenGLProfileVersionLegacy, ApiVersion{2, 0})
         };
 
-        for (const auto [openGlProfileVersion, openGlVersion] : openGlVersions)
+        for (const auto& [openGlProfileVersion, openGlVersion] : openGlVersions)
         {
             // Create pixel format
             std::vector<NSOpenGLPixelFormatAttribute> attributes = {

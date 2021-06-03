@@ -57,7 +57,7 @@ namespace ouzel::graphics::opengl::tvos
             std::pair(kEAGLRenderingAPIOpenGLES2, ApiVersion{2, 0})
         };
 
-        for (const auto [eaglOpenGlVersion, openGlVersion] : openGlVersions)
+        for (const auto& [eaglOpenGlVersion, openGlVersion] : openGlVersions)
         {
             context = [[EAGLContext alloc] initWithAPI:eaglOpenGlVersion
                                             sharegroup:shareGroup];
