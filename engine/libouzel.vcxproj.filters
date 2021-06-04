@@ -178,6 +178,9 @@
     <ClCompile Include="graphics\RenderDevice.cpp">
       <Filter>engine\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="graphics\RenderPass.cpp">
+      <Filter>engine\graphics</Filter>
+    </ClCompile>
     <ClCompile Include="network\Network.cpp">
       <Filter>engine\network</Filter>
     </ClCompile>
@@ -658,6 +661,9 @@
       <Filter>engine\audio</Filter>
     </ClInclude>
     <ClInclude Include="graphics\RenderDevice.hpp">
+      <Filter>engine\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\RenderPass.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="network\Network.hpp">

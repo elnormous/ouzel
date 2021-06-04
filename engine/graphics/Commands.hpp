@@ -55,6 +55,8 @@ namespace ouzel::graphics
             setTextureParameters,
             setTextures,
 
+            initRenderPass,
+            setRenderPassParameters,
             initMaterial,
             setMaterialParameter,
             initObject,

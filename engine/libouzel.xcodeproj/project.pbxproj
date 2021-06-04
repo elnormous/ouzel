@@ -95,6 +95,9 @@
 		302B728721BDE302006EBC59 /* SilenceSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302B728321BDE302006EBC59 /* SilenceSound.hpp */; };
 		302B728821BDE302006EBC59 /* SilenceSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302B728321BDE302006EBC59 /* SilenceSound.hpp */; };
 		302B728921BDE302006EBC59 /* SilenceSound.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 302B728321BDE302006EBC59 /* SilenceSound.hpp */; };
+		30309A472669A4B200C320AF /* RenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30309A462669A4B200C320AF /* RenderPass.cpp */; };
+		30309A482669A4B200C320AF /* RenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30309A462669A4B200C320AF /* RenderPass.cpp */; };
+		30309A492669A4B200C320AF /* RenderPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30309A462669A4B200C320AF /* RenderPass.cpp */; };
 		3030D5021DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
 		3030D5031DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
 		3030D5041DAEF1FA007CC8EB /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3030D5001DAEF1FA007CC8EB /* Log.cpp */; };
@@ -804,6 +807,8 @@
 		302B728321BDE302006EBC59 /* SilenceSound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SilenceSound.hpp; sourceTree = "<group>"; };
 		302E481D230B71410069ABE8 /* Emitter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Emitter.hpp; sourceTree = "<group>"; };
 		302F5A4A230A1136001200F9 /* Mix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mix.hpp; sourceTree = "<group>"; };
+		30309A452669A42C00C320AF /* RenderPass.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderPass.hpp; sourceTree = "<group>"; };
+		30309A462669A4B200C320AF /* RenderPass.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderPass.cpp; sourceTree = "<group>"; };
 		3030D5001DAEF1FA007CC8EB /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
 		3030D5011DAEF1FA007CC8EB /* Log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Log.hpp; sourceTree = "<group>"; };
 		3031C1321F0C4350002CA717 /* VorbisClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VorbisClip.cpp; sourceTree = "<group>"; };
@@ -1369,6 +1374,8 @@
 				30C758B31F4A0309008499DC /* RenderDevice.cpp */,
 				30C758B41F4A0309008499DC /* RenderDevice.hpp */,
 				30D6EF7524B93B0C0032E72A /* renderer */,
+				30309A462669A4B200C320AF /* RenderPass.cpp */,
+				30309A452669A42C00C320AF /* RenderPass.hpp */,
 				30AEFA1220C0FB2E00CDFD33 /* RenderTarget.cpp */,
 				30AEFA1320C0FB2E00CDFD33 /* RenderTarget.hpp */,
 				30CB946A22B455F80025C927 /* SamplerAddressMode.hpp */,
@@ -2521,6 +2528,7 @@
 				30EEADBB21618DAF00D2F525 /* GamepadDevice.cpp in Sources */,
 				3038200C1D80A40700677CAB /* MetalShader.mm in Sources */,
 				300902FE219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
+				30309A472669A4B200C320AF /* RenderPass.cpp in Sources */,
 				30A381F521B201C20043568A /* Bus.cpp in Sources */,
 				301EB3A31CCD691800466E92 /* Component.cpp in Sources */,
 				30519CF01F9B53FF00AF3DC4 /* ObjLoader.cpp in Sources */,
@@ -2639,6 +2647,7 @@
 				3009342E1C88978D00CC50D3 /* NativeWindowTVOS.mm in Sources */,
 				30090300219224B100B00BF4 /* DepthStencilState.cpp in Sources */,
 				30A381F721B201C20043568A /* Bus.cpp in Sources */,
+				30309A492669A4B200C320AF /* RenderPass.cpp in Sources */,
 				30519CF21F9B53FF00AF3DC4 /* ObjLoader.cpp in Sources */,
 				30519CC21F9B53B700AF3DC4 /* BmfLoader.cpp in Sources */,
 				3038202D1D80A55700677CAB /* MetalBuffer.mm in Sources */,
@@ -2803,6 +2812,7 @@
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30519CB91F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */,
+				30309A482669A4B200C320AF /* RenderPass.cpp in Sources */,
 				307F4C2424E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				30FF4D5321C48DB600153FFF /* Effects.cpp in Sources */,
 				30AEFA0D20C0A90400CDFD33 /* GltfLoader.cpp in Sources */,

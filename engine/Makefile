@@ -95,6 +95,7 @@ SOURCES=assets/BmfLoader.cpp \
 	graphics/DepthStencilState.cpp \
 	graphics/Graphics.cpp \
 	graphics/RenderDevice.cpp \
+	graphics/RenderPass.cpp \
 	graphics/RenderTarget.cpp \
 	graphics/Shader.cpp \
 	graphics/Texture.cpp \
