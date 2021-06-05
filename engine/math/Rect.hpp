@@ -153,14 +153,12 @@ namespace ouzel
 
         constexpr auto operator==(const Rect& other) const noexcept
         {
-            return position.v[0] == other.position.v[0] && size.v[0] == other.size.v[0] &&
-                position.v[1] == other.position.v[1] && size.v[1] == other.size.v[1];
+            return position == other.position && size == other.size;
         }
 
         constexpr auto operator!=(const Rect& other) const noexcept
         {
-            return position.v[0] != other.position.v[0] || size.v[0] != other.size.v[0] ||
-                position.v[1] != other.position.v[1] || size.v[1] != other.size.v[1];
+            return position != other.position || size != other.size;
         }
 
         constexpr auto operator*(const T scalar) const noexcept
