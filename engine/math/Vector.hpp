@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_VECTOR_HPP
 #define OUZEL_MATH_VECTOR_HPP
 
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <cmath>

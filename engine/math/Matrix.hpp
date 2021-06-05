@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_MATRIX_HPP
 #define OUZEL_MATH_MATRIX_HPP
 
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <cmath>
