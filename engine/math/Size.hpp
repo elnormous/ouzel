@@ -3,6 +3,7 @@
 #ifndef OUZEL_MATH_SIZE_HPP
 #define OUZEL_MATH_SIZE_HPP
 
+#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <type_traits>
@@ -139,18 +140,14 @@ namespace ouzel
             return false;
         }
 
-        auto operator==(const Size& size) const noexcept
+        constexpr auto operator==(const Size& size) const noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
-                if (v[i] != size.v[i]) return false;
-            return true;
+            return std::equal(std::begin(v), std::end(v), std::begin(size.v));
         }
 
-        auto operator!=(const Size& size) const noexcept
+        constexpr auto operator!=(const Size& size) const noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
-                if (v[i] != size.v[i]) return true;
-            return false;
+            return !std::equal(std::begin(v), std::end(v), std::begin(size.v));
         }
 
         auto volume() const noexcept
