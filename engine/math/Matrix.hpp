@@ -859,22 +859,14 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator==(const Matrix& matrix) const noexcept
+        constexpr auto operator==(const Matrix& mat) const noexcept
         {
-            for (std::size_t i = 0; i < C * R; ++i)
-                if (m[i] != matrix.m[i])
-                    return false;
-
-            return true;
+            return std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        constexpr auto operator!=(const Matrix& matrix) const noexcept
+        constexpr auto operator!=(const Matrix& mat) const noexcept
         {
-            for (std::size_t i = 0; i < C * R; ++i)
-                if (m[i] != matrix.m[i])
-                    return true;
-
-            return false;
+            return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == 4 && Y == 4)>* = nullptr>
