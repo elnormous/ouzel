@@ -53,7 +53,7 @@ namespace ouzel
             buffer[i] = static_cast<std::uint8_t>(value >> (i * 8));
     }
 
-    inline auto explodeString(const std::string_view& str, char delimiter = ' ')
+    inline auto explodeString(std::string_view str, char delimiter = ' ')
     {
         std::vector<std::string> result;
         for (std::size_t position = 0, beginPosition = 0; position != std::string::npos; beginPosition = position + 1)

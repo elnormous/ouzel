@@ -29,7 +29,7 @@ namespace ouzel
         {
         }
 
-        explicit Color(const std::string_view& color)
+        explicit Color(std::string_view color)
         {
             if (!color.empty())
             {
