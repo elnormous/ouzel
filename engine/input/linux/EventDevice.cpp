@@ -19,14 +19,14 @@
 namespace
 {
     constexpr float thumbDeadzone = 0.2F;
-    constexpr std::uint32_t bitsPerLong = 8 * sizeof(long);
+    constexpr std::size_t bitsPerLong = 8 * sizeof(long);
 
     constexpr std::size_t bitsToLongs(std::size_t n)
     {
         return (n + bitsPerLong - 1) / bitsPerLong; // rounded up
     }
 
-    inline auto isBitSet(const unsigned long* array, int bit)
+    inline auto isBitSet(const unsigned long* array, std::size_t bit)
     {
         return (array[bit / bitsPerLong] & (1LL << (bit % bitsPerLong))) != 0;
     }
