@@ -48,13 +48,13 @@ namespace ouzel
 
         const auto decodeUInt32 = getDecodeFunction(magic);
 
-        const std::uint32_t revisionOffset = sizeof(magic);
+        const std::size_t revisionOffset = sizeof(magic);
         const std::uint32_t revision = decodeUInt32(data.data() + revisionOffset);
 
         if (revision != 0)
             throw std::runtime_error("Unsupported revision " + std::to_string(revision));
 
-        const std::uint32_t stringCountOffset = revisionOffset + sizeof(revision);
+        const std::size_t stringCountOffset = revisionOffset + sizeof(revision);
         const std::uint32_t stringCount = decodeUInt32(data.data() + stringCountOffset);
 
         struct TranslationInfo final
@@ -67,16 +67,16 @@ namespace ouzel
         };
         std::vector<TranslationInfo> translations(stringCount);
 
-        const std::uint32_t stringsOffsetOffset = stringCountOffset + sizeof(stringCount);
+        const std::size_t stringsOffsetOffset = stringCountOffset + sizeof(stringCount);
         const std::uint32_t stringsOffset = decodeUInt32(data.data() + stringsOffsetOffset);
 
-        const std::uint32_t translationsOffsetOffset = stringsOffsetOffset + sizeof(stringsOffset);
+        const std::size_t translationsOffsetOffset = stringsOffsetOffset + sizeof(stringsOffset);
         const std::uint32_t translationsOffset = decodeUInt32(data.data() + translationsOffsetOffset);
 
         if (data.size() < stringsOffset + 2 * sizeof(std::uint32_t) * stringCount)
             throw std::runtime_error("Not enough data");
 
-        std::uint32_t stringOffset = stringsOffset;
+        std::size_t stringOffset = stringsOffset;
         for (std::uint32_t i = 0; i < stringCount; ++i)
         {
             translations[i].stringLength = decodeUInt32(data.data() + stringOffset);
@@ -89,7 +89,7 @@ namespace ouzel
         if (data.size() < translationsOffset + 2 * sizeof(std::uint32_t) * stringCount)
             throw std::runtime_error("Not enough data");
 
-        std::uint32_t translationOffset = translationsOffset;
+        std::size_t translationOffset = translationsOffset;
         for (std::uint32_t i = 0; i < stringCount; ++i)
         {
             translations[i].translationLength = decodeUInt32(data.data() + translationOffset);
