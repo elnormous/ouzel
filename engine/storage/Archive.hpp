@@ -5,9 +5,11 @@
 
 #include <cstdint>
 #include <fstream>
+#include <functional>
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 #include "Path.hpp"
 #include "../utils/Utils.hpp"
@@ -78,7 +80,7 @@ namespace ouzel::storage
             }
         }
 
-        std::vector<std::byte> readFile(const std::string& filename)
+        std::vector<std::byte> readFile(std::string_view filename)
         {
             if (const auto i = entries.find(filename); i != entries.end())
             {
@@ -90,10 +92,10 @@ namespace ouzel::storage
                 return data;
             }
             else
-                throw std::runtime_error("File " + filename + " does not exist");
+                throw std::runtime_error("File " + std::string{filename} + " does not exist");
         }
 
-        bool fileExists(const std::string& filename) const
+        bool fileExists(std::string_view filename) const
         {
             return entries.find(filename) != entries.end();
         }
@@ -107,7 +109,7 @@ namespace ouzel::storage
             std::size_t size;
         };
 
-        std::map<std::string, Entry> entries;
+        std::map<std::string, Entry, std::less<>> entries;
     };
 }
 

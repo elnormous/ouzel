@@ -309,8 +309,8 @@ namespace ouzel::storage
     {
         if (searchResources)
             for (auto& archive : archives)
-                if (archive.second.fileExists(filename))
-                    return archive.second.readFile(filename);
+                if (archive.second.fileExists(filename.getNative()))
+                    return archive.second.readFile(filename.getNative());
 
 #ifdef __ANDROID__
         if (!filename.isAbsolute())
