@@ -7,9 +7,11 @@
 #include <array>
 #include <cmath>
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <variant>
 #include <vector>
@@ -38,7 +40,7 @@ namespace ouzel::json
     {
     public:
         using Array = std::vector<Value>;
-        using Object = std::map<std::string, Value>;
+        using Object = std::map<std::string, Value, std::less<>>;
         using String = std::string;
 
         Value() noexcept = default;
@@ -135,7 +137,7 @@ namespace ouzel::json
             if (const auto d = std::get_if<double>(&value))
                 return static_cast<T>(*d);
             else if (const auto b = std::get_if<bool>(&value))
-                return *b ? 1.0 : 0.0;
+                return *b ? T(1.0) : T(0.0);
             else
                 throw TypeError{"Wrong type"};
         }
@@ -238,7 +240,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        bool hasMember(const std::string& member) const
+        bool hasMember(std::string_view member) const
         {
             if (const auto p = std::get_if<Object>(&value))
                 return p->find(member) != p->end();
@@ -246,21 +248,29 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        Value& operator[](const std::string& member) &
+        Value& operator[](std::string_view member) &
         {
             if (const auto p = std::get_if<Object>(&value))
-                return (*p)[member];
+            {
+                if (const auto iterator = p->find(member); iterator != p->end())
+                    return iterator->second;
+                else
+                {
+                    const auto [newIterator, success] = p->insert({std::string{member}, Value{}});
+                    (void)success;
+                    return newIterator->second;
+                }
+            }
             else
                 throw TypeError{"Wrong type"};
         }
 
-        const Value& operator[](const std::string& member) const&
+        const Value& operator[](std::string_view member) const&
         {
             if (const auto p = std::get_if<Object>(&value))
             {
-                const auto i = p->find(member);
-                if (i != p->end())
-                    return i->second;
+                if (const auto iterator = p->find(member); iterator != p->end())
+                    return iterator->second;
                 else
                     throw RangeError{"Member does not exist"};
             }
