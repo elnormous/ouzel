@@ -308,9 +308,13 @@ namespace ouzel::storage
     std::vector<std::byte> FileSystem::readFile(const Path& filename, const bool searchResources)
     {
         if (searchResources)
+        {
+            const auto& genericPath = filename.getGeneric();
+
             for (auto& archive : archives)
-                if (archive.second.fileExists(filename.getNative()))
-                    return archive.second.readFile(filename.getNative());
+                if (archive.second.fileExists(genericPath))
+                    return archive.second.readFile(genericPath);
+        }
 
 #ifdef __ANDROID__
         if (!filename.isAbsolute())
