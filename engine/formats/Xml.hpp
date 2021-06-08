@@ -4,9 +4,11 @@
 #define OUZEL_FORMATS_XML_HPP
 
 #include <array>
+#include <functional>
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 #include "../utils/Utf8.hpp"
 
@@ -27,6 +29,8 @@ namespace ouzel::xml
     class Node final
     {
     public:
+        using Attributes = std::map<std::string, std::string, std::less<>>;
+
         enum class Type
         {
             comment,
@@ -77,14 +81,24 @@ namespace ouzel::xml
             return children.end();
         }
 
-        const std::string& operator[](const std::string& attribute) const
+        const std::string& operator[](std::string_view attribute) const
         {
-            const auto i = attributes.find(attribute);
-            if (i == attributes.end())
+            if (const auto iterator = attributes.find(attribute); iterator != attributes.end())
+                return iterator->second;
+            else
                 throw RangeError{"Invalid attribute"};
-            return i->second;
         }
-        std::string& operator[](const std::string& attribute) noexcept { return attributes[attribute]; }
+        std::string& operator[](std::string_view attribute) noexcept
+        {
+            if (const auto iterator = attributes.find(attribute); iterator != attributes.end())
+                return iterator->second;
+            else
+            {
+                const auto [newIterator, success] = attributes.insert({std::string{attribute}, std::string{}});
+                (void)success;
+                return newIterator->second;
+            }
+        }
 
         const std::vector<Node>& getChildren() const noexcept { return children; }
         void pushBack(const Node& node) { children.push_back(node); }
@@ -92,13 +106,13 @@ namespace ouzel::xml
         const std::string& getValue() const noexcept { return value; }
         void setValue(const std::string& newValue) { value = newValue; }
 
-        const std::map<std::string, std::string>& getAttributes() const noexcept { return attributes; }
-        void setAttributes(const std::map<std::string, std::string>& newAttributes) { attributes = newAttributes; }
+        const Attributes& getAttributes() const noexcept { return attributes; }
+        void setAttributes(const Attributes& newAttributes) { attributes = newAttributes; }
 
     private:
         Type type = Type::tag;
         std::string value;
-        std::map<std::string, std::string> attributes;
+        Attributes attributes;
         std::vector<Node> children;
     };
 
