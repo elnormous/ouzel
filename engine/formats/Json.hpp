@@ -38,11 +38,10 @@ namespace ouzel::json
 
     class Value final
     {
-    public:
         using Array = std::vector<Value>;
         using Object = std::map<std::string, Value, std::less<>>;
         using String = std::string;
-
+    public:
         Value() noexcept = default;
 
         template <typename T, typename std::enable_if_t<
@@ -208,7 +207,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        Array::iterator begin()
+        auto begin()
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->begin();
@@ -216,7 +215,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        Array::iterator end()
+        auto end()
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->end();
@@ -224,7 +223,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        Array::const_iterator begin() const
+        auto begin() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->begin();
@@ -232,7 +231,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        Array::const_iterator end() const
+        auto end() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->end();
@@ -340,6 +339,10 @@ namespace ouzel::json
         std::variant<std::nullptr_t, bool, double, Object, Array, String> value;
     };
 
+    using Array = std::vector<Value>;
+    using Object = std::map<std::string, Value, std::less<>>;
+    using String = std::string;
+
     inline namespace detail
     {
         constexpr std::array<std::uint8_t, 3> utf8ByteOrderMark{0xEF, 0xBB, 0xBF};
@@ -413,7 +416,7 @@ namespace ouzel::json
                 {
                     ++iterator;
 
-                    Value result = Value::Object{};
+                    Value result = Object{};
 
                     bool firstValue = true;
 
@@ -454,7 +457,7 @@ namespace ouzel::json
                 {
                     ++iterator;
 
-                    Value result = Value::Array{};
+                    Value result = Array{};
 
                     bool firstValue = true;
 
@@ -759,13 +762,13 @@ namespace ouzel::json
                         std::to_string(*d);
                     result.insert(result.end(), str.begin(), str.end());
                 }
-                else if (auto s = std::get_if<Value::String>(&v))
+                else if (auto s = std::get_if<String>(&v))
                 {
                     result.push_back('"');
                     encode(*s, result);
                     result.push_back('"');
                 }
-                else if (auto o = std::get_if<Value::Object>(&v))
+                else if (auto o = std::get_if<Object>(&v))
                 {
                     result.push_back('{');
                     if (whitespaces) result.push_back('\n');
@@ -785,7 +788,7 @@ namespace ouzel::json
                     if (whitespaces) result.insert(result.end(), level, '\t');
                     result.push_back('}');
                 }
-                else if (auto a = std::get_if<Value::Array>(&v))
+                else if (auto a = std::get_if<Array>(&v))
                 {
                     result.push_back('[');
                     if (whitespaces) result.push_back('\n');
