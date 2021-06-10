@@ -109,8 +109,8 @@ namespace ouzel::core
         {
             Settings settings;
 
-            const ini::Section& userEngineSection = userSettings["engine"];
-            const ini::Section& defaultEngineSection = defaultSettings["engine"];
+            const ini::Section& userEngineSection = userSettings.hasSection("engine") ? userSettings["engine"] : ini::Section{};
+            const ini::Section& defaultEngineSection = defaultSettings.hasSection("engine") ? defaultSettings["engine"] : ini::Section{};
 
             const auto& graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
             settings.graphicsDriver = graphics::Graphics::getDriver(graphicsDriverValue);
