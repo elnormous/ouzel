@@ -20,10 +20,10 @@ namespace ouzel::xml
         using std::logic_error::logic_error;
     };
 
-    class RangeError final: public std::runtime_error
+    class RangeError final: public std::range_error
     {
     public:
-        using std::runtime_error::runtime_error;
+        using std::range_error::range_error;
     };
 
     using Attributes = std::map<std::string, std::string, std::less<>>;

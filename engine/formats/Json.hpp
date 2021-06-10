@@ -30,10 +30,10 @@ namespace ouzel::json
         using std::runtime_error::runtime_error;
     };
 
-    class RangeError final: public std::runtime_error
+    class RangeError final: public std::range_error
     {
     public:
-        using std::runtime_error::runtime_error;
+        using std::range_error::range_error;
     };
 
     class Value final
