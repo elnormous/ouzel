@@ -26,11 +26,11 @@ namespace ouzel::xml
         using std::runtime_error::runtime_error;
     };
 
+    using Attributes = std::map<std::string, std::string, std::less<>>;
+
     class Node final
     {
     public:
-        using Attributes = std::map<std::string, std::string, std::less<>>;
-
         enum class Type
         {
             comment,
