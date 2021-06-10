@@ -7,11 +7,10 @@
 #include <array>
 #include <cstdint>
 #include <functional>
-#include <iterator>
 #include <map>
 #include <stdexcept>
 #include <string>
-#include <vector>
+#include <string_view>
 
 namespace ouzel::ini
 {
@@ -21,11 +20,11 @@ namespace ouzel::ini
         using std::logic_error::logic_error;
     };
 
+    using Values = std::map<std::string, std::string, std::less<>>;
+
     class Section final
     {
     public:
-        using Values = std::map<std::string, std::string>;
-
         Section() = default;
 
         explicit Section(const std::string& initName):
@@ -33,22 +32,22 @@ namespace ouzel::ini
         {
         }
 
-        Values::iterator begin() noexcept
+        auto begin() noexcept
         {
             return values.begin();
         }
 
-        Values::iterator end() noexcept
+        auto end() noexcept
         {
             return values.end();
         }
 
-        Values::const_iterator begin() const noexcept
+        auto begin() const noexcept
         {
             return values.begin();
         }
 
-        Values::const_iterator end() const noexcept
+        auto end() const noexcept
         {
             return values.end();
         }
@@ -58,17 +57,24 @@ namespace ouzel::ini
 
         const Values& getValues() const noexcept { return values; }
 
-        bool hasValue(const std::string& key) const
+        bool hasValue(const std::string_view key) const
         {
             return values.find(key) != values.end();
         }
 
-        std::string& operator[](const std::string& key)
+        std::string& operator[](const std::string_view key)
         {
-            return values[key];
+            if (const auto valueIterator = values.find(key); valueIterator != values.end())
+                return valueIterator->second;
+            else
+            {
+                const auto& [newIterator, success] = values.insert({std::string{key}, std::string{}});
+                (void)success;
+                return newIterator->second;
+            }
         }
 
-        std::string operator[](const std::string& key) const
+        std::string operator[](const std::string_view key) const
         {
             if (const auto valueIterator = values.find(key); valueIterator != values.end())
                 return valueIterator->second;
@@ -76,7 +82,7 @@ namespace ouzel::ini
             return std::string();
         }
 
-        const std::string& getValue(const std::string& key, const std::string& defaultValue = {}) const
+        const std::string& getValue(const std::string_view key, const std::string& defaultValue = {}) const
         {
             if (const auto valueIterator = values.find(key); valueIterator != values.end())
                 return valueIterator->second;
@@ -84,12 +90,12 @@ namespace ouzel::ini
             return defaultValue;
         }
 
-        void setValue(const std::string& key, const std::string& value)
+        void setValue(const std::string_view key, const std::string& value)
         {
-            values[key] = value;
+            values.insert({std::string{key}, value});
         }
 
-        void deleteValue(const std::string& key)
+        void deleteValue(const std::string_view key)
         {
             if (const auto valueIterator = values.find(key); valueIterator != values.end())
                 values.erase(valueIterator);
@@ -108,52 +114,58 @@ namespace ouzel::ini
     class Data final
     {
     public:
-        using Sections = std::map<std::string, Section>;
+        using Sections = std::map<std::string, Section, std::less<>>;
 
         Data() = default;
 
         const Sections& getSections() const noexcept { return sections; }
 
-        Sections::iterator begin() noexcept
+        auto begin() noexcept
         {
             return sections.begin();
         }
 
-        Sections::iterator end() noexcept
+        auto end() noexcept
         {
             return sections.end();
         }
 
-        Sections::const_iterator begin() const noexcept
+        auto begin() const noexcept
         {
             return sections.begin();
         }
 
-        Sections::const_iterator end() const noexcept
+        auto end() const noexcept
         {
             return sections.end();
         }
 
-        bool hasSection(const std::string& name) const
+        bool hasSection(const std::string_view name) const
         {
-            const auto sectionIterator = sections.find(name);
-            return sectionIterator != sections.end();
+            return sections.find(name) != sections.end();
         }
 
-        Section& operator[](const std::string& name)
+        Section& operator[](const std::string_view name)
         {
-            return sections[name];
+            if (const auto sectionIterator = sections.find(name); sectionIterator != sections.end())
+                return sectionIterator->second;
+            else
+            {
+                const auto& [newIterator, success] = sections.insert({std::string{name}, Section{}});
+                (void)success;
+                return newIterator->second;
+            }
         }
 
-        Section operator[](const std::string& name) const
+        Section operator[](const std::string_view name) const
         {
             if (const auto sectionIterator = sections.find(name); sectionIterator != sections.end())
                 return sectionIterator->second;
 
-            return Section();
+            return Section{};
         }
 
-        void eraseSection(const std::string& name)
+        void eraseSection(const std::string_view name)
         {
             if (const auto sectionIterator = sections.find(name); sectionIterator != sections.end())
                 sections.erase(sectionIterator);
@@ -329,7 +341,7 @@ namespace ouzel::ini
             static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
             {
                 for (const auto b : utf8ByteOrderMark)
-                    if (begin == end || static_cast<char>(*begin) != b)
+                    if (begin == end || static_cast<std::uint8_t>(*begin) != b)
                         return false;
                     else
                         ++begin;
