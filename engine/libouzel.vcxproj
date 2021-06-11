@@ -229,6 +229,7 @@
     <ClInclude Include="graphics\renderer\Material.hpp" />
     <ClInclude Include="graphics\renderer\Object.hpp" />
     <ClInclude Include="graphics\renderer\Renderer.hpp" />
+    <ClInclude Include="graphics\RenderTarget.hpp" />
     <ClInclude Include="graphics\StencilOperation.hpp" />
     <ClInclude Include="platform\winapi\Com.hpp" />
     <ClInclude Include="platform\winapi\Console.hpp" />

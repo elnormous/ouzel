@@ -981,6 +981,9 @@
     <ClInclude Include="platform\winapi\WinSock.hpp">
       <Filter>engine\platform\winapi</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\RenderTarget.hpp">
+      <Filter>engine\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="engine">
