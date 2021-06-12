@@ -61,34 +61,35 @@ namespace ouzel::xml
         Type getType() const noexcept { return type; }
         void setType(Type newType) noexcept { type = newType; }
 
-        std::vector<Node>::iterator begin() noexcept
+        auto begin() noexcept
         {
             return children.begin();
         }
 
-        std::vector<Node>::iterator end() noexcept
+        auto end() noexcept
         {
             return children.end();
         }
 
-        std::vector<Node>::const_iterator begin() const noexcept
+        auto begin() const noexcept
         {
             return children.begin();
         }
 
-        std::vector<Node>::const_iterator end() const noexcept
+        auto end() const noexcept
         {
             return children.end();
         }
 
-        const std::string& operator[](std::string_view attribute) const
+        const auto& operator[](std::string_view attribute) const
         {
             if (const auto iterator = attributes.find(attribute); iterator != attributes.end())
                 return iterator->second;
             else
                 throw RangeError{"Invalid attribute"};
         }
-        std::string& operator[](std::string_view attribute) noexcept
+
+        auto& operator[](std::string_view attribute) noexcept
         {
             if (const auto iterator = attributes.find(attribute); iterator != attributes.end())
                 return iterator->second;
@@ -100,10 +101,10 @@ namespace ouzel::xml
             }
         }
 
-        const std::vector<Node>& getChildren() const noexcept { return children; }
+        const auto& getChildren() const noexcept { return children; }
         void pushBack(const Node& node) { children.push_back(node); }
 
-        const std::string& getValue() const noexcept { return value; }
+        const auto& getValue() const noexcept { return value; }
         void setValue(const std::string& newValue) { value = newValue; }
 
         const Attributes& getAttributes() const noexcept { return attributes; }
@@ -121,27 +122,27 @@ namespace ouzel::xml
     public:
         Data() = default;
 
-        std::vector<Node>::iterator begin() noexcept
+        auto begin() noexcept
         {
             return children.begin();
         }
 
-        std::vector<Node>::iterator end() noexcept
+        auto end() noexcept
         {
             return children.end();
         }
 
-        std::vector<Node>::const_iterator begin() const noexcept
+        auto begin() const noexcept
         {
             return children.begin();
         }
 
-        std::vector<Node>::const_iterator end() const noexcept
+        auto end() const noexcept
         {
             return children.end();
         }
 
-        const std::vector<Node>& getChildren() const noexcept { return children; }
+        const auto& getChildren() const noexcept { return children; }
         void pushBack(const Node& node) { children.push_back(node); }
 
     private:
@@ -169,7 +170,7 @@ namespace ouzel::xml
             {
                 bool byteOrderMark = hasByteOrderMark(begin, end);
 
-                const std::u32string str = utf8::toUtf32(byteOrderMark ? begin + 3 : begin, end);
+                const auto str = utf8::toUtf32(byteOrderMark ? begin + 3 : begin, end);
                 auto iterator = str.begin();
                 bool rootTagFound = false;
 
@@ -181,10 +182,10 @@ namespace ouzel::xml
 
                     if (iterator == str.end()) break;
 
-                    Node node = parse(iterator, str.end(),
-                                      preserveWhitespaces,
-                                      preserveComments,
-                                      preserveProcessingInstructions);
+                    const auto node = parse(iterator, str.end(),
+                                            preserveWhitespaces,
+                                            preserveComments,
+                                            preserveProcessingInstructions);
 
                     if ((preserveComments || node.getType() != Node::Type::comment) &&
                         (preserveProcessingInstructions || node.getType() != Node::Type::processingInstruction))
@@ -400,7 +401,7 @@ namespace ouzel::xml
                     }
                     else if (*iterator == '&')
                     {
-                        std::string entity = parseEntity(iterator, end);
+                        const auto entity = parseEntity(iterator, end);
                         result += entity;
                     }
                     else
@@ -534,7 +535,7 @@ namespace ouzel::xml
                                 break;
                             }
 
-                            std::string attribute = parseName(iterator, end);
+                            const auto attribute = parseName(iterator, end);
 
                             skipWhitespaces(iterator, end);
 
@@ -582,8 +583,7 @@ namespace ouzel::xml
                                 break;
                             }
 
-                            std::string attribute;
-                            attribute = parseName(iterator, end);
+                            const auto attribute = parseName(iterator, end);
 
                             skipWhitespaces(iterator, end);
 
@@ -616,7 +616,7 @@ namespace ouzel::xml
                                     ++iterator; // skip the left angle bracket
                                     ++iterator; // skip the slash
 
-                                    if (std::string tag = parseName(iterator, end); tag != result.getValue())
+                                    if (const auto tag = parseName(iterator, end); tag != result.getValue())
                                         throw ParseError{"Tag not closed properly"};
 
                                     if (iterator == end)
@@ -653,7 +653,7 @@ namespace ouzel::xml
                             break;
                         else if (*iterator == '&')
                         {
-                            std::string entity = parseEntity(iterator, end);
+                            const auto entity = parseEntity(iterator, end);
                             value += entity;
                         }
                         else
