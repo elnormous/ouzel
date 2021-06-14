@@ -70,33 +70,33 @@ namespace ouzel::obf
         };
 
         Value() = default;
-        Value(Type initType): type(initType) {}
+        Value(Type initType): type{initType} {}
         Value(std::uint8_t value):
-            type(Type::integer), intValue(value)
+            type{Type::integer}, intValue{value}
         {
         }
         Value(std::uint16_t value):
-            type(Type::integer), intValue(value)
+            type{Type::integer}, intValue{value}
         {
         }
         Value(std::uint32_t value):
-            type(Type::integer), intValue(value)
+            type{Type::integer}, intValue{value}
         {
         }
         Value(std::uint64_t value):
-            type(Type::integer), intValue(value)
+            type{Type::integer}, intValue{value}
         {
         }
-        Value(float value): type(Type::floatingPoint), doubleValue(value) {}
-        Value(double value): type(Type::doublePrecision), doubleValue(value) {}
+        Value(float value): type{Type::floatingPoint}, doubleValue{value} {}
+        Value(double value): type{Type::doublePrecision}, doubleValue{value} {}
         Value(const std::string& value):
-            type(Type::string), stringValue(value)
+            type{Type::string}, stringValue{value}
         {
         }
-        Value(const ByteArray& value): type(Type::byteArray), byteArrayValue(value) {}
-        Value(const Object& value): type(Type::object), objectValue(value) {}
-        Value(const Array& value): type(Type::array), arrayValue(value) {}
-        Value(const Dictionary& value): type(Type::dictionary), dictionaryValue(value) {}
+        Value(const ByteArray& value): type{Type::byteArray}, byteArrayValue(value) {}
+        Value(const Object& value): type{Type::object}, objectValue{value} {}
+        Value(const Array& value): type{Type::array}, arrayValue(value) {}
+        Value(const Dictionary& value): type{Type::dictionary}, dictionaryValue{value} {}
 
         Value& operator=(Type newType)
         {
