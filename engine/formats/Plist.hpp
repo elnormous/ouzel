@@ -4,7 +4,9 @@
 #define OUZEL_FORMATS_PLIST_HPP
 
 #include <map>
+#include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace ouzel::plist
