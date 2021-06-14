@@ -43,7 +43,10 @@ namespace ouzel::xml
 
         Node() = default;
         Node(Type initType): type{initType} {}
-        Node(const std::string_view val): type{Type::text}, value{val} {}
+        Node(std::string&& val) noexcept: type{Type::text}, value{std::move(val)} {}
+
+        template <class Source>
+        Node(const Source& val): type{Type::text}, value{std::string{val}} {}
 
         Node& operator=(Type newType) noexcept
         {
@@ -51,10 +54,18 @@ namespace ouzel::xml
             return *this;
         }
 
-        Node& operator=(const std::string_view val)
+        Node& operator=(std::string&& val) noexcept
         {
             type = Type::text;
-            value = val;
+            value = std::move(val);
+            return *this;
+        }
+
+        template <class Source>
+        Node& operator=(const Source& val)
+        {
+            type = Type::text;
+            value = std::string{val};
             return *this;
         }
 
