@@ -95,7 +95,7 @@ namespace ouzel::obf
         }
         Value(const ByteArray& value): type{Type::byteArray}, byteArrayValue(value) {}
         Value(const Object& value): type{Type::object}, objectValue{value} {}
-        Value(const Array& value): type{Type::array}, arrayValue(value) {}
+        Value(const Array& value): type{Type::array}, arrayValue{value} {}
         Value(const Dictionary& value): type{Type::dictionary}, dictionaryValue{value} {}
 
         Value& operator=(Type newType)

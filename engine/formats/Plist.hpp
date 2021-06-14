@@ -43,8 +43,8 @@ namespace ouzel::plist
         using Data = std::vector<std::byte>;
 
         Value() = default;
-        Value(const Dictionary& value):type{Type::dictionary}, dictionaryValue(value) {}
-        Value(const Array& value):type{Type::array}, arrayValue(value) {}
+        Value(const Dictionary& value):type{Type::dictionary}, dictionaryValue{value} {}
+        Value(const Array& value):type{Type::array}, arrayValue{value} {}
         Value(bool value):type{Type::boolean}, booleanValue{value} {}
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
         Value(T value):type{Type::real}, realValue{static_cast<double>(value)} {}
