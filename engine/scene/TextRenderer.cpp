@@ -34,6 +34,30 @@ namespace ouzel::scene
         updateText();
     }
 
+    TextRenderer::TextRenderer(const gui::Font& initFont,
+                               float initFontSize,
+                               const std::string& initText,
+                               Color initColor,
+                               const Vector<float, 2>& initTextAnchor):
+        shader{engine->getCache().getShader(shaderTexture)},
+        blendState{engine->getCache().getBlendState(blendAlpha)},
+        indexBuffer{*engine->getGraphics(),
+                    graphics::BufferType::index,
+                    graphics::Flags::dynamic},
+        vertexBuffer{*engine->getGraphics(),
+                     graphics::BufferType::vertex,
+                     graphics::Flags::dynamic},
+        font{&initFont},
+        text{initText},
+        fontSize{initFontSize},
+        textAnchor{initTextAnchor},
+        color{initColor}
+    {
+        whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
+
+        updateText();
+    }
+
     void TextRenderer::setFont(const std::string& fontFile)
     {
         font = engine->getCache().getFont(fontFile);

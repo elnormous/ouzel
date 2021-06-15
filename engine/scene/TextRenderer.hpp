@@ -23,6 +23,12 @@ namespace ouzel::scene
                      Color initColor = Color::white(),
                      const Vector<float, 2>& initTextAnchor = Vector<float, 2>{0.5F, 0.5F});
 
+        TextRenderer(const gui::Font& initFont,
+                     float initFontSize = 1.0F,
+                     const std::string& initText = std::string(),
+                     Color initColor = Color::white(),
+                     const Vector<float, 2>& initTextAnchor = Vector<float, 2>{0.5F, 0.5F});
+
         void draw(const Matrix<float, 4>& transformMatrix,
                   float opacity,
                   const Matrix<float, 4>& renderViewProjection,
