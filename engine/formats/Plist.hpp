@@ -503,20 +503,17 @@ namespace ouzel::plist
                                 c = 0;
                             }
                         }
+
                         if (c)
                         {
                             result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
 
                             if (c == 1)
                                 result += chars[static_cast<std::uint8_t>((charArray[0] & 0x03) << 4)];
-                            else
+                            else // c == 2
                             {
                                 result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
-
-                                if (c == 2)
-                                    result += chars[static_cast<std::uint8_t>((charArray[1] & 0x0F) << 2)];
-                                else if (c == 3)
-                                    result += chars[static_cast<std::uint8_t>(((charArray[1] & 0x0F) << 2) + ((charArray[2] & 0xC0) >> 6))];
+                                result += chars[static_cast<std::uint8_t>((charArray[1] & 0x0F) << 2)];
                             }
 
                             while (++c < 4) result += '=';
