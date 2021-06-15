@@ -42,7 +42,7 @@ namespace ouzel::gui
             throw std::runtime_error("Failed to load font");
     }
 
-    Font::RenderData TTFont::getRenderData(const std::string& text,
+    Font::RenderData TTFont::getRenderData(const std::string_view& text,
                                            Color color,
                                            float fontSize,
                                            const Vector<float, 2>& anchor) const

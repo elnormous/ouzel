@@ -4,9 +4,9 @@
 #define OUZEL_GUI_FONT_HPP
 
 #include <cstdint>
-#include <string>
 #include <map>
 #include <memory>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 #include "../math/Color.hpp"
@@ -33,7 +33,7 @@ namespace ouzel::gui
             std::vector<graphics::Vertex>,
             std::shared_ptr<graphics::Texture>>;
 
-        virtual RenderData getRenderData(const std::string& text,
+        virtual RenderData getRenderData(const std::string_view& text,
                                          Color color,
                                          float fontSize,
                                          const Vector<float, 2>& anchor) const = 0;

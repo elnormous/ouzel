@@ -15,7 +15,7 @@ namespace ouzel::gui
         TTFont() = default;
         TTFont(const std::vector<std::byte>& newData, bool newMipmaps = true);
 
-        RenderData getRenderData(const std::string& text,
+        RenderData getRenderData(const std::string_view& text,
                                  Color color,
                                  float fontSize,
                                  const Vector<float, 2>& anchor) const override;

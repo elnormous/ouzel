@@ -13,7 +13,7 @@ namespace ouzel::gui
         BMFont() = default;
         explicit BMFont(const std::vector<std::byte>& data);
 
-        RenderData getRenderData(const std::string& text,
+        RenderData getRenderData(const std::string_view& text,
                                  Color color,
                                  float fontSize,
                                  const Vector<float, 2>& anchor) const override;

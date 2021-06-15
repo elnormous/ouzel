@@ -352,7 +352,7 @@ namespace ouzel::gui
         }
     }
 
-    Font::RenderData BMFont::getRenderData(const std::string& text,
+    Font::RenderData BMFont::getRenderData(const std::string_view& text,
                                            Color color,
                                            float fontSize,
                                            const Vector<float, 2>& anchor) const
