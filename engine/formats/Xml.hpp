@@ -106,7 +106,7 @@ namespace ouzel::xml
                 return iterator->second;
             else
             {
-                const auto [newIterator, success] = attributes.insert({std::string{attribute}, std::string{}});
+                const auto [newIterator, success] = attributes.insert(std::make_pair(attribute, std::string{}));
                 (void)success;
                 return newIterator->second;
             }
