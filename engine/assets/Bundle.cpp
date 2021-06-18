@@ -67,7 +67,11 @@ namespace ouzel::assets
 
     void Bundle::setTexture(std::string_view name, const std::shared_ptr<graphics::Texture>& texture)
     {
-        textures.insert(std::make_pair(name, texture));
+        const auto i = textures.find(name);
+        if (i == textures.end())
+            textures.insert(std::make_pair(name, texture));
+        else
+            i->second = texture;
     }
 
     void Bundle::releaseTextures()
@@ -85,7 +89,11 @@ namespace ouzel::assets
 
     void Bundle::setShader(std::string_view name, std::unique_ptr<graphics::Shader> shader)
     {
-        shaders.insert(std::make_pair(name, std::move(shader)));
+        const auto i = shaders.find(name);
+        if (i == shaders.end())
+            shaders.insert(std::make_pair(name, std::move(shader)));
+        else
+            i->second = std::move(shader);
     }
 
     void Bundle::releaseShaders()
@@ -103,7 +111,11 @@ namespace ouzel::assets
 
     void Bundle::setBlendState(std::string_view name, std::unique_ptr<graphics::BlendState> blendState)
     {
-        blendStates.insert(std::make_pair(name, std::move(blendState)));
+        const auto i = blendStates.find(name);
+        if (i == blendStates.end())
+            blendStates.insert(std::make_pair(name, std::move(blendState)));
+        else
+            i->second = std::move(blendState);
     }
 
     void Bundle::releaseBlendStates()
@@ -121,7 +133,11 @@ namespace ouzel::assets
 
     void Bundle::setDepthStencilState(std::string_view name, std::unique_ptr<graphics::DepthStencilState> depthStencilState)
     {
-        depthStencilStates.insert(std::make_pair(name, std::move(depthStencilState)));
+        const auto i = depthStencilStates.find(name);
+        if (i == depthStencilStates.end())
+            depthStencilStates.insert(std::make_pair(name, std::move(depthStencilState)));
+        else
+            i->second = std::move(depthStencilState);
     }
 
     void Bundle::releaseDepthStencilStates()
@@ -194,7 +210,11 @@ namespace ouzel::assets
 
     void Bundle::setSpriteData(std::string_view name, const scene::SpriteData& newSpriteData)
     {
-        spriteData.insert(std::make_pair(name, newSpriteData));
+        const auto i = spriteData.find(name);
+        if (i == spriteData.end())
+            spriteData.insert(std::make_pair(name, newSpriteData));
+        else
+            i->second = newSpriteData;
     }
 
     void Bundle::releaseSpriteData()
@@ -212,7 +232,11 @@ namespace ouzel::assets
 
     void Bundle::setParticleSystemData(std::string_view name, const scene::ParticleSystemData& newParticleSystemData)
     {
-        particleSystemData.insert(std::make_pair(name, newParticleSystemData));
+        const auto i = particleSystemData.find(name);
+        if (i == particleSystemData.end())
+            particleSystemData.insert(std::make_pair(name, newParticleSystemData));
+        else
+            i->second = newParticleSystemData;
     }
 
     void Bundle::releaseParticleSystemData()
@@ -230,7 +254,11 @@ namespace ouzel::assets
 
     void Bundle::setFont(std::string_view name, std::unique_ptr<gui::Font> font)
     {
-        fonts.insert(std::make_pair(name, std::move(font)));
+        const auto i = fonts.find(name);
+        if (i == fonts.end())
+            fonts.insert(std::make_pair(name, std::move(font)));
+        else
+            i->second = std::move(font);
     }
 
     void Bundle::releaseFonts()
@@ -248,7 +276,11 @@ namespace ouzel::assets
 
     void Bundle::setCue(std::string_view name, std::unique_ptr<audio::Cue> cue)
     {
-        cues.insert(std::make_pair(name, std::move(cue)));
+        const auto i = cues.find(name);
+        if (i == cues.end())
+            cues.insert(std::make_pair(name, std::move(cue)));
+        else
+            i->second = std::move(cue);
     }
 
     void Bundle::releaseCues()
@@ -266,7 +298,11 @@ namespace ouzel::assets
 
     void Bundle::setSound(std::string_view name, std::unique_ptr<audio::Sound> sound)
     {
-        sounds.insert(std::make_pair(name, std::move(sound)));
+        const auto i = sounds.find(name);
+        if (i == sounds.end())
+            sounds.insert(std::make_pair(name, std::move(sound)));
+        else
+            i->second = std::move(sound);
     }
 
     void Bundle::releaseSounds()
@@ -284,7 +320,11 @@ namespace ouzel::assets
 
     void Bundle::setMaterial(std::string_view name, std::unique_ptr<graphics::Material> material)
     {
-        materials.insert(std::make_pair(name, std::move(material)));
+        const auto i = materials.find(name);
+        if (i == materials.end())
+            materials.insert(std::make_pair(name, std::move(material)));
+        else
+            i->second = std::move(material);
     }
 
     void Bundle::releaseMaterials()
@@ -302,7 +342,11 @@ namespace ouzel::assets
 
     void Bundle::setSkinnedMeshData(std::string_view name, scene::SkinnedMeshData&& newSkinnedMeshData)
     {
-        skinnedMeshData.insert(std::make_pair(name, std::move(newSkinnedMeshData)));
+        const auto i = skinnedMeshData.find(name);
+        if (i == skinnedMeshData.end())
+            skinnedMeshData.insert(std::make_pair(name, std::move(newSkinnedMeshData)));
+        else
+            i->second = std::move(newSkinnedMeshData);
     }
 
     void Bundle::releaseSkinnedMeshData()
@@ -320,7 +364,11 @@ namespace ouzel::assets
 
     void Bundle::setStaticMeshData(std::string_view name, scene::StaticMeshData&& newStaticMeshData)
     {
-        staticMeshData.insert(std::make_pair(name, std::move(newStaticMeshData)));
+        const auto i = staticMeshData.find(name);
+        if (i == staticMeshData.end())
+            staticMeshData.insert(std::make_pair(name, std::move(newStaticMeshData)));
+        else
+            i->second = std::move(newStaticMeshData);
     }
 
     void Bundle::releaseStaticMeshData()
