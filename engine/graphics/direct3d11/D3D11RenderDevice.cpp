@@ -929,7 +929,10 @@ namespace ouzel::graphics::d3d11
         if (const auto hr = context->Map(texture.get(), 0, D3D11_MAP_READ, 0, &mappedSubresource); FAILED(hr))
             throw std::system_error(hr, errorCategory, "Failed to map Direct3D 11 resource");
 
-        if (!stbi_write_png(filename.c_str(), textureDesc.Width, textureDesc.Height, 4, mappedSubresource.pData, static_cast<int>(mappedSubresource.RowPitch)))
+        if (!stbi_write_png(filename.c_str(),
+                            textureDesc.Width, textureDesc.Height, 4,
+                            mappedSubresource.pData,
+                            static_cast<int>(mappedSubresource.RowPitch)))
         {
             context->Unmap(texture.get(), 0);
             throw std::runtime_error("Failed to save screenshot to file");

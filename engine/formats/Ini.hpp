@@ -34,7 +34,7 @@ namespace ouzel::ini
         Section() = default;
 
         explicit Section(const std::string& initName):
-            name(initName)
+            name{initName}
         {
         }
 

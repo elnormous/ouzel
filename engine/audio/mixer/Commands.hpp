@@ -294,7 +294,7 @@ namespace ouzel::audio::mixer
     public:
         CommandBuffer() = default;
         explicit CommandBuffer(const std::string& initName) noexcept(false):
-            name(initName)
+            name{initName}
         {
         }
 

@@ -142,7 +142,7 @@ namespace ouzel::audio::openal
         logger.log(Log::Level::all) << "Supported OpenAL extensions: " << extensions;
 
         auto float32Supported = false;
-        for (const std::string& extension : extensions)
+        for (const auto& extension : extensions)
         {
             if (extension == "AL_EXT_float32")
                 float32Supported = true;

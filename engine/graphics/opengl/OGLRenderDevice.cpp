@@ -1275,7 +1275,9 @@ namespace ouzel::graphics::opengl
                       data.begin() + bottomRowOffset);
         }
 
-        if (!stbi_write_png(filename.c_str(), frameBufferWidth, frameBufferHeight, pixelSize, data.data(), frameBufferWidth * pixelSize))
+        if (!stbi_write_png(filename.c_str(),
+                            frameBufferWidth, frameBufferHeight, pixelSize,
+                            data.data(), frameBufferWidth * pixelSize))
             throw Error("Failed to save image to file");
     }
 }
