@@ -57,7 +57,7 @@ namespace ouzel::assets
             loadAsset(asset.type, asset.name, asset.filename, asset.mipmaps);
     }
 
-    std::shared_ptr<graphics::Texture> Bundle::getTexture(const std::string& name) const
+    std::shared_ptr<graphics::Texture> Bundle::getTexture(std::string_view name) const
     {
         if (const auto i = textures.find(name); i != textures.end())
             return i->second;
@@ -65,9 +65,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setTexture(const std::string& name, const std::shared_ptr<graphics::Texture>& texture)
+    void Bundle::setTexture(std::string_view name, const std::shared_ptr<graphics::Texture>& texture)
     {
-        textures[name] = texture;
+        textures.insert(std::make_pair(name, texture));
     }
 
     void Bundle::releaseTextures()
@@ -75,7 +75,7 @@ namespace ouzel::assets
         textures.clear();
     }
 
-    const graphics::Shader* Bundle::getShader(const std::string& name) const
+    const graphics::Shader* Bundle::getShader(std::string_view name) const
     {
         if (const auto i = shaders.find(name); i != shaders.end())
             return i->second.get();
@@ -83,9 +83,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setShader(const std::string& name, std::unique_ptr<graphics::Shader> shader)
+    void Bundle::setShader(std::string_view name, std::unique_ptr<graphics::Shader> shader)
     {
-        shaders[name] = std::move(shader);
+        shaders.insert(std::make_pair(name, std::move(shader)));
     }
 
     void Bundle::releaseShaders()
@@ -93,7 +93,7 @@ namespace ouzel::assets
         shaders.clear();
     }
 
-    const graphics::BlendState* Bundle::getBlendState(const std::string& name) const
+    const graphics::BlendState* Bundle::getBlendState(std::string_view name) const
     {
         if (const auto i = blendStates.find(name); i != blendStates.end())
             return i->second.get();
@@ -101,9 +101,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setBlendState(const std::string& name, std::unique_ptr<graphics::BlendState> blendState)
+    void Bundle::setBlendState(std::string_view name, std::unique_ptr<graphics::BlendState> blendState)
     {
-        blendStates[name] = std::move(blendState);
+        blendStates.insert(std::make_pair(name, std::move(blendState)));
     }
 
     void Bundle::releaseBlendStates()
@@ -111,7 +111,7 @@ namespace ouzel::assets
         blendStates.clear();
     }
 
-    const graphics::DepthStencilState* Bundle::getDepthStencilState(const std::string& name) const
+    const graphics::DepthStencilState* Bundle::getDepthStencilState(std::string_view name) const
     {
         if (const auto i = depthStencilStates.find(name); i != depthStencilStates.end())
             return i->second.get();
@@ -119,9 +119,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setDepthStencilState(const std::string& name, std::unique_ptr<graphics::DepthStencilState> depthStencilState)
+    void Bundle::setDepthStencilState(std::string_view name, std::unique_ptr<graphics::DepthStencilState> depthStencilState)
     {
-        depthStencilStates[name] = std::move(depthStencilState);
+        depthStencilStates.insert(std::make_pair(name, std::move(depthStencilState)));
     }
 
     void Bundle::releaseDepthStencilStates()
@@ -133,7 +133,7 @@ namespace ouzel::assets
                                    std::uint32_t spritesX, std::uint32_t spritesY,
                                    const Vector<float, 2>& pivot)
     {
-        auto extension = std::string(storage::Path(filename).getExtension());
+        auto extension = std::string(storage::Path{filename}.getExtension());
         std::transform(extension.begin(), extension.end(), extension.begin(),
                        [](char c) noexcept { return static_cast<char>(std::tolower(c)); });
         const std::vector<std::string> imageExtensions{"jpg", "jpeg", "png", "bmp", "tga"};
@@ -184,7 +184,7 @@ namespace ouzel::assets
             loadAsset(Loader::Type::sprite, filename, filename, mipmaps);
     }
 
-    const scene::SpriteData* Bundle::getSpriteData(const std::string& name) const
+    const scene::SpriteData* Bundle::getSpriteData(std::string_view name) const
     {
         if (const auto i = spriteData.find(name); i != spriteData.end())
             return &i->second;
@@ -192,9 +192,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setSpriteData(const std::string& name, const scene::SpriteData& newSpriteData)
+    void Bundle::setSpriteData(std::string_view name, const scene::SpriteData& newSpriteData)
     {
-        spriteData[name] = newSpriteData;
+        spriteData.insert(std::make_pair(name, newSpriteData));
     }
 
     void Bundle::releaseSpriteData()
@@ -202,7 +202,7 @@ namespace ouzel::assets
         spriteData.clear();
     }
 
-    const scene::ParticleSystemData* Bundle::getParticleSystemData(const std::string& name) const
+    const scene::ParticleSystemData* Bundle::getParticleSystemData(std::string_view name) const
     {
         if (const auto i = particleSystemData.find(name); i != particleSystemData.end())
             return &i->second;
@@ -210,9 +210,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setParticleSystemData(const std::string& name, const scene::ParticleSystemData& newParticleSystemData)
+    void Bundle::setParticleSystemData(std::string_view name, const scene::ParticleSystemData& newParticleSystemData)
     {
-        particleSystemData[name] = newParticleSystemData;
+        particleSystemData.insert(std::make_pair(name, newParticleSystemData));
     }
 
     void Bundle::releaseParticleSystemData()
@@ -220,7 +220,7 @@ namespace ouzel::assets
         particleSystemData.clear();
     }
 
-    const gui::Font* Bundle::getFont(const std::string& name) const
+    const gui::Font* Bundle::getFont(std::string_view name) const
     {
         if (const auto i = fonts.find(name); i != fonts.end())
             return i->second.get();
@@ -228,9 +228,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setFont(const std::string& name, std::unique_ptr<gui::Font> font)
+    void Bundle::setFont(std::string_view name, std::unique_ptr<gui::Font> font)
     {
-        fonts[name] = std::move(font);
+        fonts.insert(std::make_pair(name, std::move(font)));
     }
 
     void Bundle::releaseFonts()
@@ -238,7 +238,7 @@ namespace ouzel::assets
         fonts.clear();
     }
 
-    const audio::Cue* Bundle::getCue(const std::string& name) const
+    const audio::Cue* Bundle::getCue(std::string_view name) const
     {
         if (const auto i = cues.find(name); i != cues.end())
             return i->second.get();
@@ -246,9 +246,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setCue(const std::string& name, std::unique_ptr<audio::Cue> cue)
+    void Bundle::setCue(std::string_view name, std::unique_ptr<audio::Cue> cue)
     {
-        cues[name] = std::move(cue);
+        cues.insert(std::make_pair(name, std::move(cue)));
     }
 
     void Bundle::releaseCues()
@@ -256,7 +256,7 @@ namespace ouzel::assets
         cues.clear();
     }
 
-    const audio::Sound* Bundle::getSound(const std::string& name) const
+    const audio::Sound* Bundle::getSound(std::string_view name) const
     {
         if (const auto i = sounds.find(name); i != sounds.end())
             return i->second.get();
@@ -264,9 +264,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setSound(const std::string& name, std::unique_ptr<audio::Sound> sound)
+    void Bundle::setSound(std::string_view name, std::unique_ptr<audio::Sound> sound)
     {
-        sounds[name] = std::move(sound);
+        sounds.insert(std::make_pair(name, std::move(sound)));
     }
 
     void Bundle::releaseSounds()
@@ -274,7 +274,7 @@ namespace ouzel::assets
         sounds.clear();
     }
 
-    const graphics::Material* Bundle::getMaterial(const std::string& name) const
+    const graphics::Material* Bundle::getMaterial(std::string_view name) const
     {
         if (const auto i = materials.find(name); i != materials.end())
             return i->second.get();
@@ -282,9 +282,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setMaterial(const std::string& name, std::unique_ptr<graphics::Material> material)
+    void Bundle::setMaterial(std::string_view name, std::unique_ptr<graphics::Material> material)
     {
-        materials[name] = std::move(material);
+        materials.insert(std::make_pair(name, std::move(material)));
     }
 
     void Bundle::releaseMaterials()
@@ -292,7 +292,7 @@ namespace ouzel::assets
         materials.clear();
     }
 
-    const scene::SkinnedMeshData* Bundle::getSkinnedMeshData(const std::string& name) const
+    const scene::SkinnedMeshData* Bundle::getSkinnedMeshData(std::string_view name) const
     {
         if (const auto i = skinnedMeshData.find(name); i != skinnedMeshData.end())
             return &i->second;
@@ -300,9 +300,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setSkinnedMeshData(const std::string& name, scene::SkinnedMeshData&& newSkinnedMeshData)
+    void Bundle::setSkinnedMeshData(std::string_view name, scene::SkinnedMeshData&& newSkinnedMeshData)
     {
-        skinnedMeshData[name] = std::move(newSkinnedMeshData);
+        skinnedMeshData.insert(std::make_pair(name, std::move(newSkinnedMeshData)));
     }
 
     void Bundle::releaseSkinnedMeshData()
@@ -310,7 +310,7 @@ namespace ouzel::assets
         skinnedMeshData.clear();
     }
 
-    const scene::StaticMeshData* Bundle::getStaticMeshData(const std::string& name) const
+    const scene::StaticMeshData* Bundle::getStaticMeshData(std::string_view name) const
     {
         if (const auto i = staticMeshData.find(name); i != staticMeshData.end())
             return &i->second;
@@ -318,9 +318,9 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    void Bundle::setStaticMeshData(const std::string& name, scene::StaticMeshData&& newStaticMeshData)
+    void Bundle::setStaticMeshData(std::string_view name, scene::StaticMeshData&& newStaticMeshData)
     {
-        staticMeshData[name] = std::move(newStaticMeshData);
+        staticMeshData.insert(std::make_pair(name, std::move(newStaticMeshData)));
     }
 
     void Bundle::releaseStaticMeshData()

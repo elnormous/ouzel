@@ -4,7 +4,8 @@
 #define OUZEL_ASSETS_CACHE_HPP
 
 #include <memory>
-#include <string>
+#include <string_view>
+#include <vector>
 #include "Bundle.hpp"
 
 namespace ouzel::assets
@@ -27,18 +28,18 @@ namespace ouzel::assets
         auto& getBundles() const noexcept { return bundles; }
         auto& getLoaders() const noexcept { return loaders; }
 
-        std::shared_ptr<graphics::Texture> getTexture(const std::string& name) const;
-        const graphics::Shader* getShader(const std::string& name) const;
-        const graphics::BlendState* getBlendState(const std::string& name) const;
-        const graphics::DepthStencilState* getDepthStencilState(const std::string& name) const;
-        const scene::SpriteData* getSpriteData(const std::string& name) const;
-        const scene::ParticleSystemData* getParticleSystemData(const std::string& name) const;
-        const gui::Font* getFont(const std::string& name) const;
-        const audio::Cue* getCue(const std::string& name) const;
-        const audio::Sound* getSound(const std::string& name) const;
-        const graphics::Material* getMaterial(const std::string& name) const;
-        const scene::SkinnedMeshData* getSkinnedMeshData(const std::string& name) const;
-        const scene::StaticMeshData* getStaticMeshData(const std::string& name) const;
+        std::shared_ptr<graphics::Texture> getTexture(std::string_view name) const;
+        const graphics::Shader* getShader(std::string_view name) const;
+        const graphics::BlendState* getBlendState(std::string_view name) const;
+        const graphics::DepthStencilState* getDepthStencilState(std::string_view name) const;
+        const scene::SpriteData* getSpriteData(std::string_view name) const;
+        const scene::ParticleSystemData* getParticleSystemData(std::string_view name) const;
+        const gui::Font* getFont(std::string_view name) const;
+        const audio::Cue* getCue(std::string_view name) const;
+        const audio::Sound* getSound(std::string_view name) const;
+        const graphics::Material* getMaterial(std::string_view name) const;
+        const scene::SkinnedMeshData* getSkinnedMeshData(std::string_view name) const;
+        const scene::StaticMeshData* getStaticMeshData(std::string_view name) const;
 
     private:
         void addBundle(const Bundle* bundle);

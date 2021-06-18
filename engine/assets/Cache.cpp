@@ -63,7 +63,7 @@ namespace ouzel::assets
             loaders.erase(i);
     }
 
-    std::shared_ptr<graphics::Texture> Cache::getTexture(const std::string& name) const
+    std::shared_ptr<graphics::Texture> Cache::getTexture(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto texture = bundle->getTexture(name))
@@ -72,7 +72,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const graphics::Shader* Cache::getShader(const std::string& name) const
+    const graphics::Shader* Cache::getShader(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto shader = bundle->getShader(name))
@@ -81,7 +81,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const graphics::BlendState* Cache::getBlendState(const std::string& name) const
+    const graphics::BlendState* Cache::getBlendState(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto blendState = bundle->getBlendState(name))
@@ -90,7 +90,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const graphics::DepthStencilState* Cache::getDepthStencilState(const std::string& name) const
+    const graphics::DepthStencilState* Cache::getDepthStencilState(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto depthStencilState = bundle->getDepthStencilState(name))
@@ -99,7 +99,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const scene::SpriteData* Cache::getSpriteData(const std::string& name) const
+    const scene::SpriteData* Cache::getSpriteData(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto spriteData = bundle->getSpriteData(name))
@@ -108,7 +108,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const scene::ParticleSystemData* Cache::getParticleSystemData(const std::string& name) const
+    const scene::ParticleSystemData* Cache::getParticleSystemData(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto particleSystemData = bundle->getParticleSystemData(name))
@@ -117,7 +117,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const gui::Font* Cache::getFont(const std::string& name) const
+    const gui::Font* Cache::getFont(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto font = bundle->getFont(name))
@@ -126,7 +126,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const audio::Cue* Cache::getCue(const std::string& name) const
+    const audio::Cue* Cache::getCue(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto cue = bundle->getCue(name))
@@ -135,7 +135,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const audio::Sound* Cache::getSound(const std::string& name) const
+    const audio::Sound* Cache::getSound(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto sound = bundle->getSound(name))
@@ -144,7 +144,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const graphics::Material* Cache::getMaterial(const std::string& name) const
+    const graphics::Material* Cache::getMaterial(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto material = bundle->getMaterial(name))
@@ -153,7 +153,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const scene::SkinnedMeshData* Cache::getSkinnedMeshData(const std::string& name) const
+    const scene::SkinnedMeshData* Cache::getSkinnedMeshData(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto meshData = bundle->getSkinnedMeshData(name))
@@ -162,7 +162,7 @@ namespace ouzel::assets
         return nullptr;
     }
 
-    const scene::StaticMeshData* Cache::getStaticMeshData(const std::string& name) const
+    const scene::StaticMeshData* Cache::getStaticMeshData(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto meshData = bundle->getStaticMeshData(name))
