@@ -80,7 +80,7 @@ namespace ouzel::assets
             }
 
             if (value.hasMember("effects"))
-                for (const json::Value& effectValue : value["effects"])
+                for (const auto& effectValue : value["effects"])
                 {
                     audio::EffectDefinition effectDefinition;
                     effectDefinition.type = getEffectType(effectValue["type"].as<std::string>());
@@ -95,7 +95,7 @@ namespace ouzel::assets
                 }
 
             if (value.hasMember("sources"))
-                for (const json::Value& sourceValue : value["sources"])
+                for (const auto& sourceValue : value["sources"])
                     sourceDefinition.sourceDefinitions.push_back(parseSourceDefinition(sourceValue, cache));
 
             return sourceDefinition;
