@@ -44,8 +44,8 @@ namespace ouzel::assets
 
         for (const auto& asset : data["assets"])
         {
-            const auto file = asset["filename"].as<std::string>();
-            const auto name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
+            const auto& file = asset["filename"].as<std::string>();
+            const auto& name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
             const auto mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
             loadAsset(static_cast<Loader::Type>(asset["type"].as<std::uint32_t>()), name, file, mipmaps);
         }
