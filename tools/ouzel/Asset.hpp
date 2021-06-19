@@ -24,19 +24,24 @@ namespace ouzel
             shader
         };
 
+        struct Options final
+        {
+            bool mipmaps = true;
+        };
+        
         Asset(const storage::Path& initPath,
               const std::string& initName,
               Type initType,
-              bool initMipmaps):
-            path(initPath),
-            name(initName),
-            type(initType),
-            mipmaps(initMipmaps) {}
+              const Options& initOptions):
+            path{initPath},
+            name{initName},
+            type{initType},
+            options{initOptions} {}
 
         const storage::Path path;
         const std::string name;
         const Type type = Type::empty;
-        const bool mipmaps = false;
+        const Options options;
     };
 
     inline Asset::Type stringToAssetType(const std::string& s)

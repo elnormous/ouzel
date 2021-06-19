@@ -62,11 +62,13 @@ namespace ouzel
                     assetObject["name"].as<std::string>() : std::string(assetPath.getStem());
 
                 const auto assetType = stringToAssetType(assetObject["type"].as<std::string>());
+                Asset::Options options;
+                options.mipmaps = assetObject.hasMember("mipmaps") ? assetObject["mipmaps"].as<bool>() : false;
 
                 assets.emplace_back(assetPath,
                                     assetName,
                                     assetType,
-                                    assetObject.hasMember("mipmaps") ? assetObject["mipmaps"].as<bool>() : false);
+                                    options);
             }
         }
 
