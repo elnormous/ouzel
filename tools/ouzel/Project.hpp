@@ -26,7 +26,7 @@ namespace ouzel
             const auto directoryPath = path.getDirectory();
 
             std::ifstream f{path, std::ios::binary};
-            std::vector<char> data{std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>()};
+            std::vector<char> data{std::istreambuf_iterator<char>{f}, std::istreambuf_iterator<char>{}};
 
             const auto j = json::parse(data);
             name = j["name"].as<std::string>();
@@ -65,23 +65,20 @@ namespace ouzel
                 Asset::Options options;
                 options.mipmaps = assetObject.hasMember("mipmaps") ? assetObject["mipmaps"].as<bool>() : false;
 
-                assets.emplace_back(assetPath,
-                                    assetName,
-                                    assetType,
-                                    options);
+                assets.emplace_back(assetPath, assetName, assetType, options);
             }
         }
 
-        const storage::Path& getPath() const noexcept { return path; }
-        const std::string& getName() const noexcept { return name; }
-        const std::string& getIdentifier() const noexcept { return identifier; }
-        const std::string& getOrganization() const noexcept { return organization; }
-        const storage::Path& getOuzelPath() const noexcept { return ouzelPath; }
-        const storage::Path& getSourcePath() const noexcept { return sourcePath; }
-        const std::vector<Target>& getTargets() const noexcept { return targets; }
-        const std::vector<storage::Path>& getSourceFiles() const noexcept { return sourceFiles; }
-        const storage::Path& getAssetsPath() const noexcept { return assetsPath; }
-        const std::vector<Asset>& getAssets() const noexcept { return assets; }
+        const auto& getPath() const noexcept { return path; }
+        const auto& getName() const noexcept { return name; }
+        const auto& getIdentifier() const noexcept { return identifier; }
+        const auto& getOrganization() const noexcept { return organization; }
+        const auto& getOuzelPath() const noexcept { return ouzelPath; }
+        const auto& getSourcePath() const noexcept { return sourcePath; }
+        const auto& getTargets() const noexcept { return targets; }
+        const auto& getSourceFiles() const noexcept { return sourceFiles; }
+        const auto& getAssetsPath() const noexcept { return assetsPath; }
+        const auto& getAssets() const noexcept { return assets; }
 
         void exportAssets(const std::string& targetName) const
         {
