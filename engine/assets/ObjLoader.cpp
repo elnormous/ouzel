@@ -187,7 +187,7 @@ namespace ouzel::assets
     }
 
     ObjLoader::ObjLoader():
-        Loader{Type::staticMesh}
+        Loader{Asset::Type::staticMesh}
     {
     }
 
@@ -195,7 +195,7 @@ namespace ouzel::assets
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
-                              bool mipmaps)
+                              const Asset::Options& options)
     {
         std::string objectName = name;
         const graphics::Material* material = nullptr;
@@ -236,7 +236,7 @@ namespace ouzel::assets
 
                     //if (!cache.getMaterial(filename))
                     // TODO don't load material lib every time
-                    bundle.loadAsset(Type::material, filename, filename, mipmaps);
+                    bundle.loadAsset(Asset::Type::material, filename, filename, options);
                 }
                 else if (keyword == "usemtl")
                 {

@@ -20,8 +20,9 @@ namespace ouzel::assets
         cache.removeBundle(this);
     }
 
-    void Bundle::loadAsset(Loader::Type loaderType, const std::string& name,
-                           const std::string& filename, bool mipmaps)
+    void Bundle::loadAsset(Asset::Type assetType, const std::string& name,
+                           const std::string& filename,
+                           const Asset::Options& options)
     {
         const auto data = fileSystem.readFile(filename);
 
@@ -30,8 +31,8 @@ namespace ouzel::assets
         for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
         {
             const auto loader = i->get();
-            if (loader->getType() == loaderType &&
-                loader->loadAsset(cache, *this, name, data, mipmaps))
+            if (loader->getType() == assetType &&
+                loader->loadAsset(cache, *this, name, data, options))
                 return;
         }
 
@@ -46,15 +47,17 @@ namespace ouzel::assets
         {
             const auto& file = asset["filename"].as<std::string>();
             const auto& name = asset.hasMember("name") ? asset["name"].as<std::string>() : file;
-            const auto mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
-            loadAsset(static_cast<Loader::Type>(asset["type"].as<std::uint32_t>()), name, file, mipmaps);
+
+            Asset::Options options;
+            options.mipmaps = asset.hasMember("mipmaps") ? asset["mipmaps"].as<bool>() : true;
+            loadAsset(static_cast<Asset::Type>(asset["type"].as<std::uint32_t>()), name, file, options);
         }
     }
 
     void Bundle::loadAssets(const std::vector<Asset>& assets)
     {
         for (const auto& asset : assets)
-            loadAsset(asset.type, asset.name, asset.filename, asset.mipmaps);
+            loadAsset(asset.type, asset.name, asset.filename, asset.options);
     }
 
     std::shared_ptr<graphics::Texture> Bundle::getTexture(std::string_view name) const
@@ -145,7 +148,7 @@ namespace ouzel::assets
         depthStencilStates.clear();
     }
 
-    void Bundle::preloadSpriteData(const std::string& filename, bool mipmaps,
+    void Bundle::preloadSpriteData(const std::string& filename, const Asset::Options& options,
                                    std::uint32_t spritesX, std::uint32_t spritesY,
                                    const Vector<float, 2>& pivot)
     {
@@ -197,7 +200,7 @@ namespace ouzel::assets
             }
         }
         else
-            loadAsset(Loader::Type::sprite, filename, filename, mipmaps);
+            loadAsset(Asset::Type::sprite, filename, filename, options);
     }
 
     const scene::SpriteData* Bundle::getSpriteData(std::string_view name) const

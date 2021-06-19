@@ -45,7 +45,7 @@
 namespace ouzel::assets
 {
     ImageLoader::ImageLoader():
-        Loader{Type::image}
+        Loader{Asset::Type::image}
     {
     }
 
@@ -53,7 +53,7 @@ namespace ouzel::assets
                                 Bundle& bundle,
                                 const std::string& name,
                                 const std::vector<std::byte>& data,
-                                bool mipmaps)
+                                const Asset::Options& options)
     {
         (void)cache;
         int width;
@@ -155,7 +155,7 @@ namespace ouzel::assets
                                                            image.getData(),
                                                            image.getSize(),
                                                            graphics::Flags::none,
-                                                           mipmaps ? 0 : 1,
+                                                           options.mipmaps ? 0 : 1,
                                                            image.getPixelFormat());
 
         bundle.setTexture(name, texture);

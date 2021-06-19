@@ -9,7 +9,7 @@
 namespace ouzel::assets
 {
     ParticleSystemLoader::ParticleSystemLoader():
-        Loader{Type::particleSystem}
+        Loader{Asset::Type::particleSystem}
     {
     }
 
@@ -17,7 +17,7 @@ namespace ouzel::assets
                                          Bundle& bundle,
                                          const std::string& name,
                                          const std::vector<std::byte>& data,
-                                         bool mipmaps)
+                                         const Asset::Options& options)
     {
         scene::ParticleSystemData particleSystemData;
 
@@ -114,7 +114,7 @@ namespace ouzel::assets
 
             if (!particleSystemData.texture)
             {
-                bundle.loadAsset(Type::image, textureFileName, textureFileName, mipmaps);
+                bundle.loadAsset(Asset::Type::image, textureFileName, textureFileName, options);
                 particleSystemData.texture = cache.getTexture(textureFileName);
             }
         }

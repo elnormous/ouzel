@@ -8,7 +8,7 @@
 namespace ouzel::assets
 {
     TtfLoader::TtfLoader():
-        Loader{Type::font}
+        Loader{Asset::Type::font}
     {
     }
 
@@ -16,14 +16,14 @@ namespace ouzel::assets
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
-                              bool mipmaps)
+                              const Asset::Options& options)
     {
         (void)cache;
 
         try
         {
             // TODO: move the loader here
-            auto font = std::make_unique<gui::TTFont>(data, mipmaps);
+            auto font = std::make_unique<gui::TTFont>(data, options.mipmaps);
             bundle.setFont(name, std::move(font));
         }
         catch (const std::exception&)

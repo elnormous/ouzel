@@ -7,7 +7,7 @@
 namespace ouzel::assets
 {
     BmfLoader::BmfLoader():
-        Loader{Type::font}
+        Loader{Asset::Type::font}
     {
     }
 
@@ -15,7 +15,7 @@ namespace ouzel::assets
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
-                              bool)
+                              const Asset::Options&)
     {
         (void)cache;
 

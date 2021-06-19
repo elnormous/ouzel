@@ -771,6 +771,9 @@
     <ClInclude Include="network\Socket.hpp">
       <Filter>engine\network</Filter>
     </ClInclude>
+    <ClInclude Include="assets\Asset.hpp">
+      <Filter>engine\assets</Filter>
+    </ClInclude>
     <ClInclude Include="assets\Bundle.hpp">
       <Filter>engine\assets</Filter>
     </ClInclude>

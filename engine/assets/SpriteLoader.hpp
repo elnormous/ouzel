@@ -15,7 +15,7 @@ namespace ouzel::assets
                        Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
-                       bool mipmaps = true) override;
+                       const Asset::Options& options) override;
     };
 }
 

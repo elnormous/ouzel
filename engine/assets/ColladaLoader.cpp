@@ -9,7 +9,7 @@
 namespace ouzel::assets
 {
     ColladaLoader::ColladaLoader():
-        Loader{Type::skinnedMesh}
+        Loader{Asset::Type::skinnedMesh}
     {
     }
 
@@ -17,7 +17,7 @@ namespace ouzel::assets
                                   Bundle& bundle,
                                   const std::string& name,
                                   const std::vector<std::byte>& data,
-                                  bool)
+                                  const Asset::Options&)
     {
         (void)cache;
 

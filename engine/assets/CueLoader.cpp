@@ -10,7 +10,7 @@
 namespace ouzel::assets
 {
     CueLoader::CueLoader():
-        Loader{Type::cue}
+        Loader{Asset::Type::cue}
     {
     }
 
@@ -106,7 +106,7 @@ namespace ouzel::assets
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
-                              bool)
+                              const Asset::Options&)
     {
         audio::SourceDefinition sourceDefinition;
         const auto d = json::parse(data);

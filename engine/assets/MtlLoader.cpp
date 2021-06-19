@@ -145,7 +145,7 @@ namespace ouzel::assets
     }
 
     MtlLoader::MtlLoader():
-        Loader{Type::material}
+        Loader{Asset::Type::material}
     {
     }
 
@@ -153,7 +153,7 @@ namespace ouzel::assets
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
-                              bool mipmaps)
+                              const Asset::Options& options)
     {
         std::string materialName = name;
         std::shared_ptr<graphics::Texture> diffuseTexture;
@@ -219,7 +219,7 @@ namespace ouzel::assets
 
                     if (!ambientTexture)
                     {
-                        bundle.loadAsset(Type::image, filename, filename, mipmaps);
+                        bundle.loadAsset(Asset::Type::image, filename, filename, options);
                         ambientTexture = cache.getTexture(filename);
                     }
                 }
@@ -235,7 +235,7 @@ namespace ouzel::assets
 
                     if (!diffuseTexture)
                     {
-                        bundle.loadAsset(Type::image, filename, filename, mipmaps);
+                        bundle.loadAsset(Asset::Type::image, filename, filename, options);
                         diffuseTexture = cache.getTexture(filename);
                     }
                 }

@@ -10,7 +10,7 @@
 namespace ouzel::assets
 {
     SpriteLoader::SpriteLoader():
-        Loader{Type::sprite}
+        Loader{Asset::Type::sprite}
     {
     }
 
@@ -18,7 +18,7 @@ namespace ouzel::assets
                                  Bundle& bundle,
                                  const std::string& name,
                                  const std::vector<std::byte>& data,
-                                 bool mipmaps)
+                                 const Asset::Options& options)
     {
         scene::SpriteData spriteData;
 
@@ -34,7 +34,7 @@ namespace ouzel::assets
         spriteData.texture = cache.getTexture(imageFilename);
         if (!spriteData.texture)
         {
-            bundle.loadAsset(Type::image, imageFilename, imageFilename, mipmaps);
+            bundle.loadAsset(Asset::Type::image, imageFilename, imageFilename, options);
             spriteData.texture = cache.getTexture(imageFilename);
         }
 

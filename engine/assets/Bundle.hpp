@@ -8,6 +8,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include "Asset.hpp"
 #include "Loader.hpp"
 #include "../audio/Cue.hpp"
 #include "../audio/Sound.hpp"
@@ -27,26 +28,6 @@ namespace ouzel::assets
 {
     class Cache;
 
-    class Asset final
-    {
-    public:
-        Asset(Loader::Type initType,
-              const std::string& initName,
-              const std::string& initFilename,
-              bool initMipmaps = true):
-            type(initType),
-            name(initName),
-            filename(initFilename),
-            mipmaps(initMipmaps)
-        {
-        }
-
-        Loader::Type type;
-        std::string name;
-        std::string filename;
-        bool mipmaps;
-    };
-
     class Bundle final
     {
         friend Cache;
@@ -60,8 +41,8 @@ namespace ouzel::assets
         Bundle(Bundle&&) = delete;
         Bundle& operator=(Bundle&&) = delete;
 
-        void loadAsset(Loader::Type loaderType, const std::string& name,
-                       const std::string& filename, bool mipmaps = true);
+        void loadAsset(Asset::Type assetType, const std::string& name,
+                       const std::string& filename, const Asset::Options& options);
         void loadAssets(const std::string& filename);
         void loadAssets(const std::vector<Asset>& assets);
 
@@ -81,7 +62,7 @@ namespace ouzel::assets
         void setDepthStencilState(std::string_view name, std::unique_ptr<graphics::DepthStencilState> depthStencilState);
         void releaseDepthStencilStates();
 
-        void preloadSpriteData(const std::string& filename, bool mipmaps = true,
+        void preloadSpriteData(const std::string& filename, const Asset::Options& options,
                                std::uint32_t spritesX = 1, std::uint32_t spritesY = 1,
                                const Vector<float, 2>& pivot = Vector<float, 2>{0.5F, 0.5F});
         const scene::SpriteData* getSpriteData(std::string_view name) const;

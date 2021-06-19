@@ -144,6 +144,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="assets\Asset.hpp" />
     <ClInclude Include="assets\Bundle.hpp" />
     <ClInclude Include="assets\BmfLoader.hpp" />
     <ClInclude Include="assets\ColladaLoader.hpp" />

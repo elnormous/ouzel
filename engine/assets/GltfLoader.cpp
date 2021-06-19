@@ -8,7 +8,7 @@
 namespace ouzel::assets
 {
     GltfLoader::GltfLoader():
-        Loader{Type::skinnedMesh}
+        Loader{Asset::Type::skinnedMesh}
     {
     }
 
@@ -16,7 +16,7 @@ namespace ouzel::assets
                                Bundle& bundle,
                                const std::string& name,
                                const std::vector<std::byte>& data,
-                               bool mipmaps)
+                               const Asset::Options&)
     {
         (void)cache;
 
@@ -25,7 +25,6 @@ namespace ouzel::assets
         const auto& nodesValue = d["nodes"];
         const auto& meshesValue = d["meshes"];
 
-        (void)mipmaps;
         (void)nodesValue;
         (void)meshesValue;
 

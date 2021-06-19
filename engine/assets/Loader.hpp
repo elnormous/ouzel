@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <string>
 #include <vector>
+#include "Asset.hpp"
 
 namespace ouzel::assets
 {
@@ -15,21 +16,7 @@ namespace ouzel::assets
     class Loader
     {
     public:
-        enum class Type
-        {
-            bank,
-            font,
-            staticMesh,
-            skinnedMesh,
-            image,
-            material,
-            particleSystem,
-            sprite,
-            sound,
-            cue
-        };
-
-        Loader(Type initType): type{initType} {}
+        Loader(Asset::Type initType): type{initType} {}
 
         virtual ~Loader() = default;
 
@@ -45,10 +32,10 @@ namespace ouzel::assets
                                Bundle& bundle,
                                const std::string& name,
                                const std::vector<std::byte>& data,
-                               bool mipmaps = true) = 0;
+                               const Asset::Options& options) = 0;
 
     private:
-        Type type;
+        Asset::Type type;
     };
 }
 
