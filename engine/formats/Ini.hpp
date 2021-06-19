@@ -96,11 +96,6 @@ namespace ouzel::ini
             return defaultValue;
         }
 
-        void setValue(const std::string_view key, const std::string& value)
-        {
-            values.insert(std::make_pair(key, value));
-        }
-
         void deleteValue(const std::string_view key)
         {
             if (const auto valueIterator = values.find(key); valueIterator != values.end())
