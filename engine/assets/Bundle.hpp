@@ -9,7 +9,6 @@
 #include <string>
 #include <string_view>
 #include "Asset.hpp"
-#include "Loader.hpp"
 #include "../audio/Cue.hpp"
 #include "../audio/Sound.hpp"
 #include "../graphics/BlendState.hpp"

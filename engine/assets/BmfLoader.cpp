@@ -11,14 +11,12 @@ namespace ouzel::assets
     {
     }
 
-    bool BmfLoader::loadAsset(Cache& cache,
+    bool BmfLoader::loadAsset(Cache&,
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
                               const Asset::Options&)
     {
-        (void)cache;
-
         try
         {
             // TODO: move the loader here
