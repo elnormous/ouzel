@@ -3,7 +3,6 @@
 #include <algorithm>
 #include "SpriteLoader.hpp"
 #include "Bundle.hpp"
-#include "Cache.hpp"
 #include "../scene/SpriteRenderer.hpp"
 #include "../formats/Json.hpp"
 

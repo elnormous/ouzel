@@ -20,17 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assets\Bundle.cpp" />
-    <ClCompile Include="assets\BmfLoader.cpp" />
-    <ClCompile Include="assets\ColladaLoader.cpp" />
-    <ClCompile Include="assets\CueLoader.cpp" />
-    <ClCompile Include="assets\GltfLoader.cpp" />
+    <ClCompile Include="assets\Cache.cpp" />
     <ClCompile Include="assets\ImageLoader.cpp" />
     <ClCompile Include="assets\MtlLoader.cpp" />
     <ClCompile Include="assets\ObjLoader.cpp" />
-    <ClCompile Include="assets\ParticleSystemLoader.cpp" />
     <ClCompile Include="assets\SpriteLoader.cpp" />
-    <ClCompile Include="assets\TtfLoader.cpp" />
-    <ClCompile Include="assets\VorbisLoader.cpp" />
     <ClCompile Include="assets\WaveLoader.cpp" />
     <ClCompile Include="audio\Audio.cpp" />
     <ClCompile Include="audio\AudioDevice.cpp" />
@@ -58,7 +52,6 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\external\Microsoft DirectX SDK (June 2010)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="assets\Cache.cpp" />
     <ClCompile Include="core\Engine.cpp" />
     <ClCompile Include="core\NativeWindow.cpp" />
     <ClCompile Include="core\System.cpp" />

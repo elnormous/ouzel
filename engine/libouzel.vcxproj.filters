@@ -202,15 +202,6 @@
     <ClCompile Include="assets\Cache.cpp">
       <Filter>engine\assets</Filter>
     </ClCompile>
-    <ClCompile Include="assets\BmfLoader.cpp">
-      <Filter>engine\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\ColladaLoader.cpp">
-      <Filter>engine\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\CueLoader.cpp">
-      <Filter>engine\assets</Filter>
-    </ClCompile>
     <ClCompile Include="assets\ImageLoader.cpp">
       <Filter>engine\assets</Filter>
     </ClCompile>
@@ -220,16 +211,7 @@
     <ClCompile Include="assets\ObjLoader.cpp">
       <Filter>engine\assets</Filter>
     </ClCompile>
-    <ClCompile Include="assets\ParticleSystemLoader.cpp">
-      <Filter>engine\assets</Filter>
-    </ClCompile>
     <ClCompile Include="assets\SpriteLoader.cpp">
-      <Filter>engine\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\TtfLoader.cpp">
-      <Filter>engine\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\VorbisLoader.cpp">
       <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="assets\WaveLoader.cpp">
@@ -240,9 +222,6 @@
     </ClCompile>
     <ClCompile Include="input\InputSystem.cpp">
       <Filter>engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="assets\GltfLoader.cpp">
-      <Filter>engine\assets</Filter>
     </ClCompile>
     <ClCompile Include="graphics\opengl\OGLRenderTarget.cpp">
       <Filter>engine\graphics\opengl</Filter>

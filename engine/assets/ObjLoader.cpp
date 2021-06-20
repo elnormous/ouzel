@@ -7,7 +7,6 @@
 #include <tuple>
 #include "ObjLoader.hpp"
 #include "Bundle.hpp"
-#include "Cache.hpp"
 #include "../graphics/Material.hpp"
 
 namespace ouzel::assets
@@ -191,7 +190,7 @@ namespace ouzel::assets
     {
     }
 
-    bool ObjLoader::loadAsset(Cache& cache,
+    bool ObjLoader::loadAsset(Cache&,
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,

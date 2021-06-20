@@ -4,18 +4,36 @@
 #define OUZEL_ASSETS_GLTFLOADER_HPP
 
 #include "Loader.hpp"
+#include "Bundle.hpp"
+#include "../scene/SkinnedMeshRenderer.hpp"
+#include "../formats/Json.hpp"
 
 namespace ouzel::assets
 {
     class GltfLoader final: public Loader
     {
     public:
-        explicit GltfLoader();
-        bool loadAsset(Cache& cache,
+        explicit GltfLoader(): Loader{Asset::Type::skinnedMesh} {}
+
+        bool loadAsset(Cache&,
                        Bundle& bundle,
                        const std::string& name,
                        const std::vector<std::byte>& data,
-                       const Asset::Options& options) override;
+                       const Asset::Options&) override
+        {
+            const auto d = json::parse(data);
+
+            const auto& nodesValue = d["nodes"];
+            const auto& meshesValue = d["meshes"];
+
+            (void)nodesValue;
+            (void)meshesValue;
+
+            scene::SkinnedMeshData skinnedMeshData;
+            bundle.setSkinnedMeshData(name, std::move(skinnedMeshData));
+
+            return true;
+        }
     };
 }
 

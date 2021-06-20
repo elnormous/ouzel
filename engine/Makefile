@@ -45,19 +45,12 @@ OBJCXXFLAGS=-std=c++17 \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
 	-I"../external/stb"
-SOURCES=assets/BmfLoader.cpp \
-	assets/Bundle.cpp \
+SOURCES=assets/Bundle.cpp \
 	assets/Cache.cpp \
-	assets/ColladaLoader.cpp \
-	assets/CueLoader.cpp \
-	assets/GltfLoader.cpp \
 	assets/ImageLoader.cpp \
 	assets/MtlLoader.cpp \
 	assets/ObjLoader.cpp \
-	assets/ParticleSystemLoader.cpp \
 	assets/SpriteLoader.cpp \
-	assets/TtfLoader.cpp \
-	assets/VorbisLoader.cpp \
 	assets/WaveLoader.cpp \
 	audio/mixer/Bus.cpp \
 	audio/mixer/Mixer.cpp \
