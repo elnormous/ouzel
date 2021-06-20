@@ -70,8 +70,8 @@ namespace ouzel::ini
 
         std::string& operator[](const std::string_view key)
         {
-            if (const auto valueIterator = values.find(key); valueIterator != values.end())
-                return valueIterator->second;
+            if (const auto iterator = values.find(key); iterator != values.end())
+                return iterator->second;
             else
             {
                 const auto& [newIterator, success] = values.insert(std::make_pair(key, std::string{}));
@@ -82,24 +82,24 @@ namespace ouzel::ini
 
         const std::string& operator[](const std::string_view key) const
         {
-            if (const auto valueIterator = values.find(key); valueIterator != values.end())
-                return valueIterator->second;
+            if (const auto iterator = values.find(key); iterator != values.end())
+                return iterator->second;
             else
                 throw RangeError{"Value does not exist"};
         }
 
         const std::string& getValue(const std::string_view key, const std::string& defaultValue = {}) const
         {
-            if (const auto valueIterator = values.find(key); valueIterator != values.end())
-                return valueIterator->second;
+            if (const auto iterator = values.find(key); iterator != values.end())
+                return iterator->second;
 
             return defaultValue;
         }
 
         void deleteValue(const std::string_view key)
         {
-            if (const auto valueIterator = values.find(key); valueIterator != values.end())
-                values.erase(valueIterator);
+            if (const auto iterator = values.find(key); iterator != values.end())
+                values.erase(iterator);
         }
 
         std::size_t getSize() const noexcept
