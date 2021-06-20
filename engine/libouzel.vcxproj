@@ -24,7 +24,6 @@
     <ClCompile Include="assets\ImageLoader.cpp" />
     <ClCompile Include="assets\MtlLoader.cpp" />
     <ClCompile Include="assets\ObjLoader.cpp" />
-    <ClCompile Include="assets\SpriteLoader.cpp" />
     <ClCompile Include="assets\WaveLoader.cpp" />
     <ClCompile Include="audio\Audio.cpp" />
     <ClCompile Include="audio\AudioDevice.cpp" />

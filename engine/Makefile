@@ -50,7 +50,6 @@ SOURCES=assets/Bundle.cpp \
 	assets/ImageLoader.cpp \
 	assets/MtlLoader.cpp \
 	assets/ObjLoader.cpp \
-	assets/SpriteLoader.cpp \
 	assets/WaveLoader.cpp \
 	audio/mixer/Bus.cpp \
 	audio/mixer/Mixer.cpp \

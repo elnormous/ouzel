@@ -211,9 +211,6 @@
     <ClCompile Include="assets\ObjLoader.cpp">
       <Filter>engine\assets</Filter>
     </ClCompile>
-    <ClCompile Include="assets\SpriteLoader.cpp">
-      <Filter>engine\assets</Filter>
-    </ClCompile>
     <ClCompile Include="assets\WaveLoader.cpp">
       <Filter>engine\assets</Filter>
     </ClCompile>

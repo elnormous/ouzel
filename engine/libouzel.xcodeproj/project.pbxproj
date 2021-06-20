@@ -402,9 +402,6 @@
 		30519CD31F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CCF1F9B53CB00AF3DC4 /* ImageLoader.hpp */; };
 		30519CD41F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CCF1F9B53CB00AF3DC4 /* ImageLoader.hpp */; };
 		30519CD51F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CCF1F9B53CB00AF3DC4 /* ImageLoader.hpp */; };
-		30519CD81F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CD61F9B53DB00AF3DC4 /* SpriteLoader.cpp */; };
-		30519CD91F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CD61F9B53DB00AF3DC4 /* SpriteLoader.cpp */; };
-		30519CDA1F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30519CD61F9B53DB00AF3DC4 /* SpriteLoader.cpp */; };
 		30519CDB1F9B53DB00AF3DC4 /* SpriteLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CD71F9B53DB00AF3DC4 /* SpriteLoader.hpp */; };
 		30519CDC1F9B53DB00AF3DC4 /* SpriteLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CD71F9B53DB00AF3DC4 /* SpriteLoader.hpp */; };
 		30519CDD1F9B53DB00AF3DC4 /* SpriteLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CD71F9B53DB00AF3DC4 /* SpriteLoader.hpp */; };
@@ -918,7 +915,6 @@
 		30519CC71F9B53C100AF3DC4 /* TtfLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TtfLoader.hpp; sourceTree = "<group>"; };
 		30519CCE1F9B53CB00AF3DC4 /* ImageLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageLoader.cpp; sourceTree = "<group>"; };
 		30519CCF1F9B53CB00AF3DC4 /* ImageLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImageLoader.hpp; sourceTree = "<group>"; };
-		30519CD61F9B53DB00AF3DC4 /* SpriteLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteLoader.cpp; sourceTree = "<group>"; };
 		30519CD71F9B53DB00AF3DC4 /* SpriteLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpriteLoader.hpp; sourceTree = "<group>"; };
 		30519CDF1F9B53E900AF3DC4 /* ParticleSystemLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParticleSystemLoader.hpp; sourceTree = "<group>"; };
 		30519CE61F9B53F500AF3DC4 /* MtlLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MtlLoader.cpp; sourceTree = "<group>"; };
@@ -1669,7 +1665,6 @@
 				30519CEE1F9B53FF00AF3DC4 /* ObjLoader.cpp */,
 				30519CEF1F9B53FF00AF3DC4 /* ObjLoader.hpp */,
 				30519CDF1F9B53E900AF3DC4 /* ParticleSystemLoader.hpp */,
-				30519CD61F9B53DB00AF3DC4 /* SpriteLoader.cpp */,
 				30519CD71F9B53DB00AF3DC4 /* SpriteLoader.hpp */,
 				30519CC71F9B53C100AF3DC4 /* TtfLoader.hpp */,
 				30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */,
@@ -2483,7 +2478,6 @@
 				C61B49F12174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
 				307F4C2324E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				3038206D1D816C7700677CAB /* NativeWindowIOS.mm in Sources */,
-				30519CD81F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
 				30EEADC321618DD800D2F525 /* MouseDevice.cpp in Sources */,
 				303B75671C2A3CBF00FEDE92 /* SpriteRenderer.cpp in Sources */,
 				303820641D816C7700677CAB /* EngineIOS.mm in Sources */,
@@ -2593,7 +2587,6 @@
 				303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */,
 				30AEFA2E20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
-				30519CDA1F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
 				307F4C2524E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				303B76391C355A3B00FEDE92 /* SpriteRenderer.cpp in Sources */,
 				30673DD51F7A694F00EAFAB0 /* NativeWindow.cpp in Sources */,
@@ -2711,7 +2704,6 @@
 				30EEADCC216A44EC00D2F525 /* InputDevice.cpp in Sources */,
 				30EEADC421618DD800D2F525 /* MouseDevice.cpp in Sources */,
 				3009030F21922E1300B00BF4 /* OGLDepthStencilState.cpp in Sources */,
-				30519CD91F9B53DB00AF3DC4 /* SpriteLoader.cpp in Sources */,
 				C61B49F22174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
 				30EEADC021618DC400D2F525 /* KeyboardDevice.cpp in Sources */,
 				3049DCE91EDCD1FA0000997A /* CursorMacOS.mm in Sources */,
