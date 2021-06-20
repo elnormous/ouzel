@@ -12,14 +12,12 @@ namespace ouzel::assets
     {
     }
 
-    bool GltfLoader::loadAsset(Cache& cache,
+    bool GltfLoader::loadAsset(Cache&,
                                Bundle& bundle,
                                const std::string& name,
                                const std::vector<std::byte>& data,
                                const Asset::Options&)
     {
-        (void)cache;
-
         const auto d = json::parse(data);
 
         const auto& nodesValue = d["nodes"];

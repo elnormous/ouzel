@@ -14,7 +14,7 @@ namespace ouzel::assets
     {
     }
 
-    bool SpriteLoader::loadAsset(Cache& cache,
+    bool SpriteLoader::loadAsset(Cache&,
                                  Bundle& bundle,
                                  const std::string& name,
                                  const std::vector<std::byte>& data,
@@ -31,11 +31,11 @@ namespace ouzel::assets
         const json::Value& metaObject = d["meta"];
 
         const auto imageFilename = metaObject["image"].as<std::string>();
-        spriteData.texture = cache.getTexture(imageFilename);
+        spriteData.texture = bundle.getTexture(imageFilename);
         if (!spriteData.texture)
         {
             bundle.loadAsset(Asset::Type::image, imageFilename, imageFilename, options);
-            spriteData.texture = cache.getTexture(imageFilename);
+            spriteData.texture = bundle.getTexture(imageFilename);
         }
 
         if (!spriteData.texture)

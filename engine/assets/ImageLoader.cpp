@@ -49,13 +49,12 @@ namespace ouzel::assets
     {
     }
 
-    bool ImageLoader::loadAsset(Cache& cache,
+    bool ImageLoader::loadAsset(Cache&,
                                 Bundle& bundle,
                                 const std::string& name,
                                 const std::vector<std::byte>& data,
                                 const Asset::Options& options)
     {
-        (void)cache;
         int width;
         int height;
         int comp;

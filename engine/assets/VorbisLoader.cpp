@@ -12,14 +12,12 @@ namespace ouzel::assets
     {
     }
 
-    bool VorbisLoader::loadAsset(Cache& cache,
+    bool VorbisLoader::loadAsset(Cache&,
                                  Bundle& bundle,
                                  const std::string& name,
                                  const std::vector<std::byte>& data,
                                  const Asset::Options&)
     {
-        (void)cache;
-
         try
         {
             auto sound = std::make_unique<audio::VorbisClip>(*engine->getAudio(), data);

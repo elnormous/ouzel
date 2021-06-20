@@ -12,14 +12,12 @@ namespace ouzel::assets
     {
     }
 
-    bool TtfLoader::loadAsset(Cache& cache,
+    bool TtfLoader::loadAsset(Cache&,
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
                               const Asset::Options& options)
     {
-        (void)cache;
-
         try
         {
             // TODO: move the loader here

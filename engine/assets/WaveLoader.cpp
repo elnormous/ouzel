@@ -32,14 +32,12 @@ namespace ouzel::assets
     {
     }
 
-    bool WaveLoader::loadAsset(Cache& cache,
+    bool WaveLoader::loadAsset(Cache&,
                                Bundle& bundle,
                                const std::string& name,
                                const std::vector<std::byte>& data,
                                const Asset::Options&)
     {
-        (void)cache;
-
         try
         {
             std::uint32_t channels = 0U;

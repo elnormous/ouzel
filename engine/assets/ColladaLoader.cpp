@@ -13,14 +13,12 @@ namespace ouzel::assets
     {
     }
 
-    bool ColladaLoader::loadAsset(Cache& cache,
+    bool ColladaLoader::loadAsset(Cache&,
                                   Bundle& bundle,
                                   const std::string& name,
                                   const std::vector<std::byte>& data,
                                   const Asset::Options&)
     {
-        (void)cache;
-
         const auto colladaData = xml::parse(data);
 
         if (colladaData.getChildren().empty())

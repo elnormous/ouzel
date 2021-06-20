@@ -235,7 +235,7 @@ namespace ouzel::assets
                     skipLine(iterator, data.end());
 
                     //if (!cache.getMaterial(filename))
-                    // TODO don't load material lib every time
+                    // TODO: don't load material lib every time
                     bundle.loadAsset(Asset::Type::material, filename, filename, options);
                 }
                 else if (keyword == "usemtl")
@@ -245,7 +245,7 @@ namespace ouzel::assets
 
                     skipLine(iterator, data.end());
 
-                    material = cache.getMaterial(materialName);
+                    material = bundle.getMaterial(materialName);
                 }
                 else if (keyword == "o")
                 {

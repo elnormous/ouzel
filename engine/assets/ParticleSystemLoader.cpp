@@ -13,7 +13,7 @@ namespace ouzel::assets
     {
     }
 
-    bool ParticleSystemLoader::loadAsset(Cache& cache,
+    bool ParticleSystemLoader::loadAsset(Cache&,
                                          Bundle& bundle,
                                          const std::string& name,
                                          const std::vector<std::byte>& data,
@@ -110,12 +110,12 @@ namespace ouzel::assets
         if (d.hasMember("textureFileName"))
         {
             const auto textureFileName = d["textureFileName"].as<std::string>();
-            particleSystemData.texture = cache.getTexture(textureFileName);
+            particleSystemData.texture = bundle.getTexture(textureFileName);
 
             if (!particleSystemData.texture)
             {
                 bundle.loadAsset(Asset::Type::image, textureFileName, textureFileName, options);
-                particleSystemData.texture = cache.getTexture(textureFileName);
+                particleSystemData.texture = bundle.getTexture(textureFileName);
             }
         }
 

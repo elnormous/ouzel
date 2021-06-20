@@ -49,7 +49,7 @@ namespace ouzel::assets
                 throw std::runtime_error("Invalid effect type " + effectType);
         }
 
-        audio::SourceDefinition parseSourceDefinition(const json::Value& value, Cache& cache)
+        audio::SourceDefinition parseSourceDefinition(const json::Value& value, Bundle& bundle)
         {
             audio::SourceDefinition sourceDefinition;
 
@@ -76,7 +76,7 @@ namespace ouzel::assets
             else if (sourceDefinition.type == audio::SourceDefinition::Type::wavePlayer)
             {
                 if (value.hasMember("source"))
-                    sourceDefinition.sound = cache.getSound(value["source"].as<std::string>());
+                    sourceDefinition.sound = bundle.getSound(value["source"].as<std::string>());
             }
 
             if (value.hasMember("effects"))
@@ -96,13 +96,13 @@ namespace ouzel::assets
 
             if (value.hasMember("sources"))
                 for (const auto& sourceValue : value["sources"])
-                    sourceDefinition.sourceDefinitions.push_back(parseSourceDefinition(sourceValue, cache));
+                    sourceDefinition.sourceDefinitions.push_back(parseSourceDefinition(sourceValue, bundle));
 
             return sourceDefinition;
         }
     }
 
-    bool CueLoader::loadAsset(Cache& cache,
+    bool CueLoader::loadAsset(Cache&,
                               Bundle& bundle,
                               const std::string& name,
                               const std::vector<std::byte>& data,
@@ -112,7 +112,7 @@ namespace ouzel::assets
         const auto d = json::parse(data);
 
         if (d.hasMember("source"))
-            sourceDefinition = parseSourceDefinition(d["source"], cache);
+            sourceDefinition = parseSourceDefinition(d["source"], bundle);
 
         auto cue = std::make_unique<audio::Cue>(sourceDefinition);
 

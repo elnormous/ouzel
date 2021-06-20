@@ -215,12 +215,12 @@ namespace ouzel::assets
 
                     skipLine(iterator, data.end());
 
-                    ambientTexture = cache.getTexture(filename);
+                    ambientTexture = bundle.getTexture(filename);
 
                     if (!ambientTexture)
                     {
                         bundle.loadAsset(Asset::Type::image, filename, filename, options);
-                        ambientTexture = cache.getTexture(filename);
+                        ambientTexture = bundle.getTexture(filename);
                     }
                 }
                 else if (keyword == "map_Kd") // diffuse texture map
@@ -231,12 +231,12 @@ namespace ouzel::assets
 
                     skipLine(iterator, data.end());
 
-                    diffuseTexture = cache.getTexture(filename);
+                    diffuseTexture = bundle.getTexture(filename);
 
                     if (!diffuseTexture)
                     {
                         bundle.loadAsset(Asset::Type::image, filename, filename, options);
-                        diffuseTexture = cache.getTexture(filename);
+                        diffuseTexture = bundle.getTexture(filename);
                     }
                 }
                 else if (keyword == "Ka") // ambient color
