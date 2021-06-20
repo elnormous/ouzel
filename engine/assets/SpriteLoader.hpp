@@ -4,6 +4,8 @@
 #define OUZEL_ASSETS_SPRITELOADER_HPP
 
 #include <algorithm>
+#include <string>
+#include <vector>
 #include "Loader.hpp"
 #include "Bundle.hpp"
 #include "../scene/SpriteRenderer.hpp"
