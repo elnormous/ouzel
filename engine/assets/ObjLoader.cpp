@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <map>
 #include <stdexcept>
-#include <string>
 #include <tuple>
 #include "ObjLoader.hpp"
 #include "Bundle.hpp"
