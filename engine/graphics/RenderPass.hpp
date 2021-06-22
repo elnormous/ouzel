@@ -3,6 +3,8 @@
 #ifndef OUZEL_GRAPHICS_RENDERPASS_HPP
 #define OUZEL_GRAPHICS_RENDERPASS_HPP
 
+#include "RenderDevice.hpp"
+
 namespace ouzel::graphics
 {
     class Graphics;
@@ -11,6 +13,10 @@ namespace ouzel::graphics
     class RenderPass final
     {
     public:
+        RenderPass(Graphics& initGraphics);
+
+    private:
+        RenderDevice::Resource resource;
     };
 }
 

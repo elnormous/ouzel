@@ -534,6 +534,18 @@ namespace ouzel::graphics
         const std::vector<ResourceId> textures;
     };
 
+    class InitRenderPassCommand final: public Command
+    {
+    public:
+        explicit InitRenderPassCommand(ResourceId initRenderPass) noexcept(false):
+            Command{Type::initRenderPass},
+            renderPass{initRenderPass}
+        {
+        }
+
+        const ResourceId renderPass;
+    };
+
     class RenderSceneCommand final: public Command
     {
     public:
