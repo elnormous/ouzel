@@ -27,11 +27,6 @@ namespace
 
 namespace ouzel::assets
 {
-    WaveLoader::WaveLoader():
-        Loader{Asset::Type::sound}
-    {
-    }
-
     bool WaveLoader::loadAsset(Cache&,
                                Bundle& bundle,
                                const std::string& name,

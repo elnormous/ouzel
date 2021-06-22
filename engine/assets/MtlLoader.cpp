@@ -144,11 +144,6 @@ namespace ouzel::assets
         }
     }
 
-    MtlLoader::MtlLoader():
-        Loader{Asset::Type::material}
-    {
-    }
-
     bool MtlLoader::loadAsset(Cache& cache,
                               Bundle& bundle,
                               const std::string& name,

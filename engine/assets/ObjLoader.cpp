@@ -184,11 +184,6 @@ namespace ouzel::assets
         }
     }
 
-    ObjLoader::ObjLoader():
-        Loader{Asset::Type::staticMesh}
-    {
-    }
-
     bool ObjLoader::loadAsset(Cache&,
                               Bundle& bundle,
                               const std::string& name,

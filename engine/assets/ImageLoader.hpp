@@ -10,7 +10,7 @@ namespace ouzel::assets
     class ImageLoader final: public Loader
     {
     public:
-        explicit ImageLoader();
+        explicit ImageLoader(): Loader{Asset::Type::image} {}
         bool loadAsset(Cache& cache,
                        Bundle& bundle,
                        const std::string& name,

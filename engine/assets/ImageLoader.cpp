@@ -44,11 +44,6 @@
 
 namespace ouzel::assets
 {
-    ImageLoader::ImageLoader():
-        Loader{Asset::Type::image}
-    {
-    }
-
     bool ImageLoader::loadAsset(Cache&,
                                 Bundle& bundle,
                                 const std::string& name,

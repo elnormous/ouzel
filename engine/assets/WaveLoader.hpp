@@ -10,7 +10,7 @@ namespace ouzel::assets
     class WaveLoader final: public Loader
     {
     public:
-        explicit WaveLoader();
+        explicit WaveLoader(): Loader{Asset::Type::sound} {}
         bool loadAsset(Cache& cache,
                        Bundle& bundle,
                        const std::string& name,

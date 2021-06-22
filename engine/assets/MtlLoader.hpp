@@ -10,7 +10,7 @@ namespace ouzel::assets
     class MtlLoader final: public Loader
     {
     public:
-        explicit MtlLoader();
+        explicit MtlLoader(): Loader{Asset::Type::material} {}
         bool loadAsset(Cache& cache,
                        Bundle& bundle,
                        const std::string& name,
