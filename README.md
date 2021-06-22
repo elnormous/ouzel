@@ -10,7 +10,7 @@ Supported platforms:
 
 * Windows 7, 8, 10
 * macOS 10.8+
-* Linux
+* GNU/Linux
 * iOS 8+
 * tvOS 9+
 * Android 3.0+
@@ -64,8 +64,7 @@ class Example: public ouzel::Application
 {
 public:
     Example():
-        assets(ouzel::engine->getCache(),
-               ouzel::engine->getFileSystem())
+        assets{ouzel::engine->getCache(), ouzel::engine->getFileSystem()}
     {
         assets.loadAsset(ouzel::assets::Loader::Image, "player", "player.png");
         ouzel::engine->getSceneManager().setScene(&scene);
