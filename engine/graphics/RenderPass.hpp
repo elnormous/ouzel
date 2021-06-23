@@ -15,6 +15,8 @@ namespace ouzel::graphics
     public:
         RenderPass(Graphics& initGraphics);
 
+        auto& getResource() const noexcept { return resource; }
+
     private:
         RenderDevice::Resource resource;
     };
