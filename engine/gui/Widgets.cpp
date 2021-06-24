@@ -352,10 +352,10 @@ namespace ouzel::gui
                  Color color,
                  const Vector<float, 2>& textAnchor):
         text{initText},
-        labelDrawable{std::make_shared<scene::TextRenderer>(fontFile, fontSize, text, color, textAnchor)}
+        labelDrawable{fontFile, fontSize, text, color, textAnchor}
     {
-        addComponent(*labelDrawable);
-        labelDrawable->setText(text);
+        addComponent(labelDrawable);
+        labelDrawable.setText(text);
 
         pickable = true;
     }
@@ -363,7 +363,7 @@ namespace ouzel::gui
     void Label::setText(const std::string& newText)
     {
         text = newText;
-        labelDrawable->setText(text);
+        labelDrawable.setText(text);
     }
 
     Menu::Menu():

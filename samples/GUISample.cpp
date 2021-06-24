@@ -113,7 +113,7 @@ namespace samples
         maximizeButton.setPosition(Vector<float, 2>{-200.0F, -40.0F});
         menu.addWidget(maximizeButton);
 
-        label1.getLabelDrawable()->setColor(Color::cyan());
+        label1.getLabelDrawable().setColor(Color::cyan());
         label1.setPosition(Vector<float, 2>{-88.0F, 108.0F});
         layer.addChild(label1);
 
@@ -125,7 +125,7 @@ namespace samples
         label2.setPosition(Vector<float, 2>{10.0F, 0.0F});
         layer.addChild(label2);
 
-        label3.getLabelDrawable()->setColor(Color::blue());
+        label3.getLabelDrawable().setColor(Color::blue());
         label3.setPosition(Vector<float, 2>{-100.0F, -100.0F});
         label3.setScale(Vector<float, 3>{0.5F, 0.5F, 1.0F});
         layer.addChild(label3);

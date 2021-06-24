@@ -128,11 +128,12 @@ namespace ouzel::gui
         auto& getText() const noexcept { return text; }
         virtual void setText(const std::string& newText);
 
+        auto& getLabelDrawable() noexcept { return labelDrawable; }
         auto& getLabelDrawable() const noexcept { return labelDrawable; }
 
     private:
         std::string text;
-        std::shared_ptr<scene::TextRenderer> labelDrawable;
+        scene::TextRenderer labelDrawable;
     };
 
     class Menu: public Widget
