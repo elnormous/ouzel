@@ -4,6 +4,7 @@
 #define OUZEL_GUI_BUTTON_HPP
 
 #include <functional>
+#include <memory>
 #include "Widget.hpp"
 #include "../scene/SpriteRenderer.hpp"
 #include "../scene/TextRenderer.hpp"
