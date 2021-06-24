@@ -4,10 +4,9 @@
 #define OUZEL_GUI_FONT_HPP
 
 #include <cstdint>
-#include <map>
 #include <memory>
 #include <string_view>
-#include <unordered_map>
+#include <tuple>
 #include <vector>
 #include "../math/Color.hpp"
 #include "../graphics/Texture.hpp"

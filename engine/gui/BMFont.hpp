@@ -3,6 +3,8 @@
 #ifndef OUZEL_GUI_BMFONT_HPP
 #define OUZEL_GUI_BMFONT_HPP
 
+#include <map>
+#include <unordered_map>
 #include "Font.hpp"
 
 namespace ouzel::gui
