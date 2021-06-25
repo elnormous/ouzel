@@ -113,7 +113,7 @@ namespace ouzel::graphics
     {
     public:
         InitRenderTargetCommand(ResourceId initRenderTarget,
-                                const std::set<std::size_t>& initColorTextures,
+                                const std::set<ResourceId>& initColorTextures,
                                 ResourceId initDepthTexture) noexcept(false):
             Command{Type::initRenderTarget},
             renderTarget{initRenderTarget},
@@ -123,7 +123,7 @@ namespace ouzel::graphics
         }
 
         const ResourceId renderTarget;
-        const std::set<std::size_t> colorTextures;
+        const std::set<ResourceId> colorTextures;
         const ResourceId depthTexture;
     };
 
@@ -539,7 +539,7 @@ namespace ouzel::graphics
     {
     public:
         explicit InitRenderPassCommand(ResourceId initRenderPass,
-                                       const std::set<std::size_t>& initRenderTargets) noexcept(false):
+                                       const std::set<ResourceId>& initRenderTargets) noexcept(false):
             Command{Type::initRenderPass},
             renderPass{initRenderPass},
             renderTargets{initRenderTargets}
@@ -547,7 +547,7 @@ namespace ouzel::graphics
         }
 
         const ResourceId renderPass;
-        const std::set<std::size_t> renderTargets;
+        const std::set<ResourceId> renderTargets;
     };
 
     class SetRenderPassParametersCommand final: public Command
