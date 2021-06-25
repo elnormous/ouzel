@@ -3,8 +3,9 @@
 #ifndef OUZEL_GRAPHICS_COMMANDS_HPP
 #define OUZEL_GRAPHICS_COMMANDS_HPP
 
-#include <queue>
+#include <set>
 #include <string>
+#include <queue>
 #include "BlendFactor.hpp"
 #include "BlendOperation.hpp"
 #include "BufferType.hpp"
@@ -537,13 +538,16 @@ namespace ouzel::graphics
     class InitRenderPassCommand final: public Command
     {
     public:
-        explicit InitRenderPassCommand(ResourceId initRenderPass) noexcept(false):
+        explicit InitRenderPassCommand(ResourceId initRenderPass,
+                                       const std::set<std::size_t>& initRenderTargets) noexcept(false):
             Command{Type::initRenderPass},
-            renderPass{initRenderPass}
+            renderPass{initRenderPass},
+            renderTargets{initRenderTargets}
         {
         }
 
         const ResourceId renderPass;
+        const std::set<std::size_t> renderTargets;
     };
 
     class SetRenderPassParametersCommand final: public Command

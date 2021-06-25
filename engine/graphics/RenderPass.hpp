@@ -4,6 +4,7 @@
 #define OUZEL_GRAPHICS_RENDERPASS_HPP
 
 #include "RenderDevice.hpp"
+#include "RenderTarget.hpp"
 
 namespace ouzel::graphics
 {
@@ -13,12 +14,14 @@ namespace ouzel::graphics
     class RenderPass final
     {
     public:
-        RenderPass(Graphics& initGraphics);
+        RenderPass(Graphics& initGraphics,
+                   const std::vector<RenderTarget*>& initRenderTargets);
 
         auto& getResource() const noexcept { return resource; }
 
     private:
         RenderDevice::Resource resource;
+        std::vector<RenderTarget*> renderTargets;
     };
 }
 
