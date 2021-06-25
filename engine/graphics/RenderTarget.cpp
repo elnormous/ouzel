@@ -13,7 +13,7 @@ namespace ouzel::graphics
         colorTextures{initColorTextures},
         depthTexture{initDepthTexture}
     {
-        std::set<std::size_t> colorTextureIds;
+        std::set<RenderDevice::ResourceId> colorTextureIds;
 
         for (const auto& colorTexture : colorTextures)
             colorTextureIds.insert(colorTexture ? colorTexture->getResource() : 0);
