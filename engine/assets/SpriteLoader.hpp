@@ -30,7 +30,7 @@ namespace ouzel::assets
                 !d.hasMember("frames"))
                 return false;
 
-            const json::Value& metaObject = d["meta"];
+            const auto& metaObject = d["meta"];
 
             const auto imageFilename = metaObject["image"].as<std::string>();
             spriteData.texture = bundle.getTexture(imageFilename);
@@ -48,17 +48,17 @@ namespace ouzel::assets
                 static_cast<float>(spriteData.texture->getSize().v[1])
             };
 
-            const json::Value& framesArray = d["frames"];
+            const auto& framesArray = d["frames"];
 
             scene::SpriteData::Animation animation;
 
             animation.frames.reserve(framesArray.getSize());
 
-            for (const json::Value& frameObject : framesArray)
+            for (const auto& frameObject : framesArray)
             {
                 const auto filename = frameObject["filename"].as<std::string>();
 
-                const json::Value& frameRectangleObject = frameObject["frame"];
+                const auto& frameRectangleObject = frameObject["frame"];
 
                 const Rect<float> frameRectangle{
                     frameRectangleObject["x"].as<float>(),
@@ -67,21 +67,21 @@ namespace ouzel::assets
                     frameRectangleObject["h"].as<float>()
                 };
 
-                const json::Value& sourceSizeObject = frameObject["sourceSize"];
+                const auto& sourceSizeObject = frameObject["sourceSize"];
 
                 const Size<float, 2> sourceSize{
                     sourceSizeObject["w"].as<float>(),
                     sourceSizeObject["h"].as<float>()
                 };
 
-                const json::Value& spriteSourceSizeObject = frameObject["spriteSourceSize"];
+                const auto& spriteSourceSizeObject = frameObject["spriteSourceSize"];
 
                 const Vector<float, 2> sourceOffset{
                     spriteSourceSizeObject["x"].as<float>(),
                     spriteSourceSizeObject["y"].as<float>()
                 };
 
-                const json::Value& pivotObject = frameObject["pivot"];
+                const auto& pivotObject = frameObject["pivot"];
 
                 const Vector<float, 2> pivot{
                     pivotObject["x"].as<float>(),
@@ -94,10 +94,10 @@ namespace ouzel::assets
                 {
                     std::vector<std::uint16_t> indices;
 
-                    const json::Value& trianglesObject = frameObject["triangles"];
+                    const auto& trianglesObject = frameObject["triangles"];
 
-                    for (const json::Value& triangleObject : trianglesObject)
-                        for (const json::Value& indexObject : triangleObject)
+                    for (const auto& triangleObject : trianglesObject)
+                        for (const auto& indexObject : triangleObject)
                             indices.push_back(static_cast<std::uint16_t>(indexObject.as<std::uint32_t>()));
 
                     // reverse the vertices, so that they are counterclockwise
@@ -105,8 +105,8 @@ namespace ouzel::assets
 
                     std::vector<graphics::Vertex> vertices;
 
-                    const json::Value& verticesObject = frameObject["vertices"];
-                    const json::Value& verticesUVObject = frameObject["verticesUV"];
+                    const auto& verticesObject = frameObject["vertices"];
+                    const auto& verticesUVObject = frameObject["verticesUV"];
 
                     const Vector<float, 2> finalOffset{
                         -sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
@@ -115,8 +115,8 @@ namespace ouzel::assets
 
                     for (std::size_t vertexIndex = 0; vertexIndex < verticesObject.getSize(); ++vertexIndex)
                     {
-                        const json::Value& vertexObject = verticesObject[vertexIndex];
-                        const json::Value& vertexUVObject = verticesUVObject[vertexIndex];
+                        const auto& vertexObject = verticesObject[vertexIndex];
+                        const auto& vertexUVObject = verticesUVObject[vertexIndex];
 
                         vertices.emplace_back(Vector<float, 3>{static_cast<float>(vertexObject[0].as<std::int32_t>()) + finalOffset.v[0],
                                                                -static_cast<float>(vertexObject[1].as<std::int32_t>()) - finalOffset.v[1], 0.0F},
