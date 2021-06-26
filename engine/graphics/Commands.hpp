@@ -553,13 +553,16 @@ namespace ouzel::graphics
     class SetRenderPassParametersCommand final: public Command
     {
     public:
-        explicit SetRenderPassParametersCommand(ResourceId initRenderPass) noexcept(false):
+        explicit SetRenderPassParametersCommand(ResourceId initRenderPass,
+                                                const std::set<ResourceId>& initRenderTargets) noexcept(false):
             Command{Type::setRenderPassParameters},
-            renderPass{initRenderPass}
+            renderPass{initRenderPass},
+            renderTargets{initRenderTargets}
         {
         }
 
         const ResourceId renderPass;
+        const std::set<ResourceId> renderTargets;
     };
 
     class RenderSceneCommand final: public Command
