@@ -83,15 +83,15 @@ namespace ouzel::graphics::d3d11
         {
             switch (semantic.usage)
             {
-                case Vertex::Attribute::Usage::binormal: return {"BINORMAL", 0};
-                case Vertex::Attribute::Usage::blendIndices: return {"BLENDINDICES", 0};
-                case Vertex::Attribute::Usage::blendWeight: return {"BLENDWEIGHT", 0};
-                case Vertex::Attribute::Usage::color: return {"COLOR", 0};
-                case Vertex::Attribute::Usage::normal: return {"NORMAL", 0};
-                case Vertex::Attribute::Usage::position: return {"POSITION", 0};
+                case Vertex::Attribute::Usage::binormal: return {"BINORMAL", static_cast<UINT>(semantic.index)};
+                case Vertex::Attribute::Usage::blendIndices: return {"BLENDINDICES", static_cast<UINT>(semantic.index)};
+                case Vertex::Attribute::Usage::blendWeight: return {"BLENDWEIGHT", static_cast<UINT>(semantic.index)};
+                case Vertex::Attribute::Usage::color: return {"COLOR", static_cast<UINT>(semantic.index)};
+                case Vertex::Attribute::Usage::normal: return {"NORMAL", static_cast<UINT>(semantic.index)};
+                case Vertex::Attribute::Usage::position: return {"POSITION", static_cast<UINT>(semantic.index)};
                 case Vertex::Attribute::Usage::positionTransformed: return {"POSITIONT", 0};
-                case Vertex::Attribute::Usage::pointSize: return {"PSIZE", 0};
-                case Vertex::Attribute::Usage::tangent: return {"TANGENT", 0};
+                case Vertex::Attribute::Usage::pointSize: return {"PSIZE", static_cast<UINT>(semantic.index)};
+                case Vertex::Attribute::Usage::tangent: return {"TANGENT", static_cast<UINT>(semantic.index)};
                 case Vertex::Attribute::Usage::textureCoordinates: return {"TEXCOORD", static_cast<UINT>(semantic.index)};
                 default:
                     throw std::runtime_error("Invalid vertex attribute usage");
