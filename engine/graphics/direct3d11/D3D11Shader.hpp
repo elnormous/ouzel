@@ -37,7 +37,7 @@ namespace ouzel::graphics::d3d11
         Shader(RenderDevice& initRenderDevice,
                const std::vector<std::uint8_t>& fragmentShaderData,
                const std::vector<std::uint8_t>& vertexShaderData,
-               const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+               const std::set<Vertex::Attribute::Semantic>& initVertexAttributes,
                const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                const std::string& fragmentShaderFunction,
@@ -67,7 +67,7 @@ namespace ouzel::graphics::d3d11
         auto& getInputLayout() const noexcept { return inputLayout; }
 
     private:
-        std::set<Vertex::Attribute::Usage> vertexAttributes;
+        std::set<Vertex::Attribute::Semantic> vertexAttributes;
 
         std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
         std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
