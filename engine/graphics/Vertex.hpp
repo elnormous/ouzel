@@ -32,7 +32,7 @@ namespace ouzel::graphics
             };
 
             constexpr Attribute(Usage initUsage, DataType initDataType) noexcept:
-                usage(initUsage), dataType(initDataType) {}
+                usage{initUsage}, dataType{initDataType} {}
             Usage usage;
             DataType dataType;
         };

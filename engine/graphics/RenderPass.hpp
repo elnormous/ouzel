@@ -17,9 +17,9 @@ namespace ouzel::graphics
         RenderPass(Graphics& initGraphics,
                    const std::vector<RenderTarget*>& initRenderTargets);
 
-        void setRenderTargets(const std::vector<RenderTarget*>& newRenderTargets);
-
         auto& getResource() const noexcept { return resource; }
+
+        void setRenderTargets(const std::vector<RenderTarget*>& newRenderTargets);
 
     private:
         Graphics* graphics = nullptr;
