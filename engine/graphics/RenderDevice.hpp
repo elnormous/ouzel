@@ -223,7 +223,7 @@ namespace ouzel::graphics
         {
             if (const auto i = deletedResourceIds.begin(); i != deletedResourceIds.end())
             {
-                std::size_t resourceId = *i;
+                const auto resourceId = *i;
                 deletedResourceIds.erase(i);
                 return resourceId;
             }
