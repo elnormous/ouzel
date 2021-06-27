@@ -13,7 +13,7 @@ namespace ouzel::graphics::opengl
     Shader::Shader(RenderDevice& initRenderDevice,
                    const std::vector<std::uint8_t>& initFragmentShader,
                    const std::vector<std::uint8_t>& initVertexShader,
-                   const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                   const std::set<Vertex::Attribute::Semantic>& initVertexAttributes,
                    const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                    const std::string&,
@@ -78,9 +78,9 @@ namespace ouzel::graphics::opengl
 
     namespace
     {
-        const GLchar* usageToString(Vertex::Attribute::Usage usage)
+        std::string semanticToString(Vertex::Attribute::Semantic semantic)
         {
-            switch (usage)
+            switch (semantic.usage)
             {
                 case Vertex::Attribute::Usage::binormal: return "binormal0";
                 case Vertex::Attribute::Usage::blendIndices: return "blendIndices0";
@@ -91,8 +91,7 @@ namespace ouzel::graphics::opengl
                 case Vertex::Attribute::Usage::positionTransformed: return "positionT0";
                 case Vertex::Attribute::Usage::pointSize: return "pointSize0";
                 case Vertex::Attribute::Usage::tangent: return "tangent0";
-                case Vertex::Attribute::Usage::textureCoordinates0: return "texCoord0";
-                case Vertex::Attribute::Usage::textureCoordinates1: return "texCoord1";
+                case Vertex::Attribute::Usage::textureCoordinates: return "texCoord" + std::to_string(semantic.index);
                 default:
                     throw Error("Invalid vertex attribute usage");
             }
@@ -137,9 +136,10 @@ namespace ouzel::graphics::opengl
         GLuint index = 0;
 
         for (const auto& vertexAttribute : RenderDevice::vertexAttributes)
-            if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
+            if (vertexAttributes.find(vertexAttribute.semantic) != vertexAttributes.end())
             {
-                renderDevice.glBindAttribLocationProc(programId, index, usageToString(vertexAttribute.usage));
+                const auto usage = semanticToString(vertexAttribute.semantic);
+                renderDevice.glBindAttribLocationProc(programId, index, usage.c_str());
                 ++index;
             }
 

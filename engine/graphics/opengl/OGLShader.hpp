@@ -35,7 +35,7 @@ namespace ouzel::graphics::opengl
         Shader(RenderDevice& initRenderDevice,
                const std::vector<std::uint8_t>& initFragmentShader,
                const std::vector<std::uint8_t>& initVertexShader,
-               const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+               const std::set<Vertex::Attribute::Semantic>& initVertexAttributes,
                const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                const std::string& fragmentShaderFunction,
@@ -70,7 +70,7 @@ namespace ouzel::graphics::opengl
         std::vector<std::uint8_t> fragmentShaderData;
         std::vector<std::uint8_t> vertexShaderData;
 
-        std::set<Vertex::Attribute::Usage> vertexAttributes;
+        std::set<Vertex::Attribute::Semantic> vertexAttributes;
 
         std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
         std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;

@@ -254,10 +254,10 @@ namespace ouzel::core
                                                                                                      std::end(TexturePSGLES2_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGLES2_glsl),
                                                                                                      std::end(TextureVSGLES2_glsl)),
-                                                                           std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::position,
-                                                                               graphics::Vertex::Attribute::Usage::color,
-                                                                               graphics::Vertex::Attribute::Usage::textureCoordinates0
+                                                                           std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                               {graphics::Vertex::Attribute::Usage::position},
+                                                                               {graphics::Vertex::Attribute::Usage::color},
+                                                                               {graphics::Vertex::Attribute::Usage::textureCoordinates, 0U}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color",graphics::DataType::float32Vector4}
@@ -272,10 +272,10 @@ namespace ouzel::core
                                                                                                      std::end(TexturePSGLES3_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGLES3_glsl),
                                                                                                      std::end(TextureVSGLES3_glsl)),
-                                                                           std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::position,
-                                                                               graphics::Vertex::Attribute::Usage::color,
-                                                                               graphics::Vertex::Attribute::Usage::textureCoordinates0
+                                                                           std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                               {graphics::Vertex::Attribute::Usage::position},
+                                                                               {graphics::Vertex::Attribute::Usage::color},
+                                                                               {graphics::Vertex::Attribute::Usage::textureCoordinates, 0U}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color", graphics::DataType::float32Vector4}
@@ -291,10 +291,10 @@ namespace ouzel::core
                                                                                                      std::end(TexturePSGL2_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGL2_glsl),
                                                                                                      std::end(TextureVSGL2_glsl)),
-                                                                           std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::position,
-                                                                               graphics::Vertex::Attribute::Usage::color,
-                                                                               graphics::Vertex::Attribute::Usage::textureCoordinates0
+                                                                           std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                               {graphics::Vertex::Attribute::Usage::position},
+                                                                               {graphics::Vertex::Attribute::Usage::color},
+                                                                               {graphics::Vertex::Attribute::Usage::textureCoordinates, 0U}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color", graphics::DataType::float32Vector4}
@@ -309,10 +309,10 @@ namespace ouzel::core
                                                                                                      std::end(TexturePSGL3_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGL3_glsl),
                                                                                                      std::end(TextureVSGL3_glsl)),
-                                                                           std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::position,
-                                                                               graphics::Vertex::Attribute::Usage::color,
-                                                                               graphics::Vertex::Attribute::Usage::textureCoordinates0
+                                                                           std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                               {graphics::Vertex::Attribute::Usage::position},
+                                                                               {graphics::Vertex::Attribute::Usage::color},
+                                                                               {graphics::Vertex::Attribute::Usage::textureCoordinates, 0U}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color", graphics::DataType::float32Vector4}
@@ -327,10 +327,10 @@ namespace ouzel::core
                                                                                                      std::end(TexturePSGL4_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGL4_glsl),
                                                                                                      std::end(TextureVSGL4_glsl)),
-                                                                           std::set<graphics::Vertex::Attribute::Usage>{
-                                                                               graphics::Vertex::Attribute::Usage::position,
-                                                                               graphics::Vertex::Attribute::Usage::color,
-                                                                               graphics::Vertex::Attribute::Usage::textureCoordinates0
+                                                                           std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                               {graphics::Vertex::Attribute::Usage::position},
+                                                                               {graphics::Vertex::Attribute::Usage::color},
+                                                                               {graphics::Vertex::Attribute::Usage::textureCoordinates, 0U}
                                                                            },
                                                                            std::vector<std::pair<std::string, graphics::DataType>>{
                                                                                {"color", graphics::DataType::float32Vector4}
@@ -357,9 +357,9 @@ namespace ouzel::core
                                                                                                    std::end(ColorPSGLES2_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGLES2_glsl),
                                                                                                    std::end(ColorVSGLES2_glsl)),
-                                                                         std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::position,
-                                                                             graphics::Vertex::Attribute::Usage::color
+                                                                         std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                             {graphics::Vertex::Attribute::Usage::position},
+                                                                             {graphics::Vertex::Attribute::Usage::color}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::float32Vector4}
@@ -374,9 +374,9 @@ namespace ouzel::core
                                                                                                    std::end(ColorPSGLES3_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGLES3_glsl),
                                                                                                    std::end(ColorVSGLES3_glsl)),
-                                                                         std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::position,
-                                                                             graphics::Vertex::Attribute::Usage::color
+                                                                         std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                             {graphics::Vertex::Attribute::Usage::position},
+                                                                             {graphics::Vertex::Attribute::Usage::color}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::float32Vector4}
@@ -392,9 +392,9 @@ namespace ouzel::core
                                                                                                    std::end(ColorPSGL2_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGL2_glsl),
                                                                                                    std::end(ColorVSGL2_glsl)),
-                                                                         std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::position,
-                                                                             graphics::Vertex::Attribute::Usage::color
+                                                                         std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                             {graphics::Vertex::Attribute::Usage::position},
+                                                                             {graphics::Vertex::Attribute::Usage::color}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::float32Vector4}
@@ -409,9 +409,9 @@ namespace ouzel::core
                                                                                                    std::end(ColorPSGL3_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGL3_glsl),
                                                                                                    std::end(ColorVSGL3_glsl)),
-                                                                         std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::position,
-                                                                             graphics::Vertex::Attribute::Usage::color
+                                                                         std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                             {graphics::Vertex::Attribute::Usage::position},
+                                                                             {graphics::Vertex::Attribute::Usage::color}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::float32Vector4}
@@ -426,9 +426,9 @@ namespace ouzel::core
                                                                                                    std::end(ColorPSGL4_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGL4_glsl),
                                                                                                    std::end(ColorVSGL4_glsl)),
-                                                                         std::set<graphics::Vertex::Attribute::Usage>{
-                                                                             graphics::Vertex::Attribute::Usage::position,
-                                                                             graphics::Vertex::Attribute::Usage::color
+                                                                         std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                             {graphics::Vertex::Attribute::Usage::position},
+                                                                             {graphics::Vertex::Attribute::Usage::color}
                                                                          },
                                                                          std::vector<std::pair<std::string, graphics::DataType>>{
                                                                              {"color", graphics::DataType::float32Vector4}
@@ -455,10 +455,10 @@ namespace ouzel::core
                                                                                                   std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                                                         std::vector<std::uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11),
                                                                                                   std::end(TEXTURE_VERTEX_SHADER_D3D11)),
-                                                                        std::set<graphics::Vertex::Attribute::Usage>{
-                                                                            graphics::Vertex::Attribute::Usage::position,
-                                                                            graphics::Vertex::Attribute::Usage::color,
-                                                                            graphics::Vertex::Attribute::Usage::textureCoordinates0
+                                                                        std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                            {graphics::Vertex::Attribute::Usage::position},
+                                                                            {graphics::Vertex::Attribute::Usage::color},
+                                                                            {graphics::Vertex::Attribute::Usage::textureCoordinates, 0U}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                             {"color", graphics::DataType::float32Vector4}
@@ -474,9 +474,9 @@ namespace ouzel::core
                                                                                                 std::end(COLOR_PIXEL_SHADER_D3D11)),
                                                                       std::vector<std::uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11),
                                                                                                 std::end(COLOR_VERTEX_SHADER_D3D11)),
-                                                                      std::set<graphics::Vertex::Attribute::Usage>{
-                                                                          graphics::Vertex::Attribute::Usage::position,
-                                                                          graphics::Vertex::Attribute::Usage::color
+                                                                      std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                          {graphics::Vertex::Attribute::Usage::position},
+                                                                          {graphics::Vertex::Attribute::Usage::color}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
                                                                           {"color", graphics::DataType::float32Vector4}
@@ -498,10 +498,10 @@ namespace ouzel::core
                                                                                                   std::end(TEXTURE_PIXEL_SHADER_METAL)),
                                                                         std::vector<std::uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL),
                                                                                                   std::end(TEXTURE_VERTEX_SHADER_METAL)),
-                                                                        std::set<graphics::Vertex::Attribute::Usage>{
-                                                                            graphics::Vertex::Attribute::Usage::position,
-                                                                            graphics::Vertex::Attribute::Usage::color,
-                                                                            graphics::Vertex::Attribute::Usage::textureCoordinates0
+                                                                        std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                            {graphics::Vertex::Attribute::Usage::position},
+                                                                            {graphics::Vertex::Attribute::Usage::color},
+                                                                            {graphics::Vertex::Attribute::Usage::textureCoordinates, 0U}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                             {"color", graphics::DataType::float32Vector4}
@@ -518,9 +518,9 @@ namespace ouzel::core
                                                                                                 std::end(COLOR_PIXEL_SHADER_METAL)),
                                                                       std::vector<std::uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL),
                                                                                                 std::end(COLOR_VERTEX_SHADER_METAL)),
-                                                                      std::set<graphics::Vertex::Attribute::Usage>{
-                                                                          graphics::Vertex::Attribute::Usage::position,
-                                                                          graphics::Vertex::Attribute::Usage::color
+                                                                      std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                          {graphics::Vertex::Attribute::Usage::position},
+                                                                          {graphics::Vertex::Attribute::Usage::color}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
                                                                           {"color", graphics::DataType::float32Vector4}
@@ -540,10 +540,10 @@ namespace ouzel::core
                 auto textureShader = std::make_unique<graphics::Shader>(*graphics,
                                                                         std::vector<std::uint8_t>(),
                                                                         std::vector<std::uint8_t>(),
-                                                                        std::set<graphics::Vertex::Attribute::Usage>{
-                                                                            graphics::Vertex::Attribute::Usage::position,
-                                                                            graphics::Vertex::Attribute::Usage::color,
-                                                                            graphics::Vertex::Attribute::Usage::textureCoordinates0
+                                                                        std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                            {graphics::Vertex::Attribute::Usage::position},
+                                                                            {graphics::Vertex::Attribute::Usage::color},
+                                                                            {graphics::Vertex::Attribute::Usage::textureCoordinates, 0U}
                                                                         },
                                                                         std::vector<std::pair<std::string, graphics::DataType>>{
                                                                             {"color", graphics::DataType::float32Vector4}
@@ -557,9 +557,9 @@ namespace ouzel::core
                 auto colorShader = std::make_unique<graphics::Shader>(*graphics,
                                                                       std::vector<std::uint8_t>(),
                                                                       std::vector<std::uint8_t>(),
-                                                                      std::set<graphics::Vertex::Attribute::Usage>{
-                                                                          graphics::Vertex::Attribute::Usage::position,
-                                                                          graphics::Vertex::Attribute::Usage::color
+                                                                      std::set<graphics::Vertex::Attribute::Semantic>{
+                                                                          {graphics::Vertex::Attribute::Usage::position},
+                                                                          {graphics::Vertex::Attribute::Usage::color}
                                                                       },
                                                                       std::vector<std::pair<std::string, graphics::DataType>>{
                                                                           {"color", graphics::DataType::float32Vector4}

@@ -27,13 +27,32 @@ namespace ouzel::graphics
                 positionTransformed,
                 pointSize,
                 tangent,
-                textureCoordinates0,
-                textureCoordinates1
+                textureCoordinates
             };
 
-            constexpr Attribute(Usage initUsage, DataType initDataType) noexcept:
-                usage{initUsage}, dataType{initDataType} {}
-            Usage usage;
+            using Index = std::size_t;
+
+            struct Semantic final
+            {
+                constexpr Semantic(Usage initUsage, Index initIndex = 0) noexcept:
+                    usage{initUsage},
+                    index{initIndex}
+                {}
+
+                constexpr bool operator<(const Semantic& other) const noexcept
+                {
+                    return usage == other.usage ?
+                        index < other.index :
+                        usage < other.usage;
+                }
+
+                Usage usage;
+                Index index;
+            };
+
+            constexpr Attribute(Semantic initSemantic, DataType initDataType) noexcept:
+                semantic{initSemantic}, dataType{initDataType} {}
+            Semantic semantic;
             DataType dataType;
         };
 

@@ -391,7 +391,7 @@ namespace ouzel::graphics
         InitShaderCommand(ResourceId initShader,
                           const std::vector<std::uint8_t>& initFragmentShader,
                           const std::vector<std::uint8_t>& initVertexShader,
-                          const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                          const std::set<Vertex::Attribute::Semantic>& initVertexAttributes,
                           const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                           const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                           const std::string& initFragmentShaderFunction,
@@ -411,7 +411,7 @@ namespace ouzel::graphics
         const ResourceId shader;
         const std::vector<std::uint8_t> fragmentShader;
         const std::vector<std::uint8_t> vertexShader;
-        const std::set<Vertex::Attribute::Usage> vertexAttributes;
+        const std::set<Vertex::Attribute::Semantic> vertexAttributes;
         const std::vector<std::pair<std::string, DataType>> fragmentShaderConstantInfo;
         const std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
         const std::string fragmentShaderFunction;

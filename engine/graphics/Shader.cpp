@@ -13,7 +13,7 @@ namespace ouzel::graphics
     Shader::Shader(Graphics& initGraphics,
                    const std::vector<std::uint8_t>& initFragmentShader,
                    const std::vector<std::uint8_t>& initVertexShader,
-                   const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                   const std::set<Vertex::Attribute::Semantic>& initVertexAttributes,
                    const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                    const std::string& fragmentShaderFunction,

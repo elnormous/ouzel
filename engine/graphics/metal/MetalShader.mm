@@ -86,7 +86,7 @@ namespace ouzel::graphics::metal
     Shader::Shader(RenderDevice& initRenderDevice,
                    const std::vector<std::uint8_t>& fragmentShaderData,
                    const std::vector<std::uint8_t>& vertexShaderData,
-                   const std::set<Vertex::Attribute::Usage>& initVertexAttributes,
+                   const std::set<Vertex::Attribute::Semantic>& initVertexAttributes,
                    const std::vector<std::pair<std::string, DataType>>& initFragmentShaderConstantInfo,
                    const std::vector<std::pair<std::string, DataType>>& initVertexShaderConstantInfo,
                    const std::string& fragmentShaderFunction,
@@ -103,7 +103,7 @@ namespace ouzel::graphics::metal
 
         for (const auto& vertexAttribute : RenderDevice::vertexAttributes)
         {
-            if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
+            if (vertexAttributes.find(vertexAttribute.semantic) != vertexAttributes.end())
             {
                 const MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType);
 

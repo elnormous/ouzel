@@ -79,9 +79,9 @@ namespace ouzel::graphics::d3d11
             }
         }
 
-        std::pair<const char*, UINT> usageToSemantic(Vertex::Attribute::Usage usage)
+        std::pair<const char*, UINT> semanticToString(Vertex::Attribute::Semantic semantic)
         {
-            switch (usage)
+            switch (semantic.usage)
             {
                 case Vertex::Attribute::Usage::binormal: return {"BINORMAL", 0};
                 case Vertex::Attribute::Usage::blendIndices: return {"BLENDINDICES", 0};
@@ -92,8 +92,7 @@ namespace ouzel::graphics::d3d11
                 case Vertex::Attribute::Usage::positionTransformed: return {"POSITIONT", 0};
                 case Vertex::Attribute::Usage::pointSize: return {"PSIZE", 0};
                 case Vertex::Attribute::Usage::tangent: return {"TANGENT", 0};
-                case Vertex::Attribute::Usage::textureCoordinates0: return {"TEXCOORD", 0};
-                case Vertex::Attribute::Usage::textureCoordinates1: return {"TEXCOORD", 1};
+                case Vertex::Attribute::Usage::textureCoordinates: return {"TEXCOORD", static_cast<UINT>(semantic.index)};
                 default:
                     throw std::runtime_error("Invalid vertex attribute usage");
             }
@@ -131,14 +130,14 @@ namespace ouzel::graphics::d3d11
 
         for (const auto& vertexAttribute : RenderDevice::vertexAttributes)
         {
-            if (vertexAttributes.find(vertexAttribute.usage) != vertexAttributes.end())
+            if (vertexAttributes.find(vertexAttribute.semantic) != vertexAttributes.end())
             {
                 DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType);
 
                 if (vertexFormat == DXGI_FORMAT_UNKNOWN)
                     throw std::runtime_error("Invalid vertex format");
 
-                const auto [semantic, index] = usageToSemantic(vertexAttribute.usage);
+                const auto [semantic, index] = semanticToString(vertexAttribute.semantic);
 
                 vertexInputElements.push_back({
                     semantic, index,
