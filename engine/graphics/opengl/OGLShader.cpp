@@ -82,15 +82,15 @@ namespace ouzel::graphics::opengl
         {
             switch (semantic.usage)
             {
-                case Vertex::Attribute::Usage::binormal: return "binormal0";
-                case Vertex::Attribute::Usage::blendIndices: return "blendIndices0";
-                case Vertex::Attribute::Usage::blendWeight: return "blendWeight0";
-                case Vertex::Attribute::Usage::color: return "color0";
-                case Vertex::Attribute::Usage::normal: return "normal0";
-                case Vertex::Attribute::Usage::position: return "position0";
-                case Vertex::Attribute::Usage::positionTransformed: return "positionT0";
-                case Vertex::Attribute::Usage::pointSize: return "pointSize0";
-                case Vertex::Attribute::Usage::tangent: return "tangent0";
+                case Vertex::Attribute::Usage::binormal: return "binormal" + std::to_string(semantic.index);
+                case Vertex::Attribute::Usage::blendIndices: return "blendIndices" + std::to_string(semantic.index);
+                case Vertex::Attribute::Usage::blendWeight: return "blendWeight" + std::to_string(semantic.index);
+                case Vertex::Attribute::Usage::color: return "color" + std::to_string(semantic.index);
+                case Vertex::Attribute::Usage::normal: return "normal" + std::to_string(semantic.index);
+                case Vertex::Attribute::Usage::position: return "position" + std::to_string(semantic.index);
+                case Vertex::Attribute::Usage::positionTransformed: return "positionT";
+                case Vertex::Attribute::Usage::pointSize: return "pointSize" + std::to_string(semantic.index);
+                case Vertex::Attribute::Usage::tangent: return "tangent" + std::to_string(semantic.index);
                 case Vertex::Attribute::Usage::textureCoordinates: return "texCoord" + std::to_string(semantic.index);
                 default:
                     throw Error("Invalid vertex attribute usage");
