@@ -78,6 +78,26 @@ namespace ouzel::graphics::d3d11
                 default: throw std::runtime_error("Invalid data type");
             }
         }
+
+        std::pair<const char*, UINT> usageToSemantic(Vertex::Attribute::Usage usage)
+        {
+            switch (usage)
+            {
+                case Vertex::Attribute::Usage::binormal: return {"BINORMAL", 0};
+                case Vertex::Attribute::Usage::blendIndices: return {"BLENDINDICES", 0};
+                case Vertex::Attribute::Usage::blendWeight: return {"BLENDWEIGHT", 0};
+                case Vertex::Attribute::Usage::color: return {"COLOR", 0};
+                case Vertex::Attribute::Usage::normal: return {"NORMAL", 0};
+                case Vertex::Attribute::Usage::position: return {"POSITION", 0};
+                case Vertex::Attribute::Usage::positionTransformed: return {"POSITIONT", 0};
+                case Vertex::Attribute::Usage::pointSize: return {"PSIZE", 0};
+                case Vertex::Attribute::Usage::tangent: return {"TANGENT", 0};
+                case Vertex::Attribute::Usage::textureCoordinates0: return {"TEXCOORD", 0};
+                case Vertex::Attribute::Usage::textureCoordinates1: return {"TEXCOORD", 1};
+                default:
+                    throw std::runtime_error("Invalid vertex attribute usage");
+            }
+        }
     }
 
     Shader::Shader(RenderDevice& initRenderDevice,
@@ -118,48 +138,7 @@ namespace ouzel::graphics::d3d11
                 if (vertexFormat == DXGI_FORMAT_UNKNOWN)
                     throw std::runtime_error("Invalid vertex format");
 
-                const char* semantic;
-                UINT index = 0;
-
-                switch (vertexAttribute.usage)
-                {
-                    case Vertex::Attribute::Usage::binormal:
-                        semantic = "BINORMAL";
-                        break;
-                    case Vertex::Attribute::Usage::blendIndices:
-                        semantic = "BLENDINDICES";
-                        break;
-                    case Vertex::Attribute::Usage::blendWeight:
-                        semantic = "BLENDWEIGHT";
-                        break;
-                    case Vertex::Attribute::Usage::color:
-                        semantic = "COLOR";
-                        break;
-                    case Vertex::Attribute::Usage::normal:
-                        semantic = "NORMAL";
-                        break;
-                    case Vertex::Attribute::Usage::position:
-                        semantic = "POSITION";
-                        break;
-                    case Vertex::Attribute::Usage::positionTransformed:
-                        semantic = "POSITIONT";
-                        break;
-                    case Vertex::Attribute::Usage::pointSize:
-                        semantic = "PSIZE";
-                        break;
-                    case Vertex::Attribute::Usage::tangent:
-                        semantic = "TANGENT";
-                        break;
-                    case Vertex::Attribute::Usage::textureCoordinates0:
-                        semantic = "TEXCOORD";
-                        break;
-                    case Vertex::Attribute::Usage::textureCoordinates1:
-                        semantic = "TEXCOORD";
-                        index = 1;
-                        break;
-                    default:
-                        throw std::runtime_error("Invalid vertex attribute usage");
-                }
+                const auto [semantic, index] = usageToSemantic(vertexAttribute.usage);
 
                 vertexInputElements.push_back({
                     semantic, index,
