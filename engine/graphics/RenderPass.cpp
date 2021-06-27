@@ -22,6 +22,8 @@ namespace ouzel::graphics
 
     void RenderPass::setRenderTargets(const std::vector<RenderTarget*>& newRenderTargets)
     {
+        renderTargets = newRenderTargets;
+
         std::set<RenderDevice::ResourceId> renderTargetIds;
 
         for (const auto& renderTarget : renderTargets)
