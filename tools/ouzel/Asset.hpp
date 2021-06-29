@@ -28,7 +28,7 @@ namespace ouzel
         {
             bool mipmaps = true;
         };
-        
+
         Asset(const storage::Path& initPath,
               const std::string& initName,
               Type initType,

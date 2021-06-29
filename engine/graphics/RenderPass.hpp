@@ -14,6 +14,8 @@ namespace ouzel::graphics
     class RenderPass final
     {
     public:
+        RenderPass() = default;
+
         RenderPass(Graphics& initGraphics,
                    const std::vector<RenderTarget*>& initRenderTargets);
 

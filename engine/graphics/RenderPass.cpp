@@ -17,7 +17,7 @@ namespace ouzel::graphics
             renderTargetIds.insert(renderTarget ? renderTarget->getResource() : 0);
 
         graphics->addCommand(std::make_unique<InitRenderPassCommand>(resource,
-                                                                        renderTargetIds));
+                                                                     renderTargetIds));
     }
 
     void RenderPass::setRenderTargets(const std::vector<RenderTarget*>& newRenderTargets)
