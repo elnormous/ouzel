@@ -11,6 +11,7 @@
 #include "ObjLoader.hpp"
 #include "ParticleSystemLoader.hpp"
 #include "SpriteLoader.hpp"
+#include "SpriteSheetLoader.hpp"
 #include "TtfLoader.hpp"
 #include "VorbisLoader.hpp"
 #include "WaveLoader.hpp"
@@ -31,6 +32,7 @@ namespace ouzel::assets
         addLoader(std::make_unique<ObjLoader>());
         addLoader(std::make_unique<ParticleSystemLoader>());
         addLoader(std::make_unique<SpriteLoader>());
+        addLoader(std::make_unique<SpriteSheetLoader>());
         addLoader(std::make_unique<TtfLoader>());
         addLoader(std::make_unique<VorbisLoader>());
         addLoader(std::make_unique<WaveLoader>());

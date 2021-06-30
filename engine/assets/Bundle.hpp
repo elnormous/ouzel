@@ -61,9 +61,6 @@ namespace ouzel::assets
         void setDepthStencilState(std::string_view name, std::unique_ptr<graphics::DepthStencilState> depthStencilState);
         void releaseDepthStencilStates();
 
-        void preloadSpriteData(const std::string& filename, const Asset::Options& options,
-                               std::uint32_t spritesX = 1, std::uint32_t spritesY = 1,
-                               const Vector<float, 2>& pivot = Vector<float, 2>{0.5F, 0.5F});
         const scene::SpriteData* getSpriteData(std::string_view name) const;
         void setSpriteData(std::string_view name, const scene::SpriteData& newSpriteData);
         void releaseSpriteData();

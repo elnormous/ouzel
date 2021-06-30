@@ -148,61 +148,6 @@ namespace ouzel::assets
         depthStencilStates.clear();
     }
 
-    void Bundle::preloadSpriteData(const std::string& filename, const Asset::Options& options,
-                                   std::uint32_t spritesX, std::uint32_t spritesY,
-                                   const Vector<float, 2>& pivot)
-    {
-        auto extension = std::string(storage::Path{filename}.getExtension());
-        std::transform(extension.begin(), extension.end(), extension.begin(),
-                       [](char c) noexcept { return static_cast<char>(std::tolower(c)); });
-        const std::vector<std::string> imageExtensions{"jpg", "jpeg", "png", "bmp", "tga"};
-
-        if (std::find(imageExtensions.begin(), imageExtensions.end(), extension) != imageExtensions.end())
-        {
-            scene::SpriteData newSpriteData;
-
-            if (spritesX == 0) spritesX = 1;
-            if (spritesY == 0) spritesY = 1;
-
-            newSpriteData.texture = getTexture(filename);
-
-            const Size<float, 2> textureSize{
-                static_cast<float>(newSpriteData.texture->getSize().v[0]),
-                static_cast<float>(newSpriteData.texture->getSize().v[1])
-            };
-
-            if (newSpriteData.texture)
-            {
-                const auto spriteSize = Size<float, 2>{
-                    textureSize.v[0] / static_cast<float>(spritesX),
-                    textureSize.v[1] / static_cast<float>(spritesY)
-                };
-
-                scene::SpriteData::Animation animation;
-                animation.frames.reserve(spritesX * spritesY);
-
-                for (std::uint32_t x = 0; x < spritesX; ++x)
-                    for (std::uint32_t y = 0; y < spritesY; ++y)
-                    {
-                        const Rect<float> rectangle{
-                            spriteSize.v[0] * static_cast<float>(x),
-                            spriteSize.v[1] * static_cast<float>(y),
-                            spriteSize.v[0],
-                            spriteSize.v[1]
-                        };
-
-                        animation.frames.emplace_back(filename, textureSize, rectangle, false, spriteSize, Vector<float, 2>{}, pivot);
-                    }
-
-                newSpriteData.animations[""] = std::move(animation);
-
-                spriteData[filename] = newSpriteData;
-            }
-        }
-        else
-            loadAsset(Asset::Type::sprite, filename, filename, options);
-    }
-
     const scene::SpriteData* Bundle::getSpriteData(std::string_view name) const
     {
         if (const auto i = spriteData.find(name); i != spriteData.end())
