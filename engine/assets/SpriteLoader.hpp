@@ -22,8 +22,6 @@ namespace ouzel::assets
                        const std::vector<std::byte>& data,
                        const Asset::Options& options) override
         {
-            scene::SpriteData spriteData;
-
             const auto d = json::parse(data);
 
             if (!d.hasMember("meta") ||
@@ -31,8 +29,9 @@ namespace ouzel::assets
                 return false;
 
             const auto& metaObject = d["meta"];
+            const auto& imageFilename = metaObject["image"].as<std::string>();
 
-            const auto imageFilename = metaObject["image"].as<std::string>();
+            scene::SpriteData spriteData;
             spriteData.texture = bundle.getTexture(imageFilename);
             if (!spriteData.texture)
             {
