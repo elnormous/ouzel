@@ -699,6 +699,9 @@
     <ClInclude Include="assets\SpriteLoader.hpp">
       <Filter>engine\assets</Filter>
     </ClInclude>
+    <ClInclude Include="assets\SpriteSheetLoader.hpp">
+      <Filter>engine\assets</Filter>
+    </ClInclude>
     <ClInclude Include="assets\TtfLoader.hpp">
       <Filter>engine\assets</Filter>
     </ClInclude>

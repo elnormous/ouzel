@@ -147,6 +147,7 @@
     <ClInclude Include="assets\ObjLoader.hpp" />
     <ClInclude Include="assets\ParticleSystemLoader.hpp" />
     <ClInclude Include="assets\SpriteLoader.hpp" />
+    <ClInclude Include="assets\SpriteSheetLoader.hpp" />
     <ClInclude Include="assets\TtfLoader.hpp" />
     <ClInclude Include="assets\VorbisLoader.hpp" />
     <ClInclude Include="assets\WaveLoader.hpp" />
