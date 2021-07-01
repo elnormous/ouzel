@@ -23,7 +23,7 @@ namespace ouzel::xcode
         {
             auto result = PBXObject::encode();
 
-            result["attributes"] = plist::Value::Dictionary{
+            result["attributes"] = plist::Dictionary{
                 {"LastUpgradeCheck", "0800"},
                 {"ORGANIZATIONNAME", organization}
             };
@@ -32,23 +32,23 @@ namespace ouzel::xcode
             result["compatibilityVersion"] = "Xcode 10.0";
             result["developmentRegion"] = "en";
             result["hasScannedForEncodings"] = 0;
-            result["knownRegions"] = plist::Value::Array{"en", "Base"};
+            result["knownRegions"] = plist::Array{"en", "Base"};
             if (mainGroup) result["mainGroup"] = toString(mainGroup->getId());
             if (productRefGroup)
                 result["productRefGroup"] = toString(productRefGroup->getId());
             result["projectDirPath"] = "";
             result["projectRoot"] = "";
-            result["targets"] = plist::Value::Array{};
+            result["targets"] = plist::Array{};
             for (const auto target : targets)
                 if (target) result["targets"].pushBack(toString(target->getId()));
 
             if (!projectReferences.empty())
             {
-                result["projectReferences"] = plist::Value::Array{};
+                result["projectReferences"] = plist::Array{};
 
                 for (const auto& projectReference : projectReferences)
                 {
-                    plist::Value::Dictionary reference;
+                    plist::Dictionary reference;
 
                     for (const auto& [name, object] : projectReference)
                         if (object) reference[name] = toString(object->getId());

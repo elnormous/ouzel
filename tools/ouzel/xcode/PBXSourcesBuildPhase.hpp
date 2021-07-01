@@ -20,7 +20,7 @@ namespace ouzel::xcode
         plist::Value encode() const override
         {
             auto result = PBXBuildPhase::encode();
-            result["files"] = plist::Value::Array{};
+            result["files"] = plist::Array{};
             for (const auto file : files)
                 if (file) result["files"].pushBack(toString(file->getId()));
 

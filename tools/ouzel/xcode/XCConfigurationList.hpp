@@ -20,7 +20,7 @@ namespace ouzel::xcode
         plist::Value encode() const override
         {
             auto result = PBXObject::encode();
-            result["buildConfigurations"] = plist::Value::Array{};
+            result["buildConfigurations"] = plist::Array{};
             for (const auto configuration : configurations)
                 if (configuration)
                     result["buildConfigurations"].pushBack(toString(configuration->getId()));

@@ -29,11 +29,11 @@ namespace ouzel::xcode
 
             if (buildConfigurationList)
                 result["buildConfigurationList"] = toString(buildConfigurationList->getId());
-            result["buildPhases"] = plist::Value::Array{};
+            result["buildPhases"] = plist::Array{};
             for (const auto buildPhase : buildPhases)
                 if (buildPhase) result["buildPhases"].pushBack(toString(buildPhase->getId()));
 
-            result["dependencies"] = plist::Value::Array{};
+            result["dependencies"] = plist::Array{};
             for (const auto dependency : dependencies)
                 if (dependency) result["dependencies"].pushBack(toString(dependency->getId()));
 

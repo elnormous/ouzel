@@ -18,11 +18,11 @@ namespace ouzel::xcode
         plist::Value encode() const override
         {
             auto result = PBXBuildPhase::encode();
-            result["files"] = plist::Value::Array();
-            result["inputFileListPaths"] = plist::Value::Array();
-            result["inputPaths"] = plist::Value::Array();
-            result["outputFileListPaths"] = plist::Value::Array();
-            result["outputPaths"] = plist::Value::Array();
+            result["files"] = plist::Array();
+            result["inputFileListPaths"] = plist::Array();
+            result["inputPaths"] = plist::Array();
+            result["outputFileListPaths"] = plist::Array();
+            result["outputPaths"] = plist::Array();
             result["shellPath"] = "/bin/sh";
             result["shellScript"] = shellScript;
 

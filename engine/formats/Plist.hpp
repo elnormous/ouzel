@@ -25,6 +25,9 @@ namespace ouzel::plist
 
     class Value final
     {
+        using Dictionary = std::map<std::string, Value>;
+        using Array = std::vector<Value>;
+        using Data = std::vector<std::byte>;
     public:
         enum class Type
         {
@@ -38,13 +41,9 @@ namespace ouzel::plist
             date
         };
 
-        using Dictionary = std::map<std::string, Value>;
-        using Array = std::vector<Value>;
-        using Data = std::vector<std::byte>;
-
         Value() = default;
         Value(const Dictionary& value):type{Type::dictionary}, dictionaryValue{value} {}
-        Value(const Array& value):type{Type::array}, arrayValue{value} {}
+        Value(const Array& value):type{Type::array}, arrayValue(value) {}
         Value(bool value):type{Type::boolean}, booleanValue{value} {}
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
         Value(T value):type{Type::real}, realValue{static_cast<double>(value)} {}
@@ -289,6 +288,10 @@ namespace ouzel::plist
         xml
     };
 
+    using Dictionary = std::map<std::string, Value>;
+    using Array = std::vector<Value>;
+    using Data = std::vector<std::byte>;
+
     inline std::string encode(const Value& value, Format format, bool whitespaces = false)
     {
         class AsciiEncoder final
@@ -338,7 +341,7 @@ namespace ouzel::plist
                     {
                         result.push_back('{');
                         if (whitespaces) result.push_back('\n');
-                        for (const auto& [key, entryValue] : value.as<Value::Dictionary>())
+                        for (const auto& [key, entryValue] : value.as<Dictionary>())
                         {
                             if (whitespaces) result.insert(result.end(), level + 1, '\t');
                             encode(key, result);
@@ -357,7 +360,7 @@ namespace ouzel::plist
                     {
                         result.push_back('(');
                         if (whitespaces) result.push_back('\n');
-                        for (const auto& child : value.as<Value::Array>())
+                        for (const auto& child : value.as<Array>())
                         {
                             if (whitespaces) result.insert(result.end(), level + 1, '\t');
                             encode(child, result, whitespaces, level + 1);
@@ -382,7 +385,7 @@ namespace ouzel::plist
                         break;
                     case Value::Type::data:
                         result += '<';
-                        for (const auto b : value.as<Value::Data>())
+                        for (const auto b : value.as<Data>())
                         {
                             constexpr char digits[] = "0123456789ABCDEF";
                             result += digits[(static_cast<std::size_t>(b) >> 4) & 0x0F];
@@ -432,7 +435,7 @@ namespace ouzel::plist
                     {
                         result += "<dict>";
                         if (whitespaces) result.push_back('\n');
-                        for (const auto& [key, entryValue] : value.as<Value::Dictionary>())
+                        for (const auto& [key, entryValue] : value.as<Dictionary>())
                         {
                             if (whitespaces) result.insert(result.end(), level + 1, '\t');
                             result += "<key>";
@@ -451,7 +454,7 @@ namespace ouzel::plist
                     {
                         result += "<array>";
                         if (whitespaces) result.push_back('\n');
-                        for (const auto& child : value.as<Value::Array>())
+                        for (const auto& child : value.as<Array>())
                         {
                             if (whitespaces) result.insert(result.end(), level + 1, '\t');
                             encode(child, result, whitespaces, level + 1);
@@ -491,7 +494,7 @@ namespace ouzel::plist
                         };
                         std::size_t c = 0;
                         std::uint8_t charArray[3];
-                        for (const auto b : value.as<Value::Data>())
+                        for (const auto b : value.as<Data>())
                         {
                             charArray[c++] = static_cast<std::uint8_t>(b);
                             if (c == 3)

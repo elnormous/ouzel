@@ -351,7 +351,7 @@ namespace ouzel::xcode
                             libouzelMacOsBuildFile->fileRef = libouzelMacOsReferenceProxy;
                             frameworksBuildPhase->files.push_back(libouzelMacOsBuildFile);
 
-                            plist::Value infoPlist = plist::Value::Dictionary{
+                            plist::Value infoPlist = plist::Dictionary{
                                 {"CFBundleDevelopmentRegion", "en"},
                                 {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
                                 {"CFBundleIconFile", ""},
@@ -393,7 +393,7 @@ namespace ouzel::xcode
                             libouzelIosBuildFile->fileRef = libouzelIosReferenceProxy;
                             frameworksBuildPhase->files.push_back(libouzelIosBuildFile);
 
-                            plist::Value infoPlist = plist::Value::Dictionary{
+                            plist::Value infoPlist = plist::Dictionary{
                                 {"CFBundleDevelopmentRegion", "en"},
                                 {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
                                 {"CFBundleIdentifier", "$(PRODUCT_BUNDLE_IDENTIFIER)"},
@@ -405,16 +405,16 @@ namespace ouzel::xcode
                                 {"CFBundleVersion", "1"},
                                 {"LSRequiresIPhoneOS", true},
                                 {"UILaunchStoryboardName", "LaunchScreen"},
-                                {"UIRequiredDeviceCapabilities", plist::Value::Array{"armv7"}},
+                                {"UIRequiredDeviceCapabilities", plist::Array{"armv7"}},
                                 {"UIRequiresFullScreen", true},
                                 {"UIStatusBarHidden", true},
-                                {"UISupportedInterfaceOrientations", plist::Value::Array{
+                                {"UISupportedInterfaceOrientations", plist::Array{
                                     "UIInterfaceOrientationPortrait",
                                     "UIInterfaceOrientationPortraitUpsideDown",
                                     "UIInterfaceOrientationLandscapeLeft",
                                     "UIInterfaceOrientationLandscapeRight"
                                 }},
-                                {"UISupportedInterfaceOrientations~ipad", plist::Value::Array{
+                                {"UISupportedInterfaceOrientations~ipad", plist::Array{
                                     "UIInterfaceOrientationPortrait",
                                     "UIInterfaceOrientationPortraitUpsideDown",
                                     "UIInterfaceOrientationLandscapeLeft",
@@ -447,7 +447,7 @@ namespace ouzel::xcode
                             libouzelTvosBuildFile->fileRef = libouzelTvosReferenceProxy;
                             frameworksBuildPhase->files.push_back(libouzelTvosBuildFile);
 
-                            plist::Value infoPlist = plist::Value::Dictionary{
+                            plist::Value infoPlist = plist::Dictionary{
                                 {"CFBundleDevelopmentRegion", "en"},
                                 {"CFBundleExecutable", "$(EXECUTABLE_NAME)"},
                                 {"CFBundleIdentifier", "$(PRODUCT_BUNDLE_IDENTIFIER)"},
@@ -459,7 +459,7 @@ namespace ouzel::xcode
                                 {"CFBundleVersion", "1"},
                                 {"LSRequiresIPhoneOS", true},
                                 {"UILaunchStoryboardName", "LaunchScreen"},
-                                {"UIRequiredDeviceCapabilities", plist::Value::Array{"armv7"}}
+                                {"UIRequiredDeviceCapabilities", plist::Array{"armv7"}}
                             };
 
                             std::ofstream infoPlistFile(plistPath);
@@ -594,11 +594,11 @@ namespace ouzel::xcode
 
         plist::Value encode() const
         {
-            plist::Value result = plist::Value::Dictionary{
+            plist::Value result = plist::Dictionary{
                 {"archiveVersion", 1},
-                {"classes", plist::Value::Dictionary{}},
+                {"classes", plist::Dictionary{}},
                 {"objectVersion", 51},
-                {"objects", plist::Value::Dictionary{}},
+                {"objects", plist::Dictionary{}},
                 {"rootObject", rootObject ? toString(rootObject->getId()): ""}
             };
 

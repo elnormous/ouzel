@@ -18,7 +18,7 @@ namespace ouzel::xcode
         plist::Value encode() const override
         {
             auto result = PBXFileElement::encode();
-            result["children"] = plist::Value::Array{};
+            result["children"] = plist::Array{};
             for (const auto child : children)
                 if (child) result["children"].pushBack(toString(child->getId()));
 

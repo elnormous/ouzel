@@ -19,7 +19,7 @@ namespace ouzel::xcode
         plist::Value encode() const override
         {
             auto result = PBXObject::encode();
-            result["buildSettings"] = plist::Value::Dictionary{};
+            result["buildSettings"] = plist::Dictionary{};
             for (const auto& [key, value] : buildSettings)
                 result["buildSettings"][key] = value;
 

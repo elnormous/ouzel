@@ -38,7 +38,7 @@ namespace ouzel::xcode
 
         virtual plist::Value encode() const
         {
-            return plist::Value::Dictionary{
+            return plist::Dictionary{
                 {"isa", getIsa()}
             };
         }
