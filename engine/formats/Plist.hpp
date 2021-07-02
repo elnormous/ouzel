@@ -360,11 +360,12 @@ namespace ouzel::plist
                     {
                         result.push_back('(');
                         if (whitespaces) result.push_back('\n');
+                        const auto last = value.as<Array>().empty() ? nullptr : &value.as<Array>().back();
                         for (const auto& child : value.as<Array>())
                         {
                             if (whitespaces) result.insert(result.end(), level + 1, '\t');
                             encode(child, result, whitespaces, level + 1);
-                            result.push_back(',');
+                            if (&child != last) result.push_back(',');
                             if (whitespaces) result.push_back('\n');
                         }
                         if (whitespaces) result.insert(result.end(), level, '\t');
@@ -413,7 +414,6 @@ namespace ouzel::plist
                 encode(value, result, whitespaces);
                 if (whitespaces) result.push_back('\n');
                 result += "</plist>";
-                if (whitespaces) result.push_back('\n');
                 return result;
             }
 
