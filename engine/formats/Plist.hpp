@@ -113,6 +113,48 @@ namespace ouzel::plist
 
         Type getType() const noexcept { return type; }
 
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
+        bool is() const noexcept
+        {
+            return type == Type::boolean;
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
+        bool is() const noexcept
+        {
+            return type == Type::real;
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
+        bool is() const noexcept
+        {
+            return type == Type::integer;
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
+        bool is() const noexcept
+        {
+            return type == Type::string;
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
+        bool is() const noexcept
+        {
+            return type == Type::dictionary;
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
+        bool is() const noexcept
+        {
+            return type == Type::array;
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Data>>* = nullptr>
+        bool is() const noexcept
+        {
+            return type == Type::data;
+        }
+
         template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
         T& as() noexcept
         {
