@@ -110,10 +110,33 @@ namespace ouzel::json
             return *this;
         }
 
-        template <typename T>
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, std::nullptr_t> ||
+            std::is_same_v<T, bool> ||
+            std::is_same_v<T, Array> ||
+            std::is_same_v<T, Object> ||
+            std::is_same_v<T, String>
+        >* = nullptr>
         bool is() const noexcept
         {
             return std::holds_alternative<T>(value);
+        }
+
+        template <typename T, typename std::enable_if_t<
+            std::is_arithmetic_v<T> &&
+            !std::is_same_v<T, bool>
+        >* = nullptr>
+        bool is() const noexcept
+        {
+            return std::holds_alternative<double>(value);
+        }
+
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, const char*>
+        >* = nullptr>
+        bool is() const noexcept
+        {
+            return std::holds_alternative<std::string>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
@@ -196,7 +219,6 @@ namespace ouzel::json
         }
 
         template <typename T, typename std::enable_if_t<
-            std::is_same_v<T, char*> ||
             std::is_same_v<T, const char*>
         >* = nullptr>
         T as() const
