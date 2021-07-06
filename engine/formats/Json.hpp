@@ -51,10 +51,15 @@ namespace ouzel::json
         Value(const T v) noexcept: value{v} {}
 
         template <typename T, typename std::enable_if_t<
-            std::is_arithmetic_v<T> &&
-            !std::is_same_v<T, bool>
+            std::is_floating_point_v<T>
         >* = nullptr>
         Value(const T value): value{static_cast<double>(value)} {}
+
+        template <typename T, typename std::enable_if_t<
+            std::is_integral_v<T> &&
+            !std::is_same_v<T, bool>
+        >* = nullptr>
+        Value(const T value): value{static_cast<std::int64_t>(value)} {}
 
         template <typename T, typename std::enable_if_t<
             std::is_same_v<T, Array> ||
@@ -81,11 +86,22 @@ namespace ouzel::json
 
         template <typename T, typename std::enable_if_t<
             std::is_arithmetic_v<T> &&
-            !std::is_same_v<T, bool>
+            std::is_floating_point_v<T>
         >* = nullptr>
         Value& operator=(const T v) noexcept
         {
             value = static_cast<double>(v);
+            return *this;
+        }
+
+        template <typename T, typename std::enable_if_t<
+            std::is_arithmetic_v<T> &&
+            std::is_integral_v<T> &&
+            !std::is_same_v<T, bool>
+        >* = nullptr>
+        Value& operator=(const T v) noexcept
+        {
+            value = static_cast<std::int64_t>(v);
             return *this;
         }
 
@@ -128,7 +144,8 @@ namespace ouzel::json
         >* = nullptr>
         bool is() const noexcept
         {
-            return std::holds_alternative<double>(value);
+            return std::holds_alternative<double>(value) ||
+                std::holds_alternative<std::int64_t>(value);
         }
 
         template <typename T, typename std::enable_if_t<
@@ -146,6 +163,8 @@ namespace ouzel::json
                 return *b;
             else if (const auto d = std::get_if<double>(&value))
                 return *d != 0.0;
+            else if (const auto i = std::get_if<std::int64_t>(&value))
+                return *i != 0;
             else
                 throw TypeError{"Wrong type"};
         }
@@ -158,6 +177,8 @@ namespace ouzel::json
         {
             if (const auto d = std::get_if<double>(&value))
                 return static_cast<T>(*d);
+            else if (const auto i = std::get_if<std::int64_t>(&value))
+                return static_cast<T>(*i);
             else if (const auto b = std::get_if<bool>(&value))
                 return *b ? T(1.0) : T(0.0);
             else
@@ -218,9 +239,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<
-            std::is_same_v<T, const char*>
-        >* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, const char*>>* = nullptr>
         T as() const
         {
             if (const auto p = std::get_if<String>(&value))
@@ -358,7 +377,15 @@ namespace ouzel::json
         auto& getValue() const noexcept { return value; }
 
     private:
-        std::variant<std::nullptr_t, bool, double, Object, Array, String> value;
+        std::variant<
+            std::nullptr_t,
+            bool,
+            double,
+            std::int64_t,
+            Object,
+            Array,
+            String
+        > value;
     };
 
     using Array = std::vector<Value>;
@@ -532,9 +559,13 @@ namespace ouzel::json
                         ++iterator;
                     }
 
+                    bool floatingPoint = false;
+
                     if (iterator != end &&
                         static_cast<char>(*iterator) == '.')
                     {
+                        floatingPoint = true;
+
                         value.push_back(static_cast<char>(*iterator));
                         ++iterator;
 
@@ -546,14 +577,14 @@ namespace ouzel::json
                             ++iterator;
                         }
                     }
-                    else
-                        return std::pair(Value{std::stoll(value)}, iterator);
 
                     // parse exponent
                     if (iterator != end &&
                         (static_cast<char>(*iterator) == 'e' ||
                          static_cast<char>(*iterator) == 'E'))
                     {
+                        floatingPoint = true;
+
                         value.push_back(static_cast<char>(*iterator));
 
                         if (++iterator == end)
@@ -577,7 +608,9 @@ namespace ouzel::json
                         }
                     }
 
-                    return std::pair(Value{std::stod(value)}, iterator);
+                    return floatingPoint ?
+                        std::pair(Value{std::stod(value)}, iterator) :
+                        std::pair(Value{static_cast<std::int64_t>(std::stoll(value))}, iterator);
                 }
                 else if (static_cast<char>(*iterator) == '"')
                 {
@@ -779,9 +812,12 @@ namespace ouzel::json
                 }
                 else if (auto d = std::get_if<double>(&v))
                 {
-                    const auto str = (std::floor(*d) == *d) ?
-                        std::to_string(static_cast<std::int64_t>(*d)) :
-                        std::to_string(*d);
+                    const auto str = std::to_string(*d);
+                    result.insert(result.end(), str.begin(), str.end());
+                }
+                else if (auto i = std::get_if<std::int64_t>(&v))
+                {
+                    const auto str = std::to_string(*i);
                     result.insert(result.end(), str.begin(), str.end());
                 }
                 else if (auto s = std::get_if<String>(&v))
