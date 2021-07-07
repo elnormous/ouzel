@@ -326,7 +326,7 @@ namespace ouzel::plist
 
     enum class Format
     {
-        ascii,
+        text,
         xml
     };
 
@@ -336,7 +336,7 @@ namespace ouzel::plist
 
     inline std::string encode(const Value& value, Format format, bool whitespaces = false)
     {
-        class AsciiEncoder final
+        class TextEncoder final
         {
         public:
             static std::string encode(const Value& value, bool whitespaces)
@@ -578,7 +578,7 @@ namespace ouzel::plist
 
         switch (format)
         {
-            case Format::ascii: return AsciiEncoder::encode(value, whitespaces);
+            case Format::text: return TextEncoder::encode(value, whitespaces);
             case Format::xml: return XmlEncoder::encode(value, whitespaces);
         }
 
