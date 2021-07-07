@@ -555,7 +555,7 @@ namespace ouzel::xcode
 
             const auto pbxProjectPath = path / storage::Path{"project.pbxproj"};
             std::ofstream projectFile(pbxProjectPath, std::ios::trunc);
-            projectFile << plist::encode(encode(), plist::Format::ascii, true);
+            projectFile << plist::encode(encode(), plist::Format::text, true);
 
             const auto workspacePath = path / "project.xcworkspace";
 
