@@ -85,7 +85,6 @@ namespace ouzel::json
         }
 
         template <typename T, typename std::enable_if_t<
-            std::is_arithmetic_v<T> &&
             std::is_floating_point_v<T>
         >* = nullptr>
         Value& operator=(const T v) noexcept
@@ -95,7 +94,6 @@ namespace ouzel::json
         }
 
         template <typename T, typename std::enable_if_t<
-            std::is_arithmetic_v<T> &&
             std::is_integral_v<T> &&
             !std::is_same_v<T, bool>
         >* = nullptr>
@@ -185,55 +183,27 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, Array> ||
+            std::is_same_v<T, Object> ||
+            std::is_same_v<T, String>
+        >* = nullptr>
         T& as()
         {
-            if (const auto p = std::get_if<Array>(&value))
+            if (const auto p = std::get_if<T>(&value))
                 return *p;
             else
                 throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, Array> ||
+            std::is_same_v<T, Object> ||
+            std::is_same_v<T, String>
+        >* = nullptr>
         const T& as() const
         {
-            if (const auto p = std::get_if<Array>(&value))
-                return *p;
-            else
-                throw TypeError{"Wrong type"};
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
-        T& as()
-        {
-            if (const auto p = std::get_if<Object>(&value))
-                return *p;
-            else
-                throw TypeError{"Wrong type"};
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Object>>* = nullptr>
-        const T& as() const
-        {
-            if (const auto p = std::get_if<Object>(&value))
-                return *p;
-            else
-                throw TypeError{"Wrong type"};
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, String>>* = nullptr>
-        String& as()
-        {
-            if (const auto p = std::get_if<String>(&value))
-                return *p;
-            else
-                throw TypeError{"Wrong type"};
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, String>>* = nullptr>
-        const String& as() const
-        {
-            if (const auto p = std::get_if<String>(&value))
+            if (const auto p = std::get_if<T>(&value))
                 return *p;
             else
                 throw TypeError{"Wrong type"};
@@ -804,29 +774,27 @@ namespace ouzel::json
 
             static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
             {
-                const auto& v = value.getValue();
-
-                if (std::holds_alternative<std::nullptr_t>(v))
+                if (std::holds_alternative<std::nullptr_t>(value.getValue()))
                 {
                     result.insert(result.end(), {'n', 'u', 'l', 'l'});
                 }
-                else if (auto d = std::get_if<double>(&v))
+                else if (auto d = std::get_if<double>(&value.getValue()))
                 {
                     const auto str = std::to_string(*d);
                     result.insert(result.end(), str.begin(), str.end());
                 }
-                else if (auto i = std::get_if<std::int64_t>(&v))
+                else if (auto i = std::get_if<std::int64_t>(&value.getValue()))
                 {
                     const auto str = std::to_string(*i);
                     result.insert(result.end(), str.begin(), str.end());
                 }
-                else if (auto s = std::get_if<String>(&v))
+                else if (auto s = std::get_if<String>(&value.getValue()))
                 {
                     result.push_back('"');
                     encode(*s, result);
                     result.push_back('"');
                 }
-                else if (auto o = std::get_if<Object>(&v))
+                else if (auto o = std::get_if<Object>(&value.getValue()))
                 {
                     result.push_back('{');
                     if (whitespaces) result.push_back('\n');
@@ -846,7 +814,7 @@ namespace ouzel::json
                     if (whitespaces) result.insert(result.end(), level, '\t');
                     result.push_back('}');
                 }
-                else if (auto a = std::get_if<Array>(&v))
+                else if (auto a = std::get_if<Array>(&value.getValue()))
                 {
                     result.push_back('[');
                     if (whitespaces) result.push_back('\n');
@@ -863,7 +831,7 @@ namespace ouzel::json
                     if (whitespaces) result.insert(result.end(), level, '\t');
                     result.push_back(']');
                 }
-                else if (auto b = std::get_if<bool>(&v))
+                else if (auto b = std::get_if<bool>(&value.getValue()))
                 {
                     if (*b) result.insert(result.end(), {'t', 'r', 'u', 'e'});
                     else result.insert(result.end(), {'f', 'a', 'l', 's', 'e'});
