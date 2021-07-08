@@ -154,23 +154,7 @@ namespace ouzel::json
             return std::holds_alternative<std::string>(value);
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
-        T as() const
-        {
-            if (const auto b = std::get_if<bool>(&value))
-                return *b;
-            else if (const auto d = std::get_if<double>(&value))
-                return *d != 0.0;
-            else if (const auto i = std::get_if<std::int64_t>(&value))
-                return *i != 0;
-            else
-                throw TypeError{"Wrong type"};
-        }
-
-        template <typename T, typename std::enable_if_t<
-            std::is_arithmetic_v<T> &&
-            !std::is_same_v<T, bool>
-        >* = nullptr>
+        template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T>>* = nullptr>
         T as() const
         {
             if (const auto d = std::get_if<double>(&value))
@@ -178,7 +162,7 @@ namespace ouzel::json
             else if (const auto i = std::get_if<std::int64_t>(&value))
                 return static_cast<T>(*i);
             else if (const auto b = std::get_if<bool>(&value))
-                return *b ? T(1.0) : T(0.0);
+                return static_cast<T>(*b);
             else
                 throw TypeError{"Wrong type"};
         }
