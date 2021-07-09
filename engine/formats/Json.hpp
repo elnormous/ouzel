@@ -53,13 +53,13 @@ namespace ouzel::json
         template <typename T, typename std::enable_if_t<
             std::is_floating_point_v<T>
         >* = nullptr>
-        Value(const T value): value{static_cast<double>(value)} {}
+        Value(const T v): value{static_cast<double>(v)} {}
 
         template <typename T, typename std::enable_if_t<
             std::is_integral_v<T> &&
             !std::is_same_v<T, bool>
         >* = nullptr>
-        Value(const T value): value{static_cast<std::int64_t>(value)} {}
+        Value(const T v): value{static_cast<std::int64_t>(v)} {}
 
         template <typename T, typename std::enable_if_t<
             std::is_same_v<T, Array> ||
