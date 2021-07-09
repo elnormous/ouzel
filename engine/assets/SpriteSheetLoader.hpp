@@ -35,7 +35,7 @@ namespace ouzel::assets
             const auto& imageFilename = d["filename"].as<std::string>();
             const auto spritesX = d["spritesX"].as<std::size_t>();
             const auto spritesY = d["spritesY"].as<std::size_t>();
-            const Vector<float, 2>& pivot{
+            const Vector<float, 2> pivot{
                 d["pivotX"].as<float>(),
                 d["pivotY"].as<float>()
             };
