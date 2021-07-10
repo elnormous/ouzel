@@ -28,300 +28,329 @@ namespace ouzel::plist
         using Dictionary = std::map<std::string, Value>;
         using Array = std::vector<Value>;
         using Data = std::vector<std::byte>;
+        using String = std::string;
+        using Date = std::chrono::system_clock::time_point;
     public:
-        enum class Type
-        {
-            dictionary,
-            array,
-            string,
-            real,
-            integer,
-            boolean,
-            data,
-            date
-        };
-
         Value() = default;
-        Value(const Dictionary& value):type{Type::dictionary}, dictionaryValue{value} {}
-        Value(const Array& value):type{Type::array}, arrayValue(value) {}
-        Value(bool value):type{Type::boolean}, booleanValue{value} {}
+        Value(const Dictionary& v):value{v} {}
+        Value(const Array& v):value(v) {}
+        Value(bool v):value{v} {}
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
-        Value(T value):type{Type::real}, realValue{static_cast<double>(value)} {}
+        Value(T v):value{static_cast<double>(v)} {}
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value(T value):type{Type::integer}, integerValue{static_cast<std::int64_t>(value)} {}
-        Value(const std::string& value):type{Type::string}, stringValue{value} {}
-        Value(const char* value):type{Type::string}, stringValue{value} {}
-        Value(const Data& value):type{Type::data}, dataValue{value} {}
+        Value(T v):value{static_cast<std::int64_t>(v)} {}
+        Value(const String& v):value{v} {}
+        Value(const char* v):value{String{v}} {}
+        Value(const Data& v):value{v} {}
+        Value(const Date& v):value{v} {}
 
-        Value& operator=(const Dictionary& value)
+        Value& operator=(const Dictionary& v)
         {
-            type = Type::dictionary;
-            dictionaryValue = value;
+            value = v;
             return *this;
         }
 
-        Value& operator=(const Array& value)
+        Value& operator=(const Array& v)
         {
-            type = Type::array;
-            arrayValue = value;
+            value = v;
             return *this;
         }
 
-        Value& operator=(bool value)
+        Value& operator=(bool v)
         {
-            type = Type::boolean;
-            booleanValue = value;
+            value = v;
             return *this;
         }
 
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
-        Value& operator=(T value)
+        Value& operator=(T v)
         {
-            type = Type::real;
-            realValue = static_cast<double>(value);
+            value = static_cast<double>(v);
             return *this;
         }
 
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value& operator=(T value)
+        Value& operator=(T v)
         {
-            type = Type::integer;
-            integerValue = static_cast<std::int64_t>(value);
+            value = static_cast<std::int64_t>(v);
             return *this;
         }
 
-        Value& operator=(const std::string& value)
+        Value& operator=(const String& v)
         {
-            type = Type::string;
-            stringValue = value;
+            value = v;
             return *this;
         }
 
-        Value& operator=(const char* value)
+        Value& operator=(const char* v)
         {
-            type = Type::string;
-            stringValue = value;
+            value = String{v};
             return *this;
         }
 
-        Value& operator=(const Data& value)
+        Value& operator=(const Data& v)
         {
-            type = Type::data;
-            dataValue = value;
+            value = v;
             return *this;
         }
-
-        Type getType() const noexcept { return type; }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
         bool is() const noexcept
         {
-            return type == Type::boolean;
+            return std::holds_alternative<bool>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
         bool is() const noexcept
         {
-            return type == Type::real;
+            return std::holds_alternative<double>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
         bool is() const noexcept
         {
-            return type == Type::integer;
+            return std::holds_alternative<std::int64_t>(value);
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, String> ||
+            std::is_same_v<T, const char*>
+        >* = nullptr>
         bool is() const noexcept
         {
-            return type == Type::string;
+            return std::holds_alternative<String>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
         bool is() const noexcept
         {
-            return type == Type::dictionary;
+            return std::holds_alternative<Dictionary>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
         bool is() const noexcept
         {
-            return type == Type::array;
+            return std::holds_alternative<Array>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Data>>* = nullptr>
         bool is() const noexcept
         {
-            return type == Type::data;
+            return std::holds_alternative<Data>(value);
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
-        T& as() noexcept
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, Date>>* = nullptr>
+        bool is() const noexcept
         {
-            type = Type::string;
-            return stringValue;
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, std::string>>* = nullptr>
-        const T& as() const
-        {
-            if (type != Type::string) throw TypeError{"Wrong type"};
-            return stringValue;
+            return std::holds_alternative<Date>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
         T as() const
         {
-            if (type != Type::boolean) throw TypeError{"Wrong type"};
-            return booleanValue;
+            if (const auto b = std::get_if<bool>(&value))
+                return *b;
+            else if (const auto d = std::get_if<double>(&value))
+                return *d != 0.0;
+            else if (const auto i = std::get_if<std::int64_t>(&value))
+                return *i != 0;
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
+        template <typename T, typename std::enable_if_t<
+            std::is_arithmetic_v<T> &&
+            !std::is_same_v<T, bool>
+        >* = nullptr>
         T as() const
         {
-            if (type != Type::real) throw TypeError{"Wrong type"};
-            return static_cast<T>(realValue);
+            if (const auto d = std::get_if<double>(&value))
+                return static_cast<T>(*d);
+            else if (const auto i = std::get_if<std::int64_t>(&value))
+                return static_cast<T>(*i);
+            else if (const auto b = std::get_if<bool>(&value))
+                return *b ? T(1.0) : T(0.0);
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, String> ||
+            std::is_same_v<T, Dictionary> ||
+            std::is_same_v<T, Array> ||
+            std::is_same_v<T, Data> ||
+            std::is_same_v<T, Date>
+        >* = nullptr>
+        T& as()
+        {
+            if (const auto p = std::get_if<T>(&value))
+                return *p;
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        template <typename T, typename std::enable_if_t<std::is_same_v<T, const char*>>* = nullptr>
         T as() const
         {
-            if (type != Type::integer) throw TypeError{"Wrong type"};
-            return static_cast<T>(integerValue);
+            if (const auto p = std::get_if<String>(&value))
+                return p->c_str();
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
-        T& as() noexcept
-        {
-            type = Type::dictionary;
-            return dictionaryValue;
-        }
-
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
+        template <typename T, typename std::enable_if_t<
+            std::is_same_v<T, String> ||
+            std::is_same_v<T, Dictionary> ||
+            std::is_same_v<T, Array> ||
+            std::is_same_v<T, Data> ||
+            std::is_same_v<T, Date>
+        >* = nullptr>
         const T& as() const
         {
-            if (type != Type::dictionary) throw TypeError{"Wrong type"};
-            return dictionaryValue;
+            if (const auto p = std::get_if<T>(&value))
+                return *p;
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
-        T& as() noexcept
+        auto begin()
         {
-            type = Type::array;
-            return arrayValue;
+            if (const auto p = std::get_if<Array>(&value))
+                return p->begin();
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
-        const T& as() const
+        auto end()
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue;
+            if (const auto p = std::get_if<Array>(&value))
+                return p->end();
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        template <typename T, typename std::enable_if_t<std::is_same_v<T, Data>>* = nullptr>
-        const T& as() const
+        auto begin() const
         {
-            if (type != Type::data) throw TypeError{"Wrong type"};
-            return dataValue;
+            if (const auto p = std::get_if<Array>(&value))
+                return p->begin();
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        Array::iterator begin()
+        auto end() const
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.begin();
-        }
-
-        Array::iterator end()
-        {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.end();
-        }
-
-        Array::const_iterator begin() const
-        {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.begin();
-        }
-
-        Array::const_iterator end() const
-        {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.end();
+            if (const auto p = std::get_if<Array>(&value))
+                return p->end();
+            else
+                throw TypeError{"Wrong type"};
         }
 
         auto hasMember(const std::string& member) const
         {
-            if (type != Type::dictionary) throw TypeError{"Wrong type"};
-            return dictionaryValue.find(member) != dictionaryValue.end();
-        }
-
-        Value& operator[](const std::string& member)
-        {
-            type = Type::dictionary;
-            return dictionaryValue[member];
-        }
-
-        const Value& operator[](const std::string& member) const
-        {
-            if (type != Type::dictionary) throw TypeError{"Wrong type"};
-
-            const auto i = dictionaryValue.find(member);
-            if (i != dictionaryValue.end())
-                return i->second;
+            if (const auto p = std::get_if<Dictionary>(&value))
+                return p->find(member) != p->end();
             else
-                throw RangeError{"Member does not exist"};
+                throw TypeError{"Wrong type"};
         }
 
-        Value& operator[](std::size_t index)
+        Value& operator[](const std::string& member) &
         {
-            type = Type::array;
-            if (index >= arrayValue.size()) arrayValue.resize(index + 1);
-            return arrayValue[index];
-        }
-
-        const Value& operator[](std::size_t index) const
-        {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-
-            if (index < arrayValue.size())
-                return arrayValue[index];
+            if (const auto p = std::get_if<Dictionary>(&value))
+            {
+                if (const auto iterator = p->find(member); iterator != p->end())
+                    return iterator->second;
+                else
+                {
+                    const auto [newIterator, success] = p->insert({std::string{member}, Value{}});
+                    (void)success;
+                    return newIterator->second;
+                }
+            }
             else
-                throw RangeError{"Index out of range"};
+                throw TypeError{"Wrong type"};
         }
 
-        auto getSize() const
+        const Value& operator[](const std::string& member) const&
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            return arrayValue.size();
+            if (const auto p = std::get_if<Dictionary>(&value))
+            {
+                if (const auto iterator = p->find(member); iterator != p->end())
+                    return iterator->second;
+                else
+                    throw RangeError{"Member does not exist"};
+            }
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        void resize(std::size_t size)
+        Value& operator[](std::size_t index) &
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            arrayValue.resize(size);
+            if (const auto p = std::get_if<Array>(&value))
+            {
+                if (index >= p->size()) p->resize(index + 1);
+                return (*p)[index];
+            }
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        void pushBack(std::byte value)
+        const Value& operator[](std::size_t index) const&
         {
-            if (type != Type::data) throw TypeError{"Wrong type"};
-            dataValue.push_back(value);
+            if (const auto p = std::get_if<Array>(&value))
+            {
+                if (index < p->size())
+                    return (*p)[index];
+                else
+                    throw RangeError{"Index out of range"};
+            }
+            else
+                throw TypeError{"Wrong type"};
         }
 
-        void pushBack(const Value& value)
+        bool isEmpty() const
         {
-            if (type != Type::array) throw TypeError{"Wrong type"};
-            arrayValue.push_back(value);
+            if (const auto p = std::get_if<Array>(&value))
+                return p->empty();
+            else
+                throw TypeError{"Wrong type"};
         }
+
+        std::size_t getSize() const
+        {
+            if (const auto p = std::get_if<Array>(&value))
+                return p->size();
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        void resize(std::size_t size) &
+        {
+            if (const auto p = std::get_if<Array>(&value))
+                return p->resize(size);
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        void pushBack(const Value& v) &
+        {
+            if (const auto p = std::get_if<Array>(&value))
+                return p->push_back(v);
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        void pushBack(std::byte v)
+        {
+            if (const auto p = std::get_if<Data>(&value))
+                return p->push_back(v);
+            else
+                throw TypeError{"Wrong type"};
+        }
+
+        auto& getValue() const noexcept { return value; }
 
     private:
-        Type type = Type::dictionary;
-        Dictionary dictionaryValue;
-        Array arrayValue;
-        std::string stringValue;
-        double realValue = 0.0;
-        std::int64_t integerValue = 0;
-        bool booleanValue = false;
-        Data dataValue;
+        std::variant<Dictionary, Array, String, double, std::int64_t, bool, Data, Date> value;
     };
 
     enum class Format
@@ -333,6 +362,8 @@ namespace ouzel::plist
     using Dictionary = std::map<std::string, Value>;
     using Array = std::vector<Value>;
     using Data = std::vector<std::byte>;
+    using String = std::string;
+    using Date = std::chrono::system_clock::time_point;
 
     inline std::string encode(const Value& value, Format format, bool whitespaces = false)
     {
@@ -377,72 +408,75 @@ namespace ouzel::plist
 
             static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
             {
-                switch (value.getType())
+                if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
                 {
-                    case Value::Type::dictionary:
+                    result.push_back('{');
+                    for (const auto& [key, entryValue] : *dictionary)
                     {
-                        result.push_back('{');
-                        for (const auto& [key, entryValue] : value.as<Dictionary>())
-                        {
-                            if (whitespaces) result.push_back('\n');
-                            if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            encode(key, result);
-                            if (whitespaces) result.push_back(' ');
-                            result.push_back('=');
-                            if (whitespaces) result.push_back(' ');
-                            encode(entryValue, result, whitespaces, level + 1);
-                            result.push_back(';'); // trailing semicolon is mandatory
-                        }
                         if (whitespaces) result.push_back('\n');
-                        if (whitespaces) result.insert(result.end(), level, '\t');
-                        result += "}";
-                        break;
+                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        encode(key, result);
+                        if (whitespaces) result.push_back(' ');
+                        result.push_back('=');
+                        if (whitespaces) result.push_back(' ');
+                        encode(entryValue, result, whitespaces, level + 1);
+                        result.push_back(';'); // trailing semicolon is mandatory
                     }
-                    case Value::Type::array:
+                    if (whitespaces) result.push_back('\n');
+                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    result += "}";
+                }
+                else if (auto array = std::get_if<Array>(&value.getValue()))
+                {
+                    result.push_back('(');
+                    std::size_t count = 0;
+                    for (const auto& child : *array)
                     {
-                        result.push_back('(');
-                        std::size_t count = 0;
-                        for (const auto& child : value.as<Array>())
-                        {
-                            if (count++) result.push_back(','); // trailing comma is optional
-                            if (whitespaces) result.push_back('\n');
-                            if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            encode(child, result, whitespaces, level + 1);
-                        }
+                        if (count++) result.push_back(','); // trailing comma is optional
                         if (whitespaces) result.push_back('\n');
-                        if (whitespaces) result.insert(result.end(), level, '\t');
-                        result += ')';
-                        break;
+                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        encode(child, result, whitespaces, level + 1);
                     }
-                    case Value::Type::string:
-                        encode(value.as<std::string>(), result);
-                        break;
-                    case Value::Type::real:
-                        result += std::to_string(value.as<double>());
-                        break;
-                    case Value::Type::integer:
-                        result += std::to_string(value.as<std::int64_t>());
-                        break;
-                    case Value::Type::boolean:
-                        result += value.as<bool>() ? "YES" : "NO";
-                        break;
-                    case Value::Type::data:
+                    if (whitespaces) result.push_back('\n');
+                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    result += ')';
+                }
+                else if (auto string = std::get_if<String>(&value.getValue()))
+                {
+                    encode(*string, result);
+                }
+                else if (auto real = std::get_if<double>(&value.getValue()))
+                {
+                    result += std::to_string(*real);
+                }
+                else if (auto integer = std::get_if<std::int64_t>(&value.getValue()))
+                {
+                    result += std::to_string(*integer);
+                }
+                else if (auto boolean = std::get_if<bool>(&value.getValue()))
+                {
+                    result += *boolean ? "YES" : "NO";
+                }
+                else if (auto data = std::get_if<Data>(&value.getValue()))
+                {
+                    result += '<';
+                    std::size_t count = 0;
+                    for (const auto b : *data)
                     {
-                        result += '<';
-                        std::size_t count = 0;
-                        for (const auto b : value.as<Data>())
-                        {
-                            if (whitespaces && count++) result.push_back(' ');
-                            constexpr char digits[] = "0123456789ABCDEF";
-                            result += digits[(static_cast<std::size_t>(b) >> 4) & 0x0F];
-                            result += digits[static_cast<std::size_t>(b) & 0x0F];
-                        }
-                        result += '>';
-                        break;
+                        if (whitespaces && count++) result.push_back(' ');
+                        constexpr char digits[] = "0123456789ABCDEF";
+                        result += digits[(static_cast<std::size_t>(b) >> 4) & 0x0F];
+                        result += digits[static_cast<std::size_t>(b) & 0x0F];
                     }
-                    case Value::Type::date:
-                        throw std::runtime_error("Date fields are not supported");
-                };
+                    result += '>';
+                }
+                else if (auto date = std::get_if<Date>(&value.getValue()))
+                {
+                    (void)date;
+                    throw std::runtime_error("Date fields are not supported");
+                }
+                else
+                    throw std::runtime_error("Unsupported format");
             }
         };
 
@@ -475,104 +509,107 @@ namespace ouzel::plist
 
             static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
             {
-                switch (value.getType())
+                if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
                 {
-                    case Value::Type::dictionary:
+                    result += "<dict>";
+                    if (whitespaces) result.push_back('\n');
+                    for (const auto& [key, entryValue] : *dictionary)
                     {
-                        result += "<dict>";
-                        if (whitespaces) result.push_back('\n');
-                        for (const auto& [key, entryValue] : value.as<Dictionary>())
-                        {
-                            if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            result += "<key>";
-                            encode(key, result);
-                            result += "</key>";
-                            if (whitespaces) result += '\n';
-                            if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            encode(entryValue, result, whitespaces, level + 1);
-                            if (whitespaces) result += '\n';
-                        }
-                        result.insert(result.end(), level, '\t');
-                        result += "</dict>";
-                        break;
+                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        result += "<key>";
+                        encode(key, result);
+                        result += "</key>";
+                        if (whitespaces) result += '\n';
+                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        encode(entryValue, result, whitespaces, level + 1);
+                        if (whitespaces) result += '\n';
                     }
-                    case Value::Type::array:
+                    result.insert(result.end(), level, '\t');
+                    result += "</dict>";
+                }
+                else if (auto array = std::get_if<Array>(&value.getValue()))
+                {
+                    result += "<array>";
+                    if (whitespaces) result.push_back('\n');
+                    for (const auto& child : *array)
                     {
-                        result += "<array>";
+                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        encode(child, result, whitespaces, level + 1);
                         if (whitespaces) result.push_back('\n');
-                        for (const auto& child : value.as<Array>())
-                        {
-                            if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                            encode(child, result, whitespaces, level + 1);
-                            if (whitespaces) result.push_back('\n');
-                        }
-                        if (whitespaces) result.insert(result.end(), level, '\t');
-                        result += "</array>";
-                        break;
                     }
-                    case Value::Type::string:
-                        result += "<string>";
-                        encode(value.as<std::string>(), result);
-                        result += "</string>";
-                        break;
-                    case Value::Type::real:
-                        result += "<real>";
-                        result += std::to_string(value.as<double>());
-                        result += "</real>";
-                        break;
-                    case Value::Type::integer:
-                        result += "<integer>";
-                        result += std::to_string(value.as<std::int64_t>());
-                        result += "</integer>";
-                        break;
-                    case Value::Type::boolean:
-                        result += value.as<bool>() ? "<true/>" : "<false/>";
-                        break;
-                    case Value::Type::data:
+                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    result += "</array>";
+                }
+                else if (auto string = std::get_if<String>(&value.getValue()))
+                {
+                    result += "<string>";
+                    encode(*string, result);
+                    result += "</string>";
+                }
+                else if (auto real = std::get_if<double>(&value.getValue()))
+                {
+                    result += "<real>";
+                    result += std::to_string(*real);
+                    result += "</real>";
+                }
+                else if (auto integer = std::get_if<std::int64_t>(&value.getValue()))
+                {
+                    result += "<integer>";
+                    result += std::to_string(*integer);
+                    result += "</integer>";
+                }
+                else if (auto boolean = std::get_if<bool>(&value.getValue()))
+                {
+                    result += *boolean ? "<true/>" : "<false/>";
+                }
+                else if (auto data = std::get_if<Data>(&value.getValue()))
+                {
+                    result += "<data>";
+                    constexpr char chars[] = {
+                        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
+                    };
+                    std::size_t c = 0;
+                    std::uint8_t charArray[3];
+                    for (const auto b : *data)
                     {
-                        result += "<data>";
-                        constexpr char chars[] = {
-                            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
-                        };
-                        std::size_t c = 0;
-                        std::uint8_t charArray[3];
-                        for (const auto b : value.as<Data>())
-                        {
-                            charArray[c++] = static_cast<std::uint8_t>(b);
-                            if (c == 3)
-                            {
-                                result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
-                                result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
-                                result += chars[static_cast<std::uint8_t>(((charArray[1] & 0x0F) << 2) + ((charArray[2] & 0xC0) >> 6))];
-                                result += chars[static_cast<std::uint8_t>(charArray[2] & 0x3f)];
-                                c = 0;
-                            }
-                        }
-
-                        if (c)
+                        charArray[c++] = static_cast<std::uint8_t>(b);
+                        if (c == 3)
                         {
                             result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
-
-                            if (c == 1)
-                                result += chars[static_cast<std::uint8_t>((charArray[0] & 0x03) << 4)];
-                            else // c == 2
-                            {
-                                result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
-                                result += chars[static_cast<std::uint8_t>((charArray[1] & 0x0F) << 2)];
-                            }
-
-                            while (++c < 4) result += '=';
+                            result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
+                            result += chars[static_cast<std::uint8_t>(((charArray[1] & 0x0F) << 2) + ((charArray[2] & 0xC0) >> 6))];
+                            result += chars[static_cast<std::uint8_t>(charArray[2] & 0x3f)];
+                            c = 0;
                         }
-                        result += "</data>";
-                        break;
                     }
-                    case Value::Type::date:
-                        throw std::runtime_error("Date fields are not supported");
-                };
+
+                    if (c)
+                    {
+                        result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
+
+                        if (c == 1)
+                            result += chars[static_cast<std::uint8_t>((charArray[0] & 0x03) << 4)];
+                        else // c == 2
+                        {
+                            result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
+                            result += chars[static_cast<std::uint8_t>((charArray[1] & 0x0F) << 2)];
+                        }
+
+                        while (++c < 4) result += '=';
+                    }
+                    result += "</data>";
+                }
+                else if (auto date = std::get_if<Date>(&value.getValue()))
+                {
+                    (void)date;
+                    throw std::runtime_error("Date fields are not supported");
+                }
+                else
+                    throw std::runtime_error("Unsupported format");
             }
         };
 
