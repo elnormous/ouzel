@@ -34,11 +34,11 @@ namespace ouzel::graphics
                    Flags initFlags,
                    const void* initData,
                    std::uint32_t initSize):
-        graphics(&initGraphics),
-        resource(*initGraphics.getDevice()),
-        type(initType),
-        flags(initFlags),
-        size(initSize)
+        graphics{&initGraphics},
+        resource{*initGraphics.getDevice()},
+        type{initType},
+        flags{initFlags},
+        size{initSize}
     {
         initGraphics.addCommand(std::make_unique<InitBufferCommand>(resource,
                                                                     initType,
@@ -53,11 +53,11 @@ namespace ouzel::graphics
                    Flags initFlags,
                    const std::vector<std::uint8_t>& initData,
                    std::uint32_t initSize):
-        graphics(&initGraphics),
-        resource(*initGraphics.getDevice()),
-        type(initType),
-        flags(initFlags),
-        size(initSize)
+        graphics{&initGraphics},
+        resource{*initGraphics.getDevice()},
+        type{initType},
+        flags{initFlags},
+        size{initSize}
     {
         if (!initData.empty() && initSize != initData.size())
             throw std::runtime_error("Invalid buffer data");
