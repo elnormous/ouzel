@@ -26,8 +26,8 @@ namespace ouzel::audio
         Voice(const Voice&) = delete;
         Voice& operator=(const Voice&) = delete;
         Voice(Voice&& other) noexcept:
-            Node(other.audio),
-            audio(other.audio)
+            Node{other.audio},
+            audio{other.audio}
         {
         }
 

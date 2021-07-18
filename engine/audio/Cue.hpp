@@ -74,7 +74,7 @@ namespace ouzel::audio
     public:
         Cue() {}
         explicit Cue(const SourceDefinition& initSourceDefinition):
-            sourceDefinition(initSourceDefinition)
+            sourceDefinition{initSourceDefinition}
         {
         }
 

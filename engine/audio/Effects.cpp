@@ -57,9 +57,11 @@ namespace ouzel::audio
     };
 
     Delay::Delay(Audio& initAudio, float initDelay):
-        Effect(initAudio,
-               initAudio.initProcessor(std::make_unique<DelayProcessor>(initDelay))),
-        delay(initDelay)
+        Effect{
+            initAudio,
+            initAudio.initProcessor(std::make_unique<DelayProcessor>(initDelay))
+        },
+        delay{initDelay}
     {
     }
 
@@ -83,8 +85,8 @@ namespace ouzel::audio
     {
     public:
         explicit GainProcessor(float initGain = 0.0F):
-            gain(initGain),
-            gainFactor(std::pow(10.0F, initGain / 20.0F))
+            gain{initGain},
+            gainFactor{std::pow(10.0F, initGain / 20.0F)}
         {
         }
 
@@ -107,9 +109,11 @@ namespace ouzel::audio
     };
 
     Gain::Gain(Audio& initAudio, float initGain):
-        Effect(initAudio,
-               initAudio.initProcessor(std::make_unique<GainProcessor>(initGain))),
-        gain(initGain)
+        Effect{
+            initAudio,
+            initAudio.initProcessor(std::make_unique<GainProcessor>(initGain))
+        },
+        gain{initGain}
     {
     }
 
@@ -169,8 +173,10 @@ namespace ouzel::audio
     };
 
     Panner::Panner(Audio& initAudio):
-        Effect(initAudio,
-               initAudio.initProcessor(std::make_unique<PannerProcessor>()))
+        Effect{
+            initAudio,
+            initAudio.initProcessor(std::make_unique<PannerProcessor>())
+        }
     {
     }
 
@@ -229,7 +235,7 @@ namespace ouzel::audio
     {
     public:
         explicit PitchScaleProcessor(float initScale):
-            scale(std::clamp(initScale, minPitch, maxPitch))
+            scale{std::clamp(initScale, minPitch, maxPitch)}
         {
         }
 
@@ -255,9 +261,11 @@ namespace ouzel::audio
     };
 
     PitchScale::PitchScale(Audio& initAudio, float initScale):
-        Effect(initAudio,
-               initAudio.initProcessor(std::make_unique<PitchScaleProcessor>(initScale))),
-        scale(initScale)
+        Effect{
+            initAudio,
+            initAudio.initProcessor(std::make_unique<PitchScaleProcessor>(initScale))
+        },
+        scale{initScale}
     {
     }
 
@@ -281,7 +289,7 @@ namespace ouzel::audio
     {
     public:
         explicit PitchShiftProcessor(float initShift):
-            shift(initShift)
+            shift{initShift}
         {
         }
 
@@ -301,9 +309,11 @@ namespace ouzel::audio
     };
 
     PitchShift::PitchShift(Audio& initAudio, float initShift):
-        Effect(initAudio,
-               initAudio.initProcessor(std::make_unique<PitchShiftProcessor>(initShift))),
-        shift(initShift)
+        Effect{
+            initAudio,
+            initAudio.initProcessor(std::make_unique<PitchShiftProcessor>(initShift))
+        },
+        shift{initShift}
     {
     }
 
@@ -327,7 +337,7 @@ namespace ouzel::audio
     {
     public:
         ReverbProcessor(float initDelay, float initDecay):
-            delay(initDelay), decay(initDecay)
+            delay{initDelay}, decay{initDecay}
         {
         }
 
@@ -367,10 +377,12 @@ namespace ouzel::audio
     };
 
     Reverb::Reverb(Audio& initAudio, float initDelay, float initDecay):
-        Effect(initAudio,
-               initAudio.initProcessor(std::make_unique<ReverbProcessor>(initDelay, initDecay))),
-        delay(initDelay),
-        decay(initDecay)
+        Effect{
+            initAudio,
+            initAudio.initProcessor(std::make_unique<ReverbProcessor>(initDelay, initDecay))
+        },
+        delay{initDelay},
+        decay{initDecay}
     {
     }
 
@@ -380,12 +392,18 @@ namespace ouzel::audio
         void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
                      std::vector<float>& samples) override
         {
+            (void)frames;
+            (void)channels;
+            (void)sampleRate;
+            (void)samples;
         }
     };
 
     LowPass::LowPass(Audio& initAudio):
-        Effect(initAudio,
-               initAudio.initProcessor(std::unique_ptr<LowPassProcessor>()))
+        Effect{
+            initAudio,
+            initAudio.initProcessor(std::unique_ptr<LowPassProcessor>())
+        }
     {
     }
 
@@ -395,12 +413,18 @@ namespace ouzel::audio
         void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
                      std::vector<float>& samples) override
         {
+            (void)frames;
+            (void)channels;
+            (void)sampleRate;
+            (void)samples;
         }
     };
 
     HighPass::HighPass(Audio& initAudio):
-        Effect(initAudio,
-               initAudio.initProcessor(std::unique_ptr<HighPassProcessor>()))
+        Effect{
+            initAudio,
+            initAudio.initProcessor(std::unique_ptr<HighPassProcessor>())
+        }
     {
     }
 }

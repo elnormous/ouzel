@@ -12,11 +12,11 @@ namespace ouzel::audio::mixer
     Mixer::Mixer(std::uint32_t initBufferSize,
                  std::uint32_t initChannels,
                  const std::function<void(const Event&)>& initCallback):
-        bufferSize(initBufferSize),
-        channels(initChannels),
-        callback(initCallback),
-        mixerThread(&Mixer::mixerMain, this),
-        buffer(initBufferSize * 3, initChannels)
+        bufferSize{initBufferSize},
+        channels{initChannels},
+        callback{initCallback},
+        mixerThread{&Mixer::mixerMain, this},
+        buffer{initBufferSize * 3, initChannels}
     {
         //mixerThread.setPriority(20.0F, true);
 

@@ -15,7 +15,7 @@ namespace ouzel::audio
     {
     public:
         explicit Node(Audio& initAudio):
-            audio(initAudio)
+            audio{initAudio}
         {
         }
 

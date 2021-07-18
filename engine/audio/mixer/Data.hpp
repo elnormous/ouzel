@@ -15,7 +15,7 @@ namespace ouzel::audio::mixer
     public:
         Data() noexcept = default;
         Data(std::uint32_t initChannels, std::uint32_t initSampleRate) noexcept:
-            channels(initChannels), sampleRate(initSampleRate)
+            channels{initChannels}, sampleRate{initSampleRate}
         {
         }
 

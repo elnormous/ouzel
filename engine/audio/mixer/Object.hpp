@@ -17,7 +17,7 @@ namespace ouzel::audio::mixer
     public:
         Object() noexcept = default;
         explicit Object(std::unique_ptr<Source> initSource) noexcept:
-            source(std::move(initSource))
+            source{std::move(initSource)}
         {
         }
 

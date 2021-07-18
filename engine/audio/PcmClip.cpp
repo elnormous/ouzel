@@ -32,8 +32,8 @@ namespace ouzel::audio
     public:
         PcmData(std::uint32_t initChannels, std::uint32_t initSampleRate,
                 const std::vector<float>& initData):
-            Data(initChannels, initSampleRate),
-            data(initData)
+            Data{initChannels, initSampleRate},
+            data{initData}
         {
         }
 
@@ -92,9 +92,11 @@ namespace ouzel::audio
 
     PcmClip::PcmClip(Audio& initAudio, std::uint32_t channels, std::uint32_t sampleRate,
                       const std::vector<float>& samples):
-        Sound(initAudio,
-              initAudio.initData(std::unique_ptr<mixer::Data>(data = new PcmData(channels, sampleRate, samples))),
-              Sound::Format::pcm)
+        Sound{
+            initAudio,
+            initAudio.initData(std::unique_ptr<mixer::Data>(data = new PcmData(channels, sampleRate, samples))),
+            Sound::Format::pcm
+        }
     {
     }
 }

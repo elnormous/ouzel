@@ -17,7 +17,7 @@ namespace ouzel::audio::mixer
         friend Bus;
     public:
         explicit Stream(Data& initData) noexcept:
-            data(initData)
+            data{initData}
         {
         }
 
