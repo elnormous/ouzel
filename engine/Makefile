@@ -188,10 +188,10 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	input/macos/InputSystemMacOS.mm \
 	input/macos/MouseDeviceMacOS.mm \
 	input/macos/CursorMacOS.cpp \
-	platform/cocoa/AutoreleasePool.mm \
 	platform/cocoa/Window.mm \
 	platform/coregraphics/CoreGraphicsErrorCategory.cpp \
-	platform/corevideo/CoreVideoErrorCategory.cpp
+	platform/corevideo/CoreVideoErrorCategory.cpp \
+	platform/foundation/AutoreleasePool.mm
 else ifeq ($(PLATFORM),ios)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
@@ -212,7 +212,7 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	graphics/opengl/ios/OpenGLView.m \
 	input/ios/GamepadDeviceIOS.mm \
 	input/ios/InputSystemIOS.mm \
-	platform/cocoa/AutoreleasePool.mm \
+	platform/foundation/AutoreleasePool.mm \
 	platform/quartzcore/DisplayLink.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
@@ -238,7 +238,7 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	graphics/opengl/tvos/OpenGLView.m \
 	input/tvos/GamepadDeviceTVOS.mm \
 	input/tvos/InputSystemTVOS.mm \
-	platform/cocoa/AutoreleasePool.mm \
+	platform/foundation/AutoreleasePool.mm \
 	platform/quartzcore/DisplayLink.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0

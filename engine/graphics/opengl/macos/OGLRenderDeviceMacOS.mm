@@ -13,7 +13,7 @@
 #include "OGLRenderDeviceMacOS.hpp"
 #include "OpenGLView.h"
 #include "../../../core/Engine.hpp"
-#include "../../../platform/cocoa/AutoreleasePool.hpp"
+#include "../../../platform/foundation/AutoreleasePool.hpp"
 #include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../utils/Bit.hpp"
 #include "../../../utils/Log.hpp"
@@ -29,7 +29,7 @@ namespace ouzel::graphics::opengl::macos
                                 CVOptionFlags*,
                                 void* userInfo)
         {
-            platform::cocoa::AutoreleasePool autoreleasePool;
+            platform::foundation::AutoreleasePool autoreleasePool;
 
             try
             {

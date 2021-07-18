@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP
-#define OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP
+#ifndef OUZEL_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP
+#define OUZEL_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP
 
 #ifdef __OBJC__
 #  import <Foundation/NSAutoreleasePool.h>
@@ -11,7 +11,7 @@ typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
 using NSAutoreleasePoolPtr = id;
 #endif
 
-namespace ouzel::platform::cocoa
+namespace ouzel::platform::foundation
 {
     class AutoreleasePool final
     {
@@ -38,4 +38,4 @@ namespace ouzel::platform::cocoa
     };
 }
 
-#endif // OUZEL_PLATFORM_COCOA_AUTORELEASEPOOL_HPP
+#endif // OUZEL_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP

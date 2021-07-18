@@ -2,7 +2,7 @@
 
 #include "AutoreleasePool.hpp"
 
-namespace ouzel::platform::cocoa
+namespace ouzel::platform::foundation
 {
     AutoreleasePool::AutoreleasePool() noexcept:
         pool([[NSAutoreleasePool alloc] init])

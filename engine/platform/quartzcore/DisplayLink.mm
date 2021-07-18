@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include "DisplayLink.hpp"
-#include "../cocoa/AutoreleasePool.hpp"
+#include "../foundation/AutoreleasePool.hpp"
 
 @interface DisplayLinkHandler: NSObject
 @end
@@ -26,7 +26,7 @@
 
 - (void)draw:(__unused CADisplayLink*)sender
 {
-    ouzel::platform::cocoa::AutoreleasePool autoreleasePool;
+    ouzel::platform::foundation::AutoreleasePool autoreleasePool;
     callback(userInfo);
 }
 @end
@@ -89,7 +89,7 @@ namespace ouzel::platform::quartzcore
         {
             while (running)
             {
-                ouzel::platform::cocoa::AutoreleasePool autoreleasePool;
+                ouzel::platform::foundation::AutoreleasePool autoreleasePool;
                 callback(userInfo);
             }
         }

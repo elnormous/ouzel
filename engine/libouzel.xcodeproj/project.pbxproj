@@ -1151,10 +1151,11 @@
 		301116C62595A8EB0093FF14 /* platform */ = {
 			isa = PBXGroup;
 			children = (
-				308E37FC2643ECD000CD49B8 /* dispatch */,
 				307F4C2024E20CFE00994B7A /* cocoa */,
 				304BB5DF256B3A420024DD25 /* coregraphics */,
 				304BB5D32569E40F0024DD25 /* corevideo */,
+				308E37FC2643ECD000CD49B8 /* dispatch */,
+				30DC8C3926A4E27A000F2B3B /* foundation */,
 				301116D0259C3D740093FF14 /* quartzcore */,
 			);
 			path = platform;
@@ -1756,8 +1757,6 @@
 		307F4C2024E20CFE00994B7A /* cocoa */ = {
 			isa = PBXGroup;
 			children = (
-				307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */,
-				307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */,
 				30DC8C3226A4E0FA000F2B3B /* Window.hpp */,
 				30DC8C3126A4E0FA000F2B3B /* Window.mm */,
 			);
@@ -1859,6 +1858,15 @@
 				30D6EF7724B93B390032E72A /* Renderer.hpp */,
 			);
 			path = renderer;
+			sourceTree = "<group>";
+		};
+		30DC8C3926A4E27A000F2B3B /* foundation */ = {
+			isa = PBXGroup;
+			children = (
+				307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */,
+				307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */,
+			);
+			path = foundation;
 			sourceTree = "<group>";
 		};
 		C6C9101621B54AD600B5FCB7 /* mixer */ = {
