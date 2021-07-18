@@ -14,6 +14,7 @@
 #include "../../../core/Engine.hpp"
 #include "../../../core/Window.hpp"
 #include "../../../core/ios/NativeWindowIOS.hpp"
+#include "../../../platform/foundation/AutoreleasePool.hpp"
 #include "../../../utils/Log.hpp"
 
 namespace ouzel::graphics::opengl::ios
@@ -22,6 +23,8 @@ namespace ouzel::graphics::opengl::ios
     {
         void renderCallback(void* userInfo)
         {
+            platform::foundation::AutoreleasePool autoreleasePool;
+
             try
             {
                 const auto renderDevice = static_cast<RenderDevice*>(userInfo);

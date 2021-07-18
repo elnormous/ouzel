@@ -13,8 +13,8 @@
 #include "OGLRenderDeviceMacOS.hpp"
 #include "OpenGLView.h"
 #include "../../../core/Engine.hpp"
-#include "../../../platform/foundation/AutoreleasePool.hpp"
 #include "../../../core/macos/NativeWindowMacOS.hpp"
+#include "../../../platform/foundation/AutoreleasePool.hpp"
 #include "../../../utils/Bit.hpp"
 #include "../../../utils/Log.hpp"
 
