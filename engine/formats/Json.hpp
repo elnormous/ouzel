@@ -636,7 +636,7 @@ namespace ouzel::json
 
                                 for (std::uint32_t i = 0; i < 4; ++i)
                                 {
-                                    if (iterator == end)
+                                    if (++iterator == end)
                                         throw ParseError{"Unexpected end of data"};
 
                                     std::uint8_t code = 0;
@@ -651,8 +651,6 @@ namespace ouzel::json
                                         throw ParseError{"Invalid character code"};
 
                                     c = (c << 4) | code;
-
-                                    ++iterator;
                                 }
 
                                 if (c <= 0x7F)
