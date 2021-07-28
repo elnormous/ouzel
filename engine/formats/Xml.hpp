@@ -664,40 +664,33 @@ namespace ouzel::xml
 
                         result.setName(name);
 
-                        for (;;)
+                        skipWhitespaces(iterator, end);
+
+                        if (iterator == end)
+                            throw ParseError{ "Unexpected end of data" };
+
+                        std::string value;
+
+                        while (*iterator != '?')
                         {
-                            skipWhitespaces(iterator, end);
+                            value += fromUtf32(*iterator);
 
-                            if (iterator == end)
-                                throw ParseError{"Unexpected end of data"};
-
-                            if (*iterator == '?')
-                            {
-                                if (++iterator == end)
-                                    throw ParseError{"Unexpected end of data"};
-
-                                if (*iterator != '>') // ?>
-                                    throw ParseError{"Expected a right angle bracket"};
-
-                                ++iterator;
-                                break;
-                            }
-
-                            const auto attribute = parseName(iterator, end);
-
-                            skipWhitespaces(iterator, end);
-
-                            if (iterator == end)
-                                throw ParseError{"Unexpected end of data"};
-
-                            if (*iterator != '=')
-                                throw ParseError{"Expected an equal sign"};
-
-                            ++iterator;
-
-                            skipWhitespaces(iterator, end);
-                            result[attribute] = parseString(iterator, end);
+                            if (++iterator == end)
+                                throw ParseError{ "Unexpected end of data" };
                         }
+
+                        if (*iterator != '?')
+                            throw ParseError{ "Unexpected end of data" };
+
+                        if (++iterator == end)
+                            throw ParseError{"Unexpected end of data"};
+
+                        if (*iterator != '>') // ?>
+                            throw ParseError{"Expected a right angle bracket"};
+
+                        ++iterator;
+
+                        result.setValue(value);
                     }
                     else // <
                     {
@@ -930,16 +923,9 @@ namespace ouzel::xml
                         result.insert(result.end(), {'<', '?'});
                         result.insert(result.end(), name.begin(), name.end());
 
-                        const auto& attributes = node.getAttributes();
-                        for (const auto& [key, attributeValue] : attributes)
-                        {
-                            result.insert(result.end(), ' ');
-                            result.insert(result.end(), key.begin(), key.end());
-                            result.insert(result.end(), {'=', '"'});
-                            encode(attributeValue, result);
-                            result.insert(result.end(), '"');
-                        }
-
+                        const auto& value = node.getValue();
+                        result.insert(result.end(), ' ');
+                        result.insert(result.end(), value.begin(), value.end());
                         result.insert(result.end(), {'?', '>'});
                         break;
                     }
