@@ -4,6 +4,7 @@
 #define OUZEL_FORMATS_XML_HPP
 
 #include <array>
+#include <cctype>
 #include <functional>
 #include <map>
 #include <stdexcept>
@@ -115,14 +116,18 @@ namespace ouzel::xml
         const auto& getChildren() const noexcept { return children; }
         void pushBack(const Node& node) { children.push_back(node); }
 
+        const auto& getName() const noexcept { return name; }
+        void setName(const std::string_view newName) { name = newName; }
+
         const auto& getValue() const noexcept { return value; }
         void setValue(const std::string_view newValue) { value = newValue; }
 
-        const Attributes& getAttributes() const noexcept { return attributes; }
+        const auto& getAttributes() const noexcept { return attributes; }
         void setAttributes(const Attributes& newAttributes) { attributes = newAttributes; }
 
     private:
         Type type = Type::tag;
+        std::string name;
         std::string value;
         Attributes attributes;
         std::vector<Node> children;
@@ -174,6 +179,117 @@ namespace ouzel::xml
         class Parser final
         {
         public:
+            static std::u32string toUtf32(Iterator begin, Iterator end)
+            {
+                std::u32string result;
+
+                for (auto i = begin; i != end; ++i)
+                {
+                    char32_t cp = static_cast<char32_t>(*i) & 0xFF;
+
+                    if (cp <= 0x7F) // length = 1
+                    {
+                        // do nothing
+                    }
+                    else if ((cp >> 5) == 0x6) // length = 2
+                    {
+                        if (++i == end)
+                            throw ParseError{"Invalid UTF-8 string"};
+                        cp = ((cp << 6) & 0x7FF) + (static_cast<char32_t>(*i) & 0x3F);
+                    }
+                    else if ((cp >> 4) == 0xE) // length = 3
+                    {
+                        if (++i == end)
+                            throw ParseError{"Invalid UTF-8 string"};
+                        cp = ((cp << 12) & 0xFFFF) + (((static_cast<char32_t>(*i) & 0xFF) << 6) & 0x0FFF);
+                        if (++i == end)
+                            throw ParseError{"Invalid UTF-8 string"};
+                        cp += static_cast<char32_t>(*i) & 0x3F;
+                    }
+                    else if ((cp >> 3) == 0x1E) // length = 4
+                    {
+                        if (++i == end)
+                            throw ParseError{"Invalid UTF-8 string"};
+                        cp = ((cp << 18) & 0x1FFFFF) + (((static_cast<char32_t>(*i) & 0xFF) << 12) & 0x3FFFF);
+                        if (++i == end)
+                            throw ParseError{"Invalid UTF-8 string"};
+                        cp += ((static_cast<char32_t>(*i) & 0xFF) << 6) & 0x0FFF;
+                        if (++i == end)
+                            throw ParseError{"Invalid UTF-8 string"};
+                        cp += static_cast<char32_t>(*i) & 0x3F;
+                    }
+
+                    result.push_back(cp);
+                }
+
+                return result;
+            }
+
+            static std::string fromUtf32(char32_t c)
+            {
+                std::string result;
+
+                if (c <= 0x7F)
+                    result.push_back(static_cast<char>(c));
+                else if (c <= 0x7FF)
+                {
+                    result.push_back(static_cast<char>(0xC0 | ((c >> 6) & 0x1F)));
+                    result.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                }
+                else if (c <= 0xFFFF)
+                {
+                    result.push_back(static_cast<char>(0xE0 | ((c >> 12) & 0x0F)));
+                    result.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                    result.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                }
+                else
+                {
+                    result.push_back(static_cast<char>(0xF0 | ((c >> 18) & 0x07)));
+                    result.push_back(static_cast<char>(0x80 | ((c >> 12) & 0x3F)));
+                    result.push_back(static_cast<char>(0x80 | ((c >> 6) & 0x3F)));
+                    result.push_back(static_cast<char>(0x80 | (c & 0x3F)));
+                }
+
+                return result;
+            }
+
+            static std::string fromUtf32(std::u32string::const_iterator begin,
+                                         std::u32string::const_iterator end)
+            {
+                std::string result;
+
+                for (auto i = begin; i != end; ++i)
+                {
+                    if (*i <= 0x7F)
+                        result.push_back(static_cast<char>(*i));
+                    else if (*i <= 0x7FF)
+                    {
+                        result.push_back(static_cast<char>(0xC0 | ((*i >> 6) & 0x1F)));
+                        result.push_back(static_cast<char>(0x80 | (*i & 0x3F)));
+                    }
+                    else if (*i <= 0xFFFF)
+                    {
+                        result.push_back(static_cast<char>(0xE0 | ((*i >> 12) & 0x0F)));
+                        result.push_back(static_cast<char>(0x80 | ((*i >> 6) & 0x3F)));
+                        result.push_back(static_cast<char>(0x80 | (*i & 0x3F)));
+                    }
+                    else
+                    {
+                        result.push_back(static_cast<char>(0xF0 | ((*i >> 18) & 0x07)));
+                        result.push_back(static_cast<char>(0x80 | ((*i >> 12) & 0x3F)));
+                        result.push_back(static_cast<char>(0x80 | ((*i >> 6) & 0x3F)));
+                        result.push_back(static_cast<char>(0x80 | (*i & 0x3F)));
+                    }
+                }
+
+                return result;
+            }
+
+            static std::string fromUtf32(const std::u32string& text)
+            {
+                return fromUtf32(std::begin(text), std::end(text));
+            }
+
             static Data parse(Iterator begin, Iterator end,
                               bool preserveWhitespaces,
                               bool preserveComments,
@@ -181,9 +297,10 @@ namespace ouzel::xml
             {
                 bool byteOrderMark = hasByteOrderMark(begin, end);
 
-                const auto str = utf8::toUtf32(byteOrderMark ? begin + 3 : begin, end);
+                const auto str = toUtf32(byteOrderMark ? begin + 3 : begin, end);
                 auto iterator = str.begin();
                 bool rootTagFound = false;
+                bool prologAllowed = true;
 
                 Data result;
 
@@ -196,7 +313,8 @@ namespace ouzel::xml
                     const auto node = parse(iterator, str.end(),
                                             preserveWhitespaces,
                                             preserveComments,
-                                            preserveProcessingInstructions);
+                                            preserveProcessingInstructions,
+                                            prologAllowed);
 
                     if ((preserveComments || node.getType() != Node::Type::comment) &&
                         (preserveProcessingInstructions || node.getType() != Node::Type::processingInstruction))
@@ -211,6 +329,8 @@ namespace ouzel::xml
                                 rootTagFound = true;
                         }
                     }
+
+                    prologAllowed = false;
                 }
 
                 if (!rootTagFound)
@@ -246,7 +366,12 @@ namespace ouzel::xml
                     (c >= 0x370 && c <= 0x37D) ||
                     (c >= 0x37F && c <= 0x1FFF) ||
                     (c >= 0x200C && c <= 0x200D) ||
-                    (c >= 0x2070 && c <= 0x218F);
+                    (c >= 0x2070 && c <= 0x218F) ||
+                    (c >= 0x2C00 && c <= 0x2FEF) ||
+                    (c >= 0x3001 && c <= 0xD7FF) ||
+                    (c >= 0xF900 && c <= 0xFDCF) ||
+                    (c >= 0xFDF0 && c <= 0xFFFD) ||
+                    (c >= 0x10000 && c <= 0xEFFFF);
             }
 
             static constexpr bool isNameChar(const char32_t c) noexcept
@@ -286,7 +411,7 @@ namespace ouzel::xml
                         break;
                     else
                     {
-                        result += utf8::fromUtf32(*iterator);
+                        result += fromUtf32(*iterator);
                         ++iterator;
                     }
                 }
@@ -294,8 +419,8 @@ namespace ouzel::xml
                 return result;
             }
 
-            static std::string parseEntity(std::u32string::const_iterator& iterator,
-                                           std::u32string::const_iterator end)
+            static std::string parseReference(std::u32string::const_iterator& iterator,
+                                              std::u32string::const_iterator end)
             {
                 std::string result;
 
@@ -324,17 +449,7 @@ namespace ouzel::xml
                 if (value.empty())
                     throw ParseError{"Invalid entity"};
 
-                if (value == "quot")
-                    result = "\"";
-                else if (value == "amp")
-                    result = "&";
-                else if (value == "apos")
-                    result = "'";
-                else if (value == "lt")
-                    result = "<";
-                else if (value == "gt")
-                    result = ">";
-                else if (value[0] == '#')
+                if (value[0] == '#') // char reference
                 {
                     if (value.length() < 2)
                         throw ParseError{"Invalid entity"};
@@ -343,19 +458,19 @@ namespace ouzel::xml
 
                     if (value[1] == 'x') // hex value
                     {
-                        if (value.length() != 2 + 4)
+                        if (value.length() < 3)
                             throw ParseError{"Invalid entity"};
 
-                        for (std::size_t i = 0; i < 4; ++i)
+                        for (std::size_t i = 2; i < value.length(); ++i)
                         {
                             std::uint8_t code = 0;
 
-                            if (value[i + 2] >= '0' && value[i + 2] <= '9')
-                                code = static_cast<std::uint8_t>(value[i + 2]) - '0';
-                            else if (value[i + 2] >= 'a' && value[i + 2] <='f')
-                                code = static_cast<std::uint8_t>(value[i + 2]) - 'a' + 10;
-                            else if (value[i + 2] >= 'A' && value[i + 2] <='F')
-                                code = static_cast<std::uint8_t>(value[i + 2]) - 'A' + 10;
+                            if (value[i] >= '0' && value[i] <= '9')
+                                code = static_cast<std::uint8_t>(value[i]) - '0';
+                            else if (value[i] >= 'a' && value[i] <='f')
+                                code = static_cast<std::uint8_t>(value[i]) - 'a' + 10;
+                            else if (value[i] >= 'A' && value[i] <='F')
+                                code = static_cast<std::uint8_t>(value[i]) - 'A' + 10;
                             else
                                 throw ParseError{"Invalid character code"};
 
@@ -364,23 +479,33 @@ namespace ouzel::xml
                     }
                     else
                     {
-                        if (value.length() != 1 + 4)
-                            throw ParseError{"Invalid entity"};
-
-                        for (std::size_t i = 0; i < 4; ++i)
+                        for (std::size_t i = 1; i < value.length(); ++i)
                         {
-                            const std::uint8_t code = (value[i + 1] >= '0' && value[i + 1] <= '9') ?
-                                static_cast<std::uint8_t>(value[i + 1]) - '0' :
+                            const std::uint8_t code = (value[i] >= '0' && value[i] <= '9') ?
+                                static_cast<std::uint8_t>(value[i]) - '0' :
                                 throw ParseError{"Invalid character code"};
 
                             c = c * 10 + code;
                         }
                     }
 
-                    result = utf8::fromUtf32(c);
+                    result = fromUtf32(c);
                 }
-                else
-                    throw ParseError{"Invalid entity"};
+                else // entity reference
+                {
+                    if (value == "quot")
+                        result = "\"";
+                    else if (value == "amp")
+                        result = "&";
+                    else if (value == "apos")
+                        result = "'";
+                    else if (value == "lt")
+                        result = "<";
+                    else if (value == "gt")
+                        result = ">";
+                    else
+                        throw ParseError{"Invalid entity"};
+                }
 
                 return result;
             }
@@ -412,12 +537,14 @@ namespace ouzel::xml
                     }
                     else if (*iterator == '&')
                     {
-                        const auto entity = parseEntity(iterator, end);
+                        const auto entity = parseReference(iterator, end);
                         result += entity;
                     }
+                    else if (*iterator == '<')
+                        throw ParseError{"Illegal character"};
                     else
                     {
-                        result += utf8::fromUtf32(*iterator);
+                        result += fromUtf32(*iterator);
                         ++iterator;
                     }
                 }
@@ -429,7 +556,8 @@ namespace ouzel::xml
                               std::u32string::const_iterator end,
                               bool preserveWhitespaces,
                               bool preserveComments,
-                              bool preserveProcessingInstructions)
+                              bool preserveProcessingInstructions,
+                              bool prologAllowed)
             {
                 Node result;
 
@@ -478,7 +606,7 @@ namespace ouzel::xml
                                     }
                                 }
 
-                                value += utf8::fromUtf32(*iterator);
+                                value += fromUtf32(*iterator);
                             }
 
                             result.setValue(value);
@@ -514,7 +642,7 @@ namespace ouzel::xml
                                     break;
                                 }
 
-                                value += utf8::fromUtf32(*iterator);
+                                value += fromUtf32(*iterator);
                             }
                             result.setValue(value);
                         }
@@ -525,7 +653,17 @@ namespace ouzel::xml
                     {
                         ++iterator;
                         result = Node::Type::processingInstruction;
-                        result.setValue(parseName(iterator, end));
+
+                        const auto name = parseName(iterator, end);
+                        if (!prologAllowed && name.length() == 3 &&
+                            std::tolower(name[0]) == 'x' &&
+                            std::tolower(name[1]) == 'm' &&
+                            std::tolower(name[2]) == 'l')
+                        {
+                            throw ParseError("Invalid processing instruction");
+                        }
+
+                        result.setName(name);
 
                         for (;;)
                         {
@@ -565,7 +703,7 @@ namespace ouzel::xml
                     else // <
                     {
                         result = Node::Type::tag;
-                        result.setValue(parseName(iterator, end));
+                        result.setName(parseName(iterator, end));
 
                         bool tagClosed = false;
 
@@ -627,7 +765,7 @@ namespace ouzel::xml
                                     ++iterator; // skip the left angle bracket
                                     ++iterator; // skip the slash
 
-                                    if (const auto tag = parseName(iterator, end); tag != result.getValue())
+                                    if (const auto tag = parseName(iterator, end); tag != result.getName())
                                         throw ParseError{"Tag not closed properly"};
 
                                     if (iterator == end)
@@ -642,7 +780,11 @@ namespace ouzel::xml
                                 }
                                 else
                                 {
-                                    const auto node = parse(iterator, end, preserveWhitespaces, preserveComments, preserveProcessingInstructions);
+                                    const auto node = parse(iterator, end,
+                                                            preserveWhitespaces,
+                                                            preserveComments,
+                                                            preserveProcessingInstructions,
+                                                            false);
 
                                     if ((preserveComments || node.getType() != Node::Type::comment) &&
                                         (preserveProcessingInstructions || node.getType() != Node::Type::processingInstruction))
@@ -664,12 +806,12 @@ namespace ouzel::xml
                             break;
                         else if (*iterator == '&')
                         {
-                            const auto entity = parseEntity(iterator, end);
+                            const auto entity = parseReference(iterator, end);
                             value += entity;
                         }
                         else
                         {
-                            value += utf8::fromUtf32(*iterator);
+                            value += fromUtf32(*iterator);
                             ++iterator;
                         }
                     }
@@ -785,9 +927,9 @@ namespace ouzel::xml
                         throw ParseError{"Type declarations are not supported"};
                     case Node::Type::processingInstruction:
                     {
-                        const auto& value = node.getValue();
+                        const auto& name = node.getName();
                         result.insert(result.end(), {'<', '?'});
-                        result.insert(result.end(), value.begin(), value.end());
+                        result.insert(result.end(), name.begin(), name.end());
 
                         const auto& attributes = node.getAttributes();
                         for (const auto& [key, attributeValue] : attributes)
@@ -804,9 +946,9 @@ namespace ouzel::xml
                     }
                     case Node::Type::tag:
                     {
-                        const auto& value = node.getValue();
+                        const auto& name = node.getName();
                         result.insert(result.end(), '<');
-                        result.insert(result.end(), value.begin(), value.end());
+                        result.insert(result.end(), name.begin(), name.end());
 
                         const auto& attributes = node.getAttributes();
                         for (const auto& [key, attributeValue] : attributes)
@@ -834,7 +976,7 @@ namespace ouzel::xml
 
                             if (whitespaces) result.insert(result.end(), level, '\t');
                             result.insert(result.end(), {'<', '/'});
-                            result.insert(result.end(), value.begin(), value.end());
+                            result.insert(result.end(), name.begin(), name.end());
                             result.insert(result.end(), '>');
                         }
                         break;
