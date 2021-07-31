@@ -37,6 +37,7 @@ namespace ouzel::xml
             characterData,
             typeDeclaration,
             processingInstruction,
+            documentTypeDefinition,
             tag,
             text
         };
@@ -646,7 +647,32 @@ namespace ouzel::xml
                             result.setValue(value);
                         }
                         else
-                            throw ParseError{"Type declarations are not supported"};
+                        {
+                            std::string name;
+                            name = parseName(iterator, end);
+
+                            if (name != "DOCTYPE")
+                                throw ParseError{"Invalid document type declaration"};
+
+                            result = Node::Type::documentTypeDefinition;
+
+                            std::string value;
+                            for (;;)
+                            {
+                                if (++iterator == end)
+                                    throw ParseError{"Unexpected end of data"};
+
+                                if (*iterator == '>')
+                                {
+                                    ++iterator;
+                                    break;
+                                }
+
+                                value += fromUtf32(*iterator);
+                            }
+                            result.setValue(value);
+                        }
+
                     }
                     else if (*iterator == '?') // <?
                     {
