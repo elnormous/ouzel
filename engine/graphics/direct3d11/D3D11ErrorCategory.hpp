@@ -41,6 +41,7 @@ namespace ouzel::graphics::d3d11
                 case DXGI_ERROR_INVALID_CALL: return "DXGI_ERROR_INVALID_CALL";
                 case DXGI_ERROR_WAS_STILL_DRAWING: return "DXGI_ERROR_WAS_STILL_DRAWING";
                 case DXGI_ERROR_NOT_CURRENTLY_AVAILABLE: return "DXGI_ERROR_NOT_CURRENTLY_AVAILABLE";
+                case DXGI_ERROR_DEVICE_REMOVED: return "DXGI_ERROR_DEVICE_REMOVED";
                 case E_FAIL: return "E_FAIL";
                 case E_INVALIDARG: return "E_INVALIDARG";
                 case E_OUTOFMEMORY: return "E_OUTOFMEMORY";
