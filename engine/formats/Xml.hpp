@@ -35,7 +35,6 @@ namespace ouzel::xml
         {
             comment,
             characterData,
-            typeDeclaration,
             processingInstruction,
             documentTypeDefinition,
             element,
@@ -44,6 +43,13 @@ namespace ouzel::xml
             notation,
             tag,
             text
+        };
+
+        enum class ExternalIdType
+        {
+            none,
+            system,
+            pub
         };
 
         Node() = default;
@@ -123,6 +129,9 @@ namespace ouzel::xml
         const auto& getName() const noexcept { return name; }
         void setName(const std::string_view newName) { name = newName; }
 
+        const auto& getExternalIdType() const noexcept { return externalIdType; }
+        void setExternalIdType(const ExternalIdType newExternalIdType) { externalIdType = newExternalIdType; }
+
         const auto& getValue() const noexcept { return value; }
         void setValue(const std::string_view newValue) { value = newValue; }
 
@@ -132,6 +141,7 @@ namespace ouzel::xml
     private:
         Type type = Type::tag;
         std::string name;
+        ExternalIdType externalIdType;
         std::string value;
         Attributes attributes;
         std::vector<Node> children;
@@ -543,8 +553,6 @@ namespace ouzel::xml
                         const auto entity = parseReference(iterator, end);
                         result += entity;
                     }
-                    else if (*iterator == '<')
-                        throw ParseError{"Illegal character"};
                     else
                     {
                         result += fromUtf32(*iterator);
@@ -714,7 +722,7 @@ namespace ouzel::xml
                         result.setName(name);
 
                         skipWhitespaces(iterator, end);
-
+                        
                         if (iterator == end)
                             throw ParseError{"Unexpected end of data"};
 
@@ -1034,8 +1042,6 @@ namespace ouzel::xml
                         result.insert(result.end(), {']', ']', '>'});
                         break;
                     }
-                    case Node::Type::typeDeclaration:
-                        throw ParseError{"Type declarations are not supported"};
                     case Node::Type::processingInstruction:
                     {
                         const auto& name = node.getName();
@@ -1046,6 +1052,110 @@ namespace ouzel::xml
                         result.insert(result.end(), ' ');
                         result.insert(result.end(), value.begin(), value.end());
                         result.insert(result.end(), {'?', '>'});
+                        break;
+                    }
+                    case Node::Type::documentTypeDefinition:
+                    {
+                        const auto& name = node.getName();
+                        result.insert(result.end(), {'<', '!', 'D', 'O', 'C', 'T', 'Y', 'P', 'E', ' '});
+                        result.insert(result.end(), name.begin(), name.end());
+
+                        switch (node.getExternalIdType())
+                        {
+                            case Node::ExternalIdType::none: break;
+                            case Node::ExternalIdType::system:
+                                result.insert(result.end(), {' ', 'S', 'Y', 'S', 'T', 'E', 'M'});
+                                break;
+                            case Node::ExternalIdType::pub:
+                                result.insert(result.end(), {' ', 'P', 'U', 'B', 'L', 'I', 'C'});
+                                break;
+                        }
+
+                        const auto& value = node.getValue();
+                        if (!value.empty())
+                        {
+                            result.insert(result.end(), ' ');
+                            result.insert(result.end(), value.begin(), value.end());
+                        }
+
+                        if (const auto& children = node.getChildren(); !children.empty())
+                        {
+                            result.insert(result.end(), {' ', '['});
+                            if (whitespaces) result.push_back('\n');
+
+                            for (const Node& child : children)
+                            {
+                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                                encode(child, result, whitespaces, level + 1);
+                                if (whitespaces) result.push_back('\n');
+                            }
+
+                            if (whitespaces) result.insert(result.end(), level, '\t');
+                            result.insert(result.end(), ']');
+                        }
+
+                        result.insert(result.end(), '>');
+
+                        break;
+                    }
+                    case Node::Type::element:
+                    {
+                        const auto& name = node.getName();
+                        result.insert(result.end(), {'<', '!', 'E', 'L', 'E', 'M', 'E', 'N', 'T', ' '});
+                        result.insert(result.end(), name.begin(), name.end());
+
+                        const auto& value = node.getValue();
+                        if (!value.empty())
+                        {
+                            result.insert(result.end(), ' ');
+                            result.insert(result.end(), value.begin(), value.end());
+                        }
+                        result.insert(result.end(), '>');
+                        break;
+                    }
+                    case Node::Type::attributeList:
+                    {
+                        const auto& name = node.getName();
+                        result.insert(result.end(), {'<', '!', 'A', 'T', 'T', 'L', 'I', 'S', 'T', ' '});
+                        result.insert(result.end(), name.begin(), name.end());
+
+                        const auto& value = node.getValue();
+                        if (!value.empty())
+                        {
+                            result.insert(result.end(), ' ');
+                            result.insert(result.end(), value.begin(), value.end());
+                        }
+                        result.insert(result.end(), '>');
+                        break;
+                    }
+                    case Node::Type::entity:
+                    {
+                        const auto& name = node.getName();
+                        result.insert(result.end(), {'<', '!', 'E', 'N', 'T', 'I', 'T', 'Y', ' '});
+                        result.insert(result.end(), name.begin(), name.end());
+
+                        const auto& value = node.getValue();
+                        if (!value.empty())
+                        {
+                            result.insert(result.end(), ' ');
+                            result.insert(result.end(), value.begin(), value.end());
+                        }
+                        result.insert(result.end(), '>');
+                        break;
+                    }
+                    case Node::Type::notation:
+                    {
+                        const auto& name = node.getName();
+                        result.insert(result.end(), {'<', '!', 'N', 'O', 'T', 'A', 'T', 'I', 'O', 'N', ' '});
+                        result.insert(result.end(), name.begin(), name.end());
+
+                        const auto& value = node.getValue();
+                        if (!value.empty())
+                        {
+                            result.insert(result.end(), ' ');
+                            result.insert(result.end(), value.begin(), value.end());
+                        }
+                        result.insert(result.end(), '>');
                         break;
                     }
                     case Node::Type::tag:
@@ -1064,9 +1174,7 @@ namespace ouzel::xml
                             result.insert(result.end(), '"');
                         }
 
-                        if (const auto& children = node.getChildren(); children.empty())
-                            result.insert(result.end(), {'/', '>'});
-                        else
+                        if (const auto& children = node.getChildren(); !children.empty())
                         {
                             result.insert(result.end(), '>');
                             if (whitespaces) result.push_back('\n');
@@ -1083,6 +1191,8 @@ namespace ouzel::xml
                             result.insert(result.end(), name.begin(), name.end());
                             result.insert(result.end(), '>');
                         }
+                        else
+                            result.insert(result.end(), {'/', '>'});
                         break;
                     }
                     case Node::Type::text:
