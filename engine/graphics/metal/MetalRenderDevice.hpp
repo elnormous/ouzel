@@ -40,7 +40,6 @@ using MTLRenderPipelineStatePtr = id;
 using MTLTexturePtr = id;
 using MTLDepthStencilStatePtr = id;
 using MTLPixelFormat = NSUInteger;
-using MTLLoadAction = NSUInteger;
 #endif
 
 #include "../RenderDevice.hpp"
