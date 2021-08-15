@@ -656,6 +656,9 @@
 		30CEB37621A6404200525637 /* SystemIOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB37421A6404200525637 /* SystemIOS.cpp */; };
 		30CEB37921A6404B00525637 /* SystemTVOS.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CEB37721A6404B00525637 /* SystemTVOS.hpp */; };
 		30CEB37A21A6404B00525637 /* SystemTVOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30CEB37821A6404B00525637 /* SystemTVOS.cpp */; };
+		30CFB66126C8A6FF005F8385 /* Object.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CFB66026C8A6FF005F8385 /* Object.hpp */; };
+		30CFB66226C8A6FF005F8385 /* Object.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CFB66026C8A6FF005F8385 /* Object.hpp */; };
+		30CFB66326C8A6FF005F8385 /* Object.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30CFB66026C8A6FF005F8385 /* Object.hpp */; };
 		30D6EF7824B93B390032E72A /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30D6EF7624B93B390032E72A /* Renderer.cpp */; };
 		30D6EF7924B93B390032E72A /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30D6EF7624B93B390032E72A /* Renderer.cpp */; };
 		30D6EF7A24B93B390032E72A /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30D6EF7624B93B390032E72A /* Renderer.cpp */; };
@@ -1065,6 +1068,7 @@
 		30CEB37421A6404200525637 /* SystemIOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemIOS.cpp; sourceTree = "<group>"; };
 		30CEB37721A6404B00525637 /* SystemTVOS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SystemTVOS.hpp; sourceTree = "<group>"; };
 		30CEB37821A6404B00525637 /* SystemTVOS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemTVOS.cpp; sourceTree = "<group>"; };
+		30CFB66026C8A6FF005F8385 /* Object.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Object.hpp; sourceTree = "<group>"; };
 		30D6EF7624B93B390032E72A /* Renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Renderer.cpp; sourceTree = "<group>"; };
 		30D6EF7724B93B390032E72A /* Renderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Renderer.hpp; sourceTree = "<group>"; };
 		30DADE9A1C5167BC001A63B4 /* Cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cache.cpp; sourceTree = "<group>"; };
@@ -1151,6 +1155,7 @@
 		301116C62595A8EB0093FF14 /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				30CFB65F26C8A6D8005F8385 /* objc */,
 				307F4C2024E20CFE00994B7A /* cocoa */,
 				304BB5DF256B3A420024DD25 /* coregraphics */,
 				304BB5D32569E40F0024DD25 /* corevideo */,
@@ -1846,6 +1851,14 @@
 			path = localization;
 			sourceTree = "<group>";
 		};
+		30CFB65F26C8A6D8005F8385 /* objc */ = {
+			isa = PBXGroup;
+			children = (
+				30CFB66026C8A6FF005F8385 /* Object.hpp */,
+			);
+			path = objc;
+			sourceTree = "<group>";
+		};
 		30D6EF7524B93B0C0032E72A /* renderer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1988,6 +2001,7 @@
 				306672631F964A77004515F2 /* Light.hpp in Headers */,
 				303B754E1C2A3CB700FEDE92 /* MathUtils.hpp in Headers */,
 				303696C71E32DD8F007F4211 /* Texture.hpp in Headers */,
+				30CFB66126C8A6FF005F8385 /* Object.hpp in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHandler.hpp in Headers */,
 				305B113B2250413900EDA4F5 /* Containers.hpp in Headers */,
 				307F4C2624E20D2A00994B7A /* AutoreleasePool.hpp in Headers */,
@@ -2099,6 +2113,7 @@
 				30DADEA11C5167BC001A63B4 /* Cache.hpp in Headers */,
 				3049DCDF1EDCD0450000997A /* Cursor.hpp in Headers */,
 				30673DD81F7A694F00EAFAB0 /* NativeWindow.hpp in Headers */,
+				30CFB66326C8A6FF005F8385 /* Object.hpp in Headers */,
 				30724D871F353A1800D915ED /* ViewTVOS.h in Headers */,
 				30AEFA3920C0FD7400CDFD33 /* MetalRenderTarget.hpp in Headers */,
 				3009031321922E1300B00BF4 /* OGLDepthStencilState.hpp in Headers */,
@@ -2282,6 +2297,7 @@
 				3023200322184518007E0AAD /* Server.hpp in Headers */,
 				303820101D80A40700677CAB /* MetalTexture.hpp in Headers */,
 				304736DD1E0B4776009BC562 /* Box.hpp in Headers */,
+				30CFB66226C8A6FF005F8385 /* Object.hpp in Headers */,
 				30381FFE1D80A40700677CAB /* MetalRenderDevice.hpp in Headers */,
 				309BA3171F183D6E006F2240 /* CAAudioDevice.hpp in Headers */,
 				304A8E6F1C237C70008B1151 /* Utils.hpp in Headers */,
