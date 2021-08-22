@@ -52,9 +52,9 @@ namespace ouzel
                        const T targetPositionX, const T targetPositionY, const T targetPositionZ,
                        const T upX, const T upY, const T upZ) noexcept
         {
-            const Vector<T, 3> eye(eyePositionX, eyePositionY, eyePositionZ);
-            const Vector<T, 3> target(targetPositionX, targetPositionY, targetPositionZ);
-            Vector<T, 3> up(upX, upY, upZ);
+            const Vector<T, 3> eye{eyePositionX, eyePositionY, eyePositionZ};
+            const Vector<T, 3> target{targetPositionX, targetPositionY, targetPositionZ};
+            Vector<T, 3> up{upX, upY, upZ};
             up.normalize();
 
             Vector<T, 3> zaxis = target - eye;
