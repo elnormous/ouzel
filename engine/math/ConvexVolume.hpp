@@ -14,6 +14,8 @@ namespace ouzel
     template <typename T> class ConvexVolume final
     {
     public:
+        std::vector<Plane<T>> planes;
+
         ConvexVolume() noexcept {}
 
         explicit ConvexVolume(const std::vector<Plane<T>>& initPlanes) noexcept:
@@ -67,8 +69,6 @@ namespace ouzel
 
             return true;
         }
-
-        std::vector<Plane<T>> planes;
     };
 }
 

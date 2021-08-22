@@ -14,27 +14,7 @@ namespace ouzel
     template <typename T, std::size_t N> class Size final
     {
     public:
-        std::array<T, N> v{};
-
-        constexpr Size() noexcept {}
-
-        template <typename ...A>
-        explicit constexpr Size(const A... args) noexcept:
-            v{args...}
-        {
-        }
-
-        template <auto X = N, std::size_t M, std::enable_if_t<(X != M)>* = nullptr>
-        explicit Size(const Size<T, M>& size) noexcept
-        {
-            for (std::size_t i = 0; i < N && i < M; ++i)
-                v[i] = size.v[i];
-        }
-
-        explicit constexpr Size(const Vector<T, N>& vec) noexcept:
-            v{vec.v}
-        {
-        }
+        std::array<T, N> v;
 
         auto& operator[](const std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }

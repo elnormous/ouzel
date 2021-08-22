@@ -859,8 +859,14 @@ namespace ouzel::graphics::d3d11
             output->GetDisplayModeList(format, 0, &numModes, displayModes.data());
 
             for (const auto& displayMode : displayModes)
-                result.emplace_back(static_cast<std::uint32_t>(displayMode.Width),
-                                    static_cast<std::uint32_t>(displayMode.Height));
+            {
+                const Size<std::uint32_t, 2> resolution{
+                    static_cast<std::uint32_t>(displayMode.Width),
+                    static_cast<std::uint32_t>(displayMode.Height)
+                };
+            
+                result.emplace_back(resolution);
+            }
         }
 
         output->Release();

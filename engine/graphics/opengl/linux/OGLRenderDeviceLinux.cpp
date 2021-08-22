@@ -204,8 +204,14 @@ namespace ouzel::graphics::opengl::linux
         XF86VidModeGetAllModeLines(engineLinux->getDisplay(), 0, &modeCount, &modeInfo);
 
         for (int i = 0; i < modeCount; ++i)
-            result.emplace_back(static_cast<std::uint32_t>(modeInfo[i]->hdisplay),
-                                static_cast<std::uint32_t>(modeInfo[i]->vdisplay));
+        {
+            const Size<std::uint32_t, 2> resolution{
+                static_cast<std::uint32_t>(modeInfo[i]->hdisplay),
+                static_cast<std::uint32_t>(modeInfo[i]->vdisplay)
+            };
+
+            result.emplace_back(resolution);
+        }
 
         XFree(modeInfo);
 #elif OUZEL_OPENGL_INTERFACE_EGL

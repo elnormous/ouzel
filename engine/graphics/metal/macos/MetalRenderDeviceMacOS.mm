@@ -91,8 +91,12 @@ namespace ouzel::graphics::metal::macos
         {
             const auto displayMode = bitCast<CGDisplayModeRef>(CFArrayGetValueAtIndex(displayModes, i));
 
-            result.emplace_back(static_cast<std::uint32_t>(CGDisplayModeGetWidth(displayMode)),
-                                static_cast<std::uint32_t>(CGDisplayModeGetHeight(displayMode)));
+            const Size<std::uint32_t, 2> resolution{
+                static_cast<std::uint32_t>(CGDisplayModeGetWidth(displayMode)),
+                static_cast<std::uint32_t>(CGDisplayModeGetHeight(displayMode))
+            };
+
+            result.emplace_back(resolution);
         }
 
         CFRelease(displayModes);
