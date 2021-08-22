@@ -19,14 +19,7 @@ namespace ouzel
 #ifdef __SSE__
         alignas(4 * sizeof(T))
 #endif
-        std::array<T, 4> v{};
-
-        constexpr Plane() noexcept {}
-
-        constexpr Plane(const T a, const T b, const T c, const T d) noexcept:
-            v{{a, b, c, d}}
-        {
-        }
+        std::array<T, 4> v;
 
         auto& operator[](const std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }

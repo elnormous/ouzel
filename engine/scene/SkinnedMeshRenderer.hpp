@@ -16,8 +16,8 @@ namespace ouzel::scene
         struct Bone final
         {
             Bone* parent = nullptr;
-            Vector<float, 3> position;
-            Quaternion<float> rotation;
+            Vector<float, 3> position{};
+            Quaternion<float> rotation = Quaternion<float>::identity();
         };
 
         SkinnedMeshData() = default;

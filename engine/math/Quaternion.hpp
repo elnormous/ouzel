@@ -17,14 +17,7 @@ namespace ouzel
 #ifdef __SSE__
         alignas(4 * sizeof(T))
 #endif
-        std::array<T, 4> v{};
-
-        constexpr Quaternion() noexcept {}
-
-        constexpr Quaternion(const T x, const T y, const T z, const T w) noexcept:
-            v{{x, y, z, w}}
-        {
-        }
+        std::array<T, 4> v;
 
         auto& operator[](const std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
