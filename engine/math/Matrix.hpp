@@ -26,15 +26,7 @@ namespace ouzel
 #ifdef __SSE__
         alignas((C == 4 && R == 4) ? 4 * sizeof(T) : alignof(T))
 #endif
-        std::array<T, C * R> m{}; // row-major matrix (transformation is pre-multiplying)
-
-        constexpr Matrix() noexcept {}
-
-        template <typename ...A>
-        explicit constexpr Matrix(const A... args) noexcept:
-            m{args...}
-        {
-        }
+        std::array<T, C * R> m; // row-major matrix (transformation is pre-multiplying)
 
         auto operator[](const std::size_t row) noexcept { return &m[row * C]; }
         constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * C]; }
@@ -505,11 +497,10 @@ namespace ouzel
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
 
-            Matrix adjugate;
-            adjugate.m[0] = m[3];
-            adjugate.m[1] = -m[1];
-            adjugate.m[2] = -m[2];
-            adjugate.m[3] = m[0];
+            Matrix adjugate{
+                m[3], -m[1],
+                -m[2], m[0]
+            };
 
             adjugate.multiply(T(1) / determinant, *this);
         }
@@ -785,11 +776,12 @@ namespace ouzel
             const auto m23 = m[9] / scale.v[2];
             const auto m33 = m[10] / scale.v[2];
 
-            Quaternion<T> result;
-            result.v[0] = std::sqrt(std::max(T(0), T(1) + m11 - m22 - m33)) / T(2);
-            result.v[1] = std::sqrt(std::max(T(0), T(1) - m11 + m22 - m33)) / T(2);
-            result.v[2] = std::sqrt(std::max(T(0), T(1) - m11 - m22 + m33)) / T(2);
-            result.v[3] = std::sqrt(std::max(T(0), T(1) + m11 + m22 + m33)) / T(2);
+            Quaternion<T> result{
+                std::sqrt(std::max(T(0), T(1) + m11 - m22 - m33)) / T(2),
+                std::sqrt(std::max(T(0), T(1) - m11 + m22 - m33)) / T(2),
+                std::sqrt(std::max(T(0), T(1) - m11 - m22 + m33)) / T(2),
+                std::sqrt(std::max(T(0), T(1) + m11 + m22 + m33)) / T(2)
+            };
 
             // The problem with using copysign: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/paul.htm
             result.v[0] = std::copysign(result.v[0], m32 - m23);
