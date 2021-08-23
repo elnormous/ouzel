@@ -61,7 +61,7 @@ namespace samples
                 if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
-                cameraActor.setRotation(Vector<float, 3>(cameraRotation.x(), cameraRotation.y(), 0.0F));
+                cameraActor.setRotation(Vector<float, 3>{cameraRotation.x(), cameraRotation.y(), 0.0F});
             }
             else if (event.type == Event::Type::keyboardKeyRelease)
             {
@@ -89,7 +89,7 @@ namespace samples
                 if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
-                cameraActor.setRotation(Vector<float, 3>(cameraRotation.x(), cameraRotation.y(), 0.0F));
+                cameraActor.setRotation(Vector<float, 3>{cameraRotation.x(), cameraRotation.y(), 0.0F});
             }
 
             return false;
@@ -105,7 +105,7 @@ namespace samples
                 if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
-                cameraActor.setRotation(Vector<float, 3>(cameraRotation.x(), cameraRotation.y(), 0.0F));
+                cameraActor.setRotation(Vector<float, 3>{cameraRotation.x(), cameraRotation.y(), 0.0F});
             }
 
             return false;
