@@ -59,8 +59,8 @@ namespace ouzel::graphics
         constexpr Vertex() noexcept = default;
         constexpr Vertex(const Vector<float, 3>& initPosition, Color initColor,
                          const Vector<float, 2>& initTexCoord, const Vector<float, 3>& initNormal) noexcept:
-            position(initPosition), color(initColor),
-            texCoords{initTexCoord}, normal(initNormal)
+            position{initPosition}, color{initColor},
+            texCoords{initTexCoord}, normal{initNormal}
         {
         }
 
