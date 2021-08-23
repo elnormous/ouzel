@@ -148,15 +148,13 @@ namespace ouzel::scene
                     {
                         if (particleSystemData.emitterType == ParticleSystemData::EmitterType::gravity)
                         {
-                            Vector<float, 2> tmp;
-                            Vector<float, 2> radial;
-                            Vector<float, 2> tangential;
+                            Vector<float, 2> radial{};
 
                             // radial acceleration
                             if (particles[i].position.v[0] == 0.0F || particles[i].position.v[1] == 0.0F)
                                 radial = particles[i].position.normalized();
 
-                            tangential = radial;
+                            Vector<float, 2> tangential = radial;
                             radial *= particles[i].radialAcceleration;
 
                             // tangential acceleration
@@ -165,8 +163,10 @@ namespace ouzel::scene
                             tangential.v[1] *= particles[i].tangentialAcceleration;
 
                             // (gravity + radial + tangential) * updateStep
-                            tmp.v[0] = radial.v[0] + tangential.v[0] + particleSystemData.gravity.v[0];
-                            tmp.v[1] = radial.v[1] + tangential.v[1] + particleSystemData.gravity.v[1];
+                            Vector<float, 2> tmp{
+                                radial.v[0] + tangential.v[0] + particleSystemData.gravity.v[0],
+                                radial.v[1] + tangential.v[1] + particleSystemData.gravity.v[1]
+                            };
                             tmp *= updateStep;
 
                             particles[i].direction.v[0] += tmp.v[0];

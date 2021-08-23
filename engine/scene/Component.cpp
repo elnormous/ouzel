@@ -49,13 +49,14 @@ namespace ouzel::scene
         bool findSeparatingAxis(IteratorA aBegin, IteratorA aEnd,
                                 IteratorB bBegin, IteratorB bEnd) noexcept
         {
-            Vector<float, 2> v;
             auto prev = aEnd - 1;
             for (auto cur = aBegin; cur != aEnd; ++cur)
             {
                 const Vector<float, 2> edge = *cur - *prev;
-                v.v[0] = edge.v[1];
-                v.v[1] = -edge.v[0];
+                const Vector<float, 2> v{
+                    edge.v[1],
+                    -edge.v[0]
+                };
 
                 float aMin = 0.0F;
                 float aMax = 0.0F;
