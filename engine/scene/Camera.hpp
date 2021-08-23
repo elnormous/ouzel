@@ -127,9 +127,9 @@ namespace ouzel::scene
         Size<float, 2> targetContentSize;
 
         ScaleMode scaleMode = ScaleMode::noScale;
-        Size<float, 2> contentSize;
-        Vector<float, 2> contentScale;
-        Vector<float, 2> contentPosition;
+        Size<float, 2> contentSize{};
+        Vector<float, 2> contentScale{};
+        Vector<float, 2> contentPosition{};
 
         bool depthTest = false;
         bool wireframe = false;

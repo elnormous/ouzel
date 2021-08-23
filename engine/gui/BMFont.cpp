@@ -357,7 +357,7 @@ namespace ouzel::gui
                                            float fontSize,
                                            const Vector<float, 2>& anchor) const
     {
-        Vector<float, 2> position;
+        Vector<float, 2> position{};
 
         const auto utf32Text = utf8::toUtf32(text);
 

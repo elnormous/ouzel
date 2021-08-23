@@ -64,10 +64,10 @@ namespace ouzel::graphics
         {
         }
 
-        Vector<float, 3> position;
+        Vector<float, 3> position{};
         Color color;
-        std::array<Vector<float, 2>, 2> texCoords;
-        Vector<float, 3> normal;
+        std::array<Vector<float, 2>, 2> texCoords{};
+        Vector<float, 3> normal{};
     };
 }
 

@@ -134,7 +134,7 @@ namespace ouzel::scene
         std::list<QueuedAnimation> animationQueue;
         std::list<QueuedAnimation>::const_iterator currentAnimation;
 
-        Vector<float, 2> offset;
+        Vector<float, 2> offset{};
         Matrix<float, 4> offsetMatrix = Matrix<float, 4>::identity();
 
         bool playing = false;

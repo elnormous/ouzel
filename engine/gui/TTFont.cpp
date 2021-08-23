@@ -74,7 +74,7 @@ namespace ouzel::gui
             std::uint16_t y = 0;
             std::uint16_t width = 0;
             std::uint16_t height = 0;
-            Vector<float, 2> offset;
+            Vector<float, 2> offset{};
             float advance = 0;
             std::vector<std::uint8_t> bitmap;
         };
@@ -150,7 +150,7 @@ namespace ouzel::gui
                                                            graphics::Flags::none,
                                                            mipmaps ? 0 : 1);
 
-        Vector<float, 2> position;
+        Vector<float, 2> position{};
 
         std::vector<std::uint16_t> indices;
         std::vector<graphics::Vertex> vertices;

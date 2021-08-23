@@ -47,8 +47,8 @@ namespace ouzel::scene
         float speed = 0.0F;
         float speedVariance = 0.0F;
 
-        Vector<float, 2> sourcePosition;
-        Vector<float, 2> sourcePositionVariance;
+        Vector<float, 2> sourcePosition{};
+        Vector<float, 2> sourcePositionVariance{};
 
         PositionType positionType = PositionType::free;
 
@@ -86,7 +86,7 @@ namespace ouzel::scene
         bool yCoordFlipped = false;
         bool rotationIsDir = false;
 
-        Vector<float, 2> gravity;
+        Vector<float, 2> gravity{};
 
         float startColorRed = 0.0F;
         float startColorGreen = 0.0F;
@@ -162,7 +162,7 @@ namespace ouzel::scene
         {
             float life = 0.0F;
 
-            Vector<float, 2> position;
+            Vector<float, 2> position{};
 
             float colorRed = 0.0F;
             float colorGreen = 0.0F;
@@ -186,7 +186,7 @@ namespace ouzel::scene
             float radialAcceleration = 0.0F;
             float tangentialAcceleration = 0.0F;
 
-            Vector<float, 2> direction;
+            Vector<float, 2> direction{};
             float radius = 0.0F;
             float degreesPerSecond = 0.0F;
             float deltaRadius = 0.0F;

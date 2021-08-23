@@ -166,7 +166,7 @@ namespace ouzel::audio
         }
 
     private:
-        Vector<float, 3> position;
+        Vector<float, 3> position{};
         float rolloffFactor = 1.0F;
         float minDistance = 1.0F;
         float maxDistance = FLT_MAX;

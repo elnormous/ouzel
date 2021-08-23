@@ -581,8 +581,8 @@ namespace ouzel::scene
             const auto x2 = x1 + 1;
             const auto t = x - static_cast<float>(x1);
 
-            Vector<float, 3> previousPosition;
-            Vector<float, 3> nextPosition;
+            Vector<float, 3> previousPosition{};
+            Vector<float, 3> nextPosition{};
 
             if (x1 != 0)
             {

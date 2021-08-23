@@ -49,7 +49,7 @@ namespace ouzel::input
         bool handleScroll(const Vector<float, 2>& scroll, const Vector<float, 2>& pos);
         bool handleCursorLockChange(bool locked);
 
-        Vector<float, 2> position;
+        Vector<float, 2> position{};
         bool buttonStates[static_cast<std::uint32_t>(Button::count)]{false};
         bool cursorVisible = true;
         bool cursorLocked = false;

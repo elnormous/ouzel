@@ -20,9 +20,9 @@ namespace ouzel
 #ifdef __SSE__
         alignas(N == 4 ? 4 * sizeof(T) : alignof(T))
 #endif
-        std::array<T, N> v{};
+        std::array<T, N> v;
 
-        constexpr Vector() noexcept {}
+        constexpr Vector() noexcept = default;
 
         template <typename ...A>
         explicit constexpr Vector(const A... args) noexcept:
@@ -35,6 +35,9 @@ namespace ouzel
         {
             for (std::size_t i = 0; i < N && i < M; ++i)
                 v[i] = vec.v[i];
+
+            for (std::size_t i = M; i < N; ++i)
+                v[i] = T(0);
         }
 
         auto& operator[](const std::size_t index) noexcept { return v[index]; }

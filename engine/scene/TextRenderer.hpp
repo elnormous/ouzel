@@ -75,7 +75,7 @@ namespace ouzel::scene
         const gui::Font* font = nullptr;
         std::string text;
         float fontSize = 1.0F;
-        Vector<float, 2> textAnchor;
+        Vector<float, 2> textAnchor{};
 
         std::vector<std::uint16_t> indices;
         std::vector<graphics::Vertex> vertices;

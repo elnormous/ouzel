@@ -58,11 +58,11 @@ namespace ouzel::scene
     private:
         void updateProgress() override;
 
-        float opacity;
+        float opacity = 1.0F;
         float startOpacity = 0.0F;
         float targetOpacity = 0.0F;
         float diff = 0.0F;
-        bool relative;
+        bool relative = false;
     };
 
     class Move final: public Animator
@@ -75,11 +75,11 @@ namespace ouzel::scene
     private:
         void updateProgress() override;
 
-        Vector<float, 3> position;
-        Vector<float, 3> startPosition;
-        Vector<float, 3> targetPosition;
-        Vector<float, 3> diff;
-        bool relative;
+        Vector<float, 3> position{};
+        Vector<float, 3> startPosition{};
+        Vector<float, 3> targetPosition{};
+        Vector<float, 3> diff{};
+        bool relative = false;
     };
 
     class Parallel final: public Animator
@@ -116,11 +116,11 @@ namespace ouzel::scene
     private:
         void updateProgress() override;
 
-        Vector<float, 3> rotation;
-        Vector<float, 3> startRotation;
-        Vector<float, 3> targetRotation;
-        Vector<float, 3> diff;
-        bool relative;
+        Vector<float, 3> rotation{};
+        Vector<float, 3> startRotation{};
+        Vector<float, 3> targetRotation{};
+        Vector<float, 3> diff{};
+        bool relative = false;
     };
 
     class Scale final: public Animator
@@ -133,11 +133,11 @@ namespace ouzel::scene
     private:
         void updateProgress() override;
 
-        Vector<float, 3> scale;
-        Vector<float, 3> startScale;
-        Vector<float, 3> targetScale;
-        Vector<float, 3> diff;
-        bool relative;
+        Vector<float, 3> scale{};
+        Vector<float, 3> startScale{};
+        Vector<float, 3> targetScale{};
+        Vector<float, 3> diff{};
+        bool relative = false;
     };
 
     class Sequence final: public Animator
@@ -167,9 +167,9 @@ namespace ouzel::scene
         std::uint32_t seedX;
         std::uint32_t seedY;
         std::uint32_t seedZ;
-        Vector<float, 3> distance;
-        float timeScale;
-        Vector<float, 3> startPosition;
+        Vector<float, 3> distance{};
+        float timeScale = 1.0F;
+        Vector<float, 3> startPosition{};
     };
 }
 

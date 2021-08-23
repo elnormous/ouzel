@@ -59,8 +59,8 @@ namespace ouzel::audio
         std::size_t streamId;
 
         const Sound* sound = nullptr;
-        Vector<float, 3> position;
-        Vector<float, 3> velocity;
+        Vector<float, 3> position{};
+        Vector<float, 3> velocity{};
         bool playing = false;
 
         Mix* output = nullptr;
