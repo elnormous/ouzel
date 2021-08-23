@@ -48,7 +48,7 @@ namespace ouzel::input
             };
 
             Command() = default;
-            explicit Command(Type initType): type(initType) {}
+            explicit Command(Type initType): type{initType} {}
 
             Type type;
             DeviceId deviceId;
@@ -102,7 +102,7 @@ namespace ouzel::input
             };
 
             Event() = default;
-            explicit Event(Type initType): type(initType) {}
+            explicit Event(Type initType): type{initType} {}
 
             Type type = Type::none;
             Controller::Type deviceType = Controller::Type::none;

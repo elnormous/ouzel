@@ -262,46 +262,40 @@ namespace ouzel::assets
                 }
                 else if (keyword == "v")
                 {
-                    Vector<float, 3> position;
-
                     skipWhitespaces(iterator, data.end());
-                    position.v[0] = parseFloat(iterator, data.end());
+                    const auto x = parseFloat(iterator, data.end());
                     skipWhitespaces(iterator, data.end());
-                    position.v[1] = parseFloat(iterator, data.end());
+                    const auto y = parseFloat(iterator, data.end());
                     skipWhitespaces(iterator, data.end());
-                    position.v[2] = parseFloat(iterator, data.end());
+                    const auto z = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
-                    positions.push_back(position);
+                    positions.push_back(Vector<float, 3>{x, y, z});
                 }
                 else if (keyword == "vt")
                 {
-                    Vector<float, 2> texCoord;
-
                     skipWhitespaces(iterator, data.end());
-                    texCoord.v[0] = parseFloat(iterator, data.end());
+                    const auto u = parseFloat(iterator, data.end());
                     skipWhitespaces(iterator, data.end());
-                    texCoord.v[1] = parseFloat(iterator, data.end());
+                    const auto v = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
-                    texCoords.push_back(texCoord);
+                    texCoords.push_back(Vector<float, 2>{u, v});
                 }
                 else if (keyword == "vn")
                 {
-                    Vector<float, 3> normal;
-
                     skipWhitespaces(iterator, data.end());
-                    normal.v[0] = parseFloat(iterator, data.end());
+                    const auto x = parseFloat(iterator, data.end());
                     skipWhitespaces(iterator, data.end());
-                    normal.v[1] = parseFloat(iterator, data.end());
+                    const auto y = parseFloat(iterator, data.end());
                     skipWhitespaces(iterator, data.end());
-                    normal.v[2] = parseFloat(iterator, data.end());
+                    const auto z = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
 
-                    normals.push_back(normal);
+                    normals.push_back(Vector<float, 3>{x, y, z});
                 }
                 else if (keyword == "f")
                 {

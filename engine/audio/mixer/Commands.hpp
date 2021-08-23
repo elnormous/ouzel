@@ -41,7 +41,7 @@ namespace ouzel::audio::mixer
             updateProcessor
         };
 
-        explicit constexpr Command(Type initType) noexcept: type(initType) {}
+        explicit constexpr Command(Type initType) noexcept: type{initType} {}
         virtual ~Command() = default;
 
         const Type type;
