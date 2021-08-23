@@ -103,6 +103,50 @@ namespace ouzel::gui
             return result;
         }
 
+        void skipString(const std::vector<std::byte>& str,
+                        std::vector<std::byte>::const_iterator& iterator)
+        {
+            if (iterator == str.end())
+                throw std::runtime_error("Invalid string");
+
+            if (static_cast<char>(*iterator) == '"')
+            {
+                ++iterator;
+
+                for (;;)
+                {
+                    if (static_cast<char>(*iterator) == '"' &&
+                        (iterator + 1 == str.end() ||
+                         isWhitespace(*(iterator + 1)) ||
+                         isNewline(*(iterator + 1))))
+                    {
+                        ++iterator;
+                        break;
+                    }
+                    if (iterator == str.end())
+                        throw std::runtime_error("Unterminated string");
+
+                    ++iterator;
+                }
+            }
+            else
+            {
+                bool empty = true;
+
+                while (iterator != str.end() &&
+                       !isControlChar(*iterator) &&
+                       !isWhitespace(*iterator) &&
+                       static_cast<char>(*iterator) != '=')
+                {
+                    ++iterator;
+                    empty = false;
+                }
+
+                if (empty)
+                    throw std::runtime_error("Invalid string");
+            }
+        }
+
         std::string parseInt(const std::vector<std::byte>& str,
                              std::vector<std::byte>::const_iterator& iterator)
         {
@@ -150,7 +194,6 @@ namespace ouzel::gui
 
         std::string keyword;
         std::string key;
-        std::string value;
 
         while (iterator != data.end())
         {
@@ -174,7 +217,7 @@ namespace ouzel::gui
                         key = parseString(data, iterator);
 
                         expectToken(data, iterator, '=');
-                        value = parseString(data, iterator);
+                        std::string value = parseString(data, iterator);
 
                         if (key == "file")
                             fontTexture = engine->getCache().getTexture(value);
@@ -192,37 +235,19 @@ namespace ouzel::gui
                         expectToken(data, iterator, '=');
 
                         if (key == "lineHeight")
-                        {
-                            value = parseInt(data, iterator);
-                            lineHeight = static_cast<std::uint16_t>(std::stoi(value));
-                        }
+                            lineHeight = static_cast<std::uint16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "base")
-                        {
-                            value = parseInt(data, iterator);
-                            base = static_cast<std::uint16_t>(std::stoi(value));
-                        }
+                            base = static_cast<std::uint16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "scaleW")
-                        {
-                            value = parseInt(data, iterator);
-                            width = static_cast<std::uint16_t>(std::stoi(value));
-                        }
+                            width = static_cast<std::uint16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "scaleH")
-                        {
-                            value = parseInt(data, iterator);
-                            height = static_cast<std::uint16_t>(std::stoi(value));
-                        }
+                            height = static_cast<std::uint16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "pages")
-                        {
-                            value = parseInt(data, iterator);
-                            pages = static_cast<std::uint16_t>(std::stoi(value));
-                        }
+                            pages = static_cast<std::uint16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "outline")
-                        {
-                            value = parseInt(data, iterator);
-                            outline = static_cast<std::uint16_t>(std::stoi(value));
-                        }
+                            outline = static_cast<std::uint16_t>(std::stoi(parseInt(data, iterator)));
                         else
-                            value = parseString(data, iterator);
+                            skipString(data, iterator);
                     }
                 }
                 else if (keyword == "char")
@@ -240,52 +265,25 @@ namespace ouzel::gui
                         expectToken(data, iterator, '=');
 
                         if (key == "id")
-                        {
-                            value = parseInt(data, iterator);
-                            charId = static_cast<std::uint32_t>(std::stoul(value));
-                        }
+                            charId = static_cast<std::uint32_t>(std::stoul(parseInt(data, iterator)));
                         else if (key == "x")
-                        {
-                            value = parseInt(data, iterator);
-                            c.x = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            c.x = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "y")
-                        {
-                            value = parseInt(data, iterator);
-                            c.y = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            c.y = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "width")
-                        {
-                            value = parseInt(data, iterator);
-                            c.width = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            c.width = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "height")
-                        {
-                            value = parseInt(data, iterator);
-                            c.height = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            c.height = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "xoffset")
-                        {
-                            value = parseInt(data, iterator);
-                            c.xOffset = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            c.xOffset = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "yoffset")
-                        {
-                            value = parseInt(data, iterator);
-                            c.yOffset = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            c.yOffset = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "xadvance")
-                        {
-                            value = parseInt(data, iterator);
-                            c.xAdvance = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            c.xAdvance = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else if (key == "page")
-                        {
-                            value = parseInt(data, iterator);
-                            c.page = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            c.page = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else
-                            value = parseString(data, iterator);
+                            skipString(data, iterator);
                     }
 
                     chars.insert(std::unordered_map<std::int32_t, CharDescriptor>::value_type(charId, c));
@@ -302,12 +300,9 @@ namespace ouzel::gui
                         expectToken(data, iterator, '=');
 
                         if (key == "count")
-                        {
-                            value = parseInt(data, iterator);
-                            kernCount = static_cast<std::uint16_t>(std::stoi(value));
-                        }
+                            kernCount = static_cast<std::uint16_t>(std::stoi(parseInt(data, iterator)));
                         else
-                            value = parseString(data, iterator);
+                            skipString(data, iterator);
                     }
                 }
                 else if (keyword == "kerning")
@@ -326,22 +321,13 @@ namespace ouzel::gui
                         expectToken(data, iterator, '=');
 
                         if (key == "first")
-                        {
-                            value = parseInt(data, iterator);
-                            first = static_cast<char32_t>(std::stoul(value));
-                        }
+                            first = static_cast<char32_t>(std::stoul(parseInt(data, iterator)));
                         else if (key == "second")
-                        {
-                            value = parseInt(data, iterator);
-                            second = static_cast<char32_t>(std::stoul(value));
-                        }
+                            second = static_cast<char32_t>(std::stoul(parseInt(data, iterator)));
                         else if (key == "amount")
-                        {
-                            value = parseInt(data, iterator);
-                            amount = static_cast<std::int16_t>(std::stoi(value));
-                        }
+                            amount = static_cast<std::int16_t>(std::stoi(parseInt(data, iterator)));
                         else
-                            value = parseString(data, iterator);
+                            skipString(data, iterator);
 
                         kern[std::pair(first, second)] = amount;
                     }
