@@ -16,9 +16,9 @@ namespace ouzel
     class Color final
     {
     public:
-        std::array<std::uint8_t, 4> v{};
+        std::array<std::uint8_t, 4> v;
 
-        constexpr Color() noexcept {}
+        Color() noexcept = default;
 
         explicit constexpr Color(const std::uint32_t color) noexcept:
             v{{

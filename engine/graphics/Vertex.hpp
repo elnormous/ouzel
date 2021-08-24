@@ -65,7 +65,7 @@ namespace ouzel::graphics
         }
 
         Vector<float, 3> position{};
-        Color color;
+        Color color{};
         std::array<Vector<float, 2>, 2> texCoords{};
         Vector<float, 3> normal{};
     };
