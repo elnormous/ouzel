@@ -33,11 +33,8 @@ namespace ouzel
         template <auto X = N, std::size_t M, std::enable_if_t<(X != M)>* = nullptr>
         explicit Vector(const Vector<T, M>& vec) noexcept
         {
-            for (std::size_t i = 0; i < N && i < M; ++i)
-                v[i] = vec.v[i];
-
-            for (std::size_t i = M; i < N; ++i)
-                v[i] = T(0);
+            for (std::size_t i = 0; i < N; ++i)
+                v[i] = (i < M) ? vec.v[i] : T(0);
         }
 
         auto& operator[](const std::size_t index) noexcept { return v[index]; }
