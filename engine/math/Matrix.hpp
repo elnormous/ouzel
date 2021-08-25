@@ -95,7 +95,7 @@ namespace ouzel
             assert(farClip != nearClip);
 
             const auto theta = fieldOfView / T(2);
-            if (std::fabs(std::fmod(theta, pi<T> / T(2))) <= std::numeric_limits<T>::min())
+            if (std::fabs(std::fmod(theta, pi<T> / T(2))) <= std::numeric_limits<T>::epsilon())
                 return;
 
             const auto divisor = std::tan(theta);
@@ -182,7 +182,7 @@ namespace ouzel
             if (squared != T(1))
             {
                 const auto length = std::sqrt(squared);
-                if (length > std::numeric_limits<T>::min())
+                if (length > std::numeric_limits<T>::epsilon()) // bigger than zero
                 {
                     x /= length;
                     y /= length;
@@ -484,7 +484,7 @@ namespace ouzel
             const auto determinant = m[0];
 
             // Close to zero, can't invert
-            if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
+            if (std::fabs(determinant) <= std::numeric_limits<T>::epsilon()) return;
 
             m[0] = T(1) / m[0];
         }
@@ -495,7 +495,7 @@ namespace ouzel
             const auto determinant = m[0] * m[3] - m[1] * m[2];
 
             // Close to zero, can't invert
-            if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
+            if (std::fabs(determinant) <= std::numeric_limits<T>::epsilon()) return;
 
             Matrix adjugate{
                 m[3], -m[1],
@@ -515,7 +515,7 @@ namespace ouzel
             const auto determinant = a0 - a1 + a2;
 
             // Close to zero, can't invert
-            if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
+            if (std::fabs(determinant) <= std::numeric_limits<T>::epsilon()) return;
 
             const Matrix adjugate{
                 m[4] * m[8] - m[5] * m[7],
@@ -551,7 +551,7 @@ namespace ouzel
             const auto determinant = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
             // Close to zero, can't invert
-            if (std::fabs(determinant) <= std::numeric_limits<T>::min()) return;
+            if (std::fabs(determinant) <= std::numeric_limits<T>::epsilon()) return;
 
             const Matrix adjugate{
                 m[5] * b5 - m[6] * b4 + m[7] * b3,

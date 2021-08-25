@@ -59,7 +59,7 @@ namespace ouzel
                 return;
 
             const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::min()) // too close to zero
+            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
                 return;
 
             v[0] /= length;
@@ -75,7 +75,7 @@ namespace ouzel
                 return *this;
 
             const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::min()) // too close to zero
+            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
                 return *this;
 
             return Plane{
@@ -99,7 +99,7 @@ namespace ouzel
         static auto makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
         {
             const auto length = std::sqrt(a * a + b * b + c * c);
-            if (length <= std::numeric_limits<T>::min()) // too close to zero
+            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
                 return Plane{};
 
             return Plane{

@@ -138,9 +138,9 @@ namespace ouzel
                 c = -c;
         }
 
-        auto isNormalized(const T tolerance = std::numeric_limits<T>::min()) const noexcept
+        auto isNormalized(const T tolerance = std::numeric_limits<T>::epsilon()) const noexcept
         {
-            return std::abs(T(1) - lengthSquared()) < tolerance;
+            return std::abs(T(1) - lengthSquared()) <= tolerance;
         }
 
         void normalize() noexcept
@@ -150,7 +150,7 @@ namespace ouzel
                 return;
 
             const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::min()) // too close to zero
+            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
                 return;
 
             for (auto& c : v)
@@ -164,7 +164,7 @@ namespace ouzel
                 return *this;
 
             const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::min()) // too close to zero
+            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
                 return *this;
 
             return *this / length;
