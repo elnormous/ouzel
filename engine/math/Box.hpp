@@ -25,7 +25,7 @@ namespace ouzel
         }
 
         constexpr Box(const Vector<T, N>& initMin, const Vector<T, N>& initMax) noexcept:
-            min(initMin), max(initMax)
+            min{initMin}, max{initMax}
         {
         }
 
