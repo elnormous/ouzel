@@ -206,7 +206,7 @@ namespace ouzel
         }
 
         template <auto c = n, std::enable_if_t<(c == 2)>* = nullptr>
-        void rotate(const Vector<T, 2>& point, T angle) noexcept
+        void rotate(const Vector<T, 2>& point, const T angle) noexcept
         {
             const auto sine = std::sin(angle);
             const auto cosine = std::cos(angle);
