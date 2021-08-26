@@ -11,49 +11,49 @@
 
 namespace ouzel
 {
-    template <typename T, std::size_t N> class Size final
+    template <typename T, std::size_t n> class Size final
     {
     public:
-        std::array<T, N> v;
+        std::array<T, n> v;
 
         auto& operator[](const std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 1)>* = nullptr>
         auto& width() noexcept { return v[0]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 1)>* = nullptr>
         constexpr auto width() const noexcept { return v[0]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 2)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
         auto& height() noexcept { return v[1]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 2)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
         constexpr auto height() const noexcept { return v[1]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 3)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 3)>* = nullptr>
         auto& depth() noexcept { return v[2]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 3)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 3)>* = nullptr>
         constexpr auto depth() const noexcept { return v[2]; }
 
-        void scale(const Vector<T, N>& scale) noexcept
+        void scale(const Vector<T, n>& scale) noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 v[i] *= scale.v[i];
         }
 
         auto operator+(const Size& size) const noexcept
         {
             Size result = *this;
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 result.v[i] += size.v[i];
             return result;
         }
 
         auto& operator+=(const Size& size) noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 v[i] += size.v[i];
             return *this;
         }
@@ -61,14 +61,14 @@ namespace ouzel
         auto operator-(const Size& size) const noexcept
         {
             Size result = *this;
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 result.v[i] -= size.v[i];
             return result;
         }
 
         auto& operator-=(const Size& size) noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 v[i] -= size.v[i];
             return *this;
         }
@@ -113,7 +113,7 @@ namespace ouzel
 
         auto operator<(const Size& size) const noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 if (v[i] < size.v[i]) return true;
                 else if (size.v[i] < v[i]) return false;
 

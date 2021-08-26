@@ -231,13 +231,13 @@ namespace ouzel
         {
             const auto normalizedAxis = axis.normalized();
 
-            const auto cosAngle = std::cos(angle / T(2));
-            const auto sinAngle = std::sin(angle / T(2));
+            const auto cosine = std::cos(angle / T(2));
+            const auto sine = std::sin(angle / T(2));
 
-            v[0] = normalizedAxis.v[0] * sinAngle;
-            v[1] = normalizedAxis.v[1] * sinAngle;
-            v[2] = normalizedAxis.v[2] * sinAngle;
-            v[3] = cosAngle;
+            v[0] = normalizedAxis.v[0] * sine;
+            v[1] = normalizedAxis.v[1] * sine;
+            v[2] = normalizedAxis.v[2] * sine;
+            v[3] = cosine;
         }
 
         void getRotation(T& angle, Vector<T, 3>& axis) const noexcept
