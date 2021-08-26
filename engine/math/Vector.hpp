@@ -121,9 +121,10 @@ namespace ouzel
                 else if (v[i] > max.v[i]) v[i] = max.v[i];
         }
 
-        template <auto c = n, std::enable_if_t<(c == 3)>* = nullptr>
         constexpr auto cross(const Vector& vec) const noexcept
         {
+            static_assert(n == 3);
+
             return Vector{
                 (v[1] * vec.v[2]) - (v[2] * vec.v[1]),
                 (v[2] * vec.v[0]) - (v[0] * vec.v[2]),

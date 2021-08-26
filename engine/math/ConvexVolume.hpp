@@ -23,10 +23,11 @@ namespace ouzel
         {
         }
 
-        template<std::size_t N>
-        std::enable_if_t<N >= 3, bool>
-        isPointInside(const Vector<T, N>& position) const noexcept
+        template<std::size_t n>
+        bool isPointInside(const Vector<T, n>& position) const noexcept
         {
+            static_assert(n >= 3);
+
             for (const auto& plane : planes)
                 if (plane.dot(position) < T(0))
                     return false;
@@ -34,10 +35,11 @@ namespace ouzel
             return true;
         }
 
-        template<std::size_t N>
-        std::enable_if_t<N >= 3, bool>
-        isSphereInside(const Vector<T, N>& position, const T radius) const noexcept
+        template<std::size_t n>
+        bool isSphereInside(const Vector<T, n>& position, const T radius) const noexcept
         {
+            static_assert(n >= 3);
+
             for (const auto& plane : planes)
                 if (plane.dot(position) < -radius)
                     return false;

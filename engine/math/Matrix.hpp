@@ -709,9 +709,9 @@ namespace ouzel
             dst.v[3] = v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15];
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
         void transpose() noexcept
         {
+            static_assert(cols == rows);
             transpose(*this);
         }
 
@@ -862,17 +862,19 @@ namespace ouzel
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         auto operator*(const Vector<T, 3>& v) const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             Vector<T, 3> x;
             transformVector(v, x);
             return x;
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         auto operator*(const Vector<T, 4>& v) const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             Vector<T, 4> x;
             transformVector(v, x);
             return x;
