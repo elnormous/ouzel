@@ -336,7 +336,7 @@ namespace ouzel
 
         constexpr auto& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
         {
-            *this = (q1 * (T(1) - t)) + (q2 * t);
+            *this = q1 * (T(1) - t) + (q2 * t);
             return *this;
         }
     };
