@@ -37,8 +37,8 @@ namespace ouzel
                 v[i] = (i < d) ? vec.v[i] : T(0);
         }
 
-        auto& operator[](const std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
+        [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
+        [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         [[nodiscard]] auto& x() noexcept
         {

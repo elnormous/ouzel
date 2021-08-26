@@ -28,8 +28,8 @@ namespace ouzel
 #endif
         std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
 
-        auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
-        constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
+        [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
+        [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
         static constexpr Matrix identity() noexcept

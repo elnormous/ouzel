@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
-#include <type_traits>
 #include "Vector.hpp"
 
 namespace ouzel
@@ -19,23 +18,41 @@ namespace ouzel
         auto& operator[](const std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
-        template <auto c = n, std::enable_if_t<(c >= 1)>* = nullptr>
-        auto& width() noexcept { return v[0]; }
+        [[nodiscard]] auto& width() noexcept
+        {
+            static_assert(n >= 1);
+            return v[0];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 1)>* = nullptr>
-        constexpr auto width() const noexcept { return v[0]; }
+        [[nodiscard]] constexpr auto width() const noexcept
+        {
+            static_assert(n >= 1);
+            return v[0];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
-        auto& height() noexcept { return v[1]; }
+        [[nodiscard]] auto& height() noexcept
+        {
+            static_assert(n >= 2);
+            return v[1];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
-        constexpr auto height() const noexcept { return v[1]; }
+        [[nodiscard]] constexpr auto height() const noexcept
+        {
+            static_assert(n >= 2);
+            return v[1];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 3)>* = nullptr>
-        auto& depth() noexcept { return v[2]; }
+        [[nodiscard]] auto& depth() noexcept
+        {
+            static_assert(n >= 3);
+            return v[2];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 3)>* = nullptr>
-        constexpr auto depth() const noexcept { return v[2]; }
+        [[nodiscard]] constexpr auto depth() const noexcept
+        {
+            static_assert(n >= 3);
+            return v[2];
+        }
 
         void scale(const Vector<T, n>& scale) noexcept
         {
@@ -43,7 +60,7 @@ namespace ouzel
                 v[i] *= scale.v[i];
         }
 
-        auto operator+(const Size& size) const noexcept
+        [[nodiscard]] auto operator+(const Size& size) const noexcept
         {
             Size result = *this;
             for (std::size_t i = 0; i < n; ++i)
@@ -58,7 +75,7 @@ namespace ouzel
             return *this;
         }
 
-        auto operator-(const Size& size) const noexcept
+        [[nodiscard]] auto operator-(const Size& size) const noexcept
         {
             Size result = *this;
             for (std::size_t i = 0; i < n; ++i)
@@ -73,7 +90,7 @@ namespace ouzel
             return *this;
         }
 
-        auto operator-() const noexcept
+        [[nodiscard]] auto operator-() const noexcept
         {
             Size result = *this;
             for (T& c : result.v)
@@ -81,7 +98,7 @@ namespace ouzel
             return result;
         }
 
-        auto operator*(const T scalar) const noexcept
+        [[nodiscard]] auto operator*(const T scalar) const noexcept
         {
             Size result = *this;
             for (T& c : result.v)
@@ -96,7 +113,7 @@ namespace ouzel
             return *this;
         }
 
-        auto operator/(const T scalar) const noexcept
+        [[nodiscard]] auto operator/(const T scalar) const noexcept
         {
             Size result = *this;
             for (T& c : result.v)
@@ -111,7 +128,7 @@ namespace ouzel
             return *this;
         }
 
-        auto operator<(const Size& size) const noexcept
+        [[nodiscard]] auto operator<(const Size& size) const noexcept
         {
             for (std::size_t i = 0; i < n; ++i)
                 if (v[i] < size.v[i]) return true;
@@ -120,17 +137,17 @@ namespace ouzel
             return false;
         }
 
-        constexpr auto operator==(const Size& size) const noexcept
+        [[nodiscard]] constexpr auto operator==(const Size& size) const noexcept
         {
             return std::equal(std::begin(v), std::end(v), std::begin(size.v));
         }
 
-        constexpr auto operator!=(const Size& size) const noexcept
+        [[nodiscard]] constexpr auto operator!=(const Size& size) const noexcept
         {
             return !std::equal(std::begin(v), std::end(v), std::begin(size.v));
         }
 
-        auto volume() const noexcept
+        [[nodiscard]] auto volume() const noexcept
         {
             T result = 0;
             for (const auto& c : v)
@@ -140,7 +157,7 @@ namespace ouzel
     };
 
     template <typename T, std::size_t N>
-    auto operator*(const Size<T, N>& size, const Vector<T, N>& v) noexcept
+    [[nodiscard]] auto operator*(const Size<T, N>& size, const Vector<T, N>& v) noexcept
     {
         auto result = size;
         for (std::size_t i = 0; i < N; ++i)
@@ -149,7 +166,7 @@ namespace ouzel
     }
 
     template <typename T, std::size_t N>
-    auto operator/(const Size<T, N>& size, const Vector<T, N>& v) noexcept
+    [[nodiscard]] auto operator/(const Size<T, N>& size, const Vector<T, N>& v) noexcept
     {
         auto result = size;
         for (std::size_t i = 0; i < N; ++i)
