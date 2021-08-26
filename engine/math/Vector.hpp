@@ -40,29 +40,53 @@ namespace ouzel
         auto& operator[](const std::size_t index) noexcept { return v[index]; }
         constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
-        template <auto c = n, std::enable_if_t<(c >= 1)>* = nullptr>
-        auto& x() noexcept { return v[0]; }
+        [[nodiscard]] auto& x() noexcept
+        {
+            static_assert(n >= 1);
+            return v[0];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 1)>* = nullptr>
-        constexpr auto x() const noexcept { return v[0]; }
+        [[nodiscard]] constexpr auto x() const noexcept
+        {
+            static_assert(n >= 1);
+            return v[0];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
-        auto& y() noexcept { return v[1]; }
+        [[nodiscard]] auto& y() noexcept
+        {
+            static_assert(n >= 2);
+            return v[1];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
-        constexpr auto y() const noexcept { return v[1]; }
+        [[nodiscard]] constexpr auto y() const noexcept
+        {
+            static_assert(n >= 2);
+            return v[1];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 3)>* = nullptr>
-        auto& z() noexcept { return v[2]; }
+        [[nodiscard]] auto& z() noexcept
+        {
+            static_assert(n >= 3);
+            return v[2];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 3)>* = nullptr>
-        constexpr auto z() const noexcept { return v[2]; }
+        [[nodiscard]] constexpr auto z() const noexcept
+        {
+            static_assert(n >= 3);
+            return v[2];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 4)>* = nullptr>
-        auto& w() noexcept { return v[3]; }
+        [[nodiscard]] auto& w() noexcept
+        {
+            static_assert(n >= 4);
+            return v[3];
+        }
 
-        template <auto c = n, std::enable_if_t<(c >= 4)>* = nullptr>
-        constexpr auto w() const noexcept { return v[3]; }
+        [[nodiscard]] constexpr auto w() const noexcept
+        {
+            static_assert(n >= 4);
+            return v[3];
+        }
 
         template <auto c = n, std::enable_if_t<(c == 2)>* = nullptr>
         auto getAngle() const noexcept
