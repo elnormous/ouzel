@@ -89,13 +89,13 @@ namespace ouzel
         }
 
         template <auto c = n, std::enable_if_t<(c == 2)>* = nullptr>
-        auto getAngle() const noexcept
+        [[nodiscard]] auto getAngle() const noexcept
         {
             return std::atan2(v[1], v[0]);
         }
 
         template <auto c = n, std::enable_if_t<(c == 3)>* = nullptr>
-        auto getAngle(const Vector& axis) const noexcept
+        [[nodiscard]] auto getAngle(const Vector& axis) const noexcept
         {
             constexpr T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
             constexpr T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
@@ -105,7 +105,7 @@ namespace ouzel
         }
 
         template <auto c = n, std::enable_if_t<(c == 4)>* = nullptr>
-        auto getAngle(const Vector& axis) const noexcept
+        [[nodiscard]] auto getAngle(const Vector& axis) const noexcept
         {
             constexpr T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
             constexpr T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
@@ -121,7 +121,7 @@ namespace ouzel
                 else if (v[i] > max.v[i]) v[i] = max.v[i];
         }
 
-        constexpr auto cross(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto cross(const Vector& vec) const noexcept
         {
             static_assert(n == 3);
 
@@ -132,27 +132,27 @@ namespace ouzel
             };
         }
 
-        auto distance(const Vector& vec) const noexcept
+        [[nodiscard]] auto distance(const Vector& vec) const noexcept
         {
             return std::sqrt(generateDistanceSquared(std::make_index_sequence<n>{}, vec));
         }
 
-        constexpr auto distanceSquared(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto distanceSquared(const Vector& vec) const noexcept
         {
             return generateDistanceSquared(std::make_index_sequence<n>{}, vec);
         }
 
-        auto length() const noexcept
+        [[nodiscard]] auto length() const noexcept
         {
             return std::sqrt(generateLengthSquared(std::make_index_sequence<n>{}));
         }
 
-        constexpr auto lengthSquared() const noexcept
+        [[nodiscard]] constexpr auto lengthSquared() const noexcept
         {
             return generateLengthSquared(std::make_index_sequence<n>{});
         }
 
-        constexpr auto dot(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto dot(const Vector& vec) const noexcept
         {
             return generateDot(std::make_index_sequence<n>{}, vec);
         }
@@ -163,7 +163,7 @@ namespace ouzel
                 c = -c;
         }
 
-        auto isNormalized(const T tolerance = std::numeric_limits<T>::epsilon()) const noexcept
+        [[nodiscard]] auto isNormalized(const T tolerance = std::numeric_limits<T>::epsilon()) const noexcept
         {
             return std::abs(T(1) - lengthSquared()) <= tolerance;
         }
@@ -182,7 +182,7 @@ namespace ouzel
                 c /= length;
         }
 
-        auto normalized() const noexcept
+        [[nodiscard]] auto normalized() const noexcept
         {
             const auto squared = lengthSquared();
             if (squared == T(1)) // already normalized
@@ -234,12 +234,12 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        constexpr auto operator-() const noexcept
+        [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return generateInverse(std::make_index_sequence<n>{});
         }
 
-        constexpr auto operator+(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator+(const Vector& vec) const noexcept
         {
             return generateSum(std::make_index_sequence<n>{}, vec);
         }
@@ -251,7 +251,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator-(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator-(const Vector& vec) const noexcept
         {
             return generateDiff(std::make_index_sequence<n>{}, vec);
         }
@@ -263,7 +263,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator*(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
         {
             return generateMul(std::make_index_sequence<n>{}, scalar);
         }
@@ -275,7 +275,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator/(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
         {
             return generateDiv(std::make_index_sequence<n>{}, scalar);
         }
@@ -287,7 +287,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator<(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator<(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < n; ++i)
                 if (v[i] < vec.v[i]) return true;
@@ -296,12 +296,12 @@ namespace ouzel
             return false;
         }
 
-        constexpr auto operator==(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator==(const Vector& vec) const noexcept
         {
             return std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
 
-        constexpr auto operator!=(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator!=(const Vector& vec) const noexcept
         {
             return !std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
@@ -363,7 +363,7 @@ namespace ouzel
     };
 
     template <typename T, std::size_t N>
-    auto operator*(const T scalar, const Vector<T, N>& vec) noexcept
+    [[nodiscard]] auto operator*(const T scalar, const Vector<T, N>& vec) noexcept
     {
         return vec * scalar;
     }

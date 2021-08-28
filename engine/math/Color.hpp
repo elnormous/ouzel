@@ -107,41 +107,42 @@ namespace ouzel
         {
         }
 
-        static constexpr auto black() noexcept { return Color{0, 0, 0, 255}; }
-        static constexpr auto red() noexcept { return Color{255, 0, 0, 255}; }
-        static constexpr auto magenta() noexcept { return Color{255, 0, 255, 255}; }
-        static constexpr auto green() noexcept { return Color{0, 255, 0, 255}; }
-        static constexpr auto cyan() noexcept { return Color{0, 255, 255, 255}; }
-        static constexpr auto blue() noexcept { return Color{0, 0, 255, 255}; }
-        static constexpr auto yellow() noexcept { return Color{255, 255, 0, 255}; }
-        static constexpr auto white() noexcept { return Color{255, 255, 255, 255}; }
-        static constexpr auto gray() noexcept { return Color{128, 128, 128, 255}; }
+        [[nodiscard]] static constexpr auto black() noexcept { return Color{0, 0, 0, 255}; }
+        [[nodiscard]] static constexpr auto red() noexcept { return Color{255, 0, 0, 255}; }
+        [[nodiscard]] static constexpr auto magenta() noexcept { return Color{255, 0, 255, 255}; }
+        [[nodiscard]] static constexpr auto green() noexcept { return Color{0, 255, 0, 255}; }
+        [[nodiscard]] static constexpr auto cyan() noexcept { return Color{0, 255, 255, 255}; }
+        [[nodiscard]] static constexpr auto blue() noexcept { return Color{0, 0, 255, 255}; }
+        [[nodiscard]] static constexpr auto yellow() noexcept { return Color{255, 255, 0, 255}; }
+        [[nodiscard]] static constexpr auto white() noexcept { return Color{255, 255, 255, 255}; }
+        [[nodiscard]] static constexpr auto gray() noexcept { return Color{128, 128, 128, 255}; }
 
-        auto& operator[](std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
+        [[nodiscard]] auto& operator[](std::size_t index) noexcept { return v[index]; }
+        [[nodiscard]] constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
 
-        auto& r() noexcept { return v[0]; }
-        constexpr auto r() const noexcept { return v[0]; }
+        [[nodiscard]] auto& r() noexcept { return v[0]; }
+        [[nodiscard]] constexpr auto r() const noexcept { return v[0]; }
 
-        auto& g() noexcept { return v[1]; }
-        constexpr auto g() const noexcept { return v[1]; }
+        [[nodiscard]] auto& g() noexcept { return v[1]; }
+        [[nodiscard]] constexpr auto g() const noexcept { return v[1]; }
 
-        auto& b() noexcept { return v[2]; }
-        constexpr auto b() const noexcept { return v[2]; }
+        [[nodiscard]] auto& b() noexcept { return v[2]; }
+        [[nodiscard]] constexpr auto b() const noexcept { return v[2]; }
 
-        auto& a() noexcept { return v[3]; }
-        constexpr auto a() const noexcept { return v[3]; }
+        [[nodiscard]] auto& a() noexcept { return v[3]; }
+        [[nodiscard]] constexpr auto a() const noexcept { return v[3]; }
 
-        constexpr std::array<float, 4> norm() const noexcept
+        [[nodiscard]] constexpr std::array<float, 4> norm() const noexcept
         {
             return {{v[0] / 255.0F, v[1] / 255.0F, v[2] / 255.0F, v[3] / 255.0F}};
         }
-        constexpr auto normR() const noexcept { return v[0] / 255.0F; }
-        constexpr auto normG() const noexcept { return v[1] / 255.0F; }
-        constexpr auto normB() const noexcept { return v[2] / 255.0F; }
-        constexpr auto normA() const noexcept { return v[3] / 255.0F; }
 
-        constexpr auto getIntValue() const noexcept
+        [[nodiscard]] constexpr auto normR() const noexcept { return v[0] / 255.0F; }
+        [[nodiscard]] constexpr auto normG() const noexcept { return v[1] / 255.0F; }
+        [[nodiscard]] constexpr auto normB() const noexcept { return v[2] / 255.0F; }
+        [[nodiscard]] constexpr auto normA() const noexcept { return v[3] / 255.0F; }
+
+        [[nodiscard]] constexpr auto getIntValue() const noexcept
         {
             return (static_cast<std::uint32_t>(v[0]) << 24) |
                    (static_cast<std::uint32_t>(v[1]) << 16) |
@@ -149,7 +150,7 @@ namespace ouzel
                    static_cast<std::uint32_t>(v[3]);
         }
 
-        constexpr auto operator<(const Color& c) const noexcept
+        [[nodiscard]] constexpr auto operator<(const Color& c) const noexcept
         {
             return v[0] == c.v[0] ?
                 v[1] == c.v[1] ?
@@ -162,7 +163,7 @@ namespace ouzel
                 v[0] < c.v[0];
         }
 
-        constexpr auto operator==(const Color& c) const noexcept
+        [[nodiscard]] constexpr auto operator==(const Color& c) const noexcept
         {
             return v[0] == c.v[0] &&
                 v[1] == c.v[1] &&
@@ -170,7 +171,7 @@ namespace ouzel
                 v[3] == c.v[3];
         }
 
-        constexpr auto operator!=(const Color& c) const noexcept
+        [[nodiscard]] constexpr auto operator!=(const Color& c) const noexcept
         {
             return v[0] != c.v[0] ||
                 v[1] != c.v[1] ||

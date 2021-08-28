@@ -15,8 +15,8 @@ namespace ouzel
     public:
         std::array<T, n> v;
 
-        auto& operator[](const std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
+        [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
+        [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         [[nodiscard]] auto& width() noexcept
         {

@@ -24,7 +24,7 @@ namespace ouzel
         }
 
         template<std::size_t n>
-        bool isPointInside(const Vector<T, n>& position) const noexcept
+        [[nodiscard]] bool isPointInside(const Vector<T, n>& position) const noexcept
         {
             static_assert(n >= 3);
 
@@ -36,7 +36,7 @@ namespace ouzel
         }
 
         template<std::size_t n>
-        bool isSphereInside(const Vector<T, n>& position, const T radius) const noexcept
+        [[nodiscard]] bool isSphereInside(const Vector<T, n>& position, const T radius) const noexcept
         {
             static_assert(n >= 3);
 
@@ -47,7 +47,7 @@ namespace ouzel
             return true;
         }
 
-        auto isBoxInside(const Box<T, 3>& box) const noexcept
+        [[nodiscard]] auto isBoxInside(const Box<T, 3>& box) const noexcept
         {
             const Vector<T, 3> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2]);
             const Vector<T, 3> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2]);

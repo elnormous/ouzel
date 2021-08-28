@@ -32,7 +32,7 @@ namespace ouzel
         [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
-        static constexpr Matrix identity() noexcept
+        [[nodiscard]] static constexpr Matrix identity() noexcept
         {
             return generateIdentity(std::make_index_sequence<cols * rows>{});
         }
@@ -333,43 +333,43 @@ namespace ouzel
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getFrustumLeftPlane() const noexcept
+        [[nodiscard]] auto getFrustumLeftPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]);
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getFrustumRightPlane() const noexcept
+        [[nodiscard]] auto getFrustumRightPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]);
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getFrustumBottomPlane() const noexcept
+        [[nodiscard]] auto getFrustumBottomPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]);
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getFrustumTopPlane() const noexcept
+        [[nodiscard]] auto getFrustumTopPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]);
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getFrustumNearPlane() const noexcept
+        [[nodiscard]] auto getFrustumNearPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]);
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getFrustumFarPlane() const noexcept
+        [[nodiscard]] auto getFrustumFarPlane() const noexcept
         {
             return Plane<T>::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]);
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getFrustum() const noexcept(false)
+        [[nodiscard]] auto getFrustum() const noexcept(false)
         {
             return ConvexVolume<T>({
                 getFrustumLeftPlane(),
@@ -404,19 +404,19 @@ namespace ouzel
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 1 && r == 1)>* = nullptr>
-        constexpr auto getDeterminant() const noexcept
+        [[nodiscard]] constexpr auto getDeterminant() const noexcept
         {
             return m[0];
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 2 && r == 2)>* = nullptr>
-        constexpr auto getDeterminant() const noexcept
+        [[nodiscard]] constexpr auto getDeterminant() const noexcept
         {
             return m[0] * m[3] - m[1] * m[2];
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 3 && r == 3)>* = nullptr>
-        constexpr auto getDeterminant() const noexcept
+        [[nodiscard]] constexpr auto getDeterminant() const noexcept
         {
             constexpr T a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
             constexpr T a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
@@ -425,7 +425,7 @@ namespace ouzel
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        constexpr auto getDeterminant() const noexcept
+        [[nodiscard]] constexpr auto getDeterminant() const noexcept
         {
             constexpr T a0 = m[0] * m[5] - m[1] * m[4];
             constexpr T a1 = m[0] * m[6] - m[2] * m[4];
@@ -443,37 +443,37 @@ namespace ouzel
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getUpVector() const noexcept
+        [[nodiscard]] auto getUpVector() const noexcept
         {
             return Vector<T, 3>{m[4], m[5], m[6]};
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getDownVector() const noexcept
+        [[nodiscard]] auto getDownVector() const noexcept
         {
             return Vector<T, 3>{-m[4], -m[5], -m[6]};
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getLeftVector() const noexcept
+        [[nodiscard]] auto getLeftVector() const noexcept
         {
             return Vector<T, 3>{-m[0], -m[1], -m[2]};
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getRightVector() const noexcept
+        [[nodiscard]] auto getRightVector() const noexcept
         {
             return Vector<T, 3>{m[0], m[1], m[2]};
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getForwardVector() const noexcept
+        [[nodiscard]] auto getForwardVector() const noexcept
         {
             return Vector<T, 3>{-m[8], -m[9], -m[10]};
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getBackVector() const noexcept
+        [[nodiscard]] auto getBackVector() const noexcept
         {
             return Vector<T, 3>{m[8], m[9], m[10]};
         }
@@ -578,7 +578,7 @@ namespace ouzel
             adjugate.multiply(T(1) / determinant, *this);
         }
 
-        constexpr auto isIdentity() const noexcept
+        [[nodiscard]] constexpr auto isIdentity() const noexcept
         {
             if constexpr (cols != rows) return false;
 
@@ -727,19 +727,19 @@ namespace ouzel
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 3 && r == 3)>* = nullptr>
-        constexpr auto getTranslation() const noexcept
+        [[nodiscard]] constexpr auto getTranslation() const noexcept
         {
             return Vector<T, 2>{m[6], m[7]};
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        constexpr auto getTranslation() const noexcept
+        [[nodiscard]] constexpr auto getTranslation() const noexcept
         {
             return Vector<T, 3>{m[12], m[13], m[14]};
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 3 && r == 3)>* = nullptr>
-        auto getScale() const noexcept
+        [[nodiscard]] auto getScale() const noexcept
         {
             Vector<T, 2> scale;
             scale.v[0] = Vector<T, 2>{m[0], m[1]}.length();
@@ -749,7 +749,7 @@ namespace ouzel
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getScale() const noexcept
+        [[nodiscard]] auto getScale() const noexcept
         {
             Vector<T, 3> scale;
             scale.v[0] = Vector<T, 3>{m[0], m[1], m[2]}.length();
@@ -760,7 +760,7 @@ namespace ouzel
         }
 
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
-        auto getRotation() const noexcept
+        [[nodiscard]] auto getRotation() const noexcept
         {
             const auto scale = getScale();
 
@@ -793,7 +793,7 @@ namespace ouzel
             return result;
         }
 
-        auto operator+(const Matrix& matrix) const noexcept
+        [[nodiscard]] auto operator+(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.add(matrix);
@@ -806,7 +806,7 @@ namespace ouzel
             return *this;
         }
 
-        auto operator-(const Matrix& matrix) const noexcept
+        [[nodiscard]] auto operator-(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.subtract(matrix);
@@ -819,14 +819,14 @@ namespace ouzel
             return *this;
         }
 
-        auto operator-() const noexcept
+        [[nodiscard]] auto operator-() const noexcept
         {
             Matrix result(*this);
             result.negate();
             return result;
         }
 
-        auto operator*(const Matrix& matrix) const noexcept
+        [[nodiscard]] auto operator*(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
             result.multiply(matrix);
@@ -839,7 +839,7 @@ namespace ouzel
             return *this;
         }
 
-        auto operator*(const T scalar) const noexcept
+        [[nodiscard]] auto operator*(const T scalar) const noexcept
         {
             Matrix result(*this);
             result.multiply(scalar);
@@ -852,17 +852,17 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator==(const Matrix& mat) const noexcept
+        [[nodiscard]] constexpr auto operator==(const Matrix& mat) const noexcept
         {
             return std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        constexpr auto operator!=(const Matrix& mat) const noexcept
+        [[nodiscard]] constexpr auto operator!=(const Matrix& mat) const noexcept
         {
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        auto operator*(const Vector<T, 3>& v) const noexcept
+        [[nodiscard]] auto operator*(const Vector<T, 3>& v) const noexcept
         {
             static_assert(cols == 4 && rows == 4);
 
@@ -871,7 +871,7 @@ namespace ouzel
             return x;
         }
 
-        auto operator*(const Vector<T, 4>& v) const noexcept
+        [[nodiscard]] auto operator*(const Vector<T, 4>& v) const noexcept
         {
             static_assert(cols == 4 && rows == 4);
 
@@ -889,21 +889,21 @@ namespace ouzel
     };
 
     template <typename T>
-    auto& operator*=(Vector<T, 3>& v, const Matrix<T, 4, 4>& m) noexcept
+    [[nodiscard]] auto& operator*=(Vector<T, 3>& v, const Matrix<T, 4, 4>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
     template <typename T>
-    auto& operator*=(Vector<T, 4>& v, const Matrix<T, 4, 4>& m) noexcept
+    [[nodiscard]] auto& operator*=(Vector<T, 4>& v, const Matrix<T, 4, 4>& m) noexcept
     {
         m.transformVector(v);
         return v;
     }
 
     template <typename T, std::size_t C, std::size_t R>
-    auto operator*(const T scalar, const Matrix<T, C, R>& m) noexcept
+    [[nodiscard]] auto operator*(const T scalar, const Matrix<T, C, R>& m) noexcept
     {
         return m * scalar;
     }

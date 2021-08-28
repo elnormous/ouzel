@@ -19,8 +19,8 @@ namespace ouzel
 #endif
         std::array<T, 4> v;
 
-        auto& operator[](const std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
+        [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
+        [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         [[nodiscard]] auto& x() noexcept { return v[0]; }
         [[nodiscard]] constexpr auto x() const noexcept { return v[0]; }
@@ -61,7 +61,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator*(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
         {
             return Quaternion{
                 v[0] * scalar,
@@ -81,7 +81,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator/(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
         {
             return Quaternion{
                 v[0] / scalar,
@@ -101,12 +101,12 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator-() const noexcept
+        [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return Quaternion{-v[0], -v[1], -v[2], -v[3]};
         }
 
-        constexpr auto operator+(const Quaternion& q) const noexcept
+        [[nodiscard]] constexpr auto operator+(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] + q.v[0],
@@ -126,7 +126,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator-(const Quaternion& q) const noexcept
+        [[nodiscard]] constexpr auto operator-(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] - q.v[0],
@@ -146,12 +146,12 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator==(const Quaternion& q) const noexcept
+        [[nodiscard]] constexpr auto operator==(const Quaternion& q) const noexcept
         {
             return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
         }
 
-        constexpr auto operator!=(const Quaternion& q) const noexcept
+        [[nodiscard]] constexpr auto operator!=(const Quaternion& q) const noexcept
         {
             return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
         }
@@ -184,7 +184,7 @@ namespace ouzel
             v[3] = v[3] / squared;
         }
 
-        auto getNorm() const noexcept
+        [[nodiscard]] auto getNorm() const noexcept
         {
             constexpr T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (n == T(1)) // already normalized
@@ -209,7 +209,7 @@ namespace ouzel
             v[3] /= length;
         }
 
-        auto normalized() const noexcept
+        [[nodiscard]] auto normalized() const noexcept
         {
             constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
             if (squared == T(1)) // already normalized
@@ -258,7 +258,7 @@ namespace ouzel
             }
         }
 
-        auto getEulerAngles() const noexcept
+        [[nodiscard]] auto getEulerAngles() const noexcept
         {
             return Vector<T, 3>{
                 std::atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]),
@@ -267,17 +267,17 @@ namespace ouzel
             };
         }
 
-        auto getEulerAngleX() const noexcept
+        [[nodiscard]] auto getEulerAngleX() const noexcept
         {
             return std::atan2(T(2) * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
         }
 
-        auto getEulerAngleY() const noexcept
+        [[nodiscard]] auto getEulerAngleY() const noexcept
         {
             return std::asin(T(-2) * (v[0] * v[2] - v[3] * v[1]));
         }
 
-        auto getEulerAngleZ() const noexcept
+        [[nodiscard]] auto getEulerAngleZ() const noexcept
         {
             return std::atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
@@ -307,34 +307,34 @@ namespace ouzel
             v[3] = cr * cpcy + sr * spsy;
         }
 
-        auto operator*(const Vector<T, 3>& vector) const noexcept
+        [[nodiscard]] auto operator*(const Vector<T, 3>& vector) const noexcept
         {
             return rotateVector(vector);
         }
 
-        auto rotateVector(const Vector<T, 3>& vector) const noexcept
+        [[nodiscard]] auto rotateVector(const Vector<T, 3>& vector) const noexcept
         {
             constexpr Vector<T, 3> q{v[0], v[1], v[2]};
             const auto t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
-        auto getRightVector() const noexcept
+        [[nodiscard]] auto getRightVector() const noexcept
         {
             return rotateVector(Vector<T, 3>{T(1), T(0), T(0)});
         }
 
-        auto getUpVector() const noexcept
+        [[nodiscard]] auto getUpVector() const noexcept
         {
             return rotateVector(Vector<T, 3>{T(0), T(1), T(0)});
         }
 
-        auto getForwardVector() const noexcept
+        [[nodiscard]] auto getForwardVector() const noexcept
         {
             return rotateVector(Vector<T, 3>{T(0), T(0), T(1)});
         }
 
-        constexpr auto& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
+        [[nodiscard]] auto& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
         {
             *this = q1 * (T(1) - t) + (q2 * t);
             return *this;

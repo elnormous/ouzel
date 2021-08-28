@@ -44,61 +44,61 @@ namespace ouzel
             position = newPosition;
         }
 
-        constexpr auto left() const noexcept
+        [[nodiscard]] constexpr auto left() const noexcept
         {
             return position.v[0];
         }
 
-        constexpr auto bottom() const noexcept
+        [[nodiscard]] constexpr auto bottom() const noexcept
         {
             return position.v[1];
         }
 
-        constexpr auto right() const noexcept
+        [[nodiscard]] constexpr auto right() const noexcept
         {
             return position.v[0] + size.v[0];
         }
 
-        constexpr auto top() const noexcept
+        [[nodiscard]] constexpr auto top() const noexcept
         {
             return position.v[1] + size.v[1];
         }
 
-        constexpr auto bottomLeft() const noexcept
+        [[nodiscard]] constexpr auto bottomLeft() const noexcept
         {
             return position;
         }
 
-        constexpr auto topRight() const noexcept
+        [[nodiscard]] constexpr auto topRight() const noexcept
         {
             return Vector<T, 2>{position.v[0] + size.v[0], position.v[1] + size.v[1]};
         }
 
-        constexpr auto containsPoint(const T x, const T y) const noexcept
+        [[nodiscard]] constexpr auto containsPoint(const T x, const T y) const noexcept
         {
             return x >= position.v[0] && x <= (position.v[0] + size.v[0]) &&
                 y >= position.v[1] && y <= (position.v[1] + size.v[1]);
         }
 
-        constexpr auto containsPoint(const Vector<T, 2>& point) const noexcept
+        [[nodiscard]] constexpr auto containsPoint(const Vector<T, 2>& point) const noexcept
         {
             return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.v[0]) &&
                 point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.v[1]);
         }
 
-        constexpr auto contains(const T x, const T y,
-                                const T width, const T height) const noexcept
+        [[nodiscard]] constexpr auto contains(const T x, const T y,
+                                              const T width, const T height) const noexcept
         {
             return containsPoint(x, y) && containsPoint(x + width, y + height);
         }
 
-        constexpr auto contains(const Rect& r) const noexcept
+        [[nodiscard]] constexpr auto contains(const Rect& r) const noexcept
         {
             return contains(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
         }
 
-        constexpr auto intersects(const T x, const T y,
-                                  const T width, const T height) const noexcept
+        [[nodiscard]] constexpr auto intersects(const T x, const T y,
+                                                const T width, const T height) const noexcept
         {
             if (constexpr T t = x - position.v[0]; t > size.v[0] || -t > width)
                 return false;
@@ -107,12 +107,12 @@ namespace ouzel
             return true;
         }
 
-        constexpr auto intersects(const Rect& r) const noexcept
+        [[nodiscard]] constexpr auto intersects(const Rect& r) const noexcept
         {
             return intersects(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
         }
 
-        static auto intersect(const Rect& r1, const Rect& r2, Rect& dst) noexcept
+        [[nodiscard]] static auto intersect(const Rect& r1, const Rect& r2, Rect& dst) noexcept
         {
             const T xmin = std::max(r1.position.v[0], r2.position.v[0]);
             const T xmax = std::min(r1.right(), r2.right());
@@ -151,17 +151,17 @@ namespace ouzel
             size.v[1] += verticalAmount * T(2);
         }
 
-        constexpr auto operator==(const Rect& other) const noexcept
+        [[nodiscard]] constexpr auto operator==(const Rect& other) const noexcept
         {
             return position == other.position && size == other.size;
         }
 
-        constexpr auto operator!=(const Rect& other) const noexcept
+        [[nodiscard]] constexpr auto operator!=(const Rect& other) const noexcept
         {
             return position != other.position || size != other.size;
         }
 
-        constexpr auto operator*(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
         {
             return Rect{
                 position * scalar,
@@ -176,7 +176,7 @@ namespace ouzel
             return *this;
         }
 
-        constexpr auto operator/(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
         {
             return Rect{
                 position / scalar,
