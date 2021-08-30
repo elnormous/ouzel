@@ -30,49 +30,8 @@ namespace ouzel
         {
         }
 
-        explicit Color(std::string_view color)
-        {
-            if (!color.empty())
-            {
-                if (color.front() == '#')
-                {
-                    assert(color.length() == 4 || color.length() == 7);
-
-                    const std::size_t componentSize = (color.length() - 1) / 3; // exclude the #
-
-                    for (std::size_t component = 0; component < 3; ++component)
-                    {
-                        v[component] = 0;
-
-                        for (std::size_t byte = 0; byte < 2; ++byte)
-                        {
-                            const char c = (byte < componentSize) ? color[component * componentSize + byte + 1] : color[component * componentSize + 1];
-                            v[component] = static_cast<std::uint8_t>((v[component] << 4) | hexToInt(c));
-                        }
-                    }
-
-                    v[3] = static_cast<std::uint8_t>(0xFFU); // alpha
-                }
-                else
-                {
-                    std::uint32_t intValue = 0;
-
-                    for (const auto c : color)
-                        intValue = intValue * 10 + decToInt(c);
-
-                    v[0] = static_cast<std::uint8_t>((intValue & 0xFF000000U) >> 24);
-                    v[1] = static_cast<std::uint8_t>((intValue & 0x00FF0000U) >> 16);
-                    v[2] = static_cast<std::uint8_t>((intValue & 0x0000FF00U) >> 8);
-                    v[3] = static_cast<std::uint8_t>(intValue & 0x000000FFU);
-                }
-            }
-            else
-                for (std::size_t i = 0; i < 4; ++i)
-                    v[i] = 0;
-        }
-
         template <typename T, std::enable_if_t<std::is_integral_v<T>>* = nullptr>
-        constexpr Color(const T red, const T green, const T blue, const T alpha = 0xFF) noexcept:
+        constexpr Color(const T red, const T green, const T blue, const T alpha = T(0xFFU)) noexcept:
             v{{std::uint8_t(red), std::uint8_t(green), std::uint8_t(blue), std::uint8_t(alpha)}}
         {
         }
@@ -105,6 +64,49 @@ namespace ouzel
                 static_cast<std::uint8_t>(std::round(vec.v[3] * 255.0F))
             }}
         {
+        }
+
+        static Color parse(std::string_view color) noexcept
+        {
+            if (!color.empty())
+            {
+                if (color.front() == '#')
+                {
+                    assert(color.length() == 4 || color.length() == 7);
+
+                    const std::size_t componentSize = (color.length() - 1) / 3; // exclude the #
+
+                    std::array<std::uint8_t, 3> v;
+                    for (std::size_t component = 0; component < 3; ++component)
+                    {
+                        v[component] = 0;
+
+                        for (std::size_t byte = 0; byte < 2; ++byte)
+                        {
+                            const char c = (byte < componentSize) ? color[component * componentSize + byte + 1] : color[component * componentSize + 1];
+                            v[component] = static_cast<std::uint8_t>((v[component] << 4) | hexToInt(c));
+                        }
+                    }
+
+                    return Color{v[0], v[1], v[2], static_cast<std::uint8_t>(0xFFU)};
+                }
+                else
+                {
+                    std::uint32_t intValue = 0;
+
+                    for (const auto c : color)
+                        intValue = intValue * 10 + decToInt(c);
+
+                    return Color{
+                        static_cast<std::uint8_t>((intValue & 0xFF000000U) >> 24),
+                        static_cast<std::uint8_t>((intValue & 0x00FF0000U) >> 16),
+                        static_cast<std::uint8_t>((intValue & 0x0000FF00U) >> 8),
+                        static_cast<std::uint8_t>(intValue & 0x000000FFU)
+                    };
+                }
+            }
+            else
+                return Color{0, 0, 0, 0};
         }
 
         [[nodiscard]] static constexpr auto black() noexcept { return Color{0, 0, 0, 255}; }
