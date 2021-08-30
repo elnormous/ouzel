@@ -93,7 +93,7 @@ namespace ouzel::core
     {
         struct Settings final
         {
-            Size<std::uint32_t, 2> size;
+            Size<std::uint32_t, 2> size{};
             graphics::Driver graphicsDriver;
             graphics::Settings graphicsSettings;
             bool resizable = false;
