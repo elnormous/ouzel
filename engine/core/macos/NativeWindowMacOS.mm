@@ -126,6 +126,13 @@ namespace ouzel::core::macos
                                                backing:NSBackingStoreBuffered
                                                  defer:NO
                                                 screen:screen];
+        [window setFrameAutosaveName:@(OUZEL_DEVELOPER_NAME OUZEL_APPLICATION_NAME)];
+
+        const NSRect realFrame = [NSWindow contentRectForFrameRect:window.frame
+                                                         styleMask:window.styleMask];
+        windowSize.width = static_cast<std::uint32_t>(realFrame.size.width);
+        windowSize.height = static_cast<std::uint32_t>(realFrame.size.height);
+
         [window setReleasedWhenClosed:NO];
 
         window.acceptsMouseMovedEvents = YES;
