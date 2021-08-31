@@ -10,67 +10,67 @@
 
 namespace ouzel
 {
-    template <typename T, std::size_t n> class Size final
+    template <typename T, std::size_t dims> class Size final
     {
     public:
-        std::array<T, n> v;
+        std::array<T, dims> v;
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         [[nodiscard]] auto& width() noexcept
         {
-            static_assert(n >= 1);
+            static_assert(dims >= 1);
             return v[0];
         }
 
         [[nodiscard]] constexpr auto width() const noexcept
         {
-            static_assert(n >= 1);
+            static_assert(dims >= 1);
             return v[0];
         }
 
         [[nodiscard]] auto& height() noexcept
         {
-            static_assert(n >= 2);
+            static_assert(dims >= 2);
             return v[1];
         }
 
         [[nodiscard]] constexpr auto height() const noexcept
         {
-            static_assert(n >= 2);
+            static_assert(dims >= 2);
             return v[1];
         }
 
         [[nodiscard]] auto& depth() noexcept
         {
-            static_assert(n >= 3);
+            static_assert(dims >= 3);
             return v[2];
         }
 
         [[nodiscard]] constexpr auto depth() const noexcept
         {
-            static_assert(n >= 3);
+            static_assert(dims >= 3);
             return v[2];
         }
 
-        void scale(const Vector<T, n>& scale) noexcept
+        void scale(const Vector<T, dims>& scale) noexcept
         {
-            for (std::size_t i = 0; i < n; ++i)
+            for (std::size_t i = 0; i < dims; ++i)
                 v[i] *= scale.v[i];
         }
 
         [[nodiscard]] auto operator+(const Size& size) const noexcept
         {
             Size result = *this;
-            for (std::size_t i = 0; i < n; ++i)
+            for (std::size_t i = 0; i < dims; ++i)
                 result.v[i] += size.v[i];
             return result;
         }
 
         auto& operator+=(const Size& size) noexcept
         {
-            for (std::size_t i = 0; i < n; ++i)
+            for (std::size_t i = 0; i < dims; ++i)
                 v[i] += size.v[i];
             return *this;
         }
@@ -78,14 +78,14 @@ namespace ouzel
         [[nodiscard]] auto operator-(const Size& size) const noexcept
         {
             Size result = *this;
-            for (std::size_t i = 0; i < n; ++i)
+            for (std::size_t i = 0; i < dims; ++i)
                 result.v[i] -= size.v[i];
             return result;
         }
 
         auto& operator-=(const Size& size) noexcept
         {
-            for (std::size_t i = 0; i < n; ++i)
+            for (std::size_t i = 0; i < dims; ++i)
                 v[i] -= size.v[i];
             return *this;
         }
@@ -130,7 +130,7 @@ namespace ouzel
 
         [[nodiscard]] auto operator<(const Size& size) const noexcept
         {
-            for (std::size_t i = 0; i < n; ++i)
+            for (std::size_t i = 0; i < dims; ++i)
                 if (v[i] < size.v[i]) return true;
                 else if (size.v[i] < v[i]) return false;
 
