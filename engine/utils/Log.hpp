@@ -20,14 +20,14 @@ namespace ouzel
     class Logger;
 
     template<typename T, typename = void>
-    struct IsContainer: public std::false_type {};
+    struct IsContainer: std::false_type {};
 
     template<typename T>
     struct IsContainer<T,
         std::void_t<
             decltype(std::declval<T>().begin()),
             decltype(std::declval<T>().end())
-        >>: public std::true_type {};
+        >>: std::true_type {};
 
     template<typename T>
     inline constexpr bool isContainer = IsContainer<T>::value;
