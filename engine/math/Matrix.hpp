@@ -497,7 +497,7 @@ namespace ouzel
             // Close to zero, can't invert
             if (std::fabs(determinant) <= std::numeric_limits<T>::epsilon()) return;
 
-            Matrix adjugate{
+            const Matrix adjugate{
                 m[3], -m[1],
                 -m[2], m[0]
             };
