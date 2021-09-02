@@ -902,8 +902,8 @@ namespace ouzel
         return v;
     }
 
-    template <typename T, std::size_t C, std::size_t R>
-    [[nodiscard]] auto operator*(const T scalar, const Matrix<T, C, R>& m) noexcept
+    template <typename T, std::size_t cols, std::size_t rows>
+    [[nodiscard]] auto operator*(const T scalar, const Matrix<T, cols, rows>& m) noexcept
     {
         return m * scalar;
     }
