@@ -582,9 +582,9 @@ namespace ouzel
         {
             if constexpr (cols != rows) return false;
 
-            for (std::size_t r = 0; r < rows; ++r)
-                for (std::size_t c = 0; c < cols; ++c)
-                    if (m[r * cols + c] != (r == c ? T(1) : T(0)))
+            for (std::size_t i = 0; i < rows; ++i)
+                for (std::size_t j = 0; j < cols; ++j)
+                    if (m[i * cols + j] != (i == j ? T(1) : T(0)))
                         return false;
             return true;
         }
@@ -609,10 +609,10 @@ namespace ouzel
         {
             std::array<T, cols * rows> result{};
 
-            for (std::size_t row = 0; row < rows; ++row)
-                for (std::size_t col = 0; col < cols; ++col)
-                    for (std::size_t i = 0; i < rows; ++i)
-                        result[row * cols + col] += m[i * cols + col] * matrix.m[row * cols + i];
+            for (std::size_t i = 0; i < rows; ++i)
+                for (std::size_t j = 0; j < cols; ++j)
+                    for (std::size_t k = 0; k < rows; ++k)
+                        result[i * cols + j] += m[k * cols + j] * matrix.m[i * cols + k];
 
             std::copy(result.begin(), result.end(), dst.m.begin());
         }
@@ -626,9 +626,9 @@ namespace ouzel
         template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
         void setIdentity() noexcept
         {
-            for (std::size_t row = 0; row < rows; ++row)
-                for (std::size_t col = 0; col < cols; ++col)
-                    m[row * cols + col] = row == col ? T(1) : T(0);
+            for (std::size_t i = 0; i < rows; ++i)
+                for (std::size_t j = 0; j < cols; ++j)
+                    m[i * cols + j] = i == j ? T(1) : T(0);
         }
 
         void setZero() noexcept
@@ -719,9 +719,9 @@ namespace ouzel
         {
             const std::array<T, cols * rows> t;
 
-            for (std::size_t column = 0; column < cols; ++column)
-                for (std::size_t row = 0; row < cols; ++row)
-                    t[row * cols + column] = t[column * rows + row];
+            for (std::size_t i = 0; i < cols; ++i)
+                for (std::size_t j = 0; j < cols; ++j)
+                    t[j * cols + i] = t[i * rows + j];
 
             std::copy(t.begin(), t.end(), dst.m.begin());
         }
