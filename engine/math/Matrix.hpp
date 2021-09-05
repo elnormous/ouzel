@@ -37,21 +37,23 @@ namespace ouzel
             return generateIdentity(std::make_index_sequence<cols * rows>{});
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         void setLookAt(const Vector<T, 3>& eyePosition,
                        const Vector<T, 3>& targetPosition,
                        const Vector<T, 3>& up) noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+            
             setLookAt(eyePosition.v[0], eyePosition.v[1], eyePosition.v[2],
                       targetPosition.v[0], targetPosition.v[1], targetPosition.v[2],
                       up.v[0], up.v[1], up.v[2]);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         void setLookAt(const T eyePositionX, const T eyePositionY, const T eyePositionZ,
                        const T targetPositionX, const T targetPositionY, const T targetPositionZ,
                        const T upX, const T upY, const T upZ) noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             const Vector<T, 3> eye{eyePositionX, eyePositionY, eyePositionZ};
             const Vector<T, 3> target{targetPositionX, targetPositionY, targetPositionZ};
             Vector<T, 3> up{upX, upY, upZ};
@@ -87,10 +89,11 @@ namespace ouzel
             m[15] = T(1);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         void setPerspective(const T fieldOfView, const T aspectRatio,
                             const T nearClip, const T farClip) noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             assert(aspectRatio);
             assert(farClip != nearClip);
 
@@ -111,10 +114,11 @@ namespace ouzel
             m[14] = -nearClip * farClip / (farClip - nearClip);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         void setOrthographic(const T width, const T height,
                              const T nearClip, const T farClip) noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             assert(width);
             assert(height);
             assert(farClip != nearClip);
@@ -128,11 +132,12 @@ namespace ouzel
             m[15] = T(1);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         void setOrthographic(const T left, const T right,
                              const T bottom, const T top,
                              const T near, const T far) noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             assert(right != left);
             assert(top != bottom);
             assert(far != near);
@@ -148,9 +153,10 @@ namespace ouzel
             m[15] = T(1);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
         void setScale(const Vector<T, rows - 1>& scale) noexcept
         {
+            static_assert(cols == rows);
+
             setIdentity();
 
             for (std::size_t i = 0; i < rows - 1; ++i)
@@ -262,9 +268,10 @@ namespace ouzel
             m[15] = T(1);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         void setRotationX(const T angle) noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             setIdentity();
 
             const auto cosine = std::cos(angle);
@@ -276,9 +283,10 @@ namespace ouzel
             m[10] = cosine;
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         void setRotationY(const T angle) noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             setIdentity();
 
             const auto cosine = std::cos(angle);
@@ -290,9 +298,10 @@ namespace ouzel
             m[10] = cosine;
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         void setRotationZ(const T angle) noexcept
         {
+            static_assert(cols == 4 && rows == 4);
+
             setIdentity();
 
             const auto cosine = std::cos(angle);
@@ -304,9 +313,10 @@ namespace ouzel
             m[5] = cosine;
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
         void setTranslation(const Vector<T, rows - 1>& translation) noexcept
         {
+            static_assert(cols == rows);
+
             setIdentity();
 
             for (std::size_t i = 0; i < rows - 1; ++i)
@@ -332,45 +342,45 @@ namespace ouzel
             m[14] = z;
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getFrustumLeftPlane() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Plane<T>::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getFrustumRightPlane() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Plane<T>::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getFrustumBottomPlane() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Plane<T>::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getFrustumTopPlane() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Plane<T>::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getFrustumNearPlane() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Plane<T>::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getFrustumFarPlane() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Plane<T>::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]);
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getFrustum() const noexcept(false)
         {
+            static_assert(cols == 4 && rows == 4);
             return ConvexVolume<T>({
                 getFrustumLeftPlane(),
                 getFrustumRightPlane(),
@@ -442,39 +452,39 @@ namespace ouzel
             return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getUpVector() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Vector<T, 3>{m[4], m[5], m[6]};
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getDownVector() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Vector<T, 3>{-m[4], -m[5], -m[6]};
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getLeftVector() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Vector<T, 3>{-m[0], -m[1], -m[2]};
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getRightVector() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Vector<T, 3>{m[0], m[1], m[2]};
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getForwardVector() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Vector<T, 3>{-m[8], -m[9], -m[10]};
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == 4 && r == 4)>* = nullptr>
         [[nodiscard]] auto getBackVector() const noexcept
         {
+            static_assert(cols == 4 && rows == 4);
             return Vector<T, 3>{m[8], m[9], m[10]};
         }
 
@@ -623,9 +633,10 @@ namespace ouzel
                 c = -c;
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
         void setIdentity() noexcept
         {
+            static_assert(cols == rows);
+
             for (std::size_t i = 0; i < rows; ++i)
                 for (std::size_t j = 0; j < cols; ++j)
                     m[i * cols + j] = i == j ? T(1) : T(0);
