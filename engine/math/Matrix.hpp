@@ -134,22 +134,22 @@ namespace ouzel
 
         void setOrthographic(const T left, const T right,
                              const T bottom, const T top,
-                             const T near, const T far) noexcept
+                             const T nearClip, const T farClip) noexcept
         {
             static_assert(cols == 4 && rows == 4);
 
             assert(right != left);
             assert(top != bottom);
-            assert(far != near);
+            assert(farClip != nearClip);
 
             setZero();
 
             m[0] = T(2) / (right - left);
             m[5] = T(2) / (top - bottom);
-            m[10] = T(1) / (far - near);
+            m[10] = T(1) / (farClip - nearClip);
             m[12] = (left + right) / (left - right);
             m[13] = (bottom + top) / (bottom - top);
-            m[14] = near / (near - far);
+            m[14] = nearClip / (nearClip - farClip);
             m[15] = T(1);
         }
 
