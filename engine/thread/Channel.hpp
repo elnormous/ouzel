@@ -126,9 +126,9 @@ namespace ouzel::thread
         Channel(std::ptrdiff_t capacity = 0): container{capacity} {}
 
         Iterator begin() noexcept { return Iterator{container, container.next()}; }
-        ConstIterator begin() const noexcept { return Iterator{container, container.next()}; }
+        ConstIterator begin() const noexcept { return ConstIterator{container, container.next()}; }
         Iterator end() noexcept { return Iterator{container}; }
-        ConstIterator end() const noexcept { return Iterator{container}; }
+        ConstIterator end() const noexcept { return ConstIterator{container}; }
 
         template <class T>
         void send(T&& entry)
