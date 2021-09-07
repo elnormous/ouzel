@@ -60,6 +60,19 @@ namespace ouzel
                 v[i] *= scale.v[i];
         }
 
+        [[nodiscard]] auto operator+() const noexcept
+        {
+            return *this;
+        }
+
+        [[nodiscard]] auto operator-() const noexcept
+        {
+            Size result = *this;
+            for (T& c : result.v)
+                c = -c;
+            return result;
+        }
+
         [[nodiscard]] auto operator+(const Size& size) const noexcept
         {
             Size result = *this;
@@ -88,14 +101,6 @@ namespace ouzel
             for (std::size_t i = 0; i < dims; ++i)
                 v[i] -= size.v[i];
             return *this;
-        }
-
-        [[nodiscard]] auto operator-() const noexcept
-        {
-            Size result = *this;
-            for (T& c : result.v)
-                c = -c;
-            return result;
         }
 
         [[nodiscard]] auto operator*(const T scalar) const noexcept

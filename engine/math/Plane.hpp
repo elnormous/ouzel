@@ -36,6 +36,11 @@ namespace ouzel
         [[nodiscard]] auto& d() noexcept { return v[3]; }
         [[nodiscard]] constexpr auto d() const noexcept { return v[3]; }
 
+        [[nodiscard]] auto operator+() const noexcept
+        {
+            return *this;
+        }
+        
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return Plane{-v[0], -v[1], -v[2], -v[3]};

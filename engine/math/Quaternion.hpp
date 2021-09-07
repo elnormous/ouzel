@@ -39,6 +39,56 @@ namespace ouzel
             return Quaternion{T(0), T(0), T(0), T(1)};
         }
 
+        [[nodiscard]] auto operator+() const noexcept
+        {
+            return *this;
+        }
+
+        [[nodiscard]] constexpr auto operator-() const noexcept
+        {
+            return Quaternion{-v[0], -v[1], -v[2], -v[3]};
+        }
+
+        [[nodiscard]] constexpr auto operator+(const Quaternion& q) const noexcept
+        {
+            return Quaternion{
+                v[0] + q.v[0],
+                v[1] + q.v[1],
+                v[2] + q.v[2],
+                v[3] + q.v[3]
+            };
+        }
+
+        constexpr auto& operator+=(const Quaternion& q) noexcept
+        {
+            v[0] += q.v[0];
+            v[1] += q.v[1];
+            v[2] += q.v[2];
+            v[3] += q.v[3];
+
+            return *this;
+        }
+
+        [[nodiscard]] constexpr auto operator-(const Quaternion& q) const noexcept
+        {
+            return Quaternion{
+                v[0] - q.v[0],
+                v[1] - q.v[1],
+                v[2] - q.v[2],
+                v[3] - q.v[3]
+            };
+        }
+
+        constexpr auto& operator-=(const Quaternion& q) noexcept
+        {
+            v[0] -= q.v[0];
+            v[1] -= q.v[1];
+            v[2] -= q.v[2];
+            v[3] -= q.v[3];
+
+            return *this;
+        }
+
         [[nodiscard]] constexpr auto operator*(const Quaternion& q) const noexcept
         {
             return Quaternion{
@@ -97,51 +147,6 @@ namespace ouzel
             v[1] /= scalar;
             v[2] /= scalar;
             v[3] /= scalar;
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-() const noexcept
-        {
-            return Quaternion{-v[0], -v[1], -v[2], -v[3]};
-        }
-
-        [[nodiscard]] constexpr auto operator+(const Quaternion& q) const noexcept
-        {
-            return Quaternion{
-                v[0] + q.v[0],
-                v[1] + q.v[1],
-                v[2] + q.v[2],
-                v[3] + q.v[3]
-            };
-        }
-
-        constexpr auto& operator+=(const Quaternion& q) noexcept
-        {
-            v[0] += q.v[0];
-            v[1] += q.v[1];
-            v[2] += q.v[2];
-            v[3] += q.v[3];
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-(const Quaternion& q) const noexcept
-        {
-            return Quaternion{
-                v[0] - q.v[0],
-                v[1] - q.v[1],
-                v[2] - q.v[2],
-                v[3] - q.v[3]
-            };
-        }
-
-        constexpr auto& operator-=(const Quaternion& q) noexcept
-        {
-            v[0] -= q.v[0];
-            v[1] -= q.v[1];
-            v[2] -= q.v[2];
-            v[3] -= q.v[3];
 
             return *this;
         }

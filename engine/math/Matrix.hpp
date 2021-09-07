@@ -804,6 +804,18 @@ namespace ouzel
             return result;
         }
 
+        [[nodiscard]] auto operator+() const noexcept
+        {
+            return *this;
+        }
+
+        [[nodiscard]] auto operator-() const noexcept
+        {
+            Matrix result(*this);
+            result.negate();
+            return result;
+        }
+
         [[nodiscard]] auto operator+(const Matrix& matrix) const noexcept
         {
             Matrix result(*this);
@@ -828,13 +840,6 @@ namespace ouzel
         {
             subtract(matrix);
             return *this;
-        }
-
-        [[nodiscard]] auto operator-() const noexcept
-        {
-            Matrix result(*this);
-            result.negate();
-            return result;
         }
 
         [[nodiscard]] auto operator*(const Matrix& matrix) const noexcept

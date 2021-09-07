@@ -234,6 +234,11 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
+        [[nodiscard]] auto operator+() const noexcept
+        {
+            return *this;
+        }
+
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return generateInverse(std::make_index_sequence<dims>{});
