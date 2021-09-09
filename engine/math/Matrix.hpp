@@ -804,7 +804,7 @@ namespace ouzel
             return result;
         }
 
-        [[nodiscard]] auto operator+() const noexcept
+        [[nodiscard]] constexpr auto operator+() const noexcept
         {
             return *this;
         }

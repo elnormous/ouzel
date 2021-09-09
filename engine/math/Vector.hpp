@@ -234,7 +234,7 @@ namespace ouzel
                 *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
         }
 
-        [[nodiscard]] auto operator+() const noexcept
+        [[nodiscard]] constexpr auto operator+() const noexcept
         {
             return *this;
         }

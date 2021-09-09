@@ -60,7 +60,7 @@ namespace ouzel
                 v[i] *= scale.v[i];
         }
 
-        [[nodiscard]] auto operator+() const noexcept
+        [[nodiscard]] constexpr auto operator+() const noexcept
         {
             return *this;
         }

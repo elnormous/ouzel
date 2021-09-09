@@ -39,7 +39,7 @@ namespace ouzel
             return Quaternion{T(0), T(0), T(0), T(1)};
         }
 
-        [[nodiscard]] auto operator+() const noexcept
+        [[nodiscard]] constexpr auto operator+() const noexcept
         {
             return *this;
         }
