@@ -313,31 +313,31 @@ namespace ouzel
 
     private:
         template <std::size_t ...I>
-        constexpr auto generateInverse(const std::index_sequence<I...>) const
+        constexpr auto generateInverse(const std::index_sequence<I...>) const noexcept
         {
             return Vector{-v[I]...};
         }
 
         template <std::size_t ...I>
-        constexpr auto generateSum(const std::index_sequence<I...>, const Vector& vec) const
+        constexpr auto generateSum(const std::index_sequence<I...>, const Vector& vec) const noexcept
         {
             return Vector{(v[I] + vec.v[I])...};
         }
 
         template <std::size_t ...I>
-        constexpr auto generateDiff(const std::index_sequence<I...>, const Vector& vec) const
+        constexpr auto generateDiff(const std::index_sequence<I...>, const Vector& vec) const noexcept
         {
             return Vector{(v[I] - vec.v[I])...};
         }
 
         template <std::size_t ...I>
-        constexpr auto generateMul(const std::index_sequence<I...>, const T scalar) const
+        constexpr auto generateMul(const std::index_sequence<I...>, const T scalar) const noexcept
         {
             return Vector{(v[I] * scalar)...};
         }
 
         template <std::size_t ...I>
-        constexpr auto generateDiv(const std::index_sequence<I...>, const T scalar) const
+        constexpr auto generateDiv(const std::index_sequence<I...>, const T scalar) const noexcept
         {
             return Vector{(v[I] / scalar)...};
         }
@@ -349,19 +349,19 @@ namespace ouzel
         }
 
         template <std::size_t ...I>
-        constexpr auto generateLengthSquared(const std::index_sequence<I...>) const
+        constexpr auto generateLengthSquared(const std::index_sequence<I...>) const noexcept
         {
             return sum((v[I] * v[I])...);
         }
 
         template <std::size_t ...I>
-        constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const
+        constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const noexcept
         {
             return sum((v[I] * vec.v[I])...);
         }
 
         template <std::size_t ...I>
-        constexpr auto generateDistanceSquared(const std::index_sequence<I...>, const Vector& vec) const
+        constexpr auto generateDistanceSquared(const std::index_sequence<I...>, const Vector& vec) const noexcept
         {
             return sum(((v[I] - vec.v[I]) * (v[I] - vec.v[I]))...);
         }

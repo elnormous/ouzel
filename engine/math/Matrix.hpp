@@ -898,7 +898,7 @@ namespace ouzel
 
     private:
         template <std::size_t ...I>
-        static constexpr auto generateIdentity(const std::index_sequence<I...>)
+        static constexpr auto generateIdentity(const std::index_sequence<I...>) noexcept
         {
             return Matrix{(I % cols == I / rows) ? T(1) : T(0)...};
         }
