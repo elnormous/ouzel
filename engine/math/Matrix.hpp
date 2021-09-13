@@ -180,9 +180,9 @@ namespace ouzel
         template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
         void setRotation(const Vector<T, 3>& axis, T angle) noexcept
         {
-            const auto x = axis.v[0];
-            const auto y = axis.v[1];
-            const auto z = axis.v[2];
+            auto x = axis.v[0];
+            auto y = axis.v[1];
+            auto z = axis.v[2];
 
             const auto squared = x * x + y * y + z * z;
             if (squared != T(1))
