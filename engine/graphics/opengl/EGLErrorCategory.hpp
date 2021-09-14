@@ -20,7 +20,7 @@ namespace ouzel::graphics::egl
             return "EGL";
         }
 
-        std::string message(int condition) const override
+        std::string message(const int condition) const override
         {
             switch (condition)
             {

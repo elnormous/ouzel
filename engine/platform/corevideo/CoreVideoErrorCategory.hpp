@@ -16,7 +16,7 @@ namespace ouzel::platform::corevideo
             return "CoreVideo";
         }
 
-        std::string message(int condition) const override
+        std::string message(const int condition) const override
         {
             switch (condition)
             {
