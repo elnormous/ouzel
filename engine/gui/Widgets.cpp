@@ -17,7 +17,7 @@
 namespace ouzel::gui
 {
     Button::Button():
-        eventHandler(EventHandler::priorityMax + 1)
+        eventHandler{EventHandler::priorityMax + 1}
     {
         eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
