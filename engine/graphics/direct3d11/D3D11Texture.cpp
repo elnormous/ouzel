@@ -93,7 +93,7 @@ namespace ouzel::graphics::d3d11
     }
 
     Texture::Texture(RenderDevice& initRenderDevice,
-                     const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels,
+                     const std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels,
                      TextureType type,
                      Flags initFlags,
                      std::uint32_t initSampleCount,
@@ -323,7 +323,7 @@ namespace ouzel::graphics::d3d11
         updateSamplerState();
     }
 
-    void Texture::setData(const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels)
+    void Texture::setData(const std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels)
     {
         if ((flags & Flags::dynamic) != Flags::dynamic ||
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)

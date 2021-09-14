@@ -211,7 +211,7 @@ namespace ouzel
     }
 
     template <class T, std::size_t N, std::size_t M>
-    Log& operator<<(Log& log, const Matrix<T, N, M>& val)
+    Log& operator<<(Log& log, const math::Matrix<T, N, M>& val)
     {
         bool first = true;
 
@@ -226,7 +226,7 @@ namespace ouzel
     }
 
     template <class T, std::size_t N>
-    Log& operator<<(Log& log, const Size<T, N>& val)
+    Log& operator<<(Log& log, const math::Size<T, N>& val)
     {
         bool first = true;
 
@@ -240,7 +240,7 @@ namespace ouzel
     }
 
     template <class T, std::size_t N>
-    Log& operator<<(Log& log, const Vector<T, N>& val)
+    Log& operator<<(Log& log, const math::Vector<T, N>& val)
     {
         bool first = true;
 
@@ -254,7 +254,7 @@ namespace ouzel
     }
 
     template <typename T>
-    Log& operator<<(Log& log, const Quaternion<T>& val)
+    Log& operator<<(Log& log, const math::Quaternion<T>& val)
     {
         return log << "[" << val.v[0] << "," << val.v[1] << "," << val.v[2] << "," << val.v[3] << "]";
     }

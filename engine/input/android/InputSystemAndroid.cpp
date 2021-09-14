@@ -98,7 +98,7 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                    const Vector<float, 2> position{
+                    const math::Vector<float, 2> position{
                         static_cast<float>(x),
                         static_cast<float>(y)
                     };
@@ -126,7 +126,7 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, pointerIndex);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
-                    const Vector<float, 2> position{
+                    const math::Vector<float, 2> position{
                         static_cast<float>(x),
                         static_cast<float>(y)
                     };
@@ -149,7 +149,7 @@ namespace ouzel::input::android
                 {
                     if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
                     {
-                        const Vector<float, 2> position{
+                        const math::Vector<float, 2> position{
                             static_cast<float>(x),
                             static_cast<float>(y)
                         };
@@ -164,7 +164,7 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                    const Vector<float, 2> position{
+                    const math::Vector<float, 2> position{
                         static_cast<float>(x),
                         static_cast<float>(y)
                     };
@@ -191,7 +191,7 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                    const Vector<float, 2> position{
+                    const math::Vector<float, 2> position{
                         static_cast<float>(x),
                         static_cast<float>(y)
                     };
@@ -219,7 +219,7 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, pointerIndex);
-                    const Vector<float, 2> position{
+                    const math::Vector<float, 2> position{
                         static_cast<float>(x),
                         static_cast<float>(y)
                     };
@@ -242,7 +242,7 @@ namespace ouzel::input::android
                 {
                     if (!updateButtonState(jniEnv->CallIntMethod(event, getButtonStateMethod), x, y))
                     {
-                        const Vector<float, 2> position{
+                        const math::Vector<float, 2> position{
                             static_cast<float>(x),
                             static_cast<float>(y)
                         };
@@ -257,7 +257,7 @@ namespace ouzel::input::android
                 {
                     const jint pointerId = jniEnv->CallIntMethod(event, getPointerIdMethod, 0);
                     const jfloat pressure = jniEnv->CallFloatMethod(event, getPressureMethod, 0);
-                    const Vector<float, 2> position{
+                    const math::Vector<float, 2> position{
                         static_cast<float>(x),
                         static_cast<float>(y)
                     };
@@ -295,7 +295,7 @@ namespace ouzel::input::android
             {
                 if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                 {
-                    const Vector<float, 2> position{
+                    const math::Vector<float, 2> position{
                         static_cast<float>(x),
                         static_cast<float>(y)
                     };
@@ -312,12 +312,12 @@ namespace ouzel::input::android
 
                 if (toolType == AMOTION_EVENT_TOOL_TYPE_MOUSE)
                 {
-                    const Vector<float, 2> position{
+                    const math::Vector<float, 2> position{
                         static_cast<float>(x),
                         static_cast<float>(y)
                     };
 
-                    mouseDevice->handleScroll(Vector<float, 2>{scrollX, scrollY},
+                    mouseDevice->handleScroll(math::Vector<float, 2>{scrollX, scrollY},
                                               engine->getWindow()->convertWindowToNormalizedLocation(position));
                     return true;
                 }
@@ -344,7 +344,7 @@ namespace ouzel::input::android
         {
             if ((newButtonState & state) != (buttonState & state))
             {
-                const Vector<float, 2> position{
+                const math::Vector<float, 2> position{
                     static_cast<float>(x),
                     static_cast<float>(y)
                 };

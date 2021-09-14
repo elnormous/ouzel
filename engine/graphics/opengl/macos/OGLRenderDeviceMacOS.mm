@@ -146,9 +146,9 @@ namespace ouzel::graphics::opengl::macos
         [context update];
     }
 
-    std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
+    std::vector<math::Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
     {
-        std::vector<Size<std::uint32_t, 2>> result;
+        std::vector<math::Size<std::uint32_t, 2>> result;
 
         const CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
         const CFIndex displayModeCount = CFArrayGetCount(displayModes);
@@ -157,7 +157,7 @@ namespace ouzel::graphics::opengl::macos
         {
             const auto displayMode = bitCast<CGDisplayModeRef>(CFArrayGetValueAtIndex(displayModes, i));
 
-            const Size<std::uint32_t, 2> resolution{
+            const math::Size<std::uint32_t, 2> resolution{
                 static_cast<std::uint32_t>(CGDisplayModeGetWidth(displayMode)),
                 static_cast<std::uint32_t>(CGDisplayModeGetHeight(displayMode))
             };

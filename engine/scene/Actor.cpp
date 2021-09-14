@@ -155,9 +155,9 @@ namespace ouzel::scene
             actor->setLayer(layer);
     }
 
-    std::vector<std::pair<Actor*, Vector<float, 3>>> ActorContainer::findActors(const Vector<float, 2>& position) const
+    std::vector<std::pair<Actor*, math::Vector<float, 3>>> ActorContainer::findActors(const math::Vector<float, 2>& position) const
     {
-        std::vector<std::pair<Actor*, Vector<float, 3>>> actors;
+        std::vector<std::pair<Actor*, math::Vector<float, 3>>> actors;
 
         std::queue<const ActorContainer*> actorContainers;
         actorContainers.push(this);
@@ -177,7 +177,7 @@ namespace ouzel::scene
 
                     if (actor->isPickable() && actor->pointOn(position))
                     {
-                        auto result = std::pair(actor, actor->convertWorldToLocal(Vector<float, 3>{position}));
+                        auto result = std::pair(actor, actor->convertWorldToLocal(math::Vector<float, 3>{position}));
 
                         const auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
                                                                  [](const auto& a, const auto& b) noexcept {
@@ -193,7 +193,7 @@ namespace ouzel::scene
         return actors;
     }
 
-    std::vector<Actor*> ActorContainer::findActors(const std::vector<Vector<float, 2>>& edges) const
+    std::vector<Actor*> ActorContainer::findActors(const std::vector<math::Vector<float, 2>>& edges) const
     {
         std::vector<Actor*> actors;
 
@@ -238,7 +238,7 @@ namespace ouzel::scene
     }
 
     void Actor::visit(std::vector<Actor*>& drawQueue,
-                      const Matrix<float, 4>& newParentTransform,
+                      const math::Matrix<float, 4>& newParentTransform,
                       bool parentTransformDirty,
                       Camera* camera,
                       Order parentOrder,
@@ -291,7 +291,7 @@ namespace ouzel::scene
         actor.updateTransform(getTransform());
     }
 
-    void Actor::setPosition(const Vector<float, 2>& newPosition)
+    void Actor::setPosition(const math::Vector<float, 2>& newPosition)
     {
         position.v[0] = newPosition.v[0];
         position.v[1] = newPosition.v[1];
@@ -299,23 +299,23 @@ namespace ouzel::scene
         updateLocalTransform();
     }
 
-    void Actor::setPosition(const Vector<float, 3>& newPosition)
+    void Actor::setPosition(const math::Vector<float, 3>& newPosition)
     {
         position = newPosition;
 
         updateLocalTransform();
     }
 
-    void Actor::setRotation(const Quaternion<float>& newRotation)
+    void Actor::setRotation(const math::Quaternion<float>& newRotation)
     {
         rotation = newRotation;
 
         updateLocalTransform();
     }
 
-    void Actor::setRotation(const Vector<float, 3>& newRotation)
+    void Actor::setRotation(const math::Vector<float, 3>& newRotation)
     {
-        Quaternion<float> roationQuaternion;
+        math::Quaternion<float> roationQuaternion;
         roationQuaternion.setEulerAngles(newRotation);
 
         rotation = roationQuaternion;
@@ -325,15 +325,15 @@ namespace ouzel::scene
 
     void Actor::setRotation(float newRotation)
     {
-        Quaternion<float> roationQuaternion;
-        roationQuaternion.rotate(newRotation, Vector<float, 3>{0.0F, 0.0F, 1.0F});
+        math::Quaternion<float> roationQuaternion;
+        roationQuaternion.rotate(newRotation, math::Vector<float, 3>{0.0F, 0.0F, 1.0F});
 
         rotation = roationQuaternion;
 
         updateLocalTransform();
     }
 
-    void Actor::setScale(const Vector<float, 2>& newScale)
+    void Actor::setScale(const math::Vector<float, 2>& newScale)
     {
         scale.v[0] = newScale.v[0];
         scale.v[1] = newScale.v[1];
@@ -341,7 +341,7 @@ namespace ouzel::scene
         updateLocalTransform();
     }
 
-    void Actor::setScale(const Vector<float, 3>& newScale)
+    void Actor::setScale(const math::Vector<float, 3>& newScale)
     {
         scale = newScale;
 
@@ -372,9 +372,9 @@ namespace ouzel::scene
         hidden = newHidden;
     }
 
-    bool Actor::pointOn(const Vector<float, 2>& worldPosition) const
+    bool Actor::pointOn(const math::Vector<float, 2>& worldPosition) const
     {
-        const auto localPosition = Vector<float, 2>{convertWorldToLocal(Vector<float, 3>{worldPosition})};
+        const auto localPosition = math::Vector<float, 2>{convertWorldToLocal(math::Vector<float, 3>{worldPosition})};
 
         for (const auto component : components)
             if (component->pointOn(localPosition))
@@ -383,15 +383,15 @@ namespace ouzel::scene
         return false;
     }
 
-    bool Actor::shapeOverlaps(const std::vector<Vector<float, 2>>& edges) const
+    bool Actor::shapeOverlaps(const std::vector<math::Vector<float, 2>>& edges) const
     {
         const auto& inverse = getInverseTransform();
 
-        std::vector<Vector<float, 2>> transformedEdges;
+        std::vector<math::Vector<float, 2>> transformedEdges;
 
         for (const auto& edge : edges)
         {
-            auto transformedEdge = Vector<float, 3>{edge};
+            auto transformedEdge = math::Vector<float, 3>{edge};
 
             inverse.transformPoint(transformedEdge);
 
@@ -412,7 +412,7 @@ namespace ouzel::scene
             component->updateTransform();
     }
 
-    void Actor::updateTransform(const Matrix<float, 4>& newParentTransform)
+    void Actor::updateTransform(const math::Matrix<float, 4>& newParentTransform)
     {
         parentTransform = newParentTransform;
         transformDirty = inverseTransformDirty = true;
@@ -420,7 +420,7 @@ namespace ouzel::scene
             component->updateTransform();
     }
 
-    Vector<float, 3> Actor::getWorldPosition() const
+    math::Vector<float, 3> Actor::getWorldPosition() const
     {
         auto result = position;
         const auto& currentTransform = getTransform();
@@ -429,7 +429,7 @@ namespace ouzel::scene
         return position;
     }
 
-    Vector<float, 3> Actor::convertWorldToLocal(const Vector<float, 3>& worldPosition) const
+    math::Vector<float, 3> Actor::convertWorldToLocal(const math::Vector<float, 3>& worldPosition) const
     {
         auto localPosition = worldPosition;
 
@@ -439,7 +439,7 @@ namespace ouzel::scene
         return localPosition;
     }
 
-    Vector<float, 3> Actor::convertLocalToWorld(const Vector<float, 3>& localPosition) const
+    math::Vector<float, 3> Actor::convertLocalToWorld(const math::Vector<float, 3>& localPosition) const
     {
         auto worldPosition = localPosition;
 
@@ -453,18 +453,18 @@ namespace ouzel::scene
     {
         localTransform.setTranslation(position);
 
-        Matrix<float, 4> rotationMatrix;
+        math::Matrix<float, 4> rotationMatrix;
         rotationMatrix.setRotation(rotation);
 
         localTransform *= rotationMatrix;
 
-        const auto finalScale = Vector<float, 3>{
+        const auto finalScale = math::Vector<float, 3>{
             scale.v[0] * (flipX ? -1.0F : 1.0F),
             scale.v[1] * (flipY ? -1.0F : 1.0F),
             scale.v[2]
         };
 
-        Matrix<float, 4> scaleMatrix;
+        math::Matrix<float, 4> scaleMatrix;
         scaleMatrix.setScale(finalScale);
 
         localTransform *= scaleMatrix;
@@ -546,9 +546,9 @@ namespace ouzel::scene
             component->setLayer(newLayer);
     }
 
-    Box<float, 3> Actor::getBoundingBox() const
+    math::Box<float, 3> Actor::getBoundingBox() const
     {
-        Box<float, 3> boundingBox;
+        math::Box<float, 3> boundingBox;
 
         for (const auto component : components)
             if (!component->isHidden())

@@ -38,7 +38,7 @@ namespace ouzel::graphics::opengl
     {
     public:
         Texture(RenderDevice& initRenderDevice,
-                const std::vector<std::pair<Size<std::uint32_t, 2>,
+                const std::vector<std::pair<math::Size<std::uint32_t, 2>,
                 std::vector<std::uint8_t>>>& initLevels,
                 TextureType type,
                 Flags initFlags,
@@ -50,7 +50,7 @@ namespace ouzel::graphics::opengl
 
         void reload() final;
 
-        void setData(const std::vector<std::pair<Size<std::uint32_t, 2>,
+        void setData(const std::vector<std::pair<math::Size<std::uint32_t, 2>,
                      std::vector<std::uint8_t>>>& newLevels);
         void setFilter(SamplerFilter newFilter);
         void setAddressX(SamplerAddressMode newAddressX);
@@ -79,7 +79,7 @@ namespace ouzel::graphics::opengl
         void createTexture();
         void setTextureParameters();
 
-        std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
+        std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
         Flags flags = Flags::none;
         std::uint32_t mipmaps = 0;
         std::uint32_t sampleCount = 1;

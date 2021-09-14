@@ -9,6 +9,7 @@ using namespace ouzel;
 using namespace audio;
 using namespace graphics;
 using namespace input;
+using namespace math;
 
 namespace samples
 {
@@ -135,7 +136,7 @@ namespace samples
         engine->getEventDispatcher().addEventHandler(handler);
 
         camera.setClearColorBuffer(true);
-        camera.setClearColor(ouzel::Color{0, 0, 128});
+        camera.setClearColor(math::Color{0, 0, 128});
         camera.setClearDepthBuffer(true);
         camera.setDepthTest(true);
 
@@ -188,7 +189,7 @@ namespace samples
         layer.addChild(box);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        guiCamera.setTargetContentSize(ouzel::Size<float, 2>{800.0F, 600.0F});
+        guiCamera.setTargetContentSize(math::Size<float, 2>{800.0F, 600.0F});
         guiCameraActor.addComponent(guiCamera);
         guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);

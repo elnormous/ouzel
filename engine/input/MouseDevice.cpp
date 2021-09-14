@@ -22,7 +22,7 @@ namespace ouzel::input
         inputSystem.sendEvent(deviceDisconnectEvent);
     }
 
-    std::future<bool> MouseDevice::handleButtonPress(Mouse::Button button, const Vector<float, 2>& position)
+    std::future<bool> MouseDevice::handleButtonPress(Mouse::Button button, const math::Vector<float, 2>& position)
     {
         InputSystem::Event event(InputSystem::Event::Type::mousePress);
         event.deviceId = id;
@@ -31,7 +31,7 @@ namespace ouzel::input
         return inputSystem.sendEvent(event);
     }
 
-    std::future<bool> MouseDevice::handleButtonRelease(Mouse::Button button, const Vector<float, 2>& position)
+    std::future<bool> MouseDevice::handleButtonRelease(Mouse::Button button, const math::Vector<float, 2>& position)
     {
         InputSystem::Event event(InputSystem::Event::Type::mouseRelease);
         event.deviceId = id;
@@ -40,7 +40,7 @@ namespace ouzel::input
         return inputSystem.sendEvent(event);
     }
 
-    std::future<bool> MouseDevice::handleMove(const Vector<float, 2>& position)
+    std::future<bool> MouseDevice::handleMove(const math::Vector<float, 2>& position)
     {
         InputSystem::Event event(InputSystem::Event::Type::mouseMove);
         event.deviceId = id;
@@ -48,7 +48,7 @@ namespace ouzel::input
         return inputSystem.sendEvent(event);
     }
 
-    std::future<bool> MouseDevice::handleRelativeMove(const Vector<float, 2>& position)
+    std::future<bool> MouseDevice::handleRelativeMove(const math::Vector<float, 2>& position)
     {
         InputSystem::Event event(InputSystem::Event::Type::mouseRelativeMove);
         event.deviceId = id;
@@ -56,7 +56,7 @@ namespace ouzel::input
         return inputSystem.sendEvent(event);
     }
 
-    std::future<bool> MouseDevice::handleScroll(const Vector<float, 2>& scroll, const Vector<float, 2>& position)
+    std::future<bool> MouseDevice::handleScroll(const math::Vector<float, 2>& scroll, const math::Vector<float, 2>& position)
     {
         InputSystem::Event event(InputSystem::Event::Type::mouseScroll);
         event.deviceId = id;

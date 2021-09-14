@@ -41,10 +41,10 @@ namespace ouzel::audio
         auto& getSound() const noexcept { return sound; }
 
         auto& getPosition() const noexcept { return position; }
-        void setPosition(const Vector<float, 3>& newPosition) { position = newPosition; }
+        void setPosition(const math::Vector<float, 3>& newPosition) { position = newPosition; }
 
         auto& getVelocity() const noexcept { return velocity; }
-        void setVelocity(const Vector<float, 3>& newVelocity) { velocity = newVelocity; }
+        void setVelocity(const math::Vector<float, 3>& newVelocity) { velocity = newVelocity; }
 
         void play();
         void pause();
@@ -59,8 +59,8 @@ namespace ouzel::audio
         std::size_t streamId;
 
         const Sound* sound = nullptr;
-        Vector<float, 3> position{};
-        Vector<float, 3> velocity{};
+        math::Vector<float, 3> position{};
+        math::Vector<float, 3> velocity{};
         bool playing = false;
 
         Mix* output = nullptr;

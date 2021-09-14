@@ -28,7 +28,7 @@ namespace ouzel::graphics::renderer
         Renderer& renderer;
         Renderer::Resource resource;
         Type type = Type::point;
-        Matrix<float, 4> transform;
+        math::Matrix<float, 4> transform;
     };
 }
 

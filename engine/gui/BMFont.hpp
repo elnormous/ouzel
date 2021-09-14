@@ -16,9 +16,9 @@ namespace ouzel::gui
         explicit BMFont(const std::vector<std::byte>& data);
 
         RenderData getRenderData(const std::string_view& text,
-                                 Color color,
+                                 math::Color color,
                                  float fontSize,
-                                 const Vector<float, 2>& anchor) const override;
+                                 const math::Vector<float, 2>& anchor) const override;
 
     private:
         std::int16_t getKerningPair(char32_t, char32_t) const;

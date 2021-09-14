@@ -35,7 +35,7 @@ namespace ouzel::assets
             const auto& imageFilename = d["filename"].as<std::string>();
             const auto spritesX = d["spritesX"].as<std::size_t>();
             const auto spritesY = d["spritesY"].as<std::size_t>();
-            const Vector<float, 2> pivot{
+            const math::Vector<float, 2> pivot{
                 d["pivotX"].as<float>(),
                 d["pivotY"].as<float>()
             };
@@ -49,14 +49,14 @@ namespace ouzel::assets
                 spriteData.texture = bundle.getTexture(imageFilename);
             }
 
-            const Size<float, 2> textureSize{
+            const math::Size<float, 2> textureSize{
                 static_cast<float>(spriteData.texture->getSize().v[0]),
                 static_cast<float>(spriteData.texture->getSize().v[1])
             };
 
             if (spriteData.texture)
             {
-                const auto spriteSize = Size<float, 2>{
+                const auto spriteSize = math::Size<float, 2>{
                     textureSize.v[0] / static_cast<float>(spritesX),
                     textureSize.v[1] / static_cast<float>(spritesY)
                 };
@@ -67,14 +67,14 @@ namespace ouzel::assets
                 for (std::size_t x = 0; x < spritesX; ++x)
                     for (std::size_t y = 0; y < spritesY; ++y)
                     {
-                        const Rect<float> rectangle{
+                        const math::Rect<float> rectangle{
                             spriteSize.v[0] * static_cast<float>(x),
                             spriteSize.v[1] * static_cast<float>(y),
                             spriteSize.v[0],
                             spriteSize.v[1]
                         };
 
-                        animation.frames.emplace_back(imageFilename, textureSize, rectangle, false, spriteSize, Vector<float, 2>{}, pivot);
+                        animation.frames.emplace_back(imageFilename, textureSize, rectangle, false, spriteSize, math::Vector<float, 2>{}, pivot);
                     }
 
                 spriteData.animations[""] = std::move(animation);

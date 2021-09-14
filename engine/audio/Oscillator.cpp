@@ -72,7 +72,7 @@ namespace ouzel::audio
                 switch (type)
                 {
                     case Oscillator::Type::sine:
-                        samples[i] = std::sin(t * tau<float>);
+                        samples[i] = std::sin(t * math::tau<float>);
                         break;
                     case Oscillator::Type::square:
                         samples[i] = std::fmod(std::round(t * 2.0F + 0.5F), 2.0F) * 2.0F - 1.0F;

@@ -73,7 +73,7 @@ namespace samples
         };
 
         camera.setClearColorBuffer(true);
-        camera.setClearColor(ouzel::Color{64, 0, 0});
+        camera.setClearColor(math::Color{64, 0, 0});
 
         engine->getEventDispatcher().addEventHandler(handler);
 

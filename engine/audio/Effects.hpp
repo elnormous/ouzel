@@ -64,7 +64,7 @@ namespace ouzel::audio
         Panner& operator=(Panner&&) = delete;
 
         auto& getPosition() const noexcept { return position; }
-        void setPosition(const Vector<float, 3>& newPosition);
+        void setPosition(const math::Vector<float, 3>& newPosition);
 
         auto getRolloffFactor() const noexcept { return rolloffFactor; }
         void setRolloffFactor(float newRolloffFactor);
@@ -78,7 +78,7 @@ namespace ouzel::audio
     private:
         void updateTransform() override;
 
-        Vector<float, 3> position{};
+        math::Vector<float, 3> position{};
         float rolloffFactor = 1.0F;
         float minDistance = 1.0F;
         float maxDistance = FLT_MAX;

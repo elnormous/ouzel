@@ -8,7 +8,7 @@
 #include <limits>
 #include <type_traits>
 
-namespace ouzel
+namespace ouzel::math
 {
     template <typename T>
     constexpr auto lerp(const T v0, const T v1, const T t) noexcept

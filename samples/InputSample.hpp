@@ -22,7 +22,7 @@ namespace samples
                 {
                     if (event.type == ouzel::Event::Type::keyboardKeyPress)
                     {
-                        ouzel::Vector<float, 2> position = ouzel::Vector<float, 2>(actor->getPosition());
+                        ouzel::math::Vector<float, 2> position = ouzel::math::Vector<float, 2>(actor->getPosition());
 
                         switch (event.key)
                         {

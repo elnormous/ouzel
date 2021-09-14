@@ -138,7 +138,7 @@ namespace ouzel::assets
 
         const graphics::Image image{
             pixelFormat,
-            Size<std::uint32_t, 2>{
+            math::Size<std::uint32_t, 2>{
                 static_cast<std::uint32_t>(width),
                 static_cast<std::uint32_t>(height)
             },

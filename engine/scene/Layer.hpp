@@ -31,9 +31,9 @@ namespace ouzel::scene
 
         auto& getCameras() const noexcept { return cameras; }
 
-        std::pair<Actor*, Vector<float, 3>> pickActor(const Vector<float, 2>& position, bool renderTargets = false) const;
-        std::vector<std::pair<Actor*, Vector<float, 3>>> pickActors(const Vector<float, 2>& position, bool renderTargets = false) const;
-        std::vector<Actor*> pickActors(const std::vector<Vector<float, 2>>& edges, bool renderTargets = false) const;
+        std::pair<Actor*, math::Vector<float, 3>> pickActor(const math::Vector<float, 2>& position, bool renderTargets = false) const;
+        std::vector<std::pair<Actor*, math::Vector<float, 3>>> pickActors(const math::Vector<float, 2>& position, bool renderTargets = false) const;
+        std::vector<Actor*> pickActors(const std::vector<math::Vector<float, 2>>& edges, bool renderTargets = false) const;
 
         auto getOrder() const noexcept { return order; }
         void setOrder(Order newOrder);

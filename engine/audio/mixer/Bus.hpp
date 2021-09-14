@@ -27,7 +27,7 @@ namespace ouzel::audio::mixer
         void setOutput(Bus* newOutput);
 
         void generateSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                             const Vector<float, 3>& listenerPosition, const Quaternion<float>& listenerRotation,
+                             const math::Vector<float, 3>& listenerPosition, const math::Quaternion<float>& listenerRotation,
                              std::vector<float>& samples);
 
         void addProcessor(Processor* processor);

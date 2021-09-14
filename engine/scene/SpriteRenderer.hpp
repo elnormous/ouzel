@@ -29,12 +29,12 @@ namespace ouzel::scene
         {
         public:
             Frame(const std::string& frameName,
-                  const Size<float, 2>& textureSize,
-                  const Rect<float>& frameRectangle,
+                  const math::Size<float, 2>& textureSize,
+                  const math::Rect<float>& frameRectangle,
                   bool rotated,
-                  const Size<float, 2>& sourceSize,
-                  const Vector<float, 2>& sourceOffset,
-                  const Vector<float, 2>& pivot);
+                  const math::Size<float, 2>& sourceSize,
+                  const math::Vector<float, 2>& sourceOffset,
+                  const math::Vector<float, 2>& pivot);
 
             Frame(const std::string& frameName,
                   const std::vector<std::uint16_t>& indices,
@@ -43,10 +43,10 @@ namespace ouzel::scene
             Frame(const std::string& frameName,
                   const std::vector<std::uint16_t>& indices,
                   const std::vector<graphics::Vertex>& vertices,
-                  const Rect<float>& frameRectangle,
-                  const Size<float, 2>& sourceSize,
-                  const Vector<float, 2>& sourceOffset,
-                  const Vector<float, 2>& pivot);
+                  const math::Rect<float>& frameRectangle,
+                  const math::Size<float, 2>& sourceSize,
+                  const math::Vector<float, 2>& sourceOffset,
+                  const math::Vector<float, 2>& pivot);
 
             auto& getName() const noexcept { return name; }
 
@@ -57,7 +57,7 @@ namespace ouzel::scene
 
         private:
             std::string name;
-            Box<float, 2> boundingBox;
+            math::Box<float, 2> boundingBox;
             std::uint32_t indexCount = 0;
             std::shared_ptr<graphics::Buffer> indexBuffer;
             std::shared_ptr<graphics::Buffer> vertexBuffer;
@@ -84,26 +84,26 @@ namespace ouzel::scene
         explicit SpriteRenderer(const std::string& filename);
         explicit SpriteRenderer(std::shared_ptr<graphics::Texture> texture,
                                 std::uint32_t spritesX = 1, std::uint32_t spritesY = 1,
-                                const Vector<float, 2>& pivot = Vector<float, 2>{0.5F, 0.5F});
+                                const math::Vector<float, 2>& pivot = math::Vector<float, 2>{0.5F, 0.5F});
 
         void init(const SpriteData& spriteData);
         void init(const std::string& filename);
         void init(std::shared_ptr<graphics::Texture> newTexture,
                   std::uint32_t spritesX = 1, std::uint32_t spritesY = 1,
-                  const Vector<float, 2>& pivot = Vector<float, 2>{0.5F, 0.5F});
+                  const math::Vector<float, 2>& pivot = math::Vector<float, 2>{0.5F, 0.5F});
 
         void update(float delta);
 
-        void draw(const Matrix<float, 4>& transformMatrix,
+        void draw(const math::Matrix<float, 4>& transformMatrix,
                   float opacity,
-                  const Matrix<float, 4>& renderViewProjection,
+                  const math::Matrix<float, 4>& renderViewProjection,
                   bool wireframe) override;
 
         auto& getMaterial() const noexcept { return material; }
         void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
         auto& getOffset() const noexcept { return offset; }
-        void setOffset(const Vector<float, 2>& newOffset);
+        void setOffset(const math::Vector<float, 2>& newOffset);
 
         void play();
         void stop(bool resetAnimation = true);
@@ -134,8 +134,8 @@ namespace ouzel::scene
         std::list<QueuedAnimation> animationQueue;
         std::list<QueuedAnimation>::const_iterator currentAnimation;
 
-        Vector<float, 2> offset{};
-        Matrix<float, 4> offsetMatrix = Matrix<float, 4>::identity();
+        math::Vector<float, 2> offset{};
+        math::Matrix<float, 4> offsetMatrix = math::Matrix<float, 4>::identity();
 
         bool playing = false;
         bool running = false;

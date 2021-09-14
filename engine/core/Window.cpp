@@ -28,7 +28,7 @@
 namespace ouzel::core
 {
     Window::Window(Engine& initEngine,
-                   const Size<std::uint32_t, 2>& newSize,
+                   const math::Size<std::uint32_t, 2>& newSize,
                    Flags flags,
                    const std::string& newTitle,
                    graphics::Driver graphicsDriver):
@@ -208,7 +208,7 @@ namespace ouzel::core
         nativeWindow->addCommand(command);
     }
 
-    void Window::setSize(const Size<std::uint32_t, 2>& newSize)
+    void Window::setSize(const math::Size<std::uint32_t, 2>& newSize)
     {
         if (size != newSize)
         {

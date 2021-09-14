@@ -47,8 +47,8 @@ namespace ouzel::scene
         float speed = 0.0F;
         float speedVariance = 0.0F;
 
-        Vector<float, 2> sourcePosition{};
-        Vector<float, 2> sourcePositionVariance{};
+        math::Vector<float, 2> sourcePosition{};
+        math::Vector<float, 2> sourcePositionVariance{};
 
         PositionType positionType = PositionType::free;
 
@@ -86,7 +86,7 @@ namespace ouzel::scene
         bool yCoordFlipped = false;
         bool rotationIsDir = false;
 
-        Vector<float, 2> gravity{};
+        math::Vector<float, 2> gravity{};
 
         float startColorRed = 0.0F;
         float startColorGreen = 0.0F;
@@ -119,9 +119,9 @@ namespace ouzel::scene
         ParticleSystem();
         explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
 
-        void draw(const Matrix<float, 4>& transformMatrix,
+        void draw(const math::Matrix<float, 4>& transformMatrix,
                   float opacity,
-                  const Matrix<float, 4>& renderViewProjection,
+                  const math::Matrix<float, 4>& renderViewProjection,
                   bool wireframe) override;
 
         void init(const ParticleSystemData& newParticleSystemData);
@@ -162,7 +162,7 @@ namespace ouzel::scene
         {
             float life = 0.0F;
 
-            Vector<float, 2> position{};
+            math::Vector<float, 2> position{};
 
             float colorRed = 0.0F;
             float colorGreen = 0.0F;
@@ -186,7 +186,7 @@ namespace ouzel::scene
             float radialAcceleration = 0.0F;
             float tangentialAcceleration = 0.0F;
 
-            Vector<float, 2> direction{};
+            math::Vector<float, 2> direction{};
             float radius = 0.0F;
             float degreesPerSecond = 0.0F;
             float deltaRadius = 0.0F;

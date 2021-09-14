@@ -8,13 +8,13 @@
 #include "Size.hpp"
 #include "Vector.hpp"
 
-namespace ouzel
+namespace ouzel::math
 {
     template <typename T, std::size_t dims> class Box final
     {
     public:
-        Vector<T, dims> min;
-        Vector<T, dims> max;
+        math::Vector<T, dims> min;
+        math::Vector<T, dims> max;
 
         Box() noexcept
         {
@@ -24,13 +24,13 @@ namespace ouzel
                 v = std::numeric_limits<T>::lowest();
         }
 
-        constexpr Box(const Vector<T, dims>& initMin, const Vector<T, dims>& initMax) noexcept:
+        constexpr Box(const math::Vector<T, dims>& initMin, const math::Vector<T, dims>& initMax) noexcept:
             min{initMin}, max{initMax}
         {
         }
 
         template <std::size_t N2>
-        explicit Box(const Box<T, N2>& box) noexcept:
+        explicit Box(const math::Box<T, N2>& box) noexcept:
             min{Vector<T, dims>{box.min}}, max{Vector<T, dims>{box.max}}
         {
         }
@@ -51,7 +51,7 @@ namespace ouzel
             return true;
         }
 
-        [[nodiscard]] auto containsPoint(const Vector<T, dims>& point) const noexcept
+        [[nodiscard]] auto containsPoint(const math::Vector<T, dims>& point) const noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
             {
@@ -87,7 +87,7 @@ namespace ouzel
             return false;
         }
 
-        void insertPoint(const Vector<T, dims>& point) noexcept
+        void insertPoint(const math::Vector<T, dims>& point) noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
             {
@@ -96,24 +96,24 @@ namespace ouzel
             }
         }
 
-        [[nodiscard]] constexpr auto operator+(const Vector<T, dims>& v) const noexcept
+        [[nodiscard]] constexpr auto operator+(const math::Vector<T, dims>& v) const noexcept
         {
             return Box{min + v, max + v};
         }
 
-        auto& operator+=(const Vector<T, dims>& v) noexcept
+        auto& operator+=(const math::Vector<T, dims>& v) noexcept
         {
             min += v;
             max += v;
             return *this;
         }
 
-        [[nodiscard]] constexpr auto operator-(const Vector<T, dims>& v) const noexcept
+        [[nodiscard]] constexpr auto operator-(const math::Vector<T, dims>& v) const noexcept
         {
             return Box{min - v, max - v};
         }
 
-        auto& operator-=(const Vector<T, dims>& v) noexcept
+        auto& operator-=(const math::Vector<T, dims>& v) noexcept
         {
             min -= v;
             max -= v;
@@ -122,7 +122,7 @@ namespace ouzel
 
         [[nodiscard]] auto getSize() const noexcept
         {
-            return Size<T, dims>{max - min};
+            return math::Size<T, dims>{max - min};
         }
     };
 }

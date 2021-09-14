@@ -87,9 +87,9 @@ namespace ouzel::input::windows
     }
 
     Cursor::Cursor(const std::vector<std::uint8_t>& data,
-                   const Size<std::uint32_t, 2>& size,
+                   const math::Size<std::uint32_t, 2>& size,
                    graphics::PixelFormat pixelFormat,
-                   const Vector<float, 2>& hotSpot)
+                   const math::Vector<float, 2>& hotSpot)
     {
         if (!data.empty())
         {

@@ -15,11 +15,11 @@ namespace ouzel::input
         MouseDevice(InputSystem& initInputSystem, DeviceId initId);
         ~MouseDevice() override;
 
-        std::future<bool> handleButtonPress(Mouse::Button button, const Vector<float, 2>& position);
-        std::future<bool> handleButtonRelease(Mouse::Button button, const Vector<float, 2>& position);
-        std::future<bool> handleMove(const Vector<float, 2>& position);
-        std::future<bool> handleRelativeMove(const Vector<float, 2>& position);
-        std::future<bool> handleScroll(const Vector<float, 2>& scroll, const Vector<float, 2>& position);
+        std::future<bool> handleButtonPress(Mouse::Button button, const math::Vector<float, 2>& position);
+        std::future<bool> handleButtonRelease(Mouse::Button button, const math::Vector<float, 2>& position);
+        std::future<bool> handleMove(const math::Vector<float, 2>& position);
+        std::future<bool> handleRelativeMove(const math::Vector<float, 2>& position);
+        std::future<bool> handleScroll(const math::Vector<float, 2>& scroll, const math::Vector<float, 2>& position);
         std::future<bool> handleCursorLockChange(bool locked);
     };
 }

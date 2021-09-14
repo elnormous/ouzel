@@ -33,9 +33,9 @@ namespace ouzel::gui
             std::shared_ptr<graphics::Texture>>;
 
         virtual RenderData getRenderData(const std::string_view& text,
-                                         Color color,
+                                         math::Color color,
                                          float fontSize,
-                                         const Vector<float, 2>& anchor) const = 0;
+                                         const math::Vector<float, 2>& anchor) const = 0;
     };
 }
 

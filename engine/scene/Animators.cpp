@@ -14,17 +14,17 @@ namespace ouzel::scene
     {
         float sineIn(const float t) noexcept
         {
-            return 1.0F - std::cos(t * pi<float> / 2.0F);
+            return 1.0F - std::cos(t * math::pi<float> / 2.0F);
         }
 
         float sineOut(const float t) noexcept
         {
-            return std::sin(t * pi<float> / 2.0F);
+            return std::sin(t * math::pi<float> / 2.0F);
         }
 
         float sineInOut(const float t) noexcept
         {
-            return -0.5F * (std::cos(pi<float> * t) - 1.0F);
+            return -0.5F * (std::cos(math::pi<float> * t) - 1.0F);
         }
 
         constexpr float quadIn(const float t) noexcept
@@ -156,7 +156,7 @@ namespace ouzel::scene
 
             static constexpr float p = 0.3F;
 
-            return -std::pow(2.0F, 10.0F * (t - 1.0F)) * std::sin(((t - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p);
+            return -std::pow(2.0F, 10.0F * (t - 1.0F)) * std::sin(((t - 1.0F) - p / 4.0F) * (2.0F * math::pi<float>) / p);
         }
 
         float elasticOut(const float t) noexcept
@@ -166,7 +166,7 @@ namespace ouzel::scene
 
             static constexpr float p = 0.3F;
 
-            return std::pow(2.0F, -10.0F * t) * std::sin((t - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
+            return std::pow(2.0F, -10.0F * t) * std::sin((t - p / 4.0F) * (2.0F * math::pi<float>) / p) + 1.0F;
         }
 
         float elasticInOut(const float t) noexcept
@@ -177,8 +177,8 @@ namespace ouzel::scene
             static constexpr float p = 0.3F * 1.5F;
 
             return (t < 0.5F) ?
-                -0.5F * std::pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) :
-                0.5F * std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * pi<float>) / p) + 1.0F;
+                -0.5F * std::pow(2.0F, 10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * math::pi<float>) / p) :
+                0.5F * std::pow(2.0F, -10.0F * (t * 2.0F - 1.0F)) * std::sin(((t * 2.0F - 1.0F) - p / 4.0F) * (2.0F * math::pi<float>) / p) + 1.0F;
         }
 
         float bounceOut(const float t) noexcept
@@ -309,7 +309,7 @@ namespace ouzel::scene
             targetActor->setOpacity(startOpacity + (diff * progress));
     }
 
-    Move::Move(float initLength, const Vector<float, 3>& initPosition, bool initRelative):
+    Move::Move(float initLength, const math::Vector<float, 3>& initPosition, bool initRelative):
         Animator(initLength), position(initPosition), relative(initRelative)
     {
     }
@@ -427,7 +427,7 @@ namespace ouzel::scene
         }
     }
 
-    Rotate::Rotate(float initLength, const Vector<float, 3>& initRotation, bool initRelative):
+    Rotate::Rotate(float initLength, const math::Vector<float, 3>& initRotation, bool initRelative):
         Animator(initLength), rotation(initRotation), relative(initRelative)
     {
     }
@@ -454,7 +454,7 @@ namespace ouzel::scene
             targetActor->setRotation(startRotation + diff * progress);
     }
 
-    Scale::Scale(float initLength, const Vector<float, 3>& initScale, bool initRelative):
+    Scale::Scale(float initLength, const math::Vector<float, 3>& initScale, bool initRelative):
         Animator(initLength), scale(initScale), relative(initRelative)
     {
     }
@@ -553,7 +553,7 @@ namespace ouzel::scene
         }
     }
 
-    Shake::Shake(float initLength, const Vector<float, 3>& initDistance, float initTimeScale):
+    Shake::Shake(float initLength, const math::Vector<float, 3>& initDistance, float initTimeScale):
         Animator(initLength), distance(initDistance), timeScale(initTimeScale)
     {
         seedX = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(core::randomEngine);
@@ -581,8 +581,8 @@ namespace ouzel::scene
             const auto x2 = x1 + 1;
             const auto t = x - static_cast<float>(x1);
 
-            Vector<float, 3> previousPosition{};
-            Vector<float, 3> nextPosition{};
+            math::Vector<float, 3> previousPosition{};
+            math::Vector<float, 3> nextPosition{};
 
             if (x1 != 0)
             {
@@ -598,10 +598,10 @@ namespace ouzel::scene
                 nextPosition.v[2] = (2.0F * (static_cast<float>(hash::fnv1::hash<std::uint32_t>(seedZ | (x2 << 32))) / std::numeric_limits<std::uint32_t>::max()) - 1.0F) * distance.v[2];
             }
 
-            const Vector<float, 3> noise{
-                smoothStep(previousPosition.v[0], nextPosition.v[0], t),
-                smoothStep(previousPosition.v[1], nextPosition.v[1], t),
-                smoothStep(previousPosition.v[2], nextPosition.v[2], t)
+            const math::Vector<float, 3> noise{
+                math::smoothStep(previousPosition.v[0], nextPosition.v[0], t),
+                math::smoothStep(previousPosition.v[1], nextPosition.v[1], t),
+                math::smoothStep(previousPosition.v[2], nextPosition.v[2], t)
             };
 
             targetActor->setPosition(startPosition + noise);

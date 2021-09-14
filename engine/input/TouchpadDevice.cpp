@@ -23,7 +23,7 @@ namespace ouzel::input
         inputSystem.sendEvent(deviceDisconnectEvent);
     }
 
-    std::future<bool> TouchpadDevice::handleTouchBegin(std::uint64_t touchId, const Vector<float, 2>& position, float force)
+    std::future<bool> TouchpadDevice::handleTouchBegin(std::uint64_t touchId, const math::Vector<float, 2>& position, float force)
     {
         InputSystem::Event event(InputSystem::Event::Type::touchBegin);
         event.deviceId = id;
@@ -33,7 +33,7 @@ namespace ouzel::input
         return inputSystem.sendEvent(event);
     }
 
-    std::future<bool> TouchpadDevice::handleTouchEnd(std::uint64_t touchId, const Vector<float, 2>& position, float force)
+    std::future<bool> TouchpadDevice::handleTouchEnd(std::uint64_t touchId, const math::Vector<float, 2>& position, float force)
     {
         InputSystem::Event event(InputSystem::Event::Type::touchEnd);
         event.deviceId = id;
@@ -43,7 +43,7 @@ namespace ouzel::input
         return inputSystem.sendEvent(event);
     }
 
-    std::future<bool> TouchpadDevice::handleTouchMove(std::uint64_t touchId, const Vector<float, 2>& position, float force)
+    std::future<bool> TouchpadDevice::handleTouchMove(std::uint64_t touchId, const math::Vector<float, 2>& position, float force)
     {
         InputSystem::Event event(InputSystem::Event::Type::touchMove);
         event.deviceId = id;
@@ -53,7 +53,7 @@ namespace ouzel::input
         return inputSystem.sendEvent(event);
     }
 
-    std::future<bool> TouchpadDevice::handleTouchCancel(std::uint64_t touchId, const Vector<float, 2>& position, float force)
+    std::future<bool> TouchpadDevice::handleTouchCancel(std::uint64_t touchId, const math::Vector<float, 2>& position, float force)
     {
         InputSystem::Event event(InputSystem::Event::Type::touchCancel);
         event.deviceId = id;

@@ -215,8 +215,8 @@ namespace ouzel::audio::mixer
 
         if (masterBus)
         {
-            Vector<float, 3> listenerPosition{};
-            Quaternion<float> listenerRotation{};
+            math::Vector<float, 3> listenerPosition{};
+            math::Quaternion<float> listenerRotation{};
 
             masterBus->generateSamples(frames, channelCount, sampleRate,
                                        listenerPosition, listenerRotation, samples);

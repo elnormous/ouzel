@@ -47,7 +47,7 @@ namespace ouzel::core::emscripten
     }
 
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
-                               const Size<std::uint32_t, 2>& newSize,
+                               const math::Size<std::uint32_t, 2>& newSize,
                                bool newFullscreen,
                                const std::string& newTitle,
                                bool newHighDpi):
@@ -122,7 +122,7 @@ namespace ouzel::core::emscripten
         }
     }
 
-    void NativeWindow::setSize(const Size<std::uint32_t, 2>& newSize)
+    void NativeWindow::setSize(const math::Size<std::uint32_t, 2>& newSize)
     {
         size = newSize;
 
@@ -156,7 +156,7 @@ namespace ouzel::core::emscripten
         double height;
         emscripten_get_element_css_size("#canvas", &width, &height);
 
-        size = Size<std::uint32_t, 2>{
+        size = math::Size<std::uint32_t, 2>{
             static_cast<std::uint32_t>(width),
             static_cast<std::uint32_t>(height)
         };

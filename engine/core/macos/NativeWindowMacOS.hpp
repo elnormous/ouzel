@@ -30,7 +30,7 @@ namespace ouzel::core::macos
     {
     public:
         NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const Size<std::uint32_t, 2>& newSize,
+                     const math::Size<std::uint32_t, 2>& newSize,
                      bool newResizable,
                      bool newFullscreen,
                      bool newExclusiveFullscreen,
@@ -41,7 +41,7 @@ namespace ouzel::core::macos
 
         void close();
 
-        void setSize(const Size<std::uint32_t, 2>& newSize);
+        void setSize(const math::Size<std::uint32_t, 2>& newSize);
         void setFullscreen(bool newFullscreen);
         void setTitle(const std::string& newTitle);
         void bringToFront();

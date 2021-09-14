@@ -13,79 +13,79 @@
 namespace ouzel::scene
 {
     SpriteData::Frame::Frame(const std::string& frameName,
-                             const Size<float, 2>& textureSize,
-                             const Rect<float>& frameRectangle,
+                             const math::Size<float, 2>& textureSize,
+                             const math::Rect<float>& frameRectangle,
                              bool rotated,
-                             const Size<float, 2>& sourceSize,
-                             const Vector<float, 2>& sourceOffset,
-                             const Vector<float, 2>& pivot):
+                             const math::Size<float, 2>& sourceSize,
+                             const math::Vector<float, 2>& sourceOffset,
+                             const math::Vector<float, 2>& pivot):
         name{frameName}
     {
         const std::vector<std::uint16_t> indices = {0, 1, 2, 1, 3, 2};
         indexCount = static_cast<std::uint32_t>(indices.size());
 
-        Vector<float, 2> textCoords[4];
-        const Vector<float, 2> finalOffset{
+        math::Vector<float, 2> textCoords[4];
+        const math::Vector<float, 2> finalOffset{
             -sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
             -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1])
         };
 
         if (!rotated)
         {
-            const Vector<float, 2> leftTop{
+            const math::Vector<float, 2> leftTop{
                 frameRectangle.position.v[0] / textureSize.v[0],
                 frameRectangle.position.v[1] / textureSize.v[1]
             };
 
-            const Vector<float, 2> rightBottom{
+            const math::Vector<float, 2> rightBottom{
                 (frameRectangle.position.v[0] + frameRectangle.size.v[0]) / textureSize.v[0],
                 (frameRectangle.position.v[1] + frameRectangle.size.v[1]) / textureSize.v[1]
             };
 
-            textCoords[0] = Vector<float, 2>{leftTop.v[0], rightBottom.v[1]};
-            textCoords[1] = Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]};
-            textCoords[2] = Vector<float, 2>{leftTop.v[0], leftTop.v[1]};
-            textCoords[3] = Vector<float, 2>{rightBottom.v[0], leftTop.v[1]};
+            textCoords[0] = math::Vector<float, 2>{leftTop.v[0], rightBottom.v[1]};
+            textCoords[1] = math::Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]};
+            textCoords[2] = math::Vector<float, 2>{leftTop.v[0], leftTop.v[1]};
+            textCoords[3] = math::Vector<float, 2>{rightBottom.v[0], leftTop.v[1]};
         }
         else
         {
-            const auto leftTop = Vector<float, 2>{
+            const auto leftTop = math::Vector<float, 2>{
                 frameRectangle.position.v[0] / textureSize.v[0],
                 frameRectangle.position.v[1] / textureSize.v[1]
             };
 
-            const auto rightBottom = Vector<float, 2>{
+            const auto rightBottom = math::Vector<float, 2>{
                 (frameRectangle.position.v[0] + frameRectangle.size.v[1]) / textureSize.v[0],
                 (frameRectangle.position.v[1] + frameRectangle.size.v[0]) / textureSize.v[1]
             };
 
-            textCoords[0] = Vector<float, 2>{leftTop.v[0], leftTop.v[1]};
-            textCoords[1] = Vector<float, 2>{leftTop.v[0], rightBottom.v[1]};
-            textCoords[2] = Vector<float, 2>{rightBottom.v[0], leftTop.v[1]};
-            textCoords[3] = Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]};
+            textCoords[0] = math::Vector<float, 2>{leftTop.v[0], leftTop.v[1]};
+            textCoords[1] = math::Vector<float, 2>{leftTop.v[0], rightBottom.v[1]};
+            textCoords[2] = math::Vector<float, 2>{rightBottom.v[0], leftTop.v[1]};
+            textCoords[3] = math::Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]};
         }
 
         const std::vector<graphics::Vertex> vertices{
             graphics::Vertex{
-                Vector<float, 3>{finalOffset.v[0], finalOffset.v[1], 0.0F}, Color::white(),
-                textCoords[0], Vector<float, 3>{0.0F, 0.0F, -1.0F}
+                math::Vector<float, 3>{finalOffset.v[0], finalOffset.v[1], 0.0F}, math::Color::white(),
+                textCoords[0], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             },
             graphics::Vertex{
-                Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, Color::white(),
-                textCoords[1], Vector<float, 3>{0.0F, 0.0F, -1.0F}
+                math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, math::Color::white(),
+                textCoords[1], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             },
             graphics::Vertex{
-                Vector<float, 3>{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::white(),
-                textCoords[2], Vector<float, 3>{0.0F, 0.0F, -1.0F}
+                math::Vector<float, 3>{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, math::Color::white(),
+                textCoords[2], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             },
             graphics::Vertex{
-                Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, Color::white(),
-                textCoords[3], Vector<float, 3>{0.0F, 0.0F, -1.0F}
+                math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, math::Color::white(),
+                textCoords[3], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             }
         };
 
         boundingBox.min = finalOffset;
-        boundingBox.max = finalOffset + Vector<float, 2>{frameRectangle.size.v[0], frameRectangle.size.v[1]};
+        boundingBox.max = finalOffset + math::Vector<float, 2>{frameRectangle.size.v[0], frameRectangle.size.v[1]};
 
         indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
@@ -108,7 +108,7 @@ namespace ouzel::scene
         indexCount = static_cast<std::uint32_t>(indices.size());
 
         for (const graphics::Vertex& vertex : vertices)
-            boundingBox.insertPoint(Vector<float, 2>{vertex.position});
+            boundingBox.insertPoint(math::Vector<float, 2>{vertex.position});
 
         indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
@@ -126,19 +126,19 @@ namespace ouzel::scene
     SpriteData::Frame::Frame(const std::string& frameName,
                              const std::vector<std::uint16_t>& indices,
                              const std::vector<graphics::Vertex>& vertices,
-                             const Rect<float>& frameRectangle,
-                             const Size<float, 2>& sourceSize,
-                             const Vector<float, 2>& sourceOffset,
-                             const Vector<float, 2>& pivot):
+                             const math::Rect<float>& frameRectangle,
+                             const math::Size<float, 2>& sourceSize,
+                             const math::Vector<float, 2>& sourceOffset,
+                             const math::Vector<float, 2>& pivot):
         name{frameName}
     {
         indexCount = static_cast<std::uint32_t>(indices.size());
 
         for (const graphics::Vertex& vertex : vertices)
-            boundingBox.insertPoint(Vector<float, 2>{vertex.position});
+            boundingBox.insertPoint(math::Vector<float, 2>{vertex.position});
 
         // TODO: fix
-        const Vector<float, 2> finalOffset{
+        const math::Vector<float, 2> finalOffset{
             -sourceSize.v[0] * pivot.v[0] + sourceOffset.v[0],
             -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1])
         };
@@ -180,7 +180,7 @@ namespace ouzel::scene
 
     SpriteRenderer::SpriteRenderer(std::shared_ptr<graphics::Texture> texture,
                                    std::uint32_t spritesX, std::uint32_t spritesY,
-                                   const Vector<float, 2>& pivot):
+                                   const math::Vector<float, 2>& pivot):
         SpriteRenderer{}
     {
         init(texture, spritesX, spritesY, pivot);
@@ -222,13 +222,13 @@ namespace ouzel::scene
 
             SpriteData::Animation animation;
 
-            const Size<float, 2> size{
+            const math::Size<float, 2> size{
                 static_cast<float>(texture->getSize().v[0]),
                 static_cast<float>(texture->getSize().v[1])
             };
 
-            const Rect<float> rectangle{0.0F, 0.0F, size.v[0], size.v[1]};
-            animation.frames.emplace_back("", size, rectangle, false, size, Vector<float, 2>{}, Vector<float, 2>{0.5F, 0.5F});
+            const math::Rect<float> rectangle{0.0F, 0.0F, size.v[0], size.v[1]};
+            animation.frames.emplace_back("", size, rectangle, false, size, math::Vector<float, 2>{}, math::Vector<float, 2>{0.5F, 0.5F});
 
             animations[""] = std::move(animation);
         }
@@ -242,7 +242,7 @@ namespace ouzel::scene
 
     void SpriteRenderer::init(std::shared_ptr<graphics::Texture> newTexture,
                               std::uint32_t spritesX, std::uint32_t spritesY,
-                              const Vector<float, 2>& pivot)
+                              const math::Vector<float, 2>& pivot)
     {
         material = std::make_shared<graphics::Material>();
         material->cullMode = graphics::CullMode::none;
@@ -251,12 +251,12 @@ namespace ouzel::scene
         material->textures[0] = newTexture;
         animations.clear();
 
-        const Size<float, 2> size{
+        const math::Size<float, 2> size{
             static_cast<float>(newTexture->getSize().v[0]),
             static_cast<float>(newTexture->getSize().v[1])
         };
 
-        const Size<float, 2> spriteSize{
+        const math::Size<float, 2> spriteSize{
             size.v[0] / spritesX,
             size.v[1] / spritesY
         };
@@ -267,13 +267,13 @@ namespace ouzel::scene
         for (std::uint32_t x = 0; x < spritesX; ++x)
             for (std::uint32_t y = 0; y < spritesY; ++y)
             {
-                const Rect<float> rectangle{
+                const math::Rect<float> rectangle{
                     spriteSize.v[0] * x,
                     spriteSize.v[1] * y,
                     spriteSize.v[0],
                     spriteSize.v[1]
                 };
-                animation.frames.emplace_back("", size, rectangle, false, spriteSize, Vector<float, 2>{}, pivot);
+                animation.frames.emplace_back("", size, rectangle, false, spriteSize, math::Vector<float, 2>{}, pivot);
             }
 
         animations[""] = std::move(animation);
@@ -349,9 +349,9 @@ namespace ouzel::scene
         }
     }
 
-    void SpriteRenderer::draw(const Matrix<float, 4>& transformMatrix,
+    void SpriteRenderer::draw(const math::Matrix<float, 4>& transformMatrix,
                               float opacity,
-                              const Matrix<float, 4>& renderViewProjection,
+                              const math::Matrix<float, 4>& renderViewProjection,
                               bool wireframe)
     {
         Component::draw(transformMatrix,
@@ -406,10 +406,10 @@ namespace ouzel::scene
         }
     }
 
-    void SpriteRenderer::setOffset(const Vector<float, 2>& newOffset)
+    void SpriteRenderer::setOffset(const math::Vector<float, 2>& newOffset)
     {
         offset = newOffset;
-        offsetMatrix.setTranslation(Vector<float, 3>{offset});
+        offsetMatrix.setTranslation(math::Vector<float, 3>{offset});
         updateBoundingBox();
     }
 
@@ -528,7 +528,7 @@ namespace ouzel::scene
 
             const auto& frame = currentAnimation->animation->frames[currentFrame];
 
-            boundingBox = Box<float, 3>{frame.getBoundingBox()};
+            boundingBox = math::Box<float, 3>{frame.getBoundingBox()};
             boundingBox.min.v[0] += offset.v[0];
             boundingBox.min.v[1] += offset.v[1];
 

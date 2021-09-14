@@ -7,7 +7,7 @@
 
 namespace ouzel::scene
 {
-    StaticMeshData::StaticMeshData(const Box<float, 3>& initBoundingBox,
+    StaticMeshData::StaticMeshData(const math::Box<float, 3>& initBoundingBox,
                                    const std::vector<std::uint32_t> indices,
                                    const std::vector<graphics::Vertex>& vertices,
                                    const graphics::Material* initMaterial):
@@ -68,9 +68,9 @@ namespace ouzel::scene
         vertexBuffer = &meshData.vertexBuffer;
     }
 
-    void StaticMeshRenderer::draw(const Matrix<float, 4>& transformMatrix,
+    void StaticMeshRenderer::draw(const math::Matrix<float, 4>& transformMatrix,
                                   float opacity,
-                                  const Matrix<float, 4>& renderViewProjection,
+                                  const math::Matrix<float, 4>& renderViewProjection,
                                   bool wireframe)
     {
         Component::draw(transformMatrix,

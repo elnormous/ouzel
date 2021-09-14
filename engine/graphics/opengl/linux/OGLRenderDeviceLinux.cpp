@@ -191,9 +191,9 @@ namespace ouzel::graphics::opengl::linux
         }
     }
 
-    std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
+    std::vector<math::Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
     {
-        std::vector<Size<std::uint32_t, 2>> result;
+        std::vector<math::Size<std::uint32_t, 2>> result;
 
 #if OUZEL_OPENGL_INTERFACE_GLX
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
@@ -205,7 +205,7 @@ namespace ouzel::graphics::opengl::linux
 
         for (int i = 0; i < modeCount; ++i)
         {
-            const Size<std::uint32_t, 2> resolution{
+            const math::Size<std::uint32_t, 2> resolution{
                 static_cast<std::uint32_t>(modeInfo[i]->hdisplay),
                 static_cast<std::uint32_t>(modeInfo[i]->vdisplay)
             };

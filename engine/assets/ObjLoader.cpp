@@ -192,13 +192,13 @@ namespace ouzel::assets
     {
         std::string objectName = name;
         const graphics::Material* material = nullptr;
-        std::vector<Vector<float, 3>> positions;
-        std::vector<Vector<float, 2>> texCoords;
-        std::vector<Vector<float, 3>> normals;
+        std::vector<math::Vector<float, 3>> positions;
+        std::vector<math::Vector<float, 2>> texCoords;
+        std::vector<math::Vector<float, 3>> normals;
         std::vector<graphics::Vertex> vertices;
         std::map<std::tuple<std::uint32_t, std::uint32_t, std::uint32_t>, std::uint32_t> vertexMap;
         std::vector<std::uint32_t> indices;
-        Box<float, 3> boundingBox;
+        math::Box<float, 3> boundingBox;
 
         std::uint32_t objectCount = 0;
 
@@ -271,7 +271,7 @@ namespace ouzel::assets
 
                     skipLine(iterator, data.end());
 
-                    positions.push_back(Vector<float, 3>{x, y, z});
+                    positions.push_back(math::Vector<float, 3>{x, y, z});
                 }
                 else if (keyword == "vt")
                 {
@@ -282,7 +282,7 @@ namespace ouzel::assets
 
                     skipLine(iterator, data.end());
 
-                    texCoords.push_back(Vector<float, 2>{u, v});
+                    texCoords.push_back(math::Vector<float, 2>{u, v});
                 }
                 else if (keyword == "vn")
                 {
@@ -295,7 +295,7 @@ namespace ouzel::assets
 
                     skipLine(iterator, data.end());
 
-                    normals.push_back(Vector<float, 3>{x, y, z});
+                    normals.push_back(math::Vector<float, 3>{x, y, z});
                 }
                 else if (keyword == "f")
                 {
@@ -364,7 +364,7 @@ namespace ouzel::assets
                             graphics::Vertex vertex;
                             if (std::get<0>(i) >= 1) vertex.position = positions[std::get<0>(i) - 1];
                             if (std::get<1>(i) >= 1) vertex.texCoords[0] = texCoords[std::get<1>(i) - 1];
-                            vertex.color = Color::white();
+                            vertex.color = math::Color::white();
                             if (std::get<2>(i) >= 1) vertex.normal = normals[std::get<2>(i) - 1];
                             vertices.push_back(vertex);
                             boundingBox.insertPoint(vertex.position);

@@ -8,7 +8,7 @@
 #include <cstddef>
 #include "Vector.hpp"
 
-namespace ouzel
+namespace ouzel::math
 {
     template <typename T, std::size_t dims> class Size final
     {
@@ -54,7 +54,7 @@ namespace ouzel
             return v[2];
         }
 
-        void scale(const Vector<T, dims>& scale) noexcept
+        void scale(const math::Vector<T, dims>& scale) noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
                 v[i] *= scale.v[i];
@@ -162,7 +162,7 @@ namespace ouzel
     };
 
     template <typename T, std::size_t N>
-    [[nodiscard]] auto operator*(const Size<T, N>& size, const Vector<T, N>& v) noexcept
+    [[nodiscard]] auto operator*(const math::Size<T, N>& size, const math::Vector<T, N>& v) noexcept
     {
         auto result = size;
         for (std::size_t i = 0; i < N; ++i)
@@ -171,7 +171,7 @@ namespace ouzel
     }
 
     template <typename T, std::size_t N>
-    [[nodiscard]] auto operator/(const Size<T, N>& size, const Vector<T, N>& v) noexcept
+    [[nodiscard]] auto operator/(const math::Size<T, N>& size, const math::Vector<T, N>& v) noexcept
     {
         auto result = size;
         for (std::size_t i = 0; i < N; ++i)

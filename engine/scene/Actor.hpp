@@ -44,8 +44,8 @@ namespace ouzel::scene
 
         auto getLayer() const noexcept { return layer; }
 
-        std::vector<std::pair<Actor*, Vector<float, 3>>> findActors(const Vector<float, 2>& position) const;
-        std::vector<Actor*> findActors(const std::vector<Vector<float, 2>>& edges) const;
+        std::vector<std::pair<Actor*, math::Vector<float, 3>>> findActors(const math::Vector<float, 2>& position) const;
+        std::vector<Actor*> findActors(const std::vector<math::Vector<float, 2>>& edges) const;
 
     protected:
         virtual void setLayer(Layer* newLayer);
@@ -71,28 +71,28 @@ namespace ouzel::scene
         ~Actor() override;
 
         virtual void visit(std::vector<Actor*>& drawQueue,
-                           const Matrix<float, 4>& newParentTransform,
+                           const math::Matrix<float, 4>& newParentTransform,
                            bool parentTransformDirty,
                            Camera* camera,
                            Order parentOrder,
                            bool parentHidden);
         virtual void draw(Camera* camera, bool wireframe);
 
-        virtual const Vector<float, 3>& getPosition() const noexcept { return position; }
-        virtual void setPosition(const Vector<float, 2>& newPosition);
-        virtual void setPosition(const Vector<float, 3>& newPosition);
+        virtual const math::Vector<float, 3>& getPosition() const noexcept { return position; }
+        virtual void setPosition(const math::Vector<float, 2>& newPosition);
+        virtual void setPosition(const math::Vector<float, 3>& newPosition);
 
         auto getOrder() const noexcept { return order; }
         void setOrder(Order newOrder) noexcept { order = newOrder; }
 
-        virtual const Quaternion<float>& getRotation() const noexcept { return rotation; }
-        virtual void setRotation(const Quaternion<float>& newRotation);
-        virtual void setRotation(const Vector<float, 3>& newRotation);
+        virtual const math::Quaternion<float>& getRotation() const noexcept { return rotation; }
+        virtual void setRotation(const math::Quaternion<float>& newRotation);
+        virtual void setRotation(const math::Vector<float, 3>& newRotation);
         virtual void setRotation(float newRotation);
 
-        virtual const Vector<float, 3>& getScale() const noexcept { return scale; }
-        virtual void setScale(const Vector<float, 2>& newScale);
-        virtual void setScale(const Vector<float, 3>& newScale);
+        virtual const math::Vector<float, 3>& getScale() const noexcept { return scale; }
+        virtual void setScale(const math::Vector<float, 2>& newScale);
+        virtual void setScale(const math::Vector<float, 3>& newScale);
 
         virtual float getOpacity() const noexcept { return opacity; }
         virtual void setOpacity(float newOpacity);
@@ -113,8 +113,8 @@ namespace ouzel::scene
         virtual void setHidden(bool newHidden);
         auto isWorldHidden() const noexcept { return worldHidden; }
 
-        virtual bool pointOn(const Vector<float, 2>& worldPosition) const;
-        virtual bool shapeOverlaps(const std::vector<Vector<float, 2>>& edges) const;
+        virtual bool pointOn(const math::Vector<float, 2>& worldPosition) const;
+        virtual bool shapeOverlaps(const std::vector<math::Vector<float, 2>>& edges) const;
 
         auto& getLocalTransform() const
         {
@@ -137,11 +137,11 @@ namespace ouzel::scene
             return inverseTransform;
         }
 
-        Vector<float, 3> getWorldPosition() const;
+        math::Vector<float, 3> getWorldPosition() const;
         virtual std::int32_t getWorldOrder() const { return worldOrder; }
 
-        Vector<float, 3> convertWorldToLocal(const Vector<float, 3>& worldPosition) const;
-        Vector<float, 3> convertLocalToWorld(const Vector<float, 3>& localPosition) const;
+        math::Vector<float, 3> convertWorldToLocal(const math::Vector<float, 3>& worldPosition) const;
+        math::Vector<float, 3> convertLocalToWorld(const math::Vector<float, 3>& localPosition) const;
 
         auto getParent() const noexcept { return parent; }
         void removeFromParent();
@@ -155,23 +155,23 @@ namespace ouzel::scene
         void removeAllComponents();
         auto& getComponents() const noexcept { return components; }
 
-        Box<float, 3> getBoundingBox() const;
+        math::Box<float, 3> getBoundingBox() const;
 
     protected:
         void setLayer(Layer* newLayer) override;
 
         void updateLocalTransform();
-        void updateTransform(const Matrix<float, 4>& newParentTransform);
+        void updateTransform(const math::Matrix<float, 4>& newParentTransform);
 
         virtual void calculateLocalTransform() const;
         virtual void calculateTransform() const;
 
         virtual void calculateInverseTransform() const;
 
-        Matrix<float, 4> parentTransform;
-        mutable Matrix<float, 4> transform;
-        mutable Matrix<float, 4> inverseTransform;
-        mutable Matrix<float, 4> localTransform;
+        math::Matrix<float, 4> parentTransform;
+        mutable math::Matrix<float, 4> transform;
+        mutable math::Matrix<float, 4> inverseTransform;
+        mutable math::Matrix<float, 4> localTransform;
 
         mutable bool transformDirty = true;
         mutable bool inverseTransformDirty = true;
@@ -186,9 +186,9 @@ namespace ouzel::scene
         bool hidden = false;
         bool worldHidden = false;
 
-        Vector<float, 3> position{};
-        Quaternion<float> rotation = Quaternion<float>::identity();
-        Vector<float, 3> scale = Vector<float, 3>{1.0F, 1.0F, 1.0F};
+        math::Vector<float, 3> position{};
+        math::Quaternion<float> rotation = math::Quaternion<float>::identity();
+        math::Vector<float, 3> scale = math::Vector<float, 3>{1.0F, 1.0F, 1.0F};
         float opacity = 1.0F;
         Order order = 0;
         Order worldOrder = 0;

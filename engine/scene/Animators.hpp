@@ -68,17 +68,17 @@ namespace ouzel::scene
     class Move final: public Animator
     {
     public:
-        Move(float initLength, const Vector<float, 3>& initPosition, bool initRelative = false);
+        Move(float initLength, const math::Vector<float, 3>& initPosition, bool initRelative = false);
 
         void play() override;
 
     private:
         void updateProgress() override;
 
-        Vector<float, 3> position{};
-        Vector<float, 3> startPosition{};
-        Vector<float, 3> targetPosition{};
-        Vector<float, 3> diff{};
+        math::Vector<float, 3> position{};
+        math::Vector<float, 3> startPosition{};
+        math::Vector<float, 3> targetPosition{};
+        math::Vector<float, 3> diff{};
         bool relative = false;
     };
 
@@ -109,34 +109,34 @@ namespace ouzel::scene
     class Rotate final: public Animator
     {
     public:
-        Rotate(float initLength, const Vector<float, 3>& initRotation, bool initRelative = false);
+        Rotate(float initLength, const math::Vector<float, 3>& initRotation, bool initRelative = false);
 
         void play() override;
 
     private:
         void updateProgress() override;
 
-        Vector<float, 3> rotation{};
-        Vector<float, 3> startRotation{};
-        Vector<float, 3> targetRotation{};
-        Vector<float, 3> diff{};
+        math::Vector<float, 3> rotation{};
+        math::Vector<float, 3> startRotation{};
+        math::Vector<float, 3> targetRotation{};
+        math::Vector<float, 3> diff{};
         bool relative = false;
     };
 
     class Scale final: public Animator
     {
     public:
-        Scale(float initLength, const Vector<float, 3>& initScale, bool initRelative = false);
+        Scale(float initLength, const math::Vector<float, 3>& initScale, bool initRelative = false);
 
         void play() override;
 
     private:
         void updateProgress() override;
 
-        Vector<float, 3> scale{};
-        Vector<float, 3> startScale{};
-        Vector<float, 3> targetScale{};
-        Vector<float, 3> diff{};
+        math::Vector<float, 3> scale{};
+        math::Vector<float, 3> startScale{};
+        math::Vector<float, 3> targetScale{};
+        math::Vector<float, 3> diff{};
         bool relative = false;
     };
 
@@ -157,7 +157,7 @@ namespace ouzel::scene
     class Shake final: public Animator
     {
     public:
-        Shake(float initLength, const Vector<float, 3>& initDistance, float initTimeScale);
+        Shake(float initLength, const math::Vector<float, 3>& initDistance, float initTimeScale);
 
         void play() override;
 
@@ -167,9 +167,9 @@ namespace ouzel::scene
         std::uint32_t seedX;
         std::uint32_t seedY;
         std::uint32_t seedZ;
-        Vector<float, 3> distance{};
+        math::Vector<float, 3> distance{};
         float timeScale = 1.0F;
-        Vector<float, 3> startPosition{};
+        math::Vector<float, 3> startPosition{};
     };
 }
 

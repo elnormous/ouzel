@@ -54,7 +54,7 @@ namespace ouzel::graphics::d3d11
     {
     public:
         Texture(RenderDevice& initRenderDevice,
-                const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels,
+                const std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels,
                 TextureType type,
                 Flags initFlags,
                 std::uint32_t initSampleCount,
@@ -62,7 +62,7 @@ namespace ouzel::graphics::d3d11
                 SamplerFilter initFilter,
                 std::uint32_t initMaxAnisotropy);
 
-        void setData(const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels);
+        void setData(const std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& levels);
         void setFilter(SamplerFilter filter);
         void setAddressX(SamplerAddressMode addressX);
         void setAddressY(SamplerAddressMode addressY);

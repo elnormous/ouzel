@@ -26,20 +26,20 @@ namespace ouzel::graphics
 
         explicit Texture(Graphics& initGraphics);
         Texture(Graphics& initGraphics,
-                const Size<std::uint32_t, 2>& initSize,
+                const math::Size<std::uint32_t, 2>& initSize,
                 Flags initFlags = Flags::none,
                 std::uint32_t initMipmaps = 0,
                 std::uint32_t initSampleCount = 1,
                 PixelFormat initPixelFormat = PixelFormat::rgba8UnsignedNorm);
         Texture(Graphics& initGraphics,
                 const std::vector<std::uint8_t>& initData,
-                const Size<std::uint32_t, 2>& initSize,
+                const math::Size<std::uint32_t, 2>& initSize,
                 Flags initFlags = Flags::none,
                 std::uint32_t initMipmaps = 0,
                 PixelFormat initPixelFormat = PixelFormat::rgba8UnsignedNorm);
         Texture(Graphics& initGraphics,
-                const std::vector<std::pair<Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
-                const Size<std::uint32_t, 2>& initSize,
+                const std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
+                const math::Size<std::uint32_t, 2>& initSize,
                 Flags initFlags = Flags::none,
                 PixelFormat initPixelFormat = PixelFormat::rgba8UnsignedNorm);
 
@@ -65,7 +65,7 @@ namespace ouzel::graphics
         void setAddressZ(SamplerAddressMode newAddressZ);
 
         auto getBorderColor() const noexcept { return borderColor; }
-        void setBorderColor(Color newBorderColor);
+        void setBorderColor(math::Color newBorderColor);
 
         auto getMaxAnisotropy() const noexcept { return maxAnisotropy; }
         void setMaxAnisotropy(std::uint32_t newMaxAnisotropy);
@@ -79,7 +79,7 @@ namespace ouzel::graphics
         RenderDevice::Resource resource;
 
         TextureType type = TextureType::twoDimensional;
-        Size<std::uint32_t, 2> size;
+        math::Size<std::uint32_t, 2> size;
         Flags flags = Flags::none;
         std::uint32_t mipmaps = 0;
         std::uint32_t sampleCount = 1;
@@ -88,7 +88,7 @@ namespace ouzel::graphics
         SamplerAddressMode addressX = SamplerAddressMode::clampToEdge;
         SamplerAddressMode addressY = SamplerAddressMode::clampToEdge;
         SamplerAddressMode addressZ = SamplerAddressMode::clampToEdge;
-        Color borderColor;
+        math::Color borderColor;
         std::uint32_t maxAnisotropy = 0;
     };
 }

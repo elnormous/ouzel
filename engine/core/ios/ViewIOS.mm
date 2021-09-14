@@ -21,7 +21,7 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        const ouzel::Vector<float, 2> position{
+        const ouzel::math::Vector<float, 2> position{
             static_cast<float>(location.x / self.bounds.size.width),
             static_cast<float>(location.y / self.bounds.size.height)
         };
@@ -43,7 +43,7 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        const ouzel::Vector<float, 2> position{
+        const ouzel::math::Vector<float, 2> position{
             static_cast<float>(location.x / self.bounds.size.width),
             static_cast<float>(location.y / self.bounds.size.height)
         };
@@ -65,7 +65,7 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        const ouzel::Vector<float, 2> position{
+        const ouzel::math::Vector<float, 2> position{
             static_cast<float>(location.x / self.bounds.size.width),
             static_cast<float>(location.y / self.bounds.size.height)
         };
@@ -87,7 +87,7 @@
         if ([touch respondsToSelector:@selector(force)] && [touch respondsToSelector:@selector(maximumPossibleForce)])
             force = (touch.maximumPossibleForce > 0.0F) ? touch.force / touch.maximumPossibleForce : 0.0F;
 
-        const ouzel::Vector<float, 2> position{
+        const ouzel::math::Vector<float, 2> position{
             static_cast<float>(location.x / self.bounds.size.width),
             static_cast<float>(location.y / self.bounds.size.height)
         };

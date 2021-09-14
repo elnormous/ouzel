@@ -12,8 +12,8 @@ namespace ouzel::scene
     TextRenderer::TextRenderer(const std::string& fontFile,
                                float initFontSize,
                                const std::string& initText,
-                               Color initColor,
-                               const Vector<float, 2>& initTextAnchor):
+                               math::Color initColor,
+                               const math::Vector<float, 2>& initTextAnchor):
         shader{engine->getCache().getShader(shaderTexture)},
         blendState{engine->getCache().getBlendState(blendAlpha)},
         indexBuffer{*engine->getGraphics(),
@@ -37,8 +37,8 @@ namespace ouzel::scene
     TextRenderer::TextRenderer(const gui::Font& initFont,
                                float initFontSize,
                                const std::string& initText,
-                               Color initColor,
-                               const Vector<float, 2>& initTextAnchor):
+                               math::Color initColor,
+                               const math::Vector<float, 2>& initTextAnchor):
         shader{engine->getCache().getShader(shaderTexture)},
         blendState{engine->getCache().getBlendState(blendAlpha)},
         indexBuffer{*engine->getGraphics(),
@@ -65,7 +65,7 @@ namespace ouzel::scene
         updateText();
     }
 
-    void TextRenderer::setTextAnchor(const Vector<float, 2>& newTextAnchor)
+    void TextRenderer::setTextAnchor(const math::Vector<float, 2>& newTextAnchor)
     {
         textAnchor = newTextAnchor;
 
@@ -79,9 +79,9 @@ namespace ouzel::scene
         updateText();
     }
 
-    void TextRenderer::draw(const Matrix<float, 4>& transformMatrix,
+    void TextRenderer::draw(const math::Matrix<float, 4>& transformMatrix,
                             float opacity,
-                            const Matrix<float, 4>& renderViewProjection,
+                            const math::Matrix<float, 4>& renderViewProjection,
                             bool wireframe)
     {
         Component::draw(transformMatrix,
@@ -133,7 +133,7 @@ namespace ouzel::scene
         updateText();
     }
 
-    void TextRenderer::setColor(Color newColor)
+    void TextRenderer::setColor(math::Color newColor)
     {
         color = newColor;
     }
@@ -144,7 +144,7 @@ namespace ouzel::scene
 
         if (font)
         {
-            std::tie(indices, vertices, texture) = font->getRenderData(text, Color::white(), fontSize, textAnchor);
+            std::tie(indices, vertices, texture) = font->getRenderData(text, math::Color::white(), fontSize, textAnchor);
             needsMeshUpdate = true;
 
             for (const graphics::Vertex& vertex : vertices)

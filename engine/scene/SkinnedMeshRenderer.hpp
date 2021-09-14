@@ -16,19 +16,19 @@ namespace ouzel::scene
         struct Bone final
         {
             Bone* parent = nullptr;
-            Vector<float, 3> position{};
-            Quaternion<float> rotation = Quaternion<float>::identity();
+            math::Vector<float, 3> position{};
+            math::Quaternion<float> rotation = math::Quaternion<float>::identity();
         };
 
         SkinnedMeshData() = default;
-        SkinnedMeshData(const Box<float, 3>& initBoundingBox,
+        SkinnedMeshData(const math::Box<float, 3>& initBoundingBox,
                         const std::shared_ptr<graphics::Material>& initMaterial):
             boundingBox{initBoundingBox},
             material{initMaterial}
         {
         }
 
-        Box<float, 3> boundingBox;
+        math::Box<float, 3> boundingBox;
         std::shared_ptr<graphics::Material> material;
     };
 
@@ -40,9 +40,9 @@ namespace ouzel::scene
 
         void init(const SkinnedMeshData& meshData);
 
-        void draw(const Matrix<float, 4>& transformMatrix,
+        void draw(const math::Matrix<float, 4>& transformMatrix,
                   float opacity,
-                  const Matrix<float, 4>& renderViewProjection,
+                  const math::Matrix<float, 4>& renderViewProjection,
                   bool wireframe) override;
 
         auto& getMaterial() const noexcept { return material; }

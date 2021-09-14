@@ -37,7 +37,7 @@ namespace ouzel::core::ios
         auto getNativeView() const noexcept { return view; }
         auto getTextField() const noexcept { return textField; }
 
-        void handleResize(const Size<std::uint32_t, 2>& newSize);
+        void handleResize(const math::Size<std::uint32_t, 2>& newSize);
 
     private:
         void executeCommand(const Command& command) final;

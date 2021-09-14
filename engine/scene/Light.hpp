@@ -27,10 +27,10 @@ namespace ouzel::scene
         void setType(Type newType) { type = newType; }
 
         auto getColor() const noexcept { return color; }
-        void setColor(Color newColor) { color = newColor; }
+        void setColor(math::Color newColor) { color = newColor; }
 
         auto& getDirection() const noexcept { return direction; }
-        void setDirection(const Quaternion<float>& newDirection) { direction = newDirection; }
+        void setDirection(const math::Quaternion<float>& newDirection) { direction = newDirection; }
 
         auto getAngle() const noexcept { return angle; }
         void setAngle(float newAngle) { angle = newAngle; }
@@ -45,8 +45,8 @@ namespace ouzel::scene
         void setLayer(Layer* newLayer) override;
 
         Type type = Type::point;
-        Color color;
-        Quaternion<float> direction = Quaternion<float>::identity(); // for spot and directional ligt
+        math::Color color;
+        math::Quaternion<float> direction = math::Quaternion<float>::identity(); // for spot and directional ligt
         float angle = 0.0F; // for spot light
         float range = 0.0F; // for point and spot light
         float intensity = 1.0F;

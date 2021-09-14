@@ -93,7 +93,7 @@ namespace ouzel::core
     {
         struct Settings final
         {
-            Size<std::uint32_t, 2> size{};
+            math::Size<std::uint32_t, 2> size{};
             graphics::Driver graphicsDriver;
             graphics::Settings graphicsSettings;
             bool resizable = false;
@@ -630,7 +630,7 @@ namespace ouzel::core
 
         auto whitePixelTexture = std::make_shared<graphics::Texture>(*graphics,
                                                                      std::vector<std::uint8_t>{255, 255, 255, 255},
-                                                                     Size<std::uint32_t, 2>{1U, 1U},
+                                                                     math::Size<std::uint32_t, 2>{1U, 1U},
                                                                      graphics::Flags::none, 1);
         assetBundle.setTexture(textureWhitePixel, whitePixelTexture);
     }

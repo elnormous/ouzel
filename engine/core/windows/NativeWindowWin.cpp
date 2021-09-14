@@ -340,14 +340,14 @@ namespace
                         windowWin->handleMinimize();
                         break;
                     case SIZE_RESTORED:
-                        windowWin->handleResize(ouzel::Size<std::uint32_t, 2>{
+                        windowWin->handleResize(ouzel::math::Size<std::uint32_t, 2>{
                             static_cast<std::uint32_t>(LOWORD(lParam)),
                             static_cast<std::uint32_t>(HIWORD(lParam))
                         });
                         windowWin->handleRestore();
                         break;
                     case SIZE_MAXIMIZED:
-                        windowWin->handleResize(ouzel::Size<std::uint32_t, 2>{
+                        windowWin->handleResize(ouzel::math::Size<std::uint32_t, 2>{
                             static_cast<std::uint32_t>(LOWORD(lParam)),
                             static_cast<std::uint32_t>(HIWORD(lParam))
                         });
@@ -412,7 +412,7 @@ namespace
 namespace ouzel::core::windows
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
-                               const Size<std::uint32_t, 2>& newSize,
+                               const math::Size<std::uint32_t, 2>& newSize,
                                bool newResizable,
                                bool newFullscreen,
                                bool newExclusiveFullscreen,
@@ -578,7 +578,7 @@ namespace ouzel::core::windows
         SendMessage(window, WM_CLOSE, 0, 0);
     }
 
-    void NativeWindow::setSize(const Size<std::uint32_t, 2>& newSize)
+    void NativeWindow::setSize(const math::Size<std::uint32_t, 2>& newSize)
     {
         size = newSize;
 
@@ -704,7 +704,7 @@ namespace ouzel::core::windows
         }
     }
 
-    void NativeWindow::handleResize(const Size<std::uint32_t, 2>& newSize)
+    void NativeWindow::handleResize(const math::Size<std::uint32_t, 2>& newSize)
     {
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
@@ -740,7 +740,7 @@ namespace ouzel::core::windows
                 if (!GetCursorPos(&cursorPos))
                     throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
 
-                const Vector<float, 2> position{
+                const math::Vector<float, 2> position{
                     static_cast<float>(cursorPos.x),
                     static_cast<float>(cursorPos.y)
                 };
@@ -781,7 +781,7 @@ namespace ouzel::core::windows
         if (!GetCursorPos(&cursorPos))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
 
-        const Vector<float, 2> position{
+        const math::Vector<float, 2> position{
             static_cast<float>(cursorPos.x),
             static_cast<float>(cursorPos.y)
         };
@@ -807,7 +807,7 @@ namespace ouzel::core::windows
         auto& inputSystemWin = engine->getInputManager()->getInputSystem();
         const auto mouseDevice = inputSystemWin.getMouseDevice();
 
-        const Vector<float, 2> position{
+        const math::Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
             static_cast<float>(GET_Y_LPARAM(lParam))
         };
@@ -820,7 +820,7 @@ namespace ouzel::core::windows
         auto& inputSystemWin = engine->getInputManager()->getInputSystem();
         const auto mouseDevice = inputSystemWin.getMouseDevice();
 
-        const Vector<float, 2> position{
+        const math::Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
             static_cast<float>(GET_Y_LPARAM(lParam))
         };
@@ -838,7 +838,7 @@ namespace ouzel::core::windows
         auto& inputSystemWin = engine->getInputManager()->getInputSystem();
         const auto mouseDevice = inputSystemWin.getMouseDevice();
 
-        const Vector<float, 2> position{
+        const math::Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
             static_cast<float>(GET_Y_LPARAM(lParam))
         };
@@ -846,13 +846,13 @@ namespace ouzel::core::windows
         if (message == WM_MOUSEWHEEL)
         {
             const auto param = static_cast<short>(HIWORD(wParam));
-            mouseDevice->handleScroll(Vector<float, 2>{0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)},
+            mouseDevice->handleScroll(math::Vector<float, 2>{0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)},
                                       engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
         else if (message == WM_MOUSEHWHEEL)
         {
             const auto param = static_cast<short>(HIWORD(wParam));
-            mouseDevice->handleScroll(Vector<float, 2>{static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F},
+            mouseDevice->handleScroll(math::Vector<float, 2>{static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F},
                                       engine->getWindow()->convertWindowToNormalizedLocation(position));
         }
     }
@@ -870,7 +870,7 @@ namespace ouzel::core::windows
 
         for (const auto& touch : touches)
         {
-            const Vector<float, 2> position{
+            const math::Vector<float, 2> position{
                 static_cast<float>(touch.x / 100),
                 static_cast<float>(touch.y / 100)
             };

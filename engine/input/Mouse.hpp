@@ -29,7 +29,7 @@ namespace ouzel::input
         Mouse(InputManager& initInputManager, DeviceId initDeviceId);
 
         auto& getPosition() const noexcept { return position; }
-        void setPosition(const Vector<float, 2>& newPosition);
+        void setPosition(const math::Vector<float, 2>& newPosition);
         auto isButtonDown(Button button) const
         {
             return buttonStates[static_cast<std::uint32_t>(button)];
@@ -42,14 +42,14 @@ namespace ouzel::input
         void setCursor(const Cursor* newCursor);
 
     private:
-        bool handleButtonPress(Mouse::Button button, const Vector<float, 2>& pos);
-        bool handleButtonRelease(Mouse::Button button, const Vector<float, 2>& pos);
-        bool handleMove(const Vector<float, 2>& pos);
-        bool handleRelativeMove(const Vector<float, 2>& pos);
-        bool handleScroll(const Vector<float, 2>& scroll, const Vector<float, 2>& pos);
+        bool handleButtonPress(Mouse::Button button, const math::Vector<float, 2>& pos);
+        bool handleButtonRelease(Mouse::Button button, const math::Vector<float, 2>& pos);
+        bool handleMove(const math::Vector<float, 2>& pos);
+        bool handleRelativeMove(const math::Vector<float, 2>& pos);
+        bool handleScroll(const math::Vector<float, 2>& scroll, const math::Vector<float, 2>& pos);
         bool handleCursorLockChange(bool locked);
 
-        Vector<float, 2> position{};
+        math::Vector<float, 2> position{};
         bool buttonStates[static_cast<std::uint32_t>(Button::count)]{false};
         bool cursorVisible = true;
         bool cursorLocked = false;

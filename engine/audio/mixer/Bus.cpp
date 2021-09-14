@@ -52,9 +52,9 @@ namespace ouzel::audio::mixer
                     const auto sourceChannel = &sourceSamples[channel * sourceFrames];
                     const auto outputChannel = &samples[channel * frames];
 
-                    outputChannel[frame] = lerp(sourceChannel[sourceCurrentFrame],
-                                                sourceChannel[sourceNextFrame],
-                                                fraction);
+                    outputChannel[frame] = math::lerp(sourceChannel[sourceCurrentFrame],
+                                                      sourceChannel[sourceNextFrame],
+                                                      fraction);
                 }
 
                 sourcePosition += sourceIncrement;
@@ -225,7 +225,7 @@ namespace ouzel::audio::mixer
     }
 
     void Bus::generateSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                              const Vector<float, 3>& listenerPosition, const Quaternion<float>& listenerRotation,
+                              const math::Vector<float, 3>& listenerPosition, const math::Quaternion<float>& listenerRotation,
                               std::vector<float>& samples)
     {
         samples.resize(frames * channels);

@@ -16,7 +16,7 @@ namespace ouzel::input::macos
     public:
         MouseDevice(InputSystem& initInputSystem, DeviceId initId);
 
-        void setPosition(const Vector<float, 2>& position);
+        void setPosition(const math::Vector<float, 2>& position);
         auto isCursorVisible() const noexcept { return cursorVisible; }
         void setCursorVisible(bool newVisible);
         void setCursorLocked(bool locked);

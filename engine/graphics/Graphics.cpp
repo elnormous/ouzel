@@ -166,7 +166,7 @@ namespace ouzel::graphics
         }
     }
 
-    void Graphics::setSize(const Size<std::uint32_t, 2>& newSize)
+    void Graphics::setSize(const math::Size<std::uint32_t, 2>& newSize)
     {
         size = newSize;
 
@@ -186,7 +186,7 @@ namespace ouzel::graphics
     void Graphics::clearRenderTarget(bool clearColorBuffer,
                                      bool clearDepthBuffer,
                                      bool clearStencilBuffer,
-                                     Color clearColor,
+                                     math::Color clearColor,
                                      float clearDepth,
                                      std::uint32_t clearStencil)
     {
@@ -198,12 +198,12 @@ namespace ouzel::graphics
                                                               clearStencil));
     }
 
-    void Graphics::setScissorTest(bool enabled, const Rect<float>& rectangle)
+    void Graphics::setScissorTest(bool enabled, const math::Rect<float>& rectangle)
     {
         addCommand(std::make_unique<SetScissorTestCommand>(enabled, rectangle));
     }
 
-    void Graphics::setViewport(const Rect<float>& viewport)
+    void Graphics::setViewport(const math::Rect<float>& viewport)
     {
         addCommand(std::make_unique<SetViewportCommand>(viewport));
     }

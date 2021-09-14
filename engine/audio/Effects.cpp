@@ -145,7 +145,7 @@ namespace ouzel::audio
         {
         }
 
-        void setPosition(const Vector<float, 3>& newPosition)
+        void setPosition(const math::Vector<float, 3>& newPosition)
         {
             position = newPosition;
         }
@@ -166,7 +166,7 @@ namespace ouzel::audio
         }
 
     private:
-        Vector<float, 3> position{};
+        math::Vector<float, 3> position{};
         float rolloffFactor = 1.0F;
         float minDistance = 1.0F;
         float maxDistance = FLT_MAX;
@@ -180,7 +180,7 @@ namespace ouzel::audio
     {
     }
 
-    void Panner::setPosition(const Vector<float, 3>& newPosition)
+    void Panner::setPosition(const math::Vector<float, 3>& newPosition)
     {
         position = newPosition;
 

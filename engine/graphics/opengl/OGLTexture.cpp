@@ -253,7 +253,7 @@ namespace ouzel::graphics::opengl
     }
 
     Texture::Texture(RenderDevice& initRenderDevice,
-                     const std::vector<std::pair<Size<std::uint32_t, 2>,
+                     const std::vector<std::pair<math::Size<std::uint32_t, 2>,
                      std::vector<std::uint8_t>>>& initLevels,
                      TextureType type,
                      Flags initFlags,
@@ -372,7 +372,7 @@ namespace ouzel::graphics::opengl
         }
     }
 
-    void Texture::setData(const std::vector<std::pair<Size<std::uint32_t, 2>,
+    void Texture::setData(const std::vector<std::pair<math::Size<std::uint32_t, 2>,
                           std::vector<std::uint8_t>>>& newLevels)
     {
         if ((flags & Flags::dynamic) != Flags::dynamic ||

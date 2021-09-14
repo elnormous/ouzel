@@ -9,7 +9,7 @@
 #include "Plane.hpp"
 #include "Vector.hpp"
 
-namespace ouzel
+namespace ouzel::math
 {
     template <typename T> class ConvexVolume final
     {
@@ -24,7 +24,7 @@ namespace ouzel
         }
 
         template<std::size_t n>
-        [[nodiscard]] bool isPointInside(const Vector<T, n>& position) const noexcept
+        [[nodiscard]] bool isPointInside(const math::Vector<T, n>& position) const noexcept
         {
             static_assert(n >= 3);
 
@@ -36,7 +36,7 @@ namespace ouzel
         }
 
         template<std::size_t n>
-        [[nodiscard]] bool isSphereInside(const Vector<T, n>& position, const T radius) const noexcept
+        [[nodiscard]] bool isSphereInside(const math::Vector<T, n>& position, const T radius) const noexcept
         {
             static_assert(n >= 3);
 
@@ -47,16 +47,16 @@ namespace ouzel
             return true;
         }
 
-        [[nodiscard]] auto isBoxInside(const Box<T, 3>& box) const noexcept
+        [[nodiscard]] auto isBoxInside(const math::Box<T, 3>& box) const noexcept
         {
-            const Vector<T, 3> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2]);
-            const Vector<T, 3> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2]);
-            const Vector<T, 3> leftTopBack(box.min.v[0], box.max.v[1], box.min.v[2]);
-            const Vector<T, 3> leftTopFront(box.min.v[0], box.max.v[1], box.max.v[2]);
-            const Vector<T, 3> rightBottomBack(box.max.v[0], box.min.v[1], box.min.v[2]);
-            const Vector<T, 3> rightBottomFront(box.max.v[0], box.min.v[1], box.max.v[2]);
-            const Vector<T, 3> rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2]);
-            const Vector<T, 3> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2]);
+            const math::Vector<T, 3> leftBottomBack(box.min.v[0], box.min.v[1], box.min.v[2]);
+            const math::Vector<T, 3> leftBottomFront(box.min.v[0], box.min.v[1], box.max.v[2]);
+            const math::Vector<T, 3> leftTopBack(box.min.v[0], box.max.v[1], box.min.v[2]);
+            const math::Vector<T, 3> leftTopFront(box.min.v[0], box.max.v[1], box.max.v[2]);
+            const math::Vector<T, 3> rightBottomBack(box.max.v[0], box.min.v[1], box.min.v[2]);
+            const math::Vector<T, 3> rightBottomFront(box.max.v[0], box.min.v[1], box.max.v[2]);
+            const math::Vector<T, 3> rightTopBack(box.max.v[0], box.max.v[1], box.min.v[2]);
+            const math::Vector<T, 3> rightTopFront(box.max.v[0], box.max.v[1], box.max.v[2]);
 
             for (const auto& plane : planes)
                 if (plane.dot(leftBottomBack) < T(0) &&

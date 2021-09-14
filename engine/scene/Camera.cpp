@@ -11,14 +11,14 @@
 
 namespace ouzel::scene
 {
-    Camera::Camera(const Matrix<float, 4>& initProjection):
+    Camera::Camera(const math::Matrix<float, 4>& initProjection):
         projectionMode{ProjectionMode::custom}, projection{initProjection}
 
     {
         calculateViewProjection();
     }
 
-    Camera::Camera(const Size<float, 2>& initTargetContentSize, ScaleMode initScaleMode):
+    Camera::Camera(const math::Size<float, 2>& initTargetContentSize, ScaleMode initScaleMode):
         projectionMode{ProjectionMode::orthographic},
         targetContentSize{initTargetContentSize},
         scaleMode{initScaleMode}
@@ -65,12 +65,12 @@ namespace ouzel::scene
 
     void Camera::recalculateProjection()
     {
-        const Size<std::uint32_t, 2> renderTargetSize = renderTarget ?
+        const math::Size<std::uint32_t, 2> renderTargetSize = renderTarget ?
             !renderTarget->getColorTextures().empty() ?
                 renderTarget->getColorTextures()[0]->getSize() :
                 renderTarget->getDepthTexture() ?
                     renderTarget->getDepthTexture()->getSize() :
-                    Size<std::uint32_t, 2>{} :
+                    math::Size<std::uint32_t, 2>{} :
             engine->getGraphics()->getSize();
 
         renderViewport.position.v[0] = renderTargetSize.v[0] * viewport.position.v[0];
@@ -111,20 +111,20 @@ namespace ouzel::scene
                     return;
             }
 
-            contentSize = Size<float, 2>{
+            contentSize = math::Size<float, 2>{
                 renderViewport.size.v[0] / contentScale.v[0],
                 renderViewport.size.v[1] / contentScale.v[1]
             };
-            contentPosition = Vector<float, 2>{
+            contentPosition = math::Vector<float, 2>{
                 (contentSize.v[0] - targetContentSize.v[0]) / 2.0F,
                 (contentSize.v[1] - targetContentSize.v[1]) / 2.0F
             };
         }
         else
         {
-            contentScale = Vector<float, 2>{1.0F, 1.0F};
-            contentSize = Size<float, 2>{renderViewport.size.v[0], renderViewport.size.v[1]};
-            contentPosition = Vector<float, 2>{0.0F, 0.0F};
+            contentScale = math::Vector<float, 2>{1.0F, 1.0F};
+            contentSize = math::Size<float, 2>{renderViewport.size.v[0], renderViewport.size.v[1]};
+            contentPosition = math::Vector<float, 2>{0.0F, 0.0F};
         }
 
         switch (projectionMode)
@@ -145,21 +145,21 @@ namespace ouzel::scene
         viewProjectionDirty = inverseViewProjectionDirty = true;
     }
 
-    const Matrix<float, 4>& Camera::getViewProjection() const
+    const math::Matrix<float, 4>& Camera::getViewProjection() const
     {
         if (viewProjectionDirty) calculateViewProjection();
 
         return viewProjection;
     }
 
-    const Matrix<float, 4>& Camera::getRenderViewProjection() const
+    const math::Matrix<float, 4>& Camera::getRenderViewProjection() const
     {
         if (viewProjectionDirty) calculateViewProjection();
 
         return renderViewProjection;
     }
 
-    const Matrix<float, 4>& Camera::getInverseViewProjection() const
+    const math::Matrix<float, 4>& Camera::getInverseViewProjection() const
     {
         if (inverseViewProjectionDirty)
         {
@@ -184,10 +184,10 @@ namespace ouzel::scene
         }
     }
 
-    Vector<float, 3> Camera::convertNormalizedToWorld(const Vector<float, 2>& normalizedPosition) const
+    math::Vector<float, 3> Camera::convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const
     {
         // convert window normalized to viewport clip position
-        auto result = Vector<float, 3>{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
+        auto result = math::Vector<float, 3>{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
                                (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
                                0.0F};
 
@@ -196,27 +196,27 @@ namespace ouzel::scene
         return result;
     }
 
-    Vector<float, 2> Camera::convertWorldToNormalized(const Vector<float, 3>& normalizedPosition) const
+    math::Vector<float, 2> Camera::convertWorldToNormalized(const math::Vector<float, 3>& normalizedPosition) const
     {
-        Vector<float, 3> result = normalizedPosition;
+        math::Vector<float, 3> result = normalizedPosition;
         getViewProjection().transformPoint(result);
 
         // convert viewport clip position to window normalized
-        return Vector<float, 2>{
+        return math::Vector<float, 2>{
             (result.v[0] / 2.0F + 0.5F) * viewport.size.v[0] + viewport.position.v[0],
             1.0F - ((result.v[1] / 2.0F + 0.5F) * viewport.size.v[1] + viewport.position.v[1])
         };
     }
 
-    bool Camera::checkVisibility(const Matrix<float, 4>& boxTransform, const Box<float, 3>& box) const
+    bool Camera::checkVisibility(const math::Matrix<float, 4>& boxTransform, const math::Box<float, 3>& box) const
     {
         if (projectionMode == ProjectionMode::orthographic)
         {
             // calculate center point of the box
-            const auto diff = Vector<float, 2>{box.max - box.min};
+            const auto diff = math::Vector<float, 2>{box.max - box.min};
 
             // offset the center point, so that it is relative to 0,0
-            Vector<float, 3> v3p{
+            math::Vector<float, 3> v3p{
                 box.min.v[0] + diff.v[0] / 2.0F,
                 box.min.v[1] + diff.v[1] / 2.0F, 0.0F
             };
@@ -225,22 +225,22 @@ namespace ouzel::scene
             boxTransform.transformPoint(v3p);
 
             // tranform the center to viewport's clip space
-            Vector<float, 4> clipPos;
-            getViewProjection().transformVector(Vector<float, 4>{v3p.v[0], v3p.v[1], v3p.v[2], 1.0F}, clipPos);
+            math::Vector<float, 4> clipPos;
+            getViewProjection().transformVector(math::Vector<float, 4>{v3p.v[0], v3p.v[1], v3p.v[2], 1.0F}, clipPos);
 
             assert(clipPos.v[3] != 0.0F);
 
             // normalize position of the center point
-            const Vector<float, 2> v2p{
+            const math::Vector<float, 2> v2p{
                 (clipPos.v[0] / clipPos.v[3] + 1.0F) * 0.5F,
                 (clipPos.v[1] / clipPos.v[3] + 1.0F) * 0.5F
             };
 
             // calculate half size
-            const Size<float, 2> halfSize{diff.v[0] / 2.0F, diff.v[1] / 2.0F};
+            const math::Size<float, 2> halfSize{diff.v[0] / 2.0F, diff.v[1] / 2.0F};
 
             // convert content size to world coordinates
-            Size<float, 2> halfWorldSize{
+            math::Size<float, 2> halfWorldSize{
                 std::max(std::fabs(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
                          std::fabs(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4])),
                 std::max(std::fabs(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
@@ -252,7 +252,7 @@ namespace ouzel::scene
             halfWorldSize.v[1] *= (std::fabs(viewProjection.m[1]) + std::fabs(viewProjection.m[5])) / 2.0F;
 
             // create visible rect in clip space
-            const Rect<float> visibleRect{
+            const math::Rect<float> visibleRect{
                 -halfWorldSize.v[0],
                 -halfWorldSize.v[1],
                 1.0F + halfWorldSize.v[0] * 2.0F,
@@ -269,7 +269,7 @@ namespace ouzel::scene
         }
     }
 
-    void Camera::setViewport(const Rect<float>& newViewport)
+    void Camera::setViewport(const math::Rect<float>& newViewport)
     {
         viewport = newViewport;
         recalculateProjection();
@@ -281,7 +281,7 @@ namespace ouzel::scene
         recalculateProjection();
     }
 
-    void Camera::setTargetContentSize(const Size<float, 2>& newTargetContentSize)
+    void Camera::setTargetContentSize(const math::Size<float, 2>& newTargetContentSize)
     {
         targetContentSize = newTargetContentSize;
         recalculateProjection();

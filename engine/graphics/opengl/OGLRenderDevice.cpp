@@ -272,14 +272,14 @@ namespace ouzel::graphics::opengl
         textureBaseLevelSupported{false},
         textureMaxLevelSupported{false}
     {
-        projectionTransform = Matrix<float, 4>{
+        projectionTransform = math::Matrix<float, 4>{
             1.0F, 0.0F, 0.0F, 0.0F,
             0.0F, 1.0F, 0.0F, 0.0F,
             0.0F, 0.0F, 2.0F, 0.0F,
             0.0F, 0.0F, -1.0F, 1.0F
         };
 
-        renderTargetProjectionTransform = Matrix<float, 4>{
+        renderTargetProjectionTransform = math::Matrix<float, 4>{
             1.0F, 0.0F, 0.0F, 0.0F,
             0.0F, -1.0F, 0.0F, 0.0F,
             0.0F, 0.0F, 2.0F, 0.0F,

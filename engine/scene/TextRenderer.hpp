@@ -20,18 +20,18 @@ namespace ouzel::scene
         TextRenderer(const std::string& fontFile,
                      float initFontSize = 1.0F,
                      const std::string& initText = std::string(),
-                     Color initColor = Color::white(),
-                     const Vector<float, 2>& initTextAnchor = Vector<float, 2>{0.5F, 0.5F});
+                     math::Color initColor = math::Color::white(),
+                     const math::Vector<float, 2>& initTextAnchor = math::Vector<float, 2>{0.5F, 0.5F});
 
         TextRenderer(const gui::Font& initFont,
                      float initFontSize = 1.0F,
                      const std::string& initText = std::string(),
-                     Color initColor = Color::white(),
-                     const Vector<float, 2>& initTextAnchor = Vector<float, 2>{0.5F, 0.5F});
+                     math::Color initColor = math::Color::white(),
+                     const math::Vector<float, 2>& initTextAnchor = math::Vector<float, 2>{0.5F, 0.5F});
 
-        void draw(const Matrix<float, 4>& transformMatrix,
+        void draw(const math::Matrix<float, 4>& transformMatrix,
                   float opacity,
-                  const Matrix<float, 4>& renderViewProjection,
+                  const math::Matrix<float, 4>& renderViewProjection,
                   bool wireframe) override;
 
         void setFont(const std::string& fontFile);
@@ -40,13 +40,13 @@ namespace ouzel::scene
         void setFontSize(float newFontSize);
 
         auto& getTextAnchor() const noexcept { return textAnchor; }
-        void setTextAnchor(const Vector<float, 2>& newTextAnchor);
+        void setTextAnchor(const math::Vector<float, 2>& newTextAnchor);
 
         auto& getText() const noexcept { return text; }
         void setText(const std::string& newText);
 
         auto getColor() const noexcept { return color; }
-        void setColor(Color newColor);
+        void setColor(math::Color newColor);
 
         auto& getShader() const noexcept { return shader; }
         void setShader(const graphics::Shader* newShader)
@@ -75,12 +75,12 @@ namespace ouzel::scene
         const gui::Font* font = nullptr;
         std::string text;
         float fontSize = 1.0F;
-        Vector<float, 2> textAnchor{};
+        math::Vector<float, 2> textAnchor{};
 
         std::vector<std::uint16_t> indices;
         std::vector<graphics::Vertex> vertices;
 
-        Color color = Color::white();
+        math::Color color = math::Color::white();
 
         bool needsMeshUpdate = false;
     };

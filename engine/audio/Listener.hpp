@@ -29,13 +29,13 @@ namespace ouzel::audio
         void setMix(Mix* newMix);
 
         auto& getPosition() const noexcept { return position; }
-        void setPosition(const Vector<float, 3>& newPosition) { position = newPosition; }
+        void setPosition(const math::Vector<float, 3>& newPosition) { position = newPosition; }
 
         auto& getVelocity() const noexcept { return velocity; }
-        void setVelocity(const Vector<float, 3>& newVelocity) { velocity = newVelocity; }
+        void setVelocity(const math::Vector<float, 3>& newVelocity) { velocity = newVelocity; }
 
         auto& getRotation() const noexcept { return rotation; }
-        void setRotation(const Quaternion<float>& newRotation) { rotation = newRotation; }
+        void setRotation(const math::Quaternion<float>& newRotation) { rotation = newRotation; }
 
     private:
         void updateTransform() override;
@@ -43,9 +43,9 @@ namespace ouzel::audio
         Audio& audio;
 
         Mix* mix = nullptr;
-        Vector<float, 3> position{};
-        Vector<float, 3> velocity{};
-        Quaternion<float> rotation = Quaternion<float>::identity();
+        math::Vector<float, 3> position{};
+        math::Vector<float, 3> velocity{};
+        math::Quaternion<float> rotation = math::Quaternion<float>::identity();
         bool transformDirty = true;
     };
 }

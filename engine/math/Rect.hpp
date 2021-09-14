@@ -6,13 +6,13 @@
 #include "Size.hpp"
 #include "Vector.hpp"
 
-namespace ouzel
+namespace ouzel::math
 {
     template <typename T> class Rect final
     {
     public:
-        Vector<T, 2> position;
-        Size<T, 2> size;
+        math::Vector<T, 2> position;
+        math::Size<T, 2> size;
 
         constexpr Rect() noexcept {}
 
@@ -27,8 +27,8 @@ namespace ouzel
         {
         }
 
-        constexpr Rect(const Vector<T, 2>& initPosition,
-                       const Size<T, 2>& initSize) noexcept:
+        constexpr Rect(const math::Vector<T, 2>& initPosition,
+                       const math::Size<T, 2>& initSize) noexcept:
             position{initPosition}, size{initSize}
         {
         }
@@ -39,7 +39,7 @@ namespace ouzel
             position.v[1] = y;
         }
 
-        constexpr void setPosition(const Vector<T, 2>& newPosition) noexcept
+        constexpr void setPosition(const math::Vector<T, 2>& newPosition) noexcept
         {
             position = newPosition;
         }
@@ -71,7 +71,7 @@ namespace ouzel
 
         [[nodiscard]] constexpr auto topRight() const noexcept
         {
-            return Vector<T, 2>{position.v[0] + size.v[0], position.v[1] + size.v[1]};
+            return math::Vector<T, 2>{position.v[0] + size.v[0], position.v[1] + size.v[1]};
         }
 
         [[nodiscard]] constexpr auto containsPoint(const T x, const T y) const noexcept
@@ -80,7 +80,7 @@ namespace ouzel
                 y >= position.v[1] && y <= (position.v[1] + size.v[1]);
         }
 
-        [[nodiscard]] constexpr auto containsPoint(const Vector<T, 2>& point) const noexcept
+        [[nodiscard]] constexpr auto containsPoint(const math::Vector<T, 2>& point) const noexcept
         {
             return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.v[0]) &&
                 point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.v[1]);

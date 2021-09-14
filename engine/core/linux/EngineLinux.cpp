@@ -408,7 +408,7 @@ namespace ouzel::core::linux
                         auto& inputSystemLinux = inputManager->getInputSystem();
                         const auto mouseDevice = inputSystemLinux.getMouseDevice();
 
-                        const Vector<float, 2> position{
+                        const math::Vector<float, 2> position{
                             static_cast<float>(event.xbutton.x),
                             static_cast<float>(event.xbutton.y)
                         };
@@ -436,7 +436,7 @@ namespace ouzel::core::linux
                         auto& inputSystemLinux = inputManager->getInputSystem();
                         const auto mouseDevice = inputSystemLinux.getMouseDevice();
 
-                        const Vector<float, 2> position{
+                        const math::Vector<float, 2> position{
                             static_cast<float>(event.xmotion.x),
                             static_cast<float>(event.xmotion.y)
                         };
@@ -447,7 +447,7 @@ namespace ouzel::core::linux
                     }
                     case ConfigureNotify:
                     {
-                        const Size<std::uint32_t, 2> size{
+                        const math::Size<std::uint32_t, 2> size{
                             static_cast<std::uint32_t>(event.xconfigure.width),
                             static_cast<std::uint32_t>(event.xconfigure.height)
                         };
@@ -473,7 +473,7 @@ namespace ouzel::core::linux
                                 case XI_TouchBegin:
                                 {
                                     const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
-                                    const Vector<float, 2> position{
+                                    const math::Vector<float, 2> position{
                                         static_cast<float>(xievent->event_x),
                                         static_cast<float>(xievent->event_y)
                                     };
@@ -485,7 +485,7 @@ namespace ouzel::core::linux
                                 case XI_TouchEnd:
                                 {
                                     const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
-                                    const Vector<float, 2> position{
+                                    const math::Vector<float, 2> position{
                                         static_cast<float>(xievent->event_x),
                                         static_cast<float>(xievent->event_y)
                                     };
@@ -497,7 +497,7 @@ namespace ouzel::core::linux
                                 case XI_TouchUpdate:
                                 {
                                     const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
-                                    const Vector<float, 2> position{
+                                    const math::Vector<float, 2> position{
                                         static_cast<float>(xievent->event_x),
                                         static_cast<float>(xievent->event_y)
                                     };

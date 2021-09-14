@@ -6,10 +6,10 @@
 #include "Matrix.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel
+namespace ouzel::math
 {
     template <>
-    void Matrix<float, 4, 4>::add(const float scalar, Matrix& dst) const noexcept
+    void math::Matrix<float, 4, 4>::add(const float scalar, Matrix& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -82,7 +82,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<float, 4, 4>::add(const Matrix& matrix, Matrix& dst) const noexcept
+    void math::Matrix<float, 4, 4>::add(const Matrix& matrix, Matrix& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -152,7 +152,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<float, 4, 4>::multiply(const float scalar, Matrix& dst) const noexcept
+    void math::Matrix<float, 4, 4>::multiply(const float scalar, Matrix& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -222,7 +222,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<float, 4, 4>::multiply(const Matrix& matrix, Matrix& dst) const noexcept
+    void math::Matrix<float, 4, 4>::multiply(const Matrix& matrix, Matrix& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -404,7 +404,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<float, 4, 4>::negate() noexcept
+    void math::Matrix<float, 4, 4>::negate() noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -472,7 +472,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<float, 4, 4>::subtract(const Matrix& matrix, Matrix& dst) const noexcept
+    void math::Matrix<float, 4, 4>::subtract(const Matrix& matrix, Matrix& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -542,7 +542,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<float, 4, 4>::transformVector(const Vector<float, 4>& v, Vector<float, 4>& dst) const noexcept
+    void math::Matrix<float, 4, 4>::transformVector(const math::Vector<float, 4>& v, math::Vector<float, 4>& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -605,7 +605,7 @@ namespace ouzel
     }
 
     template <>
-    void Matrix<float, 4, 4>::transpose(Matrix& dst) const noexcept
+    void math::Matrix<float, 4, 4>::transpose(Matrix& dst) const noexcept
     {
         if (core::isSimdAvailable)
         {
@@ -656,5 +656,5 @@ namespace ouzel
         }
     }
 
-    template class Matrix<float, 4, 4>;
+    template class math::Matrix<float, 4, 4>;
 }

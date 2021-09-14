@@ -339,11 +339,11 @@ namespace ouzel::gui
     }
 
     Font::RenderData BMFont::getRenderData(const std::string_view& text,
-                                           Color color,
+                                           math::Color color,
                                            float fontSize,
-                                           const Vector<float, 2>& anchor) const
+                                           const math::Vector<float, 2>& anchor) const
     {
-        Vector<float, 2> position{};
+        math::Vector<float, 2> position{};
 
         const auto utf32Text = utf8::toUtf32(text);
 
@@ -369,31 +369,31 @@ namespace ouzel::gui
                 indices.push_back(startIndex + 3);
                 indices.push_back(startIndex + 2);
 
-                const Vector<float, 2> leftTop{
+                const math::Vector<float, 2> leftTop{
                     f.x / static_cast<float>(width),
                     f.y / static_cast<float>(height)
                 };
 
-                const Vector<float, 2> rightBottom{
+                const math::Vector<float, 2> rightBottom{
                     (f.x + f.width) / static_cast<float>(width),
                     (f.y + f.height) / static_cast<float>(height)
                 };
 
-                const std::array<Vector<float, 2>, 4> textCoords{
-                    Vector<float, 2>{leftTop.v[0], rightBottom.v[1]},
-                    Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]},
-                    Vector<float, 2>{leftTop.v[0], leftTop.v[1]},
-                    Vector<float, 2>{rightBottom.v[0], leftTop.v[1]}
+                const std::array<math::Vector<float, 2>, 4> textCoords{
+                    math::Vector<float, 2>{leftTop.v[0], rightBottom.v[1]},
+                    math::Vector<float, 2>{rightBottom.v[0], rightBottom.v[1]},
+                    math::Vector<float, 2>{leftTop.v[0], leftTop.v[1]},
+                    math::Vector<float, 2>{rightBottom.v[0], leftTop.v[1]}
                 };
 
-                vertices.emplace_back(Vector<float, 3>{position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0F},
-                                      color, textCoords[0], Vector<float, 3>{0.0F, 0.0F, -1.0F});
-                vertices.emplace_back(Vector<float, 3>{position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0F},
-                                      color, textCoords[1], Vector<float, 3>{0.0F, 0.0F, -1.0F});
-                vertices.emplace_back(Vector<float, 3>{position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0F},
-                                      color, textCoords[2], Vector<float, 3>{0.0F, 0.0F, -1.0F});
-                vertices.emplace_back(Vector<float, 3>{position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0F},
-                                      color, textCoords[3], Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(math::Vector<float, 3>{position.v[0] + f.xOffset, -position.v[1] - f.yOffset - f.height, 0.0F},
+                                      color, textCoords[0], math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(math::Vector<float, 3>{position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset - f.height, 0.0F},
+                                      color, textCoords[1], math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(math::Vector<float, 3>{position.v[0] + f.xOffset, -position.v[1] - f.yOffset, 0.0F},
+                                      color, textCoords[2], math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(math::Vector<float, 3>{position.v[0] + f.xOffset + f.width, -position.v[1] - f.yOffset, 0.0F},
+                                      color, textCoords[3], math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
                 if ((i + 1) != utf32Text.end())
                     position.v[0] += static_cast<float>(getKerningPair(*i, *(i + 1)));

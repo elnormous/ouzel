@@ -20,7 +20,7 @@ namespace ouzel::input
         init(systemCursor);
     }
 
-    Cursor::Cursor(InputManager& initInputManager, const std::string& filename, const Vector<float, 2>& hotSpot):
+    Cursor::Cursor(InputManager& initInputManager, const std::string& filename, const math::Vector<float, 2>& hotSpot):
         Cursor{initInputManager}
     {
         init(filename, hotSpot);
@@ -46,7 +46,7 @@ namespace ouzel::input
         inputManager.getInputSystem().addCommand(command);
     }
 
-    void Cursor::init(const std::string& filename, const Vector<float, 2>& hotSpot)
+    void Cursor::init(const std::string& filename, const math::Vector<float, 2>& hotSpot)
     {
         // TODO: load with asset loader
         const auto data = engine->getFileSystem().readFile(filename);
@@ -142,7 +142,7 @@ namespace ouzel::input
                 throw std::runtime_error("Unsupported pixel size");
         }
 
-        const auto size = Size<std::uint32_t, 2>{
+        const auto size = math::Size<std::uint32_t, 2>{
             static_cast<std::uint32_t>(width),
             static_cast<std::uint32_t>(height)
         };
@@ -151,9 +151,9 @@ namespace ouzel::input
     }
 
     void Cursor::init(const std::vector<std::uint8_t>& data,
-                      const Size<std::uint32_t, 2>& size,
+                      const math::Size<std::uint32_t, 2>& size,
                       graphics::PixelFormat pixelFormat,
-                      const Vector<float, 2>& hotSpot)
+                      const math::Vector<float, 2>& hotSpot)
     {
         InputSystem::Command command(InputSystem::Command::Type::initCursor);
         command.cursorResource = cursorResource;

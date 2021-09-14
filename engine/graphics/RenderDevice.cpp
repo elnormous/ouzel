@@ -54,9 +54,9 @@ namespace ouzel::graphics
         }
     }
 
-    std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
+    std::vector<math::Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
     {
-        return std::vector<Size<std::uint32_t, 2>>{};
+        return std::vector<math::Size<std::uint32_t, 2>>{};
     }
 
     void RenderDevice::generateScreenshot(const std::string&)

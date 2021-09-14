@@ -9,7 +9,7 @@
 #include <limits>
 #include "Vector.hpp"
 
-namespace ouzel
+namespace ouzel::math
 {
     template <typename T> class Quaternion final
     {
@@ -232,7 +232,7 @@ namespace ouzel
             };
         }
 
-        void rotate(const T angle, const Vector<T, 3>& axis) noexcept
+        void rotate(const T angle, const math::Vector<T, 3>& axis) noexcept
         {
             const auto normalizedAxis = axis.normalized();
 
@@ -245,7 +245,7 @@ namespace ouzel
             v[3] = cosine;
         }
 
-        void getRotation(T& angle, Vector<T, 3>& axis) const noexcept
+        void getRotation(T& angle, math::Vector<T, 3>& axis) const noexcept
         {
             angle = T(2) * std::acos(v[3]);
             const auto s = std::sqrt(T(1) - v[3] * v[3]);
@@ -265,7 +265,7 @@ namespace ouzel
 
         [[nodiscard]] auto getEulerAngles() const noexcept
         {
-            return Vector<T, 3>{
+            return math::Vector<T, 3>{
                 std::atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]),
                 std::asin(-2 * (v[0] * v[2] - v[3] * v[1])),
                 std::atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2])
@@ -287,7 +287,7 @@ namespace ouzel
             return std::atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
         }
 
-        void setEulerAngles(const Vector<T, 3>& angles) noexcept
+        void setEulerAngles(const math::Vector<T, 3>& angles) noexcept
         {
             const auto angleR = angles.v[0] / T(2);
             const auto sr = std::sin(angleR);
@@ -312,31 +312,31 @@ namespace ouzel
             v[3] = cr * cpcy + sr * spsy;
         }
 
-        [[nodiscard]] auto operator*(const Vector<T, 3>& vector) const noexcept
+        [[nodiscard]] auto operator*(const math::Vector<T, 3>& vector) const noexcept
         {
             return rotateVector(vector);
         }
 
-        [[nodiscard]] auto rotateVector(const Vector<T, 3>& vector) const noexcept
+        [[nodiscard]] auto rotateVector(const math::Vector<T, 3>& vector) const noexcept
         {
-            constexpr Vector<T, 3> q{v[0], v[1], v[2]};
+            constexpr math::Vector<T, 3> q{v[0], v[1], v[2]};
             const auto t = T(2) * q.cross(vector);
             return vector + (v[3] * t) + q.cross(t);
         }
 
         [[nodiscard]] auto getRightVector() const noexcept
         {
-            return rotateVector(Vector<T, 3>{T(1), T(0), T(0)});
+            return rotateVector(math::Vector<T, 3>{T(1), T(0), T(0)});
         }
 
         [[nodiscard]] auto getUpVector() const noexcept
         {
-            return rotateVector(Vector<T, 3>{T(0), T(1), T(0)});
+            return rotateVector(math::Vector<T, 3>{T(0), T(1), T(0)});
         }
 
         [[nodiscard]] auto getForwardVector() const noexcept
         {
-            return rotateVector(Vector<T, 3>{T(0), T(0), T(1)});
+            return rotateVector(math::Vector<T, 3>{T(0), T(0), T(1)});
         }
 
         [[nodiscard]] auto& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept

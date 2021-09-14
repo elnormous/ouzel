@@ -6,6 +6,7 @@
 
 using namespace ouzel;
 using namespace input;
+using namespace math;
 
 namespace samples
 {
@@ -37,7 +38,7 @@ namespace samples
                         flamePosition.x() += 0.01F;
                         break;
                     case Keyboard::Key::r:
-                        engine->getWindow()->setSize(ouzel::Size<std::uint32_t, 2>{640U, 480U});
+                        engine->getWindow()->setSize(math::Size<std::uint32_t, 2>{640U, 480U});
                         break;
                     case Keyboard::Key::tab:
                         hideButton.setEnabled(!hideButton.isEnabled());
@@ -164,9 +165,9 @@ namespace samples
         engine->getEventDispatcher().addEventHandler(handler);
 
         camera.setClearColorBuffer(true);
-        camera.setClearColor(ouzel::Color{64, 0, 0});
+        camera.setClearColor(math::Color{64, 0, 0});
         camera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        camera.setTargetContentSize(ouzel::Size<float, 2>{800.0F, 600.0F});
+        camera.setTargetContentSize(math::Size<float, 2>{800.0F, 600.0F});
         cameraActor.addComponent(camera);
 
         mover = std::make_unique<Mover>();
@@ -182,7 +183,7 @@ namespace samples
         layer.addChild(flame);
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
-        guiCamera.setTargetContentSize(ouzel::Size<float, 2>{800.0F, 600.0F});
+        guiCamera.setTargetContentSize(math::Size<float, 2>{800.0F, 600.0F});
         guiCameraActor.addComponent(guiCamera);
         guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);

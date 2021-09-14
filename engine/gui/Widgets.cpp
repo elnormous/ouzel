@@ -32,10 +32,10 @@ namespace ouzel::gui
                    const std::string& label,
                    const std::string& font,
                    float fontSize,
-                   Color initLabelColor,
-                   Color initLabelSelectedColor,
-                   Color initLabelPressedColor,
-                   Color initLabelDisabledColor):
+                   math::Color initLabelColor,
+                   math::Color initLabelSelectedColor,
+                   math::Color initLabelPressedColor,
+                   math::Color initLabelDisabledColor):
         eventHandler{EventHandler::priorityMax + 1},
         labelColor{initLabelColor},
         labelSelectedColor{initLabelSelectedColor},
@@ -349,8 +349,8 @@ namespace ouzel::gui
     Label::Label(const std::string& initText,
                  const std::string& fontFile,
                  float fontSize,
-                 Color color,
-                 const Vector<float, 2>& textAnchor):
+                 math::Color color,
+                 const math::Vector<float, 2>& textAnchor):
         text{initText},
         labelDrawable{fontFile, fontSize, text, color, textAnchor}
     {
@@ -528,7 +528,7 @@ namespace ouzel::gui
                         auto clickEvent = std::make_unique<UIEvent>();
                         clickEvent->type = Event::Type::actorClick;
                         clickEvent->actor = selectedWidget;
-                        clickEvent->position = Vector<float, 2>{selectedWidget->getPosition()};
+                        clickEvent->position = math::Vector<float, 2>{selectedWidget->getPosition()};
                         engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                     }
                     break;
@@ -575,7 +575,7 @@ namespace ouzel::gui
                     auto clickEvent = std::make_unique<UIEvent>();
                     clickEvent->type = Event::Type::actorClick;
                     clickEvent->actor = selectedWidget;
-                    clickEvent->position = Vector<float, 2>{selectedWidget->getPosition()};
+                    clickEvent->position = math::Vector<float, 2>{selectedWidget->getPosition()};
                     engine->getEventDispatcher().dispatchEvent(std::move(clickEvent));
                 }
             }

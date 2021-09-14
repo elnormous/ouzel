@@ -25,10 +25,10 @@ namespace ouzel::gui
                const std::string& label = "",
                const std::string& font = "",
                float fontSize = 1.0F,
-               Color initLabelColor = Color::white(),
-               Color initLabelSelectedColor = Color::white(),
-               Color initLabelPressedColor = Color::white(),
-               Color initLabelDisabledColor = Color::white());
+               math::Color initLabelColor = math::Color::white(),
+               math::Color initLabelSelectedColor = math::Color::white(),
+               math::Color initLabelPressedColor = math::Color::white(),
+               math::Color initLabelDisabledColor = math::Color::white());
 
         void setEnabled(bool newEnabled) override;
 
@@ -56,10 +56,10 @@ namespace ouzel::gui
         bool pointerOver = false;
         bool pressed = false;
 
-        Color labelColor = Color::white();
-        Color labelSelectedColor = Color::white();
-        Color labelPressedColor = Color::white();
-        Color labelDisabledColor = Color::white();
+        math::Color labelColor = math::Color::white();
+        math::Color labelSelectedColor = math::Color::white();
+        math::Color labelPressedColor = math::Color::white();
+        math::Color labelDisabledColor = math::Color::white();
     };
 
     class CheckBox: public Widget
@@ -123,8 +123,8 @@ namespace ouzel::gui
         Label(const std::string& initText,
               const std::string& fontFile,
               float fontSize = 1.0F,
-              Color color = Color::white(),
-              const Vector<float, 2>& textAnchor = Vector<float, 2>{0.5F, 0.5F});
+              math::Color color = math::Color::white(),
+              const math::Vector<float, 2>& textAnchor = math::Vector<float, 2>{0.5F, 0.5F});
 
         auto& getText() const noexcept { return text; }
         virtual void setText(const std::string& newText);

@@ -837,9 +837,9 @@ namespace ouzel::graphics::d3d11
         return nullptr;
     }
 
-    std::vector<Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
+    std::vector<math::Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const
     {
-        std::vector<Size<std::uint32_t, 2>> result;
+        std::vector<math::Size<std::uint32_t, 2>> result;
 
         IDXGIOutput* output = getOutput();
 
@@ -860,7 +860,7 @@ namespace ouzel::graphics::d3d11
 
             for (const auto& displayMode : displayModes)
             {
-                const Size<std::uint32_t, 2> resolution{
+                const math::Size<std::uint32_t, 2> resolution{
                     static_cast<std::uint32_t>(displayMode.Width),
                     static_cast<std::uint32_t>(displayMode.Height)
                 };

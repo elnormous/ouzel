@@ -12,7 +12,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace ouzel
+namespace ouzel::math
 {
     template <typename T, std::size_t dims> class Vector final
     {
@@ -31,7 +31,7 @@ namespace ouzel
         }
 
         template <auto c = dims, std::size_t d, std::enable_if_t<(c != d)>* = nullptr>
-        explicit Vector(const Vector<T, d>& vec) noexcept
+        explicit Vector(const math::Vector<T, d>& vec) noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
                 v[i] = (i < d) ? vec.v[i] : T(0);
@@ -207,7 +207,7 @@ namespace ouzel
         }
 
         template <auto c = dims, std::enable_if_t<(c == 2)>* = nullptr>
-        void rotate(const Vector<T, 2>& point, const T angle) noexcept
+        void rotate(const math::Vector<T, 2>& point, const T angle) noexcept
         {
             const auto sine = std::sin(angle);
             const auto cosine = std::cos(angle);
@@ -362,7 +362,7 @@ namespace ouzel
     };
 
     template <typename T, std::size_t N>
-    [[nodiscard]] auto operator*(const T scalar, const Vector<T, N>& vec) noexcept
+    [[nodiscard]] auto operator*(const T scalar, const math::Vector<T, N>& vec) noexcept
     {
         return vec * scalar;
     }

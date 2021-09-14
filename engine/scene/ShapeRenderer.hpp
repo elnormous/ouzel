@@ -18,37 +18,37 @@ namespace ouzel::scene
     public:
         ShapeRenderer();
 
-        void draw(const Matrix<float, 4>& transformMatrix,
+        void draw(const math::Matrix<float, 4>& transformMatrix,
                   float opacity,
-                  const Matrix<float, 4>& renderViewProjection,
+                  const math::Matrix<float, 4>& renderViewProjection,
                   bool wireframe) override;
 
         void clear();
 
-        void line(const Vector<float, 2>& start,
-                  const Vector<float, 2>& finish,
-                  Color color,
+        void line(const math::Vector<float, 2>& start,
+                  const math::Vector<float, 2>& finish,
+                  math::Color color,
                   float thickness = 0.0F);
 
-        void circle(const Vector<float, 2>& position,
+        void circle(const math::Vector<float, 2>& position,
                     float radius,
-                    Color color,
+                    math::Color color,
                     bool fill = false,
                     std::uint32_t segments = 16,
                     float thickness = 0.0F);
 
-        void rectangle(const Rect<float>& rectangle,
-                       Color color,
+        void rectangle(const math::Rect<float>& rectangle,
+                       math::Color color,
                        bool fill = false,
                        float thickness = 0.0F);
 
-        void polygon(const std::vector<Vector<float, 2>>& edges,
-                     Color color,
+        void polygon(const std::vector<math::Vector<float, 2>>& edges,
+                     math::Color color,
                      bool fill = false,
                      float thickness = 0.0F);
 
-        void curve(const std::vector<Vector<float, 2>>& controlPoints,
-                   Color color,
+        void curve(const std::vector<math::Vector<float, 2>>& controlPoints,
+                   math::Color color,
                    std::uint32_t segments = 16,
                    float thickness = 0.0F);
 

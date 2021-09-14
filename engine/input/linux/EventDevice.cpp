@@ -446,7 +446,7 @@ namespace ouzel::input::linux
                                 break;
                         }
 
-                        const Vector<float, 2> position{
+                        const math::Vector<float, 2> position{
                             static_cast<float>(cursorPosition.x),
                             static_cast<float>(cursorPosition.y)
                         };
@@ -460,7 +460,7 @@ namespace ouzel::input::linux
                         {
                             case REL_X:
                             {
-                                const Vector<float, 2> position{
+                                const math::Vector<float, 2> position{
                                     static_cast<float>(event.value),
                                     0.0F
                                 };
@@ -470,7 +470,7 @@ namespace ouzel::input::linux
                             }
                             case REL_Y:
                             {
-                                const Vector<float, 2> position{
+                                const math::Vector<float, 2> position{
                                     0.0F,
                                     static_cast<float>(event.value)
                                 };
@@ -480,22 +480,22 @@ namespace ouzel::input::linux
                             }
                             case REL_WHEEL:
                             {
-                                const Vector<float, 2> position{
+                                const math::Vector<float, 2> position{
                                     static_cast<float>(cursorPosition.x),
                                     static_cast<float>(cursorPosition.y)
                                 };
                                 const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
-                                mouseDevice->handleScroll(Vector<float, 2>{0.0F, static_cast<float>(event.value)}, normalizedPosition);
+                                mouseDevice->handleScroll(math::Vector<float, 2>{0.0F, static_cast<float>(event.value)}, normalizedPosition);
                                 break;
                             }
                             case REL_HWHEEL:
                             {
-                                const Vector<float, 2> position{
+                                const math::Vector<float, 2> position{
                                     static_cast<float>(cursorPosition.x),
                                     static_cast<float>(cursorPosition.y)
                                 };
                                 const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
-                                mouseDevice->handleScroll(Vector<float, 2>{static_cast<float>(event.value), 0.0F}, normalizedPosition);
+                                mouseDevice->handleScroll(math::Vector<float, 2>{static_cast<float>(event.value), 0.0F}, normalizedPosition);
                                 break;
                             }
                         }
@@ -503,7 +503,7 @@ namespace ouzel::input::linux
                     }
                     case EV_KEY:
                     {
-                        const Vector<float, 2> position{
+                        const math::Vector<float, 2> position{
                             static_cast<float>(cursorPosition.x),
                             static_cast<float>(cursorPosition.y)
                         };
@@ -570,7 +570,7 @@ namespace ouzel::input::linux
                                 for (auto& slot : touchSlots)
                                     if (slot.action != Slot::Action::none)
                                     {
-                                        const Vector<float, 2> position{
+                                        const math::Vector<float, 2> position{
                                             static_cast<float>(slot.positionX - touchMinX) / touchRangeX,
                                             static_cast<float>(slot.positionY - touchMinY) / touchRangeY
                                         };
