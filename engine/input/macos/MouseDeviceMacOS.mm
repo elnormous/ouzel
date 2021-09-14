@@ -15,7 +15,7 @@ namespace ouzel::input::macos
 
     void MouseDevice::setPosition(const math::Vector<float, 2>& position)
     {
-        ouzel::math::Vector<float, 2> windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+        const auto windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
 
         const CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
@@ -23,7 +23,7 @@ namespace ouzel::input::macos
         const CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
 
         CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
-                                                screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
+                                              screenOrigin.y + windowOrigin.y + windowLocation.v[1]));
     }
 
     void MouseDevice::setCursorVisible(bool visible)

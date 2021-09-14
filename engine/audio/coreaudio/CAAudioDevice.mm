@@ -201,7 +201,6 @@ namespace ouzel::audio::coreaudio
 
         CFStringRef tempStringRef = nullptr;
         UInt32 stringSize = sizeof(CFStringRef);
-
         if (const auto result = AudioObjectGetPropertyData(deviceId,
                                                            &nameAddress,
                                                            0,
