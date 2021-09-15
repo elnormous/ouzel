@@ -257,9 +257,7 @@ namespace ouzel::storage
 #elif defined(__linux__)
         Path path;
 
-        const char* homeDirectory = std::getenv("XDG_DATA_HOME");
-
-        if (homeDirectory)
+        if (const char* homeDirectory = std::getenv("XDG_DATA_HOME"))
             path = Path{homeDirectory, Path::Format::native};
         else
         {
@@ -406,7 +404,6 @@ namespace ouzel::storage
 
         if (exists) return true;
 #endif
-
         return getFileType(dirname) == FileType::directory;
     }
 
@@ -423,7 +420,6 @@ namespace ouzel::storage
             return true;
         }
 #endif
-
         return getFileType(filename) == FileType::regular;
     }
 }
