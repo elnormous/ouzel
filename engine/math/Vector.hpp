@@ -301,6 +301,15 @@ namespace ouzel::math
             return false;
         }
 
+        [[nodiscard]] constexpr auto operator>(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < dims; ++i)
+                if (v[i] > vec.v[i]) return true;
+                else if (vec.v[i] > v[i]) return false;
+
+            return false;
+        }
+
         [[nodiscard]] constexpr auto operator==(const Vector& vec) const noexcept
         {
             return std::equal(std::begin(v), std::end(v), std::begin(vec.v));
