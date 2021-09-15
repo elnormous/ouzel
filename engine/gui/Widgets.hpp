@@ -41,7 +41,7 @@ namespace ouzel::gui
     private:
         void setSelected(bool newSelected) override;
 
-        bool handleUI(const UIEvent& event);
+        bool handleUi(const UIEvent& event);
 
         void updateSprite();
 
@@ -82,7 +82,7 @@ namespace ouzel::gui
         auto getDisabledSprite() const noexcept { return disabledSprite.get(); }
 
     private:
-        bool handleUI(const UIEvent& event);
+        bool handleUi(const UIEvent& event);
 
         void updateSprite();
 
@@ -158,7 +158,7 @@ namespace ouzel::gui
 
         bool handleKeyboard(const KeyboardEvent& event);
         bool handleGamepad(const GamepadEvent& event);
-        bool handleUI(const UIEvent& event);
+        bool handleUi(const UIEvent& event);
 
         std::vector<Widget*> widgets;
         Widget* selectedWidget = nullptr;

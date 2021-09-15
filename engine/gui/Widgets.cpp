@@ -19,7 +19,7 @@ namespace ouzel::gui
     Button::Button():
         eventHandler{EventHandler::priorityMax + 1}
     {
-        eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
+        eventHandler.uiHandler = std::bind(&Button::handleUi, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
         pickable = true;
@@ -42,7 +42,7 @@ namespace ouzel::gui
         labelPressedColor{initLabelPressedColor},
         labelDisabledColor{initLabelDisabledColor}
     {
-        eventHandler.uiHandler = std::bind(&Button::handleUI, this, std::placeholders::_1);
+        eventHandler.uiHandler = std::bind(&Button::handleUi, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
         if (!normalImage.empty())
@@ -103,7 +103,7 @@ namespace ouzel::gui
         updateSprite();
     }
 
-    bool Button::handleUI(const UIEvent& event)
+    bool Button::handleUi(const UIEvent& event)
     {
         if (!enabled) return false;
 
@@ -192,7 +192,7 @@ namespace ouzel::gui
                        const std::string& tickImage):
         eventHandler{EventHandler::priorityMax + 1}
     {
-        eventHandler.uiHandler = std::bind(&CheckBox::handleUI, this, std::placeholders::_1);
+        eventHandler.uiHandler = std::bind(&CheckBox::handleUi, this, std::placeholders::_1);
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
         if (!normalImage.empty())
@@ -253,7 +253,7 @@ namespace ouzel::gui
         updateSprite();
     }
 
-    bool CheckBox::handleUI(const UIEvent& event)
+    bool CheckBox::handleUi(const UIEvent& event)
     {
         if (!enabled) return false;
 
@@ -371,7 +371,7 @@ namespace ouzel::gui
     {
         eventHandler.keyboardHandler = std::bind(&Menu::handleKeyboard, this, std::placeholders::_1);
         eventHandler.gamepadHandler = std::bind(&Menu::handleGamepad, this, std::placeholders::_1);
-        eventHandler.uiHandler = std::bind(&Menu::handleUI, this, std::placeholders::_1);
+        eventHandler.uiHandler = std::bind(&Menu::handleUi, this, std::placeholders::_1);
     }
 
     void Menu::enter()
@@ -585,7 +585,7 @@ namespace ouzel::gui
         return false;
     }
 
-    bool Menu::handleUI(const UIEvent& event)
+    bool Menu::handleUi(const UIEvent& event)
     {
         if (!enabled) return false;
 
