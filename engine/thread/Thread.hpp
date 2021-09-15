@@ -94,8 +94,7 @@ namespace ouzel::thread
 
             sched_param param;
             param.sched_priority = static_cast<int>(priority * static_cast<float>(maxPriority - minPriority)) + minPriority;
-            const auto error = pthread_setschedparam(t.native_handle(), policy, &param);
-            if (error != 0)
+            if (const auto error = pthread_setschedparam(t.native_handle(), policy, &param); error != 0)
                 throw std::system_error(error, std::system_category(), "Failed to set thread priority");
 #endif
         }
