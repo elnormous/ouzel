@@ -409,7 +409,6 @@ namespace ouzel::storage
                 s.push_back(static_cast<char>(0x80 | (c & 0x3F)));
             }
 #endif
-
             return s;
         }
 

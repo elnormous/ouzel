@@ -136,7 +136,7 @@ namespace ouzel::audio
     class PannerProcessor final: public mixer::Processor
     {
     public:
-        PannerProcessor()
+        PannerProcessor() noexcept
         {
         }
 
@@ -288,7 +288,7 @@ namespace ouzel::audio
     class PitchShiftProcessor final: public mixer::Processor
     {
     public:
-        explicit PitchShiftProcessor(float initShift):
+        explicit PitchShiftProcessor(float initShift) noexcept:
             shift{initShift}
         {
         }
