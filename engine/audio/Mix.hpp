@@ -42,7 +42,7 @@ namespace ouzel::audio
         void removeListener(Listener* listener);
 
         Audio& audio;
-        std::size_t busId;
+        std::size_t busId = 0;
         std::vector<Submix*> inputSubmixes;
         std::vector<Voice*> inputVoices;
         std::vector<Effect*> effects;

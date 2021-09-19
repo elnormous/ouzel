@@ -9,7 +9,7 @@
 
 namespace ouzel::audio
 {
-    Listener::Listener(Audio& initAudio):
+    Listener::Listener(Audio& initAudio) noexcept:
         audio{initAudio}
     {
     }
