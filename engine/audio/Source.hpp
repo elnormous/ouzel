@@ -14,7 +14,7 @@ namespace ouzel::audio
         virtual ~Source() = default;
 
         virtual void play() {}
-        virtual void stop(bool shouldReset) { (void)shouldReset; }
+        virtual void stop([[maybe_unused]] bool shouldReset) {}
         virtual void getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples) = 0;
 
         auto& getEffects() const noexcept { return effects; }

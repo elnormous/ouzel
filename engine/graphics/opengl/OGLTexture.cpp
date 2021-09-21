@@ -12,7 +12,8 @@ namespace ouzel::graphics::opengl
 {
     namespace
     {
-        constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat, std::uint32_t openGlVersion)
+        constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat,
+                                                      [[maybe_unused]] std::uint32_t openGlVersion)
         {
 #if OUZEL_OPENGLES
             if (openGlVersion >= 3)
@@ -66,8 +67,6 @@ namespace ouzel::graphics::opengl
                 }
             }
 #else
-            static_cast<void>(openGlVersion);
-
             switch (pixelFormat)
             {
                 case PixelFormat::a8UnsignedNorm: return GL_ALPHA8_EXT;

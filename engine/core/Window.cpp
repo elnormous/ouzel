@@ -28,10 +28,10 @@
 namespace ouzel::core
 {
     Window::Window(Engine& initEngine,
-                   const math::Size<std::uint32_t, 2>& newSize,
+                   [[maybe_unused]] const math::Size<std::uint32_t, 2>& newSize,
                    Flags flags,
                    const std::string& newTitle,
-                   graphics::Driver graphicsDriver):
+                   [[maybe_unused]] graphics::Driver graphicsDriver):
         engine{initEngine},
 #if TARGET_OS_IOS
         nativeWindow{std::make_unique<ios::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
@@ -93,8 +93,6 @@ namespace ouzel::core
         highDpi{(flags & Flags::highDpi) == Flags::highDpi},
         title{newTitle}
     {
-        static_cast<void>(newSize);
-        static_cast<void>(graphicsDriver);
     }
 
     void Window::update()

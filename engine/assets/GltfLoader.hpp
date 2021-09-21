@@ -23,11 +23,8 @@ namespace ouzel::assets
         {
             const auto d = json::parse(data);
 
-            const auto& nodesValue = d["nodes"];
-            const auto& meshesValue = d["meshes"];
-
-            (void)nodesValue;
-            (void)meshesValue;
+            [[maybe_unused]] const auto& nodesValue = d["nodes"];
+            [[maybe_unused]] const auto& meshesValue = d["meshes"];
 
             scene::SkinnedMeshData skinnedMeshData;
             bundle.setSkinnedMeshData(name, std::move(skinnedMeshData));

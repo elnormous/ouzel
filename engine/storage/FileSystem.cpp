@@ -101,7 +101,7 @@ namespace ouzel::storage
 #endif
     }
 
-    Path FileSystem::getStorageDirectory(const bool user) const
+    Path FileSystem::getStorageDirectory([[maybe_unused]] const bool user) const
     {
 #if defined(_WIN32)
         WCHAR appDataPath[MAX_PATH];
@@ -250,8 +250,6 @@ namespace ouzel::storage
         const auto pathUtf8String = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(pathString, sel_getUid("UTF8String"));
         return Path{pathUtf8String, Path::Format::native};
 #elif defined(__ANDROID__)
-        static_cast<void>(user);
-
         auto& engineAndroid = static_cast<core::android::Engine&>(engine);
         return engineAndroid.getFilesDirectory();
 #elif defined(__linux__)

@@ -389,13 +389,11 @@ namespace ouzel::audio
     class LowPassProcessor final: public mixer::Processor
     {
     public:
-        void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                     std::vector<float>& samples) override
+        void process([[maybe_unused]] std::uint32_t frames,
+                     [[maybe_unused]] std::uint32_t channels,
+                     [[maybe_unused]] std::uint32_t sampleRate,
+                     [[maybe_unused]] std::vector<float>& samples) override
         {
-            (void)frames;
-            (void)channels;
-            (void)sampleRate;
-            (void)samples;
         }
     };
 
@@ -410,13 +408,11 @@ namespace ouzel::audio
     class HighPassProcessor final: public mixer::Processor
     {
     public:
-        void process(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate,
-                     std::vector<float>& samples) override
+        void process([[maybe_unused]] std::uint32_t frames,
+                     [[maybe_unused]] std::uint32_t channels,
+                     [[maybe_unused]] std::uint32_t sampleRate,
+                     [[maybe_unused]] std::vector<float>& samples) override
         {
-            (void)frames;
-            (void)channels;
-            (void)sampleRate;
-            (void)samples;
         }
     };
 
