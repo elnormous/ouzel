@@ -30,7 +30,7 @@ namespace ouzel::math
         {
         }
 
-        template <auto c = dims, std::size_t d, std::enable_if_t<(c != d)>* = nullptr>
+        template <std::size_t d, auto c = dims, std::enable_if_t<(c != d)>* = nullptr>
         explicit Vector(const math::Vector<T, d>& vec) noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
