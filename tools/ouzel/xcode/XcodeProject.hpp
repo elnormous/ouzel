@@ -335,7 +335,7 @@ namespace ouzel::xcode
                         case Platform::macOs:
                         {
                             buildSettings["SDKROOT"] = "macosx";
-                            buildSettings["MACOSX_DEPLOYMENT_TARGET"] = "10.8";
+                            buildSettings["MACOSX_DEPLOYMENT_TARGET"] = "10.9";
                             frameworks = {"AudioToolbox.framework",
                                 "AudioUnit.framework",
                                 "Cocoa.framework",
