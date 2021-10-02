@@ -55,18 +55,19 @@ namespace ouzel
 
             assetsPath = j["assetsPath"].as<std::string>();
 
-            for (const auto& assetObject : j["assets"])
-            {
-                const auto assetPath(assetsPath / assetObject["path"].as<std::string>());
-                const auto assetName = assetObject.hasMember("name") ?
-                    assetObject["name"].as<std::string>() : std::string(assetPath.getStem());
+            if (j.hasMember("assets"))
+                for (const auto& assetObject : j["assets"])
+                {
+                    const auto assetPath(assetsPath / assetObject["path"].as<std::string>());
+                    const auto assetName = assetObject.hasMember("name") ?
+                        assetObject["name"].as<std::string>() : std::string(assetPath.getStem());
 
-                const auto assetType = stringToAssetType(assetObject["type"].as<std::string>());
-                Asset::Options options;
-                options.mipmaps = assetObject.hasMember("mipmaps") ? assetObject["mipmaps"].as<bool>() : false;
+                    const auto assetType = stringToAssetType(assetObject["type"].as<std::string>());
+                    Asset::Options options;
+                    options.mipmaps = assetObject.hasMember("mipmaps") ? assetObject["mipmaps"].as<bool>() : false;
 
-                assets.emplace_back(assetPath, assetName, assetType, options);
-            }
+                    assets.emplace_back(assetPath, assetName, assetType, options);
+                }
         }
 
         const auto& getPath() const noexcept { return path; }
