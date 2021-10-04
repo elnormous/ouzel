@@ -108,7 +108,6 @@
     <ClCompile Include="input\windows\KeyboardDeviceWin.cpp" />
     <ClCompile Include="input\windows\MouseDeviceWin.cpp" />
     <ClCompile Include="localization\Localization.cpp" />
-    <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="network\Client.cpp" />
     <ClCompile Include="network\Network.cpp" />
     <ClCompile Include="network\Server.cpp" />
@@ -323,6 +322,7 @@
     <ClInclude Include="math\Plane.hpp" />
     <ClInclude Include="math\Quaternion.hpp" />
     <ClInclude Include="math\Rect.hpp" />
+    <ClInclude Include="math\Simd.hpp" />
     <ClInclude Include="math\Size.hpp" />
     <ClInclude Include="math\Vector.hpp" />
     <ClInclude Include="network\Client.hpp" />

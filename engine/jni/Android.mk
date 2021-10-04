@@ -86,7 +86,6 @@ LOCAL_SRC_FILES := ../assets/Bundle.cpp \
     ../input/Touchpad.cpp \
     ../input/TouchpadDevice.cpp \
     ../localization/Localization.cpp \
-    ../math/Matrix.cpp \
     ../network/Client.cpp \
     ../network/Network.cpp \
     ../network/Server.cpp \
