@@ -606,12 +606,6 @@ namespace ouzel::math
             std::copy(result.begin(), result.end(), dst.m.begin());
         }
 
-        void negate() noexcept
-        {
-            for (auto& c : m)
-                c = -c;
-        }
-
         void setIdentity() noexcept
         {
             static_assert(cols == rows);
@@ -851,6 +845,31 @@ namespace ouzel::math
         vst1q_f32(&result.m[12], vnegq_f32(vld1q_f32(&matrix.m[12])));
 #  endif
         return result;
+    }
+#endif
+
+    template <typename T, std::size_t rows, std::size_t cols>
+    constexpr void negate(Matrix<T, rows, cols>& matrix)noexcept
+    {
+        for (auto& c : matrix.m) c = -c;
+    }
+
+#ifdef OUZEL_SIMD_AVAILABLE
+    template <>
+    inline void negate(Matrix<float, 4, 4>& matrix) noexcept
+    {
+#  ifdef OUZEL_SIMD_SSE
+        const auto z = _mm_setzero_ps();
+        _mm_store_ps(&matrix.m[0], _mm_sub_ps(z, _mm_load_ps(&matrix.m[0])));
+        _mm_store_ps(&matrix.m[4], _mm_sub_ps(z, _mm_load_ps(&matrix.m[4])));
+        _mm_store_ps(&matrix.m[8], _mm_sub_ps(z, _mm_load_ps(&matrix.m[8])));
+        _mm_store_ps(&matrix.m[12], _mm_sub_ps(z, _mm_load_ps(&matrix.m[12])));
+#  elif defined(OUZEL_SIMD_NEON)
+        vst1q_f32(&matrix.m[0], vnegq_f32(vld1q_f32(&matrix.m[0])));
+        vst1q_f32(&matrix.m[4], vnegq_f32(vld1q_f32(&matrix.m[4])));
+        vst1q_f32(&matrix.m[8], vnegq_f32(vld1q_f32(&matrix.m[8])));
+        vst1q_f32(&matrix.m[12], vnegq_f32(vld1q_f32(&matrix.m[12])));
+#  endif
     }
 #endif
 
