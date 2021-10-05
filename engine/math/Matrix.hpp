@@ -148,6 +148,16 @@ namespace ouzel::math
             m[15] = T(1);
         }
 
+        void setScale(const T scale) noexcept
+        {
+            static_assert(cols == rows);
+
+            setIdentity();
+
+            for (std::size_t i = 0; i < rows - 1; ++i)
+                m[i * cols + i] = scale;
+        }
+
         void setScale(const math::Vector<T, rows - 1>& scale) noexcept
         {
             static_assert(cols == rows);
