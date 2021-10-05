@@ -337,42 +337,6 @@ namespace ouzel::math
             m[14] = z;
         }
 
-        [[nodiscard]] auto getUpVector() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return math::Vector<T, 3>{m[4], m[5], m[6]};
-        }
-
-        [[nodiscard]] auto getDownVector() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return math::Vector<T, 3>{-m[4], -m[5], -m[6]};
-        }
-
-        [[nodiscard]] auto getLeftVector() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return math::Vector<T, 3>{-m[0], -m[1], -m[2]};
-        }
-
-        [[nodiscard]] auto getRightVector() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return math::Vector<T, 3>{m[0], m[1], m[2]};
-        }
-
-        [[nodiscard]] auto getForwardVector() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return math::Vector<T, 3>{-m[8], -m[9], -m[10]};
-        }
-
-        [[nodiscard]] auto getBackVector() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return math::Vector<T, 3>{m[8], m[9], m[10]};
-        }
-
         [[nodiscard]] constexpr auto isIdentity() const noexcept
         {
             if constexpr (cols != rows) return false;
@@ -1333,6 +1297,42 @@ namespace ouzel::math
         }
 
         return result;
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getUpVector(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return math::Vector<T, 3>{matrix.m[4], matrix.m[5], matrix.m[6]};
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getDownVector(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return math::Vector<T, 3>{-matrix.m[4], -matrix.m[5], -matrix.m[6]};
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getLeftVector(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return math::Vector<T, 3>{-matrix.m[0], -matrix.m[1], -matrix.m[2]};
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getRightVector(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return math::Vector<T, 3>{matrix.m[0], matrix.m[1], matrix.m[2]};
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getForwardVector(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return math::Vector<T, 3>{-matrix.m[8], -matrix.m[9], -matrix.m[10]};
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getBackVector(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return math::Vector<T, 3>{matrix.m[8], matrix.m[9], matrix.m[10]};
     }
 
     template <typename T>
