@@ -164,7 +164,7 @@ namespace ouzel::scene
         if (inverseViewProjectionDirty)
         {
             inverseViewProjection = getViewProjection();
-            inverseViewProjection.invert();
+            invert(inverseViewProjection);
 
             inverseViewProjectionDirty = false;
         }

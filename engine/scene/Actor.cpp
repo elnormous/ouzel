@@ -483,7 +483,7 @@ namespace ouzel::scene
     void Actor::calculateInverseTransform() const
     {
         inverseTransform = getTransform();
-        inverseTransform.invert();
+        invert(inverseTransform);
         inverseTransformDirty = false;
     }
 
