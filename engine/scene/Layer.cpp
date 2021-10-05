@@ -30,7 +30,7 @@ namespace ouzel::scene
             std::vector<Actor*> drawQueue;
 
             for (const auto actor : children)
-                actor->visit(drawQueue, math::Matrix<float, 4>::identity(), false, camera, 0, false);
+                actor->visit(drawQueue, math::identityMatrix<float, 4>(), false, camera, 0, false);
 
             engine->getGraphics()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
             engine->getGraphics()->setViewport(camera->getRenderViewport());
@@ -46,7 +46,7 @@ namespace ouzel::scene
     {
         ActorContainer::addChild(actor);
 
-        actor.updateTransform(math::Matrix<float, 4>::identity());
+        actor.updateTransform(math::identityMatrix<float, 4>());
     }
 
     void Layer::addCamera(Camera& camera)

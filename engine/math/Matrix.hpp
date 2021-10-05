@@ -32,12 +32,6 @@ namespace ouzel::math
         [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
 
-        template <auto r = rows, auto c = cols, std::enable_if_t<(c == r)>* = nullptr>
-        [[nodiscard]] static constexpr Matrix identity() noexcept
-        {
-            return generateIdentity(std::make_index_sequence<cols * rows>{});
-        }
-
         void setLookAt(const math::Vector<T, 3>& eyePosition,
                        const math::Vector<T, 3>& targetPosition,
                        const math::Vector<T, 3>& up) noexcept
@@ -776,17 +770,10 @@ namespace ouzel::math
 
             return result;
         }
-
-    private:
-        template <std::size_t ...I>
-        static constexpr auto generateIdentity(const std::index_sequence<I...>) noexcept
-        {
-            return Matrix{(I % cols == I / rows) ? T(1) : T(0)...};
-        }
     };
 
     template <typename T, std::size_t size>
-    [[nodiscard]] static constexpr auto identity() noexcept
+    [[nodiscard]] constexpr auto identityMatrix() noexcept
     {
         Matrix<T, size, size> result;
         for (std::size_t i = 0; i < size; ++i)
@@ -849,7 +836,7 @@ namespace ouzel::math
 #endif
 
     template <typename T, std::size_t rows, std::size_t cols>
-    constexpr void negate(Matrix<T, rows, cols>& matrix)noexcept
+    constexpr void negate(Matrix<T, rows, cols>& matrix) noexcept
     {
         for (auto& c : matrix.m) c = -c;
     }

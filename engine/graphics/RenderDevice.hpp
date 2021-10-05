@@ -199,8 +199,8 @@ namespace ouzel::graphics
         bool multisamplingSupported:1;
         bool uintIndicesSupported:1;
 
-        math::Matrix<float, 4> projectionTransform = math::Matrix<float, 4>::identity();
-        math::Matrix<float, 4> renderTargetProjectionTransform = math::Matrix<float, 4>::identity();
+        math::Matrix<float, 4> projectionTransform = math::identityMatrix<float, 4>();
+        math::Matrix<float, 4> renderTargetProjectionTransform = math::identityMatrix<float, 4>();
 
         std::uint32_t drawCallCount = 0;
 
