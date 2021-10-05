@@ -337,94 +337,6 @@ namespace ouzel::math
             m[14] = z;
         }
 
-        [[nodiscard]] auto getFrustumLeftPlane() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return Plane<T>::makeFrustumPlane(m[3] + m[0], m[7] + m[4], m[11] + m[8], m[15] + m[12]);
-        }
-
-        [[nodiscard]] auto getFrustumRightPlane() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return Plane<T>::makeFrustumPlane(m[3] - m[0], m[7] - m[4], m[11] - m[8], m[15] - m[12]);
-        }
-
-        [[nodiscard]] auto getFrustumBottomPlane() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return Plane<T>::makeFrustumPlane(m[3] + m[1], m[7] + m[5], m[11] + m[9], m[15] + m[13]);
-        }
-
-        [[nodiscard]] auto getFrustumTopPlane() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return Plane<T>::makeFrustumPlane(m[3] - m[1], m[7] - m[5], m[11] - m[9], m[15] - m[13]);
-        }
-
-        [[nodiscard]] auto getFrustumNearPlane() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return Plane<T>::makeFrustumPlane(m[3] + m[2], m[7] + m[6], m[11] + m[10], m[15] + m[14]);
-        }
-
-        [[nodiscard]] auto getFrustumFarPlane() const noexcept
-        {
-            static_assert(rows == 4 && cols == 4);
-            return Plane<T>::makeFrustumPlane(m[3] - m[2], m[7] - m[6], m[11] - m[10], m[15] - m[14]);
-        }
-
-        [[nodiscard]] auto getFrustum() const noexcept(false)
-        {
-            static_assert(rows == 4 && cols == 4);
-            return ConvexVolume<T>({
-                getFrustumLeftPlane(),
-                getFrustumRightPlane(),
-                getFrustumBottomPlane(),
-                getFrustumTopPlane(),
-                getFrustumNearPlane(),
-                getFrustumFarPlane()
-            });
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 1 && c == 1)>* = nullptr>
-        [[nodiscard]] constexpr auto getDeterminant() const noexcept
-        {
-            return m[0];
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 2 && c == 2)>* = nullptr>
-        [[nodiscard]] constexpr auto getDeterminant() const noexcept
-        {
-            return m[0] * m[3] - m[1] * m[2];
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 3 && c == 3)>* = nullptr>
-        [[nodiscard]] constexpr auto getDeterminant() const noexcept
-        {
-            constexpr T a0 = m[0] * (m[4] * m[8] - m[5] * m[7]);
-            constexpr T a1 = m[1] * (m[3] * m[8] - m[5] * m[6]);
-            constexpr T a2 = m[2] * (m[3] * m[7] - m[4] * m[6]);
-            return a0 - a1 + a2;
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        [[nodiscard]] constexpr auto getDeterminant() const noexcept
-        {
-            constexpr T a0 = m[0] * m[5] - m[1] * m[4];
-            constexpr T a1 = m[0] * m[6] - m[2] * m[4];
-            constexpr T a2 = m[0] * m[7] - m[3] * m[4];
-            constexpr T a3 = m[1] * m[6] - m[2] * m[5];
-            constexpr T a4 = m[1] * m[7] - m[3] * m[5];
-            constexpr T a5 = m[2] * m[7] - m[3] * m[6];
-            constexpr T b0 = m[8] * m[13] - m[9] * m[12];
-            constexpr T b1 = m[8] * m[14] - m[10] * m[12];
-            constexpr T b2 = m[8] * m[15] - m[11] * m[12];
-            constexpr T b3 = m[9] * m[14] - m[10] * m[13];
-            constexpr T b4 = m[9] * m[15] - m[11] * m[13];
-            constexpr T b5 = m[10] * m[15] - m[11] * m[14];
-            return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
-        }
-
         [[nodiscard]] auto getUpVector() const noexcept
         {
             static_assert(rows == 4 && cols == 4);
@@ -1421,6 +1333,73 @@ namespace ouzel::math
         }
 
         return result;
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getFrustumLeftPlane(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return Plane<T>::makeFrustumPlane(matrix.m[3] + matrix.m[0],
+                                          matrix.m[7] + matrix.m[4],
+                                          matrix.m[11] + matrix.m[8],
+                                          matrix.m[15] + matrix.m[12]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getFrustumRightPlane(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return Plane<T>::makeFrustumPlane(matrix.m[3] - matrix.m[0],
+                                          matrix.m[7] - matrix.m[4],
+                                          matrix.m[11] - matrix.m[8],
+                                          matrix.m[15] - matrix.m[12]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getFrustumBottomPlane(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return Plane<T>::makeFrustumPlane(matrix.m[3] + matrix.m[1],
+                                          matrix.m[7] + matrix.m[5],
+                                          matrix.m[11] + matrix.m[9],
+                                          matrix.m[15] + matrix.m[13]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getFrustumTopPlane(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return Plane<T>::makeFrustumPlane(matrix.m[3] - matrix.m[1],
+                                          matrix.m[7] - matrix.m[5],
+                                          matrix.m[11] - matrix.m[9],
+                                          matrix.m[15] - matrix.m[13]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getFrustumNearPlane(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return Plane<T>::makeFrustumPlane(matrix.m[3] + matrix.m[2],
+                                          matrix.m[7] + matrix.m[6],
+                                          matrix.m[11] + matrix.m[10],
+                                          matrix.m[15] + matrix.m[14]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getFrustumFarPlane(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return Plane<T>::makeFrustumPlane(matrix.m[3] - matrix.m[2],
+                                          matrix.m[7] - matrix.m[6],
+                                          matrix.m[11] - matrix.m[10],
+                                          matrix.m[15] - matrix.m[14]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getFrustum(const Matrix<T, 4, 4>& matrix) noexcept(false)
+    {
+        return ConvexVolume<T>({
+            getFrustumLeftPlane(matrix),
+            getFrustumRightPlane(matrix),
+            getFrustumBottomPlane(matrix),
+            getFrustumTopPlane(matrix),
+            getFrustumNearPlane(matrix),
+            getFrustumFarPlane(matrix)
+        });
     }
 }
 

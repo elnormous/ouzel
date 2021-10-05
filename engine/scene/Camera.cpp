@@ -264,7 +264,7 @@ namespace ouzel::scene
         else
         {
             const auto modelViewProjection = getViewProjection() * boxTransform;
-            const auto frustum = modelViewProjection.getFrustum();
+            const auto frustum = getFrustum(modelViewProjection);
             return frustum.isBoxInside(box);
         }
     }
