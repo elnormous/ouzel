@@ -413,23 +413,6 @@ namespace ouzel::math
             dst.v[3] = v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15];
         }
 
-        void transpose() noexcept
-        {
-            static_assert(cols == rows);
-            transpose(*this);
-        }
-
-        void transpose(Matrix& dst) const noexcept
-        {
-            const std::array<T, cols * rows> t;
-
-            for (std::size_t i = 0; i < cols; ++i)
-                for (std::size_t j = 0; j < cols; ++j)
-                    t[j * cols + i] = t[i * rows + j];
-
-            std::copy(t.begin(), t.end(), dst.m.begin());
-        }
-
         template <auto r = rows, auto c = cols, std::enable_if_t<(r == 3 && c == 3)>* = nullptr>
         [[nodiscard]] constexpr auto getTranslation() const noexcept
         {
