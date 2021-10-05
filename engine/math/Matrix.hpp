@@ -632,6 +632,14 @@ namespace ouzel::math
         return result;
     }
 
+    template <typename T, std::size_t size>
+    constexpr void setIdentity(Matrix<T, size, size>& matrix) noexcept
+    {
+        for (std::size_t i = 0; i < size; ++i)
+            for (std::size_t j = 0; j < size; ++j)
+                matrix.m[j * size + i] = (j == i) ? T(1) : T(0);
+    }
+
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto operator==(const Matrix<T, rows, cols>& matrix1,
                                             const Matrix<T, rows, cols>& matrix2) noexcept
