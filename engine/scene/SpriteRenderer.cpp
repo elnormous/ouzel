@@ -409,7 +409,7 @@ namespace ouzel::scene
     void SpriteRenderer::setOffset(const math::Vector<float, 2>& newOffset)
     {
         offset = newOffset;
-        offsetMatrix.setTranslation(math::Vector<float, 3>{offset});
+        setTranslation(offsetMatrix, math::Vector<float, 3>{offset});
         updateBoundingBox();
     }
 

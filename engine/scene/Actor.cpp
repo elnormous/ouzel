@@ -451,10 +451,10 @@ namespace ouzel::scene
 
     void Actor::calculateLocalTransform() const
     {
-        localTransform.setTranslation(position);
+        setTranslation(localTransform, position);
 
         math::Matrix<float, 4> rotationMatrix;
-        rotationMatrix.setRotation(rotation);
+        math::setRotation(rotationMatrix, rotation);
 
         localTransform *= rotationMatrix;
 
@@ -465,7 +465,7 @@ namespace ouzel::scene
         };
 
         math::Matrix<float, 4> scaleMatrix;
-        scaleMatrix.setScale(finalScale);
+        math::setScale(scaleMatrix, finalScale);
 
         localTransform *= scaleMatrix;
 
