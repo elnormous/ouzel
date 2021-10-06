@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <type_traits>
+#include "Simd.hpp"
 #include "Vector.hpp"
 
 namespace ouzel::math
@@ -13,6 +15,9 @@ namespace ouzel::math
     template <typename T, std::size_t dims> class Size final
     {
     public:
+#ifdef OUZEL_SIMD_AVAILABLE
+        alignas(std::is_same_v<T, float> && dims == 4 ? dims * sizeof(T) : sizeof(T))
+#endif
         std::array<T, dims> v;
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }

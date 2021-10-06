@@ -7,6 +7,8 @@
 #include <cmath>
 #include <cstddef>
 #include <limits>
+#include <type_traits>
+#include "Simd.hpp"
 #include "Vector.hpp"
 
 namespace ouzel::math
@@ -14,8 +16,8 @@ namespace ouzel::math
     template <typename T> class Quaternion final
     {
     public:
-#ifdef __SSE__
-        alignas(4 * sizeof(T))
+#ifdef OUZEL_SIMD_AVAILABLE
+        alignas(std::is_same_v<T, float> ? 4 * sizeof(T) : sizeof(T))
 #endif
         std::array<T, 4> v;
 
