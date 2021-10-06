@@ -7,9 +7,8 @@
 #include <cmath>
 #include <cstddef>
 #include <limits>
-#include <type_traits>
+#include "Scalar.hpp"
 #include "Vector.hpp"
-#include "MathUtils.hpp"
 
 namespace ouzel::math
 {

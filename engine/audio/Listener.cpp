@@ -5,7 +5,7 @@
 #include "AudioDevice.hpp"
 #include "Submix.hpp"
 #include "../scene/Actor.hpp"
-#include "../math/MathUtils.hpp"
+#include "../math/Scalar.hpp"
 
 namespace ouzel::audio
 {

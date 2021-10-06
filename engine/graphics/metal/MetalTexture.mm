@@ -7,7 +7,7 @@
 #include "MetalTexture.hpp"
 #include "MetalError.hpp"
 #include "MetalRenderDevice.hpp"
-#include "../../math/MathUtils.hpp"
+#include "../../math/Scalar.hpp"
 
 namespace ouzel::graphics::metal
 {

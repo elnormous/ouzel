@@ -5,7 +5,7 @@
 #include "Bus.hpp"
 #include "Data.hpp"
 #include "Stream.hpp"
-#include "../../math/MathUtils.hpp"
+#include "../../math/Scalar.hpp"
 
 namespace ouzel::audio::mixer
 {

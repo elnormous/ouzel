@@ -1,12 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_MATH_MATHUTILS_HPP
-#define OUZEL_MATH_MATHUTILS_HPP
-
-#include <cstdint>
-#include <cmath>
-#include <limits>
-#include <type_traits>
+#ifndef OUZEL_MATH_SCALAR_HPP
+#define OUZEL_MATH_SCALAR_HPP
 
 namespace ouzel::math
 {
@@ -33,4 +28,4 @@ namespace ouzel::math
     }
 }
 
-#endif // OUZEL_MATH_MATHUTILS_HPP
+#endif // OUZEL_MATH_SCALAR_HPP

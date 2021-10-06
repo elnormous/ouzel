@@ -7,7 +7,7 @@
 #include "Layer.hpp"
 #include "Camera.hpp"
 #include "Component.hpp"
-#include "../math/MathUtils.hpp"
+#include "../math/Scalar.hpp"
 
 namespace ouzel::scene
 {

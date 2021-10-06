@@ -12,7 +12,7 @@
 #include "Touchpad.hpp"
 #include "../core/Engine.hpp"
 #include "../events/EventDispatcher.hpp"
-#include "../math/MathUtils.hpp"
+#include "../math/Scalar.hpp"
 
 namespace ouzel::input
 {

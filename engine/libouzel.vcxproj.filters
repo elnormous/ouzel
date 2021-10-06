@@ -471,7 +471,7 @@
     <ClInclude Include="core\windows\NativeWindowWin.hpp">
       <Filter>engine\core\windows</Filter>
     </ClInclude>
-    <ClInclude Include="math\MathUtils.hpp">
+    <ClInclude Include="math\Scalar.hpp">
       <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Matrix.hpp">

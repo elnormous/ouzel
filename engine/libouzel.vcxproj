@@ -317,11 +317,11 @@
     <ClInclude Include="math\Color.hpp" />
     <ClInclude Include="math\Constants.hpp" />
     <ClInclude Include="math\ConvexVolume.hpp" />
-    <ClInclude Include="math\MathUtils.hpp" />
     <ClInclude Include="math\Matrix.hpp" />
     <ClInclude Include="math\Plane.hpp" />
     <ClInclude Include="math\Quaternion.hpp" />
     <ClInclude Include="math\Rect.hpp" />
+    <ClInclude Include="math\Scalar.hpp" />
     <ClInclude Include="math\Simd.hpp" />
     <ClInclude Include="math\Size.hpp" />
     <ClInclude Include="math\Vector.hpp" />

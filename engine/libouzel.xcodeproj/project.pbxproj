@@ -248,7 +248,7 @@
 		303B75441C2A3C9200FEDE92 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E3E1C237C70008B1151 /* Graphics.cpp */; };
 		303B75451C2A3C9200FEDE92 /* Graphics.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3F1C237C70008B1151 /* Graphics.hpp */; };
 		303B754C1C2A3CA200FEDE92 /* Image.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B74E21C277A7500FEDE92 /* Image.hpp */; };
-		303B754E1C2A3CB700FEDE92 /* MathUtils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.hpp */; };
+		303B754E1C2A3CB700FEDE92 /* Scalar.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* Scalar.hpp */; };
 		303B75521C2A3CB700FEDE92 /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix.hpp */; };
 		303B75541C2A3CB700FEDE92 /* Rect.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rect.hpp */; };
 		303B755C1C2A3CB700FEDE92 /* Vector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E4F1C237C70008B1151 /* Vector.hpp */; };
@@ -288,7 +288,7 @@
 		303B76661C355A3B00FEDE92 /* Actor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E371C237C70008B1151 /* Actor.hpp */; };
 		303B76681C355A3B00FEDE92 /* InputManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B76071C34A92B00FEDE92 /* InputManager.hpp */; };
 		303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E3C1C237C70008B1151 /* Rect.hpp */; };
-		303B766C1C355A3B00FEDE92 /* MathUtils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.hpp */; };
+		303B766C1C355A3B00FEDE92 /* Scalar.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* Scalar.hpp */; };
 		303B766E1C355A3B00FEDE92 /* EventHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHandler.hpp */; };
 		303B76701C355A3B00FEDE92 /* Event.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B75801C2B17DC00FEDE92 /* Event.hpp */; };
 		303B76711C355A3B00FEDE92 /* Image.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 303B74E21C277A7500FEDE92 /* Image.hpp */; };
@@ -341,7 +341,7 @@
 		304A8E531C237C70008B1151 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E2D1C237C70008B1151 /* Engine.cpp */; };
 		304A8E541C237C70008B1151 /* Engine.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2E1C237C70008B1151 /* Engine.hpp */; };
 		304A8E551C237C70008B1151 /* EventHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E2F1C237C70008B1151 /* EventHandler.hpp */; };
-		304A8E571C237C70008B1151 /* MathUtils.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* MathUtils.hpp */; };
+		304A8E571C237C70008B1151 /* Scalar.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E311C237C70008B1151 /* Scalar.hpp */; };
 		304A8E5B1C237C70008B1151 /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E351C237C70008B1151 /* Matrix.hpp */; };
 		304A8E5C1C237C70008B1151 /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304A8E361C237C70008B1151 /* Actor.cpp */; };
 		304A8E5D1C237C70008B1151 /* Actor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304A8E371C237C70008B1151 /* Actor.hpp */; };
@@ -883,7 +883,7 @@
 		304A8E2D1C237C70008B1151 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
 		304A8E2E1C237C70008B1151 /* Engine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Engine.hpp; sourceTree = "<group>"; };
 		304A8E2F1C237C70008B1151 /* EventHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EventHandler.hpp; sourceTree = "<group>"; };
-		304A8E311C237C70008B1151 /* MathUtils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MathUtils.hpp; sourceTree = "<group>"; };
+		304A8E311C237C70008B1151 /* Scalar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scalar.hpp; sourceTree = "<group>"; };
 		304A8E351C237C70008B1151 /* Matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 		304A8E361C237C70008B1151 /* Actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Actor.cpp; sourceTree = "<group>"; };
 		304A8E371C237C70008B1151 /* Actor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Actor.hpp; sourceTree = "<group>"; };
@@ -1309,11 +1309,11 @@
 				309B48361DEA5EE600A718C5 /* Color.hpp */,
 				3038233522E8FC91006905B7 /* Constants.hpp */,
 				3049DCB31ED8687C0000997A /* ConvexVolume.hpp */,
-				304A8E311C237C70008B1151 /* MathUtils.hpp */,
 				304A8E351C237C70008B1151 /* Matrix.hpp */,
 				30216B7F1ED5C3900073E3D5 /* Plane.hpp */,
 				30FE384D1DFDE49E00305B3B /* Quaternion.hpp */,
 				304A8E3C1C237C70008B1151 /* Rect.hpp */,
+				304A8E311C237C70008B1151 /* Scalar.hpp */,
 				304CB08C270A9C6500DD6751 /* Simd.hpp */,
 				304B27541C9384A600BA162D /* Size.hpp */,
 				304A8E4F1C237C70008B1151 /* Vector.hpp */,
@@ -1996,7 +1996,7 @@
 				303B75541C2A3CB700FEDE92 /* Rect.hpp in Headers */,
 				30519CBB1F9B53AB00AF3DC4 /* WaveLoader.hpp in Headers */,
 				306672631F964A77004515F2 /* Light.hpp in Headers */,
-				303B754E1C2A3CB700FEDE92 /* MathUtils.hpp in Headers */,
+				303B754E1C2A3CB700FEDE92 /* Scalar.hpp in Headers */,
 				303696C71E32DD8F007F4211 /* Texture.hpp in Headers */,
 				30CFB66126C8A6FF005F8385 /* Object.hpp in Headers */,
 				303B753A1C2A3C8200FEDE92 /* EventHandler.hpp in Headers */,
@@ -2138,7 +2138,7 @@
 				305B99961C41F06F008589E1 /* Widget.hpp in Headers */,
 				306792F7211F98070006FF79 /* Bundle.hpp in Headers */,
 				303B76691C355A3B00FEDE92 /* Rect.hpp in Headers */,
-				303B766C1C355A3B00FEDE92 /* MathUtils.hpp in Headers */,
+				303B766C1C355A3B00FEDE92 /* Scalar.hpp in Headers */,
 				3098A55F1EA01CA900528A54 /* GamepadDeviceTVOS.hpp in Headers */,
 				30519CE51F9B53E900AF3DC4 /* ParticleSystemLoader.hpp in Headers */,
 				30AEFA1920C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
@@ -2283,7 +2283,7 @@
 				303696D01E32DD9C007F4211 /* BlendState.hpp in Headers */,
 				30A3820221B382A20043568A /* Mixer.hpp in Headers */,
 				30419DF41D162BEF00A63759 /* Sound.hpp in Headers */,
-				304A8E571C237C70008B1151 /* MathUtils.hpp in Headers */,
+				304A8E571C237C70008B1151 /* Scalar.hpp in Headers */,
 				30519CD41F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */,
 				30419DE41D162BCF00A63759 /* Audio.hpp in Headers */,
 				C6C9101E21B54B5B00B5FCB7 /* Data.hpp in Headers */,

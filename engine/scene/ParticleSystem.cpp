@@ -10,9 +10,9 @@
 #include "Layer.hpp"
 #include "../assets/Cache.hpp"
 #include "../core/Engine.hpp"
+#include "../math/Scalar.hpp"
 #include "../storage/FileSystem.hpp"
 #include "../utils/Utils.hpp"
-#include "../math/MathUtils.hpp"
 
 namespace ouzel::scene
 {

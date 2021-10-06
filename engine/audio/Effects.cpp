@@ -5,7 +5,7 @@
 #include "Effects.hpp"
 #include "Audio.hpp"
 #include "../scene/Actor.hpp"
-#include "../math/MathUtils.hpp"
+#include "../math/Scalar.hpp"
 #include "smbPitchShift.hpp"
 
 namespace ouzel::audio

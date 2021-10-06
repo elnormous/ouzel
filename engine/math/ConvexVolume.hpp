@@ -3,7 +3,6 @@
 #ifndef OUZEL_MATH_CONVEXVOLUME_HPP
 #define OUZEL_MATH_CONVEXVOLUME_HPP
 
-#include <type_traits>
 #include <vector>
 #include "Box.hpp"
 #include "Plane.hpp"
