@@ -13,6 +13,9 @@
 #if defined(__ARM_NEON__)
 #  include <arm_neon.h>
 #  define OUZEL_SIMD_NEON
+#  if defined(__x86_64__)
+#    define OUZEL_SIMD_NEON64
+#  endif
 #endif
 
 #endif // OUZEL_MATH_SIMD_HPP
