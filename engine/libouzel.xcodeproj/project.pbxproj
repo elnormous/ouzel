@@ -573,6 +573,12 @@
 		30A3821B21B4BDC80043568A /* Submix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A3821721B4BDC80043568A /* Submix.hpp */; };
 		30A3821C21B4BDC80043568A /* Submix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A3821721B4BDC80043568A /* Submix.hpp */; };
 		30A3821D21B4BDC80043568A /* Submix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A3821721B4BDC80043568A /* Submix.hpp */; };
+		30A4C1C9270FA4D600419C99 /* MatrixNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A4C1C7270FA4D500419C99 /* MatrixNeon.hpp */; };
+		30A4C1CA270FA4D600419C99 /* MatrixNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A4C1C7270FA4D500419C99 /* MatrixNeon.hpp */; };
+		30A4C1CB270FA4D600419C99 /* MatrixNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A4C1C7270FA4D500419C99 /* MatrixNeon.hpp */; };
+		30A4C1CC270FA4D600419C99 /* MatrixSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A4C1C8270FA4D500419C99 /* MatrixSse.hpp */; };
+		30A4C1CD270FA4D600419C99 /* MatrixSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A4C1C8270FA4D500419C99 /* MatrixSse.hpp */; };
+		30A4C1CE270FA4D600419C99 /* MatrixSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A4C1C8270FA4D500419C99 /* MatrixSse.hpp */; };
 		30A883671E7432DA004A033F /* Archive.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A883631E7432DA004A033F /* Archive.hpp */; };
 		30A883681E7432DA004A033F /* Archive.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A883631E7432DA004A033F /* Archive.hpp */; };
 		30A883691E7432DA004A033F /* Archive.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30A883631E7432DA004A033F /* Archive.hpp */; };
@@ -1005,6 +1011,8 @@
 		30A3821E21B4C5E90043568A /* Processor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Processor.hpp; sourceTree = "<group>"; };
 		30A3821F21B5E7B90043568A /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
 		30A395CA2436A60B00D8E28E /* Plist.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Plist.hpp; sourceTree = "<group>"; };
+		30A4C1C7270FA4D500419C99 /* MatrixNeon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MatrixNeon.hpp; sourceTree = "<group>"; };
+		30A4C1C8270FA4D500419C99 /* MatrixSse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MatrixSse.hpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
 		30A9C12F1CAE80570084C4BF /* Localization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Localization.cpp; sourceTree = "<group>"; };
 		30A9C1301CAE80570084C4BF /* Localization.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Localization.hpp; sourceTree = "<group>"; };
@@ -1310,6 +1318,8 @@
 				3038233522E8FC91006905B7 /* Constants.hpp */,
 				3049DCB31ED8687C0000997A /* ConvexVolume.hpp */,
 				304A8E351C237C70008B1151 /* Matrix.hpp */,
+				30A4C1C7270FA4D500419C99 /* MatrixNeon.hpp */,
+				30A4C1C8270FA4D500419C99 /* MatrixSse.hpp */,
 				30216B7F1ED5C3900073E3D5 /* Plane.hpp */,
 				30FE384D1DFDE49E00305B3B /* Quaternion.hpp */,
 				304A8E3C1C237C70008B1151 /* Rect.hpp */,
@@ -1927,6 +1937,7 @@
 				30381F701D80A3EC00677CAB /* OGLBuffer.hpp in Headers */,
 				303B75521C2A3CB700FEDE92 /* Matrix.hpp in Headers */,
 				306A26B61F5DD17700E2B0B6 /* Listener.hpp in Headers */,
+				30A4C1CC270FA4D600419C99 /* MatrixSse.hpp in Headers */,
 				30724D831F353A0800D915ED /* ViewIOS.h in Headers */,
 				3023200222184518007E0AAD /* Server.hpp in Headers */,
 				306792F5211F98070006FF79 /* Bundle.hpp in Headers */,
@@ -1980,6 +1991,7 @@
 				304736DC1E0B4776009BC562 /* Box.hpp in Headers */,
 				30ADCBBE1E9A957C000DC9AC /* MetalRenderDeviceIOS.hpp in Headers */,
 				30216B831ED5C3900073E3D5 /* Plane.hpp in Headers */,
+				30A4C1C9270FA4D600419C99 /* MatrixNeon.hpp in Headers */,
 				309BA3161F183D6E006F2240 /* CAAudioDevice.hpp in Headers */,
 				30C3F294219D0DD9003FE9ED /* Object.hpp in Headers */,
 				303B75621C2A3CBF00FEDE92 /* Actor.hpp in Headers */,
@@ -2169,6 +2181,7 @@
 				30DC8C3826A4E0FA000F2B3B /* Window.hpp in Headers */,
 				303B76791C355A3B00FEDE92 /* SpriteRenderer.hpp in Headers */,
 				305B68D81ED1B31D003352A2 /* Timer.hpp in Headers */,
+				30A4C1CB270FA4D600419C99 /* MatrixNeon.hpp in Headers */,
 				300C39EF1E51355000330E4F /* PcmClip.hpp in Headers */,
 				30381F901D80A3EC00677CAB /* OGLTexture.hpp in Headers */,
 				303B767B1C355A3B00FEDE92 /* ParticleSystem.hpp in Headers */,
@@ -2179,6 +2192,7 @@
 				3038214A1D81876E00677CAB /* EmptyRenderDevice.hpp in Headers */,
 				301EB3A71CCD691800466E92 /* Component.hpp in Headers */,
 				306A26B81F5DD17700E2B0B6 /* Listener.hpp in Headers */,
+				30A4C1CE270FA4D600419C99 /* MatrixSse.hpp in Headers */,
 				30B859911F3D286600A16952 /* TTFont.hpp in Headers */,
 				30A3820321B382A20043568A /* Mixer.hpp in Headers */,
 				30A3821D21B4BDC80043568A /* Submix.hpp in Headers */,
@@ -2270,6 +2284,7 @@
 				3009031221922E1300B00BF4 /* OGLDepthStencilState.hpp in Headers */,
 				30AEFA1820C0FB2E00CDFD33 /* RenderTarget.hpp in Headers */,
 				3038202F1D80A55700677CAB /* MetalBuffer.hpp in Headers */,
+				30A4C1CD270FA4D600419C99 /* MatrixSse.hpp in Headers */,
 				304E763D1F7095DE0025C0DB /* Client.hpp in Headers */,
 				30381F711D80A3EC00677CAB /* OGLBuffer.hpp in Headers */,
 				3067D7A9209B450F008DF6AF /* InputSystem.hpp in Headers */,
@@ -2319,6 +2334,7 @@
 				302261851FDB8C59005279FC /* ColladaLoader.hpp in Headers */,
 				30519CE41F9B53E900AF3DC4 /* ParticleSystemLoader.hpp in Headers */,
 				303B04A91E207B1D00011CBE /* MetalView.h in Headers */,
+				30A4C1CA270FA4D600419C99 /* MatrixNeon.hpp in Headers */,
 				30DC8C3726A4E0FA000F2B3B /* Window.hpp in Headers */,
 				307237161FAFDAC9002EA399 /* Xml.hpp in Headers */,
 				304B27581C9384A600BA162D /* Size.hpp in Headers */,

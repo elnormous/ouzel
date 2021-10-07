@@ -217,61 +217,11 @@ namespace ouzel::math
         return result;
     }
 
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto z = _mm_setzero_ps();
-        _mm_store_ps(&result.m[0], _mm_sub_ps(z, _mm_load_ps(&matrix.m[0])));
-        _mm_store_ps(&result.m[4], _mm_sub_ps(z, _mm_load_ps(&matrix.m[4])));
-        _mm_store_ps(&result.m[8], _mm_sub_ps(z, _mm_load_ps(&matrix.m[8])));
-        _mm_store_ps(&result.m[12], _mm_sub_ps(z, _mm_load_ps(&matrix.m[12])));
-        return result;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        vst1q_f32(&result.m[0], vnegq_f32(vld1q_f32(&matrix.m[0])));
-        vst1q_f32(&result.m[4], vnegq_f32(vld1q_f32(&matrix.m[4])));
-        vst1q_f32(&result.m[8], vnegq_f32(vld1q_f32(&matrix.m[8])));
-        vst1q_f32(&result.m[12], vnegq_f32(vld1q_f32(&matrix.m[12])));
-        return result;
-    }
-#endif
-
     template <typename T, std::size_t rows, std::size_t cols>
     constexpr void negate(Matrix<T, rows, cols>& matrix) noexcept
     {
         for (auto& c : matrix.m) c = -c;
     }
-
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    inline void negate(Matrix<float, 4, 4>& matrix) noexcept
-    {
-        const auto z = _mm_setzero_ps();
-        _mm_store_ps(&matrix.m[0], _mm_sub_ps(z, _mm_load_ps(&matrix.m[0])));
-        _mm_store_ps(&matrix.m[4], _mm_sub_ps(z, _mm_load_ps(&matrix.m[4])));
-        _mm_store_ps(&matrix.m[8], _mm_sub_ps(z, _mm_load_ps(&matrix.m[8])));
-        _mm_store_ps(&matrix.m[12], _mm_sub_ps(z, _mm_load_ps(&matrix.m[12])));
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    inline void negate(Matrix<float, 4, 4>& matrix) noexcept
-    {
-        vst1q_f32(&matrix.m[0], vnegq_f32(vld1q_f32(&matrix.m[0])));
-        vst1q_f32(&matrix.m[4], vnegq_f32(vld1q_f32(&matrix.m[4])));
-        vst1q_f32(&matrix.m[8], vnegq_f32(vld1q_f32(&matrix.m[8])));
-        vst1q_f32(&matrix.m[12], vnegq_f32(vld1q_f32(&matrix.m[12])));
-    }
-#endif
 
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto operator+(const Matrix<T, rows, cols>& matrix1,
@@ -283,34 +233,6 @@ namespace ouzel::math
         return result;
     }
 
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto operator+(const Matrix<float, 4, 4>& matrix1,
-                                        const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        _mm_store_ps(&result.m[0], _mm_add_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
-        _mm_store_ps(&result.m[4], _mm_add_ps(_mm_load_ps(&matrix1.m[4]), _mm_load_ps(&matrix2.m[4])));
-        _mm_store_ps(&result.m[8], _mm_add_ps(_mm_load_ps(&matrix1.m[8]), _mm_load_ps(&matrix2.m[8])));
-        _mm_store_ps(&result.m[12], _mm_add_ps(_mm_load_ps(&matrix1.m[12]), _mm_load_ps(&matrix2.m[12])));
-        return result;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    [[nodiscard]] inline auto operator+(const Matrix<float, 4, 4>& matrix1,
-                                        const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        vst1q_f32(&result.m[0], vaddq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
-        vst1q_f32(&result.m[4], vaddq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
-        vst1q_f32(&result.m[8], vaddq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
-        vst1q_f32(&result.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
-        return result;
-    }
-#endif
-
     template <typename T, std::size_t rows, std::size_t cols>
     auto& operator+=(Matrix<T, rows, cols>& matrix1,
                      const Matrix<T, rows, cols>& matrix2) noexcept
@@ -319,32 +241,6 @@ namespace ouzel::math
             matrix1.m[i] += matrix2.m[i];
         return matrix1;
     }
-
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    inline auto& operator+=(Matrix<float, 4, 4>& matrix1,
-                            const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        _mm_store_ps(&matrix1.m[0], _mm_add_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
-        _mm_store_ps(&matrix1.m[4], _mm_add_ps(_mm_load_ps(&matrix1.m[4]), _mm_load_ps(&matrix2.m[4])));
-        _mm_store_ps(&matrix1.m[8], _mm_add_ps(_mm_load_ps(&matrix1.m[8]), _mm_load_ps(&matrix2.m[8])));
-        _mm_store_ps(&matrix1.m[12], _mm_add_ps(_mm_load_ps(&matrix1.m[12]), _mm_load_ps(&matrix2.m[12])));
-        return matrix1;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    inline auto& operator+=(Matrix<float, 4, 4>& matrix1,
-                            const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        vst1q_f32(&matrix1.m[0], vaddq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
-        vst1q_f32(&matrix1.m[4], vaddq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
-        vst1q_f32(&matrix1.m[8], vaddq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
-        vst1q_f32(&matrix1.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
-        return matrix1;
-    }
-#endif
 
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto operator-(const Matrix<T, rows, cols>& matrix1,
@@ -356,34 +252,6 @@ namespace ouzel::math
         return result;
     }
 
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix1,
-                                        const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        _mm_store_ps(&result.m[0], _mm_sub_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
-        _mm_store_ps(&result.m[4], _mm_sub_ps(_mm_load_ps(&matrix1.m[4]), _mm_load_ps(&matrix2.m[4])));
-        _mm_store_ps(&result.m[8], _mm_sub_ps(_mm_load_ps(&matrix1.m[8]), _mm_load_ps(&matrix2.m[8])));
-        _mm_store_ps(&result.m[12], _mm_sub_ps(_mm_load_ps(&matrix1.m[12]), _mm_load_ps(&matrix2.m[12])));
-        return result;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix1,
-                                        const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        vst1q_f32(&result.m[0], vsubq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
-        vst1q_f32(&result.m[4], vsubq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
-        vst1q_f32(&result.m[8], vsubq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
-        vst1q_f32(&result.m[12], vsubq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
-        return result;
-    }
-#endif
-
     template <typename T, std::size_t rows, std::size_t cols>
     auto& operator-=(Matrix<T, rows, cols>& matrix1,
                      const Matrix<T, rows, cols>& matrix2) noexcept
@@ -392,32 +260,6 @@ namespace ouzel::math
             matrix1.m[i] -= matrix2.m[i];
         return matrix1;
     }
-
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    inline auto& operator-=(Matrix<float, 4, 4>& matrix1,
-                            const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        _mm_store_ps(&matrix1.m[0], _mm_sub_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
-        _mm_store_ps(&matrix1.m[4], _mm_sub_ps(_mm_load_ps(&matrix1.m[4]), _mm_load_ps(&matrix2.m[4])));
-        _mm_store_ps(&matrix1.m[8], _mm_sub_ps(_mm_load_ps(&matrix1.m[8]), _mm_load_ps(&matrix2.m[8])));
-        _mm_store_ps(&matrix1.m[12], _mm_sub_ps(_mm_load_ps(&matrix1.m[12]), _mm_load_ps(&matrix2.m[12])));
-        return matrix1;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    inline auto& operator-=(Matrix<float, 4, 4>& matrix1,
-                            const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        vst1q_f32(&matrix1.m[0], vsubq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
-        vst1q_f32(&matrix1.m[4], vsubq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
-        vst1q_f32(&matrix1.m[8], vsubq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
-        vst1q_f32(&matrix1.m[12], vsubq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
-        return matrix1;
-    }
-#endif
 
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols>& matrix,
@@ -429,36 +271,6 @@ namespace ouzel::math
         return result;
     }
 
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
-                                        const float scalar) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto s = _mm_set1_ps(scalar);
-        _mm_store_ps(&result.m[0], _mm_mul_ps(_mm_load_ps(&matrix.m[0]), s));
-        _mm_store_ps(&result.m[4], _mm_mul_ps(_mm_load_ps(&matrix.m[4]), s));
-        _mm_store_ps(&result.m[8], _mm_mul_ps(_mm_load_ps(&matrix.m[8]), s));
-        _mm_store_ps(&result.m[12], _mm_mul_ps(_mm_load_ps(&matrix.m[12]), s));
-        return result;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
-                                        const float scalar) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&result.m[0], vmulq_f32(vld1q_f32(&matrix.m[0]), s));
-        vst1q_f32(&result.m[4], vmulq_f32(vld1q_f32(&matrix.m[4]), s));
-        vst1q_f32(&result.m[8], vmulq_f32(vld1q_f32(&matrix.m[8]), s));
-        vst1q_f32(&result.m[12], vmulq_f32(vld1q_f32(&matrix.m[12]), s));
-        return result;
-    }
-#endif
-
     template <typename T, std::size_t rows, std::size_t cols>
     auto& operator*=(Matrix<T, rows, cols>& matrix,
                      const T scalar) noexcept
@@ -467,34 +279,6 @@ namespace ouzel::math
             matrix.m[i] *= scalar;
         return matrix;
     }
-
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    inline auto& operator*=(Matrix<float, 4, 4>& matrix,
-                            const float scalar) noexcept
-    {
-        const auto s = _mm_set1_ps(scalar);
-        _mm_store_ps(&matrix.m[0], _mm_mul_ps(_mm_load_ps(&matrix.m[0]), s));
-        _mm_store_ps(&matrix.m[4], _mm_mul_ps(_mm_load_ps(&matrix.m[4]), s));
-        _mm_store_ps(&matrix.m[8], _mm_mul_ps(_mm_load_ps(&matrix.m[8]), s));
-        _mm_store_ps(&matrix.m[12], _mm_mul_ps(_mm_load_ps(&matrix.m[12]), s));
-        return matrix;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    inline auto& operator*=(Matrix<float, 4, 4>& matrix,
-                            const float scalar) noexcept
-    {
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&matrix.m[0], vmulq_f32(vld1q_f32(&matrix.m[0]), s));
-        vst1q_f32(&matrix.m[4], vmulq_f32(vld1q_f32(&matrix.m[4]), s));
-        vst1q_f32(&matrix.m[8], vmulq_f32(vld1q_f32(&matrix.m[8]), s));
-        vst1q_f32(&matrix.m[12], vmulq_f32(vld1q_f32(&matrix.m[12]), s));
-        return matrix;
-    }
-#endif
 
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto operator/(const Matrix<T, rows, cols>& matrix,
@@ -506,36 +290,6 @@ namespace ouzel::math
         return result;
     }
 
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4>& matrix,
-                                        float scalar) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto s = _mm_set1_ps(scalar);
-        _mm_store_ps(&result.m[0], _mm_div_ps(_mm_load_ps(&matrix.m[0]), s));
-        _mm_store_ps(&result.m[4], _mm_div_ps(_mm_load_ps(&matrix.m[4]), s));
-        _mm_store_ps(&result.m[8], _mm_div_ps(_mm_load_ps(&matrix.m[8]), s));
-        _mm_store_ps(&result.m[12], _mm_div_ps(_mm_load_ps(&matrix.m[12]), s));
-        return result;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4>& matrix,
-                                        float scalar) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&result.m[0], vdivq_f32(vld1q_f32(&matrix.m[0]), s));
-        vst1q_f32(&result.m[4], vdivq_f32(vld1q_f32(&matrix.m[4]), s));
-        vst1q_f32(&result.m[8], vdivq_f32(vld1q_f32(&matrix.m[8]), s));
-        vst1q_f32(&result.m[12], vdivq_f32(vld1q_f32(&matrix.m[12]), s));
-        return result;
-    }
-#endif
-
     template <typename T, std::size_t rows, std::size_t cols>
     auto& operator/=(Matrix<T, rows, cols>& matrix,
                      const T scalar) noexcept
@@ -544,34 +298,6 @@ namespace ouzel::math
             matrix.m[i] /= scalar;
         return matrix;
     }
-
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    inline auto& operator/=(Matrix<float, 4, 4>& matrix,
-                            const float scalar) noexcept
-    {
-        const auto s = _mm_set1_ps(scalar);
-        _mm_store_ps(&matrix.m[0], _mm_div_ps(_mm_load_ps(&matrix.m[0]), s));
-        _mm_store_ps(&matrix.m[4], _mm_div_ps(_mm_load_ps(&matrix.m[4]), s));
-        _mm_store_ps(&matrix.m[8], _mm_div_ps(_mm_load_ps(&matrix.m[8]), s));
-        _mm_store_ps(&matrix.m[12], _mm_div_ps(_mm_load_ps(&matrix.m[12]), s));
-        return matrix;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    inline auto& operator/=(Matrix<float, 4, 4>& matrix,
-                            const float scalar) noexcept
-    {
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&matrix.m[0], vdivq_f32(vld1q_f32(&matrix.m[0]), s));
-        vst1q_f32(&matrix.m[4], vdivq_f32(vld1q_f32(&matrix.m[4]), s));
-        vst1q_f32(&matrix.m[8], vdivq_f32(vld1q_f32(&matrix.m[8]), s));
-        vst1q_f32(&matrix.m[12], vdivq_f32(vld1q_f32(&matrix.m[12]), s));
-        return matrix;
-    }
-#endif
 
     template <typename T, std::size_t rows, std::size_t cols, std::size_t cols2>
     [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols>& matrix1,
@@ -587,68 +313,6 @@ namespace ouzel::math
         return result;
     }
 
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix1,
-                                        const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto row0 = _mm_load_ps(&matrix1.m[0]);
-        const auto row1 = _mm_load_ps(&matrix1.m[4]);
-        const auto row2 = _mm_load_ps(&matrix1.m[8]);
-        const auto row3 = _mm_load_ps(&matrix1.m[12]);
-
-        for (std::size_t i = 0; i < 4; ++i)
-        {
-            const auto e0 = _mm_set1_ps(matrix2.m[i * 4 + 0]);
-            const auto e1 = _mm_set1_ps(matrix2.m[i * 4 + 1]);
-            const auto e2 = _mm_set1_ps(matrix2.m[i * 4 + 2]);
-            const auto e3 = _mm_set1_ps(matrix2.m[i * 4 + 3]);
-
-            const auto v0 = _mm_mul_ps(row0, e0);
-            const auto v1 = _mm_mul_ps(row1, e1);
-            const auto v2 = _mm_mul_ps(row2, e2);
-            const auto v3 = _mm_mul_ps(row3, e3);
-
-            const auto a0 = _mm_add_ps(v0, v1);
-            const auto a1 = _mm_add_ps(v2, v3);
-            _mm_store_ps(&result.m[i * 4], _mm_add_ps(a0, a1));
-        }
-        return result;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix1,
-                                        const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto row0 = vld1q_f32(&matrix1.m[0]);
-        const auto row1 = vld1q_f32(&matrix1.m[4]);
-        const auto row2 = vld1q_f32(&matrix1.m[8]);
-        const auto row3 = vld1q_f32(&matrix1.m[12]);
-
-        for (std::size_t i = 0; i < 4; ++i)
-        {
-            const auto e0 = vdupq_n_f32(matrix2.m[i * 4 + 0]);
-            const auto e1 = vdupq_n_f32(matrix2.m[i * 4 + 1]);
-            const auto e2 = vdupq_n_f32(matrix2.m[i * 4 + 2]);
-            const auto e3 = vdupq_n_f32(matrix2.m[i * 4 + 3]);
-
-            const auto v0 = vmulq_f32(row0, e0);
-            const auto v1 = vmulq_f32(row1, e1);
-            const auto v2 = vmulq_f32(row2, e2);
-            const auto v3 = vmulq_f32(row3, e3);
-
-            const auto a0 = vaddq_f32(v0, v1);
-            const auto a1 = vaddq_f32(v2, v3);
-            vst1q_f32(&result.m[i * 4], vaddq_f32(a0, a1));
-        }
-        return result;
-    }
-#endif
-
     template <typename T, std::size_t size>
     auto& operator*=(Matrix<T, size, size>& matrix1,
                      const Matrix<T, size, size>& matrix2) noexcept
@@ -663,66 +327,6 @@ namespace ouzel::math
 
         return matrix1;
     }
-
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    inline auto& operator*=(Matrix<float, 4, 4>& matrix1,
-                            const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        const auto row0 = _mm_load_ps(&matrix1.m[0]);
-        const auto row1 = _mm_load_ps(&matrix1.m[4]);
-        const auto row2 = _mm_load_ps(&matrix1.m[8]);
-        const auto row3 = _mm_load_ps(&matrix1.m[12]);
-
-        for (std::size_t i = 0; i < 4; ++i)
-        {
-            const auto e0 = _mm_set1_ps(matrix2.m[i * 4 + 0]);
-            const auto e1 = _mm_set1_ps(matrix2.m[i * 4 + 1]);
-            const auto e2 = _mm_set1_ps(matrix2.m[i * 4 + 2]);
-            const auto e3 = _mm_set1_ps(matrix2.m[i * 4 + 3]);
-
-            const auto v0 = _mm_mul_ps(row0, e0);
-            const auto v1 = _mm_mul_ps(row1, e1);
-            const auto v2 = _mm_mul_ps(row2, e2);
-            const auto v3 = _mm_mul_ps(row3, e3);
-
-            const auto a0 = _mm_add_ps(v0, v1);
-            const auto a1 = _mm_add_ps(v2, v3);
-            _mm_store_ps(&matrix1.m[i * 4], _mm_add_ps(a0, a1));
-        }
-        return matrix1;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    inline auto& operator*=(Matrix<float, 4, 4>& matrix1,
-                            const Matrix<float, 4, 4>& matrix2) noexcept
-    {
-        const auto row0 = vld1q_f32(&matrix1.m[0]);
-        const auto row1 = vld1q_f32(&matrix1.m[4]);
-        const auto row2 = vld1q_f32(&matrix1.m[8]);
-        const auto row3 = vld1q_f32(&matrix1.m[12]);
-
-        for (std::size_t i = 0; i < 4; ++i)
-        {
-            const auto e0 = vdupq_n_f32(matrix2.m[i * 4 + 0]);
-            const auto e1 = vdupq_n_f32(matrix2.m[i * 4 + 1]);
-            const auto e2 = vdupq_n_f32(matrix2.m[i * 4 + 2]);
-            const auto e3 = vdupq_n_f32(matrix2.m[i * 4 + 3]);
-
-            const auto v0 = vmulq_f32(row0, e0);
-            const auto v1 = vmulq_f32(row1, e1);
-            const auto v2 = vmulq_f32(row2, e2);
-            const auto v3 = vmulq_f32(row3, e3);
-
-            const auto a0 = vaddq_f32(v0, v1);
-            const auto a1 = vaddq_f32(v2, v3);
-            vst1q_f32(&matrix1.m[i * 4], vaddq_f32(a0, a1));
-        }
-        return matrix1;
-    }
-#endif
 
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] auto operator*(const T scalar,
@@ -748,60 +352,6 @@ namespace ouzel::math
         return result;
     }
 
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto operator*(const Vector<float, 4>& vector,
-                                        const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        Vector<float, 4> result;
-
-        const auto col0 = _mm_set1_ps(vector.v[0]);
-        const auto col1 = _mm_set1_ps(vector.v[1]);
-        const auto col2 = _mm_set1_ps(vector.v[2]);
-        const auto col3 = _mm_set1_ps(vector.v[3]);
-
-        const auto row0 = _mm_load_ps(&matrix.m[0]);
-        const auto row1 = _mm_load_ps(&matrix.m[4]);
-        const auto row2 = _mm_load_ps(&matrix.m[8]);
-        const auto row3 = _mm_load_ps(&matrix.m[12]);
-
-        const auto s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(row0, col0),
-                                             _mm_mul_ps(row1, col1)),
-                                  _mm_add_ps(_mm_mul_ps(row2, col2),
-                                             _mm_mul_ps(row3, col3)));
-        _mm_store_ps(result.v.data(), s);
-
-        return result;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    [[nodiscard]] inline auto operator*(const Vector<float, 4>& vector,
-                                        const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        Vector<float, 4> result;
-
-        const auto col0 = vdupq_n_f32(vector.v[0]);
-        const auto col1 = vdupq_n_f32(vector.v[1]);
-        const auto col2 = vdupq_n_f32(vector.v[2]);
-        const auto col3 = vdupq_n_f32(vector.v[3]);
-
-        const auto row0 = vld1q_f32(&matrix.m[0]);
-        const auto row1 = vld1q_f32(&matrix.m[4]);
-        const auto row2 = vld1q_f32(&matrix.m[8]);
-        const auto row3 = vld1q_f32(&matrix.m[12]);
-
-        const auto s = vaddq_f32(vaddq_f32(vmulq_f32(row0, col0),
-                                           vmulq_f32(row1, col1)),
-                                 vaddq_f32(vmulq_f32(row2, col2),
-                                           vmulq_f32(row3, col3)));
-        vst1q_f32(result.v.data(), s);
-
-        return result;
-    }
-#endif
-
     template <
         typename T, std::size_t dims,
         std::size_t size
@@ -820,56 +370,6 @@ namespace ouzel::math
         return vector;
     }
 
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    inline auto& operator*=(Vector<float, 4>& vector,
-                            const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        const auto col0 = _mm_set1_ps(vector.v[0]);
-        const auto col1 = _mm_set1_ps(vector.v[1]);
-        const auto col2 = _mm_set1_ps(vector.v[2]);
-        const auto col3 = _mm_set1_ps(vector.v[3]);
-
-        const auto row0 = _mm_load_ps(&matrix.m[0]);
-        const auto row1 = _mm_load_ps(&matrix.m[4]);
-        const auto row2 = _mm_load_ps(&matrix.m[8]);
-        const auto row3 = _mm_load_ps(&matrix.m[12]);
-
-        const auto s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(row0, col0),
-                                             _mm_mul_ps(row1, col1)),
-                                  _mm_add_ps(_mm_mul_ps(row2, col2),
-                                             _mm_mul_ps(row3, col3)));
-        _mm_store_ps(vector.v.data(), s);
-
-        return vector;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    inline auto& operator*=(Vector<float, 4>& vector,
-                            const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        const auto col0 = vdupq_n_f32(vector.v[0]);
-        const auto col1 = vdupq_n_f32(vector.v[1]);
-        const auto col2 = vdupq_n_f32(vector.v[2]);
-        const auto col3 = vdupq_n_f32(vector.v[3]);
-
-        const auto row0 = vld1q_f32(&matrix.m[0]);
-        const auto row1 = vld1q_f32(&matrix.m[4]);
-        const auto row2 = vld1q_f32(&matrix.m[8]);
-        const auto row3 = vld1q_f32(&matrix.m[12]);
-
-        const auto s = vaddq_f32(vaddq_f32(vmulq_f32(row0, col0),
-                                           vmulq_f32(row1, col1)),
-                                 vaddq_f32(vmulq_f32(row2, col2),
-                                           vmulq_f32(row3, col3)));
-        vst1q_f32(vector.v.data(), s);
-
-        return vector;
-    }
-#endif
-
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto transposed(const Matrix<T, rows, cols>& matrix) noexcept
     {
@@ -879,38 +379,6 @@ namespace ouzel::math
                 result.m[i * rows + j] = matrix.m[j * cols + i];
         return result;
     }
-
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto transposed(const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto tmp0 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[0]), _mm_load_ps(&matrix.m[4]), _MM_SHUFFLE(1, 0, 1, 0));
-        const auto tmp1 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[8]), _mm_load_ps(&matrix.m[12]), _MM_SHUFFLE(1, 0, 1, 0));
-        const auto tmp2 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[0]), _mm_load_ps(&matrix.m[4]), _MM_SHUFFLE(3, 2, 3, 2));
-        const auto tmp3 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[8]), _mm_load_ps(&matrix.m[12]), _MM_SHUFFLE(3, 2, 3, 2));
-        _mm_store_ps(&result.m[0], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(2, 0, 2, 0)));
-        _mm_store_ps(&result.m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
-        _mm_store_ps(&result.m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
-        _mm_store_ps(&result.m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
-        return result;
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    [[nodiscard]] inline auto transposed(const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto tmp0 = vtrnq_f32(vld1q_f32(&matrix.m[0]), vld1q_f32(&matrix.m[4]));
-        const auto tmp1 = vtrnq_f32(vld1q_f32(&matrix.m[8]), vld1q_f32(&matrix.m[12]));
-        vst1q_f32(&result.m[0], vextq_f32(vextq_f32(tmp0.val[0], tmp0.val[0], 2), tmp1.val[0], 2));
-        vst1q_f32(&result.m[4], vextq_f32(vextq_f32(tmp0.val[1], tmp0.val[1], 2), tmp1.val[1], 2));
-        vst1q_f32(&result.m[8], vextq_f32(tmp0.val[0], vextq_f32(tmp1.val[0], tmp1.val[0], 2), 2));
-        vst1q_f32(&result.m[12], vextq_f32(tmp0.val[1], vextq_f32(tmp1.val[1], tmp1.val[1], 2), 2));
-        return result;
-    }
-#endif
 
     template <typename T, std::size_t size>
     void transpose(Matrix<T, size, size>& matrix) noexcept
@@ -923,34 +391,6 @@ namespace ouzel::math
                 matrix.m[j * size + i] = std::move(temp);
             }
     }
-
-#ifdef OUZEL_SIMD_SSE
-    template <>
-    inline void transpose(Matrix<float, 4, 4>& matrix) noexcept
-    {
-        const auto tmp0 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[0]), _mm_load_ps(&matrix.m[4]), _MM_SHUFFLE(1, 0, 1, 0));
-        const auto tmp1 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[8]), _mm_load_ps(&matrix.m[12]), _MM_SHUFFLE(1, 0, 1, 0));
-        const auto tmp2 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[0]), _mm_load_ps(&matrix.m[4]), _MM_SHUFFLE(3, 2, 3, 2));
-        const auto tmp3 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[8]), _mm_load_ps(&matrix.m[12]), _MM_SHUFFLE(3, 2, 3, 2));
-        _mm_store_ps(&matrix.m[0], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(2, 0, 2, 0)));
-        _mm_store_ps(&matrix.m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
-        _mm_store_ps(&matrix.m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
-        _mm_store_ps(&matrix.m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
-    }
-#endif
-
-#ifdef OUZEL_SIMD_NEON
-    template <>
-    inline void transpose(Matrix<float, 4, 4>& matrix) noexcept
-    {
-        const auto tmp0 = vtrnq_f32(vld1q_f32(&matrix.m[0]), vld1q_f32(&matrix.m[4]));
-        const auto tmp1 = vtrnq_f32(vld1q_f32(&matrix.m[8]), vld1q_f32(&matrix.m[12]));
-        vst1q_f32(&matrix.m[0], vextq_f32(vextq_f32(tmp0.val[0], tmp0.val[0], 2), tmp1.val[0], 2));
-        vst1q_f32(&matrix.m[4], vextq_f32(vextq_f32(tmp0.val[1], tmp0.val[1], 2), tmp1.val[1], 2));
-        vst1q_f32(&matrix.m[8], vextq_f32(tmp0.val[0], vextq_f32(tmp1.val[0], tmp1.val[0], 2), 2));
-        vst1q_f32(&matrix.m[12], vextq_f32(tmp0.val[1], vextq_f32(tmp1.val[1], tmp1.val[1], 2), 2));
-    }
-#endif
 
     template <typename T, std::size_t size>
     void invert(Matrix<T, size, size>& matrix) noexcept
@@ -1566,5 +1006,8 @@ namespace ouzel::math
         matrix.m[14] = z;
     }
 }
+
+#include "MatrixNeon.hpp"
+#include "MatrixSse.hpp"
 
 #endif // OUZEL_MATH_MATRIX_HPP

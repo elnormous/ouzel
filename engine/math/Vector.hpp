@@ -18,7 +18,7 @@ namespace ouzel::math
     template <typename T, std::size_t dims> class Vector final
     {
     public:
-#ifdef OMATH_SIMD_AVAILABLE
+#if defined(OUZEL_SIMD_SSE) || defined(OUZEL_SIMD_NEON)
         alignas(std::is_same_v<T, float> && dims == 4 ? dims * sizeof(T) : sizeof(T))
 #endif
         std::array<T, dims> v;

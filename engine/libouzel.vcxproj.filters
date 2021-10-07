@@ -477,6 +477,12 @@
     <ClInclude Include="math\Matrix.hpp">
       <Filter>engine\math</Filter>
     </ClInclude>
+    <ClInclude Include="math\MatrixNeon.hpp">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\MatrixSse.hpp">
+      <Filter>engine\math</Filter>
+    </ClInclude>
     <ClInclude Include="scene\SkinnedMeshRenderer.hpp">
       <Filter>engine\scene</Filter>
     </ClInclude>

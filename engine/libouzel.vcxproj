@@ -318,6 +318,8 @@
     <ClInclude Include="math\Constants.hpp" />
     <ClInclude Include="math\ConvexVolume.hpp" />
     <ClInclude Include="math\Matrix.hpp" />
+    <ClInclude Include="math\MatrixNeon.hpp" />
+    <ClInclude Include="math\MatrixSse.hpp" />
     <ClInclude Include="math\Plane.hpp" />
     <ClInclude Include="math\Quaternion.hpp" />
     <ClInclude Include="math\Rect.hpp" />
