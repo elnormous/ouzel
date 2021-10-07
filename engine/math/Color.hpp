@@ -66,49 +66,6 @@ namespace ouzel::math
         {
         }
 
-        static Color parse(std::string_view color) noexcept
-        {
-            if (!color.empty())
-            {
-                if (color.front() == '#')
-                {
-                    assert(color.length() == 4 || color.length() == 7);
-
-                    const std::size_t componentSize = (color.length() - 1) / 3; // exclude the #
-
-                    std::array<std::uint8_t, 3> v;
-                    for (std::size_t component = 0; component < 3; ++component)
-                    {
-                        v[component] = 0;
-
-                        for (std::size_t byte = 0; byte < 2; ++byte)
-                        {
-                            const char c = (byte < componentSize) ? color[component * componentSize + byte + 1] : color[component * componentSize + 1];
-                            v[component] = static_cast<std::uint8_t>((v[component] << 4) | hexToInt(c));
-                        }
-                    }
-
-                    return Color{v[0], v[1], v[2], static_cast<std::uint8_t>(0xFFU)};
-                }
-                else
-                {
-                    std::uint32_t intValue = 0;
-
-                    for (const auto c : color)
-                        intValue = intValue * 10 + decToInt(c);
-
-                    return Color{
-                        static_cast<std::uint8_t>((intValue & 0xFF000000U) >> 24),
-                        static_cast<std::uint8_t>((intValue & 0x00FF0000U) >> 16),
-                        static_cast<std::uint8_t>((intValue & 0x0000FF00U) >> 8),
-                        static_cast<std::uint8_t>(intValue & 0x000000FFU)
-                    };
-                }
-            }
-            else
-                return Color{0, 0, 0, 0};
-        }
-
         [[nodiscard]] static constexpr auto black() noexcept { return Color{0, 0, 0, 255}; }
         [[nodiscard]] static constexpr auto red() noexcept { return Color{255, 0, 0, 255}; }
         [[nodiscard]] static constexpr auto magenta() noexcept { return Color{255, 0, 255, 255}; }
@@ -180,22 +137,62 @@ namespace ouzel::math
                 v[2] != c.v[2] ||
                 v[3] != c.v[3];
         }
+    };
 
-    private:
-        static constexpr std::uint8_t hexToInt(const char c)
-        {
+    inline Color parseColor(std::string_view color) noexcept
+    {
+        const auto hexToInt = [](const char c) constexpr {
             return (c >= '0' && c <= '9') ? static_cast<std::uint8_t>(c - '0') :
                 (c >= 'a' && c <= 'f') ? static_cast<std::uint8_t>(c - 'a' + 10) :
                 (c >= 'A' && c <= 'F') ? static_cast<std::uint8_t>(c - 'A' + 10) :
                 throw std::out_of_range("Invalid hex digit");
-        }
+        };
 
-        static constexpr std::uint8_t decToInt(const char c)
-        {
+        const auto decToInt = [](const char c) constexpr {
             return (c >= '0' && c <= '9') ? static_cast<std::uint8_t>(c - '0') :
                 throw std::out_of_range("Invalid hex digit");
+        };
+
+        if (!color.empty())
+        {
+            if (color.front() == '#')
+            {
+                assert(color.length() == 4 || color.length() == 7);
+
+                const std::size_t componentSize = (color.length() - 1) / 3; // exclude the #
+
+                std::array<std::uint8_t, 3> v;
+                for (std::size_t component = 0; component < 3; ++component)
+                {
+                    v[component] = 0;
+
+                    for (std::size_t byte = 0; byte < 2; ++byte)
+                    {
+                        const char c = (byte < componentSize) ? color[component * componentSize + byte + 1] : color[component * componentSize + 1];
+                        v[component] = static_cast<std::uint8_t>((v[component] << 4) | hexToInt(c));
+                    }
+                }
+
+                return Color{v[0], v[1], v[2], static_cast<std::uint8_t>(0xFFU)};
+            }
+            else
+            {
+                std::uint32_t intValue = 0;
+
+                for (const auto c : color)
+                    intValue = intValue * 10 + decToInt(c);
+
+                return Color{
+                    static_cast<std::uint8_t>((intValue & 0xFF000000U) >> 24),
+                    static_cast<std::uint8_t>((intValue & 0x00FF0000U) >> 16),
+                    static_cast<std::uint8_t>((intValue & 0x0000FF00U) >> 8),
+                    static_cast<std::uint8_t>(intValue & 0x000000FFU)
+                };
+            }
         }
-    };
+        else
+            return Color{0, 0, 0, 0};
+    }
 }
 
 #endif // OUZEL_MATH_COLOR_HPP
