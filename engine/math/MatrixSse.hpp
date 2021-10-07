@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OUZEL_MATRIX_SSE
-#define OUZEL_MATRIX_SSE
+#ifndef OUZEL_MATH_MATRIX_SSE
+#define OUZEL_MATH_MATRIX_SSE
 
 #include "Matrix.hpp"
 #include "Simd.hpp"
@@ -252,4 +252,4 @@ namespace ouzel::math
 
 #endif
 
-#endif // OUZEL_MATRIX_SSE
+#endif // OUZEL_MATH_MATRIX_SSE
