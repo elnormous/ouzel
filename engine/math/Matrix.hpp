@@ -126,6 +126,12 @@ namespace ouzel::math
             return scale;
         }
 
+        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 3 && c == 3)>* = nullptr>
+        [[nodiscard]] auto getRotation() const noexcept
+        {
+            return std::atan2(-m[3], m[0]);
+        }
+
         template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
         [[nodiscard]] auto getRotation() const noexcept
         {
