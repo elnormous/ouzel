@@ -17,7 +17,7 @@ namespace ouzel::math
     template <typename T> class Plane final
     {
     public:
-#ifdef OUZEL_SIMD_AVAILABLE
+#if defined(OUZEL_SIMD_SSE) || defined(OUZEL_SIMD_NEON)
         alignas(std::is_same_v<T, float> ? 4 * sizeof(T) : sizeof(T))
 #endif
         std::array<T, 4> v;
