@@ -33,7 +33,7 @@ namespace ouzel
                 default:
                     throw std::runtime_error("Wrong magic " + std::to_string(magic));
             }
-        };
+        }
     }
 
     Language::Language(const std::vector<std::byte>& data)
