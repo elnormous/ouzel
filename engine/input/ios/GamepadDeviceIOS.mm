@@ -151,6 +151,15 @@ namespace ouzel::input::ios
         attached = (controller.isAttachedToDevice == YES);
     }
 
+    bool GamepadDevice::isAbsoluteDpadValues() const
+    {
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+        return controller.microGamepad.reportsAbsoluteDpadValues == YES;
+#else
+        return false;
+#endif
+    }
+
     void GamepadDevice::setAbsoluteDpadValues(bool absoluteDpadValues)
     {
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
@@ -158,12 +167,19 @@ namespace ouzel::input::ios
 #endif
     }
 
-    bool GamepadDevice::isAbsoluteDpadValues() const
+    bool GamepadDevice::isRotationAllowed() const
     {
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-        return controller.microGamepad.reportsAbsoluteDpadValues == YES;
+        return controller.microGamepad.allowsRotation == YES;
 #else
         return false;
+#endif
+    }
+
+    void GamepadDevice::setRotationAllowed(bool rotationAllowed)
+    {
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+        controller.microGamepad.allowsRotation = rotationAllowed ? YES : NO;
 #endif
     }
 

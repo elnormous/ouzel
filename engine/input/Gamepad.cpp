@@ -22,6 +22,16 @@ namespace ouzel::input
         inputManager.getInputSystem().addCommand(command);
     }
 
+    void Gamepad::setRotationAllowed(bool newRotationAllowed)
+    {
+        rotationAllowed = newRotationAllowed;
+
+        InputSystem::Command command(InputSystem::Command::Type::setRotationAllowed);
+        command.deviceId = deviceId;
+        command.rotationAllowed = rotationAllowed;
+        inputManager.getInputSystem().addCommand(command);
+    }
+
     void Gamepad::setPlayerIndex(std::int32_t newPlayerIndex)
     {
         playerIndex = newPlayerIndex;

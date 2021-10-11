@@ -149,14 +149,24 @@ namespace ouzel::input::tvos
         attached = (controller.isAttachedToDevice == YES);
     }
 
+    bool GamepadDevice::isAbsoluteDpadValues() const
+    {
+        return controller.microGamepad.reportsAbsoluteDpadValues == YES;
+    }
+
     void GamepadDevice::setAbsoluteDpadValues(bool absoluteDpadValues)
     {
         controller.microGamepad.reportsAbsoluteDpadValues = absoluteDpadValues ? YES : NO;
     }
 
-    bool GamepadDevice::isAbsoluteDpadValues() const
+    bool GamepadDevice::isRotationAllowed() const
     {
-        return controller.microGamepad.reportsAbsoluteDpadValues == YES;
+        return controller.microGamepad.allowsRotation == YES;
+    }
+
+    void GamepadDevice::setRotationAllowed(bool rotationAllowed)
+    {
+        controller.microGamepad.allowsRotation = rotationAllowed ? YES : NO;
     }
 
     namespace

@@ -84,6 +84,9 @@ namespace ouzel::input
         auto isAbsoluteDpadValues() const noexcept { return absoluteDpadValues; }
         void setAbsoluteDpadValues(bool newAbsoluteDpadValues);
 
+        bool isRotationAllowed() const noexcept { return rotationAllowed; }
+        void setRotationAllowed(bool rotationAllowed);
+
         auto getPlayerIndex() const noexcept { return playerIndex; }
         void setPlayerIndex(std::int32_t newPlayerIndex);
 
@@ -101,6 +104,7 @@ namespace ouzel::input
         ButtonState buttonStates[static_cast<std::uint32_t>(Button::count)];
         std::int32_t playerIndex = -1;
         bool absoluteDpadValues = false;
+        bool rotationAllowed = false;
         bool attached = false;
         float vibration[static_cast<std::uint32_t>(Motor::count)]{};
     };

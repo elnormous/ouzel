@@ -26,8 +26,11 @@ namespace ouzel::input::tvos
                       DeviceId initId,
                       GCControllerPtr initController);
 
-        void setAbsoluteDpadValues(bool absoluteDpadValues);
         bool isAbsoluteDpadValues() const;
+        void setAbsoluteDpadValues(bool absoluteDpadValues);
+
+        bool isRotationAllowed() const;
+        void setRotationAllowed(bool rotationAllowed);
 
         std::int32_t getPlayerIndex() const;
         void setPlayerIndex(std::int32_t playerIndex);

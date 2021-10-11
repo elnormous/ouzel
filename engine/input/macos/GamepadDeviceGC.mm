@@ -152,6 +152,16 @@ namespace ouzel::input::macos
         attached = (controller.isAttachedToDevice == YES);
     }
 
+    bool GamepadDeviceGC::isAbsoluteDpadValues() const
+    {
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
+        // GCController.microGamepad is not defined in macOS SDK older than 10.12
+        return controller.microGamepad.reportsAbsoluteDpadValues == YES;
+#else
+        return false;
+#endif
+    }
+
     void GamepadDeviceGC::setAbsoluteDpadValues(bool absoluteDpadValues)
     {
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
@@ -160,13 +170,21 @@ namespace ouzel::input::macos
 #endif
     }
 
-    bool GamepadDeviceGC::isAbsoluteDpadValues() const
+    bool GamepadDeviceGC::isRotationAllowed() const
     {
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
         // GCController.microGamepad is not defined in macOS SDK older than 10.12
-        return controller.microGamepad.reportsAbsoluteDpadValues == YES;
+        return controller.microGamepad.allowsRotation == YES;
 #else
         return false;
+#endif
+    }
+
+    void GamepadDeviceGC::setRotationAllowed(bool rotationAllowed)
+    {
+#if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
+        // GCController.microGamepad is not defined in macOS SDK older than 10.12
+        controller.microGamepad.allowsRotation = rotationAllowed ? YES : NO;
 #endif
     }
 

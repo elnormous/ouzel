@@ -88,6 +88,15 @@ namespace ouzel::input::tvos
                 }
                 break;
             }
+            case Command::Type::setRotationAllowed:
+            {
+                if (const auto inputDevice = getInputDevice(command.deviceId))
+                {
+                    const auto gamepadDevice = static_cast<GamepadDevice*>(inputDevice);
+                    gamepadDevice->setRotationAllowed(command.rotationAllowed);
+                }
+                break;
+            }
             case Command::Type::setPlayerIndex:
             {
                 if (const auto inputDevice = getInputDevice(command.deviceId))

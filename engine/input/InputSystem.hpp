@@ -35,6 +35,7 @@ namespace ouzel::input
                 startDeviceDiscovery,
                 stopDeviceDiscovery,
                 setAbsoluteDpadValues,
+                setRotationAllowed,
                 setPlayerIndex,
                 setVibration,
                 setPosition,
@@ -56,6 +57,7 @@ namespace ouzel::input
             union
             {
                 bool absoluteDpadValues = false;
+                bool rotationAllowed;
                 std::int32_t playerIndex;
                 float speed;
                 bool visible;

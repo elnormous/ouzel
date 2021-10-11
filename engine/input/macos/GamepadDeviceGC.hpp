@@ -23,8 +23,11 @@ namespace ouzel::input::macos
                         DeviceId initId,
                         GCControllerPtr initController);
 
-        void setAbsoluteDpadValues(bool absoluteDpadValues);
         bool isAbsoluteDpadValues() const;
+        void setAbsoluteDpadValues(bool absoluteDpadValues) final;
+
+        bool isRotationAllowed() const;
+        void setRotationAllowed(bool rotationAllowed) final;
 
         std::int32_t getPlayerIndex() const;
         void setPlayerIndex(std::int32_t playerIndex) final;
