@@ -38,10 +38,14 @@ namespace ouzel::math
                                         const Matrix<float, 4, 4>& matrix2) noexcept
     {
         Matrix<float, 4, 4> result;
-        vst1q_f32(&result.m[0], vaddq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
-        vst1q_f32(&result.m[4], vaddq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
-        vst1q_f32(&result.m[8], vaddq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
-        vst1q_f32(&result.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
+        vst1q_f32(&result.m[0], vaddq_f32(vld1q_f32(&matrix1.m[0]),
+                                          vld1q_f32(&matrix2.m[0])));
+        vst1q_f32(&result.m[4], vaddq_f32(vld1q_f32(&matrix1.m[4]),
+                                          vld1q_f32(&matrix2.m[4])));
+        vst1q_f32(&result.m[8], vaddq_f32(vld1q_f32(&matrix1.m[8]),
+                                          vld1q_f32(&matrix2.m[8])));
+        vst1q_f32(&result.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]),
+                                           vld1q_f32(&matrix2.m[12])));
         return result;
     }
 
@@ -49,10 +53,14 @@ namespace ouzel::math
     inline auto& operator+=(Matrix<float, 4, 4>& matrix1,
                             const Matrix<float, 4, 4>& matrix2) noexcept
     {
-        vst1q_f32(&matrix1.m[0], vaddq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
-        vst1q_f32(&matrix1.m[4], vaddq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
-        vst1q_f32(&matrix1.m[8], vaddq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
-        vst1q_f32(&matrix1.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
+        vst1q_f32(&matrix1.m[0], vaddq_f32(vld1q_f32(&matrix1.m[0]),
+                                           vld1q_f32(&matrix2.m[0])));
+        vst1q_f32(&matrix1.m[4], vaddq_f32(vld1q_f32(&matrix1.m[4]),
+                                           vld1q_f32(&matrix2.m[4])));
+        vst1q_f32(&matrix1.m[8], vaddq_f32(vld1q_f32(&matrix1.m[8]),
+                                           vld1q_f32(&matrix2.m[8])));
+        vst1q_f32(&matrix1.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]),
+                                            vld1q_f32(&matrix2.m[12])));
         return matrix1;
     }
 
@@ -61,10 +69,14 @@ namespace ouzel::math
                                         const Matrix<float, 4, 4>& matrix2) noexcept
     {
         Matrix<float, 4, 4> result;
-        vst1q_f32(&result.m[0], vsubq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
-        vst1q_f32(&result.m[4], vsubq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
-        vst1q_f32(&result.m[8], vsubq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
-        vst1q_f32(&result.m[12], vsubq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
+        vst1q_f32(&result.m[0], vsubq_f32(vld1q_f32(&matrix1.m[0]),
+                                          vld1q_f32(&matrix2.m[0])));
+        vst1q_f32(&result.m[4], vsubq_f32(vld1q_f32(&matrix1.m[4]),
+                                          vld1q_f32(&matrix2.m[4])));
+        vst1q_f32(&result.m[8], vsubq_f32(vld1q_f32(&matrix1.m[8]),
+                                          vld1q_f32(&matrix2.m[8])));
+        vst1q_f32(&result.m[12], vsubq_f32(vld1q_f32(&matrix1.m[12]),
+                                           vld1q_f32(&matrix2.m[12])));
         return result;
     }
 
@@ -72,10 +84,14 @@ namespace ouzel::math
     inline auto& operator-=(Matrix<float, 4, 4>& matrix1,
                             const Matrix<float, 4, 4>& matrix2) noexcept
     {
-        vst1q_f32(&matrix1.m[0], vsubq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
-        vst1q_f32(&matrix1.m[4], vsubq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
-        vst1q_f32(&matrix1.m[8], vsubq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
-        vst1q_f32(&matrix1.m[12], vsubq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
+        vst1q_f32(&matrix1.m[0], vsubq_f32(vld1q_f32(&matrix1.m[0]),
+                                           vld1q_f32(&matrix2.m[0])));
+        vst1q_f32(&matrix1.m[4], vsubq_f32(vld1q_f32(&matrix1.m[4]),
+                                           vld1q_f32(&matrix2.m[4])));
+        vst1q_f32(&matrix1.m[8], vsubq_f32(vld1q_f32(&matrix1.m[8]),
+                                           vld1q_f32(&matrix2.m[8])));
+        vst1q_f32(&matrix1.m[12], vsubq_f32(vld1q_f32(&matrix1.m[12]),
+                                            vld1q_f32(&matrix2.m[12])));
         return matrix1;
     }
 
