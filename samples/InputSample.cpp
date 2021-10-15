@@ -11,9 +11,9 @@ using namespace math;
 namespace samples
 {
     InputSample::InputSample():
-        hideButton{"button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        discoverButton{"button.png", "button_selected.png", "button_down.png", "", "Discover gamepads", "Arial", 0.8F, blackColor(), blackColor(), blackColor()},
-        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
+        hideButton{"button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        discoverButton{"button.png", "button_selected.png", "button_down.png", "", "Discover gamepads", "Arial", 0.8F, blackColor, blackColor, blackColor},
+        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor},
         cursor{*engine->getInputManager()}
     {
         cursor.init("cursor.png", Vector<float, 2>{0.0F, 63.0F});

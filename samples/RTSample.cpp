@@ -12,7 +12,7 @@ namespace samples
 {
     RTSample::RTSample():
         characterSprite{"run.json"},
-        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
+        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor},
         renderTexture{std::make_shared<graphics::Texture>(*engine->getGraphics(),
                                                           math::Size<std::uint32_t, 2>{256U, 256U},
                                                           graphics::Flags::bindRenderTarget |

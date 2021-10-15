@@ -17,14 +17,14 @@ using namespace math;
 namespace samples
 {
     MainMenu::MainMenu():
-        gitHubButton{"button.png", "button_selected.png", "button_down.png", "", "GitHub", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor(), blackColor()},
-        spritesButton{"button.png", "button_selected.png", "button_down.png", "", "Sprites", "Arial", 1.0F,Color{20, 0, 0, 255}, blackColor(), blackColor()},
-        guiButton{"button.png", "button_selected.png", "button_down.png", "", "GUI", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor(), blackColor()},
-        renderTargetButton{"button.png", "button_selected.png", "button_down.png", "", "Render target", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor(), blackColor()},
-        animationsButton{"button.png", "button_selected.png", "button_down.png", "", "Animations", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor(), blackColor()},
-        inputButton{"button.png", "button_selected.png", "button_down.png", "", "Input", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor(), blackColor()},
-        soundButton{"button.png", "button_selected.png", "button_down.png", "", "Sound", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor(), blackColor()},
-        perspectiveButton{"button.png", "button_selected.png", "button_down.png", "", "Perspective", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor(), blackColor()}
+        gitHubButton{"button.png", "button_selected.png", "button_down.png", "", "GitHub", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
+        spritesButton{"button.png", "button_selected.png", "button_down.png", "", "Sprites", "Arial", 1.0F,Color{20, 0, 0, 255}, blackColor, blackColor},
+        guiButton{"button.png", "button_selected.png", "button_down.png", "", "GUI", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
+        renderTargetButton{"button.png", "button_selected.png", "button_down.png", "", "Render target", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
+        animationsButton{"button.png", "button_selected.png", "button_down.png", "", "Animations", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
+        inputButton{"button.png", "button_selected.png", "button_down.png", "", "Input", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
+        soundButton{"button.png", "button_selected.png", "button_down.png", "", "Sound", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
+        perspectiveButton{"button.png", "button_selected.png", "button_down.png", "", "Perspective", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor}
     {
         handler.uiHandler = [this](const UIEvent& event) {
             if (event.type == Event::Type::actorClick)

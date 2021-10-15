@@ -144,7 +144,7 @@ namespace ouzel::scene
 
         if (font)
         {
-            std::tie(indices, vertices, texture) = font->getRenderData(text, math::whiteColor(), fontSize, textAnchor);
+            std::tie(indices, vertices, texture) = font->getRenderData(text, math::whiteColor, fontSize, textAnchor);
             needsMeshUpdate = true;
 
             for (const graphics::Vertex& vertex : vertices)

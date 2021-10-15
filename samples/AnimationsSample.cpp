@@ -11,7 +11,7 @@ using namespace math;
 namespace samples
 {
     AnimationsSample::AnimationsSample():
-        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor(), blackColor(), blackColor()}
+        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor}
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)
@@ -72,18 +72,18 @@ namespace samples
         addLayer(layer);
 
         shapeDrawable.rectangle(math::Rect<float>{100.0F, 100.0F}, Color{0, 128, 128, 255}, true);
-        shapeDrawable.rectangle(math::Rect<float>{100.0F, 100.0F}, whiteColor(), false, 2.0F);
-        shapeDrawable.line(Vector<float, 2>{0.0F, 0.0F}, Vector<float, 2>{50.0F, 50.0F}, cyanColor(), 2.0F);
+        shapeDrawable.rectangle(math::Rect<float>{100.0F, 100.0F}, whiteColor, false, 2.0F);
+        shapeDrawable.line(Vector<float, 2>{0.0F, 0.0F}, Vector<float, 2>{50.0F, 50.0F}, cyanColor, 2.0F);
 
         shapeDrawable.curve({Vector<float, 2>{50.0F, 50.0F},
                              Vector<float, 2>{100.0F, 50.0F},
                              Vector<float, 2>{50.0F, 0.0F},
                              Vector<float, 2>{100.0F, 0.0F}},
-                            yellowColor());
+                            yellowColor);
 
-        shapeDrawable.circle(Vector<float, 2>{25.0F, 75.0F}, 20.0F, blueColor(), true);
-        shapeDrawable.circle(Vector<float, 2>{25.0F, 75.0F}, 20.0F, whiteColor(), false);
-        shapeDrawable.circle(Vector<float, 2>{75.0F, 75.0F}, 20.0F, blueColor(), false, 16, 4.0F);
+        shapeDrawable.circle(Vector<float, 2>{25.0F, 75.0F}, 20.0F, blueColor, true);
+        shapeDrawable.circle(Vector<float, 2>{25.0F, 75.0F}, 20.0F, whiteColor, false);
+        shapeDrawable.circle(Vector<float, 2>{75.0F, 75.0F}, 20.0F, blueColor, false, 16, 4.0F);
 
         shapeDrawable.polygon({Vector<float, 2>{15.0F, 75.0F},
                                Vector<float, 2>{25.0F, 75.0F},

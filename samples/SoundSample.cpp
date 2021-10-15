@@ -29,13 +29,13 @@ namespace samples
         music{*engine->getAudio(), engine->getCache().getSound("music.ogg")},
         tone{*engine->getAudio(), 200.0F, Oscillator::Type::sine, 0.5F, 1.0F},
         toneVoice{*engine->getAudio(), &tone},
-        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        test8BitButton{"button.png", "button_selected.png", "button_down.png", "", "8-bit", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        test24BitButton{"button.png", "button_selected.png", "button_down.png", "", "24-bit", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        jumpButton{"button.png", "button_selected.png", "button_down.png", "", "Jump", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        ambientButton{"button.png", "button_selected.png", "button_down.png", "", "Ambient", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        musicButton{"button.png", "button_selected.png", "button_down.png", "", "Music", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        toneButton{"button.png", "button_selected.png", "button_down.png", "", "Tone", "Arial", 1.0F, blackColor(), blackColor(), blackColor()}
+        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        test8BitButton{"button.png", "button_selected.png", "button_down.png", "", "8-bit", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        test24BitButton{"button.png", "button_selected.png", "button_down.png", "", "24-bit", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        jumpButton{"button.png", "button_selected.png", "button_down.png", "", "Jump", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        ambientButton{"button.png", "button_selected.png", "button_down.png", "", "Ambient", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        musicButton{"button.png", "button_selected.png", "button_down.png", "", "Music", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        toneButton{"button.png", "button_selected.png", "button_down.png", "", "Tone", "Arial", 1.0F, blackColor, blackColor, blackColor}
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)

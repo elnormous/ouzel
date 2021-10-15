@@ -11,15 +11,15 @@ using namespace math;
 namespace samples
 {
     GUISample::GUISample():
-        button{"button.png", "button_selected.png", "button_down.png", "", "Button", "Arial", 1.0F, redColor(), redColor(), blackColor()},
-        fullscreenButton{"button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        minimizeButton{"button.png", "button_selected.png", "button_down.png", "", "Minimize", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
-        maximizeButton{"button.png", "button_selected.png", "button_down.png", "", "Maximize", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
+        button{"button.png", "button_selected.png", "button_down.png", "", "Button", "Arial", 1.0F, redColor, redColor, blackColor},
+        fullscreenButton{"button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        minimizeButton{"button.png", "button_selected.png", "button_down.png", "", "Minimize", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        maximizeButton{"button.png", "button_selected.png", "button_down.png", "", "Maximize", "Arial", 1.0F, blackColor, blackColor, blackColor},
         checkBox{"checkbox.png", "", "", "", "tick.png"},
-        label1{"checkbox test", "AmosisTechnik", 24.0F, whiteColor(), Vector<float, 2>{0.0F, 0.5F}},
+        label1{"checkbox test", "AmosisTechnik", 24.0F, whiteColor, Vector<float, 2>{0.0F, 0.5F}},
         label2{"", "ArialBlack"},
-        label3{"UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, whiteColor(), Vector<float, 2>{0.0F, 0.5F}},
-        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor(), blackColor(), blackColor()}
+        label3{"UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, whiteColor, Vector<float, 2>{0.0F, 0.5F}},
+        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor}
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)
@@ -114,7 +114,7 @@ namespace samples
         maximizeButton.setPosition(Vector<float, 2>{-200.0F, -40.0F});
         menu.addWidget(maximizeButton);
 
-        label1.getLabelDrawable().setColor(cyanColor());
+        label1.getLabelDrawable().setColor(cyanColor);
         label1.setPosition(Vector<float, 2>{-88.0F, 108.0F});
         layer.addChild(label1);
 
@@ -126,7 +126,7 @@ namespace samples
         label2.setPosition(Vector<float, 2>{10.0F, 0.0F});
         layer.addChild(label2);
 
-        label3.getLabelDrawable().setColor(blueColor());
+        label3.getLabelDrawable().setColor(blueColor);
         label3.setPosition(Vector<float, 2>{-100.0F, -100.0F});
         label3.setScale(Vector<float, 3>{0.5F, 0.5F, 1.0F});
         layer.addChild(label3);
