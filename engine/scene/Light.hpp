@@ -46,7 +46,7 @@ namespace ouzel::scene
 
         Type type = Type::point;
         math::Color color;
-        math::Quaternion<float> direction = math::Quaternion<float>::identity(); // for spot and directional ligt
+        math::Quaternion<float> direction = math::identityQuaternion<float>; // for spot and directional ligt
         float angle = 0.0F; // for spot light
         float range = 0.0F; // for point and spot light
         float intensity = 1.0F;
