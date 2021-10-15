@@ -167,15 +167,14 @@ namespace ouzel::math
         }
     };
 
-    template <typename T, std::size_t size>
-    [[nodiscard]] constexpr auto identityMatrix() noexcept
+    template <typename T, std::size_t size, std::size_t ...i>
+    constexpr auto generateIdentityMatrix(std::index_sequence<i...>) noexcept
     {
-        Matrix<T, size, size> result;
-        for (std::size_t i = 0; i < size; ++i)
-            for (std::size_t j = 0; j < size; ++j)
-                result.m[j * size + i] = (j == i) ? T(1) : T(0);
-        return result;
+        return Matrix<T, size, size>{(i % size == i / size) ? T(1) : T(0)...};
     }
+
+    template <typename T, std::size_t size>
+    constexpr auto identityMatrix = generateIdentityMatrix<T, size>(std::make_index_sequence<size * size>{});
 
     template <typename T, std::size_t size>
     constexpr void setIdentity(Matrix<T, size, size>& matrix) noexcept
