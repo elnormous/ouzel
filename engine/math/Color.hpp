@@ -184,15 +184,15 @@ namespace ouzel::math
             return Color{0, 0, 0, 0};
     }
 
-    constexpr auto blackColor = Color{0, 0, 0, 255};
-    constexpr auto redColor = Color{255, 0, 0, 255};
-    constexpr auto magentaColor = Color{255, 0, 255, 255};
-    constexpr auto greenColor = Color{0, 255, 0, 255};
-    constexpr auto cyanColor = Color{0, 255, 255, 255};
-    constexpr auto blueColor = Color{0, 0, 255, 255};
-    constexpr auto yellowColor = Color{255, 255, 0, 255};
-    constexpr auto whiteColor = Color{255, 255, 255, 255};
-    constexpr auto grayColor = Color{128, 128, 128, 255};
+    inline constexpr auto blackColor = Color{0, 0, 0, 255};
+    inline constexpr auto redColor = Color{255, 0, 0, 255};
+    inline constexpr auto magentaColor = Color{255, 0, 255, 255};
+    inline constexpr auto greenColor = Color{0, 255, 0, 255};
+    inline constexpr auto cyanColor = Color{0, 255, 255, 255};
+    inline constexpr auto blueColor = Color{0, 0, 255, 255};
+    inline constexpr auto yellowColor = Color{255, 255, 0, 255};
+    inline constexpr auto whiteColor = Color{255, 255, 255, 255};
+    inline constexpr auto grayColor = Color{128, 128, 128, 255};
 }
 
 #endif // OUZEL_MATH_COLOR_HPP
