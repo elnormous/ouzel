@@ -11,15 +11,15 @@ using namespace math;
 namespace samples
 {
     GUISample::GUISample():
-        button("button.png", "button_selected.png", "button_down.png", "", "Button", "Arial", 1.0F, Color::red(), Color::red(), Color::black()),
-        fullscreenButton("button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
-        minimizeButton("button.png", "button_selected.png", "button_down.png", "", "Minimize", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
-        maximizeButton("button.png", "button_selected.png", "button_down.png", "", "Maximize", "Arial", 1.0F, Color::black(), Color::black(), Color::black()),
-        checkBox("checkbox.png", "", "", "", "tick.png"),
-        label1("checkbox test", "AmosisTechnik", 24.0F, Color::white(), Vector<float, 2>{0.0F, 0.5F}),
-        label2("", "ArialBlack"),
-        label3("UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, Color::white(), Vector<float, 2>{0.0F, 0.5F}),
-        backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
+        button{"button.png", "button_selected.png", "button_down.png", "", "Button", "Arial", 1.0F, Color::red(), Color::red(), Color::black()},
+        fullscreenButton{"button.png", "button_selected.png", "button_down.png", "", "Fullscreen", "Arial", 1.0F, Color::black(), Color::black(), Color::black()},
+        minimizeButton{"button.png", "button_selected.png", "button_down.png", "", "Minimize", "Arial", 1.0F, Color::black(), Color::black(), Color::black()},
+        maximizeButton{"button.png", "button_selected.png", "button_down.png", "", "Maximize", "Arial", 1.0F, Color::black(), Color::black(), Color::black()},
+        checkBox{"checkbox.png", "", "", "", "tick.png"},
+        label1{"checkbox test", "AmosisTechnik", 24.0F, Color::white(), Vector<float, 2>{0.0F, 0.5F}},
+        label2{"", "ArialBlack"},
+        label3{"UTF-8 ĀāČč\nNew line", "ArialBlack", 1.0F, Color::white(), Vector<float, 2>{0.0F, 0.5F}},
+        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()}
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)

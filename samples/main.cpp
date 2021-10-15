@@ -17,7 +17,7 @@ namespace samples
     {
     public:
         explicit Samples(const std::vector<std::string>& args):
-            bundle(std::make_unique<assets::Bundle>(engine->getCache(), engine->getFileSystem()))
+            bundle{std::make_unique<assets::Bundle>(engine->getCache(), engine->getFileSystem())}
         {
             // disable screen saver
             engine->setScreenSaverEnabled(false);

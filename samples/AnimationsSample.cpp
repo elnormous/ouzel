@@ -11,7 +11,7 @@ using namespace math;
 namespace samples
 {
     AnimationsSample::AnimationsSample():
-        backButton("button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black())
+        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()}
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)
