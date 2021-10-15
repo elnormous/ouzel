@@ -36,11 +36,6 @@ namespace ouzel::math
         [[nodiscard]] auto& w() noexcept { return v[3]; }
         [[nodiscard]] constexpr auto w() const noexcept { return v[3]; }
 
-        [[nodiscard]] static constexpr auto identity() noexcept
-        {
-            return Quaternion{T(0), T(0), T(0), T(1)};
-        }
-
         [[nodiscard]] constexpr auto operator+() const noexcept
         {
             return *this;
@@ -347,6 +342,9 @@ namespace ouzel::math
             return *this;
         }
     };
+
+    template <class T>
+    constexpr auto identityQuaternion = Quaternion<T>{T(0), T(0), T(0), T(1)};
 }
 
 #endif // OUZEL_MATH_QUATERNION_HPP

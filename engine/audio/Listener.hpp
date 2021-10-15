@@ -45,7 +45,7 @@ namespace ouzel::audio
         Mix* mix = nullptr;
         math::Vector<float, 3> position{};
         math::Vector<float, 3> velocity{};
-        math::Quaternion<float> rotation = math::Quaternion<float>::identity();
+        math::Quaternion<float> rotation = math::identityQuaternion<float>;
         bool transformDirty = true;
     };
 }

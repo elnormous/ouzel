@@ -187,7 +187,7 @@ namespace ouzel::scene
         bool worldHidden = false;
 
         math::Vector<float, 3> position{};
-        math::Quaternion<float> rotation = math::Quaternion<float>::identity();
+        math::Quaternion<float> rotation = math::identityQuaternion<float>;
         math::Vector<float, 3> scale = math::Vector<float, 3>{1.0F, 1.0F, 1.0F};
         float opacity = 1.0F;
         Order order = 0;

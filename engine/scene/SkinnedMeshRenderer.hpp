@@ -17,7 +17,7 @@ namespace ouzel::scene
         {
             Bone* parent = nullptr;
             math::Vector<float, 3> position{};
-            math::Quaternion<float> rotation = math::Quaternion<float>::identity();
+            math::Quaternion<float> rotation = math::identityQuaternion<float>;
         };
 
         SkinnedMeshData() = default;
