@@ -299,13 +299,13 @@ namespace ouzel::scene
             indices.push_back(i * 4 + 3);
             indices.push_back(i * 4 + 2);
 
-            vertices.emplace_back(math::Vector<float, 3>{-1.0F, -1.0F, 0.0F}, math::Color::white(),
+            vertices.emplace_back(math::Vector<float, 3>{-1.0F, -1.0F, 0.0F}, math::whiteColor(),
                                   math::Vector<float, 2>{0.0F, 1.0F}, math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
-            vertices.emplace_back(math::Vector<float, 3>{1.0F, -1.0F, 0.0F}, math::Color::white(),
+            vertices.emplace_back(math::Vector<float, 3>{1.0F, -1.0F, 0.0F}, math::whiteColor(),
                                   math::Vector<float, 2>{1.0F, 1.0F}, math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
-            vertices.emplace_back(math::Vector<float, 3>{-1.0F, 1.0F, 0.0F}, math::Color::white(),
+            vertices.emplace_back(math::Vector<float, 3>{-1.0F, 1.0F, 0.0F}, math::whiteColor(),
                                   math::Vector<float, 2>{0.0F, 0.0F}, math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
-            vertices.emplace_back(math::Vector<float, 3>{1.0F, 1.0F, 0.0F}, math::Color::white(),
+            vertices.emplace_back(math::Vector<float, 3>{1.0F, 1.0F, 0.0F}, math::whiteColor(),
                                   math::Vector<float, 2>{1.0F, 0.0F}, math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
         }
 

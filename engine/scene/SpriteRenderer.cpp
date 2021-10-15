@@ -67,19 +67,19 @@ namespace ouzel::scene
 
         const std::vector<graphics::Vertex> vertices{
             graphics::Vertex{
-                math::Vector<float, 3>{finalOffset.v[0], finalOffset.v[1], 0.0F}, math::Color::white(),
+                math::Vector<float, 3>{finalOffset.v[0], finalOffset.v[1], 0.0F}, math::whiteColor(),
                 textCoords[0], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             },
             graphics::Vertex{
-                math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, math::Color::white(),
+                math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, math::whiteColor(),
                 textCoords[1], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             },
             graphics::Vertex{
-                math::Vector<float, 3>{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, math::Color::white(),
+                math::Vector<float, 3>{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, math::whiteColor(),
                 textCoords[2], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             },
             graphics::Vertex{
-                math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, math::Color::white(),
+                math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, math::whiteColor(),
                 textCoords[3], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             }
         };

@@ -119,7 +119,7 @@ namespace ouzel::assets
 
                         vertices.emplace_back(math::Vector<float, 3>{static_cast<float>(vertexObject[0].as<std::int32_t>()) + finalOffset.v[0],
                                                                -static_cast<float>(vertexObject[1].as<std::int32_t>()) - finalOffset.v[1], 0.0F},
-                                              math::Color::white(),
+                                              math::whiteColor(),
                                               math::Vector<float, 2>{static_cast<float>(vertexUVObject[0].as<std::int32_t>()) / textureSize.v[0],
                                                                static_cast<float>(vertexUVObject[1].as<std::int32_t>()) / textureSize.v[1]},
                                               math::Vector<float, 3>{0.0F, 0.0F, -1.0F});

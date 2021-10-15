@@ -66,16 +66,6 @@ namespace ouzel::math
         {
         }
 
-        [[nodiscard]] static constexpr auto black() noexcept { return Color{0, 0, 0, 255}; }
-        [[nodiscard]] static constexpr auto red() noexcept { return Color{255, 0, 0, 255}; }
-        [[nodiscard]] static constexpr auto magenta() noexcept { return Color{255, 0, 255, 255}; }
-        [[nodiscard]] static constexpr auto green() noexcept { return Color{0, 255, 0, 255}; }
-        [[nodiscard]] static constexpr auto cyan() noexcept { return Color{0, 255, 255, 255}; }
-        [[nodiscard]] static constexpr auto blue() noexcept { return Color{0, 0, 255, 255}; }
-        [[nodiscard]] static constexpr auto yellow() noexcept { return Color{255, 255, 0, 255}; }
-        [[nodiscard]] static constexpr auto white() noexcept { return Color{255, 255, 255, 255}; }
-        [[nodiscard]] static constexpr auto gray() noexcept { return Color{128, 128, 128, 255}; }
-
         [[nodiscard]] auto& operator[](std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
 
@@ -193,6 +183,16 @@ namespace ouzel::math
         else
             return Color{0, 0, 0, 0};
     }
+
+    [[nodiscard]] constexpr auto blackColor() noexcept { return Color{0, 0, 0, 255}; }
+    [[nodiscard]] constexpr auto redColor() noexcept { return Color{255, 0, 0, 255}; }
+    [[nodiscard]] constexpr auto magentaColor() noexcept { return Color{255, 0, 255, 255}; }
+    [[nodiscard]] constexpr auto greenColor() noexcept { return Color{0, 255, 0, 255}; }
+    [[nodiscard]] constexpr auto cyanColor() noexcept { return Color{0, 255, 255, 255}; }
+    [[nodiscard]] constexpr auto blueColor() noexcept { return Color{0, 0, 255, 255}; }
+    [[nodiscard]] constexpr auto yellowColor() noexcept { return Color{255, 255, 0, 255}; }
+    [[nodiscard]] constexpr auto whiteColor() noexcept { return Color{255, 255, 255, 255}; }
+    [[nodiscard]] constexpr auto grayColor() noexcept { return Color{128, 128, 128, 255}; }
 }
 
 #endif // OUZEL_MATH_COLOR_HPP

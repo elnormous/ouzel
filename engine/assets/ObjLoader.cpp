@@ -364,7 +364,7 @@ namespace ouzel::assets
                             graphics::Vertex vertex;
                             if (std::get<0>(i) >= 1) vertex.position = positions[std::get<0>(i) - 1];
                             if (std::get<1>(i) >= 1) vertex.texCoords[0] = texCoords[std::get<1>(i) - 1];
-                            vertex.color = math::Color::white();
+                            vertex.color = math::whiteColor();
                             if (std::get<2>(i) >= 1) vertex.normal = normals[std::get<2>(i) - 1];
                             vertices.push_back(vertex);
                             boundingBox.insertPoint(vertex.position);

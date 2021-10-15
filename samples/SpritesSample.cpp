@@ -12,9 +12,9 @@ using namespace math;
 namespace samples
 {
     SpritesSample::SpritesSample():
-        hideButton{"button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, Color::black(), Color::black(), Color::black()},
-        wireframeButton{"button.png", "button_selected.png", "button_down.png", "", "Wireframe", "Arial", 1.0F, Color::black(), Color::black(), Color::black()},
-        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, Color::black(), Color::black(), Color::black()}
+        hideButton{"button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
+        wireframeButton{"button.png", "button_selected.png", "button_down.png", "", "Wireframe", "Arial", 1.0F, blackColor(), blackColor(), blackColor()},
+        backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor(), blackColor(), blackColor()}
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)

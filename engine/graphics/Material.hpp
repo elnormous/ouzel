@@ -29,7 +29,7 @@ namespace ouzel::graphics
         const Shader* shader = nullptr;
         std::shared_ptr<Texture> textures[textureLayers];
         CullMode cullMode = CullMode::back;
-        math::Color diffuseColor = math::Color::white();
+        math::Color diffuseColor = math::whiteColor();
         float opacity = 1.0F;
     };
 }

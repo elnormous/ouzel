@@ -20,13 +20,13 @@ namespace ouzel::scene
         TextRenderer(const std::string& fontFile,
                      float initFontSize = 1.0F,
                      const std::string& initText = std::string(),
-                     math::Color initColor = math::Color::white(),
+                     math::Color initColor = math::whiteColor(),
                      const math::Vector<float, 2>& initTextAnchor = math::Vector<float, 2>{0.5F, 0.5F});
 
         TextRenderer(const gui::Font& initFont,
                      float initFontSize = 1.0F,
                      const std::string& initText = std::string(),
-                     math::Color initColor = math::Color::white(),
+                     math::Color initColor = math::whiteColor(),
                      const math::Vector<float, 2>& initTextAnchor = math::Vector<float, 2>{0.5F, 0.5F});
 
         void draw(const math::Matrix<float, 4>& transformMatrix,
@@ -80,7 +80,7 @@ namespace ouzel::scene
         std::vector<std::uint16_t> indices;
         std::vector<graphics::Vertex> vertices;
 
-        math::Color color = math::Color::white();
+        math::Color color = math::whiteColor();
 
         bool needsMeshUpdate = false;
     };
