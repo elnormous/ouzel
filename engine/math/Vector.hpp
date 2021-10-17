@@ -88,294 +88,309 @@ namespace ouzel::math
             static_assert(dims >= 4);
             return v[3];
         }
-
-        template <auto c = dims, std::enable_if_t<(c == 2)>* = nullptr>
-        [[nodiscard]] auto getAngle() const noexcept
-        {
-            return std::atan2(v[1], v[0]);
-        }
-
-        template <auto c = dims, std::enable_if_t<(c == 3)>* = nullptr>
-        [[nodiscard]] auto getAngle(const Vector& axis) const noexcept
-        {
-            constexpr T dx = axis.v[0] - v[0] - v[1] * axis.v[2] + v[2] * axis.v[1];
-            constexpr T dy = axis.v[1] - v[1] - v[2] * axis.v[0] + v[0] * axis.v[2];
-            constexpr T dz = axis.v[2] - v[2] - v[0] * axis.v[1] + v[1] * axis.v[0];
-
-            return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
-        }
-
-        template <auto c = dims, std::enable_if_t<(c == 4)>* = nullptr>
-        [[nodiscard]] auto getAngle(const Vector& axis) const noexcept
-        {
-            constexpr T dx = v[3] * axis.v[0] - v[0] * axis.v[3] - v[1] * axis.v[2] + v[2] * axis.v[1];
-            constexpr T dy = v[3] * axis.v[1] - v[1] * axis.v[3] - v[2] * axis.v[0] + v[0] * axis.v[2];
-            constexpr T dz = v[3] * axis.v[2] - v[2] * axis.v[3] - v[0] * axis.v[1] + v[1] * axis.v[0];
-
-            return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
-        }
-
-        void clamp(const Vector& min, const Vector& max) noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-                if (v[i] < min.v[i]) v[i] = min.v[i];
-                else if (v[i] > max.v[i]) v[i] = max.v[i];
-        }
-
-        [[nodiscard]] constexpr auto cross(const Vector& vec) const noexcept
-        {
-            static_assert(dims == 3);
-
-            return Vector{
-                (v[1] * vec.v[2]) - (v[2] * vec.v[1]),
-                (v[2] * vec.v[0]) - (v[0] * vec.v[2]),
-                (v[0] * vec.v[1]) - (v[1] * vec.v[0])
-            };
-        }
-
-        [[nodiscard]] auto distance(const Vector& vec) const noexcept
-        {
-            return std::sqrt(generateDistanceSquared(std::make_index_sequence<dims>{}, vec));
-        }
-
-        [[nodiscard]] constexpr auto distanceSquared(const Vector& vec) const noexcept
-        {
-            return generateDistanceSquared(std::make_index_sequence<dims>{}, vec);
-        }
-
-        [[nodiscard]] auto length() const noexcept
-        {
-            return std::sqrt(generateLengthSquared(std::make_index_sequence<dims>{}));
-        }
-
-        [[nodiscard]] constexpr auto lengthSquared() const noexcept
-        {
-            return generateLengthSquared(std::make_index_sequence<dims>{});
-        }
-
-        [[nodiscard]] constexpr auto dot(const Vector& vec) const noexcept
-        {
-            return generateDot(std::make_index_sequence<dims>{}, vec);
-        }
-
-        void negate() noexcept
-        {
-            for (auto& c : v)
-                c = -c;
-        }
-
-        [[nodiscard]] auto isNormalized(const T tolerance = std::numeric_limits<T>::epsilon()) const noexcept
-        {
-            return std::abs(T(1) - lengthSquared()) <= tolerance;
-        }
-
-        void normalize() noexcept
-        {
-            const auto squared = lengthSquared();
-            if (squared == T(1)) // already normalized
-                return;
-
-            const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
-                return;
-
-            for (auto& c : v)
-                c /= length;
-        }
-
-        [[nodiscard]] auto normalized() const noexcept
-        {
-            const auto squared = lengthSquared();
-            if (squared == T(1)) // already normalized
-                return *this;
-
-            const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
-                return *this;
-
-            return *this / length;
-        }
-
-        template <auto c = dims, std::enable_if_t<(c == 2)>* = nullptr>
-        void rotate(const T angle) noexcept
-        {
-            const auto sine = std::sin(angle);
-            const auto cosine = std::cos(angle);
-
-            const auto tempX = v[0] * cosine - v[1] * sine;
-            v[1] = v[1] * cosine + v[0] * sine;
-            v[0] = tempX;
-        }
-
-        template <auto c = dims, std::enable_if_t<(c == 2)>* = nullptr>
-        void rotate(const math::Vector<T, 2>& point, const T angle) noexcept
-        {
-            const auto sine = std::sin(angle);
-            const auto cosine = std::cos(angle);
-
-            if (point.v[0] == T(0) || point.v[1] == T(0))
-            {
-                const auto tempX = v[0] * cosine - v[1] * sine;
-                v[1] = v[1] * cosine + v[0] * sine;
-                v[0] = tempX;
-            }
-            else
-            {
-                const auto tempX = v[0] - point.v[0];
-                const auto tempY = v[1] - point.v[1];
-
-                v[0] = tempX * cosine - tempY * sine + point.v[0];
-                v[1] = tempY * cosine + tempX * sine + point.v[1];
-            }
-        }
-
-        void smooth(const Vector& target, const T elapsedTime, const T responseTime) noexcept
-        {
-            if (elapsedTime > T(0))
-                *this += (target - *this) * (elapsedTime / (elapsedTime + responseTime));
-        }
-
-        [[nodiscard]] constexpr auto operator+() const noexcept
-        {
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-() const noexcept
-        {
-            return generateInverse(std::make_index_sequence<dims>{});
-        }
-
-        [[nodiscard]] constexpr auto operator+(const Vector& vec) const noexcept
-        {
-            return generateSum(std::make_index_sequence<dims>{}, vec);
-        }
-
-        auto& operator+=(const Vector& vec) noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-                v[i] += vec.v[i];
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-(const Vector& vec) const noexcept
-        {
-            return generateDiff(std::make_index_sequence<dims>{}, vec);
-        }
-
-        auto& operator-=(const Vector& vec) noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-                v[i] -= vec.v[i];
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
-        {
-            return generateMul(std::make_index_sequence<dims>{}, scalar);
-        }
-
-        auto& operator*=(const T scalar) noexcept
-        {
-            for (auto& c : v)
-                c *= scalar;
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
-        {
-            return generateDiv(std::make_index_sequence<dims>{}, scalar);
-        }
-
-        auto& operator/=(const T scalar) noexcept
-        {
-            for (auto& c : v)
-                c /= scalar;
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator<(const Vector& vec) const noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-                if (v[i] < vec.v[i]) return true;
-                else if (vec.v[i] < v[i]) return false;
-
-            return false;
-        }
-
-        [[nodiscard]] constexpr auto operator>(const Vector& vec) const noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-                if (v[i] > vec.v[i]) return true;
-                else if (vec.v[i] > v[i]) return false;
-
-            return false;
-        }
-
-        [[nodiscard]] constexpr auto operator==(const Vector& vec) const noexcept
-        {
-            return std::equal(std::begin(v), std::end(v), std::begin(vec.v));
-        }
-
-        [[nodiscard]] constexpr auto operator!=(const Vector& vec) const noexcept
-        {
-            return !std::equal(std::begin(v), std::end(v), std::begin(vec.v));
-        }
-
-    private:
-        template <std::size_t ...I>
-        constexpr auto generateInverse(const std::index_sequence<I...>) const noexcept
-        {
-            return Vector{-v[I]...};
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateSum(const std::index_sequence<I...>, const Vector& vec) const noexcept
-        {
-            return Vector{(v[I] + vec.v[I])...};
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateDiff(const std::index_sequence<I...>, const Vector& vec) const noexcept
-        {
-            return Vector{(v[I] - vec.v[I])...};
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateMul(const std::index_sequence<I...>, const T scalar) const noexcept
-        {
-            return Vector{(v[I] * scalar)...};
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateDiv(const std::index_sequence<I...>, const T scalar) const noexcept
-        {
-            return Vector{(v[I] / scalar)...};
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateLengthSquared(const std::index_sequence<I...>) const noexcept
-        {
-            return ((v[I] * v[I]) + ...);
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const noexcept
-        {
-            return ((v[I] * vec.v[I]) + ...);
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateDistanceSquared(const std::index_sequence<I...>, const Vector& vec) const noexcept
-        {
-            return (((v[I] - vec.v[I]) * (v[I] - vec.v[I])) + ...);
-        }
     };
 
-    template <typename T, std::size_t N>
-    [[nodiscard]] auto operator*(const T scalar, const math::Vector<T, N>& vec) noexcept
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator==(const Vector<T, dims>& vector1,
+                                            const Vector<T, dims>& vector2) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vector1.v[i] != vector2.v[i]) return false;
+        return true;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator!=(const Vector<T, dims>& vector1,
+                                            const Vector<T, dims>& vector2) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vector1.v[i] != vector2.v[i]) return true;
+        return false;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator<(const Vector<T, dims>& vector1,
+                                           const Vector<T, dims>& vector2) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vector1.v[i] < vector2.v[i]) return true;
+        return false;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator>(const Vector<T, dims>& vector1,
+                                           const Vector<T, dims>& vector2) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vector1.v[i] > vector2.v[i]) return true;
+        return false;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator+(Vector<T, dims>& vector) noexcept
+    {
+        return vector;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator-(const Vector<T, dims>& vector) noexcept
+    {
+        Vector<T, dims> result;
+        for (std::size_t i = 0; i < dims; ++i) result.v[i] = -vector.v[i];
+        return result;
+    }
+
+    template <typename T, std::size_t dims>
+    constexpr void negate(Vector<T, dims>& vector) noexcept
+    {
+        for (auto& c : vector.v) c = -c;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator+(const Vector<T, dims>& vector1,
+                                           const Vector<T, dims>& vector2) noexcept
+    {
+        Vector<T, dims> result;
+        for (std::size_t i = 0; i < dims; ++i)
+            result.v[i] = vector1.v[i] + vector2.v[i];
+        return result;
+    }
+
+    template <typename T, std::size_t dims>
+    auto& operator+=(Vector<T, dims>& vector1,
+                     const Vector<T, dims>& vector2) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            vector1.v[i] += vector2.v[i];
+        return vector1;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator-(const Vector<T, dims>& vector1,
+                                           const Vector<T, dims>& vector2) noexcept
+    {
+        Vector<T, dims> result;
+        for (std::size_t i = 0; i < dims; ++i)
+            result.v[i] = vector1.v[i] - vector2.v[i];
+        return result;
+    }
+
+    template <typename T, std::size_t dims>
+    auto& operator-=(Vector<T, dims>& vector1,
+                     const Vector<T, dims>& vector2) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            vector1.v[i] -= vector2.v[i];
+        return vector1;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator*(const Vector<T, dims>& vector,
+                                           const T scalar) noexcept
+    {
+        Vector<T, dims> result;
+        for (std::size_t i = 0; i < dims; ++i)
+            result.v[i] = vector.v[i] * scalar;
+        return result;
+    }
+
+    template <typename T, std::size_t dims>
+    auto& operator*=(Vector<T, dims>& vector, const T scalar) noexcept
+    {
+        for (auto& c : vector.v) c *= scalar;
+        return vector;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator/(const Vector<T, dims>& vector,
+                                           const T scalar) noexcept
+    {
+        Vector<T, dims> result;
+        for (std::size_t i = 0; i < dims; ++i)
+            result.v[i] = vector.v[i] / scalar;
+        return result;
+    }
+
+    template <typename T, std::size_t dims>
+    auto& operator/=(Vector<T, dims>& vector, const T scalar) noexcept
+    {
+        for (auto& c : vector.v) c /= scalar;
+        return vector;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto cross(const Vector<T, 3>& vector1,
+                                       const Vector<T, 3>& vector2) noexcept
+    {
+        return Vector<T, 3>{
+            (vector1.v[1] * vector2.v[2]) - (vector1.v[2] * vector2.v[1]),
+            (vector1.v[2] * vector2.v[0]) - (vector1.v[0] * vector2.v[2]),
+            (vector1.v[0] * vector2.v[1]) - (vector1.v[1] * vector2.v[0])
+        };
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto length(const Vector<T, dims>& vector) noexcept
+    {
+        T lengthSquared{};
+        for (const auto& c : vector.v) lengthSquared += c * c;
+        return std::sqrt(lengthSquared);
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto lengthSquared(const Vector<T, dims>& vector) noexcept
+    {
+        T lengthSquared{};
+        for (const auto& c : vector.v) lengthSquared += c * c;
+        return lengthSquared;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto dot(const Vector<T, dims>& vector1,
+                                     const Vector<T, dims>& vector2) noexcept
+    {
+        T result{};
+        for (std::size_t i = 0; i < dims; ++i)
+            result += vector1.v[i] * vector2[i];
+        return result;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto distance(const Vector<T, dims>& vector1,
+                                const Vector<T, dims>& vector2) noexcept
+    {
+        T distanceSquared{};
+        for (std::size_t i = 0; i < dims; ++i)
+            distanceSquared += (vector1.v[i] - vector2.v[i]) * (vector1.v[i] - vector2.v[i]);
+        return std::sqrt(distanceSquared);
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto distanceSquared(const Vector<T, dims>& vector1,
+                                                 const Vector<T, dims>& vector2) noexcept
+    {
+        T distanceSquared{};
+        for (std::size_t i = 0; i < dims; ++i)
+            distanceSquared += (vector1.v[i] - vector2.v[i]) * (vector1.v[i] - vector2.v[i]);
+        return distanceSquared;
+    }
+
+    template <typename T, std::size_t dims>
+    void normalize(Vector<T, dims>& vector) noexcept
+    {
+        if (const auto l = length(vector); l > T(0))
+            for (auto& c : vector.v) c /= l;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto normalized(const Vector<T, dims>& vector) noexcept
+    {
+        Vector<T, dims> result;
+        if (const auto l = length(vector); l > T(0))
+            for (std::size_t i = 0; i < dims; ++i)
+                result.v[i] = vector.v[i] / l;
+        return result;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto operator*(const T scalar,
+                                 const Vector<T, dims>& vec) noexcept
     {
         return vec * scalar;
     }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto isNormalized(const Vector<T, dims>& vec,
+                                    const T tolerance = std::numeric_limits<T>::epsilon()) noexcept
+    {
+        return std::abs(T(1) - lengthSquared(vec)) <= tolerance;
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getAngle(const Vector<T, 2>& vec) noexcept
+    {
+        return std::atan2(vec.v[1], vec.v[0]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getAngle(const Vector<T, 3>& vec,
+                                const Vector<T, 3>& axis) noexcept
+    {
+        constexpr T dx = axis.v[0] - vec.v[0] - vec.v[1] * axis.v[2] + vec.v[2] * axis.v[1];
+        constexpr T dy = axis.v[1] - vec.v[1] - vec.v[2] * axis.v[0] + vec.v[0] * axis.v[2];
+        constexpr T dz = axis.v[2] - vec.v[2] - vec.v[0] * axis.v[1] + vec.v[1] * axis.v[0];
+
+        return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getAngle(const Vector<T, 4>& vec,
+                                const Vector<T, 4>& axis) noexcept
+    {
+        constexpr T dx = vec.v[3] * axis.v[0] - vec.v[0] * axis.v[3] - vec.v[1] * axis.v[2] + vec.v[2] * axis.v[1];
+        constexpr T dy = vec.v[3] * axis.v[1] - vec.v[1] * axis.v[3] - vec.v[2] * axis.v[0] + vec.v[0] * axis.v[2];
+        constexpr T dz = vec.v[3] * axis.v[2] - vec.v[2] * axis.v[3] - vec.v[0] * axis.v[1] + vec.v[1] * axis.v[0];
+
+        return std::atan2(std::sqrt(dx * dx + dy * dy + dz * dz), dot(axis));
+    }
+
+    template <typename T>
+    void rotate(Vector<T, 2>& vec, const T angle) noexcept
+    {
+        const auto sine = std::sin(angle);
+        const auto cosine = std::cos(angle);
+
+        const auto tempX = vec.v[0] * cosine - vec.v[1] * sine;
+        vec.v[1] = vec.v[1] * cosine + vec.v[0] * sine;
+        vec.v[0] = tempX;
+    }
+
+    template <typename T>
+    void rotate(Vector<T, 2>& vec,
+                const math::Vector<T, 2>& point,
+                const T angle) noexcept
+    {
+        const auto sine = std::sin(angle);
+        const auto cosine = std::cos(angle);
+
+        if (point.v[0] == T(0) || point.v[1] == T(0))
+        {
+            const auto tempX = vec.v[0] * cosine - vec.v[1] * sine;
+            vec.v[1] = vec.v[1] * cosine + vec.v[0] * sine;
+            vec.v[0] = tempX;
+        }
+        else
+        {
+            const auto tempX = vec.v[0] - point.v[0];
+            const auto tempY = vec.v[1] - point.v[1];
+
+            vec.v[0] = tempX * cosine - tempY * sine + point.v[0];
+            vec.v[1] = tempY * cosine + tempX * sine + point.v[1];
+        }
+    }
+
+    template <typename T, std::size_t dims>
+    void clamp(Vector<T, dims>& vec,
+               const Vector<T, dims>& min,
+               const Vector<T, dims>& max) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vec.v[i] < min.v[i]) vec.v[i] = min.v[i];
+            else if (vec.v[i] > max.v[i]) vec.v[i] = max.v[i];
+    }
+
+    template <typename T, std::size_t dims>
+    void smooth(Vector<T, dims>& vec,
+                const Vector<T, dims>& target,
+                const T elapsedTime,
+                const T responseTime) noexcept
+    {
+        if (elapsedTime > T(0))
+            vec += (target - vec) * (elapsedTime / (elapsedTime + responseTime));
+    }
 }
+
+#include "VectorNeon.hpp"
+#include "VectorSse.hpp"
 
 #endif // OUZEL_MATH_VECTOR_HPP

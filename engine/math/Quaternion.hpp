@@ -36,143 +36,6 @@ namespace ouzel::math
         [[nodiscard]] auto& w() noexcept { return v[3]; }
         [[nodiscard]] constexpr auto w() const noexcept { return v[3]; }
 
-        [[nodiscard]] constexpr auto operator+() const noexcept
-        {
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-() const noexcept
-        {
-            return Quaternion{-v[0], -v[1], -v[2], -v[3]};
-        }
-
-        [[nodiscard]] constexpr auto operator+(const Quaternion& q) const noexcept
-        {
-            return Quaternion{
-                v[0] + q.v[0],
-                v[1] + q.v[1],
-                v[2] + q.v[2],
-                v[3] + q.v[3]
-            };
-        }
-
-        constexpr auto& operator+=(const Quaternion& q) noexcept
-        {
-            v[0] += q.v[0];
-            v[1] += q.v[1];
-            v[2] += q.v[2];
-            v[3] += q.v[3];
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-(const Quaternion& q) const noexcept
-        {
-            return Quaternion{
-                v[0] - q.v[0],
-                v[1] - q.v[1],
-                v[2] - q.v[2],
-                v[3] - q.v[3]
-            };
-        }
-
-        constexpr auto& operator-=(const Quaternion& q) noexcept
-        {
-            v[0] -= q.v[0];
-            v[1] -= q.v[1];
-            v[2] -= q.v[2];
-            v[3] -= q.v[3];
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator*(const Quaternion& q) const noexcept
-        {
-            return Quaternion{
-                v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
-                -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1],
-                v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2],
-                -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3]
-            };
-        }
-
-        constexpr auto& operator*=(const Quaternion& q) noexcept
-        {
-            v = {
-                v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
-                -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1],
-                v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2],
-                -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3]
-            };
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
-        {
-            return Quaternion{
-                v[0] * scalar,
-                v[1] * scalar,
-                v[2] * scalar,
-                v[3] * scalar
-            };
-        }
-
-        constexpr auto& operator*=(const T scalar) noexcept
-        {
-            v[0] *= scalar;
-            v[1] *= scalar;
-            v[2] *= scalar;
-            v[3] *= scalar;
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
-        {
-            return Quaternion{
-                v[0] / scalar,
-                v[1] / scalar,
-                v[2] / scalar,
-                v[3] / scalar
-            };
-        }
-
-        constexpr auto& operator/=(const T scalar) noexcept
-        {
-            v[0] /= scalar;
-            v[1] /= scalar;
-            v[2] /= scalar;
-            v[3] /= scalar;
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator==(const Quaternion& q) const noexcept
-        {
-            return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
-        }
-
-        [[nodiscard]] constexpr auto operator!=(const Quaternion& q) const noexcept
-        {
-            return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
-        }
-
-        constexpr void negate() noexcept
-        {
-            v[0] = -v[0];
-            v[1] = -v[1];
-            v[2] = -v[2];
-            v[3] = -v[3];
-        }
-
-        constexpr void conjugate() noexcept
-        {
-            v[0] = -v[0];
-            v[1] = -v[1];
-            v[2] = -v[2];
-        }
-
         constexpr void invert() noexcept
         {
             constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
@@ -195,53 +58,6 @@ namespace ouzel::math
             return std::sqrt(n);
         }
 
-        void normalize() noexcept
-        {
-            constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (squared == T(1)) // already normalized
-                return;
-
-            const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
-                return;
-
-            v[0] /= length;
-            v[1] /= length;
-            v[2] /= length;
-            v[3] /= length;
-        }
-
-        [[nodiscard]] auto normalized() const noexcept
-        {
-            constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (squared == T(1)) // already normalized
-                return *this;
-
-            const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
-                return *this;
-
-            return Quaternion{
-                v[0] / length,
-                v[1] / length,
-                v[2] / length,
-                v[3] / length
-            };
-        }
-
-        void rotate(const T angle, const math::Vector<T, 3>& axis) noexcept
-        {
-            const auto normalizedAxis = axis.normalized();
-
-            const auto cosine = std::cos(angle / T(2));
-            const auto sine = std::sin(angle / T(2));
-
-            v[0] = normalizedAxis.v[0] * sine;
-            v[1] = normalizedAxis.v[1] * sine;
-            v[2] = normalizedAxis.v[2] * sine;
-            v[3] = cosine;
-        }
-
         void getRotation(T& angle, math::Vector<T, 3>& axis) const noexcept
         {
             angle = T(2) * std::acos(v[3]);
@@ -260,82 +76,6 @@ namespace ouzel::math
             }
         }
 
-        [[nodiscard]] auto getEulerAngles() const noexcept
-        {
-            return math::Vector<T, 3>{
-                std::atan2(2 * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]),
-                std::asin(-2 * (v[0] * v[2] - v[3] * v[1])),
-                std::atan2(2 * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2])
-            };
-        }
-
-        [[nodiscard]] auto getEulerAngleX() const noexcept
-        {
-            return std::atan2(T(2) * (v[1] * v[2] + v[3] * v[0]), v[3] * v[3] - v[0] * v[0] - v[1] * v[1] + v[2] * v[2]);
-        }
-
-        [[nodiscard]] auto getEulerAngleY() const noexcept
-        {
-            return std::asin(T(-2) * (v[0] * v[2] - v[3] * v[1]));
-        }
-
-        [[nodiscard]] auto getEulerAngleZ() const noexcept
-        {
-            return std::atan2(T(2) * (v[0] * v[1] + v[3] * v[2]), v[3] * v[3] + v[0] * v[0] - v[1] * v[1] - v[2] * v[2]);
-        }
-
-        void setEulerAngles(const math::Vector<T, 3>& angles) noexcept
-        {
-            const auto angleR = angles.v[0] / T(2);
-            const auto sr = std::sin(angleR);
-            const auto cr = std::cos(angleR);
-
-            const auto angleP = angles.v[1] / T(2);
-            const auto sp = std::sin(angleP);
-            const auto cp = std::cos(angleP);
-
-            const auto angleY = angles.v[2] / T(2);
-            const auto sy = std::sin(angleY);
-            const auto cy = std::cos(angleY);
-
-            const auto cpcy = cp * cy;
-            const auto spcy = sp * cy;
-            const auto cpsy = cp * sy;
-            const auto spsy = sp * sy;
-
-            v[0] = sr * cpcy - cr * spsy;
-            v[1] = cr * spcy + sr * cpsy;
-            v[2] = cr * cpsy - sr * spcy;
-            v[3] = cr * cpcy + sr * spsy;
-        }
-
-        [[nodiscard]] auto operator*(const math::Vector<T, 3>& vector) const noexcept
-        {
-            return rotateVector(vector);
-        }
-
-        [[nodiscard]] auto rotateVector(const math::Vector<T, 3>& vector) const noexcept
-        {
-            constexpr math::Vector<T, 3> q{v[0], v[1], v[2]};
-            const auto t = T(2) * q.cross(vector);
-            return vector + (v[3] * t) + q.cross(t);
-        }
-
-        [[nodiscard]] auto getRightVector() const noexcept
-        {
-            return rotateVector(math::Vector<T, 3>{T(1), T(0), T(0)});
-        }
-
-        [[nodiscard]] auto getUpVector() const noexcept
-        {
-            return rotateVector(math::Vector<T, 3>{T(0), T(1), T(0)});
-        }
-
-        [[nodiscard]] auto getForwardVector() const noexcept
-        {
-            return rotateVector(math::Vector<T, 3>{T(0), T(0), T(1)});
-        }
-
         [[nodiscard]] auto& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
         {
             *this = q1 * (T(1) - t) + (q2 * t);
@@ -345,6 +85,310 @@ namespace ouzel::math
 
     template <class T>
     constexpr auto identityQuaternion = Quaternion<T>{T(0), T(0), T(0), T(1)};
+
+    template <typename T>
+    constexpr void setIdentity(Quaternion<T>& quat) noexcept
+    {
+        quat.v = {T(0), T(0), T(0), T(1)};
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator==(const Quaternion<T>& quat1,
+                                            const Quaternion<T>& quat2) noexcept
+    {
+        return quat1.v[0] == quat2.v[0] &&
+            quat1.v[1] == quat2.v[1] &&
+            quat1.v[2] == quat2.v[2] &&
+            quat1.v[3] == quat2.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator!=(const Quaternion<T>& quat1,
+                                            const Quaternion<T>& quat2) noexcept
+    {
+        return quat1.v[0] != quat2.v[0] ||
+            quat1.v[1] != quat2.v[1] ||
+            quat1.v[2] != quat2.v[2] ||
+            quat1.v[3] != quat2.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator+(const Quaternion<T>& quat) noexcept
+    {
+        return quat;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator-(const Quaternion<T>& quat) noexcept
+    {
+        return Quaternion<T>{-quat.v[0], -quat.v[1], -quat.v[2], -quat.v[3]};
+    }
+
+    template <typename T>
+    constexpr void negate(Quaternion<T>& quat) noexcept
+    {
+        quat.v[0] = -quat.v[0];
+        quat.v[1] = -quat.v[1];
+        quat.v[2] = -quat.v[2];
+        quat.v[3] = -quat.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator+(const Quaternion<T>& quat1,
+                                           const Quaternion<T>& quat2) noexcept
+    {
+        return Quaternion<T>{
+            quat1.v[0] + quat2.v[0],
+            quat1.v[1] + quat2.v[1],
+            quat1.v[2] + quat2.v[2],
+            quat1.v[3] + quat2.v[3]
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator+=(Quaternion<T>& quat1,
+                               const Quaternion<T>& quat2) noexcept
+    {
+        quat1.v[0] += quat2.v[0];
+        quat1.v[1] += quat2.v[1];
+        quat1.v[2] += quat2.v[2];
+        quat1.v[3] += quat2.v[3];
+
+        return quat1;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator-(const Quaternion<T>& quat1,
+                                           const Quaternion<T>& quat2) noexcept
+    {
+        return Quaternion<T>{
+            quat1.v[0] - quat2.v[0],
+            quat1.v[1] - quat2.v[1],
+            quat1.v[2] - quat2.v[2],
+            quat1.v[3] - quat2.v[3]
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator-=(Quaternion<T>& quat1,
+                               const Quaternion<T>& quat2) noexcept
+    {
+        quat1.v[0] -= quat2.v[0];
+        quat1.v[1] -= quat2.v[1];
+        quat1.v[2] -= quat2.v[2];
+        quat1.v[3] -= quat2.v[3];
+
+        return quat1;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator*(const Quaternion<T>& quat1,
+                                           const Quaternion<T>& quat2) noexcept
+    {
+        return Quaternion<T>{
+            quat1.v[0] * quat2.v[3] + quat1.v[1] * quat2.v[2] - quat1.v[2] * quat2.v[1] + quat1.v[3] * quat2.v[0],
+            -quat1.v[0] * quat2.v[2] + quat1.v[1] * quat2.v[3] + quat1.v[2] * quat2.v[0] + quat1.v[3] * quat2.v[1],
+            quat1.v[0] * quat2.v[1] - quat1.v[1] * quat2.v[0] + quat1.v[2] * quat2.v[3] + quat1.v[3] * quat2.v[2],
+            -quat1.v[0] * quat2.v[0] - quat1.v[1] * quat2.v[1] - quat1.v[2] * quat2.v[2] + quat1.v[3] * quat2.v[3]
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator*=(Quaternion<T>& quat1,
+                               const Quaternion<T>& quat2) noexcept
+    {
+        quat1.v = {
+            quat1.v[0] * quat2.v[3] + quat1.v[1] * quat2.v[2] - quat1.v[2] * quat2.v[1] + quat1.v[3] * quat2.v[0],
+            -quat1.v[0] * quat2.v[2] + quat1.v[1] * quat2.v[3] + quat1.v[2] * quat2.v[0] + quat1.v[3] * quat2.v[1],
+            quat1.v[0] * quat2.v[1] - quat1.v[1] * quat2.v[0] + quat1.v[2] * quat2.v[3] + quat1.v[3] * quat2.v[2],
+            -quat1.v[0] * quat2.v[0] - quat1.v[1] * quat2.v[1] - quat1.v[2] * quat2.v[2] + quat1.v[3] * quat2.v[3]
+        };
+
+        return quat1;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator*(const Quaternion<T>& quat,
+                                           const T scalar) noexcept
+    {
+        return Quaternion<T>{
+            quat.v[0] * scalar,
+            quat.v[1] * scalar,
+            quat.v[2] * scalar,
+            quat.v[3] * scalar
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator*=(Quaternion<T>& quat,
+                               const T scalar) noexcept
+    {
+        quat.v[0] *= scalar;
+        quat.v[1] *= scalar;
+        quat.v[2] *= scalar;
+        quat.v[3] *= scalar;
+
+        return quat;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator/(const Quaternion<T>& quat,
+                                           const T scalar) noexcept
+    {
+        return Quaternion<T>{
+            quat.v[0] / scalar,
+            quat.v[1] / scalar,
+            quat.v[2] / scalar,
+            quat.v[3] / scalar
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator/=(Quaternion<T>& quat,
+                               const T scalar) noexcept
+    {
+        quat.v[0] /= scalar;
+        quat.v[1] /= scalar;
+        quat.v[2] /= scalar;
+        quat.v[3] /= scalar;
+
+        return quat;
+    }
+
+    template <typename T>
+    constexpr void conjugate(Quaternion<T>& quat) noexcept
+    {
+        quat.v[0] = -quat.v[0];
+        quat.v[1] = -quat.v[1];
+        quat.v[2] = -quat.v[2];
+    }
+
+    template <typename T>
+    constexpr auto conjugated(const Quaternion<T>& quat) noexcept
+    {
+        return Quaternion<T>{-quat.v[0], -quat.v[1], -quat.v[2], quat.v[3]};
+    }
+
+    template <typename T>
+    void rotate(Quaternion<T>& quat,
+                const T angle,
+                const math::Vector<T, 3>& axis) noexcept
+    {
+        const auto normalizedAxis = normalized(axis);
+
+        const auto cosine = std::cos(angle / T(2));
+        const auto sine = std::sin(angle / T(2));
+
+        quat.v[0] = normalizedAxis.v[0] * sine;
+        quat.v[1] = normalizedAxis.v[1] * sine;
+        quat.v[2] = normalizedAxis.v[2] * sine;
+        quat.v[3] = cosine;
+    }
+
+    template <typename T>
+    void rotateVector(math::Vector<T, 3>& vec,
+                      const Quaternion<T>& quat) noexcept
+    {
+        constexpr math::Vector<T, 3> q{quat.v[0], quat.v[1], quat.v[2]};
+        const auto t = T(2) * q.cross(vec);
+        vec += (quat.v[3] * t) + q.cross(t);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto rotatedVector(const math::Vector<T, 3>& vec,
+                                     const Quaternion<T>& quat) noexcept
+    {
+        constexpr math::Vector<T, 3> q{quat.v[0], quat.v[1], quat.v[2]};
+        const auto t = T(2) * q.cross(vec);
+        return vec + (quat.v[3] * t) + q.cross(t);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto operator*(const Quaternion<T>& quat,
+                                 const math::Vector<T, 3>& vec) noexcept
+    {
+        return rotateVector(vec, quat);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getRightVector(const Quaternion<T>& quat) noexcept
+    {
+        return rotateVector(math::Vector<T, 3>{T(1), T(0), T(0)}, quat);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getUpVector(const Quaternion<T>& quat) noexcept
+    {
+        return rotateVector(math::Vector<T, 3>{T(0), T(1), T(0)}, quat);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getForwardVector(const Quaternion<T>& quat) noexcept
+    {
+        return rotateVector(math::Vector<T, 3>{T(0), T(0), T(1)}, quat);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getEulerAngles(const Quaternion<T>& quat) noexcept
+    {
+        return math::Vector<T, 3>{
+            std::atan2(T(2) * (quat.v[1] * quat.v[2] + quat.v[3] * quat.v[0]),
+                       quat.v[3] * quat.v[3] - quat.v[0] * quat.v[0] - quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2]),
+            std::asin(-T(2) * (quat.v[0] * quat.v[2] - quat.v[3] * quat.v[1])),
+            std::atan2(T(2) * (quat.v[0] * quat.v[1] + quat.v[3] * quat.v[2]),
+                       quat.v[3] * quat.v[3] + quat.v[0] * quat.v[0] - quat.v[1] * quat.v[1] - quat.v[2] * quat.v[2])
+        };
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getEulerAngleX(const Quaternion<T>& quat) noexcept
+    {
+        return std::atan2(T(2) * (quat.v[1] * quat.v[2] + quat.v[3] * quat.v[0]),
+                          quat.v[3] * quat.v[3] - quat.v[0] * quat.v[0] - quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getEulerAngleY(const Quaternion<T>& quat) noexcept
+    {
+        return std::asin(T(-2) * (quat.v[0] * quat.v[2] - quat.v[3] * quat.v[1]));
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getEulerAngleZ(const Quaternion<T>& quat) noexcept
+    {
+        return std::atan2(T(2) * (quat.v[0] * quat.v[1] + quat.v[3] * quat.v[2]),
+                          quat.v[3] * quat.v[3] + quat.v[0] * quat.v[0] - quat.v[1] * quat.v[1] - quat.v[2] * quat.v[2]);
+    }
+
+    template <typename T>
+    void setEulerAngles(Quaternion<T>& quat,
+                        const math::Vector<T, 3>& angles) noexcept
+    {
+        const auto angleR = angles.v[0] / T(2);
+        const auto sr = std::sin(angleR);
+        const auto cr = std::cos(angleR);
+
+        const auto angleP = angles.v[1] / T(2);
+        const auto sp = std::sin(angleP);
+        const auto cp = std::cos(angleP);
+
+        const auto angleY = angles.v[2] / T(2);
+        const auto sy = std::sin(angleY);
+        const auto cy = std::cos(angleY);
+
+        const auto cpcy = cp * cy;
+        const auto spcy = sp * cy;
+        const auto cpsy = cp * sy;
+        const auto spsy = sp * sy;
+
+        quat.v[0] = sr * cpcy - cr * spsy;
+        quat.v[1] = cr * spcy + sr * cpsy;
+        quat.v[2] = cr * cpsy - sr * spcy;
+        quat.v[3] = cr * cpcy + sr * spsy;
+    }
 }
+
+#include "QuaternionNeon.hpp"
+#include "QuaternionSse.hpp"
 
 #endif // OUZEL_MATH_QUATERNION_HPP

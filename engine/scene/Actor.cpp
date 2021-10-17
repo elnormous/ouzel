@@ -326,7 +326,9 @@ namespace ouzel::scene
     void Actor::setRotation(float newRotation)
     {
         math::Quaternion<float> roationQuaternion;
-        roationQuaternion.rotate(newRotation, math::Vector<float, 3>{0.0F, 0.0F, 1.0F});
+        rotate(roationQuaternion,
+               newRotation,
+               math::Vector<float, 3>{0.0F, 0.0F, 1.0F});
 
         rotation = roationQuaternion;
 

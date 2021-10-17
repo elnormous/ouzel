@@ -152,7 +152,7 @@ namespace ouzel::scene
 
                             // radial acceleration
                             if (particles[i].position.v[0] == 0.0F || particles[i].position.v[1] == 0.0F)
-                                radial = particles[i].position.normalized();
+                                radial = normalized(particles[i].position);
 
                             math::Vector<float, 2> tangential = radial;
                             radial *= particles[i].radialAcceleration;
@@ -438,7 +438,7 @@ namespace ouzel::scene
                         const float s = particleSystemData.speed + particleSystemData.speedVariance * std::uniform_real_distribution<float>{-1.0F, 1.0F}(core::randomEngine);
                         const auto dir = v * s;
                         particles[i].direction = dir;
-                        particles[i].rotation = -math::radToDeg(dir.getAngle());
+                        particles[i].rotation = -math::radToDeg(getAngle(dir));
                     }
                     else
                     {
