@@ -528,6 +528,12 @@
     <ClInclude Include="math\Quaternion.hpp">
       <Filter>engine\math</Filter>
     </ClInclude>
+    <ClInclude Include="math\QuaternionNeon.hpp">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\QuaternionSse.hpp">
+      <Filter>engine\math</Filter>
+    </ClInclude>
     <ClInclude Include="math\Rect.hpp">
       <Filter>engine\math</Filter>
     </ClInclude>
@@ -562,6 +568,12 @@
       <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="math\Vector.hpp">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\VectorNeon.hpp">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\VectorSse.hpp">
       <Filter>engine\math</Filter>
     </ClInclude>
     <ClInclude Include="audio\Voice.hpp">

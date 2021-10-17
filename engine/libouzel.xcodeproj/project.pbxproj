@@ -420,6 +420,18 @@
 		30519CFB1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */; };
 		30519CFC1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */; };
 		30519CFD1F9B54E300AF3DC4 /* VorbisLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */; };
+		30524C18271C1E8F002CA9F7 /* QuaternionSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C14271C1E8F002CA9F7 /* QuaternionSse.hpp */; };
+		30524C19271C1E8F002CA9F7 /* QuaternionSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C14271C1E8F002CA9F7 /* QuaternionSse.hpp */; };
+		30524C1A271C1E8F002CA9F7 /* QuaternionSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C14271C1E8F002CA9F7 /* QuaternionSse.hpp */; };
+		30524C1B271C1E8F002CA9F7 /* QuaternionNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C15271C1E8F002CA9F7 /* QuaternionNeon.hpp */; };
+		30524C1C271C1E8F002CA9F7 /* QuaternionNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C15271C1E8F002CA9F7 /* QuaternionNeon.hpp */; };
+		30524C1D271C1E8F002CA9F7 /* QuaternionNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C15271C1E8F002CA9F7 /* QuaternionNeon.hpp */; };
+		30524C1E271C1E8F002CA9F7 /* VectorNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C16271C1E8F002CA9F7 /* VectorNeon.hpp */; };
+		30524C1F271C1E8F002CA9F7 /* VectorNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C16271C1E8F002CA9F7 /* VectorNeon.hpp */; };
+		30524C20271C1E8F002CA9F7 /* VectorNeon.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C16271C1E8F002CA9F7 /* VectorNeon.hpp */; };
+		30524C21271C1E8F002CA9F7 /* VectorSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C17271C1E8F002CA9F7 /* VectorSse.hpp */; };
+		30524C22271C1E8F002CA9F7 /* VectorSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C17271C1E8F002CA9F7 /* VectorSse.hpp */; };
+		30524C23271C1E8F002CA9F7 /* VectorSse.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30524C17271C1E8F002CA9F7 /* VectorSse.hpp */; };
 		305306A024A6D31400021952 /* GamepadDeviceMacOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3053069F24A6D31400021952 /* GamepadDeviceMacOS.cpp */; };
 		30575A9E1C39CB790009C8A7 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A9C1C39CB790009C8A7 /* Scene.cpp */; };
 		30575A9F1C39CB790009C8A7 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30575A9C1C39CB790009C8A7 /* Scene.cpp */; };
@@ -932,6 +944,10 @@
 		30519CEE1F9B53FF00AF3DC4 /* ObjLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjLoader.cpp; sourceTree = "<group>"; };
 		30519CEF1F9B53FF00AF3DC4 /* ObjLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ObjLoader.hpp; sourceTree = "<group>"; };
 		30519CF71F9B54E300AF3DC4 /* VorbisLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VorbisLoader.hpp; sourceTree = "<group>"; };
+		30524C14271C1E8F002CA9F7 /* QuaternionSse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuaternionSse.hpp; sourceTree = "<group>"; };
+		30524C15271C1E8F002CA9F7 /* QuaternionNeon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuaternionNeon.hpp; sourceTree = "<group>"; };
+		30524C16271C1E8F002CA9F7 /* VectorNeon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VectorNeon.hpp; sourceTree = "<group>"; };
+		30524C17271C1E8F002CA9F7 /* VectorSse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VectorSse.hpp; sourceTree = "<group>"; };
 		3053069F24A6D31400021952 /* GamepadDeviceMacOS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceMacOS.cpp; sourceTree = "<group>"; };
 		30575A9C1C39CB790009C8A7 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		30575A9D1C39CB790009C8A7 /* Scene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
@@ -1322,11 +1338,15 @@
 				30A4C1C8270FA4D500419C99 /* MatrixSse.hpp */,
 				30216B7F1ED5C3900073E3D5 /* Plane.hpp */,
 				30FE384D1DFDE49E00305B3B /* Quaternion.hpp */,
+				30524C15271C1E8F002CA9F7 /* QuaternionNeon.hpp */,
+				30524C14271C1E8F002CA9F7 /* QuaternionSse.hpp */,
 				304A8E3C1C237C70008B1151 /* Rect.hpp */,
 				304A8E311C237C70008B1151 /* Scalar.hpp */,
 				304CB08C270A9C6500DD6751 /* Simd.hpp */,
 				304B27541C9384A600BA162D /* Size.hpp */,
 				304A8E4F1C237C70008B1151 /* Vector.hpp */,
+				30524C16271C1E8F002CA9F7 /* VectorNeon.hpp */,
+				30524C17271C1E8F002CA9F7 /* VectorSse.hpp */,
 			);
 			path = math;
 			sourceTree = "<group>";
@@ -1918,6 +1938,7 @@
 				30AEFA0F20C0A90400CDFD33 /* GltfLoader.hpp in Headers */,
 				C67DDC3322B3F084009408A8 /* StencilOperation.hpp in Headers */,
 				30519CD31F9B53CB00AF3DC4 /* ImageLoader.hpp in Headers */,
+				30524C1B271C1E8F002CA9F7 /* QuaternionNeon.hpp in Headers */,
 				30216B761ED464730073E3D5 /* Material.hpp in Headers */,
 				306B0E631C567D05005C75C1 /* ShapeRenderer.hpp in Headers */,
 				3085DA23211A4A5500F4C2D0 /* Socket.hpp in Headers */,
@@ -1954,6 +1975,7 @@
 				30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */,
 				30A381F821B201C20043568A /* Bus.hpp in Headers */,
 				302B728721BDE302006EBC59 /* SilenceSound.hpp in Headers */,
+				30524C21271C1E8F002CA9F7 /* VectorSse.hpp in Headers */,
 				304AA8C11E1190E4006FA70E /* Obf.hpp in Headers */,
 				30381F521D80A3EC00677CAB /* OGLBlendState.hpp in Headers */,
 				30A3820121B382A20043568A /* Mixer.hpp in Headers */,
@@ -2003,6 +2025,7 @@
 				305B99951C41F06F008589E1 /* Widget.hpp in Headers */,
 				30C758B01F4A0196008499DC /* AudioDevice.hpp in Headers */,
 				3038206C1D816C7700677CAB /* NativeWindowIOS.hpp in Headers */,
+				30524C18271C1E8F002CA9F7 /* QuaternionSse.hpp in Headers */,
 				303B760B1C34A92B00FEDE92 /* InputManager.hpp in Headers */,
 				304E763C1F7095DE0025C0DB /* Client.hpp in Headers */,
 				303B75541C2A3CB700FEDE92 /* Rect.hpp in Headers */,
@@ -2038,6 +2061,7 @@
 				305B68D61ED1B31D003352A2 /* Timer.hpp in Headers */,
 				300C39ED1E51355000330E4F /* PcmClip.hpp in Headers */,
 				3009030921922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */,
+				30524C1E271C1E8F002CA9F7 /* VectorNeon.hpp in Headers */,
 				303B75681C2A3CBF00FEDE92 /* SpriteRenderer.hpp in Headers */,
 				30381F8E1D80A3EC00677CAB /* OGLTexture.hpp in Headers */,
 				C61B49EE2174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
@@ -2114,6 +2138,8 @@
 				30D6EF7D24B93B390032E72A /* Renderer.hpp in Headers */,
 				30381FBA1D80A3F900677CAB /* OALAudioDevice.hpp in Headers */,
 				30C3F28E219D0847003FE9ED /* Effect.hpp in Headers */,
+				30524C23271C1E8F002CA9F7 /* VectorSse.hpp in Headers */,
+				30524C20271C1E8F002CA9F7 /* VectorNeon.hpp in Headers */,
 				309B483C1DEA5EE600A718C5 /* Color.hpp in Headers */,
 				3011E1C81EFFE6DE00CB1DDC /* Ini.hpp in Headers */,
 				307237171FAFDAC9002EA399 /* Xml.hpp in Headers */,
@@ -2179,6 +2205,7 @@
 				303B76781C355A3B00FEDE92 /* Setup.h in Headers */,
 				30519CDD1F9B53DB00AF3DC4 /* SpriteLoader.hpp in Headers */,
 				30DC8C3826A4E0FA000F2B3B /* Window.hpp in Headers */,
+				30524C1D271C1E8F002CA9F7 /* QuaternionNeon.hpp in Headers */,
 				303B76791C355A3B00FEDE92 /* SpriteRenderer.hpp in Headers */,
 				305B68D81ED1B31D003352A2 /* Timer.hpp in Headers */,
 				30A4C1CB270FA4D600419C99 /* MatrixNeon.hpp in Headers */,
@@ -2201,6 +2228,7 @@
 				305B113D2250413900EDA4F5 /* Containers.hpp in Headers */,
 				30419DEE1D162BDC00A63759 /* Voice.hpp in Headers */,
 				306E50B024F87FB000D9017F /* Fnv1.hpp in Headers */,
+				30524C1A271C1E8F002CA9F7 /* QuaternionSse.hpp in Headers */,
 				306672651F964A77004515F2 /* Light.hpp in Headers */,
 				30EA71201D52783000AE8C3E /* EngineTVOS.hpp in Headers */,
 				305B99A11C42A695008589E1 /* BMFont.hpp in Headers */,
@@ -2219,6 +2247,7 @@
 				30419DEC1D162BDC00A63759 /* Voice.hpp in Headers */,
 				C61B49EF2174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
 				305B113C2250413900EDA4F5 /* Containers.hpp in Headers */,
+				30524C1F271C1E8F002CA9F7 /* VectorNeon.hpp in Headers */,
 				306E50AF24F87FB000D9017F /* Fnv1.hpp in Headers */,
 				304A8E5B1C237C70008B1151 /* Matrix.hpp in Headers */,
 				303820861D816C9E00677CAB /* NativeWindowMacOS.hpp in Headers */,
@@ -2236,6 +2265,7 @@
 				3009341F1C88698500CC50D3 /* Window.hpp in Headers */,
 				30AEFA1020C0A90400CDFD33 /* GltfLoader.hpp in Headers */,
 				30519CCC1F9B53C100AF3DC4 /* TtfLoader.hpp in Headers */,
+				30524C19271C1E8F002CA9F7 /* QuaternionSse.hpp in Headers */,
 				30B859981F3D2F3200A16952 /* Font.hpp in Headers */,
 				305B99941C41F06F008589E1 /* Widget.hpp in Headers */,
 				30861B1A24E629F4007E48E4 /* ALCErrorCategory.hpp in Headers */,
@@ -2267,6 +2297,7 @@
 				3009030A21922DEE00B00BF4 /* MetalDepthStencilState.hpp in Headers */,
 				304A8EA31C270833008B1151 /* Vertex.hpp in Headers */,
 				30A9C1341CAE80570084C4BF /* Localization.hpp in Headers */,
+				30524C22271C1E8F002CA9F7 /* VectorSse.hpp in Headers */,
 				30090302219224B100B00BF4 /* DepthStencilState.hpp in Headers */,
 				3038207D1D816C9E00677CAB /* EngineMacOS.hpp in Headers */,
 				303696F01E32DE08007F4211 /* Shader.hpp in Headers */,
@@ -2320,6 +2351,7 @@
 				303B760A1C34A92B00FEDE92 /* InputManager.hpp in Headers */,
 				304A8E541C237C70008B1151 /* Engine.hpp in Headers */,
 				3011E1C71EFFE6DE00CB1DDC /* Ini.hpp in Headers */,
+				30524C1C271C1E8F002CA9F7 /* QuaternionNeon.hpp in Headers */,
 				3098A5571EA01C8A00528A54 /* GamepadDeviceIOKit.hpp in Headers */,
 				303696D81E32DDA9007F4211 /* Buffer.hpp in Headers */,
 				300862E02155CCED00D8CC45 /* GamepadDeviceMacOS.hpp in Headers */,
