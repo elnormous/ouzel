@@ -7,7 +7,6 @@
 #include <cmath>
 #include <cstddef>
 #include <limits>
-#include <type_traits>
 #include "Simd.hpp"
 #include "Vector.hpp"
 
@@ -76,10 +75,9 @@ namespace ouzel::math
             }
         }
 
-        [[nodiscard]] auto& lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
+        void lerp(const Quaternion& q1, const Quaternion& q2, T t) noexcept
         {
             *this = q1 * (T(1) - t) + (q2 * t);
-            return *this;
         }
     };
 
