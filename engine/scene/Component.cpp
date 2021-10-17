@@ -33,12 +33,12 @@ namespace ouzel::scene
             auto i = begin;
             if (i != end)
             {
-                outMin = outMax = v.dot(*i);
+                outMin = outMax = dot(v, *i);
                 ++i;
 
                 for (; i != end; ++i)
                 {
-                    const float d = v.dot(*i);
+                    const float d = dot(v, *i);
                     if (d < outMin) outMin = d;
                     else if (d > outMax) outMax = d;
                 }
