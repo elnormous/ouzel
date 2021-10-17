@@ -438,7 +438,7 @@ namespace ouzel::scene
 
         if (targetActor)
         {
-            startRotation = targetActor->getRotation().getEulerAngles();
+            startRotation = getEulerAngles(targetActor->getRotation());
 
             targetRotation = relative ? startRotation + rotation : rotation;
 
