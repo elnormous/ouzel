@@ -92,79 +92,6 @@ namespace ouzel::math
             dst.v[2] = v.v[0] * m[2] + v.v[1] * m[6] + v.v[2] * m[10] + v.v[3] * m[14];
             dst.v[3] = v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15];
         }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 3 && c == 3)>* = nullptr>
-        [[nodiscard]] constexpr auto getTranslation() const noexcept
-        {
-            return math::Vector<T, 2>{m[6], m[7]};
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        [[nodiscard]] constexpr auto getTranslation() const noexcept
-        {
-            return math::Vector<T, 3>{m[12], m[13], m[14]};
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 3 && c == 3)>* = nullptr>
-        [[nodiscard]] auto getScale() const noexcept
-        {
-            math::Vector<T, 2> scale;
-            scale.v[0] = math::Vector<T, 2>{m[0], m[1]}.length();
-            scale.v[1] = math::Vector<T, 2>{m[3], m[4]}.length();
-
-            return scale;
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        [[nodiscard]] auto getScale() const noexcept
-        {
-            math::Vector<T, 3> scale;
-            scale.v[0] = math::Vector<T, 3>{m[0], m[1], m[2]}.length();
-            scale.v[1] = math::Vector<T, 3>{m[4], m[5], m[6]}.length();
-            scale.v[2] = math::Vector<T, 3>{m[8], m[9], m[10]}.length();
-
-            return scale;
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 3 && c == 3)>* = nullptr>
-        [[nodiscard]] auto getRotation() const noexcept
-        {
-            return std::atan2(-m[3], m[0]);
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        [[nodiscard]] auto getRotation() const noexcept
-        {
-            const auto scale = getScale();
-
-            const auto m11 = m[0] / scale.v[0];
-            const auto m21 = m[1] / scale.v[0];
-            const auto m31 = m[2] / scale.v[0];
-
-            const auto m12 = m[4] / scale.v[1];
-            const auto m22 = m[5] / scale.v[1];
-            const auto m32 = m[6] / scale.v[1];
-
-            const auto m13 = m[8] / scale.v[2];
-            const auto m23 = m[9] / scale.v[2];
-            const auto m33 = m[10] / scale.v[2];
-
-            math::Quaternion<T> result{
-                std::sqrt(std::max(T(0), T(1) + m11 - m22 - m33)) / T(2),
-                std::sqrt(std::max(T(0), T(1) - m11 + m22 - m33)) / T(2),
-                std::sqrt(std::max(T(0), T(1) - m11 - m22 + m33)) / T(2),
-                std::sqrt(std::max(T(0), T(1) + m11 + m22 + m33)) / T(2)
-            };
-
-            // The problem with using copysign: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/paul.htm
-            result.v[0] = std::copysign(result.v[0], m32 - m23);
-            result.v[1] = std::copysign(result.v[1], m13 - m31);
-            result.v[2] = std::copysign(result.v[2], m21 - m12);
-
-            result.normalize();
-
-            return result;
-        }
     };
 
     template <typename T, std::size_t size, std::size_t ...i>
@@ -579,6 +506,79 @@ namespace ouzel::math
             result.m[14] = -(matrix.m[12] * a3 - matrix.m[13] * a1 + matrix.m[14] * a0) / det;
             result.m[15] = (matrix.m[8] * a3 - matrix.m[9] * a1 + matrix.m[10] * a0) / det;
         }
+
+        return result;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto getTranslation(const Matrix<T, 3, 3>& matrix) noexcept
+    {
+        return math::Vector<T, 2>{matrix.m[6], matrix.m[7]};
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto getTranslation(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        return math::Vector<T, 3>{matrix.m[12], matrix.m[13], matrix.m[14]};
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getScale(const Matrix<T, 3, 3>& matrix) noexcept
+    {
+        math::Vector<T, 2> scale;
+        scale.v[0] = math::Vector<T, 2>{matrix.m[0], matrix.m[1]}.length();
+        scale.v[1] = math::Vector<T, 2>{matrix.m[3], matrix.m[4]}.length();
+
+        return scale;
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getScale(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        math::Vector<T, 3> scale;
+        scale.v[0] = math::Vector<T, 3>{matrix.m[0], matrix.m[1], matrix.m[2]}.length();
+        scale.v[1] = math::Vector<T, 3>{matrix.m[4], matrix.m[5], matrix.m[6]}.length();
+        scale.v[2] = math::Vector<T, 3>{matrix.m[8], matrix.m[9], matrix.m[10]}.length();
+
+        return scale;
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getRotation(const Matrix<T, 3, 3>& matrix) noexcept
+    {
+        return std::atan2(-matrix.m[3], matrix.m[0]);
+    }
+
+    template <typename T>
+    [[nodiscard]] auto getRotation(const Matrix<T, 4, 4>& matrix) noexcept
+    {
+        const auto scale = getScale(matrix);
+
+        const auto m11 = matrix.m[0] / scale.v[0];
+        const auto m21 = matrix.m[1] / scale.v[0];
+        const auto m31 = matrix.m[2] / scale.v[0];
+
+        const auto m12 = matrix.m[4] / scale.v[1];
+        const auto m22 = matrix.m[5] / scale.v[1];
+        const auto m32 = matrix.m[6] / scale.v[1];
+
+        const auto m13 = matrix.m[8] / scale.v[2];
+        const auto m23 = matrix.m[9] / scale.v[2];
+        const auto m33 = matrix.m[10] / scale.v[2];
+
+        math::Quaternion<T> result{
+            std::sqrt(std::max(T(0), T(1) + m11 - m22 - m33)) / T(2),
+            std::sqrt(std::max(T(0), T(1) - m11 + m22 - m33)) / T(2),
+            std::sqrt(std::max(T(0), T(1) - m11 - m22 + m33)) / T(2),
+            std::sqrt(std::max(T(0), T(1) + m11 + m22 + m33)) / T(2)
+        };
+
+        // The problem with using copysign: http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/paul.htm
+        result.v[0] = std::copysign(result.v[0], m32 - m23);
+        result.v[1] = std::copysign(result.v[1], m13 - m31);
+        result.v[2] = std::copysign(result.v[2], m21 - m12);
+
+        result.normalize();
 
         return result;
     }
