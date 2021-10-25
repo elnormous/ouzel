@@ -833,7 +833,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMPRESS_PNG_FILES = NO;
-				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.ouzel.samples;
 				PRODUCT_NAME = samples_ios;
@@ -848,7 +847,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMPRESS_PNG_FILES = NO;
-				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.ouzel.samples;
 				PRODUCT_NAME = samples_ios;
@@ -863,7 +861,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Brand Assets";
 				COMPRESS_PNG_FILES = NO;
-				INFOPLIST_FILE = tvos/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = org.ouzel.samples;
 				PRODUCT_NAME = samples_tvos;
 				SDKROOT = appletvos;
@@ -877,7 +874,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "Brand Assets";
 				COMPRESS_PNG_FILES = NO;
-				INFOPLIST_FILE = tvos/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = org.ouzel.samples;
 				PRODUCT_NAME = samples_tvos;
 				SDKROOT = appletvos;
@@ -931,6 +927,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = ../engine/;
 				ONLY_ACTIVE_ARCH = YES;
 			};
@@ -978,6 +975,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = ../engine/;
 			};
 			name = Release;
@@ -986,7 +984,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = macos/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = org.ouzel.samples;
 				PRODUCT_NAME = samples_macos;
@@ -998,7 +995,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = macos/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = org.ouzel.samples;
 				PRODUCT_NAME = samples_macos;
