@@ -35,10 +35,10 @@ namespace ouzel::scene
         std::vector<std::pair<Actor*, math::Vector<float, 3>>> pickActors(const math::Vector<float, 2>& position, bool renderTargets = false) const;
         std::vector<Actor*> pickActors(const std::vector<math::Vector<float, 2>>& edges, bool renderTargets = false) const;
 
-        auto getOrder() const noexcept { return order; }
+        [[nodiscard]] auto getOrder() const noexcept { return order; }
         void setOrder(Order newOrder);
 
-        auto getScene() const noexcept { return scene; }
+        [[nodiscard]] auto getScene() const noexcept { return scene; }
         void removeFromScene();
 
     protected:
