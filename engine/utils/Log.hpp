@@ -210,8 +210,8 @@ namespace ouzel
             logger.log(s, level);
     }
 
-    template <class T, std::size_t N, std::size_t M>
-    Log& operator<<(Log& log, const math::Matrix<T, N, M>& val)
+    template <class T, std::size_t rows, std::size_t cols>
+    Log& operator<<(Log& log, const math::Matrix<T, rows, cols>& val)
     {
         bool first = true;
 
@@ -225,8 +225,8 @@ namespace ouzel
         return log;
     }
 
-    template <class T, std::size_t N>
-    Log& operator<<(Log& log, const math::Size<T, N>& val)
+    template <class T, std::size_t dims>
+    Log& operator<<(Log& log, const math::Size<T, dims>& val)
     {
         bool first = true;
 
@@ -239,8 +239,8 @@ namespace ouzel
         return log;
     }
 
-    template <class T, std::size_t N>
-    Log& operator<<(Log& log, const math::Vector<T, N>& val)
+    template <class T, std::size_t dims>
+    Log& operator<<(Log& log, const math::Vector<T, dims>& val)
     {
         bool first = true;
 

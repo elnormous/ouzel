@@ -166,20 +166,20 @@ namespace ouzel::math
         }
     };
 
-    template <typename T, std::size_t N>
-    [[nodiscard]] auto operator*(const math::Size<T, N>& size, const math::Vector<T, N>& v) noexcept
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto operator*(const math::Size<T, dims>& size, const math::Vector<T, dims>& v) noexcept
     {
         auto result = size;
-        for (std::size_t i = 0; i < N; ++i)
+        for (std::size_t i = 0; i < dims; ++i)
             result.v[i] *= v.v[i];
         return result;
     }
 
-    template <typename T, std::size_t N>
-    [[nodiscard]] auto operator/(const math::Size<T, N>& size, const math::Vector<T, N>& v) noexcept
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto operator/(const math::Size<T, dims>& size, const math::Vector<T, dims>& v) noexcept
     {
         auto result = size;
-        for (std::size_t i = 0; i < N; ++i)
+        for (std::size_t i = 0; i < dims; ++i)
             result.v[i] /= v.v[i];
         return result;
     }

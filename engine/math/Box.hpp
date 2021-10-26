@@ -29,8 +29,8 @@ namespace ouzel::math
         {
         }
 
-        template <std::size_t N2>
-        explicit Box(const math::Box<T, N2>& box) noexcept:
+        template <std::size_t dims2>
+        explicit Box(const math::Box<T, dims2>& box) noexcept:
             min{Vector<T, dims>{box.min}}, max{Vector<T, dims>{box.max}}
         {
         }
