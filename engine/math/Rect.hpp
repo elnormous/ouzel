@@ -105,21 +105,21 @@ namespace ouzel::math
         }
     };
 
-    template <class T>
+    template <typename T>
     [[nodiscard]] constexpr auto operator==(const Rect<T>& rect1,
                                             const Rect<T>& rect2) noexcept
     {
         return rect1.position == rect2.position && rect1.size == rect2.size;
     }
 
-    template <class T>
+    template <typename T>
     [[nodiscard]] constexpr auto operator!=(const Rect<T>& rect1,
                                             const Rect<T>& rect2) noexcept
     {
         return rect1.position != rect2.position || rect1.size != rect2.size;
     }
 
-    template <class T>
+    template <typename T>
     [[nodiscard]] constexpr auto operator*(const Rect<T>& rect,
                                            const T scalar) noexcept
     {
@@ -129,7 +129,7 @@ namespace ouzel::math
         };
     }
 
-    template <class T>
+    template <typename T>
     constexpr auto& operator*=(Rect<T>& rect,
                                const T scalar) noexcept
     {
@@ -138,7 +138,7 @@ namespace ouzel::math
         return rect;
     }
 
-    template <class T>
+    template <typename T>
     [[nodiscard]] constexpr auto operator/(const Rect<T>& rect,
                                            const T scalar) noexcept
     {
@@ -148,7 +148,7 @@ namespace ouzel::math
         };
     }
 
-    template <class T>
+    template <typename T>
     constexpr auto& operator/=(Rect<T>& rect,
                                const T scalar) noexcept
     {
@@ -157,7 +157,7 @@ namespace ouzel::math
         return rect;
     }
 
-    template <class T>
+    template <typename T>
     [[nodiscard]] constexpr auto containsPoint(const Rect<T>& rect,
                                                const math::Vector<T, 2>& point) noexcept
     {
@@ -165,7 +165,7 @@ namespace ouzel::math
             point.v[1] >= rect.position.v[1] && point.v[1] <= (rect.position.v[1] + rect.size.v[1]);
     }
 
-    template <class T>
+    template <typename T>
     [[nodiscard]] constexpr auto contains(const Rect<T>& rect1,
                                           const Rect<T>& rect2) noexcept
     {
@@ -173,7 +173,7 @@ namespace ouzel::math
             containsPoint(rect1, rect2.position.v[0] + rect2.size.v[0], rect2.position.v[1] + rect2.size.v[1]);
     }
 
-    template <class T>
+    template <typename T>
     [[nodiscard]] constexpr auto intersects(const Rect<T>& rect1,
                                             const Rect<T>& rect2) noexcept
     {
@@ -184,7 +184,7 @@ namespace ouzel::math
         return true;
     }
 
-    template <class T>
+    template <typename T>
     constexpr void inflate(Rect<T>& rect,
                            const T horizontalAmount,
                            const T verticalAmount) noexcept
@@ -195,7 +195,7 @@ namespace ouzel::math
         rect.size.v[1] += verticalAmount * T(2);
     }
 
-    template <class T>
+    template <typename T>
     constexpr auto inflated(const Rect<T>& rect,
                            const T horizontalAmount,
                            const T verticalAmount) noexcept
