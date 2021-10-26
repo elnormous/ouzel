@@ -74,44 +74,6 @@ namespace ouzel::math
             return math::Vector<T, 2>{position.v[0] + size.v[0], position.v[1] + size.v[1]};
         }
 
-        [[nodiscard]] constexpr auto containsPoint(const T x, const T y) const noexcept
-        {
-            return x >= position.v[0] && x <= (position.v[0] + size.v[0]) &&
-                y >= position.v[1] && y <= (position.v[1] + size.v[1]);
-        }
-
-        [[nodiscard]] constexpr auto containsPoint(const math::Vector<T, 2>& point) const noexcept
-        {
-            return point.v[0] >= position.v[0] && point.v[0] <= (position.v[0] + size.v[0]) &&
-                point.v[1] >= position.v[1] && point.v[1] <= (position.v[1] + size.v[1]);
-        }
-
-        [[nodiscard]] constexpr auto contains(const T x, const T y,
-                                              const T width, const T height) const noexcept
-        {
-            return containsPoint(x, y) && containsPoint(x + width, y + height);
-        }
-
-        [[nodiscard]] constexpr auto contains(const Rect& r) const noexcept
-        {
-            return contains(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
-        }
-
-        [[nodiscard]] constexpr auto intersects(const T x, const T y,
-                                                const T width, const T height) const noexcept
-        {
-            if (constexpr T t = x - position.v[0]; t > size.v[0] || -t > width)
-                return false;
-            if (constexpr T t = y - position.v[1]; t > size.v[1] || -t > height)
-                return false;
-            return true;
-        }
-
-        [[nodiscard]] constexpr auto intersects(const Rect& r) const noexcept
-        {
-            return intersects(r.position.v[0], r.position.v[1], r.size.v[0], r.size.v[1]);
-        }
-
         [[nodiscard]] static auto intersect(const Rect& r1, const Rect& r2, Rect& dst) noexcept
         {
             const T xmin = std::max(r1.position.v[0], r2.position.v[0]);
@@ -150,47 +112,86 @@ namespace ouzel::math
             size.v[0] += horizontalAmount * T(2);
             size.v[1] += verticalAmount * T(2);
         }
-
-        [[nodiscard]] constexpr auto operator==(const Rect& other) const noexcept
-        {
-            return position == other.position && size == other.size;
-        }
-
-        [[nodiscard]] constexpr auto operator!=(const Rect& other) const noexcept
-        {
-            return position != other.position || size != other.size;
-        }
-
-        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
-        {
-            return Rect{
-                position * scalar,
-                size * scalar
-            };
-        }
-
-        constexpr auto& operator*=(const T scalar) noexcept
-        {
-            position *= scalar;
-            size *= scalar;
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
-        {
-            return Rect{
-                position / scalar,
-                size / scalar
-            };
-        }
-
-        constexpr auto& operator/=(const T scalar) noexcept
-        {
-            position /= scalar;
-            size /= scalar;
-            return *this;
-        }
     };
+
+    template <class T>
+    [[nodiscard]] constexpr auto operator==(const Rect<T>& rect,
+                                            const Rect<T>& other) noexcept
+    {
+        return rect.position == other.position && rect.size == other.size;
+    }
+
+    template <class T>
+    [[nodiscard]] constexpr auto operator!=(const Rect<T>& rect,
+                                            const Rect<T>& other) noexcept
+    {
+        return rect.position != other.position || rect.size != other.size;
+    }
+
+    template <class T>
+    [[nodiscard]] constexpr auto operator*(const Rect<T>& rect,
+                                           const T scalar) noexcept
+    {
+        return Rect{
+            rect.position * scalar,
+            rect.size * scalar
+        };
+    }
+
+    template <class T>
+    constexpr auto& operator*=(Rect<T>& rect,
+                               const T scalar) noexcept
+    {
+        rect.position *= scalar;
+        rect.size *= scalar;
+        return rect;
+    }
+
+    template <class T>
+    [[nodiscard]] constexpr auto operator/(const Rect<T>& rect,
+                                           const T scalar) noexcept
+    {
+        return Rect{
+            rect.position / scalar,
+            rect.size / scalar
+        };
+    }
+
+    template <class T>
+    constexpr auto& operator/=(Rect<T>& rect,
+                               const T scalar) noexcept
+    {
+        rect.position /= scalar;
+        rect.size /= scalar;
+        return rect;
+    }
+
+    template <class T>
+    [[nodiscard]] constexpr auto containsPoint(const Rect<T>& rect,
+                                               const math::Vector<T, 2>& point) noexcept
+    {
+        return point.v[0] >= rect.position.v[0] && point.v[0] <= (rect.position.v[0] + rect.size.v[0]) &&
+            point.v[1] >= rect.position.v[1] && point.v[1] <= (rect.position.v[1] + rect.size.v[1]);
+    }
+
+    template <class T>
+    [[nodiscard]] constexpr auto contains(const Rect<T>& rect,
+                                          const Rect<T>& other) noexcept
+    {
+        return containsPoint(rect, other.position.v[0], other.position.v[1]) &&
+            containsPoint(rect, other.position.v[0] + other.size.v[0], other.position.v[1] + other.size.v[1]);
+    }
+
+    template <class T>
+    [[nodiscard]] constexpr auto intersects(const Rect<T>& rect,
+                                            const Rect<T>& other) noexcept
+    {
+        if (constexpr T t = other.position.v[0] - rect.position.v[0]; t > rect.size.v[0] || -t > other.size.v[0])
+            return false;
+        if (constexpr T t = other.position.v[1] - rect.position.v[1]; t > rect.size.v[1] || -t > other.size.v[1])
+            return false;
+        return true;
+    }
 }
 
 #endif // OUZEL_MATH_RECT_HPP

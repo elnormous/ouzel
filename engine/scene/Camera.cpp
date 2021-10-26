@@ -259,7 +259,7 @@ namespace ouzel::scene
                 1.0F + halfWorldSize.v[1] * 2.0F
             };
 
-            return visibleRect.containsPoint(v2p);
+            return containsPoint(visibleRect, v2p);
         }
         else
         {
