@@ -36,51 +36,6 @@ namespace ouzel::math
 
         [[nodiscard]] auto& d() noexcept { return v[3]; }
         [[nodiscard]] constexpr auto d() const noexcept { return v[3]; }
-
-        [[nodiscard]] constexpr auto dot(const math::Vector<T, 3>& vec) const noexcept
-        {
-            return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
-        }
-
-        [[nodiscard]] auto distance(const math::Vector<T, 3>& vec) const
-        {
-            return std::abs(dot(vec)) /
-                std::sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-        }
-
-        void normalize() noexcept
-        {
-            constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (squared == T(1)) // already normalized
-                return;
-
-            const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
-                return;
-
-            v[0] /= length;
-            v[1] /= length;
-            v[2] /= length;
-            v[3] /= length;
-        }
-
-        [[nodiscard]] auto normalized() const noexcept
-        {
-            constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
-            if (squared == T(1)) // already normalized
-                return *this;
-
-            const auto length = std::sqrt(squared);
-            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
-                return *this;
-
-            return Plane{
-                v[0] / length,
-                v[1] / length,
-                v[2] / length,
-                v[3] / length
-            };
-        }
     };
 
     template <typename T>
@@ -107,6 +62,57 @@ namespace ouzel::math
                                             const Plane<T>& plane2) noexcept
     {
         return plane1.v[0] != plane2.v[0] || plane1.v[1] != plane2.v[1] || plane1.v[2] != plane2.v[2] || plane1.v[3] != plane2.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto dot(const Plane<T>& plane,
+                                     const math::Vector<T, 3>& vec) noexcept
+    {
+        return plane.v[0] * vec.v[0] + plane.v[1] * vec.v[1] + plane.v[2] * vec.v[2] + plane.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] auto distance(const Plane<T>& plane,
+                                const math::Vector<T, 3>& vec) noexcept(false)
+    {
+        return std::abs(dot(vec)) /
+            std::sqrt(plane.v[0] * plane.v[0] + plane.v[1] * plane.v[1] + plane.v[2] * plane.v[2]);
+    }
+
+    template <typename T>
+    void normalize(Plane<T>& plane) noexcept
+    {
+        constexpr auto squared = plane.v[0] * plane.v[0] + plane.v[1] * plane.v[1] + plane.v[2] * plane.v[2] + plane.v[3] * plane.v[3];
+        if (squared == T(1)) // already normalized
+            return;
+
+        const auto length = std::sqrt(squared);
+        if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
+            return;
+
+        plane.v[0] /= length;
+        plane.v[1] /= length;
+        plane.v[2] /= length;
+        plane.v[3] /= length;
+    }
+
+    template <typename T>
+    [[nodiscard]] auto normalized(const Plane<T>& plane) noexcept
+    {
+        constexpr auto squared = plane.v[0] * plane.v[0] + plane.v[1] * plane.v[1] + plane.v[2] * plane.v[2] + plane.v[3] * plane.v[3];
+        if (squared == T(1)) // already normalized
+            return plane;
+
+        const auto length = std::sqrt(squared);
+        if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
+            return plane;
+
+        return Plane<T>{
+            plane.v[0] / length,
+            plane.v[1] / length,
+            plane.v[2] / length,
+            plane.v[3] / length
+        };
     }
 
     template <typename T>
