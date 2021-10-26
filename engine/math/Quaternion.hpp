@@ -35,19 +35,6 @@ namespace ouzel::math
         [[nodiscard]] auto& w() noexcept { return v[3]; }
         [[nodiscard]] constexpr auto w() const noexcept { return v[3]; }
 
-        constexpr void invert() noexcept
-        {
-            constexpr auto squared = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]; // norm squared
-            if (squared <= std::numeric_limits<T>::epsilon()) // too close to zero
-                return;
-
-            // conjugate divided by norm squared
-            v[0] = -v[0] / squared;
-            v[1] = -v[1] / squared;
-            v[2] = -v[2] / squared;
-            v[3] = v[3] / squared;
-        }
-
         [[nodiscard]] auto getNorm() const noexcept
         {
             constexpr T n = v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3];
@@ -265,6 +252,36 @@ namespace ouzel::math
     constexpr auto conjugated(const Quaternion<T>& quat) noexcept
     {
         return Quaternion<T>{-quat.v[0], -quat.v[1], -quat.v[2], quat.v[3]};
+    }
+
+    template <typename T>
+    constexpr void invert(Quaternion<T>& quat) noexcept
+    {
+        constexpr auto squared = quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3]; // norm squared
+        if (squared <= std::numeric_limits<T>::epsilon()) // too close to zero
+            return;
+
+        // conjugate divided by norm squared
+        quat.v[0] = -quat.v[0] / squared;
+        quat.v[1] = -quat.v[1] / squared;
+        quat.v[2] = -quat.v[2] / squared;
+        quat.v[3] = quat.v[3] / squared;
+    }
+
+    template <typename T>
+    constexpr auto inverted(const Quaternion<T>& quat) noexcept
+    {
+        constexpr auto squared = quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3]; // norm squared
+        if (squared <= std::numeric_limits<T>::epsilon()) // too close to zero
+            return;
+
+        // conjugate divided by norm squared
+        return Quaternion<T>{
+            -quat.v[0] / squared,
+            -quat.v[1] / squared,
+            -quat.v[2] / squared,
+            quat.v[3] / squared
+        };
     }
 
     template <typename T>
