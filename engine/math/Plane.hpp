@@ -37,16 +37,6 @@ namespace ouzel::math
         [[nodiscard]] auto& d() noexcept { return v[3]; }
         [[nodiscard]] constexpr auto d() const noexcept { return v[3]; }
 
-        [[nodiscard]] constexpr auto operator+() const noexcept
-        {
-            return *this;
-        }
-        
-        [[nodiscard]] constexpr auto operator-() const noexcept
-        {
-            return Plane{-v[0], -v[1], -v[2], -v[3]};
-        }
-
         [[nodiscard]] constexpr auto dot(const math::Vector<T, 3>& vec) const noexcept
         {
             return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
@@ -91,31 +81,48 @@ namespace ouzel::math
                 v[3] / length
             };
         }
-
-        [[nodiscard]] constexpr auto operator==(const Plane& plane) const noexcept
-        {
-            return v[0] == plane.v[0] && v[1] == plane.v[1] && v[2] == plane.v[2] && v[3] == plane.v[3];
-        }
-
-        [[nodiscard]] constexpr auto operator!=(const Plane& plane) const noexcept
-        {
-            return v[0] != plane.v[0] || v[1] != plane.v[1] || v[2] != plane.v[2] || v[3] != plane.v[3];
-        }
-
-        [[nodiscard]] static auto makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
-        {
-            const auto length = std::sqrt(a * a + b * b + c * c);
-            if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
-                return Plane{};
-
-            return Plane{
-                a / length,
-                b / length,
-                c / length,
-                d / length
-            };
-        }
     };
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator+(const Plane<T>& plane) noexcept
+    {
+        return plane;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator-(const Plane<T>& plane) noexcept
+    {
+        return Plane{-plane.v[0], -plane.v[1], -plane.v[2], -plane.v[3]};
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator==(const Plane<T>& plane1,
+                                            const Plane<T>& plane2) noexcept
+    {
+        return plane1.v[0] == plane2.v[0] && plane1.v[1] == plane2.v[1] && plane1.v[2] == plane2.v[2] && plane1.v[3] == plane2.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator!=(const Plane<T>& plane1,
+                                            const Plane<T>& plane2) noexcept
+    {
+        return plane1.v[0] != plane2.v[0] || plane1.v[1] != plane2.v[1] || plane1.v[2] != plane2.v[2] || plane1.v[3] != plane2.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] auto makeFrustumPlane(const T a, const T b, const T c, const T d) noexcept
+    {
+        const auto length = std::sqrt(a * a + b * b + c * c);
+        if (length <= std::numeric_limits<T>::epsilon()) // too close to zero
+            return Plane<T>{};
+
+        return Plane<T>{
+            a / length,
+            b / length,
+            c / length,
+            d / length
+        };
+    }
 }
 
 #endif // OUZEL_MATH_PLANE_HPP

@@ -103,29 +103,20 @@ namespace ouzel::math
             dst.size.v[0] = std::max(r1.position.v[0] + r1.size.v[0], r2.position.v[0] + r2.size.v[0]) - dst.position.v[0];
             dst.size.v[1] = std::max(r1.position.v[1] + r1.size.v[1], r2.position.v[1] + r2.size.v[1]) - dst.position.v[1];
         }
-
-        constexpr void inflate(const T horizontalAmount,
-                               const T verticalAmount) noexcept
-        {
-            position.v[0] -= horizontalAmount;
-            position.v[1] -= verticalAmount;
-            size.v[0] += horizontalAmount * T(2);
-            size.v[1] += verticalAmount * T(2);
-        }
     };
 
     template <class T>
-    [[nodiscard]] constexpr auto operator==(const Rect<T>& rect,
-                                            const Rect<T>& other) noexcept
+    [[nodiscard]] constexpr auto operator==(const Rect<T>& rect1,
+                                            const Rect<T>& rect2) noexcept
     {
-        return rect.position == other.position && rect.size == other.size;
+        return rect1.position == rect2.position && rect1.size == rect2.size;
     }
 
     template <class T>
-    [[nodiscard]] constexpr auto operator!=(const Rect<T>& rect,
-                                            const Rect<T>& other) noexcept
+    [[nodiscard]] constexpr auto operator!=(const Rect<T>& rect1,
+                                            const Rect<T>& rect2) noexcept
     {
-        return rect.position != other.position || rect.size != other.size;
+        return rect1.position != rect2.position || rect1.size != rect2.size;
     }
 
     template <class T>
@@ -175,22 +166,46 @@ namespace ouzel::math
     }
 
     template <class T>
-    [[nodiscard]] constexpr auto contains(const Rect<T>& rect,
-                                          const Rect<T>& other) noexcept
+    [[nodiscard]] constexpr auto contains(const Rect<T>& rect1,
+                                          const Rect<T>& rect2) noexcept
     {
-        return containsPoint(rect, other.position.v[0], other.position.v[1]) &&
-            containsPoint(rect, other.position.v[0] + other.size.v[0], other.position.v[1] + other.size.v[1]);
+        return containsPoint(rect1, rect2.position.v[0], rect2.position.v[1]) &&
+            containsPoint(rect1, rect2.position.v[0] + rect2.size.v[0], rect2.position.v[1] + rect2.size.v[1]);
     }
 
     template <class T>
-    [[nodiscard]] constexpr auto intersects(const Rect<T>& rect,
-                                            const Rect<T>& other) noexcept
+    [[nodiscard]] constexpr auto intersects(const Rect<T>& rect1,
+                                            const Rect<T>& rect2) noexcept
     {
-        if (constexpr T t = other.position.v[0] - rect.position.v[0]; t > rect.size.v[0] || -t > other.size.v[0])
+        if (constexpr T t = rect2.position.v[0] - rect1.position.v[0]; t > rect1.size.v[0] || -t > rect2.size.v[0])
             return false;
-        if (constexpr T t = other.position.v[1] - rect.position.v[1]; t > rect.size.v[1] || -t > other.size.v[1])
+        if (constexpr T t = rect2.position.v[1] - rect1.position.v[1]; t > rect1.size.v[1] || -t > rect2.size.v[1])
             return false;
         return true;
+    }
+
+    template <class T>
+    constexpr void inflate(Rect<T>& rect,
+                           const T horizontalAmount,
+                           const T verticalAmount) noexcept
+    {
+        rect.position.v[0] -= horizontalAmount;
+        rect.position.v[1] -= verticalAmount;
+        rect.size.v[0] += horizontalAmount * T(2);
+        rect.size.v[1] += verticalAmount * T(2);
+    }
+
+    template <class T>
+    constexpr auto inflated(const Rect<T>& rect,
+                           const T horizontalAmount,
+                           const T verticalAmount) noexcept
+    {
+        return Rect<T>{
+            rect.position.v[0] - horizontalAmount,
+            rect.position.v[1] - verticalAmount,
+            rect.size.v[0] + horizontalAmount * T(2),
+            rect.size.v[1] + verticalAmount * T(2)
+        };
     }
 }
 
