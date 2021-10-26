@@ -43,10 +43,8 @@ namespace ouzel::math
         [[nodiscard]] auto intersects(const Box& aabb) const noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
-            {
-                if (aabb.min.v[0] > max.v[0]) return false;
-                if (aabb.max.v[0] < min.v[0]) return false;
-            }
+                if (aabb.min.v[0] > max.v[0] || aabb.max.v[0] < min.v[0])
+                    return false;
 
             return true;
         }
@@ -54,10 +52,8 @@ namespace ouzel::math
         [[nodiscard]] auto containsPoint(const math::Vector<T, dims>& point) const noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
-            {
-                if (point.v[i] < min.v[i]) return false;
-                if (point.v[i] > max.v[i]) return false;
-            }
+                if (point.v[i] < min.v[i] || point.v[i] > max.v[i])
+                    return false;
 
             return true;
         }
