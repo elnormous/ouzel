@@ -254,7 +254,7 @@ namespace ouzel::scene
         {
             const auto boundingBox = getBoundingBox();
 
-            if (cullDisabled || (!boundingBox.isEmpty() && camera->checkVisibility(getTransform(), boundingBox)))
+            if (cullDisabled || (!isEmpty(boundingBox) && camera->checkVisibility(getTransform(), boundingBox)))
             {
                 const auto upperBound = std::upper_bound(drawQueue.begin(), drawQueue.end(), this,
                                                          [](const auto a, const auto b) noexcept {
