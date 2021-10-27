@@ -98,36 +98,39 @@ namespace ouzel::math
                    (static_cast<std::uint32_t>(v[2]) << 8) |
                    static_cast<std::uint32_t>(v[3]);
         }
-
-        [[nodiscard]] constexpr auto operator<(const Color& c) const noexcept
-        {
-            return v[0] == c.v[0] ?
-                v[1] == c.v[1] ?
-                    v[2] == c.v[2] ?
-                        v[3] == c.v[3] ?
-                            false :
-                            v[3] < c.v[3] :
-                        v[2] < c.v[2] :
-                    v[1] < c.v[1] :
-                v[0] < c.v[0];
-        }
-
-        [[nodiscard]] constexpr auto operator==(const Color& c) const noexcept
-        {
-            return v[0] == c.v[0] &&
-                v[1] == c.v[1] &&
-                v[2] == c.v[2] &&
-                v[3] == c.v[3];
-        }
-
-        [[nodiscard]] constexpr auto operator!=(const Color& c) const noexcept
-        {
-            return v[0] != c.v[0] ||
-                v[1] != c.v[1] ||
-                v[2] != c.v[2] ||
-                v[3] != c.v[3];
-        }
     };
+
+    [[nodiscard]] constexpr auto operator<(const Color& color1,
+                                           const Color& color2) noexcept
+    {
+        return color1.v[0] == color2.v[0] ?
+            color1.v[1] == color2.v[1] ?
+                color1.v[2] == color2.v[2] ?
+                    color1.v[3] == color2.v[3] ?
+                        false :
+                    color1.v[3] < color2.v[3] :
+                color1.v[2] < color2.v[2] :
+            color1.v[1] < color2.v[1] :
+        color1.v[0] < color2.v[0];
+    }
+
+    [[nodiscard]] constexpr auto operator==(const Color& color1,
+                                            const Color& color2) noexcept
+    {
+        return color1.v[0] == color2.v[0] &&
+            color1.v[1] == color2.v[1] &&
+            color1.v[2] == color2.v[2] &&
+            color1.v[3] == color2.v[3];
+    }
+
+    [[nodiscard]] constexpr auto operator!=(const Color& color1,
+                                            const Color& color2) noexcept
+    {
+        return color1.v[0] != color2.v[0] ||
+            color1.v[1] != color2.v[1] ||
+            color1.v[2] != color2.v[2] ||
+            color1.v[3] != color2.v[3];
+    }
 
     inline Color parseColor(std::string_view color) noexcept
     {

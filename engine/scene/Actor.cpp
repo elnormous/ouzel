@@ -554,7 +554,7 @@ namespace ouzel::scene
 
         for (const auto component : components)
             if (!component->isHidden())
-                boundingBox.merge(component->getBoundingBox());
+                merge(boundingBox, component->getBoundingBox());
 
         return boundingBox;
     }
