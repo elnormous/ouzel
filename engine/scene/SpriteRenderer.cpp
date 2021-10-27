@@ -108,7 +108,7 @@ namespace ouzel::scene
         indexCount = static_cast<std::uint32_t>(indices.size());
 
         for (const graphics::Vertex& vertex : vertices)
-            boundingBox.insertPoint(math::Vector<float, 2>{vertex.position});
+            insertPoint(boundingBox, math::Vector<float, 2>{vertex.position});
 
         indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
                                                          graphics::BufferType::index,
@@ -135,7 +135,7 @@ namespace ouzel::scene
         indexCount = static_cast<std::uint32_t>(indices.size());
 
         for (const graphics::Vertex& vertex : vertices)
-            boundingBox.insertPoint(math::Vector<float, 2>{vertex.position});
+            insertPoint(boundingBox, math::Vector<float, 2>{vertex.position});
 
         // TODO: fix
         const math::Vector<float, 2> finalOffset{
@@ -536,6 +536,6 @@ namespace ouzel::scene
             boundingBox.max.v[1] += offset.v[1];
         }
         else
-            boundingBox.reset();
+            math::reset(boundingBox);
     }
 }

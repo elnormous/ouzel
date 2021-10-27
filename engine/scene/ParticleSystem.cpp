@@ -212,7 +212,7 @@ namespace ouzel::scene
         if (needsBoundingBoxUpdate)
         {
             // Update bounding box
-            boundingBox.reset();
+            math::reset(boundingBox);
 
             if (particleSystemData.positionType == ParticleSystemData::PositionType::free ||
                 particleSystemData.positionType == ParticleSystemData::PositionType::parent)
@@ -225,13 +225,13 @@ namespace ouzel::scene
                     {
                         auto position = math::Vector<float, 3>{particles[i].position};
                         inverseTransform.transformPoint(position);
-                        boundingBox.insertPoint(position);
+                        insertPoint(boundingBox, position);
                     }
                 }
             }
             else if (particleSystemData.positionType == ParticleSystemData::PositionType::grouped)
                 for (std::uint32_t i = 0; i < particleCount; ++i)
-            boundingBox.insertPoint(math::Vector<float, 3>{particles[i].position});
+            insertPoint(boundingBox, math::Vector<float, 3>{particles[i].position});
         }
     }
 

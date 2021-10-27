@@ -20,7 +20,7 @@ namespace ouzel::scene
 
     bool Component::pointOn(const math::Vector<float, 2>& position) const
     {
-        return boundingBox.containsPoint(math::Vector<float, 3>{position});
+        return containsPoint(boundingBox, math::Vector<float, 3>{position});
     }
 
     namespace

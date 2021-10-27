@@ -39,88 +39,123 @@ namespace ouzel::math
         {
             return (min + max) / T(2);
         }
-
-        [[nodiscard]] auto intersects(const Box& aabb) const noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-                if (aabb.min.v[i] > max.v[i] || aabb.max.v[i] < min.v[i])
-                    return false;
-
-            return true;
-        }
-
-        [[nodiscard]] auto containsPoint(const math::Vector<T, dims>& point) const noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-                if (point.v[i] < min.v[i] || point.v[i] > max.v[i])
-                    return false;
-
-            return true;
-        }
-
-        void merge(const Box& box) noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-            {
-                min.v[i] = std::min(min.v[i], box.min.v[i]);
-                max.v[i] = std::max(max.v[i], box.max.v[i]);
-            }
-        }
-
-        void reset() noexcept
-        {
-            for (T& v : min.v)
-                v = std::numeric_limits<T>::max();
-            for (T& v : max.v)
-                v = std::numeric_limits<T>::lowest();
-        }
-
-        [[nodiscard]] auto isEmpty() const noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-                if (min.v[i] > max.v[i])
-                    return true;
-            return false;
-        }
-
-        void insertPoint(const math::Vector<T, dims>& point) noexcept
-        {
-            for (std::size_t i = 0; i < dims; ++i)
-            {
-                if (point.v[i] < min.v[i]) min.v[i] = point.v[i];
-                if (point.v[i] > max.v[i]) max.v[i] = point.v[i];
-            }
-        }
-
-        [[nodiscard]] constexpr auto operator+(const math::Vector<T, dims>& v) const noexcept
-        {
-            return Box{min + v, max + v};
-        }
-
-        auto& operator+=(const math::Vector<T, dims>& v) noexcept
-        {
-            min += v;
-            max += v;
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-(const math::Vector<T, dims>& v) const noexcept
-        {
-            return Box{min - v, max - v};
-        }
-
-        auto& operator-=(const math::Vector<T, dims>& v) noexcept
-        {
-            min -= v;
-            max -= v;
-            return *this;
-        }
-
-        [[nodiscard]] auto getSize() const noexcept
-        {
-            return math::Size<T, dims>{max - min};
-        }
     };
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator+(const Box<T, dims>& box,
+                                           const math::Vector<T, dims>& v) noexcept
+    {
+        return Box<T, dims>{box.min + v, box.max + v};
+    }
+
+    template <typename T, std::size_t dims>
+    auto& operator+=(Box<T, dims>& box,
+                     const math::Vector<T, dims>& v) noexcept
+    {
+        box.min += v;
+        box.max += v;
+        return box;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] constexpr auto operator-(const Box<T, dims>& box,
+                                           const math::Vector<T, dims>& v) noexcept
+    {
+        return Box<T, dims>{box.min - v, box.max - v};
+    }
+
+    template <typename T, std::size_t dims>
+    auto& operator-=(Box<T, dims>& box,
+                     const math::Vector<T, dims>& v) noexcept
+    {
+        box.min -= v;
+        box.max -= v;
+        return box;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto isEmpty(const Box<T, dims>& box) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            if (box.min.v[i] > box.max.v[i])
+                return true;
+
+        return false;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto getSize(const Box<T, dims>& box) noexcept
+    {
+        return math::Size<T, dims>{box.max - box.min};
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto containsPoint(const Box<T, dims>& box,
+                                     const math::Vector<T, dims>& point) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            if (point.v[i] < box.min.v[i] || point.v[i] > box.max.v[i])
+                return false;
+
+        return true;
+    }
+
+    template <typename T, std::size_t dims>
+    void merge(Box<T, dims>& box1,
+               const Box<T, dims>& box2) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+        {
+            box1.min.v[i] = std::min(box1.min.v[i], box2.min.v[i]);
+            box1.max.v[i] = std::max(box1.max.v[i], box2.max.v[i]);
+        }
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto merged(const Box<T, dims>& box1,
+                              const Box<T, dims>& box2) noexcept
+    {
+        Box<T, dims> result;
+
+        for (std::size_t i = 0; i < dims; ++i)
+        {
+            result.min.v[i] = std::min(box1.min.v[i], box2.min.v[i]);
+            result.max.v[i] = std::max(box1.max.v[i], box2.max.v[i]);
+        }
+
+        return result;
+    }
+
+    template <typename T, std::size_t dims>
+    [[nodiscard]] auto intersects(const Box<T, dims>& box1,
+                                  const Box<T, dims>& box2) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+            if (box2.min.v[i] > box1.max.v[i] || box2.max.v[i] < box1.min.v[i])
+                return false;
+
+        return true;
+    }
+
+    template <typename T, std::size_t dims>
+    void reset(Box<T, dims>& box) noexcept
+    {
+        for (T& v : box.min.v)
+            v = std::numeric_limits<T>::max();
+        for (T& v : box.max.v)
+            v = std::numeric_limits<T>::lowest();
+    }
+
+    template <typename T, std::size_t dims>
+    void insertPoint(Box<T, dims>& box,
+                     const math::Vector<T, dims>& point) noexcept
+    {
+        for (std::size_t i = 0; i < dims; ++i)
+        {
+            if (point.v[i] < box.min.v[i]) box.min.v[i] = point.v[i];
+            if (point.v[i] > box.max.v[i]) box.max.v[i] = point.v[i];
+        }
+    }
 }
 
 #endif // OUZEL_MATH_BOX_HPP

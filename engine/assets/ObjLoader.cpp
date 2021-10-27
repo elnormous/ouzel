@@ -257,7 +257,7 @@ namespace ouzel::assets
                     vertices.clear();
                     indices.clear();
                     vertexMap.clear();
-                    boundingBox.reset();
+                    reset(boundingBox);
                     ++objectCount;
                 }
                 else if (keyword == "v")
@@ -367,7 +367,7 @@ namespace ouzel::assets
                             vertex.color = math::whiteColor;
                             if (std::get<2>(i) >= 1) vertex.normal = normals[std::get<2>(i) - 1];
                             vertices.push_back(vertex);
-                            boundingBox.insertPoint(vertex.position);
+                            insertPoint(boundingBox, vertex.position);
                         }
                         else
                             index = vertexIterator->second;

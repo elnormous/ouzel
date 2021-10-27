@@ -140,7 +140,7 @@ namespace ouzel::scene
 
     void TextRenderer::updateText()
     {
-        boundingBox.reset();
+        reset(boundingBox);
 
         if (font)
         {
@@ -148,7 +148,7 @@ namespace ouzel::scene
             needsMeshUpdate = true;
 
             for (const graphics::Vertex& vertex : vertices)
-                boundingBox.insertPoint(vertex.position);
+                insertPoint(boundingBox, vertex.position);
         }
         else
         {

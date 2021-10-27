@@ -67,7 +67,7 @@ namespace ouzel::scene
 
     void ShapeRenderer::clear()
     {
-        boundingBox.reset();
+        reset(boundingBox);
 
         drawCommands.clear();
         indices.clear();
@@ -97,8 +97,8 @@ namespace ouzel::scene
             indices.push_back(startVertex + 0);
             indices.push_back(startVertex + 1);
 
-            boundingBox.insertPoint(math::Vector<float, 3>{start});
-            boundingBox.insertPoint(math::Vector<float, 3>{finish});
+            insertPoint(boundingBox, math::Vector<float, 3>{start});
+            insertPoint(boundingBox, math::Vector<float, 3>{finish});
         }
         else
         {
@@ -127,10 +127,10 @@ namespace ouzel::scene
             indices.push_back(startVertex + 3);
             indices.push_back(startVertex + 2);
 
-            boundingBox.insertPoint(vertices[startVertex + 0].position);
-            boundingBox.insertPoint(vertices[startVertex + 1].position);
-            boundingBox.insertPoint(vertices[startVertex + 2].position);
-            boundingBox.insertPoint(vertices[startVertex + 3].position);
+            insertPoint(boundingBox, vertices[startVertex + 0].position);
+            insertPoint(boundingBox, vertices[startVertex + 1].position);
+            insertPoint(boundingBox, vertices[startVertex + 2].position);
+            insertPoint(boundingBox, vertices[startVertex + 3].position);
         }
 
         drawCommands.push_back(command);
@@ -174,8 +174,8 @@ namespace ouzel::scene
 
             indices.push_back(startVertex + 1);
 
-            boundingBox.insertPoint(math::Vector<float, 3>{position - math::Vector<float, 2>{radius, radius}});
-            boundingBox.insertPoint(math::Vector<float, 3>{position + math::Vector<float, 2>{radius, radius}});
+            insertPoint(boundingBox, math::Vector<float, 3>{position - math::Vector<float, 2>{radius, radius}});
+            insertPoint(boundingBox, math::Vector<float, 3>{position + math::Vector<float, 2>{radius, radius}});
         }
         else
         {
@@ -196,8 +196,8 @@ namespace ouzel::scene
 
                 indices.push_back(startVertex);
 
-                boundingBox.insertPoint(math::Vector<float, 3>(position - math::Vector<float, 2>{radius, radius}));
-                boundingBox.insertPoint(math::Vector<float, 3>(position + math::Vector<float, 2>{radius, radius}));
+                insertPoint(boundingBox, math::Vector<float, 3>(position - math::Vector<float, 2>{radius, radius}));
+                insertPoint(boundingBox, math::Vector<float, 3>(position + math::Vector<float, 2>{radius, radius}));
             }
             else
             {
@@ -215,7 +215,7 @@ namespace ouzel::scene
                 }
 
                 for (const graphics::Vertex& vertex : vertices)
-                    boundingBox.insertPoint(vertex.position);
+                    insertPoint(boundingBox, vertex.position);
 
                 command.indexCount = segments * 6;
 
@@ -284,8 +284,8 @@ namespace ouzel::scene
             indices.push_back(startVertex + 2);
             indices.push_back(startVertex + 3);
 
-            boundingBox.insertPoint(math::Vector<float, 3>{rectangle.bottomLeft()});
-            boundingBox.insertPoint(math::Vector<float, 3>{rectangle.topRight()});
+            insertPoint(boundingBox, math::Vector<float, 3>{rectangle.bottomLeft()});
+            insertPoint(boundingBox, math::Vector<float, 3>{rectangle.topRight()});
         }
         else
         {
@@ -317,8 +317,8 @@ namespace ouzel::scene
                 indices.push_back(startVertex + 3);
                 indices.push_back(startVertex + 0);
 
-                boundingBox.insertPoint(math::Vector<float, 3>{rectangle.bottomLeft()});
-                boundingBox.insertPoint(math::Vector<float, 3>{rectangle.topRight()});
+                insertPoint(boundingBox, math::Vector<float, 3>{rectangle.bottomLeft()});
+                insertPoint(boundingBox, math::Vector<float, 3>{rectangle.topRight()});
             }
             else
             {
@@ -387,8 +387,8 @@ namespace ouzel::scene
                 indices.push_back(startVertex + 1);
                 indices.push_back(startVertex + 7);
 
-                boundingBox.insertPoint(math::Vector<float, 3>{rectangle.bottomLeft() - math::Vector<float, 2>{halfThickness, halfThickness}});
-                boundingBox.insertPoint(math::Vector<float, 3>{rectangle.topRight() + math::Vector<float, 2>{halfThickness, halfThickness}});
+                insertPoint(boundingBox, math::Vector<float, 3>{rectangle.bottomLeft() - math::Vector<float, 2>{halfThickness, halfThickness}});
+                insertPoint(boundingBox, math::Vector<float, 3>{rectangle.topRight() + math::Vector<float, 2>{halfThickness, halfThickness}});
             }
         }
 
@@ -427,7 +427,7 @@ namespace ouzel::scene
             }
 
             for (std::uint16_t i = 0; i < edges.size(); ++i)
-                boundingBox.insertPoint(math::Vector<float, 3>(edges[i]));
+                insertPoint(boundingBox, math::Vector<float, 3>(edges[i]));
         }
         else
         {
@@ -446,7 +446,7 @@ namespace ouzel::scene
                 indices.push_back(startVertex);
 
                 for (std::uint16_t i = 0; i < edges.size(); ++i)
-                    boundingBox.insertPoint(math::Vector<float, 3>(edges[i]));
+                    insertPoint(boundingBox, math::Vector<float, 3>(edges[i]));
             }
             else
             {
@@ -497,7 +497,7 @@ namespace ouzel::scene
                     indices.push_back(startVertex + static_cast<std::uint16_t>(command.indexCount));
                     ++command.indexCount;
                     vertices.emplace_back(math::Vector<float, 3>{controlPoints[i]}, color, math::Vector<float, 2>{}, math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
-                    boundingBox.insertPoint(math::Vector<float, 3>{controlPoints[i]});
+                    insertPoint(boundingBox, math::Vector<float, 3>{controlPoints[i]});
                 }
             }
             else
@@ -520,7 +520,7 @@ namespace ouzel::scene
                     indices.push_back(startVertex + static_cast<std::uint16_t>(command.indexCount));
                     ++command.indexCount;
                     vertices.push_back(vertex);
-                    boundingBox.insertPoint(vertex.position);
+                    insertPoint(boundingBox, vertex.position);
                 }
             }
         }
