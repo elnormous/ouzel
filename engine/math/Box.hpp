@@ -43,7 +43,7 @@ namespace ouzel::math
         [[nodiscard]] auto intersects(const Box& aabb) const noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
-                if (aabb.min.v[0] > max.v[0] || aabb.max.v[0] < min.v[0])
+                if (aabb.min.v[i] > max.v[i] || aabb.max.v[i] < min.v[i])
                     return false;
 
             return true;
