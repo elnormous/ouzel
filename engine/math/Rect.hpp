@@ -196,9 +196,9 @@ namespace ouzel::math
     }
 
     template <typename T>
-    constexpr auto inflated(const Rect<T>& rect,
-                           const T horizontalAmount,
-                           const T verticalAmount) noexcept
+    [[nodiscard]]constexpr auto inflated(const Rect<T>& rect,
+                                         const T horizontalAmount,
+                                         const T verticalAmount) noexcept
     {
         return Rect<T>{
             rect.position.v[0] - horizontalAmount,
