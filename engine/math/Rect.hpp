@@ -95,14 +95,6 @@ namespace ouzel::math
             dst.position.v[0] = dst.position.v[1] = dst.size.v[0] = dst.size.v[1] = 0;
             return false;
         }
-
-        static void combine(const Rect& r1, const Rect& r2, Rect& dst) noexcept
-        {
-            dst.position.v[0] = std::min(r1.position.v[0], r2.position.v[0]);
-            dst.position.v[1] = std::min(r1.position.v[1], r2.position.v[1]);
-            dst.size.v[0] = std::max(r1.position.v[0] + r1.size.v[0], r2.position.v[0] + r2.size.v[0]) - dst.position.v[0];
-            dst.size.v[1] = std::max(r1.position.v[1] + r1.size.v[1], r2.position.v[1] + r2.size.v[1]) - dst.position.v[1];
-        }
     };
 
     template <typename T>
@@ -196,15 +188,35 @@ namespace ouzel::math
     }
 
     template <typename T>
-    [[nodiscard]]constexpr auto inflated(const Rect<T>& rect,
-                                         const T horizontalAmount,
-                                         const T verticalAmount) noexcept
+    [[nodiscard]] constexpr auto inflated(const Rect<T>& rect,
+                                          const T horizontalAmount,
+                                          const T verticalAmount) noexcept
     {
         return Rect<T>{
             rect.position.v[0] - horizontalAmount,
             rect.position.v[1] - verticalAmount,
             rect.size.v[0] + horizontalAmount * T(2),
             rect.size.v[1] + verticalAmount * T(2)
+        };
+    }
+
+    template <typename T>
+    constexpr void combine(Rect<T>& rect1, const Rect<T>& rect2) noexcept
+    {
+        rect1.size.v[0] = std::max(rect1.position.v[0] + rect1.size.v[0], rect2.position.v[0] + rect2.size.v[0]) - std::min(rect1.position.v[0], rect2.position.v[0]);
+        rect1.size.v[1] = std::max(rect1.position.v[1] + rect1.size.v[1], rect2.position.v[1] + rect2.size.v[1]) - std::min(rect1.position.v[1], rect2.position.v[1]);
+        rect1.position.v[0] = std::min(rect1.position.v[0], rect2.position.v[0]);
+        rect1.position.v[1] = std::min(rect1.position.v[1], rect2.position.v[1]);
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto combined(const Rect<T>& rect1, const Rect<T>& rect2) noexcept
+    {
+        return Rect<T>{
+            std::min(rect1.position.v[0], rect2.position.v[0]),
+            std::min(rect1.position.v[1], rect2.position.v[1]),
+            std::max(rect1.position.v[0] + rect1.size.v[0], rect2.position.v[0] + rect2.size.v[0]) - std::min(rect1.position.v[0], rect2.position.v[0]),
+            std::max(rect1.position.v[1] + rect1.size.v[1], rect2.position.v[1] + rect2.size.v[1]) - std::min(rect1.position.v[1], rect2.position.v[1])
         };
     }
 }
