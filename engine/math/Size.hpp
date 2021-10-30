@@ -15,7 +15,7 @@ namespace ouzel::math
     template <typename T, std::size_t dims> class Size final
     {
     public:
-#if defined(OUZEL_SIMD_SSE) || defined(OUZEL_SIMD_NEON)
+#if defined(OUZEL_SIMD_SSE) || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> && dims == 4 ? dims * sizeof(T) : sizeof(T))
 #endif
         std::array<T, dims> v;

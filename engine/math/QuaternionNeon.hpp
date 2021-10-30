@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_QUATERNION_NEON
-#define OMATH_QUATERNION_NEON
+#ifndef OUZEL_MATH_QUATERNION_NEON
+#define OUZEL_MATH_QUATERNION_NEON
 
 #include "Quaternion.hpp"
 
@@ -101,4 +101,4 @@ namespace omath
 
 #endif // __ARM_NEON__
 
-#endif // OMATH_QUATERNION_NEON
+#endif // OUZEL_MATH_QUATERNION_NEON

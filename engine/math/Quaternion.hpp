@@ -15,10 +15,10 @@ namespace ouzel::math
     template <typename T> class Quaternion final
     {
     public:
-#if defined(OUZEL_SIMD_SSE) || defined(OUZEL_SIMD_NEON)
+#if defined(OUZEL_SIMD_SSE) || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> ? 4 * sizeof(T) : sizeof(T))
 #endif
-#if defined(OMATH_SIMD_SSE2) || (defined(__ARM_NEON__) && defined(__aarch64__))
+#if defined(OUZEL_SIMD_SSE2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> ? 4 * sizeof(T) : sizeof(T))
 #endif
         std::array<T, 4> v;

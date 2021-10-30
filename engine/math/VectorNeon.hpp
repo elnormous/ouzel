@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_VECTOR_NEON
-#define OMATH_VECTOR_NEON
+#ifndef OUZEL_MATH_VECTOR_NEON
+#define OUZEL_MATH_VECTOR_NEON
 
 #include "Vector.hpp"
 
@@ -113,4 +113,4 @@ namespace omath
 
 #endif // __ARM_NEON__
 
-#endif // OMATH_VECTOR_NEON
+#endif // OUZEL_MATH_VECTOR_NEON

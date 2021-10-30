@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_MATRIX_NEON
-#define OMATH_MATRIX_NEON
+#ifndef OUZEL_MATH_MATRIX_NEON
+#define OUZEL_MATH_MATRIX_NEON
 
 #include "Matrix.hpp"
 
@@ -591,4 +591,4 @@ namespace omath
 
 #endif // __ARM_NEON__
 
-#endif // OMATH_MATRIX_NEON
+#endif // OUZEL_MATH_MATRIX_NEON
