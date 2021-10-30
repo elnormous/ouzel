@@ -21,6 +21,9 @@ namespace ouzel::math
 #if defined(OUZEL_SIMD_SSE) || defined(OUZEL_SIMD_NEON)
         alignas(std::is_same_v<T, float> && dims == 4 ? dims * sizeof(T) : sizeof(T))
 #endif
+#if defined(OMATH_SIMD_SSE2) || (defined(__ARM_NEON__) && defined(__aarch64__))
+        alignas(std::is_same_v<T, double> && dims == 4 ? dims * sizeof(T) : sizeof(T))
+#endif
         std::array<T, dims> v;
 
         constexpr Vector() noexcept = default;

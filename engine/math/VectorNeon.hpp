@@ -1,15 +1,16 @@
-// Ouzel by Elviss Strazdins
+//
+// elnormous/omath
+//
 
-#ifndef OUZEL_MATH_VECTOR_NEON
-#define OUZEL_MATH_VECTOR_NEON
+#ifndef OMATH_VECTOR_NEON
+#define OMATH_VECTOR_NEON
 
-#include "Simd.hpp"
 #include "Vector.hpp"
 
-#ifdef OUZEL_SIMD_NEON
+#ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
-namespace ouzel::math
+namespace omath
 {
     template <>
     inline auto operator-(const Vector<float, 4>& vector) noexcept
@@ -110,6 +111,6 @@ namespace ouzel::math
     }
 }
 
-#endif
+#endif // __ARM_NEON__
 
-#endif // OUZEL_MATH_VECTOR_NEON
+#endif // OMATH_VECTOR_NEON
