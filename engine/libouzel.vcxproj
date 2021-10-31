@@ -326,7 +326,6 @@
     <ClInclude Include="math\QuaternionSse.hpp" />
     <ClInclude Include="math\Rect.hpp" />
     <ClInclude Include="math\Scalar.hpp" />
-    <ClInclude Include="math\Simd.hpp" />
     <ClInclude Include="math\Size.hpp" />
     <ClInclude Include="math\Vector.hpp" />
     <ClInclude Include="math\VectorNeon.hpp" />

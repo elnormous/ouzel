@@ -4,9 +4,8 @@
 #define OUZEL_MATH_QUATERNION_SSE
 
 #include "Quaternion.hpp"
-#include "Simd.hpp"
 
-#ifdef OUZEL_SIMD_SSE
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
 #  include <xmmintrin.h>
 
 namespace ouzel::math

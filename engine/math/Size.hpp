@@ -7,7 +7,6 @@
 #include <array>
 #include <cstddef>
 #include <type_traits>
-#include "Simd.hpp"
 #include "Vector.hpp"
 
 namespace ouzel::math
@@ -15,8 +14,11 @@ namespace ouzel::math
     template <typename T, std::size_t dims> class Size final
     {
     public:
-#if defined(OUZEL_SIMD_SSE) || defined(__ARM_NEON__)
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1 || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> && dims == 4 ? dims * sizeof(T) : sizeof(T))
+#endif
+#if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
+        alignas(std::is_same_v<T, double> && dims == 4 ? dims * sizeof(T) : sizeof(T))
 #endif
         std::array<T, dims> v;
 
