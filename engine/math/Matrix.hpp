@@ -46,22 +46,6 @@ namespace ouzel::math
         }
 
         template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformPoint(Vector<T, 3>& point) const noexcept
-        {
-            auto t = Vector<T, 4>{point.v[0], point.v[1], point.v[2], T(1)};
-            transformVector(t);
-            point = Vector<T, 3>{t.v[0] / t.v[3], t.v[1] / t.v[3], t.v[2] / t.v[3]};
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformVector(Vector<T, 3>& v) const noexcept
-        {
-            auto t = Vector<T, 4>{v.v[0], v.v[1], v.v[2], T(0)};
-            transformVector(t);
-            v = Vector<T, 3>{t.v[0], t.v[1], t.v[2]};
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
         void transformVector(Vector<T, 4>& v) const noexcept
         {
             v.v = {
@@ -70,6 +54,14 @@ namespace ouzel::math
                 v.v[0] * m[2] + v.v[1] * m[6] + v.v[2] * m[10] + v.v[3] * m[14],
                 v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15]
             };
+        }
+
+        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
+        void transformPoint(Vector<T, 3>& point) const noexcept
+        {
+            auto t = Vector<T, 4>{point.v[0], point.v[1], point.v[2], T(1)};
+            transformVector(t);
+            point = Vector<T, 3>{t.v[0] / t.v[3], t.v[1] / t.v[3], t.v[2] / t.v[3]};
         }
     };
 
