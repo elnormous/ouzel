@@ -113,16 +113,16 @@ namespace ouzel::scene
         std::shared_ptr<graphics::Texture> texture;
     };
 
-    class ParticleSystem: public Component
+    class ParticleSystem final: public Component
     {
     public:
         ParticleSystem();
         explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
 
         void draw(const math::Matrix<float, 4>& transformMatrix,
-                  float opacity,
+                  const float opacity,
                   const math::Matrix<float, 4>& renderViewProjection,
-                  bool wireframe) override;
+                  const bool wireframe) override;
 
         void init(const ParticleSystemData& newParticleSystemData);
 
@@ -138,18 +138,18 @@ namespace ouzel::scene
             return particleSystemData.positionType;
         }
 
-        void setPositionType(ParticleSystemData::PositionType newPositionType)
+        void setPositionType(const ParticleSystemData::PositionType newPositionType) noexcept
         {
             particleSystemData.positionType = newPositionType;
         }
 
     private:
-        void update(float delta);
+        void update(const float delta);
 
         void createParticleMesh();
         void updateParticleMesh();
 
-        void emitParticles(std::uint32_t count);
+        void emitParticles(const std::uint32_t count);
 
         ParticleSystemData particleSystemData;
 

@@ -40,9 +40,9 @@ namespace ouzel::scene
     }
 
     void ParticleSystem::draw(const math::Matrix<float, 4>& transformMatrix,
-                              float opacity,
+                              const float opacity,
                               const math::Matrix<float, 4>& renderViewProjection,
-                              bool wireframe)
+                              const bool wireframe)
     {
         Component::draw(transformMatrix,
                         opacity,
@@ -89,7 +89,7 @@ namespace ouzel::scene
         }
     }
 
-    void ParticleSystem::update(float delta)
+    void ParticleSystem::update(const float delta)
     {
         timeSinceUpdate += delta;
 
@@ -377,12 +377,12 @@ namespace ouzel::scene
         }
     }
 
-    void ParticleSystem::emitParticles(std::uint32_t count)
+    void ParticleSystem::emitParticles(const std::uint32_t count)
     {
-        if (particleCount + count > particleSystemData.maxParticles)
-            count = particleSystemData.maxParticles - particleCount;
+        const auto remainingCount = (particleCount + count > particleSystemData.maxParticles) ?
+            particleSystemData.maxParticles - particleCount : count;
 
-        if (count && actor)
+        if (remainingCount && actor)
         {
             const math::Vector<float, 2> position = (particleSystemData.positionType == ParticleSystemData::PositionType::free) ?
                 math::Vector<float, 2>{actor->convertLocalToWorld(math::Vector<float, 3>{})} :
@@ -392,7 +392,7 @@ namespace ouzel::scene
                 math::Vector<float, 2>{} :
                 throw std::runtime_error("Invalid position type");
 
-            for (std::uint32_t i = particleCount; i < particleCount + count; ++i)
+            for (std::uint32_t i = particleCount; i < particleCount + remainingCount; ++i)
             {
                 if (particleSystemData.emitterType == ParticleSystemData::EmitterType::gravity)
                 {
@@ -460,7 +460,7 @@ namespace ouzel::scene
                 }
             }
 
-            particleCount += count;
+            particleCount += remainingCount;
         }
     }
 }
