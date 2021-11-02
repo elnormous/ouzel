@@ -1,6 +1,4 @@
-//
-// elnormous/omath
-//
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_MATH_QUATERNION_NEON
 #define OUZEL_MATH_QUATERNION_NEON
@@ -10,7 +8,7 @@
 #ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
-namespace omath
+namespace ouzel::math
 {
     template <>
     inline auto operator-(const Quaternion<float>& quat) noexcept

@@ -1,6 +1,4 @@
-//
-// elnormous/omath
-//
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_MATH_MATRIX_NEON
 #define OUZEL_MATH_MATRIX_NEON
@@ -10,7 +8,7 @@
 #ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
-namespace omath
+namespace ouzel::math
 {
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix) noexcept

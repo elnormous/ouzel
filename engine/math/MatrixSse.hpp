@@ -1,6 +1,4 @@
-//
-// elnormous/omath
-//
+// Ouzel by Elviss Strazdins
 
 #ifndef OUZEL_MATH_MATRIX_SSE
 #define OUZEL_MATH_MATRIX_SSE
