@@ -46,53 +46,30 @@ namespace ouzel::math
         }
 
         template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformPoint(math::Vector<T, 3>& point) const noexcept
+        void transformPoint(Vector<T, 3>& point) const noexcept
         {
-            transformVector(point.v[0], point.v[1], point.v[2], T(1), point);
+            auto t = Vector<T, 4>{point.v[0], point.v[1], point.v[2], T(1)};
+            transformVector(t);
+            point = Vector<T, 3>{t.v[0] / t.v[3], t.v[1] / t.v[3], t.v[2] / t.v[3]};
         }
 
         template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformPoint(const math::Vector<T, 3>& point, math::Vector<T, 3>& dst) const noexcept
+        void transformVector(Vector<T, 3>& v) const noexcept
         {
-            transformVector(point.v[0], point.v[1], point.v[2], T(1), dst);
+            auto t = Vector<T, 4>{v.v[0], v.v[1], v.v[2], T(0)};
+            transformVector(t);
+            v = Vector<T, 3>{t.v[0], t.v[1], t.v[2]};
         }
 
         template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformVector(math::Vector<T, 3>& v) const noexcept
+        void transformVector(Vector<T, 4>& v) const noexcept
         {
-            math::Vector<T, 4> t;
-            transformVector(math::Vector<T, 4>{v.v[0], v.v[1], v.v[2], T(0)}, t);
-            v = math::Vector<T, 3>{t.v[0], t.v[1], t.v[2]};
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformVector(const math::Vector<T, 3>& v, math::Vector<T, 3>& dst) const noexcept
-        {
-            transformVector(v.v[0], v.v[1], v.v[2], T(0), dst);
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformVector(const T x, const T y, const T z, const T w,
-                             math::Vector<T, 3>& dst) const noexcept
-        {
-            math::Vector<T, 4> t;
-            transformVector(math::Vector<T, 4>{x, y, z, w}, t);
-            dst = math::Vector<T, 3>{t.v[0], t.v[1], t.v[2]};
-        }
-
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformVector(math::Vector<T, 4>& v) const noexcept
-        {
-            transformVector(v, v);
-        }
-
-        void transformVector(const math::Vector<T, 4>& v, math::Vector<T, 4>& dst) const noexcept
-        {
-            assert(&v != &dst);
-            dst.v[0] = v.v[0] * m[0] + v.v[1] * m[4] + v.v[2] * m[8] + v.v[3] * m[12];
-            dst.v[1] = v.v[0] * m[1] + v.v[1] * m[5] + v.v[2] * m[9] + v.v[3] * m[13];
-            dst.v[2] = v.v[0] * m[2] + v.v[1] * m[6] + v.v[2] * m[10] + v.v[3] * m[14];
-            dst.v[3] = v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15];
+            v.v = {
+                v.v[0] * m[0] + v.v[1] * m[4] + v.v[2] * m[8] + v.v[3] * m[12],
+                v.v[0] * m[1] + v.v[1] * m[5] + v.v[2] * m[9] + v.v[3] * m[13],
+                v.v[0] * m[2] + v.v[1] * m[6] + v.v[2] * m[10] + v.v[3] * m[14],
+                v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15]
+            };
         }
     };
 
@@ -515,21 +492,21 @@ namespace ouzel::math
     template <typename T>
     [[nodiscard]] constexpr auto getTranslation(const Matrix<T, 3, 3>& matrix) noexcept
     {
-        return math::Vector<T, 2>{matrix.m[6], matrix.m[7]};
+        return Vector<T, 2>{matrix.m[6], matrix.m[7]};
     }
 
     template <typename T>
     [[nodiscard]] constexpr auto getTranslation(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return math::Vector<T, 3>{matrix.m[12], matrix.m[13], matrix.m[14]};
+        return Vector<T, 3>{matrix.m[12], matrix.m[13], matrix.m[14]};
     }
 
     template <typename T>
     [[nodiscard]] auto getScale(const Matrix<T, 3, 3>& matrix) noexcept
     {
-        math::Vector<T, 2> scale;
-        scale.v[0] = math::Vector<T, 2>{matrix.m[0], matrix.m[1]}.length();
-        scale.v[1] = math::Vector<T, 2>{matrix.m[3], matrix.m[4]}.length();
+        Vector<T, 2> scale;
+        scale.v[0] = Vector<T, 2>{matrix.m[0], matrix.m[1]}.length();
+        scale.v[1] = Vector<T, 2>{matrix.m[3], matrix.m[4]}.length();
 
         return scale;
     }
@@ -537,10 +514,10 @@ namespace ouzel::math
     template <typename T>
     [[nodiscard]] auto getScale(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        math::Vector<T, 3> scale;
-        scale.v[0] = math::Vector<T, 3>{matrix.m[0], matrix.m[1], matrix.m[2]}.length();
-        scale.v[1] = math::Vector<T, 3>{matrix.m[4], matrix.m[5], matrix.m[6]}.length();
-        scale.v[2] = math::Vector<T, 3>{matrix.m[8], matrix.m[9], matrix.m[10]}.length();
+        Vector<T, 3> scale;
+        scale.v[0] = Vector<T, 3>{matrix.m[0], matrix.m[1], matrix.m[2]}.length();
+        scale.v[1] = Vector<T, 3>{matrix.m[4], matrix.m[5], matrix.m[6]}.length();
+        scale.v[2] = Vector<T, 3>{matrix.m[8], matrix.m[9], matrix.m[10]}.length();
 
         return scale;
     }
@@ -568,7 +545,7 @@ namespace ouzel::math
         const auto m23 = matrix.m[9] / scale.v[2];
         const auto m33 = matrix.m[10] / scale.v[2];
 
-        math::Quaternion<T> result{
+        Quaternion<T> result{
             std::sqrt(std::max(T(0), T(1) + m11 - m22 - m33)) / T(2),
             std::sqrt(std::max(T(0), T(1) - m11 + m22 - m33)) / T(2),
             std::sqrt(std::max(T(0), T(1) - m11 - m22 + m33)) / T(2),
@@ -588,37 +565,37 @@ namespace ouzel::math
     template <typename T>
     [[nodiscard]] auto getUpVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return math::Vector<T, 3>{matrix.m[4], matrix.m[5], matrix.m[6]};
+        return Vector<T, 3>{matrix.m[4], matrix.m[5], matrix.m[6]};
     }
 
     template <typename T>
     [[nodiscard]] auto getDownVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return math::Vector<T, 3>{-matrix.m[4], -matrix.m[5], -matrix.m[6]};
+        return Vector<T, 3>{-matrix.m[4], -matrix.m[5], -matrix.m[6]};
     }
 
     template <typename T>
     [[nodiscard]] auto getLeftVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return math::Vector<T, 3>{-matrix.m[0], -matrix.m[1], -matrix.m[2]};
+        return Vector<T, 3>{-matrix.m[0], -matrix.m[1], -matrix.m[2]};
     }
 
     template <typename T>
     [[nodiscard]] auto getRightVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return math::Vector<T, 3>{matrix.m[0], matrix.m[1], matrix.m[2]};
+        return Vector<T, 3>{matrix.m[0], matrix.m[1], matrix.m[2]};
     }
 
     template <typename T>
     [[nodiscard]] auto getForwardVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return math::Vector<T, 3>{-matrix.m[8], -matrix.m[9], -matrix.m[10]};
+        return Vector<T, 3>{-matrix.m[8], -matrix.m[9], -matrix.m[10]};
     }
 
     template <typename T>
     [[nodiscard]] auto getBackVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return math::Vector<T, 3>{matrix.m[8], matrix.m[9], matrix.m[10]};
+        return Vector<T, 3>{matrix.m[8], matrix.m[9], matrix.m[10]};
     }
 
     template <typename T>
@@ -694,18 +671,18 @@ namespace ouzel::math
                    const T targetPositionX, const T targetPositionY, const T targetPositionZ,
                    const T upX, const T upY, const T upZ) noexcept
     {
-        const math::Vector<T, 3> eye{eyePositionX, eyePositionY, eyePositionZ};
-        const math::Vector<T, 3> target{targetPositionX, targetPositionY, targetPositionZ};
-        math::Vector<T, 3> up{upX, upY, upZ};
+        const Vector<T, 3> eye{eyePositionX, eyePositionY, eyePositionZ};
+        const Vector<T, 3> target{targetPositionX, targetPositionY, targetPositionZ};
+        Vector<T, 3> up{upX, upY, upZ};
         up.normalize();
 
-        math::Vector<T, 3> zaxis = target - eye;
+        Vector<T, 3> zaxis = target - eye;
         zaxis.normalize();
 
-        math::Vector<T, 3> xaxis = up.cross(zaxis);
+        Vector<T, 3> xaxis = up.cross(zaxis);
         xaxis.normalize();
 
-        math::Vector<T, 3> yaxis = zaxis.cross(xaxis);
+        Vector<T, 3> yaxis = zaxis.cross(xaxis);
         yaxis.normalize();
 
         matrix.m[0] = xaxis.v[0];
@@ -731,9 +708,9 @@ namespace ouzel::math
 
     template <typename T>
     void setLookAt(Matrix<T, 4, 4>& matrix,
-                   const math::Vector<T, 3>& eyePosition,
-                   const math::Vector<T, 3>& targetPosition,
-                   const math::Vector<T, 3>& up) noexcept
+                   const Vector<T, 3>& eyePosition,
+                   const Vector<T, 3>& targetPosition,
+                   const Vector<T, 3>& up) noexcept
     {
         setLookAt(matrix,
                   eyePosition.v[0], eyePosition.v[1], eyePosition.v[2],
@@ -817,7 +794,7 @@ namespace ouzel::math
 
     template <typename T, std::size_t size>
     void setScale(Matrix<T, size, size>& matrix,
-                  const math::Vector<T, size - 1>& scale) noexcept
+                  const Vector<T, size - 1>& scale) noexcept
     {
         setIdentity(matrix);
 
@@ -842,7 +819,7 @@ namespace ouzel::math
 
     template <typename T>
     void setRotation(Matrix<T, 4, 4>& matrix,
-                     const math::Vector<T, 3>& axis, T angle) noexcept
+                     const Vector<T, 3>& axis, T angle) noexcept
     {
         auto x = axis.v[0];
         auto y = axis.v[1];
@@ -897,7 +874,7 @@ namespace ouzel::math
 
     template <typename T>
     void setRotation(Matrix<T, 4, 4>& matrix,
-                     const math::Quaternion<T>& rotation) noexcept
+                     const Quaternion<T>& rotation) noexcept
     {
         const auto wx = rotation.v[3] * rotation.v[0];
         const auto wy = rotation.v[3] * rotation.v[1];
@@ -980,7 +957,7 @@ namespace ouzel::math
 
     template <typename T>
     void setTranslation(Matrix<T, 4, 4>& matrix,
-                        const math::Vector<T, 3>& translation) noexcept
+                        const Vector<T, 3>& translation) noexcept
     {
         setIdentity(matrix);
 
