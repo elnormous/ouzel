@@ -225,8 +225,7 @@ namespace ouzel::scene
             boxTransform.transformPoint(v3p);
 
             // tranform the center to viewport's clip space
-            auto clipPos = math::Vector<float, 4>{v3p.v[0], v3p.v[1], v3p.v[2], 1.0F};
-            getViewProjection().transformVector(clipPos);
+            const auto clipPos = math::Vector<float, 4>{v3p.v[0], v3p.v[1], v3p.v[2], 1.0F} * getViewProjection();
 
             assert(clipPos.v[3] != 0.0F);
 
