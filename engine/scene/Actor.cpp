@@ -424,11 +424,11 @@ namespace ouzel::scene
 
     math::Vector<float, 3> Actor::getWorldPosition() const
     {
-        auto result = position;
+        auto worldPosition = position;
         const auto& currentTransform = getTransform();
-        currentTransform.transformPoint(result);
+        currentTransform.transformPoint(worldPosition);
 
-        return position;
+        return worldPosition;
     }
 
     math::Vector<float, 3> Actor::convertWorldToLocal(const math::Vector<float, 3>& worldPosition) const
