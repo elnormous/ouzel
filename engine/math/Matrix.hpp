@@ -34,17 +34,6 @@ namespace ouzel::math
         [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
 
-        [[nodiscard]] constexpr auto isIdentity() const noexcept
-        {
-            if constexpr (cols != rows) return false;
-
-            for (std::size_t i = 0; i < rows; ++i)
-                for (std::size_t j = 0; j < cols; ++j)
-                    if (m[i * cols + j] != (i == j ? T(1) : T(0)))
-                        return false;
-            return true;
-        }
-
         template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
         void transformVector(Vector<T, 4>& v) const noexcept
         {
@@ -80,6 +69,18 @@ namespace ouzel::math
         for (std::size_t i = 0; i < size; ++i)
             for (std::size_t j = 0; j < size; ++j)
                 matrix.m[j * size + i] = (j == i) ? T(1) : T(0);
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols>
+    [[nodiscard]] constexpr auto isIdentity(const Matrix<T, rows, cols>& matrix) noexcept
+    {
+        if constexpr (cols != rows) return false;
+
+        for (std::size_t i = 0; i < rows; ++i)
+            for (std::size_t j = 0; j < cols; ++j)
+                if (matrix.m[i * cols + j] != (i == j ? T(1) : T(0)))
+                    return false;
+        return true;
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
