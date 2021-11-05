@@ -26,7 +26,7 @@ namespace ouzel::scene
     namespace
     {
         template <class Iterator>
-        void gatherPolygonProjectionExtents(Iterator begin, Iterator end,
+        void gatherPolygonProjectionExtents(const Iterator begin, const Iterator end,
                                             const math::Vector<float, 2>& v,
                                             float& outMin, float& outMax) noexcept
         {
@@ -46,8 +46,8 @@ namespace ouzel::scene
         }
 
         template <class IteratorA, class IteratorB>
-        bool findSeparatingAxis(IteratorA aBegin, IteratorA aEnd,
-                                IteratorB bBegin, IteratorB bEnd) noexcept
+        bool findSeparatingAxis(const IteratorA aBegin, const IteratorA aEnd,
+                                const IteratorB bBegin, const IteratorB bEnd) noexcept
         {
             auto prev = aEnd - 1;
             for (auto cur = aBegin; cur != aEnd; ++cur)
