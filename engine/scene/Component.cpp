@@ -26,23 +26,26 @@ namespace ouzel::scene
     namespace
     {
         template <class Iterator>
-        void gatherPolygonProjectionExtents(const Iterator begin, const Iterator end,
-                                            const math::Vector<float, 2>& v,
-                                            float& outMin, float& outMax) noexcept
+        auto gatherPolygonProjectionExtents(const Iterator begin, const Iterator end,
+                                            const math::Vector<float, 2>& v) noexcept
         {
+            std::pair<float, float> result{};
+
             auto i = begin;
             if (i != end)
             {
-                outMin = outMax = dot(v, *i);
+                result.first = result.second = dot(v, *i);
                 ++i;
 
                 for (; i != end; ++i)
                 {
                     const float d = dot(v, *i);
-                    if (d < outMin) outMin = d;
-                    else if (d > outMax) outMax = d;
+                    if (d < result.first) result.first = d; // min
+                    else if (d > result.second) result.second = d; // max
                 }
             }
+
+            return result;
         }
 
         template <class IteratorA, class IteratorB>
@@ -58,12 +61,8 @@ namespace ouzel::scene
                     -edge.v[0]
                 };
 
-                float aMin = 0.0F;
-                float aMax = 0.0F;
-                float bMin = 0.0F;
-                float bMax = 0.0F;
-                gatherPolygonProjectionExtents(aBegin, aEnd, v, aMin, aMax);
-                gatherPolygonProjectionExtents(bBegin, bEnd, v, bMin, bMax);
+                const auto [aMin, aMax] = gatherPolygonProjectionExtents(aBegin, aEnd, v);
+                const auto [bMin, bMax] = gatherPolygonProjectionExtents(bBegin, bEnd, v);
 
                 if (aMax < bMin) return true;
                 if (bMax < aMin) return true;
