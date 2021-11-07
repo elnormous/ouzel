@@ -985,17 +985,6 @@ namespace ouzel::math
         matrix.m[6] = x;
         matrix.m[7] = y;
     }
-
-    template <typename T>
-    void setTranslation(Matrix<T, 4, 4>& matrix,
-                        const T x, const T y, const T z) noexcept
-    {
-        setIdentity(matrix);
-
-        matrix.m[12] = x;
-        matrix.m[13] = y;
-        matrix.m[14] = z;
-    }
 }
 
 #include "MatrixNeon.hpp"
