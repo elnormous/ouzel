@@ -270,6 +270,24 @@ namespace ouzel::math
         return vector;
     }
 
+    template <
+        typename T,
+        std::size_t size,
+        std::size_t dims,
+        std::enable_if_t<(dims <= size)>* = nullptr
+    >
+    [[nodiscard]] auto operator*(const Matrix<T, size, size>& matrix,
+                                 const Vector<T, dims>& vector) noexcept
+    {
+        Vector<T, dims> result{};
+
+        for (std::size_t i = 0; i < dims; ++i)
+            for (std::size_t j = 0; j < dims; ++j)
+                result.v[i] += matrix.m[i * size + j] * vector.v[j];
+
+        return result;
+    }
+
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto transposed(const Matrix<T, rows, cols>& matrix) noexcept
     {
