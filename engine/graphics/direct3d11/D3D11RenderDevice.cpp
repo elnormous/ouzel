@@ -679,7 +679,7 @@ namespace ouzel::graphics::d3d11
                             throw std::runtime_error("No shader set");
 
                         // pixel shader constants
-                        const std::vector<Shader::Location>& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
+                        const auto& fragmentShaderConstantLocations = currentShader->getFragmentShaderConstantLocations();
 
                         if (setShaderConstantsCommand->fragmentShaderConstants.size() > fragmentShaderConstantLocations.size())
                             throw std::runtime_error("Invalid pixel shader constant size");
@@ -688,8 +688,8 @@ namespace ouzel::graphics::d3d11
 
                         for (std::size_t i = 0; i < setShaderConstantsCommand->fragmentShaderConstants.size(); ++i)
                         {
-                            const Shader::Location& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
-                            const std::vector<float>& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
+                            const auto& fragmentShaderConstantLocation = fragmentShaderConstantLocations[i];
+                            const auto& fragmentShaderConstant = setShaderConstantsCommand->fragmentShaderConstants[i];
 
                             if (sizeof(float) * fragmentShaderConstant.size() != fragmentShaderConstantLocation.size)
                                 throw std::runtime_error("Invalid pixel shader constant size");
@@ -705,7 +705,7 @@ namespace ouzel::graphics::d3d11
                         context->PSSetConstantBuffers(0, 1, fragmentShaderConstantBuffers);
 
                         // vertex shader constants
-                        const std::vector<Shader::Location>& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
+                        const auto& vertexShaderConstantLocations = currentShader->getVertexShaderConstantLocations();
 
                         if (setShaderConstantsCommand->vertexShaderConstants.size() > vertexShaderConstantLocations.size())
                             throw std::runtime_error("Invalid vertex shader constant size");
@@ -714,8 +714,8 @@ namespace ouzel::graphics::d3d11
 
                         for (std::size_t i = 0; i < setShaderConstantsCommand->vertexShaderConstants.size(); ++i)
                         {
-                            const Shader::Location& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
-                            const std::vector<float>& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
+                            const auto& vertexShaderConstantLocation = vertexShaderConstantLocations[i];
+                            const auto& vertexShaderConstant = setShaderConstantsCommand->vertexShaderConstants[i];
 
                             if (sizeof(float) * vertexShaderConstant.size() != vertexShaderConstantLocation.size)
                                 throw std::runtime_error("Invalid vertex shader constant size");
