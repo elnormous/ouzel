@@ -76,7 +76,7 @@ namespace ouzel::scene
 
     bool Component::shapeOverlaps(const std::vector<math::Vector<float, 2>>& edges) const
     {
-        const std::array<math::Vector<float, 2>, 4> boundingBoxEdges = {
+        const auto boundingBoxEdges = {
             math::Vector<float, 2>{boundingBox.min},
             math::Vector<float, 2>{boundingBox.max.v[0], boundingBox.min.v[1]},
             math::Vector<float, 2>{boundingBox.max},
