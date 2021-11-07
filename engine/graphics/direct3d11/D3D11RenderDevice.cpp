@@ -85,7 +85,7 @@ namespace ouzel::graphics::d3d11
         multisamplingSupported = true;
         uintIndicesSupported = true;
 
-        UINT deviceCreationFlags = 0;
+        UINT deviceCreationFlags = 0U;
 
         if (debugRenderer)
             deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -316,9 +316,9 @@ namespace ouzel::graphics::d3d11
 
         std::vector<float> shaderData;
 
-        std::uint32_t fillModeIndex = 0;
-        std::uint32_t scissorEnableIndex = 0;
-        std::uint32_t cullModeIndex = 0;
+        std::uint32_t fillModeIndex = 0U;
+        std::uint32_t scissorEnableIndex = 0U;
+        std::uint32_t cullModeIndex = 0U;
         RenderTarget* currentRenderTarget = nullptr;
         const Shader* currentShader = nullptr;
 
@@ -559,20 +559,20 @@ namespace ouzel::graphics::d3d11
 
                         switch (setPipelineStateCommand->cullMode)
                         {
-                            case CullMode::none: cullModeIndex = 0; break;
-                            case CullMode::front: cullModeIndex = 1; break;
-                            case CullMode::back: cullModeIndex = 2; break;
+                            case CullMode::none: cullModeIndex = 0U; break;
+                            case CullMode::front: cullModeIndex = 1U; break;
+                            case CullMode::back: cullModeIndex = 2U; break;
                             default: throw std::runtime_error("Invalid cull mode");
                         }
 
                         switch (setPipelineStateCommand->fillMode)
                         {
-                            case FillMode::solid: fillModeIndex = 0; break;
-                            case FillMode::wireframe: fillModeIndex = 1; break;
+                            case FillMode::solid: fillModeIndex = 0U; break;
+                            case FillMode::wireframe: fillModeIndex = 1U; break;
                             default: throw std::runtime_error("Invalid fill mode");
                         }
 
-                        const std::uint32_t rasterizerStateIndex = fillModeIndex * 2 * 3 + cullModeIndex * 2 + scissorEnableIndex;
+                        const std::uint32_t rasterizerStateIndex = fillModeIndex * 2U * 3U + cullModeIndex * 2U + scissorEnableIndex;
                         context->RSSetState(rasterizerStates[rasterizerStateIndex].get());
                         break;
                     }
@@ -592,10 +592,10 @@ namespace ouzel::graphics::d3d11
 
                         ID3D11Buffer* buffers[] = {vertexBuffer->getBuffer().get()};
                         UINT strides[] = {sizeof(Vertex)};
-                        UINT offsets[] = {0};
+                        UINT offsets[] = {0U};
                         context->IASetVertexBuffers(0, 1, buffers, strides, offsets);
                         context->IASetIndexBuffer(indexBuffer->getBuffer().get(),
-                                                    getIndexFormat(drawCommand->indexSize), 0);
+                                                  getIndexFormat(drawCommand->indexSize), 0);
                         context->IASetPrimitiveTopology(getPrimitiveTopology(drawCommand->drawMode));
 
                         assert(drawCommand->indexCount);
@@ -822,7 +822,7 @@ namespace ouzel::graphics::d3d11
 
         HRESULT hr;
         IDXGIOutput* output;
-        for (UINT i = 0; (hr = adapter->EnumOutputs(i, &output)) != DXGI_ERROR_NOT_FOUND; ++i)
+        for (UINT i = 0U; (hr = adapter->EnumOutputs(i, &output)) != DXGI_ERROR_NOT_FOUND; ++i)
             if (SUCCEEDED(hr))
             {
                 DXGI_OUTPUT_DESC outputDesc;
@@ -845,7 +845,7 @@ namespace ouzel::graphics::d3d11
 
         if (!output) return result;
 
-        UINT numModes = 0;
+        UINT numModes = 0U;
         DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
         if (const auto hr = output->GetDisplayModeList(format, 0, &numModes, nullptr); FAILED(hr))
         {
@@ -853,7 +853,7 @@ namespace ouzel::graphics::d3d11
             throw std::system_error(hr, errorCategory, "Failed to get display mode list");
         }
 
-        if (numModes > 0)
+        if (numModes > 0U)
         {
             std::vector<DXGI_MODE_DESC> displayModes(numModes);
             output->GetDisplayModeList(format, 0, &numModes, displayModes.data());
