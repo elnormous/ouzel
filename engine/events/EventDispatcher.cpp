@@ -29,7 +29,7 @@ namespace ouzel
 
         eventHandlerDeleteSet.clear();
 
-        for (auto eventHandler : eventHandlerAddSet)
+        for (const auto eventHandler : eventHandlerAddSet)
             if (std::find(eventHandlers.begin(),
                           eventHandlers.end(),
                           eventHandler) == eventHandlers.end())
