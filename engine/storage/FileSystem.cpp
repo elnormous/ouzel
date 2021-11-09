@@ -98,6 +98,8 @@ namespace ouzel::storage
         const auto executablePath = Path{executableDirectory, Path::Format::native};
         appPath = executablePath.getDirectory();
         logger.log(Log::Level::info) << "Application directory: " << appPath;
+#else
+#  error "Unsupported platform"
 #endif
     }
 
@@ -297,7 +299,7 @@ namespace ouzel::storage
 
         return path;
 #else
-        return Path{};
+#  error "Unsupported platform"
 #endif
     }
 

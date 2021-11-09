@@ -107,6 +107,8 @@ namespace ouzel::storage
         using Type = FILETIME;
 #elif defined(__unix__) || defined(__APPLE__)
         using Type = timespec;
+#else
+#  error "Unsupported platform"
 #endif
         FileTime() noexcept = default;
         FileTime(const Type& t) noexcept: time{t} {}
@@ -129,6 +131,8 @@ namespace ouzel::storage
                 std::chrono::nanoseconds{time.tv_nsec};
 
             return std::chrono::system_clock::time_point{std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds)};
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -140,6 +144,8 @@ namespace ouzel::storage
 #elif defined(__unix__) || defined(__APPLE__)
             return time.tv_sec == other.time.tv_sec &&
                 time.tv_nsec == other.time.tv_nsec;
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -153,6 +159,8 @@ namespace ouzel::storage
             return time.tv_sec == other.time.tv_sec ?
                 time.tv_nsec > other.time.tv_nsec :
                 time.tv_sec > other.time.tv_sec;
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -166,6 +174,8 @@ namespace ouzel::storage
             return time.tv_sec == other.time.tv_sec ?
                 time.tv_nsec < other.time.tv_nsec :
                 time.tv_sec < other.time.tv_sec;
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -179,6 +189,8 @@ namespace ouzel::storage
             return time.tv_sec == other.time.tv_sec ?
                 time.tv_nsec >= other.time.tv_nsec :
                 time.tv_sec > other.time.tv_sec;
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -192,6 +204,8 @@ namespace ouzel::storage
             return time.tv_sec == other.time.tv_sec ?
                 time.tv_nsec <= other.time.tv_nsec :
                 time.tv_sec < other.time.tv_sec;
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -229,7 +243,7 @@ namespace ouzel::storage
                 return Path{"/tmp", Path::Format::native};
 #  endif
 #else
-            throw std::runtime_error("Temp directory not available");
+#  error "Unsupported platform"
 #endif
         }
 
@@ -312,7 +326,7 @@ namespace ouzel::storage
                 throw std::system_error(errno, std::system_category(), "Failed to get current directory");
             return Path{buffer.get(), Path::Format::native};
 #else
-            return Path{};
+#  error "Unsupported platform"
 #endif
         }
 
@@ -324,6 +338,8 @@ namespace ouzel::storage
 #elif defined(__unix__) || defined(__APPLE__)
             if (chdir(path.getNative().c_str()) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to set current directory");
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -336,6 +352,8 @@ namespace ouzel::storage
             const mode_t mode = S_IRWXU | S_IRWXG | S_IRWXO;
             if (mkdir(path.getNative().c_str(), mode) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to create directory");
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -417,6 +435,8 @@ namespace ouzel::storage
                     offset += bytesWritten;
                 } while (bytesRead);
             }
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -428,6 +448,8 @@ namespace ouzel::storage
 #elif defined(__unix__) || defined(__APPLE__)
             if (rename(from.getNative().c_str(), to.getNative().c_str()) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to move file");
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -449,6 +471,8 @@ namespace ouzel::storage
 #elif defined(__unix__) || defined(__APPLE__)
             if (remove(path.getNative().c_str()) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to delete file");
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -486,6 +510,8 @@ namespace ouzel::storage
                 return FileType::socket;
             else
                 return FileType::unknown;
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -502,6 +528,8 @@ namespace ouzel::storage
             if (lstat(path.getNative().c_str(), &s) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get file status");
             return static_cast<std::size_t>(s.st_size);
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -522,6 +550,8 @@ namespace ouzel::storage
             if (lstat(path.getNative().c_str(), &s) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to get file status");
             return static_cast<Permissions>(s.st_mode);
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -536,6 +566,8 @@ namespace ouzel::storage
             const auto mode = static_cast<mode_t>(permissions);
             if (chmod(path.getNative().c_str(), mode) == -1)
                 throw std::system_error(errno, std::system_category(), "Failed to set file permissions");
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -563,6 +595,8 @@ namespace ouzel::storage
 #  else
             return FileTime{s.st_atim};
 #  endif
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -590,6 +624,8 @@ namespace ouzel::storage
 #  else
             return FileTime{s.st_mtim};
 #  endif
+#else
+#  error "Unsupported platform"
 #endif
         }
 

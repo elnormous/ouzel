@@ -32,6 +32,8 @@ namespace ouzel::storage
         static constexpr Char preferredSeparator = '/';
         static constexpr const Char* parentDirectory = "..";
         static constexpr const Char* currentDirectory = ".";
+#else
+#  error "Unsupported platform"
 #endif
 
         Path() = default;
@@ -253,6 +255,8 @@ namespace ouzel::storage
                 result.path = {path[0], L':'};
 #elif defined(__unix__) || defined(__APPLE__)
             if (path.size() >= 1 && path[0] == '/') result.path = '/';
+#else
+#  error "Unsupported platform"
 #endif
             return result;
         }
@@ -280,6 +284,8 @@ namespace ouzel::storage
                 parts.push_back("/");
                 previousPosition = 1;
             }
+#else
+#  error "Unsupported platform"
 #endif
 
             while (previousPosition < path.length())
@@ -340,6 +346,8 @@ namespace ouzel::storage
                 path[1] == L':';
 #elif defined(__unix__) || defined(__APPLE__)
             return path.size() >= 1 && path[0] == '/';
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -355,6 +363,8 @@ namespace ouzel::storage
             return c == L'\\' || c == L'/';
 #elif defined(__unix__) || defined(__APPLE__)
             return c == '/';
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -365,6 +375,8 @@ namespace ouzel::storage
             return str.find_last_of(L"\\/", position);
 #elif defined(__unix__) || defined(__APPLE__)
             return str.rfind('/', position);
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -375,6 +387,8 @@ namespace ouzel::storage
             return str.find_first_of(L"\\/", position);
 #elif defined(__unix__) || defined(__APPLE__)
             return str.find('/', position);
+#else
+#  error "Unsupported platform"
 #endif
         }
 
@@ -595,6 +609,8 @@ namespace ouzel::storage
         {
             return convertToUtf8(p);
         }
+#else
+#  error "Unsupported platform"
 #endif
 
         String path;
