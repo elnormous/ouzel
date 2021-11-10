@@ -101,7 +101,7 @@ namespace ouzel::platform::objc
 
         bool operator!=(const Object& other) const noexcept
         {
-            return p == other.p;
+            return p != other.p;
         }
 
     private:
