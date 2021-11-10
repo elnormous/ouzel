@@ -24,7 +24,7 @@ namespace ouzel::platform::quartzcore
     {
     public:
         DisplayLink(RenderCallback initCallback, void* initUserInfo):
-            callback(initCallback), userInfo(initUserInfo), running(false)
+            callback{initCallback}, userInfo{initUserInfo}, running{false}
         {
         }
 
