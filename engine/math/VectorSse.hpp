@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_MATH_VECTOR_SSE
-#define OUZEL_MATH_VECTOR_SSE
+#ifndef OUZEL_MATH_VECTOR_SSE_HPP
+#define OUZEL_MATH_VECTOR_SSE_HPP
 
 #include "Vector.hpp"
 
@@ -113,4 +113,4 @@ namespace ouzel::math
 
 #endif
 
-#endif // OUZEL_MATH_VECTOR_SSE
+#endif // OUZEL_MATH_VECTOR_SSE_HPP

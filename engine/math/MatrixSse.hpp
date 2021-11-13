@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_MATH_MATRIX_SSE
-#define OUZEL_MATH_MATRIX_SSE
+#ifndef OUZEL_MATH_MATRIX_SSE_HPP
+#define OUZEL_MATH_MATRIX_SSE_HPP
 
 #include "Matrix.hpp"
 
@@ -296,4 +296,4 @@ namespace ouzel::math
 
 #endif
 
-#endif // OUZEL_MATH_MATRIX_SSE
+#endif // OUZEL_MATH_MATRIX_SSE_HPP

@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_MATH_VECTOR_NEON
-#define OUZEL_MATH_VECTOR_NEON
+#ifndef OUZEL_MATH_VECTOR_NEON_HPP
+#define OUZEL_MATH_VECTOR_NEON_HPP
 
 #include "Vector.hpp"
 
@@ -111,4 +111,4 @@ namespace ouzel::math
 
 #endif // __ARM_NEON__
 
-#endif // OUZEL_MATH_VECTOR_NEON
+#endif // OUZEL_MATH_VECTOR_NEON_HPP

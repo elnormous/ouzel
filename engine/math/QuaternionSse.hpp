@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_MATH_QUATERNION_SSE
-#define OUZEL_MATH_QUATERNION_SSE
+#ifndef OUZEL_MATH_QUATERNION_SSE_HPP
+#define OUZEL_MATH_QUATERNION_SSE_HPP
 
 #include "Quaternion.hpp"
 
@@ -101,4 +101,4 @@ namespace ouzel::math
 
 #endif
 
-#endif // OUZEL_MATH_QUATERNION_SSE
+#endif // OUZEL_MATH_QUATERNION_SSE_HPP
