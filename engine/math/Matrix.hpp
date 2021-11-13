@@ -740,24 +740,28 @@ namespace ouzel::math
         Vector<T, 3> yaxis = zaxis.cross(xaxis);
         yaxis.normalize();
 
+        // row 1
         matrix.m.v[0] = xaxis.v[0];
-        matrix.m.v[1] = yaxis.v[0];
-        matrix.m.v[2] = zaxis.v[0];
-        matrix.m.v[3] = T(0);
-
         matrix.m.v[4] = xaxis.v[1];
-        matrix.m.v[5] = yaxis.v[1];
-        matrix.m.v[6] = zaxis.v[1];
-        matrix.m.v[7] = T(0);
-
         matrix.m.v[8] = xaxis.v[2];
-        matrix.m.v[9] = yaxis.v[2];
-        matrix.m.v[10] = zaxis.v[2];
-        matrix.m.v[11] = T(0);
-
         matrix.m.v[12] = xaxis.dot(-eye);
+
+        // row 2
+        matrix.m.v[1] = yaxis.v[0];
+        matrix.m.v[5] = yaxis.v[1];
+        matrix.m.v[9] = yaxis.v[2];
         matrix.m.v[13] = yaxis.dot(-eye);
+
+        // row 3
+        matrix.m.v[2] = zaxis.v[0];
+        matrix.m.v[6] = zaxis.v[1];
+        matrix.m.v[10] = zaxis.v[2];
         matrix.m.v[14] = zaxis.dot(-eye);
+
+        // row 4
+        matrix.m.v[3] = T(0);
+        matrix.m.v[7] = T(0);
+        matrix.m.v[11] = T(0);
         matrix.m.v[15] = T(1);
     }
 
@@ -791,11 +795,15 @@ namespace ouzel::math
 
         matrix.m = {};
 
+        // row 1
         matrix.m.v[0] = factor / aspectRatio;
+        // row 2
         matrix.m.v[5] = factor;
+        // row 3
         matrix.m.v[10] = farClip / (farClip - nearClip);
-        matrix.m.v[11] = T(1);
         matrix.m.v[14] = -nearClip * farClip / (farClip - nearClip);
+        // row 4
+        matrix.m.v[11] = T(1);
     }
 
     template <typename T>
@@ -809,10 +817,14 @@ namespace ouzel::math
 
         matrix.m = {};
 
+        // row 1
         matrix.m.v[0] = T(2) / width;
+        // row 2
         matrix.m.v[5] = T(2) / height;
+        // row 3
         matrix.m.v[10] = T(1) / (farClip - nearClip);
         matrix.m.v[14] = nearClip / (nearClip - farClip);
+        // row 4
         matrix.m.v[15] = T(1);
     }
 
@@ -828,12 +840,16 @@ namespace ouzel::math
 
         matrix.m = {};
 
+        // row 1
         matrix.m.v[0] = T(2) / (right - left);
-        matrix.m.v[5] = T(2) / (top - bottom);
-        matrix.m.v[10] = T(1) / (farClip - nearClip);
         matrix.m.v[12] = (left + right) / (left - right);
+        // row 2
+        matrix.m.v[5] = T(2) / (top - bottom);
         matrix.m.v[13] = (bottom + top) / (bottom - top);
+        // row 3
+        matrix.m.v[10] = T(1) / (farClip - nearClip);
         matrix.m.v[14] = nearClip / (nearClip - farClip);
+        // row 4
         matrix.m.v[15] = T(1);
     }
 
@@ -866,8 +882,10 @@ namespace ouzel::math
         const auto cosine = std::cos(angle);
         const auto sine = std::sin(angle);
 
+        // row 1
         matrix.m.v[0] = cosine;
         matrix.m.v[3] = -sine;
+        // row 2
         matrix.m.v[1] = sine;
         matrix.m.v[4] = cosine;
     }
@@ -906,21 +924,25 @@ namespace ouzel::math
         const auto sy = sine * y;
         const auto sz = sine * z;
 
+        // row 1
         matrix.m.v[0] = cosine + tx * x;
         matrix.m.v[4] = txy - sz;
         matrix.m.v[8] = txz + sy;
         matrix.m.v[12] = T(0);
 
+        // row 2
         matrix.m.v[1] = txy + sz;
         matrix.m.v[5] = cosine + ty * y;
         matrix.m.v[9] = tyz - sx;
         matrix.m.v[13] = T(0);
 
+        // row 3
         matrix.m.v[2] = txz - sy;
         matrix.m.v[6] = tyz + sx;
         matrix.m.v[10] = cosine + tz * z;
         matrix.m.v[14] = T(0);
 
+        // row 4
         matrix.m.v[3] = T(0);
         matrix.m.v[7] = T(0);
         matrix.m.v[11] = T(0);
@@ -944,21 +966,25 @@ namespace ouzel::math
 
         const auto zz = rotation.v[2] * rotation.v[2];
 
+        // row 1
         matrix.m.v[0] = T(1) - T(2) * (yy + zz);
         matrix.m.v[4] = T(2) * (xy - wz);
         matrix.m.v[8] = T(2) * (xz + wy);
         matrix.m.v[12] = T(0);
 
+        // row 2
         matrix.m.v[1] = T(2) * (xy + wz);
         matrix.m.v[5] = T(1) - T(2) * (xx + zz);
         matrix.m.v[9] = T(2) * (yz - wx);
         matrix.m.v[13] = T(0);
 
+        // row 3
         matrix.m.v[2] = T(2) * (xz - wy);
         matrix.m.v[6] = T(2) * (yz + wx);
         matrix.m.v[10] = T(1) - T(2) * (xx + yy);
         matrix.m.v[14] = T(0);
 
+        // row 4
         matrix.m.v[3] = T(0);
         matrix.m.v[7] = T(0);
         matrix.m.v[11] = T(0);
@@ -974,8 +1000,10 @@ namespace ouzel::math
         const auto cosine = std::cos(angle);
         const auto sine = std::sin(angle);
 
+        // row 2
         matrix.m.v[5] = cosine;
         matrix.m.v[9] = -sine;
+        // row 3
         matrix.m.v[6] = sine;
         matrix.m.v[10] = cosine;
     }
@@ -989,8 +1017,10 @@ namespace ouzel::math
         const auto cosine = std::cos(angle);
         const auto sine = std::sin(angle);
 
+        // row 1
         matrix.m.v[0] = cosine;
         matrix.m.v[8] = sine;
+        // row 3
         matrix.m.v[2] = -sine;
         matrix.m.v[10] = cosine;
     }
@@ -1004,8 +1034,10 @@ namespace ouzel::math
         const auto cosine = std::cos(angle);
         const auto sine = std::sin(angle);
 
+        // row 1
         matrix.m.v[0] = cosine;
         matrix.m.v[4] = -sine;
+        // row 2
         matrix.m.v[1] = sine;
         matrix.m.v[5] = cosine;
     }
