@@ -395,7 +395,7 @@ namespace ouzel::scene
         {
             auto transformedEdge = math::Vector<float, 3>{edge};
 
-            inverse.transformPoint(transformedEdge);
+            transformPoint(inverse, transformedEdge);
 
             transformedEdges.emplace_back(transformedEdge.v[0], transformedEdge.v[1]);
         }
@@ -426,7 +426,7 @@ namespace ouzel::scene
     {
         auto worldPosition = position;
         const auto& currentTransform = getTransform();
-        currentTransform.transformPoint(worldPosition);
+        transformPoint(currentTransform, worldPosition);
 
         return worldPosition;
     }
@@ -436,7 +436,7 @@ namespace ouzel::scene
         auto localPosition = worldPosition;
 
         const auto& currentInverseTransform = getInverseTransform();
-        currentInverseTransform.transformPoint(localPosition);
+        transformPoint(currentInverseTransform, localPosition);
 
         return localPosition;
     }
@@ -446,7 +446,7 @@ namespace ouzel::scene
         auto worldPosition = localPosition;
 
         const auto& currentTransform = getTransform();
-        currentTransform.transformPoint(worldPosition);
+        transformPoint(currentTransform, worldPosition);
 
         return worldPosition;
     }

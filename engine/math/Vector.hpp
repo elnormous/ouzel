@@ -4,7 +4,6 @@
 #define OUZEL_MATH_VECTOR_HPP
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
@@ -23,7 +22,7 @@ namespace ouzel::math
 #if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> && dims == 4 ? dims * sizeof(T) : sizeof(T))
 #endif
-        std::array<T, dims> v;
+        T v[dims];
 
         constexpr Vector() noexcept = default;
 

@@ -8,20 +8,20 @@
 #ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
-namespace ouzel::math
+namespace omath
 {
     template <>
     inline auto operator-(const Vector<float, 4>& vector) noexcept
     {
         Vector<float, 4> result;
-        vst1q_f32(result.v.data(), vnegq_f32(vld1q_f32(vector.v.data())));
+        vst1q_f32(result.v, vnegq_f32(vld1q_f32(vector.v)));
         return result;
     }
 
     template <>
     inline void negate(Vector<float, 4>& vector) noexcept
     {
-        vst1q_f32(vector.v.data(), vnegq_f32(vld1q_f32(vector.v.data())));
+        vst1q_f32(vector.v, vnegq_f32(vld1q_f32(vector.v)));
     }
 
     template <>
@@ -29,7 +29,7 @@ namespace ouzel::math
                                         const Vector<float, 4>& vector2) noexcept
     {
         Vector<float, 4> result;
-        vst1q_f32(result.v.data(), vaddq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
+        vst1q_f32(result.v, vaddq_f32(vld1q_f32(vector1.v), vld1q_f32(vector2.v)));
         return result;
     }
 
@@ -37,7 +37,7 @@ namespace ouzel::math
     inline auto& operator+=(Vector<float, 4>& vector1,
                             const Vector<float, 4>& vector2) noexcept
     {
-        vst1q_f32(vector1.v.data(), vaddq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
+        vst1q_f32(vector1.v, vaddq_f32(vld1q_f32(vector1.v), vld1q_f32(vector2.v)));
         return vector1;
     }
 
@@ -46,7 +46,7 @@ namespace ouzel::math
                                         const Vector<float, 4>& vector2) noexcept
     {
         Vector<float, 4> result;
-        vst1q_f32(result.v.data(), vsubq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
+        vst1q_f32(result.v, vsubq_f32(vld1q_f32(vector1.v), vld1q_f32(vector2.v)));
         return result;
     }
 
@@ -54,7 +54,7 @@ namespace ouzel::math
     inline auto& operator-=(Vector<float, 4>& vector1,
                             const Vector<float, 4>& vector2) noexcept
     {
-        vst1q_f32(vector1.v.data(), vsubq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
+        vst1q_f32(vector1.v, vsubq_f32(vld1q_f32(vector1.v), vld1q_f32(vector2.v)));
         return vector1;
     }
 
@@ -64,7 +64,7 @@ namespace ouzel::math
     {
         Vector<float, 4> result;
         const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(result.v.data(), vmulq_f32(vld1q_f32(vector.v.data()), s));
+        vst1q_f32(result.v, vmulq_f32(vld1q_f32(vector.v), s));
         return result;
     }
 
@@ -73,7 +73,7 @@ namespace ouzel::math
                             const float scalar) noexcept
     {
         const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(vector.v.data(), vmulq_f32(vld1q_f32(vector.v.data()), s));
+        vst1q_f32(vector.v, vmulq_f32(vld1q_f32(vector.v), s));
         return vector;
     }
 
@@ -83,7 +83,7 @@ namespace ouzel::math
     {
         Vector<float, 4> result;
         const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(result.v.data(), vdivq_f32(vld1q_f32(vector.v.data()), s));
+        vst1q_f32(result.v, vdivq_f32(vld1q_f32(vector.v), s));
         return result;
     }
 
@@ -92,7 +92,7 @@ namespace ouzel::math
                             const float scalar) noexcept
     {
         const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(vector.v.data(), vdivq_f32(vld1q_f32(vector.v.data()), s));
+        vst1q_f32(vector.v, vdivq_f32(vld1q_f32(vector.v), s));
         return vector;
     }
 
@@ -100,11 +100,10 @@ namespace ouzel::math
     [[nodiscard]] inline auto dot(const Vector<float, 4>& vector1,
                                   const Vector<float, 4>& vector2) noexcept
     {
-        float result;
-        const auto t1 = vmulq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data()));
+        const auto t1 = vmulq_f32(vld1q_f32(vector1.v), vld1q_f32(vector2.v));
         const auto t2 = vaddq_f32(t1, vrev64q_f32(t1));
         const auto t3 = vaddq_f32(t2, vcombine_f32(vget_high_f32(t2), vget_low_f32(t2)));
-        result = vgetq_lane_f32(t3, 0);
+        const float result = vgetq_lane_f32(t3, 0);
         return result;
     }
 }

@@ -3,7 +3,6 @@
 #ifndef OUZEL_MATH_QUATERNION_HPP
 #define OUZEL_MATH_QUATERNION_HPP
 
-#include <array>
 #include <cmath>
 #include <cstddef>
 #include <limits>
@@ -20,7 +19,7 @@ namespace ouzel::math
 #if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> ? 4 * sizeof(T) : sizeof(T))
 #endif
-        std::array<T, 4> v;
+        T v[4];
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
@@ -243,6 +242,34 @@ namespace ouzel::math
     }
 
     template <typename T>
+    [[nodiscard]] auto norm(const Quaternion<T>& quat) noexcept
+    {
+        return std::sqrt(quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3]);
+    }
+
+    template <typename T>
+    constexpr void invert(Quaternion<T>& quat) noexcept
+    {
+        const auto normSquared = quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3];
+        quat.v[0] = -quat.v[0] / normSquared;
+        quat.v[1] = -quat.v[1] / normSquared;
+        quat.v[2] = -quat.v[2] / normSquared;
+        quat.v[3] = quat.v[3] / normSquared;
+    }
+
+    template <typename T>
+    [[nodiscard]] auto inverse(const Quaternion<T>& quat) noexcept
+    {
+        const auto normSquared = quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3];
+        return Quaternion<T>{
+            -quat.v[0] / normSquared,
+            -quat.v[1] / normSquared,
+            -quat.v[2] / normSquared,
+            quat.v[3] / normSquared
+        };
+    }
+
+    template <typename T>
     constexpr void conjugate(Quaternion<T>& quat) noexcept
     {
         quat.v[0] = -quat.v[0];
@@ -254,36 +281,6 @@ namespace ouzel::math
     constexpr auto conjugated(const Quaternion<T>& quat) noexcept
     {
         return Quaternion<T>{-quat.v[0], -quat.v[1], -quat.v[2], quat.v[3]};
-    }
-
-    template <typename T>
-    constexpr void invert(Quaternion<T>& quat) noexcept
-    {
-        constexpr auto squared = quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3]; // norm squared
-        if (squared <= std::numeric_limits<T>::epsilon()) // too close to zero
-            return;
-
-        // conjugate divided by norm squared
-        quat.v[0] = -quat.v[0] / squared;
-        quat.v[1] = -quat.v[1] / squared;
-        quat.v[2] = -quat.v[2] / squared;
-        quat.v[3] = quat.v[3] / squared;
-    }
-
-    template <typename T>
-    constexpr auto inverted(const Quaternion<T>& quat) noexcept
-    {
-        constexpr auto squared = quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3]; // norm squared
-        if (squared <= std::numeric_limits<T>::epsilon()) // too close to zero
-            return;
-
-        // conjugate divided by norm squared
-        return Quaternion<T>{
-            -quat.v[0] / squared,
-            -quat.v[1] / squared,
-            -quat.v[2] / squared,
-            quat.v[3] / squared
-        };
     }
 
     template <typename T>

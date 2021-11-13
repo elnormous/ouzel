@@ -191,7 +191,7 @@ namespace ouzel::scene
                                (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
                                0.0F};
 
-        getInverseViewProjection().transformPoint(result);
+        transformPoint(getInverseViewProjection(), result);
 
         return result;
     }
@@ -199,7 +199,7 @@ namespace ouzel::scene
     math::Vector<float, 2> Camera::convertWorldToNormalized(const math::Vector<float, 3>& normalizedPosition) const
     {
         math::Vector<float, 3> result = normalizedPosition;
-        getViewProjection().transformPoint(result);
+        transformPoint(getViewProjection(), result);
 
         // convert viewport clip position to window normalized
         return math::Vector<float, 2>{
@@ -222,7 +222,7 @@ namespace ouzel::scene
             };
 
             // apply local transform to the center point
-            boxTransform.transformPoint(v3p);
+            transformPoint(boxTransform, v3p);
 
             // tranform the center to viewport's clip space
             const auto clipPos = math::Vector<float, 4>{v3p.v[0], v3p.v[1], v3p.v[2], 1.0F} * getViewProjection();
@@ -240,15 +240,15 @@ namespace ouzel::scene
 
             // convert content size to world coordinates
             math::Size<float, 2> halfWorldSize{
-                std::max(std::fabs(halfSize.v[0] * boxTransform.m[0] + halfSize.v[1] * boxTransform.m[4]),
-                         std::fabs(halfSize.v[0] * boxTransform.m[0] - halfSize.v[1] * boxTransform.m[4])),
-                std::max(std::fabs(halfSize.v[0] * boxTransform.m[1] + halfSize.v[1] * boxTransform.m[5]),
-                         std::fabs(halfSize.v[0] * boxTransform.m[1] - halfSize.v[1] * boxTransform.m[5]))
+                std::max(std::fabs(halfSize.v[0] * boxTransform.m.v[0] + halfSize.v[1] * boxTransform.m.v[4]),
+                         std::fabs(halfSize.v[0] * boxTransform.m.v[0] - halfSize.v[1] * boxTransform.m.v[4])),
+                std::max(std::fabs(halfSize.v[0] * boxTransform.m.v[1] + halfSize.v[1] * boxTransform.m.v[5]),
+                         std::fabs(halfSize.v[0] * boxTransform.m.v[1] - halfSize.v[1] * boxTransform.m.v[5]))
             };
 
             // scale half size by camera projection to get the size in clip space coordinates
-            halfWorldSize.v[0] *= (std::fabs(viewProjection.m[0]) + std::fabs(viewProjection.m[4])) / 2.0F;
-            halfWorldSize.v[1] *= (std::fabs(viewProjection.m[1]) + std::fabs(viewProjection.m[5])) / 2.0F;
+            halfWorldSize.v[0] *= (std::fabs(viewProjection.m.v[0]) + std::fabs(viewProjection.m.v[4])) / 2.0F;
+            halfWorldSize.v[1] *= (std::fabs(viewProjection.m.v[1]) + std::fabs(viewProjection.m.v[5])) / 2.0F;
 
             // create visible rect in clip space
             const math::Rect<float> visibleRect{

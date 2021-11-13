@@ -48,7 +48,7 @@ namespace ouzel::scene
             fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
             std::vector<std::vector<float>> vertexShaderConstants(1);
-            vertexShaderConstants[0] = {std::begin(modelViewProj.m), std::end(modelViewProj.m)};
+            vertexShaderConstants[0] = {std::begin(modelViewProj.m.v), std::end(modelViewProj.m.v)};
 
             engine->getGraphics()->setPipelineState(blendState->getResource(),
                                                     shader->getResource(),

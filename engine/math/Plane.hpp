@@ -3,7 +3,6 @@
 #ifndef OUZEL_MATH_PLANE_HPP
 #define OUZEL_MATH_PLANE_HPP
 
-#include <array>
 #include <cmath>
 #include <cstddef>
 #include <limits>
@@ -22,7 +21,7 @@ namespace ouzel::math
 #if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> ? 4 * sizeof(T) : sizeof(T))
 #endif
-        std::array<T, 4> v;
+        T v[4];
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }

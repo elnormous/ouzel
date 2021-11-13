@@ -4,7 +4,6 @@
 #define OUZEL_MATH_MATRIX_HPP
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
@@ -20,7 +19,27 @@
 
 namespace ouzel::math
 {
-    template <typename T, std::size_t rows, std::size_t cols = rows> class Matrix final
+    template <typename T, std::size_t rows, std::size_t cols = rows>
+    struct MatrixElements final
+    {
+        T v[rows * cols];
+    };
+
+    template <typename T, std::size_t rows, std::size_t cols, std::size_t ...i>
+    constexpr auto transpose(const MatrixElements<T, cols, rows> a,
+                             const std::index_sequence<i...>) noexcept
+    {
+        return MatrixElements<T, cols, rows>{a.v[((i % rows) * cols + i / rows)]...};
+    }
+
+    template <typename T, std::size_t size, std::size_t ...i>
+    constexpr auto identity(std::index_sequence<i...>) noexcept
+    {
+        return MatrixElements<T, size, size>{(i % size == i / size) ? T(1) : T(0)...};
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols = rows>
+    class Matrix final
     {
     public:
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1 || defined(__ARM_NEON__)
@@ -29,58 +48,29 @@ namespace ouzel::math
 #if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
-        std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
+        MatrixElements<T, cols, rows> m; // column-major matrix
 
-        [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
-        [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
+        constexpr Matrix() noexcept = default;
 
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformVector(Vector<T, 4>& v) const noexcept
+        template <typename ...A>
+        explicit constexpr Matrix(const A... args) noexcept:
+            m{transpose(MatrixElements<T, cols, rows>{args...}, std::make_index_sequence<rows * cols>{})}
         {
-            v.v = {
-                v.v[0] * m[0] + v.v[1] * m[4] + v.v[2] * m[8] + v.v[3] * m[12],
-                v.v[0] * m[1] + v.v[1] * m[5] + v.v[2] * m[9] + v.v[3] * m[13],
-                v.v[0] * m[2] + v.v[1] * m[6] + v.v[2] * m[10] + v.v[3] * m[14],
-                v.v[0] * m[3] + v.v[1] * m[7] + v.v[2] * m[11] + v.v[3] * m[15]
-            };
         }
 
-        template <auto r = rows, auto c = cols, std::enable_if_t<(r == 4 && c == 4)>* = nullptr>
-        void transformPoint(Vector<T, 3>& point) const noexcept
-        {
-            auto t = Vector<T, 4>{point.v[0], point.v[1], point.v[2], T(1)};
-            transformVector(t);
-            point = Vector<T, 3>{t.v[0] / t.v[3], t.v[1] / t.v[3], t.v[2] / t.v[3]};
-        }
+        [[nodiscard]] auto& operator()(const std::size_t row, const std::size_t col) noexcept { return m.v[col * rows + row]; }
+        [[nodiscard]] constexpr auto operator()(const std::size_t row, const std::size_t col) const noexcept { return m.v[col * rows + row]; }
     };
 
-    template <typename T, std::size_t size, std::size_t ...i>
-    constexpr auto generateIdentityMatrix(std::index_sequence<i...>) noexcept
-    {
-        return Matrix<T, size, size>{(i % size == i / size) ? T(1) : T(0)...};
-    }
-
     template <typename T, std::size_t size>
-    constexpr auto identityMatrix = generateIdentityMatrix<T, size>(std::make_index_sequence<size * size>{});
+    constexpr auto identityMatrix = Matrix<T, size, size>{identity<T, size>(std::make_index_sequence<size * size>{})};
 
     template <typename T, std::size_t size>
     constexpr void setIdentity(Matrix<T, size, size>& matrix) noexcept
     {
         for (std::size_t i = 0; i < size; ++i)
             for (std::size_t j = 0; j < size; ++j)
-                matrix.m[j * size + i] = (j == i) ? T(1) : T(0);
-    }
-
-    template <typename T, std::size_t rows, std::size_t cols>
-    [[nodiscard]] constexpr auto isIdentity(const Matrix<T, rows, cols>& matrix) noexcept
-    {
-        if constexpr (cols != rows) return false;
-
-        for (std::size_t i = 0; i < rows; ++i)
-            for (std::size_t j = 0; j < cols; ++j)
-                if (matrix.m[i * cols + j] != (i == j ? T(1) : T(0)))
-                    return false;
-        return true;
+                matrix.m.v[j * size + i] = (j == i) ? T(1) : T(0);
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
@@ -88,7 +78,7 @@ namespace ouzel::math
                                             const Matrix<T, rows, cols>& matrix2) noexcept
     {
         for (std::size_t i = 0; i < rows * cols; ++i)
-            if (matrix1.m[i] != matrix2.m[i]) return false;
+            if (matrix1.m.v[i] != matrix2.m.v[i]) return false;
         return true;
     }
 
@@ -97,7 +87,7 @@ namespace ouzel::math
                                             const Matrix<T, rows, cols>& matrix2) noexcept
     {
         for (std::size_t i = 0; i < rows * cols; ++i)
-            if (matrix1.m[i] != matrix2.m[i]) return true;
+            if (matrix1.m.v[i] != matrix2.m.v[i]) return true;
         return false;
     }
 
@@ -111,14 +101,14 @@ namespace ouzel::math
     [[nodiscard]] constexpr auto operator-(const Matrix<T, rows, cols>& matrix)noexcept
     {
         Matrix<T, rows, cols> result;
-        for (std::size_t i = 0; i < rows * cols; ++i) result.m[i] = -matrix.m[i];
+        for (std::size_t i = 0; i < rows * cols; ++i) result.m.v[i] = -matrix.m.v[i];
         return result;
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
     constexpr void negate(Matrix<T, rows, cols>& matrix) noexcept
     {
-        for (auto& c : matrix.m) c = -c;
+        for (auto& c : matrix.m.v) c = -c;
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
@@ -127,7 +117,7 @@ namespace ouzel::math
     {
         Matrix<T, rows, cols> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
-            result.m[i] = matrix1.m[i] + matrix2.m[i];
+            result.m.v[i] = matrix1.m.v[i] + matrix2.m.v[i];
         return result;
     }
 
@@ -135,8 +125,8 @@ namespace ouzel::math
     auto& operator+=(Matrix<T, rows, cols>& matrix1,
                      const Matrix<T, rows, cols>& matrix2) noexcept
     {
-        for (std::size_t i = 0; i < cols * rows; ++i)
-            matrix1.m[i] += matrix2.m[i];
+        for (std::size_t i = 0; i < rows * cols; ++i)
+            matrix1.m.v[i] += matrix2.m.v[i];
         return matrix1;
     }
 
@@ -146,7 +136,7 @@ namespace ouzel::math
     {
         Matrix<T, rows, cols> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
-            result.m[i] = matrix1.m[i] - matrix2.m[i];
+            result.m.v[i] = matrix1.m.v[i] - matrix2.m.v[i];
         return result;
     }
 
@@ -154,8 +144,8 @@ namespace ouzel::math
     auto& operator-=(Matrix<T, rows, cols>& matrix1,
                      const Matrix<T, rows, cols>& matrix2) noexcept
     {
-        for (std::size_t i = 0; i < cols * rows; ++i)
-            matrix1.m[i] -= matrix2.m[i];
+        for (std::size_t i = 0; i < rows * cols; ++i)
+            matrix1.m.v[i] -= matrix2.m.v[i];
         return matrix1;
     }
 
@@ -165,7 +155,7 @@ namespace ouzel::math
     {
         Matrix<T, rows, cols> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
-            result.m[i] = matrix.m[i] * scalar;
+            result.m.v[i] = matrix.m.v[i] * scalar;
         return result;
     }
 
@@ -173,8 +163,8 @@ namespace ouzel::math
     auto& operator*=(Matrix<T, rows, cols>& matrix,
                      const T scalar) noexcept
     {
-        for (std::size_t i = 0; i < cols * rows; ++i)
-            matrix.m[i] *= scalar;
+        for (std::size_t i = 0; i < rows * cols; ++i)
+            matrix.m.v[i] *= scalar;
         return matrix;
     }
 
@@ -184,7 +174,7 @@ namespace ouzel::math
     {
         Matrix<T, rows, cols> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
-            result.m[i] = matrix.m[i] / scalar;
+            result.m.v[i] = matrix.m.v[i] / scalar;
         return result;
     }
 
@@ -192,8 +182,8 @@ namespace ouzel::math
     auto& operator/=(Matrix<T, rows, cols>& matrix,
                      const T scalar) noexcept
     {
-        for (std::size_t i = 0; i < cols * rows; ++i)
-            matrix.m[i] /= scalar;
+        for (std::size_t i = 0; i < rows * cols; ++i)
+            matrix.m.v[i] /= scalar;
         return matrix;
     }
 
@@ -206,7 +196,7 @@ namespace ouzel::math
         for (std::size_t i = 0; i < rows; ++i)
             for (std::size_t j = 0; j < cols2; ++j)
                 for (std::size_t k = 0; k < cols; ++k)
-                    result.m[i * cols2 + j] += matrix1.m[i * cols + k] * matrix2.m[k * cols2 + j];
+                    result.m.v[j * rows + i] += matrix1.m.v[k * rows + i] * matrix2.m.v[j * cols + k];
 
         return result;
     }
@@ -215,15 +205,14 @@ namespace ouzel::math
     auto& operator*=(Matrix<T, size, size>& matrix1,
                      const Matrix<T, size, size>& matrix2) noexcept
     {
-        std::array<T, size * size> result{};
+        Matrix<T, size, size> result{};
 
         for (std::size_t i = 0; i < size; ++i)
             for (std::size_t j = 0; j < size; ++j)
                 for (std::size_t k = 0; k < size; ++k)
-                    result[i * size + j] += matrix1.m[i * size + k] * matrix2.m[k * size + j];
+                    result.m.v[j * size + i] += matrix1.m.v[k * size + i] * matrix2.m.v[j * size + k];
 
-        matrix1.m = result;
-
+        matrix1 = std::move(result);
         return matrix1;
     }
 
@@ -235,7 +224,8 @@ namespace ouzel::math
     }
 
     template <
-        typename T, std::size_t dims,
+        typename T,
+        std::size_t dims,
         std::size_t size,
         std::enable_if_t<(dims <= size)>* = nullptr
     >
@@ -246,7 +236,7 @@ namespace ouzel::math
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += vector.v[j] * matrix.m[j * size + i];
+                result.v[i] += vector.v[j] * matrix.m.v[i * size + j];
 
         return result;
     }
@@ -261,13 +251,13 @@ namespace ouzel::math
                      const Matrix<T, size, size>& matrix) noexcept
     {
         static_assert(dims <= size);
-        const auto temp = vector.v;
-        vector.v = {};
+        Vector<T, dims> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                vector.v[i] += temp[j] * matrix.m[j * size + i];
+                result[i] += vector[j] * matrix.m.v[i * size + j];
 
+        vector = std::move(result);
         return vector;
     }
 
@@ -284,7 +274,7 @@ namespace ouzel::math
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += matrix.m[i * size + j] * vector.v[j];
+                result.v[i] += matrix.m.v[j * size + i] * vector.v[j];
 
         return result;
     }
@@ -298,22 +288,22 @@ namespace ouzel::math
     void transformVector(const Matrix<T, size, size>& matrix,
                          Vector<T, dims>& vector) noexcept
     {
-        std::array<T, dims> result{};
+        Vector<T, dims> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result[i] += matrix.m[i * size + j] * vector.v[j];
+                result[i] += matrix.m.v[j * size + i] * vector.v[j];
 
-        vector.v = result;
+        vector = std::move(result);
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto transposed(const Matrix<T, rows, cols>& matrix) noexcept
     {
         Matrix<T, cols, rows> result;
-        for (std::size_t i = 0; i < cols; ++i)
-            for (std::size_t j = 0; j < rows; ++j)
-                result.m[i * rows + j] = matrix.m[j * cols + i];
+        for (std::size_t i = 0; i < rows; ++i)
+            for (std::size_t j = 0; j < cols; ++j)
+                result.m.v[i * cols + j] = matrix.m.v[j * rows + i];
         return result;
     }
 
@@ -323,10 +313,45 @@ namespace ouzel::math
         for (std::size_t i = 1; i < size; ++i)
             for (std::size_t j = 0; j < i; ++j)
             {
-                T temp = std::move(matrix.m[i * size + j]);
-                matrix.m[i * size + j] = std::move(matrix.m[j * size + i]);
-                matrix.m[j * size + i] = std::move(temp);
+                T temp = std::move(matrix.m.v[i * size + j]);
+                matrix.m.v[i * size + j] = std::move(matrix.m.v[j * size + i]);
+                matrix.m.v[j * size + i] = std::move(temp);
             }
+    }
+
+    template <typename T, std::size_t size, std::enable_if<(size <= 4)>* = nullptr>
+    [[nodiscard]] constexpr auto determinant(const Matrix<T, size, size>& matrix) noexcept
+    {
+        if constexpr (size == 0)
+            return T(1);
+        if constexpr (size == 1)
+            return matrix.m.v[0];
+        else if constexpr (size == 2)
+            return matrix.m.v[0] * matrix.m.v[3] - matrix.m.v[1] * matrix.m.v[2];
+        else if constexpr (size == 3)
+            return matrix.m.v[0] * matrix.m.v[4] * matrix.m.v[8] +
+                matrix.m.v[1] * matrix.m.v[5] * matrix.m.v[6] +
+                matrix.m.v[2] * matrix.m.v[3] * matrix.m.v[7] -
+                matrix.m.v[2] * matrix.m.v[4] * matrix.m.v[6] -
+                matrix.m.v[1] * matrix.m.v[3] * matrix.m.v[8] -
+                matrix.m.v[0] * matrix.m.v[5] * matrix.m.v[7];
+        else if constexpr (size == 4)
+        {
+            const auto a0 = matrix.m.v[0] * matrix.m.v[5] - matrix.m.v[1] * matrix.m.v[4];
+            const auto a1 = matrix.m.v[0] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[4];
+            const auto a2 = matrix.m.v[0] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[4];
+            const auto a3 = matrix.m.v[1] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[5];
+            const auto a4 = matrix.m.v[1] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[5];
+            const auto a5 = matrix.m.v[2] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[6];
+            const auto b0 = matrix.m.v[8] * matrix.m.v[13] - matrix.m.v[9] * matrix.m.v[12];
+            const auto b1 = matrix.m.v[8] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[12];
+            const auto b2 = matrix.m.v[8] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[12];
+            const auto b3 = matrix.m.v[9] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[13];
+            const auto b4 = matrix.m.v[9] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[13];
+            const auto b5 = matrix.m.v[10] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[14];
+
+            return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+        }
     }
 
     template <typename T, std::size_t size>
@@ -335,109 +360,109 @@ namespace ouzel::math
         static_assert(size <= 4);
 
         if constexpr (size == 1)
-            matrix.m[0] = 1.0F / matrix.m[0];
+            matrix.m.v[0] = 1.0F / matrix.m.v[0];
         else if constexpr (size == 2)
         {
-            const auto det = matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
-            const std::array<T, size * size> adjugate{
-                matrix.m[3],
-                -matrix.m[1],
-                -matrix.m[2],
-                matrix.m[0]
+            const auto det = matrix.m.v[0] * matrix.m.v[3] - matrix.m.v[1] * matrix.m.v[2];
+            const T adjugate[size * size]{
+                matrix.m.v[3],
+                -matrix.m.v[1],
+                -matrix.m.v[2],
+                matrix.m.v[0]
             };
 
-            matrix.m[0] = adjugate[0] / det;
-            matrix.m[1] = adjugate[1] / det;
-            matrix.m[2] = adjugate[2] / det;
-            matrix.m[3] = adjugate[3] / det;
+            matrix.m.v[0] = adjugate[0] / det;
+            matrix.m.v[1] = adjugate[1] / det;
+            matrix.m.v[2] = adjugate[2] / det;
+            matrix.m.v[3] = adjugate[3] / det;
         }
         else if constexpr (size == 3)
         {
-            const auto a0 = matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7];
-            const auto a1 = matrix.m[3] * matrix.m[8] - matrix.m[5] * matrix.m[6];
-            const auto a2 = matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6];
+            const auto a0 = matrix.m.v[4] * matrix.m.v[8] - matrix.m.v[5] * matrix.m.v[7];
+            const auto a1 = matrix.m.v[3] * matrix.m.v[8] - matrix.m.v[5] * matrix.m.v[6];
+            const auto a2 = matrix.m.v[3] * matrix.m.v[7] - matrix.m.v[4] * matrix.m.v[6];
 
-            const auto det = matrix.m[0] * a0 - matrix.m[1] * a1 + matrix.m[2] * a2;
+            const auto det = matrix.m.v[0] * a0 - matrix.m.v[1] * a1 + matrix.m.v[2] * a2;
 
-            const std::array<T, size * size> adjugate{
+            const T adjugate[size * size]{
                 a0,
-                -matrix.m[1] * matrix.m[8] + matrix.m[2] * matrix.m[7],
-                matrix.m[1] * matrix.m[5] - matrix.m[2] * matrix.m[4],
+                -matrix.m.v[1] * matrix.m.v[8] + matrix.m.v[2] * matrix.m.v[7],
+                matrix.m.v[1] * matrix.m.v[5] - matrix.m.v[2] * matrix.m.v[4],
 
                 -a1,
-                matrix.m[0] * matrix.m[8] - matrix.m[2] * matrix.m[6],
-                -matrix.m[0] * matrix.m[5] + matrix.m[2] * matrix.m[3],
+                matrix.m.v[0] * matrix.m.v[8] - matrix.m.v[2] * matrix.m.v[6],
+                -matrix.m.v[0] * matrix.m.v[5] + matrix.m.v[2] * matrix.m.v[3],
 
                 a2,
-                -matrix.m[0] * matrix.m[7] + matrix.m[1] * matrix.m[6],
-                matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]
+                -matrix.m.v[0] * matrix.m.v[7] + matrix.m.v[1] * matrix.m.v[6],
+                matrix.m.v[0] * matrix.m.v[4] - matrix.m.v[1] * matrix.m.v[3]
             };
 
-            matrix.m[0] = adjugate[0] / det;
-            matrix.m[1] = adjugate[1] / det;
-            matrix.m[2] = adjugate[2] / det;
-            matrix.m[3] = adjugate[3] / det;
-            matrix.m[4] = adjugate[4] / det;
-            matrix.m[5] = adjugate[5] / det;
-            matrix.m[6] = adjugate[6] / det;
-            matrix.m[7] = adjugate[7] / det;
-            matrix.m[8] = adjugate[8] / det;
+            matrix.m.v[0] = adjugate[0] / det;
+            matrix.m.v[1] = adjugate[1] / det;
+            matrix.m.v[2] = adjugate[2] / det;
+            matrix.m.v[3] = adjugate[3] / det;
+            matrix.m.v[4] = adjugate[4] / det;
+            matrix.m.v[5] = adjugate[5] / det;
+            matrix.m.v[6] = adjugate[6] / det;
+            matrix.m.v[7] = adjugate[7] / det;
+            matrix.m.v[8] = adjugate[8] / det;
         }
         else if constexpr (size == 4)
         {
-            const auto a0 = matrix.m[0] * matrix.m[5] - matrix.m[1] * matrix.m[4];
-            const auto a1 = matrix.m[0] * matrix.m[6] - matrix.m[2] * matrix.m[4];
-            const auto a2 = matrix.m[0] * matrix.m[7] - matrix.m[3] * matrix.m[4];
-            const auto a3 = matrix.m[1] * matrix.m[6] - matrix.m[2] * matrix.m[5];
-            const auto a4 = matrix.m[1] * matrix.m[7] - matrix.m[3] * matrix.m[5];
-            const auto a5 = matrix.m[2] * matrix.m[7] - matrix.m[3] * matrix.m[6];
-            const auto b0 = matrix.m[8] * matrix.m[13] - matrix.m[9] * matrix.m[12];
-            const auto b1 = matrix.m[8] * matrix.m[14] - matrix.m[10] * matrix.m[12];
-            const auto b2 = matrix.m[8] * matrix.m[15] - matrix.m[11] * matrix.m[12];
-            const auto b3 = matrix.m[9] * matrix.m[14] - matrix.m[10] * matrix.m[13];
-            const auto b4 = matrix.m[9] * matrix.m[15] - matrix.m[11] * matrix.m[13];
-            const auto b5 = matrix.m[10] * matrix.m[15] - matrix.m[11] * matrix.m[14];
+            const auto a0 = matrix.m.v[0] * matrix.m.v[5] - matrix.m.v[1] * matrix.m.v[4];
+            const auto a1 = matrix.m.v[0] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[4];
+            const auto a2 = matrix.m.v[0] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[4];
+            const auto a3 = matrix.m.v[1] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[5];
+            const auto a4 = matrix.m.v[1] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[5];
+            const auto a5 = matrix.m.v[2] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[6];
+            const auto b0 = matrix.m.v[8] * matrix.m.v[13] - matrix.m.v[9] * matrix.m.v[12];
+            const auto b1 = matrix.m.v[8] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[12];
+            const auto b2 = matrix.m.v[8] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[12];
+            const auto b3 = matrix.m.v[9] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[13];
+            const auto b4 = matrix.m.v[9] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[13];
+            const auto b5 = matrix.m.v[10] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[14];
 
             const auto det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
-            const std::array<T, size * size> adjugate{
-                matrix.m[5] * b5 - matrix.m[6] * b4 + matrix.m[7] * b3,
-                -(matrix.m[1] * b5 - matrix.m[2] * b4 + matrix.m[3] * b3),
-                matrix.m[13] * a5 - matrix.m[14] * a4 + matrix.m[15] * a3,
-                -(matrix.m[9] * a5 - matrix.m[10] * a4 + matrix.m[11] * a3),
+            const T adjugate[size * size]{
+                matrix.m.v[5] * b5 - matrix.m.v[6] * b4 + matrix.m.v[7] * b3,
+                -(matrix.m.v[1] * b5 - matrix.m.v[2] * b4 + matrix.m.v[3] * b3),
+                matrix.m.v[13] * a5 - matrix.m.v[14] * a4 + matrix.m.v[15] * a3,
+                -(matrix.m.v[9] * a5 - matrix.m.v[10] * a4 + matrix.m.v[11] * a3),
 
-                -(matrix.m[4] * b5 - matrix.m[6] * b2 + matrix.m[7] * b1),
-                matrix.m[0] * b5 - matrix.m[2] * b2 + matrix.m[3] * b1,
-                -(matrix.m[12] * a5 - matrix.m[14] * a2 + matrix.m[15] * a1),
-                matrix.m[8] * a5 - matrix.m[10] * a2 + matrix.m[11] * a1,
+                -(matrix.m.v[4] * b5 - matrix.m.v[6] * b2 + matrix.m.v[7] * b1),
+                matrix.m.v[0] * b5 - matrix.m.v[2] * b2 + matrix.m.v[3] * b1,
+                -(matrix.m.v[12] * a5 - matrix.m.v[14] * a2 + matrix.m.v[15] * a1),
+                matrix.m.v[8] * a5 - matrix.m.v[10] * a2 + matrix.m.v[11] * a1,
 
-                matrix.m[4] * b4 - matrix.m[5] * b2 + matrix.m[7] * b0,
-                -(matrix.m[0] * b4 - matrix.m[1] * b2 + matrix.m[3] * b0),
-                matrix.m[12] * a4 - matrix.m[13] * a2 + matrix.m[15] * a0,
-                -(matrix.m[8] * a4 - matrix.m[9] * a2 + matrix.m[11] * a0),
+                matrix.m.v[4] * b4 - matrix.m.v[5] * b2 + matrix.m.v[7] * b0,
+                -(matrix.m.v[0] * b4 - matrix.m.v[1] * b2 + matrix.m.v[3] * b0),
+                matrix.m.v[12] * a4 - matrix.m.v[13] * a2 + matrix.m.v[15] * a0,
+                -(matrix.m.v[8] * a4 - matrix.m.v[9] * a2 + matrix.m.v[11] * a0),
 
-                -(matrix.m[4] * b3 - matrix.m[5] * b1 + matrix.m[6] * b0),
-                matrix.m[0] * b3 - matrix.m[1] * b1 + matrix.m[2] * b0,
-                -(matrix.m[12] * a3 - matrix.m[13] * a1 + matrix.m[14] * a0),
-                matrix.m[8] * a3 - matrix.m[9] * a1 + matrix.m[10] * a0
+                -(matrix.m.v[4] * b3 - matrix.m.v[5] * b1 + matrix.m.v[6] * b0),
+                matrix.m.v[0] * b3 - matrix.m.v[1] * b1 + matrix.m.v[2] * b0,
+                -(matrix.m.v[12] * a3 - matrix.m.v[13] * a1 + matrix.m.v[14] * a0),
+                matrix.m.v[8] * a3 - matrix.m.v[9] * a1 + matrix.m.v[10] * a0
             };
 
-            matrix.m[0] = adjugate[0] / det;
-            matrix.m[1] = adjugate[1] / det;
-            matrix.m[2] = adjugate[2] / det;
-            matrix.m[3] = adjugate[3] / det;
-            matrix.m[4] = adjugate[4] / det;
-            matrix.m[5] = adjugate[5] / det;
-            matrix.m[6] = adjugate[6] / det;
-            matrix.m[7] = adjugate[7] / det;
-            matrix.m[8] = adjugate[8] / det;
-            matrix.m[9] = adjugate[9] / det;
-            matrix.m[10] = adjugate[10] / det;
-            matrix.m[11] = adjugate[11] / det;
-            matrix.m[12] = adjugate[12] / det;
-            matrix.m[13] = adjugate[13] / det;
-            matrix.m[14] = adjugate[14] / det;
-            matrix.m[15] = adjugate[15] / det;
+            matrix.m.v[0] = adjugate[0] / det;
+            matrix.m.v[1] = adjugate[1] / det;
+            matrix.m.v[2] = adjugate[2] / det;
+            matrix.m.v[3] = adjugate[3] / det;
+            matrix.m.v[4] = adjugate[4] / det;
+            matrix.m.v[5] = adjugate[5] / det;
+            matrix.m.v[6] = adjugate[6] / det;
+            matrix.m.v[7] = adjugate[7] / det;
+            matrix.m.v[8] = adjugate[8] / det;
+            matrix.m.v[9] = adjugate[9] / det;
+            matrix.m.v[10] = adjugate[10] / det;
+            matrix.m.v[11] = adjugate[11] / det;
+            matrix.m.v[12] = adjugate[12] / det;
+            matrix.m.v[13] = adjugate[13] / det;
+            matrix.m.v[14] = adjugate[14] / det;
+            matrix.m.v[15] = adjugate[15] / det;
         }
     }
 
@@ -449,71 +474,71 @@ namespace ouzel::math
         Matrix<T, size, size> result;
 
         if constexpr (size == 1)
-            result.m[0] = 1.0F / matrix.m[0];
+            result.m.v[0] = 1.0F / matrix.m.v[0];
         else if constexpr (size == 2)
         {
-            const auto det = matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
-            result.m[0] = matrix.m[3] / det;
-            result.m[1] = -matrix.m[1] / det;
-            result.m[2] = -matrix.m[2] / det;
-            result.m[3] = matrix.m[0] / det;
+            const auto det = matrix.m.v[0] * matrix.m.v[3] - matrix.m.v[1] * matrix.m.v[2];
+            result.m.v[0] = matrix.m.v[3] / det;
+            result.m.v[1] = -matrix.m.v[1] / det;
+            result.m.v[2] = -matrix.m.v[2] / det;
+            result.m.v[3] = matrix.m.v[0] / det;
         }
         else if constexpr (size == 3)
         {
-            const auto a0 = matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7];
-            const auto a1 = matrix.m[3] * matrix.m[8] - matrix.m[5] * matrix.m[6];
-            const auto a2 = matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6];
+            const auto a0 = matrix.m.v[4] * matrix.m.v[8] - matrix.m.v[5] * matrix.m.v[7];
+            const auto a1 = matrix.m.v[3] * matrix.m.v[8] - matrix.m.v[5] * matrix.m.v[6];
+            const auto a2 = matrix.m.v[3] * matrix.m.v[7] - matrix.m.v[4] * matrix.m.v[6];
 
-            const auto det = matrix.m[0] * a0 - matrix.m[1] * a1 + matrix.m[2] * a2;
+            const auto det = matrix.m.v[0] * a0 - matrix.m.v[1] * a1 + matrix.m.v[2] * a2;
 
-            result.m[0] = a0 / det;
-            result.m[1] = -(matrix.m[1] * matrix.m[8] - matrix.m[2] * matrix.m[7]) / det;
-            result.m[2] = (matrix.m[1] * matrix.m[5] - matrix.m[2] * matrix.m[4]) / det;
+            result.m.v[0] = a0 / det;
+            result.m.v[1] = -(matrix.m.v[1] * matrix.m.v[8] - matrix.m.v[2] * matrix.m.v[7]) / det;
+            result.m.v[2] = (matrix.m.v[1] * matrix.m.v[5] - matrix.m.v[2] * matrix.m.v[4]) / det;
 
-            result.m[3] = -a1 / det;
-            result.m[4] = (matrix.m[0] * matrix.m[8] - matrix.m[2] * matrix.m[6]) / det;
-            result.m[5] = -(matrix.m[0] * matrix.m[5] - matrix.m[2] * matrix.m[3]) / det;
+            result.m.v[3] = -a1 / det;
+            result.m.v[4] = (matrix.m.v[0] * matrix.m.v[8] - matrix.m.v[2] * matrix.m.v[6]) / det;
+            result.m.v[5] = -(matrix.m.v[0] * matrix.m.v[5] - matrix.m.v[2] * matrix.m.v[3]) / det;
 
-            result.m[6] = a2 / det;
-            result.m[7] = -(matrix.m[0] * matrix.m[7] - matrix.m[1] * matrix.m[6]) / det;
-            result.m[8] = (matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]) / det;
+            result.m.v[6] = a2 / det;
+            result.m.v[7] = -(matrix.m.v[0] * matrix.m.v[7] - matrix.m.v[1] * matrix.m.v[6]) / det;
+            result.m.v[8] = (matrix.m.v[0] * matrix.m.v[4] - matrix.m.v[1] * matrix.m.v[3]) / det;
         }
         else if constexpr (size == 4)
         {
-            const auto a0 = matrix.m[0] * matrix.m[5] - matrix.m[1] * matrix.m[4];
-            const auto a1 = matrix.m[0] * matrix.m[6] - matrix.m[2] * matrix.m[4];
-            const auto a2 = matrix.m[0] * matrix.m[7] - matrix.m[3] * matrix.m[4];
-            const auto a3 = matrix.m[1] * matrix.m[6] - matrix.m[2] * matrix.m[5];
-            const auto a4 = matrix.m[1] * matrix.m[7] - matrix.m[3] * matrix.m[5];
-            const auto a5 = matrix.m[2] * matrix.m[7] - matrix.m[3] * matrix.m[6];
-            const auto b0 = matrix.m[8] * matrix.m[13] - matrix.m[9] * matrix.m[12];
-            const auto b1 = matrix.m[8] * matrix.m[14] - matrix.m[10] * matrix.m[12];
-            const auto b2 = matrix.m[8] * matrix.m[15] - matrix.m[11] * matrix.m[12];
-            const auto b3 = matrix.m[9] * matrix.m[14] - matrix.m[10] * matrix.m[13];
-            const auto b4 = matrix.m[9] * matrix.m[15] - matrix.m[11] * matrix.m[13];
-            const auto b5 = matrix.m[10] * matrix.m[15] - matrix.m[11] * matrix.m[14];
+            const auto a0 = matrix.m.v[0] * matrix.m.v[5] - matrix.m.v[1] * matrix.m.v[4];
+            const auto a1 = matrix.m.v[0] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[4];
+            const auto a2 = matrix.m.v[0] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[4];
+            const auto a3 = matrix.m.v[1] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[5];
+            const auto a4 = matrix.m.v[1] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[5];
+            const auto a5 = matrix.m.v[2] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[6];
+            const auto b0 = matrix.m.v[8] * matrix.m.v[13] - matrix.m.v[9] * matrix.m.v[12];
+            const auto b1 = matrix.m.v[8] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[12];
+            const auto b2 = matrix.m.v[8] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[12];
+            const auto b3 = matrix.m.v[9] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[13];
+            const auto b4 = matrix.m.v[9] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[13];
+            const auto b5 = matrix.m.v[10] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[14];
 
             const auto det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
-            result.m[0] = (matrix.m[5] * b5 - matrix.m[6] * b4 + matrix.m[7] * b3) / det;
-            result.m[1] = -(matrix.m[1] * b5 - matrix.m[2] * b4 + matrix.m[3] * b3) / det;
-            result.m[2] = (matrix.m[13] * a5 - matrix.m[14] * a4 + matrix.m[15] * a3) / det;
-            result.m[3] = -(matrix.m[9] * a5 - matrix.m[10] * a4 + matrix.m[11] * a3) / det;
+            result.m.v[0] = (matrix.m.v[5] * b5 - matrix.m.v[6] * b4 + matrix.m.v[7] * b3) / det;
+            result.m.v[1] = -(matrix.m.v[1] * b5 - matrix.m.v[2] * b4 + matrix.m.v[3] * b3) / det;
+            result.m.v[2] = (matrix.m.v[13] * a5 - matrix.m.v[14] * a4 + matrix.m.v[15] * a3) / det;
+            result.m.v[3] = -(matrix.m.v[9] * a5 - matrix.m.v[10] * a4 + matrix.m.v[11] * a3) / det;
 
-            result.m[4] = -(matrix.m[4] * b5 - matrix.m[6] * b2 + matrix.m[7] * b1) / det;
-            result.m[5] = (matrix.m[0] * b5 - matrix.m[2] * b2 + matrix.m[3] * b1) / det;
-            result.m[6] = -(matrix.m[12] * a5 - matrix.m[14] * a2 + matrix.m[15] * a1) / det;
-            result.m[7] = (matrix.m[8] * a5 - matrix.m[10] * a2 + matrix.m[11] * a1) / det;
+            result.m.v[4] = -(matrix.m.v[4] * b5 - matrix.m.v[6] * b2 + matrix.m.v[7] * b1) / det;
+            result.m.v[5] = (matrix.m.v[0] * b5 - matrix.m.v[2] * b2 + matrix.m.v[3] * b1) / det;
+            result.m.v[6] = -(matrix.m.v[12] * a5 - matrix.m.v[14] * a2 + matrix.m.v[15] * a1) / det;
+            result.m.v[7] = (matrix.m.v[8] * a5 - matrix.m.v[10] * a2 + matrix.m.v[11] * a1) / det;
 
-            result.m[8] = (matrix.m[4] * b4 - matrix.m[5] * b2 + matrix.m[7] * b0) / det;
-            result.m[9] = -(matrix.m[0] * b4 - matrix.m[1] * b2 + matrix.m[3] * b0) / det;
-            result.m[10] = (matrix.m[12] * a4 - matrix.m[13] * a2 + matrix.m[15] * a0) / det;
-            result.m[11] = -(matrix.m[8] * a4 - matrix.m[9] * a2 + matrix.m[11] * a0) / det;
+            result.m.v[8] = (matrix.m.v[4] * b4 - matrix.m.v[5] * b2 + matrix.m.v[7] * b0) / det;
+            result.m.v[9] = -(matrix.m.v[0] * b4 - matrix.m.v[1] * b2 + matrix.m.v[3] * b0) / det;
+            result.m.v[10] = (matrix.m.v[12] * a4 - matrix.m.v[13] * a2 + matrix.m.v[15] * a0) / det;
+            result.m.v[11] = -(matrix.m.v[8] * a4 - matrix.m.v[9] * a2 + matrix.m.v[11] * a0) / det;
 
-            result.m[12] = -(matrix.m[4] * b3 - matrix.m[5] * b1 + matrix.m[6] * b0) / det;
-            result.m[13] = (matrix.m[0] * b3 - matrix.m[1] * b1 + matrix.m[2] * b0) / det;
-            result.m[14] = -(matrix.m[12] * a3 - matrix.m[13] * a1 + matrix.m[14] * a0) / det;
-            result.m[15] = (matrix.m[8] * a3 - matrix.m[9] * a1 + matrix.m[10] * a0) / det;
+            result.m.v[12] = -(matrix.m.v[4] * b3 - matrix.m.v[5] * b1 + matrix.m.v[6] * b0) / det;
+            result.m.v[13] = (matrix.m.v[0] * b3 - matrix.m.v[1] * b1 + matrix.m.v[2] * b0) / det;
+            result.m.v[14] = -(matrix.m.v[12] * a3 - matrix.m.v[13] * a1 + matrix.m.v[14] * a0) / det;
+            result.m.v[15] = (matrix.m.v[8] * a3 - matrix.m.v[9] * a1 + matrix.m.v[10] * a0) / det;
         }
 
         return result;
@@ -522,21 +547,21 @@ namespace ouzel::math
     template <typename T>
     [[nodiscard]] constexpr auto getTranslation(const Matrix<T, 3, 3>& matrix) noexcept
     {
-        return Vector<T, 2>{matrix.m[6], matrix.m[7]};
+        return Vector<T, 2>{matrix.m.v[6], matrix.m.v[7]};
     }
 
     template <typename T>
     [[nodiscard]] constexpr auto getTranslation(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return Vector<T, 3>{matrix.m[12], matrix.m[13], matrix.m[14]};
+        return Vector<T, 3>{matrix.m.v[12], matrix.m.v[13], matrix.m.v[14]};
     }
 
     template <typename T>
     [[nodiscard]] auto getScale(const Matrix<T, 3, 3>& matrix) noexcept
     {
         Vector<T, 2> scale;
-        scale.v[0] = Vector<T, 2>{matrix.m[0], matrix.m[1]}.length();
-        scale.v[1] = Vector<T, 2>{matrix.m[3], matrix.m[4]}.length();
+        scale.v[0] = Vector<T, 2>{matrix.m.v[0], matrix.m.v[1]}.length();
+        scale.v[1] = Vector<T, 2>{matrix.m.v[3], matrix.m.v[4]}.length();
 
         return scale;
     }
@@ -545,9 +570,9 @@ namespace ouzel::math
     [[nodiscard]] auto getScale(const Matrix<T, 4, 4>& matrix) noexcept
     {
         Vector<T, 3> scale;
-        scale.v[0] = Vector<T, 3>{matrix.m[0], matrix.m[1], matrix.m[2]}.length();
-        scale.v[1] = Vector<T, 3>{matrix.m[4], matrix.m[5], matrix.m[6]}.length();
-        scale.v[2] = Vector<T, 3>{matrix.m[8], matrix.m[9], matrix.m[10]}.length();
+        scale.v[0] = Vector<T, 3>{matrix.m.v[0], matrix.m.v[1], matrix.m.v[2]}.length();
+        scale.v[1] = Vector<T, 3>{matrix.m.v[4], matrix.m.v[5], matrix.m.v[6]}.length();
+        scale.v[2] = Vector<T, 3>{matrix.m.v[8], matrix.m.v[9], matrix.m.v[10]}.length();
 
         return scale;
     }
@@ -555,7 +580,7 @@ namespace ouzel::math
     template <typename T>
     [[nodiscard]] auto getRotation(const Matrix<T, 3, 3>& matrix) noexcept
     {
-        return std::atan2(-matrix.m[3], matrix.m[0]);
+        return std::atan2(-matrix.m.v[3], matrix.m.v[0]);
     }
 
     template <typename T>
@@ -563,17 +588,17 @@ namespace ouzel::math
     {
         const auto scale = getScale(matrix);
 
-        const auto m11 = matrix.m[0] / scale.v[0];
-        const auto m21 = matrix.m[1] / scale.v[0];
-        const auto m31 = matrix.m[2] / scale.v[0];
+        const auto m11 = matrix.m.v[0] / scale.v[0];
+        const auto m21 = matrix.m.v[1] / scale.v[0];
+        const auto m31 = matrix.m.v[2] / scale.v[0];
 
-        const auto m12 = matrix.m[4] / scale.v[1];
-        const auto m22 = matrix.m[5] / scale.v[1];
-        const auto m32 = matrix.m[6] / scale.v[1];
+        const auto m12 = matrix.m.v[4] / scale.v[1];
+        const auto m22 = matrix.m.v[5] / scale.v[1];
+        const auto m32 = matrix.m.v[6] / scale.v[1];
 
-        const auto m13 = matrix.m[8] / scale.v[2];
-        const auto m23 = matrix.m[9] / scale.v[2];
-        const auto m33 = matrix.m[10] / scale.v[2];
+        const auto m13 = matrix.m.v[8] / scale.v[2];
+        const auto m23 = matrix.m.v[9] / scale.v[2];
+        const auto m33 = matrix.m.v[10] / scale.v[2];
 
         Quaternion<T> result{
             std::sqrt(std::max(T(0), T(1) + m11 - m22 - m33)) / T(2),
@@ -595,91 +620,91 @@ namespace ouzel::math
     template <typename T>
     [[nodiscard]] auto getUpVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return Vector<T, 3>{matrix.m[4], matrix.m[5], matrix.m[6]};
+        return Vector<T, 3>{matrix.m.v[4], matrix.m.v[5], matrix.m.v[6]};
     }
 
     template <typename T>
     [[nodiscard]] auto getDownVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return Vector<T, 3>{-matrix.m[4], -matrix.m[5], -matrix.m[6]};
+        return Vector<T, 3>{-matrix.m.v[4], -matrix.m.v[5], -matrix.m.v[6]};
     }
 
     template <typename T>
     [[nodiscard]] auto getLeftVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return Vector<T, 3>{-matrix.m[0], -matrix.m[1], -matrix.m[2]};
+        return Vector<T, 3>{-matrix.m.v[0], -matrix.m.v[1], -matrix.m.v[2]};
     }
 
     template <typename T>
     [[nodiscard]] auto getRightVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return Vector<T, 3>{matrix.m[0], matrix.m[1], matrix.m[2]};
+        return Vector<T, 3>{matrix.m.v[0], matrix.m.v[1], matrix.m.v[2]};
     }
 
     template <typename T>
     [[nodiscard]] auto getForwardVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return Vector<T, 3>{-matrix.m[8], -matrix.m[9], -matrix.m[10]};
+        return Vector<T, 3>{-matrix.m.v[8], -matrix.m.v[9], -matrix.m.v[10]};
     }
 
     template <typename T>
     [[nodiscard]] auto getBackVector(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return Vector<T, 3>{matrix.m[8], matrix.m[9], matrix.m[10]};
+        return Vector<T, 3>{matrix.m.v[8], matrix.m.v[9], matrix.m.v[10]};
     }
 
     template <typename T>
     [[nodiscard]] auto getFrustumLeftPlane(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return makeFrustumPlane<T>(matrix.m[3] + matrix.m[0],
-                                   matrix.m[7] + matrix.m[4],
-                                   matrix.m[11] + matrix.m[8],
-                                   matrix.m[15] + matrix.m[12]);
+        return makeFrustumPlane<T>(matrix.m.v[3] + matrix.m.v[0],
+                                   matrix.m.v[7] + matrix.m.v[4],
+                                   matrix.m.v[11] + matrix.m.v[8],
+                                   matrix.m.v[15] + matrix.m.v[12]);
     }
 
     template <typename T>
     [[nodiscard]] auto getFrustumRightPlane(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return makeFrustumPlane<T>(matrix.m[3] - matrix.m[0],
-                                   matrix.m[7] - matrix.m[4],
-                                   matrix.m[11] - matrix.m[8],
-                                   matrix.m[15] - matrix.m[12]);
+        return makeFrustumPlane<T>(matrix.m.v[3] - matrix.m.v[0],
+                                   matrix.m.v[7] - matrix.m.v[4],
+                                   matrix.m.v[11] - matrix.m.v[8],
+                                   matrix.m.v[15] - matrix.m.v[12]);
     }
 
     template <typename T>
     [[nodiscard]] auto getFrustumBottomPlane(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return makeFrustumPlane<T>(matrix.m[3] + matrix.m[1],
-                                   matrix.m[7] + matrix.m[5],
-                                   matrix.m[11] + matrix.m[9],
-                                   matrix.m[15] + matrix.m[13]);
+        return makeFrustumPlane<T>(matrix.m.v[3] + matrix.m.v[1],
+                                   matrix.m.v[7] + matrix.m.v[5],
+                                   matrix.m.v[11] + matrix.m.v[9],
+                                   matrix.m.v[15] + matrix.m.v[13]);
     }
 
     template <typename T>
     [[nodiscard]] auto getFrustumTopPlane(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return makeFrustumPlane<T>(matrix.m[3] - matrix.m[1],
-                                   matrix.m[7] - matrix.m[5],
-                                   matrix.m[11] - matrix.m[9],
-                                   matrix.m[15] - matrix.m[13]);
+        return makeFrustumPlane<T>(matrix.m.v[3] - matrix.m.v[1],
+                                   matrix.m.v[7] - matrix.m.v[5],
+                                   matrix.m.v[11] - matrix.m.v[9],
+                                   matrix.m.v[15] - matrix.m.v[13]);
     }
 
     template <typename T>
     [[nodiscard]] auto getFrustumNearPlane(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return makeFrustumPlane<T>(matrix.m[3] + matrix.m[2],
-                                   matrix.m[7] + matrix.m[6],
-                                   matrix.m[11] + matrix.m[10],
-                                   matrix.m[15] + matrix.m[14]);
+        return makeFrustumPlane<T>(matrix.m.v[3] + matrix.m.v[2],
+                                   matrix.m.v[7] + matrix.m.v[6],
+                                   matrix.m.v[11] + matrix.m.v[10],
+                                   matrix.m.v[15] + matrix.m.v[14]);
     }
 
     template <typename T>
     [[nodiscard]] auto getFrustumFarPlane(const Matrix<T, 4, 4>& matrix) noexcept
     {
-        return makeFrustumPlane<T>(matrix.m[3] - matrix.m[2],
-                                   matrix.m[7] - matrix.m[6],
-                                   matrix.m[11] - matrix.m[10],
-                                   matrix.m[15] - matrix.m[14]);
+        return makeFrustumPlane<T>(matrix.m.v[3] - matrix.m.v[2],
+                                   matrix.m.v[7] - matrix.m.v[6],
+                                   matrix.m.v[11] - matrix.m.v[10],
+                                   matrix.m.v[15] - matrix.m.v[14]);
     }
 
     template <typename T>
@@ -715,25 +740,25 @@ namespace ouzel::math
         Vector<T, 3> yaxis = zaxis.cross(xaxis);
         yaxis.normalize();
 
-        matrix.m[0] = xaxis.v[0];
-        matrix.m[1] = yaxis.v[0];
-        matrix.m[2] = zaxis.v[0];
-        matrix.m[3] = T(0);
+        matrix.m.v[0] = xaxis.v[0];
+        matrix.m.v[1] = yaxis.v[0];
+        matrix.m.v[2] = zaxis.v[0];
+        matrix.m.v[3] = T(0);
 
-        matrix.m[4] = xaxis.v[1];
-        matrix.m[5] = yaxis.v[1];
-        matrix.m[6] = zaxis.v[1];
-        matrix.m[7] = T(0);
+        matrix.m.v[4] = xaxis.v[1];
+        matrix.m.v[5] = yaxis.v[1];
+        matrix.m.v[6] = zaxis.v[1];
+        matrix.m.v[7] = T(0);
 
-        matrix.m[8] = xaxis.v[2];
-        matrix.m[9] = yaxis.v[2];
-        matrix.m[10] = zaxis.v[2];
-        matrix.m[11] = T(0);
+        matrix.m.v[8] = xaxis.v[2];
+        matrix.m.v[9] = yaxis.v[2];
+        matrix.m.v[10] = zaxis.v[2];
+        matrix.m.v[11] = T(0);
 
-        matrix.m[12] = xaxis.dot(-eye);
-        matrix.m[13] = yaxis.dot(-eye);
-        matrix.m[14] = zaxis.dot(-eye);
-        matrix.m[15] = T(1);
+        matrix.m.v[12] = xaxis.dot(-eye);
+        matrix.m.v[13] = yaxis.dot(-eye);
+        matrix.m.v[14] = zaxis.dot(-eye);
+        matrix.m.v[15] = T(1);
     }
 
     template <typename T>
@@ -766,11 +791,11 @@ namespace ouzel::math
 
         matrix.m = {};
 
-        matrix.m[0] = factor / aspectRatio;
-        matrix.m[5] = factor;
-        matrix.m[10] = farClip / (farClip - nearClip);
-        matrix.m[11] = T(1);
-        matrix.m[14] = -nearClip * farClip / (farClip - nearClip);
+        matrix.m.v[0] = factor / aspectRatio;
+        matrix.m.v[5] = factor;
+        matrix.m.v[10] = farClip / (farClip - nearClip);
+        matrix.m.v[11] = T(1);
+        matrix.m.v[14] = -nearClip * farClip / (farClip - nearClip);
     }
 
     template <typename T>
@@ -784,11 +809,11 @@ namespace ouzel::math
 
         matrix.m = {};
 
-        matrix.m[0] = T(2) / width;
-        matrix.m[5] = T(2) / height;
-        matrix.m[10] = T(1) / (farClip - nearClip);
-        matrix.m[14] = nearClip / (nearClip - farClip);
-        matrix.m[15] = T(1);
+        matrix.m.v[0] = T(2) / width;
+        matrix.m.v[5] = T(2) / height;
+        matrix.m.v[10] = T(1) / (farClip - nearClip);
+        matrix.m.v[14] = nearClip / (nearClip - farClip);
+        matrix.m.v[15] = T(1);
     }
 
     template <typename T>
@@ -803,13 +828,13 @@ namespace ouzel::math
 
         matrix.m = {};
 
-        matrix.m[0] = T(2) / (right - left);
-        matrix.m[5] = T(2) / (top - bottom);
-        matrix.m[10] = T(1) / (farClip - nearClip);
-        matrix.m[12] = (left + right) / (left - right);
-        matrix.m[13] = (bottom + top) / (bottom - top);
-        matrix.m[14] = nearClip / (nearClip - farClip);
-        matrix.m[15] = T(1);
+        matrix.m.v[0] = T(2) / (right - left);
+        matrix.m.v[5] = T(2) / (top - bottom);
+        matrix.m.v[10] = T(1) / (farClip - nearClip);
+        matrix.m.v[12] = (left + right) / (left - right);
+        matrix.m.v[13] = (bottom + top) / (bottom - top);
+        matrix.m.v[14] = nearClip / (nearClip - farClip);
+        matrix.m.v[15] = T(1);
     }
 
     template <typename T, std::size_t size>
@@ -819,7 +844,7 @@ namespace ouzel::math
         setIdentity(matrix);
 
         for (std::size_t i = 0; i < size - 1; ++i)
-            matrix.m[i * size + i] = scale;
+            matrix.m.v[i * size + i] = scale;
     }
 
     template <typename T, std::size_t size>
@@ -829,7 +854,7 @@ namespace ouzel::math
         setIdentity(matrix);
 
         for (std::size_t i = 0; i < size - 1; ++i)
-            matrix.m[i * size + i] = scale[i];
+            matrix.m.v[i * size + i] = scale[i];
     }
 
     template <typename T>
@@ -841,10 +866,10 @@ namespace ouzel::math
         const auto cosine = std::cos(angle);
         const auto sine = std::sin(angle);
 
-        matrix.m[0] = cosine;
-        matrix.m[3] = -sine;
-        matrix.m[1] = sine;
-        matrix.m[4] = cosine;
+        matrix.m.v[0] = cosine;
+        matrix.m.v[3] = -sine;
+        matrix.m.v[1] = sine;
+        matrix.m.v[4] = cosine;
     }
 
     template <typename T>
@@ -881,25 +906,25 @@ namespace ouzel::math
         const auto sy = sine * y;
         const auto sz = sine * z;
 
-        matrix.m[0] = cosine + tx * x;
-        matrix.m[4] = txy - sz;
-        matrix.m[8] = txz + sy;
-        matrix.m[12] = T(0);
+        matrix.m.v[0] = cosine + tx * x;
+        matrix.m.v[4] = txy - sz;
+        matrix.m.v[8] = txz + sy;
+        matrix.m.v[12] = T(0);
 
-        matrix.m[1] = txy + sz;
-        matrix.m[5] = cosine + ty * y;
-        matrix.m[9] = tyz - sx;
-        matrix.m[13] = T(0);
+        matrix.m.v[1] = txy + sz;
+        matrix.m.v[5] = cosine + ty * y;
+        matrix.m.v[9] = tyz - sx;
+        matrix.m.v[13] = T(0);
 
-        matrix.m[2] = txz - sy;
-        matrix.m[6] = tyz + sx;
-        matrix.m[10] = cosine + tz * z;
-        matrix.m[14] = T(0);
+        matrix.m.v[2] = txz - sy;
+        matrix.m.v[6] = tyz + sx;
+        matrix.m.v[10] = cosine + tz * z;
+        matrix.m.v[14] = T(0);
 
-        matrix.m[3] = T(0);
-        matrix.m[7] = T(0);
-        matrix.m[11] = T(0);
-        matrix.m[15] = T(1);
+        matrix.m.v[3] = T(0);
+        matrix.m.v[7] = T(0);
+        matrix.m.v[11] = T(0);
+        matrix.m.v[15] = T(1);
     }
 
     template <typename T>
@@ -919,25 +944,25 @@ namespace ouzel::math
 
         const auto zz = rotation.v[2] * rotation.v[2];
 
-        matrix.m[0] = T(1) - T(2) * (yy + zz);
-        matrix.m[4] = T(2) * (xy - wz);
-        matrix.m[8] = T(2) * (xz + wy);
-        matrix.m[12] = T(0);
+        matrix.m.v[0] = T(1) - T(2) * (yy + zz);
+        matrix.m.v[4] = T(2) * (xy - wz);
+        matrix.m.v[8] = T(2) * (xz + wy);
+        matrix.m.v[12] = T(0);
 
-        matrix.m[1] = T(2) * (xy + wz);
-        matrix.m[5] = T(1) - T(2) * (xx + zz);
-        matrix.m[9] = T(2) * (yz - wx);
-        matrix.m[13] = T(0);
+        matrix.m.v[1] = T(2) * (xy + wz);
+        matrix.m.v[5] = T(1) - T(2) * (xx + zz);
+        matrix.m.v[9] = T(2) * (yz - wx);
+        matrix.m.v[13] = T(0);
 
-        matrix.m[2] = T(2) * (xz - wy);
-        matrix.m[6] = T(2) * (yz + wx);
-        matrix.m[10] = T(1) - T(2) * (xx + yy);
-        matrix.m[14] = T(0);
+        matrix.m.v[2] = T(2) * (xz - wy);
+        matrix.m.v[6] = T(2) * (yz + wx);
+        matrix.m.v[10] = T(1) - T(2) * (xx + yy);
+        matrix.m.v[14] = T(0);
 
-        matrix.m[3] = T(0);
-        matrix.m[7] = T(0);
-        matrix.m[11] = T(0);
-        matrix.m[15] = T(1);
+        matrix.m.v[3] = T(0);
+        matrix.m.v[7] = T(0);
+        matrix.m.v[11] = T(0);
+        matrix.m.v[15] = T(1);
     }
 
     template <typename T>
@@ -949,10 +974,10 @@ namespace ouzel::math
         const auto cosine = std::cos(angle);
         const auto sine = std::sin(angle);
 
-        matrix.m[5] = cosine;
-        matrix.m[9] = -sine;
-        matrix.m[6] = sine;
-        matrix.m[10] = cosine;
+        matrix.m.v[5] = cosine;
+        matrix.m.v[9] = -sine;
+        matrix.m.v[6] = sine;
+        matrix.m.v[10] = cosine;
     }
 
     template <typename T>
@@ -964,10 +989,10 @@ namespace ouzel::math
         const auto cosine = std::cos(angle);
         const auto sine = std::sin(angle);
 
-        matrix.m[0] = cosine;
-        matrix.m[8] = sine;
-        matrix.m[2] = -sine;
-        matrix.m[10] = cosine;
+        matrix.m.v[0] = cosine;
+        matrix.m.v[8] = sine;
+        matrix.m.v[2] = -sine;
+        matrix.m.v[10] = cosine;
     }
 
     template <typename T>
@@ -979,10 +1004,10 @@ namespace ouzel::math
         const auto cosine = std::cos(angle);
         const auto sine = std::sin(angle);
 
-        matrix.m[0] = cosine;
-        matrix.m[4] = -sine;
-        matrix.m[1] = sine;
-        matrix.m[5] = cosine;
+        matrix.m.v[0] = cosine;
+        matrix.m.v[4] = -sine;
+        matrix.m.v[1] = sine;
+        matrix.m.v[5] = cosine;
     }
 
     template <typename T>
@@ -992,7 +1017,7 @@ namespace ouzel::math
         setIdentity(matrix);
 
         for (std::size_t i = 0; i < 3; ++i)
-            matrix.m[3 * 4 + i] = translation[i];
+            matrix.m.v[3 * 4 + i] = translation[i];
     }
 
     template <typename T>
@@ -1001,8 +1026,17 @@ namespace ouzel::math
     {
         setIdentity(matrix);
 
-        matrix.m[6] = x;
-        matrix.m[7] = y;
+        matrix.m.v[6] = x;
+        matrix.m.v[7] = y;
+    }
+
+    template <typename T>
+    void transformPoint(const Matrix<T, 4, 4>& matrix,
+                        Vector<T, 3>& point) noexcept
+    {
+        auto t = Vector<T, 4>{point.v[0], point.v[1], point.v[2], T(1)};
+        transformVector(matrix, t);
+        point = Vector<T, 3>{t.v[0] / t.v[3], t.v[1] / t.v[3], t.v[2] / t.v[3]};
     }
 }
 

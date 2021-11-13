@@ -71,7 +71,7 @@ namespace ouzel::scene
             pixelShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
 
             std::vector<std::vector<float>> vertexShaderConstants(1);
-            vertexShaderConstants[0] = {std::begin(transform.m), std::end(transform.m)};
+            vertexShaderConstants[0] = {std::begin(transform.m.v), std::end(transform.m.v)};
 
             engine->getGraphics()->setPipelineState(blendState->getResource(),
                                                     shader->getResource(),
@@ -224,7 +224,7 @@ namespace ouzel::scene
                     for (std::uint32_t i = 0; i < particleCount; ++i)
                     {
                         auto position = math::Vector<float, 3>{particles[i].position};
-                        inverseTransform.transformPoint(position);
+                        transformPoint(inverseTransform, position);
                         insertPoint(boundingBox, position);
                     }
                 }

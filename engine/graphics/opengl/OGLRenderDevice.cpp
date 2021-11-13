@@ -275,15 +275,15 @@ namespace ouzel::graphics::opengl
         projectionTransform = math::Matrix<float, 4>{
             1.0F, 0.0F, 0.0F, 0.0F,
             0.0F, 1.0F, 0.0F, 0.0F,
-            0.0F, 0.0F, 2.0F, 0.0F,
-            0.0F, 0.0F, -1.0F, 1.0F
+            0.0F, 0.0F, 2.0F, -1.0F,
+            0.0F, 0.0F, 0.0F, 1.0F
         };
 
         renderTargetProjectionTransform = math::Matrix<float, 4>{
             1.0F, 0.0F, 0.0F, 0.0F,
             0.0F, -1.0F, 0.0F, 0.0F,
-            0.0F, 0.0F, 2.0F, 0.0F,
-            0.0F, 0.0F, -1.0F, 1.0F
+            0.0F, 0.0F, 2.0F, -1.0F,
+            0.0F, 0.0F, 0.0F, 1.0F
         };
     }
 
