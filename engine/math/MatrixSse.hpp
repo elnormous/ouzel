@@ -150,6 +150,19 @@ namespace ouzel::math
         _mm_store_ps(&matrix.m.v[12], _mm_div_ps(_mm_load_ps(&matrix.m.v[12]), s));
         return matrix;
     }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const float scalar,
+                                        const Matrix<float, 4, 4>& matrix) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(&result.m.v[0], _mm_mul_ps(_mm_load_ps(&matrix.m.v[0]), s));
+        _mm_store_ps(&result.m.v[4], _mm_mul_ps(_mm_load_ps(&matrix.m.v[4]), s));
+        _mm_store_ps(&result.m.v[8], _mm_mul_ps(_mm_load_ps(&matrix.m.v[8]), s));
+        _mm_store_ps(&result.m.v[12], _mm_mul_ps(_mm_load_ps(&matrix.m.v[12]), s));
+        return result;
+    }
 #  endif // __AVX__
 
     template <>
@@ -481,72 +494,6 @@ namespace ouzel::math
     }
 
     template <>
-    [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix,
-                                        const double scalar) noexcept
-    {
-        Matrix<double, 4, 4> result;
-        const auto s = _mm_set1_pd(scalar);
-        _mm_store_pd(&result.m.v[0], _mm_mul_pd(_mm_load_pd(&matrix.m.v[0]), s));
-        _mm_store_pd(&result.m.v[2], _mm_mul_pd(_mm_load_pd(&matrix.m.v[2]), s));
-        _mm_store_pd(&result.m.v[4], _mm_mul_pd(_mm_load_pd(&matrix.m.v[4]), s));
-        _mm_store_pd(&result.m.v[6], _mm_mul_pd(_mm_load_pd(&matrix.m.v[6]), s));
-        _mm_store_pd(&result.m.v[8], _mm_mul_pd(_mm_load_pd(&matrix.m.v[8]), s));
-        _mm_store_pd(&result.m.v[10], _mm_mul_pd(_mm_load_pd(&matrix.m.v[10]), s));
-        _mm_store_pd(&result.m.v[12], _mm_mul_pd(_mm_load_pd(&matrix.m.v[12]), s));
-        _mm_store_pd(&result.m.v[14], _mm_mul_pd(_mm_load_pd(&matrix.m.v[14]), s));
-        return result;
-    }
-
-    template <>
-    inline auto& operator*=(Matrix<double, 4, 4>& matrix,
-                            const double scalar) noexcept
-    {
-        const auto s = _mm_set1_pd(scalar);
-        _mm_store_pd(&matrix.m.v[0], _mm_mul_pd(_mm_load_pd(&matrix.m.v[0]), s));
-        _mm_store_pd(&matrix.m.v[2], _mm_mul_pd(_mm_load_pd(&matrix.m.v[2]), s));
-        _mm_store_pd(&matrix.m.v[4], _mm_mul_pd(_mm_load_pd(&matrix.m.v[4]), s));
-        _mm_store_pd(&matrix.m.v[6], _mm_mul_pd(_mm_load_pd(&matrix.m.v[6]), s));
-        _mm_store_pd(&matrix.m.v[8], _mm_mul_pd(_mm_load_pd(&matrix.m.v[8]), s));
-        _mm_store_pd(&matrix.m.v[10], _mm_mul_pd(_mm_load_pd(&matrix.m.v[10]), s));
-        _mm_store_pd(&matrix.m.v[12], _mm_mul_pd(_mm_load_pd(&matrix.m.v[12]), s));
-        _mm_store_pd(&matrix.m.v[14], _mm_mul_pd(_mm_load_pd(&matrix.m.v[14]), s));
-        return matrix;
-    }
-
-    template <>
-    [[nodiscard]] inline auto operator/(const Matrix<double, 4, 4>& matrix,
-                                        double scalar) noexcept
-    {
-        Matrix<double, 4, 4> result;
-        const auto s = _mm_set1_pd(scalar);
-        _mm_store_pd(&result.m.v[0], _mm_div_pd(_mm_load_pd(&matrix.m.v[0]), s));
-        _mm_store_pd(&result.m.v[2], _mm_div_pd(_mm_load_pd(&matrix.m.v[2]), s));
-        _mm_store_pd(&result.m.v[4], _mm_div_pd(_mm_load_pd(&matrix.m.v[4]), s));
-        _mm_store_pd(&result.m.v[6], _mm_div_pd(_mm_load_pd(&matrix.m.v[6]), s));
-        _mm_store_pd(&result.m.v[8], _mm_div_pd(_mm_load_pd(&matrix.m.v[8]), s));
-        _mm_store_pd(&result.m.v[10], _mm_div_pd(_mm_load_pd(&matrix.m.v[10]), s));
-        _mm_store_pd(&result.m.v[12], _mm_div_pd(_mm_load_pd(&matrix.m.v[12]), s));
-        _mm_store_pd(&result.m.v[14], _mm_div_pd(_mm_load_pd(&matrix.m.v[14]), s));
-        return result;
-    }
-
-    template <>
-    inline auto& operator/=(Matrix<double, 4, 4>& matrix,
-                            const double scalar) noexcept
-    {
-        const auto s = _mm_set1_pd(scalar);
-        _mm_store_pd(&matrix.m.v[0], _mm_div_pd(_mm_load_pd(&matrix.m.v[0]), s));
-        _mm_store_pd(&matrix.m.v[2], _mm_div_pd(_mm_load_pd(&matrix.m.v[2]), s));
-        _mm_store_pd(&matrix.m.v[4], _mm_div_pd(_mm_load_pd(&matrix.m.v[4]), s));
-        _mm_store_pd(&matrix.m.v[6], _mm_div_pd(_mm_load_pd(&matrix.m.v[6]), s));
-        _mm_store_pd(&matrix.m.v[8], _mm_div_pd(_mm_load_pd(&matrix.m.v[8]), s));
-        _mm_store_pd(&matrix.m.v[10], _mm_div_pd(_mm_load_pd(&matrix.m.v[10]), s));
-        _mm_store_pd(&matrix.m.v[12], _mm_div_pd(_mm_load_pd(&matrix.m.v[12]), s));
-        _mm_store_pd(&matrix.m.v[14], _mm_div_pd(_mm_load_pd(&matrix.m.v[14]), s));
-        return matrix;
-    }
-
-    template <>
     [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix1,
                                         const Matrix<double, 4, 4>& matrix2) noexcept
     {
@@ -623,6 +570,89 @@ namespace ouzel::math
             _mm_store_pd(&matrix1.m.v[i * 4 + 2], _mm_add_pd(a01, a11));
         }
         return matrix1;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix,
+                                        const double scalar) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&result.m.v[0], _mm_mul_pd(_mm_load_pd(&matrix.m.v[0]), s));
+        _mm_store_pd(&result.m.v[2], _mm_mul_pd(_mm_load_pd(&matrix.m.v[2]), s));
+        _mm_store_pd(&result.m.v[4], _mm_mul_pd(_mm_load_pd(&matrix.m.v[4]), s));
+        _mm_store_pd(&result.m.v[6], _mm_mul_pd(_mm_load_pd(&matrix.m.v[6]), s));
+        _mm_store_pd(&result.m.v[8], _mm_mul_pd(_mm_load_pd(&matrix.m.v[8]), s));
+        _mm_store_pd(&result.m.v[10], _mm_mul_pd(_mm_load_pd(&matrix.m.v[10]), s));
+        _mm_store_pd(&result.m.v[12], _mm_mul_pd(_mm_load_pd(&matrix.m.v[12]), s));
+        _mm_store_pd(&result.m.v[14], _mm_mul_pd(_mm_load_pd(&matrix.m.v[14]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator*=(Matrix<double, 4, 4>& matrix,
+                            const double scalar) noexcept
+    {
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&matrix.m.v[0], _mm_mul_pd(_mm_load_pd(&matrix.m.v[0]), s));
+        _mm_store_pd(&matrix.m.v[2], _mm_mul_pd(_mm_load_pd(&matrix.m.v[2]), s));
+        _mm_store_pd(&matrix.m.v[4], _mm_mul_pd(_mm_load_pd(&matrix.m.v[4]), s));
+        _mm_store_pd(&matrix.m.v[6], _mm_mul_pd(_mm_load_pd(&matrix.m.v[6]), s));
+        _mm_store_pd(&matrix.m.v[8], _mm_mul_pd(_mm_load_pd(&matrix.m.v[8]), s));
+        _mm_store_pd(&matrix.m.v[10], _mm_mul_pd(_mm_load_pd(&matrix.m.v[10]), s));
+        _mm_store_pd(&matrix.m.v[12], _mm_mul_pd(_mm_load_pd(&matrix.m.v[12]), s));
+        _mm_store_pd(&matrix.m.v[14], _mm_mul_pd(_mm_load_pd(&matrix.m.v[14]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator/(const Matrix<double, 4, 4>& matrix,
+                                        double scalar) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&result.m.v[0], _mm_div_pd(_mm_load_pd(&matrix.m.v[0]), s));
+        _mm_store_pd(&result.m.v[2], _mm_div_pd(_mm_load_pd(&matrix.m.v[2]), s));
+        _mm_store_pd(&result.m.v[4], _mm_div_pd(_mm_load_pd(&matrix.m.v[4]), s));
+        _mm_store_pd(&result.m.v[6], _mm_div_pd(_mm_load_pd(&matrix.m.v[6]), s));
+        _mm_store_pd(&result.m.v[8], _mm_div_pd(_mm_load_pd(&matrix.m.v[8]), s));
+        _mm_store_pd(&result.m.v[10], _mm_div_pd(_mm_load_pd(&matrix.m.v[10]), s));
+        _mm_store_pd(&result.m.v[12], _mm_div_pd(_mm_load_pd(&matrix.m.v[12]), s));
+        _mm_store_pd(&result.m.v[14], _mm_div_pd(_mm_load_pd(&matrix.m.v[14]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator/=(Matrix<double, 4, 4>& matrix,
+                            const double scalar) noexcept
+    {
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&matrix.m.v[0], _mm_div_pd(_mm_load_pd(&matrix.m.v[0]), s));
+        _mm_store_pd(&matrix.m.v[2], _mm_div_pd(_mm_load_pd(&matrix.m.v[2]), s));
+        _mm_store_pd(&matrix.m.v[4], _mm_div_pd(_mm_load_pd(&matrix.m.v[4]), s));
+        _mm_store_pd(&matrix.m.v[6], _mm_div_pd(_mm_load_pd(&matrix.m.v[6]), s));
+        _mm_store_pd(&matrix.m.v[8], _mm_div_pd(_mm_load_pd(&matrix.m.v[8]), s));
+        _mm_store_pd(&matrix.m.v[10], _mm_div_pd(_mm_load_pd(&matrix.m.v[10]), s));
+        _mm_store_pd(&matrix.m.v[12], _mm_div_pd(_mm_load_pd(&matrix.m.v[12]), s));
+        _mm_store_pd(&matrix.m.v[14], _mm_div_pd(_mm_load_pd(&matrix.m.v[14]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const double scalar,
+                                        const Matrix<double, 4, 4>& matrix) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&result.m.v[0], _mm_mul_pd(_mm_load_pd(&matrix.m.v[0]), s));
+        _mm_store_pd(&result.m.v[2], _mm_mul_pd(_mm_load_pd(&matrix.m.v[2]), s));
+        _mm_store_pd(&result.m.v[4], _mm_mul_pd(_mm_load_pd(&matrix.m.v[4]), s));
+        _mm_store_pd(&result.m.v[6], _mm_mul_pd(_mm_load_pd(&matrix.m.v[6]), s));
+        _mm_store_pd(&result.m.v[8], _mm_mul_pd(_mm_load_pd(&matrix.m.v[8]), s));
+        _mm_store_pd(&result.m.v[10], _mm_mul_pd(_mm_load_pd(&matrix.m.v[10]), s));
+        _mm_store_pd(&result.m.v[12], _mm_mul_pd(_mm_load_pd(&matrix.m.v[12]), s));
+        _mm_store_pd(&result.m.v[14], _mm_mul_pd(_mm_load_pd(&matrix.m.v[14]), s));
+        return result;
     }
 #  endif // __AVX__
 

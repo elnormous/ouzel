@@ -149,6 +149,35 @@ namespace ouzel::math
         return matrix1;
     }
 
+    template <typename T, std::size_t rows, std::size_t cols, std::size_t cols2>
+    [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols>& matrix1,
+                                           const Matrix<T, cols, cols2>& matrix2) noexcept
+    {
+        Matrix<T, rows, cols2> result{};
+
+        for (std::size_t i = 0; i < rows; ++i)
+            for (std::size_t j = 0; j < cols2; ++j)
+                for (std::size_t k = 0; k < cols; ++k)
+                    result.m.v[j * rows + i] += matrix1.m.v[k * rows + i] * matrix2.m.v[j * cols + k];
+
+        return result;
+    }
+
+    template <typename T, std::size_t size>
+    auto& operator*=(Matrix<T, size, size>& matrix1,
+                     const Matrix<T, size, size>& matrix2) noexcept
+    {
+        Matrix<T, size, size> result{};
+
+        for (std::size_t i = 0; i < size; ++i)
+            for (std::size_t j = 0; j < size; ++j)
+                for (std::size_t k = 0; k < size; ++k)
+                    result.m.v[j * size + i] += matrix1.m.v[k * size + i] * matrix2.m.v[j * size + k];
+
+        matrix1 = std::move(result);
+        return matrix1;
+    }
+
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols>& matrix,
                                            const T scalar) noexcept
@@ -185,35 +214,6 @@ namespace ouzel::math
         for (std::size_t i = 0; i < rows * cols; ++i)
             matrix.m.v[i] /= scalar;
         return matrix;
-    }
-
-    template <typename T, std::size_t rows, std::size_t cols, std::size_t cols2>
-    [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols>& matrix1,
-                                           const Matrix<T, cols, cols2>& matrix2) noexcept
-    {
-        Matrix<T, rows, cols2> result{};
-
-        for (std::size_t i = 0; i < rows; ++i)
-            for (std::size_t j = 0; j < cols2; ++j)
-                for (std::size_t k = 0; k < cols; ++k)
-                    result.m.v[j * rows + i] += matrix1.m.v[k * rows + i] * matrix2.m.v[j * cols + k];
-
-        return result;
-    }
-
-    template <typename T, std::size_t size>
-    auto& operator*=(Matrix<T, size, size>& matrix1,
-                     const Matrix<T, size, size>& matrix2) noexcept
-    {
-        Matrix<T, size, size> result{};
-
-        for (std::size_t i = 0; i < size; ++i)
-            for (std::size_t j = 0; j < size; ++j)
-                for (std::size_t k = 0; k < size; ++k)
-                    result.m.v[j * size + i] += matrix1.m.v[k * size + i] * matrix2.m.v[j * size + k];
-
-        matrix1 = std::move(result);
-        return matrix1;
     }
 
     template <typename T, std::size_t rows, std::size_t cols>

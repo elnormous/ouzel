@@ -93,56 +93,6 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
-                                        const float scalar) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&result.m.v[0], vmulq_f32(vld1q_f32(&matrix.m.v[0]), s));
-        vst1q_f32(&result.m.v[4], vmulq_f32(vld1q_f32(&matrix.m.v[4]), s));
-        vst1q_f32(&result.m.v[8], vmulq_f32(vld1q_f32(&matrix.m.v[8]), s));
-        vst1q_f32(&result.m.v[12], vmulq_f32(vld1q_f32(&matrix.m.v[12]), s));
-        return result;
-    }
-
-    template <>
-    inline auto& operator*=(Matrix<float, 4, 4>& matrix,
-                            const float scalar) noexcept
-    {
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&matrix.m.v[0], vmulq_f32(vld1q_f32(&matrix.m.v[0]), s));
-        vst1q_f32(&matrix.m.v[4], vmulq_f32(vld1q_f32(&matrix.m.v[4]), s));
-        vst1q_f32(&matrix.m.v[8], vmulq_f32(vld1q_f32(&matrix.m.v[8]), s));
-        vst1q_f32(&matrix.m.v[12], vmulq_f32(vld1q_f32(&matrix.m.v[12]), s));
-        return matrix;
-    }
-
-    template <>
-    [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4>& matrix,
-                                        float scalar) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&result.m.v[0], vdivq_f32(vld1q_f32(&matrix.m.v[0]), s));
-        vst1q_f32(&result.m.v[4], vdivq_f32(vld1q_f32(&matrix.m.v[4]), s));
-        vst1q_f32(&result.m.v[8], vdivq_f32(vld1q_f32(&matrix.m.v[8]), s));
-        vst1q_f32(&result.m.v[12], vdivq_f32(vld1q_f32(&matrix.m.v[12]), s));
-        return result;
-    }
-
-    template <>
-    inline auto& operator/=(Matrix<float, 4, 4>& matrix,
-                            const float scalar) noexcept
-    {
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&matrix.m.v[0], vdivq_f32(vld1q_f32(&matrix.m.v[0]), s));
-        vst1q_f32(&matrix.m.v[4], vdivq_f32(vld1q_f32(&matrix.m.v[4]), s));
-        vst1q_f32(&matrix.m.v[8], vdivq_f32(vld1q_f32(&matrix.m.v[8]), s));
-        vst1q_f32(&matrix.m.v[12], vdivq_f32(vld1q_f32(&matrix.m.v[12]), s));
-        return matrix;
-    }
-
-    template <>
     [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix1,
                                         const Matrix<float, 4, 4>& matrix2) noexcept
     {
@@ -201,6 +151,56 @@ namespace omath
 
     template <>
     [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
+                                        const float scalar) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&result.m.v[0], vmulq_f32(vld1q_f32(&matrix.m.v[0]), s));
+        vst1q_f32(&result.m.v[4], vmulq_f32(vld1q_f32(&matrix.m.v[4]), s));
+        vst1q_f32(&result.m.v[8], vmulq_f32(vld1q_f32(&matrix.m.v[8]), s));
+        vst1q_f32(&result.m.v[12], vmulq_f32(vld1q_f32(&matrix.m.v[12]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator*=(Matrix<float, 4, 4>& matrix,
+                            const float scalar) noexcept
+    {
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&matrix.m.v[0], vmulq_f32(vld1q_f32(&matrix.m.v[0]), s));
+        vst1q_f32(&matrix.m.v[4], vmulq_f32(vld1q_f32(&matrix.m.v[4]), s));
+        vst1q_f32(&matrix.m.v[8], vmulq_f32(vld1q_f32(&matrix.m.v[8]), s));
+        vst1q_f32(&matrix.m.v[12], vmulq_f32(vld1q_f32(&matrix.m.v[12]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4>& matrix,
+                                        float scalar) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&result.m.v[0], vdivq_f32(vld1q_f32(&matrix.m.v[0]), s));
+        vst1q_f32(&result.m.v[4], vdivq_f32(vld1q_f32(&matrix.m.v[4]), s));
+        vst1q_f32(&result.m.v[8], vdivq_f32(vld1q_f32(&matrix.m.v[8]), s));
+        vst1q_f32(&result.m.v[12], vdivq_f32(vld1q_f32(&matrix.m.v[12]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator/=(Matrix<float, 4, 4>& matrix,
+                            const float scalar) noexcept
+    {
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&matrix.m.v[0], vdivq_f32(vld1q_f32(&matrix.m.v[0]), s));
+        vst1q_f32(&matrix.m.v[4], vdivq_f32(vld1q_f32(&matrix.m.v[4]), s));
+        vst1q_f32(&matrix.m.v[8], vdivq_f32(vld1q_f32(&matrix.m.v[8]), s));
+        vst1q_f32(&matrix.m.v[12], vdivq_f32(vld1q_f32(&matrix.m.v[12]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
                                         const Vector<float, 4>& vector) noexcept
     {
         Vector<float, 4> result;
@@ -243,6 +243,19 @@ namespace omath
                                  vaddq_f32(vmulq_f32(row2, col2),
                                            vmulq_f32(row3, col3)));
         vst1q_f32(vector.v, s);
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const float scalar,
+                                        const Matrix<float, 4, 4>& matrix) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&result.m.v[0], vmulq_f32(vld1q_f32(&matrix.m.v[0]), s));
+        vst1q_f32(&result.m.v[4], vmulq_f32(vld1q_f32(&matrix.m.v[4]), s));
+        vst1q_f32(&result.m.v[8], vmulq_f32(vld1q_f32(&matrix.m.v[8]), s));
+        vst1q_f32(&result.m.v[12], vmulq_f32(vld1q_f32(&matrix.m.v[12]), s));
+        return result;
     }
 
     template <>
@@ -393,72 +406,6 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix,
-                                        const double scalar) noexcept
-    {
-        Matrix<double, 4, 4> result;
-        const auto s = vdupq_n_f64(scalar);
-        vst1q_f64(&result.m.v[0], vmulq_f64(vld1q_f64(&matrix.m.v[0]), s));
-        vst1q_f64(&result.m.v[2], vmulq_f64(vld1q_f64(&matrix.m.v[2]), s));
-        vst1q_f64(&result.m.v[4], vmulq_f64(vld1q_f64(&matrix.m.v[4]), s));
-        vst1q_f64(&result.m.v[6], vmulq_f64(vld1q_f64(&matrix.m.v[6]), s));
-        vst1q_f64(&result.m.v[8], vmulq_f64(vld1q_f64(&matrix.m.v[8]), s));
-        vst1q_f64(&result.m.v[10], vmulq_f64(vld1q_f64(&matrix.m.v[10]), s));
-        vst1q_f64(&result.m.v[12], vmulq_f64(vld1q_f64(&matrix.m.v[12]), s));
-        vst1q_f64(&result.m.v[14], vmulq_f64(vld1q_f64(&matrix.m.v[14]), s));
-        return result;
-    }
-
-    template <>
-    inline auto& operator*=(Matrix<double, 4, 4>& matrix,
-                            const double scalar) noexcept
-    {
-        const auto s = vdupq_n_f64(scalar);
-        vst1q_f64(&matrix.m.v[0], vmulq_f64(vld1q_f64(&matrix.m.v[0]), s));
-        vst1q_f64(&matrix.m.v[2], vmulq_f64(vld1q_f64(&matrix.m.v[2]), s));
-        vst1q_f64(&matrix.m.v[4], vmulq_f64(vld1q_f64(&matrix.m.v[4]), s));
-        vst1q_f64(&matrix.m.v[6], vmulq_f64(vld1q_f64(&matrix.m.v[6]), s));
-        vst1q_f64(&matrix.m.v[8], vmulq_f64(vld1q_f64(&matrix.m.v[8]), s));
-        vst1q_f64(&matrix.m.v[10], vmulq_f64(vld1q_f64(&matrix.m.v[10]), s));
-        vst1q_f64(&matrix.m.v[12], vmulq_f64(vld1q_f64(&matrix.m.v[12]), s));
-        vst1q_f64(&matrix.m.v[14], vmulq_f64(vld1q_f64(&matrix.m.v[14]), s));
-        return matrix;
-    }
-
-    template <>
-    [[nodiscard]] inline auto operator/(const Matrix<double, 4, 4>& matrix,
-                                        double scalar) noexcept
-    {
-        Matrix<double, 4, 4> result;
-        const auto s = vdupq_n_f64(scalar);
-        vst1q_f64(&result.m.v[0], vdivq_f64(vld1q_f64(&matrix.m.v[0]), s));
-        vst1q_f64(&result.m.v[2], vdivq_f64(vld1q_f64(&matrix.m.v[2]), s));
-        vst1q_f64(&result.m.v[4], vdivq_f64(vld1q_f64(&matrix.m.v[4]), s));
-        vst1q_f64(&result.m.v[6], vdivq_f64(vld1q_f64(&matrix.m.v[6]), s));
-        vst1q_f64(&result.m.v[8], vdivq_f64(vld1q_f64(&matrix.m.v[8]), s));
-        vst1q_f64(&result.m.v[10], vdivq_f64(vld1q_f64(&matrix.m.v[10]), s));
-        vst1q_f64(&result.m.v[12], vdivq_f64(vld1q_f64(&matrix.m.v[12]), s));
-        vst1q_f64(&result.m.v[14], vdivq_f64(vld1q_f64(&matrix.m.v[14]), s));
-        return result;
-    }
-
-    template <>
-    inline auto& operator/=(Matrix<double, 4, 4>& matrix,
-                            const double scalar) noexcept
-    {
-        const auto s = vdupq_n_f64(scalar);
-        vst1q_f64(&matrix.m.v[0], vdivq_f64(vld1q_f64(&matrix.m.v[0]), s));
-        vst1q_f64(&matrix.m.v[2], vdivq_f64(vld1q_f64(&matrix.m.v[2]), s));
-        vst1q_f64(&matrix.m.v[4], vdivq_f64(vld1q_f64(&matrix.m.v[4]), s));
-        vst1q_f64(&matrix.m.v[6], vdivq_f64(vld1q_f64(&matrix.m.v[6]), s));
-        vst1q_f64(&matrix.m.v[8], vdivq_f64(vld1q_f64(&matrix.m.v[8]), s));
-        vst1q_f64(&matrix.m.v[10], vdivq_f64(vld1q_f64(&matrix.m.v[10]), s));
-        vst1q_f64(&matrix.m.v[12], vdivq_f64(vld1q_f64(&matrix.m.v[12]), s));
-        vst1q_f64(&matrix.m.v[14], vdivq_f64(vld1q_f64(&matrix.m.v[14]), s));
-        return matrix;
-    }
-
-    template <>
     [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix1,
                                         const Matrix<double, 4, 4>& matrix2) noexcept
     {
@@ -535,6 +482,89 @@ namespace omath
             vst1q_f64(&matrix1.m.v[i * 4 + 2], vaddq_f64(a01, a11));
         }
         return matrix1;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix,
+                                        const double scalar) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&result.m.v[0], vmulq_f64(vld1q_f64(&matrix.m.v[0]), s));
+        vst1q_f64(&result.m.v[2], vmulq_f64(vld1q_f64(&matrix.m.v[2]), s));
+        vst1q_f64(&result.m.v[4], vmulq_f64(vld1q_f64(&matrix.m.v[4]), s));
+        vst1q_f64(&result.m.v[6], vmulq_f64(vld1q_f64(&matrix.m.v[6]), s));
+        vst1q_f64(&result.m.v[8], vmulq_f64(vld1q_f64(&matrix.m.v[8]), s));
+        vst1q_f64(&result.m.v[10], vmulq_f64(vld1q_f64(&matrix.m.v[10]), s));
+        vst1q_f64(&result.m.v[12], vmulq_f64(vld1q_f64(&matrix.m.v[12]), s));
+        vst1q_f64(&result.m.v[14], vmulq_f64(vld1q_f64(&matrix.m.v[14]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator*=(Matrix<double, 4, 4>& matrix,
+                            const double scalar) noexcept
+    {
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&matrix.m.v[0], vmulq_f64(vld1q_f64(&matrix.m.v[0]), s));
+        vst1q_f64(&matrix.m.v[2], vmulq_f64(vld1q_f64(&matrix.m.v[2]), s));
+        vst1q_f64(&matrix.m.v[4], vmulq_f64(vld1q_f64(&matrix.m.v[4]), s));
+        vst1q_f64(&matrix.m.v[6], vmulq_f64(vld1q_f64(&matrix.m.v[6]), s));
+        vst1q_f64(&matrix.m.v[8], vmulq_f64(vld1q_f64(&matrix.m.v[8]), s));
+        vst1q_f64(&matrix.m.v[10], vmulq_f64(vld1q_f64(&matrix.m.v[10]), s));
+        vst1q_f64(&matrix.m.v[12], vmulq_f64(vld1q_f64(&matrix.m.v[12]), s));
+        vst1q_f64(&matrix.m.v[14], vmulq_f64(vld1q_f64(&matrix.m.v[14]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator/(const Matrix<double, 4, 4>& matrix,
+                                        double scalar) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&result.m.v[0], vdivq_f64(vld1q_f64(&matrix.m.v[0]), s));
+        vst1q_f64(&result.m.v[2], vdivq_f64(vld1q_f64(&matrix.m.v[2]), s));
+        vst1q_f64(&result.m.v[4], vdivq_f64(vld1q_f64(&matrix.m.v[4]), s));
+        vst1q_f64(&result.m.v[6], vdivq_f64(vld1q_f64(&matrix.m.v[6]), s));
+        vst1q_f64(&result.m.v[8], vdivq_f64(vld1q_f64(&matrix.m.v[8]), s));
+        vst1q_f64(&result.m.v[10], vdivq_f64(vld1q_f64(&matrix.m.v[10]), s));
+        vst1q_f64(&result.m.v[12], vdivq_f64(vld1q_f64(&matrix.m.v[12]), s));
+        vst1q_f64(&result.m.v[14], vdivq_f64(vld1q_f64(&matrix.m.v[14]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator/=(Matrix<double, 4, 4>& matrix,
+                            const double scalar) noexcept
+    {
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&matrix.m.v[0], vdivq_f64(vld1q_f64(&matrix.m.v[0]), s));
+        vst1q_f64(&matrix.m.v[2], vdivq_f64(vld1q_f64(&matrix.m.v[2]), s));
+        vst1q_f64(&matrix.m.v[4], vdivq_f64(vld1q_f64(&matrix.m.v[4]), s));
+        vst1q_f64(&matrix.m.v[6], vdivq_f64(vld1q_f64(&matrix.m.v[6]), s));
+        vst1q_f64(&matrix.m.v[8], vdivq_f64(vld1q_f64(&matrix.m.v[8]), s));
+        vst1q_f64(&matrix.m.v[10], vdivq_f64(vld1q_f64(&matrix.m.v[10]), s));
+        vst1q_f64(&matrix.m.v[12], vdivq_f64(vld1q_f64(&matrix.m.v[12]), s));
+        vst1q_f64(&matrix.m.v[14], vdivq_f64(vld1q_f64(&matrix.m.v[14]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const double scalar,
+                                        const Matrix<double, 4, 4>& matrix) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&result.m.v[0], vmulq_f64(vld1q_f64(&matrix.m.v[0]), s));
+        vst1q_f64(&result.m.v[2], vmulq_f64(vld1q_f64(&matrix.m.v[2]), s));
+        vst1q_f64(&result.m.v[4], vmulq_f64(vld1q_f64(&matrix.m.v[4]), s));
+        vst1q_f64(&result.m.v[6], vmulq_f64(vld1q_f64(&matrix.m.v[6]), s));
+        vst1q_f64(&result.m.v[8], vmulq_f64(vld1q_f64(&matrix.m.v[8]), s));
+        vst1q_f64(&result.m.v[10], vmulq_f64(vld1q_f64(&matrix.m.v[10]), s));
+        vst1q_f64(&result.m.v[12], vmulq_f64(vld1q_f64(&matrix.m.v[12]), s));
+        vst1q_f64(&result.m.v[14], vmulq_f64(vld1q_f64(&matrix.m.v[14]), s));
+        return result;
     }
 
     template <>
