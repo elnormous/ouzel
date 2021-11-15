@@ -128,7 +128,7 @@ namespace ouzel::math
 
     template <>
     [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4>& matrix,
-                                        float scalar) noexcept
+                                        const float scalar) noexcept
     {
         Matrix<float, 4, 4> result;
         const auto s = _mm_set1_ps(scalar);
@@ -607,7 +607,7 @@ namespace ouzel::math
 
     template <>
     [[nodiscard]] inline auto operator/(const Matrix<double, 4, 4>& matrix,
-                                        double scalar) noexcept
+                                        const double scalar) noexcept
     {
         Matrix<double, 4, 4> result;
         const auto s = _mm_set1_pd(scalar);
