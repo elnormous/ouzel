@@ -722,59 +722,38 @@ namespace ouzel::math
 
     template <typename T>
     void setLookAt(Matrix<T, 4, 4>& matrix,
-                   const T eyePositionX, const T eyePositionY, const T eyePositionZ,
-                   const T targetPositionX, const T targetPositionY, const T targetPositionZ,
-                   const T upX, const T upY, const T upZ) noexcept
+                   const Vector<T, 3>& eyePosition,
+                   const Vector<T, 3>& targetPosition,
+                   const Vector<T, 3>& upVector) noexcept
     {
-        const Vector<T, 3> eye{eyePositionX, eyePositionY, eyePositionZ};
-        const Vector<T, 3> target{targetPositionX, targetPositionY, targetPositionZ};
-        Vector<T, 3> up{upX, upY, upZ};
-        up.normalize();
-
-        Vector<T, 3> zaxis = target - eye;
-        zaxis.normalize();
-
-        Vector<T, 3> xaxis = cross(up, zaxis);
-        xaxis.normalize();
-
-        Vector<T, 3> yaxis = cross(zaxis, xaxis);
-        yaxis.normalize();
+        const auto up = normalized(upVector);
+        const auto zaxis = normalized(targetPosition - eyePosition);
+        const auto xaxis = normalized(cross(up, zaxis));
+        const auto yaxis = normalized(cross(zaxis, xaxis));
 
         // row 1
         matrix.m.v[0] = xaxis.v[0];
         matrix.m.v[4] = xaxis.v[1];
         matrix.m.v[8] = xaxis.v[2];
-        matrix.m.v[12] = dot(xaxis, -eye);
+        matrix.m.v[12] = dot(xaxis, -eyePosition);
 
         // row 2
         matrix.m.v[1] = yaxis.v[0];
         matrix.m.v[5] = yaxis.v[1];
         matrix.m.v[9] = yaxis.v[2];
-        matrix.m.v[13] = dot(yaxis, -eye);
+        matrix.m.v[13] = dot(yaxis, -eyePosition);
 
         // row 3
         matrix.m.v[2] = zaxis.v[0];
         matrix.m.v[6] = zaxis.v[1];
         matrix.m.v[10] = zaxis.v[2];
-        matrix.m.v[14] = dot(zaxis, -eye);
+        matrix.m.v[14] = dot(zaxis, -eyePosition);
 
         // row 4
         matrix.m.v[3] = T(0);
         matrix.m.v[7] = T(0);
         matrix.m.v[11] = T(0);
         matrix.m.v[15] = T(1);
-    }
-
-    template <typename T>
-    void setLookAt(Matrix<T, 4, 4>& matrix,
-                   const Vector<T, 3>& eyePosition,
-                   const Vector<T, 3>& targetPosition,
-                   const Vector<T, 3>& up) noexcept
-    {
-        setLookAt(matrix,
-                  eyePosition.v[0], eyePosition.v[1], eyePosition.v[2],
-                  targetPosition.v[0], targetPosition.v[1], targetPosition.v[2],
-                  up.v[0], up.v[1], up.v[2]);
     }
 
     template <typename T>
