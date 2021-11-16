@@ -734,29 +734,29 @@ namespace ouzel::math
         Vector<T, 3> zaxis = target - eye;
         zaxis.normalize();
 
-        Vector<T, 3> xaxis = up.cross(zaxis);
+        Vector<T, 3> xaxis = cross(up, zaxis);
         xaxis.normalize();
 
-        Vector<T, 3> yaxis = zaxis.cross(xaxis);
+        Vector<T, 3> yaxis = cross(zaxis, xaxis);
         yaxis.normalize();
 
         // row 1
         matrix.m.v[0] = xaxis.v[0];
         matrix.m.v[4] = xaxis.v[1];
         matrix.m.v[8] = xaxis.v[2];
-        matrix.m.v[12] = xaxis.dot(-eye);
+        matrix.m.v[12] = dot(xaxis, -eye);
 
         // row 2
         matrix.m.v[1] = yaxis.v[0];
         matrix.m.v[5] = yaxis.v[1];
         matrix.m.v[9] = yaxis.v[2];
-        matrix.m.v[13] = yaxis.dot(-eye);
+        matrix.m.v[13] = dot(yaxis, -eye);
 
         // row 3
         matrix.m.v[2] = zaxis.v[0];
         matrix.m.v[6] = zaxis.v[1];
         matrix.m.v[10] = zaxis.v[2];
-        matrix.m.v[14] = zaxis.dot(-eye);
+        matrix.m.v[14] = dot(zaxis, -eye);
 
         // row 4
         matrix.m.v[3] = T(0);

@@ -304,8 +304,8 @@ namespace ouzel::math
                       const Quaternion<T>& quat) noexcept
     {
         constexpr math::Vector<T, 3> q{quat.v[0], quat.v[1], quat.v[2]};
-        const auto t = T(2) * q.cross(vec);
-        vec += (quat.v[3] * t) + q.cross(t);
+        const auto t = T(2) * cross(q, vec);
+        vec += (quat.v[3] * t) + cross(q, t);
     }
 
     template <typename T>
@@ -313,8 +313,8 @@ namespace ouzel::math
                                      const Quaternion<T>& quat) noexcept
     {
         constexpr math::Vector<T, 3> q{quat.v[0], quat.v[1], quat.v[2]};
-        const auto t = T(2) * q.cross(vec);
-        return vec + (quat.v[3] * t) + q.cross(t);
+        const auto t = T(2) * cross(q, vec);
+        return vec + (quat.v[3] * t) + cross(q, t);
     }
 
     template <typename T>
