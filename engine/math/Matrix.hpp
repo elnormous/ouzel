@@ -772,17 +772,26 @@ namespace ouzel::math
         assert(divisor);
         const auto factor = T(1) / divisor;
 
-        matrix.m = {};
-
         // row 1
         matrix.m.v[0] = factor / aspectRatio;
+        matrix.m.v[4] = T(0);
+        matrix.m.v[8] = T(0);
+        matrix.m.v[12] = T(0);
         // row 2
+        matrix.m.v[1] = T(0);
         matrix.m.v[5] = factor;
+        matrix.m.v[9] = T(0);
+        matrix.m.v[13] = T(0);
         // row 3
+        matrix.m.v[2] = T(0);
+        matrix.m.v[6] = T(0);
         matrix.m.v[10] = farClip / (farClip - nearClip);
         matrix.m.v[14] = -nearClip * farClip / (farClip - nearClip);
         // row 4
+        matrix.m.v[3] = T(0);
+        matrix.m.v[7] = T(0);
         matrix.m.v[11] = T(1);
+        matrix.m.v[15] = T(0);
     }
 
     template <typename T>
@@ -794,16 +803,25 @@ namespace ouzel::math
         assert(height);
         assert(farClip != nearClip);
 
-        matrix.m = {};
-
         // row 1
         matrix.m.v[0] = T(2) / width;
+        matrix.m.v[4] = T(0);
+        matrix.m.v[8] = T(0);
+        matrix.m.v[12] = T(0);
         // row 2
+        matrix.m.v[1] = T(0);
         matrix.m.v[5] = T(2) / height;
+        matrix.m.v[9] = T(0);
+        matrix.m.v[13] = T(0);
         // row 3
+        matrix.m.v[2] = T(0);
+        matrix.m.v[6] = T(0);
         matrix.m.v[10] = T(1) / (farClip - nearClip);
         matrix.m.v[14] = nearClip / (nearClip - farClip);
         // row 4
+        matrix.m.v[3] = T(0);
+        matrix.m.v[7] = T(0);
+        matrix.m.v[11] = T(0);
         matrix.m.v[15] = T(1);
     }
 
@@ -817,18 +835,25 @@ namespace ouzel::math
         assert(top != bottom);
         assert(farClip != nearClip);
 
-        matrix.m = {};
-
         // row 1
         matrix.m.v[0] = T(2) / (right - left);
+        matrix.m.v[4] = T(0);
+        matrix.m.v[8] = T(0);
         matrix.m.v[12] = (left + right) / (left - right);
         // row 2
+        matrix.m.v[1] = T(0);
         matrix.m.v[5] = T(2) / (top - bottom);
+        matrix.m.v[9] = T(0);
         matrix.m.v[13] = (bottom + top) / (bottom - top);
         // row 3
+        matrix.m.v[2] = T(0);
+        matrix.m.v[6] = T(0);
         matrix.m.v[10] = T(1) / (farClip - nearClip);
         matrix.m.v[14] = nearClip / (nearClip - farClip);
         // row 4
+        matrix.m.v[3] = T(0);
+        matrix.m.v[7] = T(0);
+        matrix.m.v[11] = T(0);
         matrix.m.v[15] = T(1);
     }
 
