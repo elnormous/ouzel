@@ -1057,16 +1057,6 @@ namespace ouzel::math
     }
 
     template <typename T>
-    void setTranslation(Matrix<T, 3, 3>& matrix,
-                        const T x, const T y) noexcept
-    {
-        setIdentity(matrix);
-
-        matrix.m.v[6] = x;
-        matrix.m.v[7] = y;
-    }
-
-    template <typename T>
     void transformPoint(const Matrix<T, 4, 4>& matrix,
                         Vector<T, 3>& point) noexcept
     {
