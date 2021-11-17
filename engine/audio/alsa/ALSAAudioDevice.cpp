@@ -34,7 +34,7 @@ namespace ouzel::audio::alsa
         snd_pcm_hw_params_t* hwParams = nullptr;
         snd_pcm_hw_params_alloca(&hwParams);
 
-        if (const auto result = snd_pcm_hw_params_any(playbackHandle, hwParams); result != 0)
+        if (const auto result = snd_pcm_hw_params_any(playbackHandle, hwParams); result < 0)
             throw std::system_error(result, errorCategory, "Failed to initialize hardware parameters");
 
         if (const auto result = snd_pcm_hw_params_set_access(playbackHandle, hwParams, SND_PCM_ACCESS_RW_INTERLEAVED); result != 0)
