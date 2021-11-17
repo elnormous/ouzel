@@ -6,11 +6,17 @@
 
 #include <system_error>
 #include "ALSAAudioDevice.hpp"
+#include "ALSAErrorCategory.hpp"
 #include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
 
 namespace ouzel::audio::alsa
 {
+    namespace
+    {
+        const ErrorCategory errorCategory{};
+    }
+
     AudioDevice::AudioDevice(const Settings& settings,
                              const std::function<void(std::uint32_t frames,
                                                       std::uint32_t channels,
@@ -21,30 +27,30 @@ namespace ouzel::audio::alsa
         const char* device = settings.audioDevice.empty() ? "default" : settings.audioDevice.c_str();
 
         if (const auto result = snd_pcm_open(&playbackHandle, device, SND_PCM_STREAM_PLAYBACK, 0); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to connect to audio interface");
+            throw std::system_error(result, errorCategory, "Failed to connect to audio interface");
 
         logger.log(Log::Level::info) << "Using " << snd_pcm_name(playbackHandle) << " for audio";
 
         if (const auto result = snd_pcm_hw_params_malloc(&hwParams); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to allocate memory for hardware parameters");
+            throw std::system_error(result, errorCategory, "Failed to allocate memory for hardware parameters");
 
         if (const auto result = snd_pcm_hw_params_any(playbackHandle, hwParams); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to initialize hardware parameters");
+            throw std::system_error(result, errorCategory, "Failed to initialize hardware parameters");
 
         if (const auto result = snd_pcm_hw_params_set_access(playbackHandle, hwParams, SND_PCM_ACCESS_RW_INTERLEAVED); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set access type");
+            throw std::system_error(result, errorCategory, "Failed to set access type");
 
         if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_FLOAT_LE) == 0)
         {
             if (const auto result = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_FLOAT_LE); result != 0)
-                throw std::system_error(-result, std::system_category(), "Failed to set sample format");
+                throw std::system_error(result, errorCategory, "Failed to set sample format");
 
             sampleFormat = SampleFormat::float32;
         }
         else if (snd_pcm_hw_params_test_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE) == 0)
         {
             if (const auto result = snd_pcm_hw_params_set_format(playbackHandle, hwParams, SND_PCM_FORMAT_S16_LE); result != 0)
-                throw std::system_error(-result, std::system_category(), "Failed to set sample format");
+                throw std::system_error(result, errorCategory, "Failed to set sample format");
 
             sampleFormat = SampleFormat::signedInt16;
         }
@@ -52,50 +58,50 @@ namespace ouzel::audio::alsa
             throw std::runtime_error("No supported format");
 
         if (const auto result = snd_pcm_hw_params_set_rate(playbackHandle, hwParams, sampleRate, 0); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set sample rate");
+            throw std::system_error(result, errorCategory, "Failed to set sample rate");
 
         if (const auto result = snd_pcm_hw_params_set_channels(playbackHandle, hwParams, channels); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set channel count");
+            throw std::system_error(result, errorCategory, "Failed to set channel count");
 
         unsigned int periodLength = periodSize * 1000000U / sampleRate; // period length in microseconds
         unsigned int bufferLength = periodLength * periods; // buffer length in microseconds
         int dir;
 
         if (const auto result = snd_pcm_hw_params_set_buffer_time_near(playbackHandle, hwParams, &bufferLength, &dir); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set buffer time");
+            throw std::system_error(result, errorCategory, "Failed to set buffer time");
 
         if (const auto result = snd_pcm_hw_params_set_period_time_near(playbackHandle, hwParams, &periodLength, &dir); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set period time");
+            throw std::system_error(result, errorCategory, "Failed to set period time");
 
         if (const auto result = snd_pcm_hw_params_get_period_size(hwParams, &periodSize, &dir); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to get period size");
+            throw std::system_error(result, errorCategory, "Failed to get period size");
 
         if (const auto result = snd_pcm_hw_params_get_periods(hwParams, &periods, &dir); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to get period count");
+            throw std::system_error(result, errorCategory, "Failed to get period count");
 
         if (const auto result = snd_pcm_hw_params(playbackHandle, hwParams); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set hardware parameters");
+            throw std::system_error(result, errorCategory, "Failed to set hardware parameters");
 
         snd_pcm_hw_params_free(hwParams);
         hwParams = nullptr;
 
         if (const auto result = snd_pcm_sw_params_malloc(&swParams); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to allocate memory for software parameters");
+            throw std::system_error(result, errorCategory, "Failed to allocate memory for software parameters");
 
         if (const auto result = snd_pcm_sw_params_current(playbackHandle, swParams); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to initialize software parameters");
+            throw std::system_error(result, errorCategory, "Failed to initialize software parameters");
 
         if (const auto result = snd_pcm_sw_params_set_avail_min(playbackHandle, swParams, 4096); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set minimum available count");
+            throw std::system_error(result, errorCategory, "Failed to set minimum available count");
 
         if (const auto result = snd_pcm_sw_params_set_start_threshold(playbackHandle, swParams, 0); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set start threshold");
+            throw std::system_error(result, errorCategory, "Failed to set start threshold");
 
         if (const auto result = snd_pcm_sw_params(playbackHandle, swParams); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to set software parameters");
+            throw std::system_error(result, errorCategory, "Failed to set software parameters");
 
         if (const auto result = snd_pcm_prepare(playbackHandle); result != 0)
-            throw std::system_error(-result, std::system_category(), "Failed to prepare audio interface");
+            throw std::system_error(result, errorCategory, "Failed to prepare audio interface");
 
         snd_pcm_sw_params_free(swParams);
         swParams = nullptr;
@@ -140,12 +146,12 @@ namespace ouzel::audio::alsa
                         logger.log(Log::Level::warning) << "Buffer underrun occurred";
 
                         if (const auto result = snd_pcm_prepare(playbackHandle); result != 0)
-                            throw std::system_error(-result, std::system_category(), "Failed to prepare audio interface");
+                            throw std::system_error(result, errorCategory, "Failed to prepare audio interface");
 
                         continue;
                     }
                     else
-                        throw std::system_error(frames, std::system_category(), "Failed to get available frames");
+                        throw std::system_error(frames, errorCategory, "Failed to get available frames");
                 }
 
                 if (static_cast<snd_pcm_uframes_t>(frames) > periods * periodSize)
@@ -167,10 +173,10 @@ namespace ouzel::audio::alsa
                         logger.log(Log::Level::warning) << "Buffer underrun occurred";
 
                         if (const auto prepareResult = snd_pcm_prepare(playbackHandle); prepareResult != 0)
-                            throw std::system_error(-prepareResult, std::system_category(), "Failed to prepare audio interface");
+                            throw std::system_error(prepareResult, errorCategory, "Failed to prepare audio interface");
                     }
                     else
-                        throw std::system_error(-result, std::system_category(), "Failed to write data");
+                        throw std::system_error(result, errorCategory, "Failed to write data");
                 }
             }
             catch (const std::exception& e)
