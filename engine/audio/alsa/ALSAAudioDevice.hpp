@@ -33,8 +33,6 @@ namespace ouzel::audio::alsa
         void run();
 
         snd_pcm_t* playbackHandle = nullptr;
-        snd_pcm_hw_params_t* hwParams = nullptr;
-        snd_pcm_sw_params_t* swParams = nullptr;
 
         unsigned int periods = 4U;
         snd_pcm_uframes_t periodSize = 1024U;

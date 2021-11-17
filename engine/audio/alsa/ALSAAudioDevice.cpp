@@ -26,13 +26,13 @@ namespace ouzel::audio::alsa
     {
         const char* device = settings.audioDevice.empty() ? "default" : settings.audioDevice.c_str();
 
-        if (const auto result = snd_pcm_open(&playbackHandle, device, SND_PCM_STREAM_PLAYBACK, 0); result != 0)
+        if (const auto result = snd_pcm_open(&playbackHandle, device, SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK); result != 0)
             throw std::system_error(result, errorCategory, "Failed to connect to audio interface");
 
         logger.log(Log::Level::info) << "Using " << snd_pcm_name(playbackHandle) << " for audio";
 
-        if (const auto result = snd_pcm_hw_params_malloc(&hwParams); result != 0)
-            throw std::system_error(result, errorCategory, "Failed to allocate memory for hardware parameters");
+        snd_pcm_hw_params_t* hwParams = nullptr;
+        snd_pcm_hw_params_alloca(&hwParams);
 
         if (const auto result = snd_pcm_hw_params_any(playbackHandle, hwParams); result != 0)
             throw std::system_error(result, errorCategory, "Failed to initialize hardware parameters");
@@ -82,11 +82,8 @@ namespace ouzel::audio::alsa
         if (const auto result = snd_pcm_hw_params(playbackHandle, hwParams); result != 0)
             throw std::system_error(result, errorCategory, "Failed to set hardware parameters");
 
-        snd_pcm_hw_params_free(hwParams);
-        hwParams = nullptr;
-
-        if (const auto result = snd_pcm_sw_params_malloc(&swParams); result != 0)
-            throw std::system_error(result, errorCategory, "Failed to allocate memory for software parameters");
+        snd_pcm_sw_params_t* swParams = nullptr;
+        snd_pcm_sw_params_alloca(&swParams);
 
         if (const auto result = snd_pcm_sw_params_current(playbackHandle, swParams); result != 0)
             throw std::system_error(result, errorCategory, "Failed to initialize software parameters");
@@ -102,9 +99,6 @@ namespace ouzel::audio::alsa
 
         if (const auto result = snd_pcm_prepare(playbackHandle); result != 0)
             throw std::system_error(result, errorCategory, "Failed to prepare audio interface");
-
-        snd_pcm_sw_params_free(swParams);
-        swParams = nullptr;
     }
 
     AudioDevice::~AudioDevice()
@@ -112,8 +106,6 @@ namespace ouzel::audio::alsa
         running = false;
         if (audioThread.isJoinable()) audioThread.join();
 
-        if (swParams) snd_pcm_sw_params_free(swParams);
-        if (hwParams) snd_pcm_hw_params_free(hwParams);
         if (playbackHandle) snd_pcm_close(playbackHandle);
     }
 
