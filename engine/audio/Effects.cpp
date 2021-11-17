@@ -46,7 +46,7 @@ namespace ouzel::audio
             }
         }
 
-        void setDelay(float newDelay)
+        void setDelay(const float newDelay) noexcept
         {
             delay = newDelay;
         }
@@ -97,7 +97,7 @@ namespace ouzel::audio
                 sample *= gainFactor;
         }
 
-        void setGain(float newGain)
+        void setGain(const float newGain) noexcept
         {
             gain = newGain;
             gainFactor = std::pow(10.0F, gain / 20.0F);
@@ -145,7 +145,7 @@ namespace ouzel::audio
         {
         }
 
-        void setPosition(const math::Vector<float, 3>& newPosition)
+        void setPosition(const math::Vector<float, 3>& newPosition) noexcept
         {
             position = newPosition;
         }
@@ -250,7 +250,7 @@ namespace ouzel::audio
                                             &samples[channel * frames]);
         }
 
-        void setScale(float newScale)
+        void setScale(const float newScale) noexcept
         {
             scale = std::clamp(newScale, minPitch, maxPitch);
         }
@@ -299,7 +299,7 @@ namespace ouzel::audio
             // TODO: implement
         }
 
-        void setShift(float newShift)
+        void setShift(const float newShift) noexcept
         {
             shift = newShift;
         }
