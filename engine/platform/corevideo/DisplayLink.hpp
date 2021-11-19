@@ -29,7 +29,7 @@ namespace ouzel::platform::corevideo
             other.displayLink = nullptr;
         }
 
-        DisplayLink(const DisplayLink& other):
+        DisplayLink(const DisplayLink& other) noexcept:
             displayLink{other.displayLink}
         {
             if (displayLink) CVDisplayLinkRetain(displayLink);
