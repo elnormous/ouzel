@@ -16,6 +16,10 @@ namespace ouzel::platform::cocoa
     class Window final
     {
     public:
+        ~Window();
+
+    private:
+        NSWindowPtr window = nil;
     };
 }
 
