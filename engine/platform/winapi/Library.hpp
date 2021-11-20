@@ -65,12 +65,10 @@ namespace ouzel::platform::winapi
 
         auto getProcAddress(LPCSTR procName) const
         {
-            const auto result = GetProcAddress(handle, procName);
-
-            if (!result)
+            if (const auto result = GetProcAddress(handle, procName); result)
+                return result;
+            else
                 throw std::system_error(GetLastError(), std::system_category(), "Failed to get address of procedure");
-
-            return result;
         }
 
     private:
