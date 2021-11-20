@@ -18,6 +18,12 @@ namespace ouzel::platform::cocoa
     public:
         ~Window();
 
+        Window& operator=(NSWindowPtr a) noexcept;
+        Window(const Window& other) noexcept;
+        Window& operator=(const Window& other) noexcept;
+        Window(Window&& other) noexcept;
+        Window& operator=(Window&& other) noexcept;
+
     private:
         NSWindowPtr window = nil;
     };
