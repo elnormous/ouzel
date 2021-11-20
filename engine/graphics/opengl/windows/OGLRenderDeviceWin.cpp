@@ -141,7 +141,7 @@ namespace ouzel::graphics::opengl::windows
         {
             platform::winapi::Library library{"opengl32.dll"};
 
-            const auto glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(GetProcAddress(library.get(), "glGetString"));
+            const auto glGetStringProc = reinterpret_cast<PFNGLGETSTRINGPROC>(library.getProcAddress("glGetString"));
 
             const auto versionPtr = glGetStringProc(GL_VERSION);
 

@@ -63,6 +63,16 @@ namespace ouzel::platform::winapi
             return handle;
         }
 
+        auto getProcAddress(LPCSTR procName) const
+        {
+            const auto result = GetProcAddress(handle, procName);
+
+            if (!result)
+                throw std::system_error(GetLastError(), std::system_category(), "Failed to get address of procedure");
+
+            return result;
+        }
+
     private:
         HMODULE handle = nullptr;
     };
