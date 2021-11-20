@@ -82,13 +82,13 @@ namespace ouzel::graphics::opengl
         }
 
         template <typename T>
-        T get(const char* name, ApiVersion procApiVersion) const noexcept
+        T get(const char* name, ApiVersion procApiVersion) const
         {
             return (apiVersion >= procApiVersion) ? getProcAddress<T>(name, procApiVersion) : nullptr;
         }
 
         template <typename T>
-        T get(const char* name, const char* extension) const noexcept
+        T get(const char* name, const char* extension) const
         {
             return hasExtension(extension) ? getProcAddress<T>(name) : nullptr;
         }
@@ -96,7 +96,7 @@ namespace ouzel::graphics::opengl
         template <typename T>
         T get(const char* name,
               ApiVersion procApiVersion,
-              const std::map<const char*, const char*>& procExtensions) const noexcept
+              const std::map<const char*, const char*>& procExtensions) const
         {
             if (apiVersion >= procApiVersion)
                 return getProcAddress<T>(name, procApiVersion);
@@ -115,13 +115,16 @@ namespace ouzel::graphics::opengl
 
     private:
         template <typename T>
-        T getProcAddress(const char* name, ApiVersion procApiVersion) const noexcept
+        T getProcAddress(const char* name, ApiVersion procApiVersion) const
         {
 #if OUZEL_OPENGL_INTERFACE_EGL
 #  if OUZEL_OPENGLES
-            return procApiVersion >= ApiVersion{3, 0} ?
-                reinterpret_cast<T>(eglGetProcAddress(name)) :
-                reinterpret_cast<T>(dlsym(RTLD_DEFAULT, name));
+            if  (procApiVersion >= ApiVersion{3, 0})
+                return reinterpret_cast<T>(eglGetProcAddress(name));
+            else if (auto p = dlsym(RTLD_DEFAULT, name); p)
+                return reinterpret_cast<T>(p);
+            else
+                throw std::runtime_error(dlerror());
 #  else
             (void)procApiVersion;
             return reinterpret_cast<T>(eglGetProcAddress(name));
@@ -132,19 +135,25 @@ namespace ouzel::graphics::opengl
                 reinterpret_cast<T>(library.getProcAddress(name));
 #else
             (void)procApiVersion;
-            return reinterpret_cast<T>(dlsym(RTLD_DEFAULT, name));
+            if (auto p = dlsym(RTLD_DEFAULT, name); p)
+                return reinterpret_cast<T>(p);
+            else
+                throw std::runtime_error(dlerror());
 #endif
         }
 
         template <typename T>
-        T getProcAddress(const char* name) const noexcept
+        T getProcAddress(const char* name) const
         {
 #if OUZEL_OPENGL_INTERFACE_EGL
             return reinterpret_cast<T>(eglGetProcAddress(name));
 #elif OUZEL_OPENGL_INTERFACE_WGL
             return reinterpret_cast<T>(wglGetProcAddress(name));
 #else
-            return reinterpret_cast<T>(dlsym(RTLD_DEFAULT, name));
+            if (auto p = dlsym(RTLD_DEFAULT, name); p)
+                return reinterpret_cast<T>(p);
+            else
+                throw std::runtime_error(dlerror());
 #endif
         }
 
