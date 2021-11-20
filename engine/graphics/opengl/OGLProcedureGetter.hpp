@@ -121,7 +121,7 @@ namespace ouzel::graphics::opengl
 #  if OUZEL_OPENGLES
             return procApiVersion >= ApiVersion{3, 0} ?
                 reinterpret_cast<T>(eglGetProcAddress(name)) :
-                reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+                reinterpret_cast<T>(dlsym(RTLD_DEFAULT, name));
 #  else
             (void)procApiVersion;
             return reinterpret_cast<T>(eglGetProcAddress(name));
@@ -132,7 +132,7 @@ namespace ouzel::graphics::opengl
                 reinterpret_cast<T>(library.getProcAddress(name));
 #else
             (void)procApiVersion;
-            return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+            return reinterpret_cast<T>(dlsym(RTLD_DEFAULT, name));
 #endif
         }
 
@@ -144,7 +144,7 @@ namespace ouzel::graphics::opengl
 #elif OUZEL_OPENGL_INTERFACE_WGL
             return reinterpret_cast<T>(wglGetProcAddress(name));
 #else
-            return reinterpret_cast<T>(reinterpret_cast<std::uintptr_t>(dlsym(RTLD_DEFAULT, name)));
+            return reinterpret_cast<T>(dlsym(RTLD_DEFAULT, name));
 #endif
         }
 
