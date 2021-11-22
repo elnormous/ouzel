@@ -8,7 +8,7 @@
 #ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
-namespace omath
+namespace ouzel::math
 {
     template <>
     inline auto operator-(const Quaternion<float>& quat) noexcept
