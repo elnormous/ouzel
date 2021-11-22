@@ -63,6 +63,16 @@ namespace ouzel::platform::quartzcore
         renderThread = thread::Thread(&DisplayLink::renderMain, this);
     }
 
+    void DisplayLink::stop()
+    {
+        running = false;
+        if (runLoop)
+        {
+            CFRunLoopStop([runLoop getCFRunLoop]);
+            runLoop = nil;
+        }
+    }
+
     void DisplayLink::renderMain()
     {
         thread::setCurrentThreadName("Render");

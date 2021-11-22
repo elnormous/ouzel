@@ -36,6 +36,7 @@ namespace ouzel::platform::quartzcore
         DisplayLink& operator=(DisplayLink&&) = delete;
 
         void start(bool initVerticalSync);
+        void stop();
 
     private:
         void renderMain();
