@@ -29,7 +29,7 @@ namespace ouzel::platform::dispatch
             other.semaphore = nullptr;
         }
 
-        Semaphore(const Semaphore& other):
+        Semaphore(const Semaphore& other) noexcept:
             semaphore{other.semaphore}
         {
             if (semaphore) dispatch_retain(semaphore);
