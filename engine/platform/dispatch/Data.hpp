@@ -32,7 +32,7 @@ namespace ouzel::platform::dispatch
             other.data = nullptr;
         }
 
-        Data(const Data& other):
+        Data(const Data& other) noexcept:
             data{other.data}
         {
             if (data) dispatch_retain(data);
