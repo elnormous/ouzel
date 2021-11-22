@@ -3,6 +3,7 @@
 #ifndef OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
 #define OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
 
+#include <stdexcept>
 #ifdef __OBJC__
 #  import <QuartzCore/QuartzCore.h>
 typedef CADisplayLink* CADisplayLinkPtr;
@@ -20,6 +21,12 @@ using RenderCallback = void (*)(void*);
 
 namespace ouzel::platform::quartzcore
 {
+    class DisplayLinkError final: public std::runtime_error
+    {
+    public:
+        using std::runtime_error::runtime_error;
+    };
+
     class DisplayLink final
     {
     public:

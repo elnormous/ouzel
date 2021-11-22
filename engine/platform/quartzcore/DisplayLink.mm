@@ -1,6 +1,5 @@
 // Ouzel by Elviss Strazdins
 
-#include <stdexcept>
 #include "DisplayLink.hpp"
 
 @interface DisplayLinkHandler: NSObject
@@ -53,7 +52,7 @@ namespace ouzel::platform::quartzcore
 
             displayLink = [CADisplayLink displayLinkWithTarget:displayLinkHandler selector:@selector(draw:)];
             if (!displayLink)
-                throw std::runtime_error("Failed to create display link");
+                throw DisplayLinkError{"Failed to create display link"};
 
             [displayLink setFrameInterval:1.0F];
         }
