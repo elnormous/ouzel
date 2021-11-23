@@ -30,6 +30,11 @@
 
 namespace ouzel::platform::quartzcore
 {
+    DisplayLink::DisplayLink(RenderCallback initCallback, void* initUserInfo) noexcept:
+        callback{initCallback}, userInfo{initUserInfo}, running{false}
+    {
+    }
+
     DisplayLink::~DisplayLink()
     {
         running = false;

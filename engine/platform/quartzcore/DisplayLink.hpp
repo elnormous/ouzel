@@ -30,11 +30,7 @@ namespace ouzel::platform::quartzcore
     class DisplayLink final
     {
     public:
-        DisplayLink(RenderCallback initCallback, void* initUserInfo) noexcept:
-            callback{initCallback}, userInfo{initUserInfo}, running{false}
-        {
-        }
-
+        DisplayLink(RenderCallback initCallback, void* initUserInfo) noexcept;
         ~DisplayLink();
 
         DisplayLink(const DisplayLink&) = delete;
