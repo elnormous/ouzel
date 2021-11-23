@@ -45,7 +45,6 @@ namespace ouzel::platform::quartzcore
             [displayLink invalidate];
             [displayLink release];
         }
-        if (displayLinkHandler) [displayLinkHandler release];
     }
 
     void DisplayLink::start(bool initVerticalSync)
@@ -54,7 +53,7 @@ namespace ouzel::platform::quartzcore
 
         if (verticalSync)
         {
-            displayLinkHandler = [[DisplayLinkHandler alloc] initWithCallback:callback andUserInfo:userInfo];
+            DisplayLinkHandler* displayLinkHandler = [[[DisplayLinkHandler alloc] initWithCallback:callback andUserInfo:userInfo] autorelease];
 
             displayLink = [CADisplayLink displayLinkWithTarget:displayLinkHandler selector:@selector(draw:)];
             if (!displayLink)
