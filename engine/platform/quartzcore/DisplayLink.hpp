@@ -50,6 +50,7 @@ namespace ouzel::platform::quartzcore
         std::atomic_bool running{false};
         bool verticalSync = false;
         CADisplayLinkPtr displayLink = nil;
+        id displayLinkHandler = nil;
         NSRunLoopPtr runLoop = nil;
     };
 }
