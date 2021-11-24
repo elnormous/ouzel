@@ -84,11 +84,13 @@ namespace ouzel::graphics::opengl::ios
 
         createFrameBuffer();
 
-        displayLink.start(verticalSync);
+        running = true;
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()
     {
+        running = false;
         displayLink.stop();
         CommandBuffer commandBuffer;
         commandBuffer.pushCommand(std::make_unique<PresentCommand>());
@@ -312,6 +314,16 @@ namespace ouzel::graphics::opengl::ios
         }
     }
 
+    void RenderDevice::renderMain()
+    {
+        thread::setCurrentThreadName("Render");
+
+        if (verticalSync)
+            displayLink.start();
+        else while (running)
+            renderCallback();
+    }
+    
     void RenderDevice::renderCallback()
     {
         if ([EAGLContext currentContext] != context &&

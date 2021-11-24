@@ -84,11 +84,13 @@ namespace ouzel::graphics::opengl::tvos
 
         createFrameBuffer();
 
-        displayLink.start(verticalSync);
+        running = true;
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()
     {
+        running = false;
         displayLink.stop();
         CommandBuffer commandBuffer;
         commandBuffer.pushCommand(std::make_unique<PresentCommand>());
@@ -310,6 +312,16 @@ namespace ouzel::graphics::opengl::tvos
 
             frameBufferId = resolveFrameBufferId;
         }
+    }
+
+    void RenderDevice::renderMain()
+    {
+        thread::setCurrentThreadName("Render");
+
+        if (verticalSync)
+            displayLink.start();
+        else while (running)
+            renderCallback();
     }
 
     void RenderDevice::renderCallback()

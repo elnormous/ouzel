@@ -12,6 +12,7 @@
 #if TARGET_OS_IOS && OUZEL_COMPILE_OPENGL
 
 #include "../OGLRenderDevice.hpp"
+#include "../../../thread/Thread.hpp"
 #include "../../../platform/quartzcore/DisplayLink.hpp"
 
 #ifdef __OBJC__
@@ -45,6 +46,8 @@ namespace ouzel::graphics::opengl::ios
 
         void createFrameBuffer();
 
+        void renderMain();
+
         EAGLSharegroupPtr shareGroup = nil;
         EAGLContextPtr context = nil;
         CAEAGLLayerPtr eaglLayer = nil;
@@ -57,6 +60,8 @@ namespace ouzel::graphics::opengl::ios
 
         GLuint depthRenderBufferId = 0;
 
+        thread::Thread renderThread;
+        std::atomic_bool running{false};
         platform::quartzcore::DisplayLink displayLink;
     };
 }

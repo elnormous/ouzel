@@ -15,7 +15,6 @@ typedef id NSRunLoopPtr;
 #endif
 
 #include "../../graphics/RenderDevice.hpp"
-#include "../../thread/Thread.hpp"
 
 using RenderCallback = void (*)(void*);
 
@@ -30,7 +29,7 @@ namespace ouzel::platform::quartzcore
     class DisplayLink final
     {
     public:
-        DisplayLink(RenderCallback initCallback, void* initUserInfo) noexcept;
+        DisplayLink(RenderCallback initCallback, void* initUserInfo);
         ~DisplayLink();
 
         DisplayLink(const DisplayLink&) = delete;
@@ -38,17 +37,12 @@ namespace ouzel::platform::quartzcore
         DisplayLink(DisplayLink&&) = delete;
         DisplayLink& operator=(DisplayLink&&) = delete;
 
-        void start(bool initVerticalSync);
+        void start();
         void stop();
 
     private:
         void renderMain();
 
-        RenderCallback callback;
-        void* userInfo;
-        thread::Thread renderThread;
-        std::atomic_bool running{false};
-        bool verticalSync = false;
         CADisplayLinkPtr displayLink = nil;
         NSRunLoopPtr runLoop = nil;
     };

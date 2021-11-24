@@ -49,17 +49,29 @@ namespace ouzel::graphics::metal::tvos
 
         colorFormat = metalLayer.pixelFormat;
 
-        displayLink.start(verticalSync);
+        running = true;
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()
     {
+        running = false;
         displayLink.stop();
         CommandBuffer commandBuffer;
         commandBuffer.pushCommand(std::make_unique<PresentCommand>());
         submitCommandBuffer(std::move(commandBuffer));
     }
 
+    void RenderDevice::renderMain()
+    {
+        thread::setCurrentThreadName("Render");
+
+        if (verticalSync)
+            displayLink.start();
+        else while (running)
+            process();
+    }
+    
     void RenderDevice::renderCallback()
     {
         process();

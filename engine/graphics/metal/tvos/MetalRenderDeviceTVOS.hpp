@@ -12,6 +12,7 @@
 #if TARGET_OS_TV && OUZEL_COMPILE_METAL
 
 #include "../MetalRenderDevice.hpp"
+#include "../../../thread/Thread.hpp"
 #include "../../../platform/quartzcore/DisplayLink.hpp"
 
 namespace ouzel::graphics::metal::tvos
@@ -28,6 +29,10 @@ namespace ouzel::graphics::metal::tvos
         void renderCallback();
 
     private:
+        void renderMain();
+
+        thread::Thread renderThread;
+        std::atomic_bool running{false};
         platform::quartzcore::DisplayLink displayLink;
     };
 }
