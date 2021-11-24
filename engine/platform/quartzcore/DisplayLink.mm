@@ -64,7 +64,7 @@ namespace ouzel::platform::quartzcore
 
         running = true;
 
-        renderThread = thread::Thread(&DisplayLink::renderMain, this);
+        renderThread = thread::Thread{&DisplayLink::renderMain, this};
     }
 
     void DisplayLink::stop()

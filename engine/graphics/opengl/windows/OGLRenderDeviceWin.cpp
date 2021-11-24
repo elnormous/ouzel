@@ -307,7 +307,7 @@ namespace ouzel::graphics::opengl::windows
             throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
 
         running = true;
-        renderThread = thread::Thread(&RenderDevice::renderMain, this);
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()

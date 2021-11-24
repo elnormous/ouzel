@@ -112,7 +112,7 @@ namespace ouzel::audio::alsa
     void AudioDevice::start()
     {
         running = true;
-        audioThread = thread::Thread(&AudioDevice::run, this);
+        audioThread = thread::Thread{&AudioDevice::run, this};
     }
 
     void AudioDevice::stop()

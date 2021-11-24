@@ -288,7 +288,7 @@ namespace ouzel::graphics::d3d11
         defaultDepthStencilState = newDefaultDepthStencilState;
 
         running = true;
-        renderThread = thread::Thread(&RenderDevice::renderMain, this);
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()

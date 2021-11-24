@@ -638,7 +638,7 @@ namespace ouzel::core
             paused = false;
 
 #ifndef __EMSCRIPTEN__
-            updateThread = thread::Thread(&Engine::engineMain, this);
+            updateThread = thread::Thread{&Engine::engineMain, this};
 #else
             main(args);
 #endif

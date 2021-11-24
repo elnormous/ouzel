@@ -303,7 +303,7 @@ namespace ouzel::audio::openal
 
 #ifndef __EMSCRIPTEN__
         running = true;
-        audioThread = thread::Thread(&AudioDevice::run, this);
+        audioThread = thread::Thread{&AudioDevice::run, this};
 #endif
     }
 
