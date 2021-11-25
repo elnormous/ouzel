@@ -51,14 +51,14 @@ namespace ouzel::platform::quartzcore
         }
     }
 
-    void DisplayLink::start()
+    void DisplayLink::start() noexcept
     {
         runLoop = [NSRunLoop currentRunLoop];
         [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
         [runLoop run];
     }
 
-    void DisplayLink::stop()
+    void DisplayLink::stop() noexcept
     {
         if (runLoop)
         {

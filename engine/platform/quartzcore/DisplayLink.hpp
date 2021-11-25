@@ -37,8 +37,8 @@ namespace ouzel::platform::quartzcore
         DisplayLink(DisplayLink&&) = delete;
         DisplayLink& operator=(DisplayLink&&) = delete;
 
-        void start();
-        void stop();
+        void start() noexcept;
+        void stop() noexcept;
 
     private:
         void renderMain();
