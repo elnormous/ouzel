@@ -33,6 +33,8 @@ namespace ouzel::platform::foundation
             return pool != other.pool;
         }
 
+        void drain() const noexcept;
+
     private:
         NSAutoreleasePoolPtr pool = nil;
     };

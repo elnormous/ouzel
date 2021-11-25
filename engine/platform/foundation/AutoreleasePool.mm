@@ -41,4 +41,9 @@ namespace ouzel::platform::foundation
         other.pool = nil;
         return *this;
     }
+
+    void AutoreleasePool::drain() const noexcept
+    {
+        [pool drain];
+    }
 }
