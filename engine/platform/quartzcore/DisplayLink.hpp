@@ -29,7 +29,7 @@ namespace ouzel::platform::quartzcore
     class DisplayLink final
     {
     public:
-        DisplayLink(RenderCallback initCallback, void* initUserInfo);
+        DisplayLink(RenderCallback callback, void* userInfo);
         ~DisplayLink();
 
         DisplayLink(const DisplayLink&) = delete;
