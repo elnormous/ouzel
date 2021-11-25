@@ -5,7 +5,7 @@
 namespace ouzel::platform::foundation
 {
     AutoreleasePool::AutoreleasePool() noexcept:
-        pool([[NSAutoreleasePool alloc] init])
+        pool{[[NSAutoreleasePool alloc] init]}
     {
     }
 
@@ -15,12 +15,12 @@ namespace ouzel::platform::foundation
     }
 
     AutoreleasePool::AutoreleasePool(const AutoreleasePool& other) noexcept:
-        pool([other.pool retain])
+        pool{[other.pool retain]}
     {
     }
 
     AutoreleasePool::AutoreleasePool(AutoreleasePool&& other) noexcept:
-        pool(other.pool)
+        pool{other.pool}
     {
         other.pool = nil;
     }
