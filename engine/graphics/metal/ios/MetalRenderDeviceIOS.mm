@@ -22,8 +22,6 @@ namespace ouzel::graphics::metal::ios
     {
         void renderCallback(void* userInfo)
         {
-            platform::foundation::AutoreleasePool autoreleasePool;
-
             try
             {
                 const auto renderDevice = static_cast<RenderDevice*>(userInfo);
@@ -73,11 +71,12 @@ namespace ouzel::graphics::metal::ios
         if (verticalSync)
             displayLink.start();
         else while (running)
-            process();
+            renderCallback();
     }
 
     void RenderDevice::renderCallback()
     {
+        platform::foundation::AutoreleasePool autoreleasePool;
         process();
     }
 }

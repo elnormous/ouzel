@@ -28,8 +28,6 @@ namespace ouzel::graphics::metal::macos
                                 CVOptionFlags*,
                                 void* userInfo)
         {
-            platform::foundation::AutoreleasePool autoreleasePool;
-
             try
             {
                 const auto renderDevice = static_cast<RenderDevice*>(userInfo);
@@ -130,6 +128,7 @@ namespace ouzel::graphics::metal::macos
 
     void RenderDevice::renderCallback()
     {
+        platform::foundation::AutoreleasePool autoreleasePool;
         if (running) process();
     }
 }

@@ -29,8 +29,6 @@ namespace ouzel::graphics::opengl::macos
                                 CVOptionFlags*,
                                 void* userInfo)
         {
-            platform::foundation::AutoreleasePool autoreleasePool;
-
             try
             {
                 const auto renderDevice = static_cast<RenderDevice*>(userInfo);
@@ -193,6 +191,7 @@ namespace ouzel::graphics::opengl::macos
 
     void RenderDevice::renderCallback()
     {
+        platform::foundation::AutoreleasePool autoreleasePool;
         if ([NSOpenGLContext currentContext] != context)
             [context makeCurrentContext];
 

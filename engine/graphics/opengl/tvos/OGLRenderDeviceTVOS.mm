@@ -23,8 +23,6 @@ namespace ouzel::graphics::opengl::tvos
     {
         void renderCallback(void* userInfo)
         {
-            platform::foundation::AutoreleasePool autoreleasePool;
-
             try
             {
                 const auto renderDevice = static_cast<RenderDevice*>(userInfo);
@@ -326,6 +324,7 @@ namespace ouzel::graphics::opengl::tvos
 
     void RenderDevice::renderCallback()
     {
+        platform::foundation::AutoreleasePool autoreleasePool;
         if ([EAGLContext currentContext] != context &&
             ![EAGLContext setCurrentContext:context])
             throw std::runtime_error("Failed to set current OpenGL context");
