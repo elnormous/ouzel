@@ -30,11 +30,11 @@
 
 namespace ouzel::platform::quartzcore
 {
-    DisplayLink::DisplayLink(RenderCallback callback, void* userInfo)
+    DisplayLink::DisplayLink(RenderCallback callback, void* userInfo):
+        displayLink{[CADisplayLink displayLinkWithTarget:[[[DisplayLinkHandler alloc] initWithCallback:callback
+                                                                                           andUserInfo:userInfo] autorelease]
+                                                selector:@selector(draw:)]}
     {
-        DisplayLinkHandler* displayLinkHandler = [[[DisplayLinkHandler alloc] initWithCallback:callback andUserInfo:userInfo] autorelease];
-
-        displayLink = [CADisplayLink displayLinkWithTarget:displayLinkHandler selector:@selector(draw:)];
         if (!displayLink)
             throw DisplayLinkError{"Failed to create display link"};
 
