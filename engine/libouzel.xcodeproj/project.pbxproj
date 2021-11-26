@@ -539,6 +539,12 @@
 		307F4C2824E20D2A00994B7A /* AutoreleasePool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */; };
 		307F9FFE1F1E9CA000BA73CB /* GamepadDeviceGC.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */; };
 		307F9FFF1F1E9CA000BA73CB /* GamepadDeviceGC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F9FFD1F1E9CA000BA73CB /* GamepadDeviceGC.mm */; };
+		30859C5B274F0EB9009AD9EB /* RunLoop.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30859C59274F0EB9009AD9EB /* RunLoop.hpp */; };
+		30859C5C274F0EB9009AD9EB /* RunLoop.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30859C59274F0EB9009AD9EB /* RunLoop.hpp */; };
+		30859C5D274F0EB9009AD9EB /* RunLoop.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 30859C59274F0EB9009AD9EB /* RunLoop.hpp */; };
+		30859C5E274F0EB9009AD9EB /* RunLoop.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30859C5A274F0EB9009AD9EB /* RunLoop.mm */; };
+		30859C5F274F0EB9009AD9EB /* RunLoop.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30859C5A274F0EB9009AD9EB /* RunLoop.mm */; };
+		30859C60274F0EB9009AD9EB /* RunLoop.mm in Sources */ = {isa = PBXBuildFile; fileRef = 30859C5A274F0EB9009AD9EB /* RunLoop.mm */; };
 		3085DA23211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
 		3085DA24211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
 		3085DA25211A4A5500F4C2D0 /* Socket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3085DA1F211A4A5500F4C2D0 /* Socket.hpp */; };
@@ -998,6 +1004,8 @@
 		3082B56E24DA04C400489B19 /* Semaphore.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Semaphore.hpp; sourceTree = "<group>"; };
 		3082C3461D94A8D90090FC9D /* PixelFormat.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PixelFormat.hpp; sourceTree = "<group>"; };
 		30856EF81F7B289B00AA6222 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		30859C59274F0EB9009AD9EB /* RunLoop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RunLoop.hpp; sourceTree = "<group>"; };
+		30859C5A274F0EB9009AD9EB /* RunLoop.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RunLoop.mm; sourceTree = "<group>"; };
 		3085DA1F211A4A5500F4C2D0 /* Socket.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Socket.hpp; sourceTree = "<group>"; };
 		30861B1524E4AF27007E48E4 /* CAErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CAErrorCategory.hpp; sourceTree = "<group>"; };
 		30861B1624E4AF83007E48E4 /* OALErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OALErrorCategory.hpp; sourceTree = "<group>"; };
@@ -1903,6 +1911,8 @@
 			children = (
 				307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */,
 				307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */,
+				30859C59274F0EB9009AD9EB /* RunLoop.hpp */,
+				30859C5A274F0EB9009AD9EB /* RunLoop.mm */,
 			);
 			path = foundation;
 			sourceTree = "<group>";
@@ -1969,6 +1979,7 @@
 				30419DF51D162BEF00A63759 /* Sound.hpp in Headers */,
 				303B04B31E207B6100011CBE /* OpenGLView.h in Headers */,
 				30519CEB1F9B53F500AF3DC4 /* MtlLoader.hpp in Headers */,
+				30859C5B274F0EB9009AD9EB /* RunLoop.hpp in Headers */,
 				307934D722C58CFE005A6804 /* Cue.hpp in Headers */,
 				30FE38511DFDE49E00305B3B /* Quaternion.hpp in Headers */,
 				30A381F821B201C20043568A /* Bus.hpp in Headers */,
@@ -2220,6 +2231,7 @@
 				30A4C1CE270FA4D600419C99 /* MatrixSse.hpp in Headers */,
 				30B859911F3D286600A16952 /* TTFont.hpp in Headers */,
 				30A3820321B382A20043568A /* Mixer.hpp in Headers */,
+				30859C5D274F0EB9009AD9EB /* RunLoop.hpp in Headers */,
 				30A3821D21B4BDC80043568A /* Submix.hpp in Headers */,
 				C61B49F02174B83900B818F1 /* SkinnedMeshRenderer.hpp in Headers */,
 				30C758BA1F4A0309008499DC /* RenderDevice.hpp in Headers */,
@@ -2286,6 +2298,7 @@
 				300862D42154712E00D8CC45 /* InputSystemMacOS.hpp in Headers */,
 				30575AA91C39D1FF0009C8A7 /* Layer.hpp in Headers */,
 				303B754C1C2A3CA200FEDE92 /* Image.hpp in Headers */,
+				30859C5C274F0EB9009AD9EB /* RunLoop.hpp in Headers */,
 				30EEADD5216ECEFE00D2F525 /* GamepadConfig.hpp in Headers */,
 				3038200A1D80A40700677CAB /* MetalShader.hpp in Headers */,
 				30AEFA3820C0FD7400CDFD33 /* MetalRenderTarget.hpp in Headers */,
@@ -2597,6 +2610,7 @@
 				30519CE81F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
 				30381F4F1D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
 				302B728421BDE302006EBC59 /* SilenceSound.cpp in Sources */,
+				30859C5E274F0EB9009AD9EB /* RunLoop.mm in Sources */,
 				303B04B61E207B6100011CBE /* OGLRenderDeviceIOS.mm in Sources */,
 				C6DBB72D22920078009F8DF9 /* Node.cpp in Sources */,
 				3031C1341F0C4350002CA717 /* VorbisClip.cpp in Sources */,
@@ -2707,6 +2721,7 @@
 				30CEB37A21A6404B00525637 /* SystemTVOS.cpp in Sources */,
 				30381F8D1D80A3EC00677CAB /* OGLTexture.cpp in Sources */,
 				30519CEA1F9B53F500AF3DC4 /* MtlLoader.cpp in Sources */,
+				30859C60274F0EB9009AD9EB /* RunLoop.mm in Sources */,
 				302B728621BDE302006EBC59 /* SilenceSound.cpp in Sources */,
 				30381F511D80A3EC00677CAB /* OGLBlendState.cpp in Sources */,
 				C6DBB72F22920078009F8DF9 /* Node.cpp in Sources */,
@@ -2753,6 +2768,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				306672611F964A77004515F2 /* Light.cpp in Sources */,
+				30859C5F274F0EB9009AD9EB /* RunLoop.mm in Sources */,
 				3038207E1D816C9E00677CAB /* EngineMacOS.mm in Sources */,
 				309BA3141F183D6E006F2240 /* CAAudioDevice.mm in Sources */,
 				30EABE3B220E5C6C001C70A6 /* Animators.cpp in Sources */,
