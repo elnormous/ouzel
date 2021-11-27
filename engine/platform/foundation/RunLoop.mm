@@ -51,4 +51,9 @@ namespace ouzel::platform::foundation
     {
         if (runLoop) CFRunLoopStop([runLoop getCFRunLoop]);
     }
+
+    bool RunLoop::isRunning() const noexcept
+    {
+        return [runLoop currentMode] != nil;
+    }
 }

@@ -37,6 +37,7 @@ namespace ouzel::platform::foundation
 
         void run() const noexcept;
         void stop() const noexcept;
+        bool isRunning() const noexcept;
 
     private:
         NSRunLoopPtr runLoop = nil;
