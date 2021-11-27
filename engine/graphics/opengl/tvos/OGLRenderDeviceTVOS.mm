@@ -82,16 +82,15 @@ namespace ouzel::graphics::opengl::tvos
 
         createFrameBuffer();
 
-        running = true;
         renderThread = thread::Thread{&RenderDevice::renderMain, this};
+        std::unique_lock lock{runLoopMutex};
+        while (!running) runLoopCondition.wait(lock);
     }
 
     RenderDevice::~RenderDevice()
     {
         running = false;
-        std::unique_lock lock{runLoopMutex};
         runLoop.stop();
-        lock.unlock();
         CommandBuffer commandBuffer;
         commandBuffer.pushCommand(std::make_unique<PresentCommand>());
         submitCommandBuffer(std::move(commandBuffer));
@@ -322,13 +321,24 @@ namespace ouzel::graphics::opengl::tvos
         {
             std::unique_lock lock{runLoopMutex};
             runLoop = platform::foundation::RunLoop{};
+            running = true;
+            displayLink.addToRunLoop(runLoop);
             lock.unlock();
 
-            displayLink.addToRunLoop(runLoop);
+            runLoopCondition.notify_all();
+
             runLoop.run();
         }
-        else while (running)
-            renderCallback();
+        else
+        {
+            std::unique_lock lock{runLoopMutex};
+            running = true;
+            lock.unlock();
+
+            runLoopCondition.notify_all();
+
+            while (running) renderCallback();
+        }
     }
 
     void RenderDevice::renderCallback()

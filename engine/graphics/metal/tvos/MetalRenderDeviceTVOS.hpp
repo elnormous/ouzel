@@ -35,6 +35,7 @@ namespace ouzel::graphics::metal::tvos
         thread::Thread renderThread;
         std::atomic_bool running{false};
         std::mutex runLoopMutex;
+        std::condition_variable runLoopCondition;
         platform::foundation::RunLoop runLoop;
         platform::quartzcore::DisplayLink displayLink;
     };
