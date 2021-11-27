@@ -54,7 +54,9 @@ namespace ouzel::graphics::metal::tvos
     RenderDevice::~RenderDevice()
     {
         running = false;
-        displayLink.stop();
+        std::unique_lock lock{runLoopMutex};
+        runLoop.stop();
+        lock.unlock();
         CommandBuffer commandBuffer;
         commandBuffer.pushCommand(std::make_unique<PresentCommand>());
         submitCommandBuffer(std::move(commandBuffer));
@@ -65,7 +67,14 @@ namespace ouzel::graphics::metal::tvos
         thread::setCurrentThreadName("Render");
 
         if (verticalSync)
-            displayLink.start();
+        {
+            std::unique_lock lock{runLoopMutex};
+            runLoop = platform::foundation::RunLoop{};
+            lock.unlock();
+
+            displayLink.addToRunLoop(runLoop);
+            runLoop.run();
+        }
         else while (running)
             renderCallback();
     }

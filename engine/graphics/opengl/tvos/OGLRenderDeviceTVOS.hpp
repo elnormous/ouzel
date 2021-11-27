@@ -13,6 +13,7 @@
 
 #include "../OGLRenderDevice.hpp"
 #include "../../../thread/Thread.hpp"
+#include "../../../platform/foundation/RunLoop.hpp"
 #include "../../../platform/quartzcore/DisplayLink.hpp"
 
 #ifdef __OBJC__
@@ -62,6 +63,8 @@ namespace ouzel::graphics::opengl::tvos
 
         thread::Thread renderThread;
         std::atomic_bool running{false};
+        std::mutex runLoopMutex;
+        platform::foundation::RunLoop runLoop;
         platform::quartzcore::DisplayLink displayLink;
     };
 }

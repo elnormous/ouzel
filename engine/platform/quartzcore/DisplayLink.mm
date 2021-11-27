@@ -43,7 +43,6 @@ namespace ouzel::platform::quartzcore
 
     DisplayLink::~DisplayLink()
     {
-        if (runLoop) CFRunLoopStop([runLoop getCFRunLoop]);
         if (displayLink)
         {
             [displayLink invalidate];
@@ -51,19 +50,13 @@ namespace ouzel::platform::quartzcore
         }
     }
 
-    void DisplayLink::start() noexcept
+    void DisplayLink::addToRunLoop(const foundation::RunLoop& runLoop) const noexcept
     {
-        runLoop = [NSRunLoop currentRunLoop];
         [displayLink addToRunLoop:runLoop forMode:NSDefaultRunLoopMode];
-        [runLoop run];
     }
 
-    void DisplayLink::stop() noexcept
+    void DisplayLink::removeFromRunLoop(const foundation::RunLoop& runLoop) const noexcept
     {
-        if (runLoop)
-        {
-            CFRunLoopStop([runLoop getCFRunLoop]);
-            runLoop = nil;
-        }
+        [displayLink removeFromRunLoop:runLoop forMode:NSDefaultRunLoopMode];
     }
 }

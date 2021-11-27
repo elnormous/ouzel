@@ -5,14 +5,14 @@
 
 #include <stdexcept>
 #ifdef __OBJC__
-#  import <QuartzCore/QuartzCore.h>
+#  import <QuartzCore/CADisplayLink.h>
 typedef CADisplayLink* CADisplayLinkPtr;
-typedef NSRunLoop* NSRunLoopPtr;
 #else
 #  include <objc/objc.h>
 typedef id CADisplayLinkPtr;
-typedef id NSRunLoopPtr;
 #endif
+
+#include "../foundation/RunLoop.hpp"
 
 using RenderCallback = void (*)(void*);
 
@@ -35,14 +35,13 @@ namespace ouzel::platform::quartzcore
         DisplayLink(DisplayLink&&) = delete;
         DisplayLink& operator=(DisplayLink&&) = delete;
 
-        void start() noexcept;
-        void stop() noexcept;
+        void addToRunLoop(const foundation::RunLoop& runLoop) const noexcept;
+        void removeFromRunLoop(const foundation::RunLoop& runLoop) const noexcept;
 
     private:
         void renderMain();
 
         CADisplayLinkPtr displayLink = nil;
-        NSRunLoopPtr runLoop = nil;
     };
 }
 

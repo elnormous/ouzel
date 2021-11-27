@@ -13,6 +13,7 @@
 
 #include "../MetalRenderDevice.hpp"
 #include "../../../thread/Thread.hpp"
+#include "../../../platform/foundation/RunLoop.hpp"
 #include "../../../platform/quartzcore/DisplayLink.hpp"
 
 namespace ouzel::graphics::metal::ios
@@ -33,6 +34,8 @@ namespace ouzel::graphics::metal::ios
 
         thread::Thread renderThread;
         std::atomic_bool running{false};
+        std::mutex runLoopMutex;
+        platform::foundation::RunLoop runLoop;
         platform::quartzcore::DisplayLink displayLink;
     };
 }
