@@ -14,8 +14,6 @@ typedef id CADisplayLinkPtr;
 typedef id NSRunLoopPtr;
 #endif
 
-#include "../../graphics/RenderDevice.hpp"
-
 using RenderCallback = void (*)(void*);
 
 namespace ouzel::platform::quartzcore
