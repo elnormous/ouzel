@@ -73,8 +73,8 @@ namespace ouzel::graphics::metal::ios
         {
             std::unique_lock lock{runLoopMutex};
             runLoop = platform::foundation::RunLoop{};
-            running = true;
             displayLink.addToRunLoop(runLoop);
+            running = true;
             lock.unlock();
 
             runLoopCondition.notify_all();
