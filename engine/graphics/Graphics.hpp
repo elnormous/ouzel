@@ -33,6 +33,7 @@ namespace ouzel::graphics
 
         static Driver getDriver(const std::string& driver);
         static std::set<Driver> getAvailableRenderDrivers();
+        void start() const;
 
         auto getDevice() const noexcept { return device.get(); }
 

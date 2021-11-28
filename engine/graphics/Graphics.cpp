@@ -152,6 +152,10 @@ namespace ouzel::graphics
         device{createRenderDevice(driver, initWindow, settings, std::bind(&Graphics::handleEvent, this, std::placeholders::_1))},
         renderer{*device}
     {
+    }
+
+    void Graphics::start() const
+    {
         device->start();
     }
 
