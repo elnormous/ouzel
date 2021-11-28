@@ -305,9 +305,6 @@ namespace ouzel::graphics::opengl::windows
 
         if (!wglMakeCurrent(deviceContext, nullptr))
             throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
-
-        running = true;
-        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()
@@ -331,6 +328,12 @@ namespace ouzel::graphics::opengl::windows
             const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
             ReleaseDC(windowWin->getNativeWindow(), deviceContext);
         }
+    }
+    
+    void RenderDevice::start()
+    {
+        running = true;
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     void RenderDevice::present()

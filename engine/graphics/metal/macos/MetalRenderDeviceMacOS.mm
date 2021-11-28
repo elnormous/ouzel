@@ -100,6 +100,11 @@ namespace ouzel::graphics::metal::macos
         return result;
     }
 
+    void RenderDevice::start()
+    {
+        displayLink.start();
+    }
+
     bool RenderDevice::handleWindow(const WindowEvent& event)
     {
         if (event.type == ouzel::Event::Type::screenChange)
@@ -122,11 +127,6 @@ namespace ouzel::graphics::metal::macos
         }
 
         return false;
-    }
-
-    void RenderDevice::start()
-    {
-        displayLink.start();
     }
 
     void RenderDevice::renderCallback()

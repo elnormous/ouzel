@@ -286,9 +286,6 @@ namespace ouzel::graphics::d3d11
             throw std::system_error(hr, errorCategory, "Failed to create Direct3D 11 depth stencil state");
 
         defaultDepthStencilState = newDefaultDepthStencilState;
-
-        running = true;
-        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()
@@ -872,6 +869,12 @@ namespace ouzel::graphics::d3d11
         output->Release();
 
         return result;
+    }
+    
+    void RenderDevice::start()
+    {
+        running = true;
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     void RenderDevice::generateScreenshot(const std::string& filename)

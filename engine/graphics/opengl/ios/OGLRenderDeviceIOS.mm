@@ -81,10 +81,6 @@ namespace ouzel::graphics::opengl::ios
              static_cast<GLsizei>(window.getResolution().v[1]));
 
         createFrameBuffer();
-
-        renderThread = thread::Thread{&RenderDevice::renderMain, this};
-        std::unique_lock lock{runLoopMutex};
-        while (!running) runLoopCondition.wait(lock);
     }
 
     RenderDevice::~RenderDevice()
@@ -108,6 +104,13 @@ namespace ouzel::graphics::opengl::ios
         }
 
         if (shareGroup) [shareGroup release];
+    }
+
+    void RenderDevice::start()
+    {
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
+        std::unique_lock lock{runLoopMutex};
+        while (!running) runLoopCondition.wait(lock);
     }
 
     void RenderDevice::resizeFrameBuffer()

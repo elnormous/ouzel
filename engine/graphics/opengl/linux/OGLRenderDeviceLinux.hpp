@@ -28,7 +28,7 @@ namespace ouzel::graphics::opengl::linux
         ~RenderDevice() override;
 
         std::vector<math::Size<std::uint32_t, 2>> getSupportedResolutions() const final;
-        void start() final {}
+        void start() final;
 
     private:
         void present() final;

@@ -37,10 +37,10 @@ namespace ouzel::graphics::opengl::macos
         ~RenderDevice() override;
 
         std::vector<math::Size<std::uint32_t, 2>> getSupportedResolutions() const final;
+        void start() final;
 
         auto getContext() const noexcept { return context; }
 
-        void start() final;
         void renderCallback();
 
     private:

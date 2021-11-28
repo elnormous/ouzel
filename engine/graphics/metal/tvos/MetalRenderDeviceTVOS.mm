@@ -46,10 +46,6 @@ namespace ouzel::graphics::metal::tvos
         metalLayer.drawableSize = drawableSize;
 
         colorFormat = metalLayer.pixelFormat;
-
-        renderThread = thread::Thread{&RenderDevice::renderMain, this};
-        std::unique_lock lock{runLoopMutex};
-        while (!running) runLoopCondition.wait(lock);
     }
 
     RenderDevice::~RenderDevice()
@@ -59,6 +55,13 @@ namespace ouzel::graphics::metal::tvos
         CommandBuffer commandBuffer;
         commandBuffer.pushCommand(std::make_unique<PresentCommand>());
         submitCommandBuffer(std::move(commandBuffer));
+    }
+
+    void RenderDevice::start()
+    {
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
+        std::unique_lock lock{runLoopMutex};
+        while (!running) runLoopCondition.wait(lock);
     }
 
     void RenderDevice::renderMain()

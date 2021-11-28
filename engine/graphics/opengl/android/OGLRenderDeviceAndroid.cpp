@@ -174,9 +174,6 @@ namespace ouzel::graphics::opengl::android
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
-
-        running = true;
-        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()
@@ -201,6 +198,12 @@ namespace ouzel::graphics::opengl::android
 
             eglTerminate(display);
         }
+    }
+
+    void RenderDevice::start()
+    {
+        running = true;
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     void RenderDevice::reload()

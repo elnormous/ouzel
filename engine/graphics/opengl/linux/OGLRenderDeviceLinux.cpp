@@ -162,9 +162,6 @@ namespace ouzel::graphics::opengl::linux
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
-
-        running = true;
-        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     RenderDevice::~RenderDevice()
@@ -219,6 +216,12 @@ namespace ouzel::graphics::opengl::linux
 #endif
 
         return result;
+    }
+
+    void RenderDevice::start()
+    {
+        running = true;
+        renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
     void RenderDevice::present()

@@ -26,7 +26,7 @@ namespace ouzel::graphics::opengl::android
                      const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
-        void start() final {}
+        void start() final;
         void reload();
         void destroy();
 

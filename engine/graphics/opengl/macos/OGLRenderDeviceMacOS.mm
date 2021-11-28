@@ -166,6 +166,11 @@ namespace ouzel::graphics::opengl::macos
         return result;
     }
 
+    void RenderDevice::start()
+    {
+        displayLink.start();
+    }
+
     void RenderDevice::present()
     {
         [context flushBuffer];
@@ -185,11 +190,6 @@ namespace ouzel::graphics::opengl::macos
         }
 
         return false;
-    }
-
-    void RenderDevice::start()
-    {
-        displayLink.start();
     }
 
     void RenderDevice::renderCallback()
