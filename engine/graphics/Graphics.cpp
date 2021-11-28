@@ -40,7 +40,30 @@
 
 namespace ouzel::graphics
 {
-    Driver Graphics::getDriver(const std::string& driver)
+    std::set<Driver> getAvailableRenderDrivers()
+    {
+        static std::set<Driver> availableDrivers;
+
+        if (availableDrivers.empty())
+        {
+            availableDrivers.insert(Driver::empty);
+
+#if OUZEL_COMPILE_OPENGL
+            availableDrivers.insert(Driver::openGl);
+#endif
+#if OUZEL_COMPILE_DIRECT3D11
+            availableDrivers.insert(Driver::direct3D11);
+#endif
+#if OUZEL_COMPILE_METAL
+            if (metal::RenderDevice::available())
+                availableDrivers.insert(Driver::metal);
+#endif
+        }
+
+        return availableDrivers;
+    }
+
+    Driver getDriver(const std::string& driver)
     {
         if (driver.empty() || driver == "default")
         {
@@ -65,29 +88,6 @@ namespace ouzel::graphics
             return Driver::metal;
         else
             throw std::runtime_error("Invalid graphics driver");
-    }
-
-    std::set<Driver> Graphics::getAvailableRenderDrivers()
-    {
-        static std::set<Driver> availableDrivers;
-
-        if (availableDrivers.empty())
-        {
-            availableDrivers.insert(Driver::empty);
-
-#if OUZEL_COMPILE_OPENGL
-            availableDrivers.insert(Driver::openGl);
-#endif
-#if OUZEL_COMPILE_DIRECT3D11
-            availableDrivers.insert(Driver::direct3D11);
-#endif
-#if OUZEL_COMPILE_METAL
-            if (metal::RenderDevice::available())
-                availableDrivers.insert(Driver::metal);
-#endif
-        }
-
-        return availableDrivers;
     }
 
     namespace

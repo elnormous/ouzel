@@ -104,7 +104,7 @@ namespace ouzel::core
             const ini::Section& defaultEngineSection = defaultSettings.hasSection("engine") ? defaultSettings["engine"] : ini::Section{};
 
             const auto& graphicsDriverValue = userEngineSection.getValue("graphicsDriver", defaultEngineSection.getValue("graphicsDriver"));
-            settings.graphicsDriver = graphics::Graphics::getDriver(graphicsDriverValue);
+            settings.graphicsDriver = graphics::getDriver(graphicsDriverValue);
 
             const auto& widthValue = userEngineSection.getValue("width", defaultEngineSection.getValue("width"));
             if (!widthValue.empty()) settings.size.v[0] = static_cast<std::uint32_t>(std::stoul(widthValue));

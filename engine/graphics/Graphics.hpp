@@ -23,6 +23,9 @@
 
 namespace ouzel::graphics
 {
+    std::set<Driver> getAvailableRenderDrivers();
+    Driver getDriver(const std::string& driver);
+
     class Graphics final
     {
         friend core::Window;
@@ -31,8 +34,6 @@ namespace ouzel::graphics
                  core::Window& initWindow,
                  const Settings& settings);
 
-        static Driver getDriver(const std::string& driver);
-        static std::set<Driver> getAvailableRenderDrivers();
         void start() const;
 
         auto getDevice() const noexcept { return device.get(); }
