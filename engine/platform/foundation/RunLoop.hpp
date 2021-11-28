@@ -3,6 +3,7 @@
 #ifndef OUZEL_PLATFORM_FOUNDATION_RUNLOOP_HPP
 #define OUZEL_PLATFORM_FOUNDATION_RUNLOOP_HPP
 
+#include <functional>
 #ifdef __OBJC__
 #  import <Foundation/NSRunLoop.h>
 typedef NSRunLoop* NSRunLoopPtr;
@@ -38,6 +39,7 @@ namespace ouzel::platform::foundation
         void run() const noexcept;
         void stop() const noexcept;
         bool isRunning() const noexcept;
+        void performFunction(std::function<void()> function) const noexcept;
 
     private:
         NSRunLoopPtr runLoop = nil;

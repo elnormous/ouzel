@@ -58,13 +58,15 @@ namespace ouzel::graphics::metal::ios
 
         if (verticalSync)
         {
-            std::unique_lock lock{runLoopMutex};
             runLoop = platform::foundation::RunLoop{};
             displayLink.addToRunLoop(runLoop);
-            running = true;
-            lock.unlock();
 
-            runLoopCondition.notify_all();
+            runLoop.performFunction([this](){
+                std::unique_lock lock{runLoopMutex};
+                running = true;
+                lock.unlock();
+                runLoopCondition.notify_all();
+            });
 
             runLoop.run();
         }

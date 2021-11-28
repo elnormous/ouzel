@@ -56,4 +56,11 @@ namespace ouzel::platform::foundation
     {
         return [runLoop currentMode] != nil;
     }
+
+    void RunLoop::performFunction(std::function<void()> function) const noexcept
+    {
+        [runLoop performBlock:^{
+            function();
+        }];
+    }
 }
