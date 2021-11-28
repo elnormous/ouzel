@@ -4,8 +4,8 @@
 
 namespace ouzel::platform::foundation
 {
-    RunLoop::RunLoop() noexcept:
-        runLoop{[[NSRunLoop currentRunLoop] retain]}
+    RunLoop::RunLoop(NSRunLoopPtr initRunLoop) noexcept:
+        runLoop{[initRunLoop retain]}
     {
     }
 
@@ -62,5 +62,15 @@ namespace ouzel::platform::foundation
         [runLoop performBlock:^{
             function();
         }];
+    }
+
+    RunLoop mainRunLoop() noexcept
+    {
+        return RunLoop{[NSRunLoop mainRunLoop]};
+    }
+
+    RunLoop currentRunLoop() noexcept
+    {
+        return RunLoop{[NSRunLoop currentRunLoop]};
     }
 }

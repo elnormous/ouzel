@@ -66,6 +66,7 @@ namespace ouzel::graphics::opengl::ios
         std::atomic_bool running{false};
         std::mutex runLoopMutex;
         std::condition_variable runLoopCondition;
+        bool started = false;
         platform::foundation::RunLoop runLoop;
         platform::quartzcore::DisplayLink displayLink;
     };

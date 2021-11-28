@@ -17,7 +17,8 @@ namespace ouzel::platform::foundation
     class RunLoop final
     {
     public:
-        RunLoop() noexcept;
+        RunLoop() noexcept = default;
+        RunLoop(NSRunLoopPtr initRunLoop) noexcept;
         ~RunLoop();
         RunLoop(const RunLoop& other) noexcept;
         RunLoop(RunLoop&& other) noexcept;
@@ -44,6 +45,9 @@ namespace ouzel::platform::foundation
     private:
         NSRunLoopPtr runLoop = nil;
     };
+
+    RunLoop mainRunLoop() noexcept;
+    RunLoop currentRunLoop() noexcept;
 }
 
 #endif // OUZEL_PLATFORM_FOUNDATION_RUNLOOP_HPP

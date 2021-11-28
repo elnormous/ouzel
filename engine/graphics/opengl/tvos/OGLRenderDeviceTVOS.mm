@@ -92,9 +92,10 @@ namespace ouzel::graphics::opengl::tvos
 
     void RenderDevice::start()
     {
+        running = true;
         renderThread = thread::Thread{&RenderDevice::renderMain, this};
         std::unique_lock lock{runLoopMutex};
-        while (!running) runLoopCondition.wait(lock);
+        while (!started) runLoopCondition.wait(lock);
     }
 
     void RenderDevice::resizeFrameBuffer()
@@ -306,12 +307,12 @@ namespace ouzel::graphics::opengl::tvos
 
         if (verticalSync)
         {
-            runLoop = platform::foundation::RunLoop{};
+            runLoop = platform::foundation::currentRunLoop();
             displayLink.addToRunLoop(runLoop);
 
             runLoop.performFunction([this](){
                 std::unique_lock lock{runLoopMutex};
-                running = true;
+                started = true;
                 lock.unlock();
                 runLoopCondition.notify_all();
             });
@@ -321,9 +322,8 @@ namespace ouzel::graphics::opengl::tvos
         else
         {
             std::unique_lock lock{runLoopMutex};
-            running = true;
+            started = true;
             lock.unlock();
-
             runLoopCondition.notify_all();
 
             while (running) renderCallback();
