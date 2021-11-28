@@ -158,7 +158,7 @@ namespace ouzel::core
             if (!highDpiValue.empty()) settings.highDpi = (highDpiValue == "true" || highDpiValue == "1" || highDpiValue == "yes");
 
             const auto& audioDriverValue = userEngineSection.getValue("audioDriver", defaultEngineSection.getValue("audioDriver"));
-            settings.audioDriver = audio::Audio::getDriver(audioDriverValue);
+            settings.audioDriver = audio::getDriver(audioDriverValue);
 
             const auto& debugAudioValue = userEngineSection.getValue("debugAudio", defaultEngineSection.getValue("debugAudio"));
             if (!debugAudioValue.empty()) settings.audioSettings.debugAudio = (debugAudioValue == "true" || debugAudioValue == "1" || debugAudioValue == "yes");

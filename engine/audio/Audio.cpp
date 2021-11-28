@@ -17,11 +17,42 @@
 
 namespace ouzel::audio
 {
-    Driver Audio::getDriver(const std::string& driver)
+    std::set<Driver> getAvailableAudioDrivers()
+    {
+        static std::set<Driver> availableDrivers;
+
+        if (availableDrivers.empty())
+        {
+            availableDrivers.insert(Driver::empty);
+
+#if OUZEL_COMPILE_OPENAL
+            availableDrivers.insert(Driver::openAl);
+#endif
+#if OUZEL_COMPILE_XAUDIO2
+            availableDrivers.insert(Driver::xAudio2);
+#endif
+#if OUZEL_COMPILE_OPENSL
+            availableDrivers.insert(Driver::openSl);
+#endif
+#if OUZEL_COMPILE_COREAUDIO
+            availableDrivers.insert(Driver::coreAudio);
+#endif
+#if OUZEL_COMPILE_ALSA
+            availableDrivers.insert(Driver::alsa);
+#endif
+#if OUZEL_COMPILE_WASAPI
+            availableDrivers.insert(Driver::wasapi);
+#endif
+        }
+
+        return availableDrivers;
+    }
+
+    Driver getDriver(const std::string& driver)
     {
         if (driver.empty() || driver == "default")
         {
-            const auto availableDrivers = Audio::getAvailableAudioDrivers();
+            const auto availableDrivers = getAvailableAudioDrivers();
 
             if (availableDrivers.find(Driver::wasapi) != availableDrivers.end())
                 return Driver::wasapi;
@@ -54,37 +85,6 @@ namespace ouzel::audio
             return Driver::wasapi;
         else
             throw std::runtime_error("Invalid audio driver");
-    }
-
-    std::set<Driver> Audio::getAvailableAudioDrivers()
-    {
-        static std::set<Driver> availableDrivers;
-
-        if (availableDrivers.empty())
-        {
-            availableDrivers.insert(Driver::empty);
-
-#if OUZEL_COMPILE_OPENAL
-            availableDrivers.insert(Driver::openAl);
-#endif
-#if OUZEL_COMPILE_XAUDIO2
-            availableDrivers.insert(Driver::xAudio2);
-#endif
-#if OUZEL_COMPILE_OPENSL
-            availableDrivers.insert(Driver::openSl);
-#endif
-#if OUZEL_COMPILE_COREAUDIO
-            availableDrivers.insert(Driver::coreAudio);
-#endif
-#if OUZEL_COMPILE_ALSA
-            availableDrivers.insert(Driver::alsa);
-#endif
-#if OUZEL_COMPILE_WASAPI
-            availableDrivers.insert(Driver::wasapi);
-#endif
-        }
-
-        return availableDrivers;
     }
 
     namespace

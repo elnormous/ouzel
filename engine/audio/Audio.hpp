@@ -23,13 +23,13 @@ namespace ouzel::audio
 {
     class Listener;
 
+    std::set<Driver> getAvailableAudioDrivers();
+    Driver getDriver(const std::string& driver);
+
     class Audio final
     {
     public:
         Audio(Driver driver, const Settings& settings);
-
-        static Driver getDriver(const std::string& driver);
-        static std::set<Driver> getAvailableAudioDrivers();
 
         auto getDevice() const noexcept { return device.get(); }
         mixer::Mixer& getMixer() { return mixer; }
