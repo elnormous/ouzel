@@ -179,11 +179,11 @@ namespace ouzel::math
                                         const float scalar) noexcept
     {
         Matrix<float, 4, 4> result;
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&result.m.v[0], vdivq_f32(vld1q_f32(&matrix.m.v[0]), s));
-        vst1q_f32(&result.m.v[4], vdivq_f32(vld1q_f32(&matrix.m.v[4]), s));
-        vst1q_f32(&result.m.v[8], vdivq_f32(vld1q_f32(&matrix.m.v[8]), s));
-        vst1q_f32(&result.m.v[12], vdivq_f32(vld1q_f32(&matrix.m.v[12]), s));
+        const auto s = vdupq_n_f32(1.0F / scalar);
+        vst1q_f32(&result.m.v[0], vmulq_f32(vld1q_f32(&matrix.m.v[0]), s));
+        vst1q_f32(&result.m.v[4], vmulq_f32(vld1q_f32(&matrix.m.v[4]), s));
+        vst1q_f32(&result.m.v[8], vmulq_f32(vld1q_f32(&matrix.m.v[8]), s));
+        vst1q_f32(&result.m.v[12], vmulq_f32(vld1q_f32(&matrix.m.v[12]), s));
         return result;
     }
 
@@ -191,11 +191,11 @@ namespace ouzel::math
     inline auto& operator/=(Matrix<float, 4, 4>& matrix,
                             const float scalar) noexcept
     {
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(&matrix.m.v[0], vdivq_f32(vld1q_f32(&matrix.m.v[0]), s));
-        vst1q_f32(&matrix.m.v[4], vdivq_f32(vld1q_f32(&matrix.m.v[4]), s));
-        vst1q_f32(&matrix.m.v[8], vdivq_f32(vld1q_f32(&matrix.m.v[8]), s));
-        vst1q_f32(&matrix.m.v[12], vdivq_f32(vld1q_f32(&matrix.m.v[12]), s));
+        const auto s = vdupq_n_f32(1.0F / scalar);
+        vst1q_f32(&matrix.m.v[0], vmulq_f32(vld1q_f32(&matrix.m.v[0]), s));
+        vst1q_f32(&matrix.m.v[4], vmulq_f32(vld1q_f32(&matrix.m.v[4]), s));
+        vst1q_f32(&matrix.m.v[8], vmulq_f32(vld1q_f32(&matrix.m.v[8]), s));
+        vst1q_f32(&matrix.m.v[12], vmulq_f32(vld1q_f32(&matrix.m.v[12]), s));
         return matrix;
     }
 
