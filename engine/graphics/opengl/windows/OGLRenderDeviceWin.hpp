@@ -35,6 +35,8 @@ namespace ouzel::graphics::opengl::windows
                      const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
+        void start() final {}
+
     private:
         void present() final;
         void renderMain();

@@ -94,6 +94,7 @@ namespace ouzel::graphics
 
         auto getDriver() const noexcept { return driver; }
 
+        virtual void start() = 0;
         virtual void process();
 
         auto getSampleCount() const noexcept { return sampleCount; }

@@ -22,6 +22,8 @@ namespace ouzel::graphics::opengl::emscripten
                      const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
+        void start() final {}
+
         void handleContextLost();
         void handleContextRestored();
 

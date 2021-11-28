@@ -39,6 +39,7 @@ namespace ouzel::graphics::opengl::ios
                      const std::function<void(const Event&)>& initCallback);
         ~RenderDevice() override;
 
+        void start() final {}
         void renderCallback();
 
     private:

@@ -46,6 +46,7 @@ namespace ouzel::graphics::d3d11
         ~RenderDevice() override;
 
         std::vector<math::Size<std::uint32_t, 2>> getSupportedResolutions() const final;
+        void start() final {}
 
         auto& getDevice() const noexcept { return device; }
         auto& getContext() const noexcept { return context; }

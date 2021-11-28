@@ -17,6 +17,8 @@ namespace ouzel::graphics::empty
         {
         }
 
+        void start() final {}
+
     private:
         void process() final {}
     };

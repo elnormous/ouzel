@@ -40,6 +40,7 @@ namespace ouzel::graphics::opengl::macos
 
         auto getContext() const noexcept { return context; }
 
+        void start() final;
         void renderCallback();
 
     private:

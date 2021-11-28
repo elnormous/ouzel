@@ -28,6 +28,7 @@ namespace ouzel::graphics::metal::macos
 
         std::vector<math::Size<std::uint32_t, 2>> getSupportedResolutions() const final;
 
+        void start() final;
         void renderCallback();
 
     private:

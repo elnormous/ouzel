@@ -66,8 +66,6 @@ namespace ouzel::graphics::metal::macos
         displayLink.setCallback(macos::renderCallback, this);
 
         running = true;
-
-        displayLink.start();
     }
 
     RenderDevice::~RenderDevice()
@@ -124,6 +122,11 @@ namespace ouzel::graphics::metal::macos
         }
 
         return false;
+    }
+
+    void RenderDevice::start()
+    {
+        displayLink.start();
     }
 
     void RenderDevice::renderCallback()

@@ -118,8 +118,6 @@ namespace ouzel::graphics::opengl::macos
         displayLink.setCallback(macos::renderCallback, this);
 
         running = true;
-
-        displayLink.start();
     }
 
     RenderDevice::~RenderDevice()
@@ -187,6 +185,11 @@ namespace ouzel::graphics::opengl::macos
         }
 
         return false;
+    }
+
+    void RenderDevice::start()
+    {
+        displayLink.start();
     }
 
     void RenderDevice::renderCallback()
