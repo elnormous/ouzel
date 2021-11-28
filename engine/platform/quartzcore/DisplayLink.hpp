@@ -3,6 +3,7 @@
 #ifndef OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
 #define OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
 
+#include <functional>
 #include <stdexcept>
 #ifdef __OBJC__
 #  import <QuartzCore/CADisplayLink.h>
@@ -13,8 +14,6 @@ typedef id CADisplayLinkPtr;
 #endif
 
 #include "../foundation/RunLoop.hpp"
-
-using RenderCallback = void (*)(void*);
 
 namespace ouzel::platform::quartzcore
 {
@@ -27,7 +26,7 @@ namespace ouzel::platform::quartzcore
     class DisplayLink final
     {
     public:
-        DisplayLink(RenderCallback callback, void* userInfo);
+        DisplayLink(std::function<void()> callback);
         ~DisplayLink();
 
         DisplayLink(const DisplayLink&) = delete;

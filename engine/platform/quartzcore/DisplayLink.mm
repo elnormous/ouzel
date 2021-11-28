@@ -7,16 +7,14 @@
 
 @implementation DisplayLinkHandler
 {
-    RenderCallback callback;
-    void* userInfo;
+    std::function<void()> callback;
 }
 
-- (id)initWithCallback:(RenderCallback)initCallback andUserInfo:(void*)initUserInfo
+- (id)initWithCallback:(std::function<void()>)initCallback
 {
     if (self = [super init])
     {
-        callback = initCallback;
-        userInfo = initUserInfo;
+        callback = std::move(initCallback);
     }
 
     return self;
@@ -24,15 +22,14 @@
 
 - (void)draw:(__unused CADisplayLink*)sender
 {
-    callback(userInfo);
+    callback();
 }
 @end
 
 namespace ouzel::platform::quartzcore
 {
-    DisplayLink::DisplayLink(RenderCallback callback, void* userInfo):
-        displayLink{[CADisplayLink displayLinkWithTarget:[[[DisplayLinkHandler alloc] initWithCallback:callback
-                                                                                           andUserInfo:userInfo] autorelease]
+    DisplayLink::DisplayLink(std::function<void()> callback):
+        displayLink{[CADisplayLink displayLinkWithTarget:[[[DisplayLinkHandler alloc] initWithCallback:std::move(callback)] autorelease]
                                                 selector:@selector(draw:)]}
     {
         if (!displayLink)

@@ -14,27 +14,11 @@
 
 namespace ouzel::graphics::metal::tvos
 {
-    namespace
-    {
-        void renderCallback(void* userInfo)
-        {
-            try
-            {
-                const auto renderDevice = static_cast<RenderDevice*>(userInfo);
-                renderDevice->renderCallback();
-            }
-            catch (const std::exception& e)
-            {
-                logger.log(Log::Level::error) << e.what();
-            }
-        }
-    }
-
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
         metal::RenderDevice{settings, initWindow, initCallback},
-        displayLink{tvos::renderCallback, this}
+        displayLink{std::bind(&RenderDevice::renderCallback, this)}
     {
         const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(window.getNativeWindow());
         MetalView* view = (MetalView*)windowTVOS->getNativeView();
@@ -94,8 +78,15 @@ namespace ouzel::graphics::metal::tvos
     
     void RenderDevice::renderCallback()
     {
-        platform::foundation::AutoreleasePool autoreleasePool;
-        process();
+        try
+        {
+            platform::foundation::AutoreleasePool autoreleasePool;
+            process();
+        }
+        catch (const std::exception& e)
+        {
+            logger.log(Log::Level::error) << e.what();
+        }
     }
 }
 

@@ -19,27 +19,11 @@
 
 namespace ouzel::graphics::opengl::tvos
 {
-    namespace
-    {
-        void renderCallback(void* userInfo)
-        {
-            try
-            {
-                const auto renderDevice = static_cast<RenderDevice*>(userInfo);
-                renderDevice->renderCallback();
-            }
-            catch (const std::exception& e)
-            {
-                logger.log(Log::Level::error) << e.what();
-            }
-        }
-    }
-
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow,
                                const std::function<void(const Event&)>& initCallback):
         opengl::RenderDevice{settings, initWindow, initCallback},
-        displayLink{tvos::renderCallback, this}
+        displayLink{std::bind(&RenderDevice::renderCallback, this)}
     {
         embedded = true;
 
@@ -346,12 +330,19 @@ namespace ouzel::graphics::opengl::tvos
 
     void RenderDevice::renderCallback()
     {
-        platform::foundation::AutoreleasePool autoreleasePool;
-        if ([EAGLContext currentContext] != context &&
-            ![EAGLContext setCurrentContext:context])
-            throw std::runtime_error("Failed to set current OpenGL context");
+        try
+        {
+            platform::foundation::AutoreleasePool autoreleasePool;
+            if ([EAGLContext currentContext] != context &&
+                ![EAGLContext setCurrentContext:context])
+                throw std::runtime_error("Failed to set current OpenGL context");
 
-        process();
+            process();
+        }
+        catch (const std::exception& e)
+        {
+            logger.log(Log::Level::error) << e.what();
+        }
     }
 }
 
