@@ -35,6 +35,7 @@ namespace ouzel::audio
         mixer::Mixer& getMixer() { return mixer; }
         Mix& getMasterMix() { return masterMix; }
 
+        void start();
         void update();
 
         void addCommand(std::unique_ptr<mixer::Command> command)

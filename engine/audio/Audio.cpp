@@ -151,6 +151,10 @@ namespace ouzel::audio
         rootNode{*this} // mixer.getRootObjectId()
     {
         addCommand(std::make_unique<mixer::SetMasterBusCommand>(masterMix.getBusId()));
+    }
+
+    void Audio::start()
+    {
         device->start();
     }
 

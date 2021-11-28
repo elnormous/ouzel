@@ -638,6 +638,7 @@ namespace ouzel::core
             paused = false;
 
             graphics->start();
+            audio->start();
 
 #ifndef __EMSCRIPTEN__
             updateThread = thread::Thread{&Engine::engineMain, this};
