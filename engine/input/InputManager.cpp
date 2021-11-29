@@ -17,23 +17,7 @@
 namespace ouzel::input
 {
     InputManager::InputManager():
-#if TARGET_OS_IOS
         inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-#elif TARGET_OS_TV
-        inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-#elif TARGET_OS_MAC
-        inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-#elif defined(__ANDROID__)
-        inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-#elif defined(__linux__)
-        inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-#elif defined(_WIN32)
-        inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-#elif defined(__EMSCRIPTEN__)
-        inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-#else
-        inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-#endif
     {
     }
 
