@@ -40,7 +40,7 @@ namespace ouzel::input
 
     std::future<bool> InputManager::eventCallback(const InputSystem::Event& event)
     {
-        std::pair<std::promise<bool>, InputSystem::Event> p(std::promise<bool>(), event);
+        std::pair<std::promise<bool>, InputSystem::Event> p{std::promise<bool>(), event};
         std::future<bool> f = p.first.get_future();
 
         std::lock_guard lock(eventQueueMutex);
