@@ -3,14 +3,14 @@
 #ifndef OUZEL_GRAPHICS_GRAPHICS_HPP
 #define OUZEL_GRAPHICS_GRAPHICS_HPP
 
+#include <atomic>
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include <string>
-#include <vector>
 #include <queue>
 #include <set>
-#include <atomic>
+#include <string>
+#include <vector>
 #include "Commands.hpp"
 #include "Driver.hpp"
 #include "RenderDevice.hpp"
