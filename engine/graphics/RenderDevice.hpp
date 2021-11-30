@@ -34,17 +34,17 @@ namespace ouzel::graphics
         constexpr ApiVersion(std::uint16_t majorVersion, std::uint16_t minorVersion) noexcept:
             v{majorVersion, minorVersion} {}
 
-        constexpr bool operator==(const ApiVersion& other) const noexcept
+        [[nodiscard]] constexpr bool operator==(const ApiVersion& other) const noexcept
         {
             return v[0] == other.v[0] && v[1] == other.v[1];
         }
 
-        constexpr bool operator>(const ApiVersion& other) const noexcept
+        [[nodiscard]] constexpr bool operator>(const ApiVersion& other) const noexcept
         {
             return (v[0] == other.v[0]) ? (v[1] > other.v[1]) : (v[0] > other.v[0]);
         }
 
-        constexpr bool operator>=(const ApiVersion& other) const noexcept
+        [[nodiscard]] constexpr bool operator>=(const ApiVersion& other) const noexcept
         {
             return (v[0] == other.v[0]) ? (v[1] >= other.v[1]) : (v[0] > other.v[0]);
         }
