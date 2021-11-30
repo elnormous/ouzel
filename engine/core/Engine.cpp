@@ -724,8 +724,14 @@ namespace ouzel::core
         window->update();
         audio->update();
 
-        if (graphics->getRefillQueue(oneUpdatePerFrame))
+        if (refillRenderQueue)
+        {
             sceneManager.draw();
+            refillRenderQueue = false;
+        }
+
+        refillRenderQueue = graphics->getRefillQueue(oneUpdatePerFrame);
+
     }
 
     void Engine::executeOnMainThread(const std::function<void()>& func)

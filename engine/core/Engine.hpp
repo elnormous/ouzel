@@ -134,6 +134,7 @@ namespace ouzel::core
         std::atomic_bool active{false};
         std::atomic_bool paused{false};
         std::atomic_bool oneUpdatePerFrame{false};
+        bool refillRenderQueue = true;
 
         std::atomic_bool screenSaverEnabled{true};
 
