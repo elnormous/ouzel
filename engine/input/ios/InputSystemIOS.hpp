@@ -23,7 +23,7 @@ namespace ouzel::input::ios
     class InputSystem final: public input::InputSystem
     {
     public:
-        InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
+        InputSystem();
         ~InputSystem() override;
 
         auto getKeyboardDevice() const noexcept { return keyboardDevice.get(); }

@@ -36,8 +36,7 @@
 
 namespace ouzel::input::tvos
 {
-    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
-        input::InputSystem{initCallback},
+    InputSystem::InputSystem():
         keyboardDevice{std::make_unique<KeyboardDevice>(*this, getNextDeviceId())}
     {
         connectDelegate = [[ConnectDelegate alloc] initWithInput:this];

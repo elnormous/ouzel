@@ -6,11 +6,6 @@
 
 namespace ouzel::input
 {
-    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
-        callback{initCallback}
-    {
-    }
-
     void InputSystem::addCommand(const Command& command)
     {
         engine->executeOnMainThread(std::bind(&InputSystem::executeCommand, this, command));
@@ -18,7 +13,21 @@ namespace ouzel::input
 
     std::future<bool> InputSystem::sendEvent(const Event& event)
     {
-        return callback(event);
+        std::pair<std::promise<bool>, InputSystem::Event> p{std::promise<bool>(), event};
+        std::future<bool> f = p.first.get_future();
+
+        std::lock_guard lock(eventQueueMutex);
+        eventQueue.push(std::move(p));
+
+        return f;
+    }
+
+    std::queue<std::pair<std::promise<bool>, InputSystem::Event>> InputSystem::getEvents()
+    {
+        std::lock_guard lock(eventQueueMutex);
+        auto result = std::move(eventQueue);
+        eventQueue = {};
+        return result;
     }
 
     void InputSystem::addInputDevice(InputDevice& inputDevice)

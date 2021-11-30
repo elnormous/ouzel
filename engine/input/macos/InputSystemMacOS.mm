@@ -66,8 +66,7 @@ namespace ouzel::input::macos
         return errorCategory;
     }
 
-    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
-        input::InputSystem{initCallback},
+    InputSystem::InputSystem():
         keyboardDevice{std::make_unique<KeyboardDevice>(*this, getNextDeviceId())},
         mouseDevice{std::make_unique<MouseDevice>(*this, getNextDeviceId())},
         touchpadDevice{std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), false)}

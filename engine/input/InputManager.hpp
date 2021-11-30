@@ -7,10 +7,8 @@
 #  include <TargetConditionals.h>
 #endif
 #include <memory>
-#include <mutex>
-#include <queue>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 #include "../math/Vector.hpp"
 
 #if TARGET_OS_IOS
@@ -42,7 +40,7 @@ namespace ouzel::input
     class InputManager final
     {
     public:
-        InputManager();
+        InputManager() = default;
 
         InputManager(const InputManager&) = delete;
         InputManager& operator=(const InputManager&) = delete;
@@ -64,11 +62,7 @@ namespace ouzel::input
         void hideVirtualKeyboard();
 
     private:
-        std::future<bool> eventCallback(const InputSystem::Event& event);
         bool handleEvent(const InputSystem::Event& event);
-
-        std::mutex eventQueueMutex;
-        std::queue<std::pair<std::promise<bool>, InputSystem::Event>> eventQueue;
 
 #if TARGET_OS_IOS
         ios::InputSystem inputSystem;

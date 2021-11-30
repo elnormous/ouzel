@@ -16,37 +16,17 @@
 
 namespace ouzel::input
 {
-    InputManager::InputManager():
-        inputSystem{std::bind(&InputManager::eventCallback, this, std::placeholders::_1)}
-    {
-    }
-
     void InputManager::update()
     {
-        std::pair<std::promise<bool>, InputSystem::Event> p;
+        auto eventQueue = inputSystem.getEvents();
 
-        for (;;)
+        while (!eventQueue.empty())
         {
-            std::unique_lock lock(eventQueueMutex);
-            if (eventQueue.empty()) break;
-
-            p = std::move(eventQueue.front());
+            auto event = std::move(eventQueue.front());
             eventQueue.pop();
-            lock.unlock();
 
-            p.first.set_value(handleEvent(p.second));
+            event.first.set_value(handleEvent(event.second));
         }
-    }
-
-    std::future<bool> InputManager::eventCallback(const InputSystem::Event& event)
-    {
-        std::pair<std::promise<bool>, InputSystem::Event> p{std::promise<bool>(), event};
-        std::future<bool> f = p.first.get_future();
-
-        std::lock_guard lock(eventQueueMutex);
-        eventQueue.push(std::move(p));
-
-        return f;
     }
 
     bool InputManager::handleEvent(const InputSystem::Event& event)

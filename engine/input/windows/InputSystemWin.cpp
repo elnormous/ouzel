@@ -44,11 +44,10 @@ namespace ouzel::input::windows
         return errorCategory;
     }
 
-    InputSystem::InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback):
-                             input::InputSystem(initCallback),
-                             keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
-                             mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
-                             touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
+    InputSystem::InputSystem():
+        keyboardDevice(std::make_unique<KeyboardDevice>(*this, getNextDeviceId())),
+        mouseDevice(std::make_unique<MouseDevice>(*this, getNextDeviceId())),
+        touchpadDevice(std::make_unique<TouchpadDevice>(*this, getNextDeviceId(), true))
     {
         defaultCursor = LoadCursor(nullptr, IDC_ARROW);
         if (!defaultCursor)

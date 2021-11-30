@@ -5,6 +5,8 @@
 
 #include <cstdint>
 #include <future>
+#include <mutex>
+#include <queue>
 #include <set>
 #include <unordered_map>
 #include <vector>
@@ -128,14 +130,13 @@ namespace ouzel::input
             float force = 1.0F;
         };
 
-        explicit InputSystem(const std::function<std::future<bool>(const Event&)>& initCallback);
+        InputSystem() = default;
         virtual ~InputSystem() = default;
 
         void addCommand(const Command& command);
 
         auto getResourceId()
         {
-
             if (const auto i = deletedResourceIds.begin(); i != deletedResourceIds.end())
             {
                 std::size_t resourceId = *i;
@@ -151,6 +152,8 @@ namespace ouzel::input
             deletedResourceIds.insert(resourceId);
         }
 
+        std::queue<std::pair<std::promise<bool>, Event>> getEvents();
+
     protected:
         std::future<bool> sendEvent(const Event& event);
         void addInputDevice(InputDevice& inputDevice);
@@ -160,8 +163,10 @@ namespace ouzel::input
     private:
         virtual void executeCommand(const Command&) {}
 
-        std::function<std::future<bool>(const Event&)> callback;
         std::unordered_map<DeviceId, InputDevice*> inputDevices;
+
+        std::queue<std::pair<std::promise<bool>, Event>> eventQueue;
+        std::mutex eventQueueMutex;
 
         std::size_t lastResourceId = 0;
         std::set<std::size_t> deletedResourceIds;
