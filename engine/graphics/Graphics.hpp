@@ -3,11 +3,9 @@
 #ifndef OUZEL_GRAPHICS_GRAPHICS_HPP
 #define OUZEL_GRAPHICS_GRAPHICS_HPP
 
-#include <atomic>
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include <queue>
 #include <set>
 #include <string>
 #include <vector>
