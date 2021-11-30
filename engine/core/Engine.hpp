@@ -91,7 +91,7 @@ namespace ouzel::core
         virtual void setScreenSaverEnabled(bool newScreenSaverEnabled);
 
         [[nodiscard]] bool isOneUpdatePerFrame() const noexcept { return oneUpdatePerFrame; }
-        void setOneUpdatePerFrame(bool value) { oneUpdatePerFrame = value; }
+        void setOneUpdatePerFrame(bool value) noexcept { oneUpdatePerFrame = value; }
 
     protected:
         class Command final
