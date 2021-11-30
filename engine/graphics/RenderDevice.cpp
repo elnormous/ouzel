@@ -7,11 +7,9 @@ namespace ouzel::graphics
 {
     RenderDevice::RenderDevice(Driver initDriver,
                                const Settings& settings,
-                               core::Window& initWindow,
-                               const std::function<void(const Event&)>& initCallback):
+                               core::Window& initWindow):
         driver{initDriver},
         window{initWindow},
-        callback{initCallback},
         sampleCount{settings.sampleCount},
         verticalSync{settings.verticalSync},
         srgb{settings.srgb},
@@ -30,10 +28,6 @@ namespace ouzel::graphics
 
     void RenderDevice::process()
     {
-        Event event;
-        event.type = Event::Type::frame;
-        callback(event);
-
         const auto currentTime = std::chrono::steady_clock::now();
         const auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - previousFrameTime);
         previousFrameTime = currentTime;
@@ -52,6 +46,28 @@ namespace ouzel::graphics
             accumulatedTime = 0.0F;
             currentAccumulatedFPS = 0.0F;
         }
+
+        std::unique_lock lock{eventQueueMutex};
+        Event event;
+        event.type = Event::Type::frame;
+        eventQueue.push(event);
+        lock.unlock();
+        eventQueueCondition.notify_all();
+    }
+
+    bool RenderDevice::hasEvents() const
+    {
+        std::scoped_lock lock{eventQueueMutex};
+        return !eventQueue.empty();
+    }
+
+    RenderDevice::Event RenderDevice::getNextEvent()
+    {
+        std::unique_lock lock{eventQueueMutex};
+        while (eventQueue.empty()) eventQueueCondition.wait(lock);
+        Event result = std::move(eventQueue.front());
+        eventQueue.pop();
+        return result;
     }
 
     std::vector<math::Size<std::uint32_t, 2>> RenderDevice::getSupportedResolutions() const

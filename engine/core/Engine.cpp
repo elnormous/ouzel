@@ -637,7 +637,6 @@ namespace ouzel::core
             active = true;
             paused = false;
 
-            graphics->start();
             audio->start();
 
 #ifndef __EMSCRIPTEN__
@@ -725,10 +724,8 @@ namespace ouzel::core
         window->update();
         audio->update();
 
-        if (graphics->getRefillQueue())
+        if (graphics->getRefillQueue(oneUpdatePerFrame))
             sceneManager.draw();
-
-        if (oneUpdatePerFrame) graphics->waitForNextFrame();
     }
 
     void Engine::executeOnMainThread(const std::function<void()>& func)

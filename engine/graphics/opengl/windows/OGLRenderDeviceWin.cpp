@@ -168,9 +168,8 @@ namespace ouzel::graphics::opengl::windows
     }
 
     RenderDevice::RenderDevice(const Settings& settings,
-                               core::Window& initWindow,
-                               const std::function<void(const Event&)>& initCallback):
-        opengl::RenderDevice{settings, initWindow, initCallback}
+                               core::Window& initWindow):
+        opengl::RenderDevice{settings, initWindow}
     {
         embedded = false;
 

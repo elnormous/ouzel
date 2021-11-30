@@ -11,9 +11,8 @@ namespace ouzel::graphics::empty
     {
     public:
         RenderDevice(const Settings& settings,
-                     core::Window& initWindow,
-                     const std::function<void(const Event&)>& initCallback):
-            graphics::RenderDevice{Driver::empty, settings, initWindow, initCallback}
+                     core::Window& initWindow):
+            graphics::RenderDevice{Driver::empty, settings, initWindow}
         {
         }
 

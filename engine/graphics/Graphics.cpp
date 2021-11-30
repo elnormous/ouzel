@@ -94,8 +94,7 @@ namespace ouzel::graphics
     {
         std::unique_ptr<RenderDevice> createRenderDevice(Driver driver,
                                                          core::Window& window,
-                                                         const Settings& settings,
-                                                         const std::function<void(const RenderDevice::Event&)>& callback)
+                                                         const Settings& settings)
         {
             switch (driver)
             {
@@ -103,42 +102,42 @@ namespace ouzel::graphics
                 case Driver::openGl:
                     logger.log(Log::Level::info) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
-                    return std::make_unique<opengl::ios::RenderDevice>(settings, window, callback);
+                    return std::make_unique<opengl::ios::RenderDevice>(settings, window);
 #  elif TARGET_OS_TV
-                    return std::make_unique<opengl::tvos::RenderDevice>(settings, window, callback);
+                    return std::make_unique<opengl::tvos::RenderDevice>(settings, window);
 #  elif TARGET_OS_MAC
-                    return std::make_unique<opengl::macos::RenderDevice>(settings, window, callback);
+                    return std::make_unique<opengl::macos::RenderDevice>(settings, window);
 #  elif defined(__ANDROID__)
-                    return std::make_unique<opengl::android::RenderDevice>(settings, window, callback);
+                    return std::make_unique<opengl::android::RenderDevice>(settings, window);
 #  elif defined(__linux__)
-                    return std::make_unique<opengl::linux::RenderDevice>(settings, window, callback);
+                    return std::make_unique<opengl::linux::RenderDevice>(settings, window);
 #  elif defined(_WIN32)
-                    return std::make_unique<opengl::windows::RenderDevice>(settings, window, callback);
+                    return std::make_unique<opengl::windows::RenderDevice>(settings, window);
 #  elif defined(__EMSCRIPTEN__)
-                    return std::make_unique<opengl::emscripten::RenderDevice>(settings, window, callback);
+                    return std::make_unique<opengl::emscripten::RenderDevice>(settings, window);
 #  else
-                    return std::make_unique<opengl::RenderDevice>(settings, window, callback);
+                    return std::make_unique<opengl::RenderDevice>(settings, window);
 #  endif
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::direct3D11:
                     logger.log(Log::Level::info) << "Using Direct3D 11 render driver";
-                    return std::make_unique<d3d11::RenderDevice>(settings, window, callback);
+                    return std::make_unique<d3d11::RenderDevice>(settings, window);
 #endif
 #if OUZEL_COMPILE_METAL
                 case Driver::metal:
                     logger.log(Log::Level::info) << "Using Metal render driver";
 #  if TARGET_OS_IOS
-                    return std::make_unique<metal::ios::RenderDevice>(settings, window, callback);
+                    return std::make_unique<metal::ios::RenderDevice>(settings, window);
 #  elif TARGET_OS_TV
-                    return std::make_unique<metal::tvos::RenderDevice>(settings, window, callback);
+                    return std::make_unique<metal::tvos::RenderDevice>(settings, window);
 #  elif TARGET_OS_MAC
-                    return std::make_unique<metal::macos::RenderDevice>(settings, window, callback);
+                    return std::make_unique<metal::macos::RenderDevice>(settings, window);
 #  endif
 #endif
                 default:
                     logger.log(Log::Level::info) << "Not using render driver";
-                    return std::make_unique<empty::RenderDevice>(settings, window, callback);
+                    return std::make_unique<empty::RenderDevice>(settings, window);
             }
         }
     }
@@ -149,26 +148,10 @@ namespace ouzel::graphics
         textureFilter{settings.textureFilter},
         maxAnisotropy{settings.maxAnisotropy},
         size{initWindow.getResolution()},
-        device{createRenderDevice(driver, initWindow, settings, std::bind(&Graphics::handleEvent, this, std::placeholders::_1))},
+        device{createRenderDevice(driver, initWindow, settings)},
         renderer{*device}
     {
-    }
-
-    void Graphics::start() const
-    {
         device->start();
-    }
-
-    void Graphics::handleEvent(const RenderDevice::Event& event)
-    {
-        if (event.type == RenderDevice::Event::Type::frame)
-        {
-            std::unique_lock lock(frameMutex);
-            newFrame = true;
-            refillQueue = true;
-            lock.unlock();
-            frameCondition.notify_all();
-        }
     }
 
     void Graphics::setSize(const math::Size<std::uint32_t, 2>& newSize)
@@ -263,17 +246,22 @@ namespace ouzel::graphics
 
     void Graphics::present()
     {
-        refillQueue = false;
         addCommand(std::make_unique<RenderSceneCommand>());
         addCommand(std::make_unique<PresentCommand>());
         device->submitCommandBuffer(std::move(commandBuffer));
         commandBuffer = CommandBuffer();
     }
 
-    void Graphics::waitForNextFrame()
+    bool Graphics::getRefillQueue(bool waitForNextFrame) const
     {
-        std::unique_lock lock(frameMutex);
-        frameCondition.wait(lock, [this]() noexcept { return newFrame; });
-        newFrame = false;
+        for (;;)
+        {
+            if (!waitForNextFrame && !device->hasEvents())
+                return false;
+
+            const auto event = device->getNextEvent();
+            if (event.type == RenderDevice::Event::Type::frame)
+                return true;
+        }
     }
 }

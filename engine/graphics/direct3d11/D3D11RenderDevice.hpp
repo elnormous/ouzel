@@ -41,8 +41,7 @@ namespace ouzel::graphics::d3d11
         friend Graphics;
     public:
         RenderDevice(const Settings& settings,
-                     core::Window& initWindow,
-                     const std::function<void(const Event&)>& initCallback);
+                     core::Window& initWindow);
         ~RenderDevice() override;
 
         std::vector<math::Size<std::uint32_t, 2>> getSupportedResolutions() const final;

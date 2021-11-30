@@ -34,8 +34,6 @@ namespace ouzel::graphics
                  core::Window& initWindow,
                  const Settings& settings);
 
-        void start() const;
-
         auto getDevice() const noexcept { return device.get(); }
 
         auto& getSize() const noexcept { return size; }
@@ -76,8 +74,7 @@ namespace ouzel::graphics
         }
         void present();
 
-        void waitForNextFrame();
-        bool getRefillQueue() const noexcept { return refillQueue; }
+        bool getRefillQueue(bool waitForNextFrame) const;
 
         math::Vector<float, 2> convertScreenToNormalizedLocation(const math::Vector<float, 2>& position)
         {
@@ -96,7 +93,6 @@ namespace ouzel::graphics
         }
 
     private:
-        void handleEvent(const RenderDevice::Event& event);
         void setSize(const math::Size<std::uint32_t, 2>& newSize);
 
         SamplerFilter textureFilter = SamplerFilter::point;
@@ -104,11 +100,6 @@ namespace ouzel::graphics
 
         math::Size<std::uint32_t, 2> size;
         CommandBuffer commandBuffer;
-
-        bool newFrame = false;
-        std::mutex frameMutex;
-        std::condition_variable frameCondition;
-        std::atomic_bool refillQueue{true};
 
         std::unique_ptr<RenderDevice> device;
         renderer::Renderer renderer;

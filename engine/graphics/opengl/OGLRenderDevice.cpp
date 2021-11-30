@@ -266,9 +266,8 @@ namespace ouzel::graphics::opengl
     }
 
     RenderDevice::RenderDevice(const Settings& settings,
-                               core::Window& newWindow,
-                               const std::function<void(const Event&)>& initCallback):
-        graphics::RenderDevice{Driver::openGl, settings, newWindow, initCallback},
+                               core::Window& newWindow):
+        graphics::RenderDevice{Driver::openGl, settings, newWindow},
         textureBaseLevelSupported{false},
         textureMaxLevelSupported{false}
     {

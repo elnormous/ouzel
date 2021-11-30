@@ -15,9 +15,8 @@
 namespace ouzel::graphics::metal::tvos
 {
     RenderDevice::RenderDevice(const Settings& settings,
-                               core::Window& initWindow,
-                               const std::function<void(const Event&)>& initCallback):
-        metal::RenderDevice{settings, initWindow, initCallback},
+                               core::Window& initWindow):
+        metal::RenderDevice{settings, initWindow},
         displayLink{std::bind(&RenderDevice::renderCallback, this)}
     {
         const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(window.getNativeWindow());

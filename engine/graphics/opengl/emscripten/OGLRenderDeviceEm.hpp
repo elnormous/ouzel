@@ -18,8 +18,7 @@ namespace ouzel::graphics::opengl::emscripten
         friend Graphics;
     public:
         RenderDevice(const Settings& settings,
-                     core::Window& initWindow,
-                     const std::function<void(const Event&)>& initCallback);
+                     core::Window& initWindow);
         ~RenderDevice() override;
 
         void start() final {}

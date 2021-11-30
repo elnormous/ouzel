@@ -82,8 +82,7 @@ namespace ouzel::graphics
 
         RenderDevice(Driver initDriver,
                      const Settings& settings,
-                     core::Window& initWindow,
-                     const std::function<void(const Event&)>& initCallback);
+                     core::Window& initWindow);
         virtual ~RenderDevice() = default;
 
         RenderDevice(const RenderDevice&) = delete;
@@ -122,6 +121,9 @@ namespace ouzel::graphics
         {
             return renderTarget ? renderTargetProjectionTransform : projectionTransform;
         }
+
+        bool hasEvents() const;
+        Event getNextEvent();
 
         float getFPS() const noexcept { return currentFPS; }
         float getAccumulatedFPS() const noexcept { return accumulatedFPS; }
@@ -180,7 +182,6 @@ namespace ouzel::graphics
 
         Driver driver;
         core::Window& window;
-        std::function<void(const Event&)> callback;
 
         ApiVersion apiVersion;
 
@@ -208,6 +209,10 @@ namespace ouzel::graphics
         std::queue<CommandBuffer> commandQueue;
         std::mutex commandQueueMutex;
         std::condition_variable commandQueueCondition;
+
+        std::queue<Event> eventQueue;
+        mutable std::mutex eventQueueMutex;
+        std::condition_variable eventQueueCondition;
 
         std::atomic<float> currentFPS{0.0F};
         std::chrono::steady_clock::time_point previousFrameTime;
