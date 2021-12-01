@@ -10,11 +10,9 @@
 namespace ouzel::audio::mixer
 {
     Mixer::Mixer(std::uint32_t initBufferSize,
-                 std::uint32_t initChannels,
-                 const std::function<void(const Event&)>& initCallback):
+                 std::uint32_t initChannels):
         bufferSize{initBufferSize},
         channels{initChannels},
-        callback{initCallback},
         mixerThread{&Mixer::mixerMain, this},
         buffer{initBufferSize * 3, initChannels}
     {
@@ -250,5 +248,19 @@ namespace ouzel::audio::mixer
             //for (auto& f : samples)
             //    f = std::clamp(f, -1.0F, 1.0F);
         }
+    }
+
+    void Mixer::sendEvent(const Event& event)
+    {
+        std::lock_guard lock(eventQueueMutex);
+        eventQueue.push(event);
+    }
+
+    std::queue<Mixer::Event> Mixer::getEvents()
+    {
+        std::lock_guard lock(eventQueueMutex);
+        auto result = std::move(eventQueue);
+        eventQueue = {};
+        return result;
     }
 }

@@ -58,7 +58,6 @@ namespace ouzel::audio
                         std::uint32_t channels,
                         std::uint32_t sampleRate,
                         std::vector<float>& samples);
-        void eventCallback(const mixer::Mixer::Event& event);
 
         std::unique_ptr<AudioDevice> device;
         mixer::Mixer mixer;

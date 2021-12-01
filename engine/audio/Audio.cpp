@@ -143,16 +143,14 @@ namespace ouzel::audio
                                            std::placeholders::_3,
                                            std::placeholders::_4),
                                  settings)},
-        mixer{
-            device->getBufferSize(), device->getChannels(),
-            std::bind(&Audio::eventCallback, this, std::placeholders::_1)
-        },
+        mixer{device->getBufferSize(), device->getChannels()},
         masterMix{*this},
         rootNode{*this} // mixer.getRootObjectId()
     {
         addCommand(std::make_unique<mixer::SetMasterBusCommand>(masterMix.getBusId()));
     }
 
+    // TODO: get rid of this and push frames to audio device instead
     void Audio::start()
     {
         device->start();
@@ -160,7 +158,27 @@ namespace ouzel::audio
 
     void Audio::update()
     {
-        // TODO: handle events from the audio device
+        auto mixerEvents = mixer.getEvents();
+        while (!mixerEvents.empty())
+        {
+            const auto event = std::move(mixerEvents.front());
+            mixerEvents.pop();
+
+            switch (event.type)
+            {
+                case mixer::Mixer::Event::Type::streamStarted:
+                    // TODO: send started event
+                    break;
+                case mixer::Mixer::Event::Type::streamReset:
+                    // TODO: send reset event
+                    break;
+                case mixer::Mixer::Event::Type::streamStopped:
+                    // TODO: send stopped event
+                    break;
+                case mixer::Mixer::Event::Type::starvation:
+                    break;
+            }
+        }
 
         mixer.submitCommandBuffer(std::move(commandBuffer));
         commandBuffer = mixer::CommandBuffer();
@@ -208,9 +226,5 @@ namespace ouzel::audio
     void Audio::getSamples(std::uint32_t frames, std::uint32_t channels, std::uint32_t sampleRate, std::vector<float>& samples)
     {
         mixer.getSamples(frames, channels, sampleRate, samples);
-    }
-
-    void Audio::eventCallback(const mixer::Mixer::Event&)
-    {
     }
 }

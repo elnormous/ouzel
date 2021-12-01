@@ -62,8 +62,7 @@ namespace ouzel::audio::mixer
         };
 
         Mixer(std::uint32_t initBufferSize,
-              std::uint32_t initChannels,
-              const std::function<void(const Event&)>& initCallback);
+              std::uint32_t initChannels);
 
         ~Mixer();
 
@@ -106,12 +105,18 @@ namespace ouzel::audio::mixer
             return rootObjectId;
         }
 
+        std::queue<Event> getEvents();
+
+    protected:
+        void sendEvent(const Event& event);
+
     private:
         void mixerMain();
 
         std::uint32_t bufferSize;
         std::uint32_t channels;
-        std::function<void(const Event&)> callback;
+        std::queue<Event> eventQueue;
+        std::mutex eventQueueMutex;
 
         ObjectId lastObjectId = 0;
         std::set<ObjectId> deletedObjectIds;
