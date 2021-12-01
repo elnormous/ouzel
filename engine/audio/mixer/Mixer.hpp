@@ -95,9 +95,8 @@ namespace ouzel::audio::mixer
 
         void submitCommandBuffer(CommandBuffer&& commandBuffer)
         {
-            std::unique_lock lock{commandQueueMutex};
+            std::scoped_lock lock{commandQueueMutex};
             commandQueue.push(std::move(commandBuffer));
-            lock.unlock();
         }
 
         auto getRootObjectId() const noexcept

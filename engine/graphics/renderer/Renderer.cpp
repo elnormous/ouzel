@@ -15,7 +15,7 @@ namespace ouzel::graphics::renderer
 
     void Renderer::addCommand(const Command& command)
     {
-        std::lock_guard lock(commandQueueMutex);
+        std::scoped_lock lock{commandQueueMutex};
         commandQueue.push(command);
     }
 

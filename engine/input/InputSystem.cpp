@@ -16,7 +16,7 @@ namespace ouzel::input
         std::pair<std::promise<bool>, InputSystem::Event> p{std::promise<bool>(), event};
         std::future<bool> f = p.first.get_future();
 
-        std::lock_guard lock(eventQueueMutex);
+        std::scoped_lock lock{eventQueueMutex};
         eventQueue.push(std::move(p));
 
         return f;
@@ -24,7 +24,7 @@ namespace ouzel::input
 
     std::queue<std::pair<std::promise<bool>, InputSystem::Event>> InputSystem::getEvents()
     {
-        std::lock_guard lock(eventQueueMutex);
+        std::scoped_lock lock{eventQueueMutex};
         auto result = std::move(eventQueue);
         eventQueue = {};
         return result;

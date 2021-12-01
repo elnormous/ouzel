@@ -122,7 +122,7 @@ namespace ouzel::core
         }
         else
         {
-            std::lock_guard lock(eventQueueMutex);
+            std::scoped_lock lock{eventQueueMutex};
             eventQueue.push(event);
         }
     }

@@ -552,7 +552,7 @@ namespace ouzel::core::linux
 
         XFlush(display);
 #else
-        std::lock_guard lock(executeMutex);
+        std::scoped_lock lock(executeMutex);
         executeQueue.push(func);
 #endif
     }

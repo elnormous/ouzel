@@ -252,13 +252,13 @@ namespace ouzel::audio::mixer
 
     void Mixer::sendEvent(const Event& event)
     {
-        std::lock_guard lock(eventQueueMutex);
+        std::scoped_lock lock{eventQueueMutex};
         eventQueue.push(event);
     }
 
     std::queue<Mixer::Event> Mixer::getEvents()
     {
-        std::lock_guard lock(eventQueueMutex);
+        std::scoped_lock lock{eventQueueMutex};
         auto result = std::move(eventQueue);
         eventQueue = {};
         return result;
