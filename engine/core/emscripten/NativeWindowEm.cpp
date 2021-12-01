@@ -51,13 +51,15 @@ namespace ouzel::core::emscripten
                                bool newFullscreen,
                                const std::string& newTitle,
                                bool newHighDpi):
-        core::NativeWindow(initCallback,
-                           newSize,
-                           true,
-                           newFullscreen,
-                           true,
-                           newTitle,
-                           newHighDpi)
+        core::NativeWindow{
+            initCallback,
+            newSize,
+            true,
+            newFullscreen,
+            true,
+            newTitle,
+            newHighDpi
+        }
     {
         emscripten_set_resize_callback(nullptr, this, EM_TRUE, emResizeCallback);
         emscripten_set_fullscreenchange_callback(nullptr, this, EM_TRUE, emFullscreenCallback);

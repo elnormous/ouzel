@@ -418,13 +418,15 @@ namespace ouzel::core::windows
                                bool newExclusiveFullscreen,
                                const std::string& newTitle,
                                bool newHighDpi):
-        core::NativeWindow(initCallback,
-                           newSize,
-                           newResizable,
-                           newFullscreen,
-                           newExclusiveFullscreen,
-                           newTitle,
-                           newHighDpi)
+        core::NativeWindow{
+            initCallback,
+            newSize,
+            newResizable,
+            newFullscreen,
+            newExclusiveFullscreen,
+            newTitle,
+            newHighDpi
+        }
     {
         if (highDpi)
         {

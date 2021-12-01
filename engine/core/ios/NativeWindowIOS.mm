@@ -57,13 +57,15 @@ namespace ouzel::core::ios
                                const std::string& newTitle,
                                graphics::Driver graphicsDriver,
                                bool newHighDpi):
-        core::NativeWindow(initCallback,
-                           math::Size<std::uint32_t, 2>{},
-                           true,
-                           true,
-                           true,
-                           newTitle,
-                           newHighDpi)
+        core::NativeWindow{
+            initCallback,
+            math::Size<std::uint32_t, 2>{},
+            true,
+            true,
+            true,
+            newTitle,
+            newHighDpi
+        }
     {
         screen = [UIScreen mainScreen];
 

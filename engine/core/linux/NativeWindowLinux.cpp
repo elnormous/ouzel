@@ -24,13 +24,15 @@ namespace ouzel::core::linux
                                bool newFullscreen,
                                bool newExclusiveFullscreen,
                                const std::string& newTitle):
-        core::NativeWindow(initCallback,
-                           newSize,
-                           newResizable,
-                           newFullscreen,
-                           newExclusiveFullscreen,
-                           newTitle,
-                           true)
+        core::NativeWindow{
+            initCallback,
+            newSize,
+            newResizable,
+            newFullscreen,
+            newExclusiveFullscreen,
+            newTitle,
+            true
+        }
     {
 #if OUZEL_SUPPORTS_X11
         const auto engineLinux = static_cast<Engine*>(engine);

@@ -85,13 +85,15 @@ namespace ouzel::core::macos
                                const std::string& newTitle,
                                graphics::Driver graphicsDriver,
                                bool newHighDpi):
-        core::NativeWindow(initCallback,
-                           newSize,
-                           newResizable,
-                           newFullscreen,
-                           newExclusiveFullscreen,
-                           newTitle,
-                           newHighDpi)
+        core::NativeWindow{
+            initCallback,
+            newSize,
+            newResizable,
+            newFullscreen,
+            newExclusiveFullscreen,
+            newTitle,
+            newHighDpi
+        }
     {
         screen = [NSScreen mainScreen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];

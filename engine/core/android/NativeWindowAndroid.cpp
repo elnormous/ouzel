@@ -8,13 +8,15 @@ namespace ouzel::core::android
 {
     NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
                                const std::string& newTitle):
-        core::NativeWindow(initCallback,
-                           math::Size<std::uint32_t, 2>(),
-                           true,
-                           true,
-                           true,
-                           newTitle,
-                           true)
+        core::NativeWindow{
+            initCallback,
+            math::Size<std::uint32_t, 2>(),
+            true,
+            true,
+            true,
+            newTitle,
+            true
+        }
     {
         const auto engineAndroid = static_cast<Engine*>(engine);
         const auto javaVm = engineAndroid->getJavaVm();
