@@ -42,8 +42,8 @@ namespace ouzel::scene
         [[nodiscard]] auto getProjectionMode() const noexcept { return projectionMode; }
         void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
 
-        [[nodiscard]] auto getFOV() const noexcept { return fov; }
-        void setFOV(float newFOV) { fov = newFOV; }
+        [[nodiscard]] auto getFov() const noexcept { return fov; }
+        void setFov(float newFov) { fov = newFov; }
 
         [[nodiscard]] auto getNearPlane() const noexcept { return nearPlane; }
         void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
