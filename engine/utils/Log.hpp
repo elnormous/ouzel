@@ -45,21 +45,21 @@ namespace ouzel
         };
 
         explicit Log(const Logger& initLogger, Level initLevel = Level::info):
-            logger(initLogger), level(initLevel)
+            logger{initLogger}, level{initLevel}
         {
         }
 
         Log(const Log& other):
-            logger(other.logger),
-            level(other.level),
-            s(other.s)
+            logger{other.logger},
+            level{other.level},
+            s{other.s}
         {
         }
 
         Log(Log&& other) noexcept:
-            logger(other.logger),
-            level(other.level),
-            s(std::move(other.s))
+            logger{other.logger},
+            level{other.level},
+            s{std::move(other.s)}
         {
             other.level = Level::info;
         }
@@ -165,7 +165,7 @@ namespace ouzel
     {
     public:
         explicit Logger(Log::Level initThreshold = Log::Level::all):
-            threshold(initThreshold)
+            threshold{initThreshold}
         {
         }
 
@@ -176,7 +176,7 @@ namespace ouzel
 
         Log log(const Log::Level level = Log::Level::info) const
         {
-            return Log(*this, level);
+            return Log{*this, level};
         }
 
         void log(const std::string& str, const Log::Level level = Log::Level::info) const
