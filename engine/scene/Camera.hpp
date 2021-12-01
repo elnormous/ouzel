@@ -40,19 +40,39 @@ namespace ouzel::scene
         ~Camera() override;
 
         [[nodiscard]] auto getProjectionMode() const noexcept { return projectionMode; }
-        void setProjectionMode(ProjectionMode newProjectionMode) { projectionMode = newProjectionMode; }
+        void setProjectionMode(ProjectionMode newProjectionMode)
+        {
+            projectionMode = newProjectionMode;
+            recalculateProjection();
+        }
 
         [[nodiscard]] auto getFov() const noexcept { return fov; }
-        void setFov(float newFov) { fov = newFov; }
+        void setFov(float newFov)
+        {
+            fov = newFov;
+            recalculateProjection();
+        }
 
         [[nodiscard]] auto getNearPlane() const noexcept { return nearPlane; }
-        void setNearPlane(float newNearPlane) { nearPlane = newNearPlane; }
+        void setNearPlane(float newNearPlane)
+        {
+            nearPlane = newNearPlane;
+            recalculateProjection();
+        }
 
         [[nodiscard]] auto getFarPlane() const noexcept { return farPlane; }
-        void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
+        void setFarPlane(float newFarPlane)
+        {
+            farPlane = newFarPlane;
+            recalculateProjection();
+        }
 
         [[nodiscard]] auto& getProjection() const noexcept { return projection; }
-        void setProjection(const math::Matrix<float, 4>& newProjection) { projection = newProjection; }
+        void setProjection(const math::Matrix<float, 4>& newProjection)
+        {
+            projection = newProjection;
+            recalculateProjection();
+        }
         void recalculateProjection();
 
         const math::Matrix<float, 4>& getViewProjection() const;
@@ -65,8 +85,8 @@ namespace ouzel::scene
         bool checkVisibility(const math::Matrix<float, 4>& boxTransform, const math::Box<float, 3>& box) const;
 
         [[nodiscard]] auto& getViewport() const noexcept { return viewport; }
-        [[nodiscard]] auto& getRenderViewport() const noexcept { return renderViewport; }
         void setViewport(const math::Rect<float>& newViewport);
+        [[nodiscard]] auto& getRenderViewport() const noexcept { return renderViewport; }
 
         [[nodiscard]] auto getScaleMode() const noexcept { return scaleMode; }
         void setScaleMode(ScaleMode newScaleMode);
