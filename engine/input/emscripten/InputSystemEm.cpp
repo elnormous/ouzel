@@ -330,7 +330,7 @@ namespace ouzel::input::emscripten
         const int result = emscripten_get_num_gamepads();
 
         if (result == EMSCRIPTEN_RESULT_NOT_SUPPORTED)
-            logger.log(Log::Level::info) << "Gamepads not supported";
+            logger.log() << Log::Level::info << "Gamepads not supported";
         else
         {
             for (long index = 0; index < result; ++index)

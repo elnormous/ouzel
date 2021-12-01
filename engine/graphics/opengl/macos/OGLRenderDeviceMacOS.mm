@@ -36,7 +36,7 @@ namespace ouzel::graphics::opengl::macos
             }
             catch (const std::exception& e)
             {
-                logger.log(Log::Level::error) << e.what();
+                logger.log() << Log::Level::error << e.what();
                 return kCVReturnError;
             }
 
@@ -87,7 +87,7 @@ namespace ouzel::graphics::opengl::macos
             if (pixelFormat)
             {
                 apiVersion = openGlVersion;
-                logger.log(Log::Level::info) << "OpenGL " << apiVersion << " pixel format created";
+                logger.log() << Log::Level::info << "OpenGL " << apiVersion << " pixel format created";
                 break;
             }
         }

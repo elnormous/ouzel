@@ -49,7 +49,7 @@ namespace ouzel::graphics::opengl::tvos
             if (context)
             {
                 apiVersion = ApiVersion{openGlVersion, 0};
-                logger.log(Log::Level::info) << "EAGL OpenGL ES " << apiVersion << " context created";
+                logger.log() << Log::Level::info << "EAGL OpenGL ES " << apiVersion << " context created";
                 break;
             }
         }
@@ -342,7 +342,7 @@ namespace ouzel::graphics::opengl::tvos
         }
         catch (const std::exception& e)
         {
-            logger.log(Log::Level::error) << e.what();
+            logger.log() << Log::Level::error << e.what();
         }
     }
 }

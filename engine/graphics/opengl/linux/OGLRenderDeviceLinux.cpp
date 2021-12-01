@@ -90,13 +90,13 @@ namespace ouzel::graphics::opengl::linux
         const auto eglVersionPtr = eglQueryString(display, EGL_VERSION);
         if (!eglVersionPtr)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get EGL version");
-        logger.log(Log::Level::all) << "EGL version: " << eglVersionPtr;
+        logger.log() << Log::Level::all << "EGL version: " << eglVersionPtr;
 
         const auto eglExtensionsPtr = eglQueryString(display, EGL_EXTENSIONS);
         if (!eglExtensionsPtr)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get EGL extensions");
         const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
-        logger.log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
+        logger.log() << Log::Level::all << "Supported EGL extensions: " << eglExtensions;
 
 #if OUZEL_OPENGLES
         const auto nativeWindow = bitCast<EGLNativeWindowType>(&windowLinux->getNativeWindow());
@@ -137,9 +137,9 @@ namespace ouzel::graphics::opengl::linux
             {
                 apiVersion = ApiVersion{version, 0};
 #if OUZEL_OPENGLES
-                logger.log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
+                logger.log() << Log::Level::info << "EGL OpenGL ES " << version << " context created";
 #else
-                logger.log(Log::Level::info) << "EGL OpenGL " << version << " context created";
+                logger.log() << Log::Level::info << "EGL OpenGL " << version << " context created";
 #endif
                 break;
             }
@@ -244,7 +244,7 @@ namespace ouzel::graphics::opengl::linux
             }
             catch (const std::exception& e)
             {
-                logger.log(Log::Level::error) << e.what();
+                logger.log() << Log::Level::error << e.what();
             }
         }
 

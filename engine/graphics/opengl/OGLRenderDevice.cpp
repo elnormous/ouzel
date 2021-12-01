@@ -308,9 +308,9 @@ namespace ouzel::graphics::opengl
         std::string rendererName;
         const auto rendererNamePointer = glGetStringProc(GL_RENDERER);
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-            logger.log(Log::Level::warning) << "Failed to get OpenGL renderer, error: " + std::to_string(error);
+            logger.log() << Log::Level::warning << "Failed to get OpenGL renderer, error: " + std::to_string(error);
         else if (!rendererNamePointer)
-            logger.log(Log::Level::warning) << "Failed to get OpenGL renderer";
+            logger.log() << Log::Level::warning << "Failed to get OpenGL renderer";
         else
             rendererName = reinterpret_cast<const char*>(rendererNamePointer);
 
@@ -318,13 +318,13 @@ namespace ouzel::graphics::opengl
         const auto vendorNamePointer = glGetStringProc(GL_VENDOR);
 
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-            logger.log(Log::Level::warning) << "Failed to get OpenGL renderer's vendor, error: " + std::to_string(error);
+            logger.log() << Log::Level::warning << "Failed to get OpenGL renderer's vendor, error: " + std::to_string(error);
         else if (!vendorNamePointer)
-            logger.log(Log::Level::warning) << "Failed to get OpenGL renderer's vendor";
+            logger.log() << Log::Level::warning << "Failed to get OpenGL renderer's vendor";
         else
             vendorName = reinterpret_cast<const char*>(vendorNamePointer);
 
-        logger.log(Log::Level::info) << "Using " << rendererName << " by " << vendorName << " for rendering";
+        logger.log() << Log::Level::info << "Using " << rendererName << " by " << vendorName << " for rendering";
 
 #if OUZEL_OPENGLES
         npotTexturesSupported = apiVersion >= ApiVersion{3, 0} || getter.hasExtension("GL_OES_texture_npot");
@@ -1001,7 +1001,7 @@ namespace ouzel::graphics::opengl
 
 #if OUZEL_OPENGLES
                         if (setPipelineStateCommand->fillMode != FillMode::solid)
-                            logger.log(Log::Level::warning) << "Unsupported fill mode";
+                            logger.log() << Log::Level::warning << "Unsupported fill mode";
 #else
                         setPolygonFillMode(getFillMode(setPipelineStateCommand->fillMode));
 #endif

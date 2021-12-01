@@ -67,7 +67,7 @@ namespace ouzel::audio::openal
 
         const auto deviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
-        logger.log(Log::Level::info) << "Using " << deviceName << " for audio";
+        logger.log() << Log::Level::info << "Using " << deviceName << " for audio";
 
         device = alcOpenDevice(deviceName);
 
@@ -91,7 +91,7 @@ namespace ouzel::audio::openal
 
         apiMinorVersion = static_cast<std::uint16_t>(minorVersion);
 
-        logger.log(Log::Level::info) << "OpenAL version " << apiMajorVersion << '.' << apiMinorVersion;
+        logger.log() << Log::Level::info << "OpenAL version " << apiMajorVersion << '.' << apiMinorVersion;
 
         context = alcCreateContext(device, nullptr);
 
@@ -111,9 +111,9 @@ namespace ouzel::audio::openal
         const auto rendererNamePointer = alGetString(AL_RENDERER);
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
-            logger.log(Log::Level::warning) << "Failed to get OpenAL renderer, error: " + std::to_string(error);
+            logger.log() << Log::Level::warning << "Failed to get OpenAL renderer, error: " + std::to_string(error);
         else if (!rendererNamePointer)
-            logger.log(Log::Level::warning) << "Failed to get OpenAL renderer";
+            logger.log() << Log::Level::warning << "Failed to get OpenAL renderer";
         else
             rendererName = rendererNamePointer;
 
@@ -121,25 +121,25 @@ namespace ouzel::audio::openal
         const auto vendorNamePointer = alGetString(AL_VENDOR);
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
-            logger.log(Log::Level::warning) << "Failed to get OpenAL renderer's vendor, error: " + std::to_string(error);
+            logger.log() << Log::Level::warning << "Failed to get OpenAL renderer's vendor, error: " + std::to_string(error);
         else if (!vendorNamePointer)
-            logger.log(Log::Level::warning) << "Failed to get OpenAL renderer's vendor";
+            logger.log() << Log::Level::warning << "Failed to get OpenAL renderer's vendor";
         else
             vendorName = vendorNamePointer;
 
-        logger.log(Log::Level::info) << "Using " << rendererName << " by " << vendorName << " audio renderer";
+        logger.log() << Log::Level::info << "Using " << rendererName << " by " << vendorName << " audio renderer";
 
         std::vector<std::string> extensions;
         const auto extensionsPtr = alGetString(AL_EXTENSIONS);
 
         if (const auto error = alGetError(); error != AL_NO_ERROR)
-            logger.log(Log::Level::warning) << "Failed to get OpenGL extensions: " + std::to_string(error);
+            logger.log() << Log::Level::warning << "Failed to get OpenGL extensions: " + std::to_string(error);
         else if (!extensionsPtr)
-            logger.log(Log::Level::warning) << "Failed to get OpenGL extensions";
+            logger.log() << Log::Level::warning << "Failed to get OpenGL extensions";
         else
             extensions = explodeString(extensionsPtr, ' ');
 
-        logger.log(Log::Level::all) << "Supported OpenAL extensions: " << extensions;
+        logger.log() << Log::Level::all << "Supported OpenAL extensions: " << extensions;
 
         auto float32Supported = false;
         for (const auto& extension : extensions)
@@ -389,7 +389,7 @@ namespace ouzel::audio::openal
             }
             catch (const std::exception& e)
             {
-                ouzel::logger.log(ouzel::Log::Level::error) << e.what();
+                ouzel::logger.log() << ouzel::Log::Level::error << e.what();
             }
         }
 #endif

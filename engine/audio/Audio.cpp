@@ -100,36 +100,36 @@ namespace ouzel::audio
             {
 #if OUZEL_COMPILE_OPENAL
                 case Driver::openAl:
-                    logger.log(Log::Level::info) << "Using OpenAL audio driver";
+                    logger.log() << Log::Level::info << "Using OpenAL audio driver";
                     return std::make_unique<openal::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_XAUDIO2
                 case Driver::xAudio2:
-                    logger.log(Log::Level::info) << "Using XAudio 2 audio driver";
+                    logger.log() << Log::Level::info << "Using XAudio 2 audio driver";
                     return std::make_unique<xaudio2::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_OPENSL
                 case Driver::openSl:
-                    logger.log(Log::Level::info) << "Using OpenSL ES audio driver";
+                    logger.log() << Log::Level::info << "Using OpenSL ES audio driver";
                     return std::make_unique<opensl::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_COREAUDIO
                 case Driver::coreAudio:
-                    logger.log(Log::Level::info) << "Using CoreAudio audio driver";
+                    logger.log() << Log::Level::info << "Using CoreAudio audio driver";
                     return std::make_unique<coreaudio::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_ALSA
                 case Driver::alsa:
-                    logger.log(Log::Level::info) << "Using ALSA audio driver";
+                    logger.log() << Log::Level::info << "Using ALSA audio driver";
                     return std::make_unique<alsa::AudioDevice>(settings, dataGetter);
 #endif
 #if OUZEL_COMPILE_WASAPI
                 case Driver::wasapi:
-                    logger.log(Log::Level::info) << "Using WASAPI audio driver";
+                    logger.log() << Log::Level::info << "Using WASAPI audio driver";
                     return std::make_unique<wasapi::AudioDevice>(settings, dataGetter);
 #endif
                 default:
-                    logger.log(Log::Level::info) << "Not using audio driver";
+                    logger.log() << Log::Level::info << "Not using audio driver";
                     return std::make_unique<empty::AudioDevice>(settings, dataGetter);
             }
         }

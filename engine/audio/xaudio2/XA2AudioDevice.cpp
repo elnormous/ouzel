@@ -63,7 +63,7 @@ namespace ouzel::audio::xaudio2
         }
         else
         {
-            logger.log(Log::Level::info) << "Failed to load " << xaudio2dll28;
+            logger.log() << Log::Level::info << "Failed to load " << xaudio2dll28;
 
             xAudio2Library = LoadLibraryA(xaudio2dll27);
 

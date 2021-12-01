@@ -37,10 +37,10 @@ namespace samples
                     if (++arg != args.end())
                         sample = *arg;
                     else
-                        ouzel::logger.log(ouzel::Log::Level::warning) << "No sample specified";
+                        ouzel::logger.log() << ouzel::Log::Level::warning << "No sample specified";
                 }
                 else
-                    ouzel::logger.log(ouzel::Log::Level::warning) << "Invalid argument \"" << *arg << "\"";
+                    ouzel::logger.log() << ouzel::Log::Level::warning << "Invalid argument \"" << *arg << "\"";
             }
 
 #ifndef __ANDROID__

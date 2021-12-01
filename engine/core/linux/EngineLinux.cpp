@@ -31,9 +31,9 @@ namespace
         error = errorEvent->error_code;
         std::array<char, 256> text;
         if (XGetErrorText(nullptr, errorEvent->error_code, text.data(), text.size()) == 0)
-            ouzel::logger.log(ouzel::Log::Level::error) << "X11 error: " << text.data();
+            ouzel::logger.log() << ouzel::Log::Level::error << "X11 error: " << text.data();
         else
-            ouzel::logger.log(ouzel::Log::Level::error) << "X11 error";
+            ouzel::logger.log() << ouzel::Log::Level::error << "X11 error";
         return 0;
     }
 
@@ -355,10 +355,10 @@ namespace ouzel::core::linux
                 XISelectEvents(display, windowLinux->getNativeWindow(), &eventMask, 1);
             }
             else
-                logger.log(Log::Level::warning) << "XInput2 not supported";
+                logger.log() << Log::Level::warning << "XInput2 not supported";
         }
         else
-            logger.log(Log::Level::warning) << "XInput not supported";
+            logger.log() << Log::Level::warning << "XInput not supported";
 
         executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
