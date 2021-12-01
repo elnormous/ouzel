@@ -52,6 +52,7 @@ namespace ouzel::scene
         void setFarPlane(float newFarPlane) { farPlane = newFarPlane; }
 
         [[nodiscard]] auto& getProjection() const noexcept { return projection; }
+        void setProjection(const math::Matrix<float, 4>& newProjection) { projection = newProjection; }
         void recalculateProjection();
 
         const math::Matrix<float, 4>& getViewProjection() const;
