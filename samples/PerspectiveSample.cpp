@@ -154,7 +154,7 @@ namespace samples
         floor.addComponent(floorSprite);
         layer.addChild(floor);
         floor.setPosition(Vector<float, 2>{0.0F, -50.0F});
-        floor.setRotation(Vector<float, 3>{tau<float> / 4.04F, tau<float> / 8.0F, 0.0F});
+        floor.setRotation(Vector<float, 3>{tau<float> / 4.0F, tau<float> / 8.0F, 0.0F});
 
         // character
         characterSprite.init("run.json");
