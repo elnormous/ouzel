@@ -35,16 +35,16 @@ namespace ouzel::graphics
         const float delta = diff.count() / 1000000000.0F;
 
         if (delta > 0.0F)
-            currentFPS = 1.0F / delta;
+            currentFps = 1.0F / delta;
 
         accumulatedTime += delta;
-        currentAccumulatedFPS += 1.0F;
+        currentAccumulatedFps += 1.0F;
 
         if (accumulatedTime > 1.0F)
         {
-            accumulatedFPS = currentAccumulatedFPS;
+            accumulatedFps = currentAccumulatedFps;
             accumulatedTime = 0.0F;
-            currentAccumulatedFPS = 0.0F;
+            currentAccumulatedFps = 0.0F;
         }
 
         std::unique_lock lock{eventQueueMutex};

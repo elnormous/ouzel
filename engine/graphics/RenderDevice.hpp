@@ -125,8 +125,8 @@ namespace ouzel::graphics
         bool hasEvents() const;
         Event getNextEvent();
 
-        float getFPS() const noexcept { return currentFPS; }
-        float getAccumulatedFPS() const noexcept { return accumulatedFPS; }
+        float getFps() const noexcept { return currentFps; }
+        float getAccumulatedFps() const noexcept { return accumulatedFps; }
 
         void executeOnRenderThread(const std::function<void()>& func);
 
@@ -210,17 +210,6 @@ namespace ouzel::graphics
         std::mutex commandQueueMutex;
         std::condition_variable commandQueueCondition;
 
-        std::queue<Event> eventQueue;
-        mutable std::mutex eventQueueMutex;
-        std::condition_variable eventQueueCondition;
-
-        std::atomic<float> currentFPS{0.0F};
-        std::chrono::steady_clock::time_point previousFrameTime;
-
-        float accumulatedTime = 0.0F;
-        float currentAccumulatedFPS = 0.0F;
-        std::atomic<float> accumulatedFPS{0.0F};
-
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
@@ -244,6 +233,17 @@ namespace ouzel::graphics
 
         ResourceId lastResourceId = 0;
         std::set<ResourceId> deletedResourceIds;
+
+        std::atomic<float> currentFps{0.0F};
+        std::chrono::steady_clock::time_point previousFrameTime;
+
+        float accumulatedTime = 0.0F;
+        float currentAccumulatedFps = 0.0F;
+        std::atomic<float> accumulatedFps{0.0F};
+
+        std::queue<Event> eventQueue;
+        mutable std::mutex eventQueueMutex;
+        std::condition_variable eventQueueCondition;
     };
 }
 
