@@ -131,7 +131,7 @@ namespace ouzel::core::macos
 
     void Engine::runOnMainThread(const std::function<void()>& func)
     {
-        std::unique_lock lock(executeMutex);
+        std::unique_lock lock{executeMutex};
         executeQueue.push(func);
         lock.unlock();
 
@@ -192,7 +192,7 @@ namespace ouzel::core::macos
 
         for (;;)
         {
-            std::unique_lock lock(executeMutex);
+            std::unique_lock lock{executeMutex};
 
             if (executeQueue.empty()) break;
 

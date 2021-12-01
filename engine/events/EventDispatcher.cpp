@@ -48,7 +48,7 @@ namespace ouzel
 
         for (;;)
         {
-            std::unique_lock lock(eventQueueMutex);
+            std::unique_lock lock{eventQueueMutex};
             if (eventQueue.empty()) break;
 
             event = std::move(eventQueue.front());

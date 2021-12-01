@@ -91,7 +91,7 @@ namespace ouzel::graphics
 
         for (;;)
         {
-            std::unique_lock lock(executeMutex);
+            std::unique_lock lock{executeMutex};
             if (executeQueue.empty()) break;
 
             func = std::move(executeQueue.front());

@@ -22,7 +22,7 @@ namespace ouzel::thread
 
         ~ChannelContainer()
         {
-            std::unique_lock lock(queueMutex);
+            std::unique_lock lock{queueMutex};
             closed = true;
             lock.unlock();
             if (capacity > 0) semaphore.acquire();
@@ -37,7 +37,7 @@ namespace ouzel::thread
         template <class T>
         void send(T&& entry)
         {
-            std::unique_lock lock(queueMutex);
+            std::unique_lock lock{queueMutex};
             if (!closed) queue.push(std::forward<T>(entry));
             lock.unlock();
             if (capacity > 0) semaphore.acquire();
@@ -46,7 +46,7 @@ namespace ouzel::thread
 
         void close()
         {
-            std::unique_lock lock(queueMutex);
+            std::unique_lock lock{queueMutex};
             closed = true;
             lock.unlock();
             if (capacity > 0) semaphore.acquire();
@@ -55,7 +55,7 @@ namespace ouzel::thread
 
         std::unique_ptr<Type> next() const
         {
-            std::unique_lock lock(queueMutex);
+            std::unique_lock lock{queueMutex};
             queueCondition.wait(lock, [this]() noexcept { return closed || !queue.empty(); });
 
             if (!queue.empty())

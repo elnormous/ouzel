@@ -326,7 +326,7 @@ namespace ouzel::graphics::d3d11
 
         for (;;)
         {
-            std::unique_lock lock(commandQueueMutex);
+            std::unique_lock lock{commandQueueMutex};
             commandQueueCondition.wait(lock, [this]() noexcept { return !commandQueue.empty(); });
             commandBuffer = std::move(commandQueue.front());
             commandQueue.pop();

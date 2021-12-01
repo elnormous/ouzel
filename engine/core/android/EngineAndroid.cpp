@@ -261,7 +261,7 @@ namespace ouzel::core::android
 
     void Engine::runOnMainThread(const std::function<void()>& func)
     {
-        std::unique_lock lock(executeMutex);
+        std::unique_lock lock{executeMutex};
         executeQueue.push(func);
         lock.unlock();
 
@@ -326,7 +326,7 @@ namespace ouzel::core::android
 
         for (;;)
         {
-            std::unique_lock lock(executeMutex);
+            std::unique_lock lock{executeMutex};
             if (executeQueue.empty()) break;
 
             func = std::move(executeQueue.front());

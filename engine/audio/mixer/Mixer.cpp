@@ -38,7 +38,7 @@ namespace ouzel::audio::mixer
 
         for (;;)
         {
-            std::unique_lock lock(commandQueueMutex);
+            std::unique_lock lock{commandQueueMutex};
             if (commandQueue.empty()) break;
             commandBuffer = std::move(commandQueue.front());
             commandQueue.pop();
@@ -234,7 +234,7 @@ namespace ouzel::audio::mixer
 
             /*process();
 
-            std::unique_lock lock(bufferMutex);
+            std::unique_lock lock{bufferMutex};
             bufferCondition.wait(lock);
 
             if (masterBus)

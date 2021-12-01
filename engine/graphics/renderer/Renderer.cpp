@@ -23,7 +23,7 @@ namespace ouzel::graphics::renderer
     {
         for (;;)
         {
-            std::unique_lock lock(commandQueueMutex);
+            std::unique_lock lock{commandQueueMutex};
             if (commandQueue.empty()) break;
             Command command = std::move(commandQueue.front());
             commandQueue.pop();

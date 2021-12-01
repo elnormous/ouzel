@@ -543,7 +543,7 @@ namespace ouzel::core::linux
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
 
-        std::unique_lock lock(executeMutex);
+        std::unique_lock lock{executeMutex};
         executeQueue.push(func);
         lock.unlock();
 
@@ -581,7 +581,7 @@ namespace ouzel::core::linux
 
         for (;;)
         {
-            std::unique_lock lock(executeMutex);
+            std::unique_lock lock{executeMutex};
 
             if (executeQueue.empty()) break;
 

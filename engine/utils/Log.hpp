@@ -190,7 +190,7 @@ namespace ouzel
             if (level <= threshold)
             {
 #ifndef __EMSCRIPTEN__
-                std::scoped_lock lock(logMutex);
+                std::scoped_lock lock{logMutex};
 #endif
                 logString(str, level);
             }

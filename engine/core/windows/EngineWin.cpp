@@ -121,7 +121,7 @@ namespace ouzel::core::windows
     {
         const auto windowWin = static_cast<NativeWindow*>(window->getNativeWindow());
 
-        std::unique_lock lock(executeMutex);
+        std::unique_lock lock{executeMutex};
         executeQueue.push(func);
         lock.unlock();
 
@@ -135,7 +135,7 @@ namespace ouzel::core::windows
 
         for (;;)
         {
-            std::unique_lock lock(executeMutex);
+            std::unique_lock lock{executeMutex};
 
             if (executeQueue.empty())
                 break;
