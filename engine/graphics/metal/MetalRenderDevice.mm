@@ -119,7 +119,7 @@ namespace ouzel::graphics::metal
             throw Error("Failed to create Metal device");
 
         if (device.get().name)
-            logger.log() << Log::Level::info << "Using " << [device.get().name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
+            logger.log(Log::Level::info) << "Using " << [device.get().name cStringUsingEncoding:NSUTF8StringEncoding] << " for rendering";
 
 #if defined(__MAC_10_12) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_12
         // MTLFeatureSet_macOS_GPUFamily1_v2 is not defined in macOS SDK older than 10.12

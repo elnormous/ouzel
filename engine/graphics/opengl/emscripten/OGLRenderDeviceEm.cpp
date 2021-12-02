@@ -64,7 +64,7 @@ namespace ouzel::graphics::opengl::emscripten
             if (webGLContext)
             {
                 apiVersion = openGlVersion;
-                logger.log() << Log::Level::info << "WebGL " << webGlVersion << " context created";
+                logger.log(Log::Level::info) << "WebGL " << webGlVersion << " context created";
                 break;
             }
         }
@@ -119,7 +119,7 @@ namespace ouzel::graphics::opengl::emscripten
             if (webGLContext)
             {
                 apiVersion = openGlVersion;
-                logger.log() << Log::Level::info << "WebGL " << webGlVersion << " context created";
+                logger.log(Log::Level::info) << "WebGL " << webGlVersion << " context created";
                 break;
             }
         }

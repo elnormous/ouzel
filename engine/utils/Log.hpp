@@ -44,8 +44,8 @@ namespace ouzel
             all
         };
 
-        explicit Log(const Logger& initLogger):
-            logger{initLogger}
+        explicit Log(const Logger& initLogger, Level initLevel = Level::info):
+            logger{initLogger}, level{initLevel}
         {
         }
 
@@ -86,12 +86,6 @@ namespace ouzel
         }
 
         ~Log();
-
-        Log& operator<<(const Level newLevel)
-        {
-            level = newLevel;
-            return *this;
-        }
 
         Log& operator<<(const bool val)
         {
@@ -180,9 +174,9 @@ namespace ouzel
         Logger(Logger&&) = delete;
         Logger& operator=(Logger&&) = delete;
 
-        Log log() const
+        Log log(const Log::Level level = Log::Level::info) const
         {
-            return Log{*this};
+            return Log{*this, level};
         }
 
         void log(const std::string& str, const Log::Level level = Log::Level::info) const

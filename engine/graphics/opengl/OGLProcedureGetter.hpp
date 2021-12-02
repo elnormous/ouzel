@@ -51,16 +51,16 @@ namespace ouzel::graphics::opengl
                 glGetIntegervProc(GL_NUM_EXTENSIONS, &extensionCount);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    logger.log() << Log::Level::warning << "Failed to get OpenGL extension count, error: " + std::to_string(error);
+                    logger.log(Log::Level::warning) << "Failed to get OpenGL extension count, error: " + std::to_string(error);
                 else
                     for (GLuint i = 0; i < static_cast<GLuint>(extensionCount); ++i)
                     {
                         const auto extensionPtr = glGetStringiProc(GL_EXTENSIONS, i);
 
                         if (const auto getStringError = glGetErrorProc(); getStringError != GL_NO_ERROR)
-                            logger.log() << Log::Level::warning << "Failed to get OpenGL extension, error: " + std::to_string(getStringError);
+                            logger.log(Log::Level::warning) << "Failed to get OpenGL extension, error: " + std::to_string(getStringError);
                         else if (!extensionPtr)
-                            logger.log() << Log::Level::warning << "Failed to get OpenGL extension";
+                            logger.log(Log::Level::warning) << "Failed to get OpenGL extension";
                         else
                             extensions.emplace_back(reinterpret_cast<const char*>(extensionPtr));
                     }
@@ -71,14 +71,14 @@ namespace ouzel::graphics::opengl
                 const auto extensionsPtr = glGetStringProc(GL_EXTENSIONS);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    logger.log() << Log::Level::warning << "Failed to get OpenGL extensions, error: " + std::to_string(error);
+                    logger.log(Log::Level::warning) << "Failed to get OpenGL extensions, error: " + std::to_string(error);
                 else if (!extensionsPtr)
-                    logger.log() << Log::Level::warning << "Failed to get OpenGL extensions";
+                    logger.log(Log::Level::warning) << "Failed to get OpenGL extensions";
                 else
                     extensions = explodeString(reinterpret_cast<const char*>(extensionsPtr), ' ');
             }
 
-            logger.log() << Log::Level::all << "Supported OpenGL extensions: " << extensions;
+            logger.log(Log::Level::all) << "Supported OpenGL extensions: " << extensions;
         }
 
         template <typename T>

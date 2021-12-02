@@ -25,7 +25,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
     }
     catch (const std::exception& e)
     {
-        ouzel::logger.log() << ouzel::Log::Level::error << e.what();
+        ouzel::logger.log(ouzel::Log::Level::error) << e.what();
         return EXIT_FAILURE;
     }
 }

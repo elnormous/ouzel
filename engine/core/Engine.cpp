@@ -764,7 +764,7 @@ namespace ouzel::core
         }
         catch (const std::exception& e)
         {
-            logger.log() << Log::Level::error << e.what();
+            logger.log(Log::Level::error) << e.what();
             exit();
         }
     }

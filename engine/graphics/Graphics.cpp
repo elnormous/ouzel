@@ -100,7 +100,7 @@ namespace ouzel::graphics
             {
 #if OUZEL_COMPILE_OPENGL
                 case Driver::openGl:
-                    logger.log() << Log::Level::info << "Using OpenGL render driver";
+                    logger.log(Log::Level::info) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
                     return std::make_unique<opengl::ios::RenderDevice>(settings, window);
 #  elif TARGET_OS_TV
@@ -121,12 +121,12 @@ namespace ouzel::graphics
 #endif
 #if OUZEL_COMPILE_DIRECT3D11
                 case Driver::direct3D11:
-                    logger.log() << Log::Level::info << "Using Direct3D 11 render driver";
+                    logger.log(Log::Level::info) << "Using Direct3D 11 render driver";
                     return std::make_unique<d3d11::RenderDevice>(settings, window);
 #endif
 #if OUZEL_COMPILE_METAL
                 case Driver::metal:
-                    logger.log() << Log::Level::info << "Using Metal render driver";
+                    logger.log(Log::Level::info) << "Using Metal render driver";
 #  if TARGET_OS_IOS
                     return std::make_unique<metal::ios::RenderDevice>(settings, window);
 #  elif TARGET_OS_TV
@@ -136,7 +136,7 @@ namespace ouzel::graphics
 #  endif
 #endif
                 default:
-                    logger.log() << Log::Level::info << "Not using render driver";
+                    logger.log(Log::Level::info) << "Not using render driver";
                     return std::make_unique<empty::RenderDevice>(settings, window);
             }
         }

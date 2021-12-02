@@ -151,7 +151,7 @@ namespace ouzel::audio::wasapi
             {
                 auto name = std::make_unique<char[]>(bufferSize);
                 if (WideCharToMultiByte(CP_UTF8, 0, nameVariant.pwszVal, -1, name.get(), bufferSize, nullptr, nullptr) != 0)
-                    ouzel::logger.log() << ouzel::Log::Level::info << "Using " << name.get() << " for audio";
+                    ouzel::logger.log(ouzel::Log::Level::info) << "Using " << name.get() << " for audio";
             }
 
         PropVariantClear(&nameVariant);
@@ -319,7 +319,7 @@ namespace ouzel::audio::wasapi
             }
             catch (const std::exception& e)
             {
-                logger.log() << Log::Level::error << e.what();
+                logger.log(Log::Level::error) << e.what();
             }
         }
     }

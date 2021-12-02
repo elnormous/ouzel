@@ -188,7 +188,7 @@ namespace ouzel::graphics::opengl::windows
             if (const char* extensionsPtr = wglGetExtensionsStringProc(deviceContext))
                 extensions = explodeString(extensionsPtr, ' ');
 
-            logger.log() << Log::Level::all << "Supported WGL extensions: " << extensions;
+            logger.log(Log::Level::all) << "Supported WGL extensions: " << extensions;
         }
 
         PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatProc = nullptr;
@@ -280,7 +280,7 @@ namespace ouzel::graphics::opengl::windows
 
                 if (renderContext)
                 {
-                    logger.log() << Log::Level::info << "OpenGL " << openGlVersion << " context created";
+                    logger.log(Log::Level::info) << "OpenGL " << openGlVersion << " context created";
                     break;
                 }
             }
@@ -356,7 +356,7 @@ namespace ouzel::graphics::opengl::windows
             }
             catch (const std::exception& e)
             {
-                logger.log() << Log::Level::error << e.what();
+                logger.log(Log::Level::error) << e.what();
             }
         }
 
