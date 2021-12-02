@@ -17,8 +17,6 @@
 
 namespace ouzel
 {
-    class Logger;
-
     template<typename T, typename = void>
     struct IsContainer: std::false_type {};
 
@@ -31,6 +29,85 @@ namespace ouzel
 
     template<typename T>
     inline constexpr bool isContainer = IsContainer<T>::value;
+
+    class Stream final
+    {
+    public:
+        Stream& operator<<(const bool val)
+        {
+            s += val ? "true" : "false";
+            return *this;
+        }
+
+        Stream& operator<<(char val)
+        {
+            s += val;
+            return *this;
+        }
+
+        Stream& operator<<(const std::uint8_t val)
+        {
+            constexpr char digits[] = "0123456789abcdef";
+            s.push_back(digits[(val >> 4) & 0x0F]);
+            s.push_back(digits[(val >> 0) & 0x0F]);
+            return *this;
+        }
+
+        template <typename T, std::enable_if_t<std::is_arithmetic_v<T> &&
+            !std::is_same_v<T, bool> &&
+            !std::is_same_v<T, std::uint8_t>>* = nullptr>
+        Stream& operator<<(const T val)
+        {
+            s += std::to_string(val);
+            return *this;
+        }
+
+        Stream& operator<<(const std::string& val)
+        {
+            s += val;
+            return *this;
+        }
+
+        Stream& operator<<(const char* val)
+        {
+            s += val;
+            return *this;
+        }
+
+        template <typename T, std::enable_if_t<!std::is_same_v<T, char>>* = nullptr>
+        Stream& operator<<(const T* val)
+        {
+            constexpr char digits[] = "0123456789abcdef";
+
+            const auto ptrValue = bitCast<std::uintptr_t>(val);
+
+            for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
+                s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);
+
+            return *this;
+        }
+
+        template <typename T, std::enable_if_t<isContainer<T> || std::is_array_v<T>>* = nullptr>
+        Stream& operator<<(const T& val)
+        {
+            bool first = true;
+            for (const auto& i : val)
+            {
+                if (!first) s += ", ";
+                first = false;
+                operator<<(i);
+            }
+
+            return *this;
+        }
+
+        const auto& getString() noexcept { return s; }
+
+    private:
+        std::string s;
+    };
+
+    class Logger;
 
     class Log final
     {
@@ -87,78 +164,17 @@ namespace ouzel
 
         ~Log();
 
-        Log& operator<<(const bool val)
+        template <class T>
+        Log& operator<<(T&& val)
         {
-            s += val ? "true" : "false";
-            return *this;
-        }
-
-        Log& operator<<(char val)
-        {
-            s += val;
-            return *this;
-        }
-
-        Log& operator<<(const std::uint8_t val)
-        {
-            constexpr char digits[] = "0123456789abcdef";
-            s.push_back(digits[(val >> 4) & 0x0F]);
-            s.push_back(digits[(val >> 0) & 0x0F]);
-            return *this;
-        }
-
-        template <typename T, std::enable_if_t<std::is_arithmetic_v<T> &&
-            !std::is_same_v<T, bool> &&
-            !std::is_same_v<T, std::uint8_t>>* = nullptr>
-        Log& operator<<(const T val)
-        {
-            s += std::to_string(val);
-            return *this;
-        }
-
-        Log& operator<<(const std::string& val)
-        {
-            s += val;
-            return *this;
-        }
-
-        Log& operator<<(const char* val)
-        {
-            s += val;
-            return *this;
-        }
-
-        template <typename T, std::enable_if_t<!std::is_same_v<T, char>>* = nullptr>
-        Log& operator<<(const T* val)
-        {
-            constexpr char digits[] = "0123456789abcdef";
-
-            const auto ptrValue = bitCast<std::uintptr_t>(val);
-
-            for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
-                s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);
-
-            return *this;
-        }
-
-        template <typename T, std::enable_if_t<isContainer<T> || std::is_array_v<T>>* = nullptr>
-        Log& operator<<(const T& val)
-        {
-            bool first = true;
-            for (const auto& i : val)
-            {
-                if (!first) s += ", ";
-                first = false;
-                operator<<(i);
-            }
-
+            s << val;
             return *this;
         }
 
     private:
         const Logger& logger;
         Level level = Level::info;
-        std::string s;
+        Stream s;
     };
 
     class Logger final
@@ -181,7 +197,7 @@ namespace ouzel
 
         void log(const std::string& str, const Log::Level level = Log::Level::info) const
         {
-            if (level <= threshold)
+            if (level <= threshold && !str.empty())
             {
 #ifndef __EMSCRIPTEN__
                 std::scoped_lock lock{logMutex};
@@ -206,63 +222,61 @@ namespace ouzel
 
     inline Log::~Log()
     {
-        if (!s.empty())
-            logger.log(s, level);
+        logger.log(s.getString(), level);
     }
 
     template <class T, std::size_t rows, std::size_t cols>
-    Log& operator<<(Log& log, const math::Matrix<T, rows, cols>& val)
+    Stream& operator<<(Stream& stream, const math::Matrix<T, rows, cols>& val)
     {
         bool first = true;
 
         for (const T c : val.m)
         {
-            if (!first) log << ",";
+            if (!first) stream << ",";
             first = false;
             log << c;
         }
 
-        return log;
+        return stream;
     }
 
     template <class T, std::size_t dims>
-    Log& operator<<(Log& log, const math::Size<T, dims>& val)
+    Stream& operator<<(Stream& stream, const math::Size<T, dims>& val)
     {
         bool first = true;
 
         for (const T c : val.v)
         {
-            if (!first) log << ",";
+            if (!first) stream << ",";
             first = false;
-            log << c;
+            stream << c;
         }
-        return log;
+        return stream;
     }
 
     template <class T, std::size_t dims>
-    Log& operator<<(Log& log, const math::Vector<T, dims>& val)
+    Stream& operator<<(Stream& stream, const math::Vector<T, dims>& val)
     {
         bool first = true;
 
         for (const T c : val.v)
         {
-            if (!first) log << ",";
+            if (!first) stream << ",";
             first = false;
-            log << c;
+            stream << c;
         }
-        return log;
+        return stream;
     }
 
     template <typename T>
-    Log& operator<<(Log& log, const math::Quaternion<T>& val)
+    Stream& operator<<(Stream& stream, const math::Quaternion<T>& val)
     {
-        return log << "[" << val.v[0] << "," << val.v[1] << "," << val.v[2] << "," << val.v[3] << "]";
+        return stream << val.v[0] << "," << val.v[1] << "," << val.v[2] << "," << val.v[3];
     }
 
-    inline Log& operator<<(Log& log, const storage::Path& val)
+    inline Stream& operator<<(Stream& stream, const storage::Path& val)
     {
-        log << val.getGeneric();
-        return log;
+        return stream << val.getGeneric();
     }
 
     extern Logger log;
