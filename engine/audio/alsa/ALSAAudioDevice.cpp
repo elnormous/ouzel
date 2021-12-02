@@ -29,7 +29,7 @@ namespace ouzel::audio::alsa
         if (const auto result = snd_pcm_open(&playbackHandle, device, SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK); result != 0)
             throw std::system_error(result, errorCategory, "Failed to connect to audio interface");
 
-        logger.log(Log::Level::info) << "Using " << snd_pcm_name(playbackHandle) << " for audio";
+        log(Log::Level::info) << "Using " << snd_pcm_name(playbackHandle) << " for audio";
 
         snd_pcm_hw_params_t* hwParams = nullptr;
         snd_pcm_hw_params_alloca(&hwParams);
@@ -135,7 +135,7 @@ namespace ouzel::audio::alsa
                 {
                     if (frames == -EPIPE)
                     {
-                        logger.log(Log::Level::warning) << "Buffer underrun occurred";
+                        log(Log::Level::warning) << "Buffer underrun occurred";
 
                         if (const auto result = snd_pcm_prepare(playbackHandle); result != 0)
                             throw std::system_error(result, errorCategory, "Failed to prepare audio interface");
@@ -148,7 +148,7 @@ namespace ouzel::audio::alsa
 
                 if (static_cast<snd_pcm_uframes_t>(frames) > periods * periodSize)
                 {
-                    logger.log(Log::Level::warning) << "Buffer size exceeded, error: " << frames;
+                    log(Log::Level::warning) << "Buffer size exceeded, error: " << frames;
                     snd_pcm_reset(playbackHandle);
                     continue;
                 }
@@ -162,7 +162,7 @@ namespace ouzel::audio::alsa
                 {
                     if (result == -EPIPE)
                     {
-                        logger.log(Log::Level::warning) << "Buffer underrun occurred";
+                        log(Log::Level::warning) << "Buffer underrun occurred";
 
                         if (const auto prepareResult = snd_pcm_prepare(playbackHandle); prepareResult != 0)
                             throw std::system_error(prepareResult, errorCategory, "Failed to prepare audio interface");
@@ -173,7 +173,7 @@ namespace ouzel::audio::alsa
             }
             catch (const std::exception& e)
             {
-                logger.log(Log::Level::error) << e.what();
+                log(Log::Level::error) << e.what();
             }
         }
     }

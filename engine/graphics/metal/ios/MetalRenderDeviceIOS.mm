@@ -90,7 +90,7 @@ namespace ouzel::graphics::metal::ios
         }
         catch (const std::exception& e)
         {
-            logger.log(Log::Level::error) << e.what();
+            log(Log::Level::error) << e.what();
         }
     }
 }

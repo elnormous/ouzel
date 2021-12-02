@@ -31,7 +31,7 @@
 
 namespace ouzel
 {
-    Logger logger;
+    Logger log;
 
     void Logger::logString(const std::string& str, Log::Level level)
     {

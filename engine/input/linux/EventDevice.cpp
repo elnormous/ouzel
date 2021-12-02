@@ -229,15 +229,15 @@ namespace ouzel::input::linux
                 throw std::system_error(errno, std::system_category(), "Failed to open device file");
 
         if (ioctl(fd, EVIOCGRAB, 1) == -1)
-            logger.log(Log::Level::warning) << "Failed to grab device";
+            log(Log::Level::warning) << "Failed to grab device";
 
         char deviceName[256];
         if (ioctl(fd, EVIOCGNAME(sizeof(deviceName) - 1), deviceName) == -1)
-            logger.log(Log::Level::warning) << "Failed to get device name";
+            log(Log::Level::warning) << "Failed to get device name";
         else
         {
             name = deviceName;
-            logger.log(Log::Level::info) << "Got device: " << name;
+            log(Log::Level::info) << "Got device: " << name;
         }
 
         unsigned long eventBits[bitsToLongs(EV_CNT)];
@@ -396,7 +396,7 @@ namespace ouzel::input::linux
         if (fd != -1)
         {
             if (ioctl(fd, EVIOCGRAB, 0) == -1)
-                logger.log(Log::Level::warning) << "Failed to release device";
+                log(Log::Level::warning) << "Failed to release device";
 
             close(fd);
         }

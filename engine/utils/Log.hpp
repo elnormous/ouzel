@@ -174,7 +174,7 @@ namespace ouzel
         Logger(Logger&&) = delete;
         Logger& operator=(Logger&&) = delete;
 
-        Log log(const Log::Level level = Log::Level::info) const
+        Log operator()(const Log::Level level = Log::Level::info) const
         {
             return Log{*this, level};
         }
@@ -265,7 +265,7 @@ namespace ouzel
         return log;
     }
 
-    extern Logger logger;
+    extern Logger log;
 }
 
 #endif // OUZEL_UTILS_LOG_HPP

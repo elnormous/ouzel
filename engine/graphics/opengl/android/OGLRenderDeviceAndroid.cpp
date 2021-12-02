@@ -76,13 +76,13 @@ namespace ouzel::graphics::opengl::android
         const auto eglVersionPtr = eglQueryString(display, EGL_VERSION);
         if (!eglVersionPtr)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get EGL version");
-        logger.log(Log::Level::all) << "EGL version: " << eglVersionPtr;
+        log(Log::Level::all) << "EGL version: " << eglVersionPtr;
 
         const auto eglExtensionsPtr = eglQueryString(display, EGL_EXTENSIONS);
         if (!eglExtensionsPtr)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get EGL extensions");
         const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
-        logger.log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
+        log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
         const auto windowAndroid = static_cast<core::android::NativeWindow*>(window.getNativeWindow());
 
@@ -154,7 +154,7 @@ namespace ouzel::graphics::opengl::android
             apiVersion = ApiVersion{2, 0};
         }
 
-        logger.log(Log::Level::info) << "EGL OpenGL ES " << apiVersion.v[0] << " context created";
+        log(Log::Level::info) << "EGL OpenGL ES " << apiVersion.v[0] << " context created";
 
         if (!eglMakeCurrent(display, surface, surface, context))
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
@@ -218,7 +218,7 @@ namespace ouzel::graphics::opengl::android
         if (!eglExtensionsPtr)
             throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get EGL extensions");
         const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
-        logger.log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
+        log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
         const auto windowAndroid = static_cast<core::android::NativeWindow*>(window.getNativeWindow());
 
@@ -253,7 +253,7 @@ namespace ouzel::graphics::opengl::android
                 if (context != EGL_NO_CONTEXT)
                 {
                     apiVersion = ApiVersion{3, 0};
-                    logger.log(Log::Level::info) << "EGL OpenGL ES " << 3 << " context created";
+                    log(Log::Level::info) << "EGL OpenGL ES " << 3 << " context created";
                 }
                 else // TODO: use RAII for surface
                     eglDestroySurface(display, surface);
@@ -291,7 +291,7 @@ namespace ouzel::graphics::opengl::android
                 throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL context");
 
             apiVersion = ApiVersion{2, 0};
-            logger.log(Log::Level::info) << "EGL OpenGL ES " << 2 << " context created";
+            log(Log::Level::info) << "EGL OpenGL ES " << 2 << " context created";
         }
 
         if (!eglMakeCurrent(display, surface, surface, context))
@@ -345,10 +345,10 @@ namespace ouzel::graphics::opengl::android
         if (context)
         {
             if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-                logger.log(Log::Level::error) << "Failed to unset EGL context";
+                log(Log::Level::error) << "Failed to unset EGL context";
 
             if (!eglDestroyContext(display, context))
-                logger.log(Log::Level::error) << "Failed to destroy EGL context";
+                log(Log::Level::error) << "Failed to destroy EGL context";
 
             context = nullptr;
         }
@@ -356,7 +356,7 @@ namespace ouzel::graphics::opengl::android
         if (surface)
         {
             if (!eglDestroySurface(display, surface))
-                logger.log(Log::Level::error) << "Failed to destroy EGL surface";
+                log(Log::Level::error) << "Failed to destroy EGL surface";
 
             surface = nullptr;
         }
@@ -383,7 +383,7 @@ namespace ouzel::graphics::opengl::android
             }
             catch (const std::exception& e)
             {
-                logger.log(Log::Level::error) << e.what();
+                log(Log::Level::error) << e.what();
             }
         }
 
