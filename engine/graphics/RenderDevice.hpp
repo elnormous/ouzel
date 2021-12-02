@@ -52,9 +52,10 @@ namespace ouzel::graphics
         std::uint16_t v[2]{0, 0};
     };
 
-    inline std::string toString(const ApiVersion& val)
+    inline Log& operator<<(Log& log, const ApiVersion& val)
     {
-        return std::to_string(val.v[0]) + '.' + std::to_string(val.v[1]);
+        log << val.v[0] << '.' << val.v[1];
+        return log;
     }
 
     class RenderDevice

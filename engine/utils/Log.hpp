@@ -17,55 +17,7 @@
 
 namespace ouzel
 {
-    inline std::string toString(const bool val)
-    {
-        return val ? "true" : "false";
-    }
-
-    inline std::string toString(const char val)
-    {
-        return std::to_string(val);
-    }
-
-    inline std::string toString(const std::uint8_t val)
-    {
-        constexpr char digits[] = "0123456789abcdef";
-        std::string s;
-        s.push_back(digits[(val >> 4) & 0x0F]);
-        s.push_back(digits[(val >> 0) & 0x0F]);
-        return s;
-    }
-
-    template <typename T, std::enable_if_t<std::is_arithmetic_v<T> &&
-        !std::is_same_v<T, bool> &&
-        !std::is_same_v<T, std::uint8_t>>* = nullptr>
-    std::string toString(const T val)
-    {
-        return std::to_string(val);
-    }
-
-    inline std::string toString(const std::string& val)
-    {
-        return val;
-    }
-
-    inline std::string toString(const char* val)
-    {
-        return val;
-    }
-
-    template <typename T, std::enable_if_t<!std::is_same_v<T, char>>* = nullptr>
-    std::string toString(const T* val)
-    {
-        constexpr char digits[] = "0123456789abcdef";
-
-        const auto ptrValue = bitCast<std::uintptr_t>(val);
-
-        std::string s;
-        for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
-            s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);
-        return s;
-    }
+    class Logger;
 
     template<typename T, typename = void>
     struct IsContainer: std::false_type {};
@@ -79,22 +31,6 @@ namespace ouzel
 
     template<typename T>
     inline constexpr bool isContainer = IsContainer<T>::value;
-
-    template <typename T, std::enable_if_t<isContainer<T> || std::is_array_v<T>>* = nullptr>
-    std::string toString(const T& val)
-    {
-        std::string s;
-        bool first = true;
-        for (const auto& i : val)
-        {
-            if (!first) s += ", ";
-            first = false;
-            s += toString(i);
-        }
-        return s;
-    }
-
-    class Logger;
 
     class Log final
     {
@@ -151,10 +87,71 @@ namespace ouzel
 
         ~Log();
 
-        template <class T>
-        Log& operator<<(T&& val)
+        Log& operator<<(const bool val)
         {
-            s += toString(val);
+            s += val ? "true" : "false";
+            return *this;
+        }
+
+        Log& operator<<(char val)
+        {
+            s += val;
+            return *this;
+        }
+
+        Log& operator<<(const std::uint8_t val)
+        {
+            constexpr char digits[] = "0123456789abcdef";
+            s.push_back(digits[(val >> 4) & 0x0F]);
+            s.push_back(digits[(val >> 0) & 0x0F]);
+            return *this;
+        }
+
+        template <typename T, std::enable_if_t<std::is_arithmetic_v<T> &&
+            !std::is_same_v<T, bool> &&
+            !std::is_same_v<T, std::uint8_t>>* = nullptr>
+        Log& operator<<(const T val)
+        {
+            s += std::to_string(val);
+            return *this;
+        }
+
+        Log& operator<<(const std::string& val)
+        {
+            s += val;
+            return *this;
+        }
+
+        Log& operator<<(const char* val)
+        {
+            s += val;
+            return *this;
+        }
+
+        template <typename T, std::enable_if_t<!std::is_same_v<T, char>>* = nullptr>
+        Log& operator<<(const T* val)
+        {
+            constexpr char digits[] = "0123456789abcdef";
+
+            const auto ptrValue = bitCast<std::uintptr_t>(val);
+
+            for (std::size_t i = 0; i < sizeof(val) * 2; ++i)
+                s.push_back(digits[(ptrValue >> (sizeof(ptrValue) * 2 - i - 1) * 4) & 0x0F]);
+
+            return *this;
+        }
+
+        template <typename T, std::enable_if_t<isContainer<T> || std::is_array_v<T>>* = nullptr>
+        Log& operator<<(const T& val)
+        {
+            bool first = true;
+            for (const auto& i : val)
+            {
+                if (!first) s += ", ";
+                first = false;
+                operator<<(i);
+            }
+
             return *this;
         }
 
@@ -214,62 +211,58 @@ namespace ouzel
     }
 
     template <class T, std::size_t rows, std::size_t cols>
-    std::string toString(const math::Matrix<T, rows, cols>& val)
+    Log& operator<<(Log& log, const math::Matrix<T, rows, cols>& val)
     {
         bool first = true;
 
-        std::string s;
         for (const T c : val.m)
         {
-            if (!first) s += ",";
+            if (!first) log << ",";
             first = false;
-            s += std::to_string(c);
+            log << c;
         }
-        return s;
+
+        return log;
     }
 
     template <class T, std::size_t dims>
-    std::string toString(const math::Size<T, dims>& val)
+    Log& operator<<(Log& log, const math::Size<T, dims>& val)
     {
         bool first = true;
 
-        std::string s;
         for (const T c : val.v)
         {
-            if (!first) s += ",";
+            if (!first) log << ",";
             first = false;
-            s += std::to_string(c);
+            log << c;
         }
-        return s;
+        return log;
     }
 
     template <class T, std::size_t dims>
-    std::string toString(const math::Vector<T, dims>& val)
+    Log& operator<<(Log& log, const math::Vector<T, dims>& val)
     {
         bool first = true;
 
-        std::string s;
         for (const T c : val.v)
         {
-            if (!first) s += ",";
+            if (!first) log << ",";
             first = false;
-            s += std::to_string(c);
+            log << c;
         }
-        return s;
+        return log;
     }
 
     template <typename T>
-    std::string toString(const math::Quaternion<T>& val)
+    Log& operator<<(Log& log, const math::Quaternion<T>& val)
     {
-        return std::to_string(val.v[0]) + "," +
-            std::to_string(val.v[1]) + "," +
-            std::to_string(val.v[2]) + "," +
-            std::to_string(val.v[3]);
+        return log << "[" << val.v[0] << "," << val.v[1] << "," << val.v[2] << "," << val.v[3] << "]";
     }
 
-    inline std::string toString(const storage::Path& val)
+    inline Log& operator<<(Log& log, const storage::Path& val)
     {
-        return val.getGeneric();
+        log << val.getGeneric();
+        return log;
     }
 
     extern Logger log;
