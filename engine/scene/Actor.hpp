@@ -168,7 +168,7 @@ namespace ouzel::scene
 
         virtual void calculateInverseTransform() const;
 
-        math::Matrix<float, 4> parentTransform;
+        math::Matrix<float, 4> parentTransform = math::identityMatrix<float, 4>;
         mutable math::Matrix<float, 4> transform;
         mutable math::Matrix<float, 4> inverseTransform;
         mutable math::Matrix<float, 4> localTransform;
