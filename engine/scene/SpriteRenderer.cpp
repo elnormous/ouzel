@@ -389,7 +389,7 @@ namespace ouzel::scene
 
             engine->getGraphics()->setPipelineState(material->blendState->getResource(),
                                                     material->shader->getResource(),
-                                                    graphics::CullMode::none,
+                                                    material->cullMode,
                                                     wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
             engine->getGraphics()->setShaderConstants(fragmentShaderConstants,
                                                       vertexShaderConstants);
