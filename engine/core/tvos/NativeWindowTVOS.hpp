@@ -27,8 +27,7 @@ namespace ouzel::core::tvos
     class NativeWindow final: public core::NativeWindow
     {
     public:
-        NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const std::string& newTitle,
+        NativeWindow(const std::string& newTitle,
                      graphics::Driver graphicsDriver,
                      bool newHighDpi);
         ~NativeWindow() override;

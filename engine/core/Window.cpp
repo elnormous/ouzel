@@ -34,18 +34,15 @@ namespace ouzel::core
                    [[maybe_unused]] graphics::Driver graphicsDriver):
         engine{initEngine},
 #if TARGET_OS_IOS
-        nativeWindow{std::make_unique<ios::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                         newTitle,
+        nativeWindow{std::make_unique<ios::NativeWindow>(newTitle,
                                                          graphicsDriver,
                                                          (flags & Flags::highDpi) == Flags::highDpi)},
 #elif TARGET_OS_TV
-        nativeWindow{std::make_unique<tvos::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                          newTitle,
+        nativeWindow{std::make_unique<tvos::NativeWindow>(newTitle,
                                                           graphicsDriver,
                                                           (flags & Flags::highDpi) == Flags::highDpi)},
 #elif TARGET_OS_MAC
-        nativeWindow{std::make_unique<macos::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                           newSize,
+        nativeWindow{std::make_unique<macos::NativeWindow>(newSize,
                                                            (flags & Flags::resizable) == Flags::resizable,
                                                            (flags & Flags::fullscreen) == Flags::fullscreen,
                                                            (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
@@ -53,32 +50,27 @@ namespace ouzel::core
                                                            graphicsDriver,
                                                            (flags & Flags::highDpi) == Flags::highDpi)},
 #elif defined(__ANDROID__)
-        nativeWindow{std::make_unique<android::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                             newTitle)},
+        nativeWindow{std::make_unique<android::NativeWindow>(newTitle)},
 #elif defined(__linux__)
-        nativeWindow{std::make_unique<linux::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                           newSize,
+        nativeWindow{std::make_unique<linux::NativeWindow>(newSize,
                                                            (flags & Flags::resizable) == Flags::resizable,
                                                            (flags & Flags::fullscreen) == Flags::fullscreen,
                                                            (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
                                                            newTitle)},
 #elif defined(_WIN32)
-        nativeWindow{std::make_unique<windows::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                             newSize,
+        nativeWindow{std::make_unique<windows::NativeWindow>(newSize,
                                                              (flags & Flags::resizable) == Flags::resizable,
                                                              (flags & Flags::fullscreen) == Flags::fullscreen,
                                                              (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
                                                              newTitle,
                                                              (flags & Flags::highDpi) == Flags::highDpi)},
 #elif defined(__EMSCRIPTEN__)
-        nativeWindow{std::make_unique<emscripten::NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                                newSize,
+        nativeWindow{std::make_unique<emscripten::NativeWindow>(newSize,
                                                                 (flags & Flags::fullscreen) == Flags::fullscreen,
                                                                 newTitle,
                                                                 (flags & Flags::highDpi) == Flags::highDpi)},
 #else
-        nativeWindow{std::make_unique<NativeWindow>(std::bind(&Window::eventCallback, this, std::placeholders::_1),
-                                                    newSize,
+        nativeWindow{std::make_unique<NativeWindow>(newSize,
                                                     (flags & Flags::resizable) == Flags::resizable,
                                                     (flags & Flags::fullscreen) == Flags::fullscreen,
                                                     (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
@@ -95,35 +87,16 @@ namespace ouzel::core
     {
     }
 
-    void Window::update()
+    void Window::update(bool waitForEvents)
     {
-        NativeWindow::Event event;
+        auto events = nativeWindow->getEvents(waitForEvents);
 
-        for (;;)
+        while (!events.empty())
         {
-            std::unique_lock lock{eventQueueMutex};
-            if (eventQueue.empty()) break;
-            event = std::move(eventQueue.front());
-            eventQueue.pop();
-            lock.unlock();
+            const auto event = std::move(events.front());
+            events.pop();
 
             handleEvent(event);
-        }
-    }
-
-    void Window::eventCallback(const NativeWindow::Event& event)
-    {
-        if (event.type == NativeWindow::Event::Type::focusChange)
-        {
-            if (event.focus)
-                engine.resume();
-            else
-                engine.pause();
-        }
-        else
-        {
-            std::scoped_lock lock{eventQueueMutex};
-            eventQueue.push(event);
         }
     }
 
@@ -175,6 +148,14 @@ namespace ouzel::core
                 screenChangeEvent->window = this;
                 screenChangeEvent->screenId = event.displayId;
                 engine.getEventDispatcher().dispatchEvent(std::move(screenChangeEvent));
+                break;
+            }
+            case NativeWindow::Event::Type::focusChange:
+            {
+                if (event.focus)
+                    engine.resume();
+                else
+                    engine.pause();
                 break;
             }
             case NativeWindow::Event::Type::close:

@@ -5,8 +5,7 @@
 
 namespace ouzel::core
 {
-    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
-                               const math::Size<std::uint32_t, 2>& newSize,
+    NativeWindow::NativeWindow(const math::Size<std::uint32_t, 2>& newSize,
                                bool newResizable,
                                bool newFullscreen,
                                bool newExclusiveFullscreen,
@@ -17,8 +16,7 @@ namespace ouzel::core
         fullscreen{newFullscreen},
         exclusiveFullscreen{newExclusiveFullscreen},
         highDpi{newHighDpi},
-        title{newTitle},
-        callback{initCallback}
+        title{newTitle}
     {
     }
 
@@ -29,6 +27,22 @@ namespace ouzel::core
 
     void NativeWindow::sendEvent(const Event& event)
     {
-        callback(event);
+        std::unique_lock lock{eventQueueMutex};
+        eventQueue.push(event);
+        lock.unlock();
+        eventQueueCondition.notify_all();
+    }
+
+    std::queue<NativeWindow::Event> NativeWindow::getEvents(bool waitForEvents)
+    {
+        std::unique_lock lock{eventQueueMutex};
+
+        if (waitForEvents)
+            while (eventQueue.empty())
+                eventQueueCondition.wait(lock);
+
+        auto result = std::move(eventQueue);
+        eventQueue = {};
+        return result;
     }
 }

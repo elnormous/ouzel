@@ -189,12 +189,11 @@ namespace ouzel::core
         paused = true;
         active = false;
 
+        window->close();
+
 #ifndef __EMSCRIPTEN__
         if (updateThread.isJoinable())
         {
-            std::unique_lock lock{updateMutex};
-            updateCondition.notify_all();
-            lock.unlock();
             updateThread.join();
         }
 #endif
@@ -668,10 +667,6 @@ namespace ouzel::core
             eventDispatcher.postEvent(std::move(event));
 
             paused = false;
-
-#ifndef __EMSCRIPTEN__
-            updateCondition.notify_all();
-#endif
         }
     }
 
@@ -688,15 +683,12 @@ namespace ouzel::core
             active = false;
         }
 
+        window->close();
+
 #ifndef __EMSCRIPTEN__
         if (updateThread.isJoinable() &&
             updateThread.getId() != std::this_thread::get_id())
-        {
-            std::unique_lock lock{updateMutex};
-            updateCondition.notify_all();
-            lock.unlock();
             updateThread.join();
-        }
 #endif
     }
 
@@ -721,7 +713,7 @@ namespace ouzel::core
         }
 
         inputManager->update();
-        window->update();
+        window->update(false);
         audio->update();
 
         if (refillRenderQueue)
@@ -749,15 +741,10 @@ namespace ouzel::core
 
 #ifndef __EMSCRIPTEN__
             while (active)
-            {
-                if (!paused)
-                    update();
+                if (paused)
+                    window->update(true);
                 else
-                {
-                    std::unique_lock lock{updateMutex};
-                    updateCondition.wait(lock, [this]() noexcept { return !active || !paused; });
-                }
-            }
+                    update();
 
             eventDispatcher.dispatchEvents();
 #endif

@@ -411,15 +411,13 @@ namespace
 
 namespace ouzel::core::windows
 {
-    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
-                               const math::Size<std::uint32_t, 2>& newSize,
+    NativeWindow::NativeWindow(const math::Size<std::uint32_t, 2>& newSize,
                                bool newResizable,
                                bool newFullscreen,
                                bool newExclusiveFullscreen,
                                const std::string& newTitle,
                                bool newHighDpi):
         core::NativeWindow{
-            initCallback,
             newSize,
             newResizable,
             newFullscreen,

@@ -10,8 +10,7 @@ namespace ouzel::core::emscripten
     class NativeWindow final: public core::NativeWindow
     {
     public:
-        NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const math::Size<std::uint32_t, 2>& newSize,
+        NativeWindow(const math::Size<std::uint32_t, 2>& newSize,
                      bool newFullscreen,
                      const std::string& newTitle,
                      bool newHighDpi);

@@ -3,7 +3,10 @@
 #ifndef OUZEL_CORE_NATIVEWINDOW_HPP
 #define OUZEL_CORE_NATIVEWINDOW_HPP
 
+#include <condition_variable>
 #include <functional>
+#include <mutex>
+#include <queue>
 #include <string>
 #include "../math/Size.hpp"
 
@@ -70,8 +73,7 @@ namespace ouzel::core
             };
         };
 
-        NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const math::Size<std::uint32_t, 2>& newSize,
+        NativeWindow(const math::Size<std::uint32_t, 2>& newSize,
                      bool newResizable,
                      bool newFullscreen,
                      bool newExclusiveFullscreen,
@@ -95,6 +97,8 @@ namespace ouzel::core
         auto isExclusiveFullscreen() const noexcept { return exclusiveFullscreen; }
         auto& getTitle() const noexcept { return title; }
 
+        std::queue<NativeWindow::Event> getEvents(bool waitForEvents);
+
     protected:
         virtual void executeCommand(const Command&) {}
         void sendEvent(const Event& event);
@@ -110,7 +114,9 @@ namespace ouzel::core
         std::string title;
 
     private:
-        std::function<void(const Event&)> callback;
+        std::queue<Event> eventQueue;
+        std::mutex eventQueueMutex;
+        std::condition_variable eventQueueCondition;
     };
 }
 

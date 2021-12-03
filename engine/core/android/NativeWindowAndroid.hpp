@@ -13,8 +13,7 @@ namespace ouzel::core::android
     class NativeWindow final: public core::NativeWindow
     {
     public:
-        NativeWindow(const std::function<void(const Event&)>& initCallback,
-                     const std::string& newTitle);
+        NativeWindow(const std::string& newTitle);
         ~NativeWindow() override;
 
         void handleResize(const math::Size<std::uint32_t, 2>& newSize);

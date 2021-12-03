@@ -53,12 +53,10 @@
 
 namespace ouzel::core::ios
 {
-    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
-                               const std::string& newTitle,
+    NativeWindow::NativeWindow(const std::string& newTitle,
                                graphics::Driver graphicsDriver,
                                bool newHighDpi):
         core::NativeWindow{
-            initCallback,
             math::Size<std::uint32_t, 2>{},
             true,
             true,

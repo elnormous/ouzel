@@ -6,10 +6,8 @@
 
 namespace ouzel::core::android
 {
-    NativeWindow::NativeWindow(const std::function<void(const Event&)>& initCallback,
-                               const std::string& newTitle):
+    NativeWindow::NativeWindow(const std::string& newTitle):
         core::NativeWindow{
-            initCallback,
             math::Size<std::uint32_t, 2>(),
             true,
             true,

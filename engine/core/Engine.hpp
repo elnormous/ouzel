@@ -5,9 +5,7 @@
 
 #include <atomic>
 #include <chrono>
-#include <condition_variable>
 #include <functional>
-#include <mutex>
 #include <random>
 #include <thread>
 #include <vector>
@@ -126,8 +124,6 @@ namespace ouzel::core
 
 #ifndef __EMSCRIPTEN__
         thread::Thread updateThread;
-        std::mutex updateMutex;
-        std::condition_variable updateCondition;
 #endif
         std::chrono::steady_clock::time_point previousUpdateTime;
 

@@ -46,7 +46,7 @@ namespace ouzel::core
         auto getNativeWindow() const noexcept { return nativeWindow.get(); }
 
         void close();
-        void update();
+        void update(bool waitForEvents);
 
         auto& getSize() const noexcept { return size; }
         void setSize(const math::Size<std::uint32_t, 2>& newSize);
@@ -89,7 +89,6 @@ namespace ouzel::core
         }
 
     private:
-        void eventCallback(const NativeWindow::Event& event);
         void handleEvent(const NativeWindow::Event& event);
 
         Engine& engine;
@@ -106,9 +105,6 @@ namespace ouzel::core
         std::uint32_t displayId = 0;
 
         std::string title;
-
-        std::mutex eventQueueMutex;
-        std::queue<NativeWindow::Event> eventQueue;
     };
 
     inline constexpr Window::Flags operator&(const Window::Flags a, const Window::Flags b) noexcept
