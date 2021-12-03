@@ -71,12 +71,12 @@ namespace ouzel::scene
                 textCoords[0], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             },
             graphics::Vertex{
-                math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, math::whiteColor,
-                textCoords[1], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
-            },
-            graphics::Vertex{
                 math::Vector<float, 3>{finalOffset.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, math::whiteColor,
                 textCoords[2], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
+            },
+            graphics::Vertex{
+                math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1], 0.0F}, math::whiteColor,
+                textCoords[1], math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
             },
             graphics::Vertex{
                 math::Vector<float, 3>{finalOffset.v[0] + frameRectangle.size.v[0], finalOffset.v[1] + frameRectangle.size.v[1], 0.0F}, math::whiteColor,
@@ -189,7 +189,7 @@ namespace ouzel::scene
     void SpriteRenderer::init(const SpriteData& spriteData)
     {
         material = std::make_shared<graphics::Material>();
-        material->cullMode = graphics::CullMode::none;
+        material->cullMode = graphics::CullMode::back;
         material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache().getBlendState(blendAlpha);
         material->shader = spriteData.shader ? spriteData.shader : engine->getCache().getShader(shaderTexture);
         material->textures[0] = spriteData.texture;
@@ -206,7 +206,7 @@ namespace ouzel::scene
     void SpriteRenderer::init(const std::string& filename)
     {
         material = std::make_shared<graphics::Material>();
-        material->cullMode = graphics::CullMode::none;
+        material->cullMode = graphics::CullMode::back;
         material->shader = engine->getCache().getShader(shaderTexture);
         material->blendState = engine->getCache().getBlendState(blendAlpha);
 
@@ -245,7 +245,7 @@ namespace ouzel::scene
                               const math::Vector<float, 2>& pivot)
     {
         material = std::make_shared<graphics::Material>();
-        material->cullMode = graphics::CullMode::none;
+        material->cullMode = graphics::CullMode::back;
         material->shader = engine->getCache().getShader(shaderTexture);
         material->blendState = engine->getCache().getBlendState(blendAlpha);
         material->textures[0] = newTexture;
