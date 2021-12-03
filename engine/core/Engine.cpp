@@ -189,8 +189,6 @@ namespace ouzel::core
         paused = true;
         active = false;
 
-        window->close();
-
 #ifndef __EMSCRIPTEN__
         if (updateThread.isJoinable()) updateThread.join();
 #endif
@@ -679,14 +677,6 @@ namespace ouzel::core
 
             active = false;
         }
-
-        window->close();
-
-#ifndef __EMSCRIPTEN__
-        if (updateThread.isJoinable() &&
-            updateThread.getId() != std::this_thread::get_id())
-            updateThread.join();
-#endif
     }
 
     void Engine::update()
