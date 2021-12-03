@@ -4,7 +4,6 @@
 #define OUZEL_GRAPHICS_GRAPHICS_HPP
 
 #include <cstdint>
-#include <functional>
 #include <memory>
 #include <set>
 #include <string>

@@ -3,11 +3,7 @@
 #ifndef OUZEL_SCENE_SCENEMANAGER_HPP
 #define OUZEL_SCENE_SCENEMANAGER_HPP
 
-#include <functional>
 #include <memory>
-#include <mutex>
-#include <queue>
-#include <set>
 #include <vector>
 
 namespace ouzel::scene

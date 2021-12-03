@@ -5,7 +5,6 @@
 
 #include <cstdint>
 #include <fstream>
-#include <functional>
 #include <map>
 #include <stdexcept>
 #include <string>
@@ -66,7 +65,7 @@ namespace ouzel::storage
                 file.read(reinterpret_cast<char*>(extraFieldLengthData), sizeof(extraFieldLengthData));
                 const size_t extraFieldLength = decodeLittleEndian<std::uint16_t>(extraFieldLengthData);
 
-                auto name = std::make_unique<char[]>(fileNameLength + 1); // +1 for null character
+                const auto name = std::make_unique<char[]>(fileNameLength + 1); // +1 for null character
 
                 file.read(name.get(), static_cast<std::streamsize>(fileNameLength));
 
