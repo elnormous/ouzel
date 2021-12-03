@@ -64,7 +64,7 @@ namespace ouzel::graphics
     RenderDevice::Event RenderDevice::getNextEvent()
     {
         std::unique_lock lock{eventQueueMutex};
-        eventQueueCondition.wait(lock, [this] { return !eventQueue.empty(); });
+        eventQueueCondition.wait(lock, [this]() noexcept { return !eventQueue.empty(); });
         Event result = std::move(eventQueue.front());
         eventQueue.pop();
         return result;

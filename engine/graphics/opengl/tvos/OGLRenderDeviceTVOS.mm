@@ -94,7 +94,7 @@ namespace ouzel::graphics::opengl::tvos
         running = true;
         renderThread = thread::Thread{&RenderDevice::renderMain, this};
         std::unique_lock lock{runLoopMutex};
-        runLoopCondition.wait(lock, [this] { return started; });
+        runLoopCondition.wait(lock, [this]() noexcept { return started; });
     }
 
     void RenderDevice::resizeFrameBuffer()
