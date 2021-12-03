@@ -130,6 +130,7 @@ namespace samples
         ballSprite.init("ball.png");
 
         ball.addComponent(ballSprite);
+        ball.setFlipX(true);
         layer.addChild(ball);
 
         ballDelay = std::make_unique<scene::Animator>(1.0F);

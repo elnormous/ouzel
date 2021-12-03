@@ -189,7 +189,7 @@ namespace ouzel::scene
     void SpriteRenderer::init(const SpriteData& spriteData)
     {
         material = std::make_shared<graphics::Material>();
-        material->cullMode = graphics::CullMode::back;
+        material->cullMode = graphics::CullMode::none;
         material->blendState = spriteData.blendState ? spriteData.blendState : engine->getCache().getBlendState(blendAlpha);
         material->shader = spriteData.shader ? spriteData.shader : engine->getCache().getShader(shaderTexture);
         material->textures[0] = spriteData.texture;
@@ -206,7 +206,7 @@ namespace ouzel::scene
     void SpriteRenderer::init(const std::string& filename)
     {
         material = std::make_shared<graphics::Material>();
-        material->cullMode = graphics::CullMode::back;
+        material->cullMode = graphics::CullMode::none;
         material->shader = engine->getCache().getShader(shaderTexture);
         material->blendState = engine->getCache().getBlendState(blendAlpha);
 
@@ -245,7 +245,7 @@ namespace ouzel::scene
                               const math::Vector<float, 2>& pivot)
     {
         material = std::make_shared<graphics::Material>();
-        material->cullMode = graphics::CullMode::back;
+        material->cullMode = graphics::CullMode::none;
         material->shader = engine->getCache().getShader(shaderTexture);
         material->blendState = engine->getCache().getBlendState(blendAlpha);
         material->textures[0] = newTexture;
