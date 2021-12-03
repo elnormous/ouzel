@@ -192,10 +192,7 @@ namespace ouzel::core
         window->close();
 
 #ifndef __EMSCRIPTEN__
-        if (updateThread.isJoinable())
-        {
-            updateThread.join();
-        }
+        if (updateThread.isJoinable()) updateThread.join();
 #endif
     }
 

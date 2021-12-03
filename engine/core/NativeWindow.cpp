@@ -38,8 +38,7 @@ namespace ouzel::core
         std::unique_lock lock{eventQueueMutex};
 
         if (waitForEvents)
-            while (eventQueue.empty())
-                eventQueueCondition.wait(lock);
+            eventQueueCondition.wait(lock, [this] { return !eventQueue.empty(); });
 
         auto result = std::move(eventQueue);
         eventQueue = {};

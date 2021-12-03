@@ -45,7 +45,7 @@ namespace ouzel::graphics::metal::tvos
         running = true;
         renderThread = thread::Thread{&RenderDevice::renderMain, this};
         std::unique_lock lock{runLoopMutex};
-        while (!started) runLoopCondition.wait(lock);
+        runLoopCondition.wait(lock, [this] { return started; });
     }
 
     void RenderDevice::renderMain()
