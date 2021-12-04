@@ -191,6 +191,7 @@ namespace ouzel::xcode
             auto debugConfiguration = alloc<XCBuildConfiguration>();
             debugConfiguration->name = "Debug";
             debugConfiguration->buildSettings = {
+                {"ALWAYS_SEARCH_USER_PATHS", "NO"},
                 {"CLANG_CXX_LANGUAGE_STANDARD", "c++17"},
                 {"CLANG_CXX_LIBRARY", "libc++"},
                 {"ENABLE_TESTABILITY", "YES"},
@@ -232,6 +233,7 @@ namespace ouzel::xcode
             auto releaseConfiguration = alloc<XCBuildConfiguration>();
             releaseConfiguration->name = "Release";
             releaseConfiguration->buildSettings = {
+                {"ALWAYS_SEARCH_USER_PATHS", "NO"},
                 {"CLANG_CXX_LANGUAGE_STANDARD", "c++17"},
                 {"CLANG_CXX_LIBRARY", "libc++"},
                 {"HEADER_SEARCH_PATHS", headerSearchPath},
