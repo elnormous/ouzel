@@ -16,7 +16,7 @@ namespace ouzel::assets
     class Loader
     {
     public:
-        Loader(Asset::Type initType): type{initType} {}
+        Loader(Asset::Type initType) noexcept: type{initType} {}
 
         virtual ~Loader() = default;
 

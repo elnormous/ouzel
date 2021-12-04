@@ -13,7 +13,7 @@ namespace ouzel::assets
     class TtfLoader final: public Loader
     {
     public:
-        explicit TtfLoader(): Loader{Asset::Type::font} {}
+        explicit TtfLoader() noexcept: Loader{Asset::Type::font} {}
 
         bool loadAsset(Cache&,
                        Bundle& bundle,

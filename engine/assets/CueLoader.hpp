@@ -13,7 +13,7 @@ namespace ouzel::assets
     class CueLoader final: public Loader
     {
     public:
-        explicit CueLoader(): Loader{Asset::Type::cue} {}
+        explicit CueLoader() noexcept: Loader{Asset::Type::cue} {}
 
         bool loadAsset(Cache&,
                        Bundle& bundle,

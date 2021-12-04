@@ -13,7 +13,7 @@ namespace ouzel::assets
     class GltfLoader final: public Loader
     {
     public:
-        explicit GltfLoader(): Loader{Asset::Type::skinnedMesh} {}
+        explicit GltfLoader() noexcept: Loader{Asset::Type::skinnedMesh} {}
 
         bool loadAsset(Cache&,
                        Bundle& bundle,

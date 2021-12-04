@@ -13,7 +13,7 @@ namespace ouzel::assets
     class ColladaLoader final: public Loader
     {
     public:
-        explicit ColladaLoader(): Loader{Asset::Type::skinnedMesh} {}
+        explicit ColladaLoader() noexcept: Loader{Asset::Type::skinnedMesh} {}
 
         bool loadAsset(Cache&,
                        Bundle& bundle,

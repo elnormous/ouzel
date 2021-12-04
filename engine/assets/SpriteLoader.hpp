@@ -14,7 +14,7 @@ namespace ouzel::assets
     class SpriteLoader final: public Loader
     {
     public:
-        explicit SpriteLoader(): Loader{Asset::Type::sprite} {}
+        explicit SpriteLoader() noexcept: Loader{Asset::Type::sprite} {}
 
         bool loadAsset(Cache&,
                        Bundle& bundle,

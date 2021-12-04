@@ -12,7 +12,7 @@ namespace ouzel::assets
     class BmfLoader final: public Loader
     {
     public:
-        explicit BmfLoader(): Loader{Asset::Type::font} {}
+        explicit BmfLoader() noexcept: Loader{Asset::Type::font} {}
 
         bool loadAsset(Cache&,
                        Bundle& bundle,

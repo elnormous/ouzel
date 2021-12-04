@@ -10,7 +10,7 @@ namespace ouzel::assets
     class ObjLoader final: public Loader
     {
     public:
-        explicit ObjLoader(): Loader{Asset::Type::staticMesh} {}
+        explicit ObjLoader() noexcept: Loader{Asset::Type::staticMesh} {}
         bool loadAsset(Cache& cache,
                        Bundle& bundle,
                        const std::string& name,

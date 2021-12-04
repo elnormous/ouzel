@@ -13,7 +13,7 @@ namespace ouzel::assets
     class VorbisLoader final: public Loader
     {
     public:
-        explicit VorbisLoader(): Loader{Asset::Type::sound} {}
+        explicit VorbisLoader() noexcept: Loader{Asset::Type::sound} {}
 
         bool loadAsset(Cache&,
                        Bundle& bundle,

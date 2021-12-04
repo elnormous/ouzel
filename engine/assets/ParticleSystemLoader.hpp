@@ -13,7 +13,7 @@ namespace ouzel::assets
     class ParticleSystemLoader final: public Loader
     {
     public:
-        explicit ParticleSystemLoader(): Loader{Asset::Type::particleSystem} {}
+        explicit ParticleSystemLoader() noexcept: Loader{Asset::Type::particleSystem} {}
 
         bool loadAsset(Cache&,
                        Bundle& bundle,
