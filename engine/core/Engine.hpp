@@ -21,7 +21,6 @@
 #include "../storage/FileSystem.hpp"
 #include "../assets/Bundle.hpp"
 #include "../assets/Cache.hpp"
-#include "../assets/Loader.hpp"
 #include "../localization/Localization.hpp"
 #include "../network/Network.hpp"
 #include "../formats/Ini.hpp"

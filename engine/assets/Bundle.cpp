@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include "Bundle.hpp"
 #include "Cache.hpp"
-#include "Loader.hpp"
 #include "../formats/Json.hpp"
 
 namespace ouzel::assets
@@ -29,12 +28,9 @@ namespace ouzel::assets
         const auto& loaders = cache.getLoaders();
 
         for (auto i = loaders.rbegin(); i != loaders.rend(); ++i)
-        {
-            const auto loader = i->get();
-            if (loader->getType() == assetType &&
-                loader->loadAsset(cache, *this, name, data, options))
+            if (i->first == assetType &&
+                i->second(cache, *this, name, data, options))
                 return;
-        }
 
         throw std::runtime_error("Failed to load asset " + filename);
     }

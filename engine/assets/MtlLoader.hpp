@@ -3,20 +3,15 @@
 #ifndef OUZEL_ASSETS_MTLLOADER_HPP
 #define OUZEL_ASSETS_MTLLOADER_HPP
 
-#include "Loader.hpp"
+#include "Bundle.hpp"
 
 namespace ouzel::assets
 {
-    class MtlLoader final: public Loader
-    {
-    public:
-        explicit MtlLoader() noexcept: Loader{Asset::Type::material} {}
-        bool loadAsset(Cache& cache,
-                       Bundle& bundle,
-                       const std::string& name,
-                       const std::vector<std::byte>& data,
-                       const Asset::Options& options) override;
-    };
+    bool loadMtl(Cache& cache,
+                 Bundle& bundle,
+                 const std::string& name,
+                 const std::vector<std::byte>& data,
+                 const Asset::Options& options);
 }
 
 #endif // OUZEL_ASSETS_MTLLOADER_HPP

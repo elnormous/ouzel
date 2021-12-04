@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <string>
 #include "MtlLoader.hpp"
-#include "Bundle.hpp"
 #include "Cache.hpp"
 #include "../core/Engine.hpp"
 
@@ -144,11 +143,11 @@ namespace ouzel::assets
         }
     }
 
-    bool MtlLoader::loadAsset(Cache& cache,
-                              Bundle& bundle,
-                              const std::string& name,
-                              const std::vector<std::byte>& data,
-                              const Asset::Options& options)
+    bool loadMtl(Cache& cache,
+                 Bundle& bundle,
+                 const std::string& name,
+                 const std::vector<std::byte>& data,
+                 const Asset::Options& options)
     {
         std::string materialName = name;
         std::shared_ptr<graphics::Texture> diffuseTexture;

@@ -23,19 +23,19 @@ namespace ouzel::assets
 {
     Cache::Cache()
     {
-        addLoader(std::make_unique<BmfLoader>());
-        addLoader(std::make_unique<ColladaLoader>());
-        addLoader(std::make_unique<CueLoader>());
-        addLoader(std::make_unique<GltfLoader>());
-        addLoader(std::make_unique<ImageLoader>());
-        addLoader(std::make_unique<MtlLoader>());
-        addLoader(std::make_unique<ObjLoader>());
-        addLoader(std::make_unique<ParticleSystemLoader>());
-        addLoader(std::make_unique<SpriteLoader>());
-        addLoader(std::make_unique<SpriteSheetLoader>());
-        addLoader(std::make_unique<TtfLoader>());
-        addLoader(std::make_unique<VorbisLoader>());
-        addLoader(std::make_unique<WaveLoader>());
+        addLoader(Asset::Type::font, loadBmf);
+        addLoader(Asset::Type::skinnedMesh, loadCollada);
+        addLoader(Asset::Type::cue, loadCue);
+        addLoader(Asset::Type::skinnedMesh, loadGltf);
+        addLoader(Asset::Type::image, loadImage);
+        addLoader(Asset::Type::material, loadMtl);
+        addLoader(Asset::Type::staticMesh, loadObj);
+        addLoader(Asset::Type::particleSystem, loadParticleSystem);
+        addLoader(Asset::Type::sprite, loadSprite);
+        addLoader(Asset::Type::sprite, loadSpriteSheet);
+        addLoader(Asset::Type::font, loadTtf);
+        addLoader(Asset::Type::sound, loadVorbis);
+        addLoader(Asset::Type::sound, loadWave);
     }
 
     void Cache::addBundle(const Bundle* bundle)
@@ -50,19 +50,18 @@ namespace ouzel::assets
             bundles.erase(i);
     }
 
-    void Cache::addLoader(std::unique_ptr<Loader> loader)
+    void Cache::addLoader(const Asset::Type assetType, const Loader loader)
     {
-        if (const auto i = std::find(loaders.begin(), loaders.end(), loader); i == loaders.end())
-            loaders.push_back(std::move(loader));
+        loaders.push_back(std::make_pair(assetType, loader));
     }
 
-    void Cache::removeLoader(const Loader* loader)
+    void Cache::removeLoader(const Loader loader)
     {
-        const auto i = std::find_if(loaders.begin(), loaders.end(), [loader](const auto& ownedLoader) noexcept {
-            return loader == ownedLoader.get();
-        });
-        if (i != loaders.end())
-            loaders.erase(i);
+        for (auto i = loaders.begin(); i != loaders.end();)
+            if (i->second == loader)
+                i = loaders.erase(i);
+            else
+                ++i;
     }
 
     std::shared_ptr<graphics::Texture> Cache::getTexture(std::string_view name) const

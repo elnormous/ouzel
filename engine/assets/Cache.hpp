@@ -5,13 +5,20 @@
 
 #include <memory>
 #include <string_view>
+#include <utility>
 #include <vector>
+#include "Asset.hpp"
 #include "Bundle.hpp"
 
 namespace ouzel::assets
 {
     class Bundle;
-    class Loader;
+
+    using Loader = bool(*)(Cache& cache,
+                           Bundle& bundle,
+                           const std::string& name,
+                           const std::vector<std::byte>& data,
+                           const Asset::Options& options);
 
     class Cache final
     {
@@ -45,11 +52,11 @@ namespace ouzel::assets
         void addBundle(const Bundle* bundle);
         void removeBundle(const Bundle* bundle);
 
-        void addLoader(std::unique_ptr<Loader> loader);
-        void removeLoader(const Loader* loader);
+        void addLoader(const Asset::Type assetType, const Loader loader);
+        void removeLoader(const Loader loader);
 
         std::vector<const Bundle*> bundles;
-        std::vector<std::unique_ptr<Loader>> loaders;
+        std::vector<std::pair<Asset::Type, Loader>> loaders;
     };
 }
 

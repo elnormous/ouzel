@@ -3,20 +3,15 @@
 #ifndef OUZEL_ASSETS_OBJLOADER_HPP
 #define OUZEL_ASSETS_OBJLOADER_HPP
 
-#include "Loader.hpp"
+#include "Bundle.hpp"
 
 namespace ouzel::assets
 {
-    class ObjLoader final: public Loader
-    {
-    public:
-        explicit ObjLoader() noexcept: Loader{Asset::Type::staticMesh} {}
-        bool loadAsset(Cache& cache,
-                       Bundle& bundle,
-                       const std::string& name,
-                       const std::vector<std::byte>& data,
-                       const Asset::Options& options) override;
-    };
+    bool loadObj(Cache& cache,
+                 Bundle& bundle,
+                 const std::string& name,
+                 const std::vector<std::byte>& data,
+                 const Asset::Options& options);
 }
 
 #endif // OUZEL_ASSETS_OBJLOADER_HPP

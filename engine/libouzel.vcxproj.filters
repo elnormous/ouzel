@@ -687,9 +687,6 @@
     <ClInclude Include="assets\Cache.hpp">
       <Filter>engine\assets</Filter>
     </ClInclude>
-    <ClInclude Include="assets\Loader.hpp">
-      <Filter>engine\assets</Filter>
-    </ClInclude>
     <ClInclude Include="assets\BmfLoader.hpp">
       <Filter>engine\assets</Filter>
     </ClInclude>

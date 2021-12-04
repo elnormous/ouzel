@@ -190,7 +190,6 @@
     <ClInclude Include="audio\xaudio2\XA2ErrorCategory.hpp" />
     <ClInclude Include="audio\xaudio2\XAudio27.hpp" />
     <ClInclude Include="assets\Cache.hpp" />
-    <ClInclude Include="assets\Loader.hpp" />
     <ClInclude Include="core\Platform.h" />
     <ClInclude Include="core\Setup.h" />
     <ClInclude Include="core\Application.hpp" />

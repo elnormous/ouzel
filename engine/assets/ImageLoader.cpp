@@ -3,7 +3,6 @@
 #include <memory>
 #include <stdexcept>
 #include "ImageLoader.hpp"
-#include "Bundle.hpp"
 #include "../core/Engine.hpp"
 #include "../graphics/Image.hpp"
 #include "../graphics/Texture.hpp"
@@ -44,11 +43,11 @@
 
 namespace ouzel::assets
 {
-    bool ImageLoader::loadAsset(Cache&,
-                                Bundle& bundle,
-                                const std::string& name,
-                                const std::vector<std::byte>& data,
-                                const Asset::Options& options)
+    bool loadImage(Cache&,
+                   Bundle& bundle,
+                   const std::string& name,
+                   const std::vector<std::byte>& data,
+                   const Asset::Options& options)
     {
         int width;
         int height;

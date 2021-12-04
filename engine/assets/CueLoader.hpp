@@ -3,39 +3,15 @@
 #ifndef OUZEL_ASSETS_CUELOADER_HPP
 #define OUZEL_ASSETS_CUELOADER_HPP
 
-#include "Loader.hpp"
 #include "Bundle.hpp"
 #include "../audio/Cue.hpp"
 #include "../formats/Json.hpp"
 
 namespace ouzel::assets
 {
-    class CueLoader final: public Loader
+    namespace
     {
-    public:
-        explicit CueLoader() noexcept: Loader{Asset::Type::cue} {}
-
-        bool loadAsset(Cache&,
-                       Bundle& bundle,
-                       const std::string& name,
-                       const std::vector<std::byte>& data,
-                       const Asset::Options&) override
-        {
-            audio::SourceDefinition sourceDefinition;
-            const auto d = json::parse(data);
-
-            if (d.hasMember("source"))
-                sourceDefinition = parseSourceDefinition(d["source"], bundle);
-
-            auto cue = std::make_unique<audio::Cue>(sourceDefinition);
-
-            bundle.setCue(name, std::move(cue));
-
-            return true;
-        }
-
-    private:
-        static auto getSourceType(const std::string& valueType)
+        inline auto getSourceType(const std::string& valueType)
         {
             if (valueType == "Parallel") return audio::SourceDefinition::Type::parallel;
             else if (valueType == "Random") return audio::SourceDefinition::Type::random;
@@ -46,7 +22,7 @@ namespace ouzel::assets
             else throw std::runtime_error("Invalid source type " + valueType);
         }
 
-        static auto getOscillatorType(const std::string& oscillatorType)
+        inline auto getOscillatorType(const std::string& oscillatorType)
         {
             if (oscillatorType == "Sine") return audio::Oscillator::Type::sine;
             else if (oscillatorType == "Square") return audio::Oscillator::Type::square;
@@ -55,7 +31,7 @@ namespace ouzel::assets
             else throw std::runtime_error("Invalid oscillator type " + oscillatorType);
         }
 
-        static auto getEffectType(const std::string& effectType)
+        inline auto getEffectType(const std::string& effectType)
         {
             if (effectType == "Delay") return audio::EffectDefinition::Type::delay;
             else if (effectType == "Gain") return audio::EffectDefinition::Type::gain;
@@ -68,7 +44,7 @@ namespace ouzel::assets
                 throw std::runtime_error("Invalid effect type " + effectType);
         }
 
-        static audio::SourceDefinition parseSourceDefinition(const json::Value& value, Bundle& bundle)
+        inline audio::SourceDefinition parseSourceDefinition(const json::Value& value, Bundle& bundle)
         {
             audio::SourceDefinition sourceDefinition;
 
@@ -119,7 +95,26 @@ namespace ouzel::assets
 
             return sourceDefinition;
         }
-    };
+    }
+
+    inline bool loadCue(Cache&,
+                        Bundle& bundle,
+                        const std::string& name,
+                        const std::vector<std::byte>& data,
+                        const Asset::Options&)
+    {
+        audio::SourceDefinition sourceDefinition;
+        const auto d = json::parse(data);
+
+        if (d.hasMember("source"))
+            sourceDefinition = parseSourceDefinition(d["source"], bundle);
+
+        auto cue = std::make_unique<audio::Cue>(sourceDefinition);
+
+        bundle.setCue(name, std::move(cue));
+
+        return true;
+    }
 }
 
 #endif // OUZEL_ASSETS_CUELOADER_HPP

@@ -3,7 +3,6 @@
 #include <array>
 #include <cstring>
 #include "WaveLoader.hpp"
-#include "Bundle.hpp"
 #include "../audio/PcmClip.hpp"
 #include "../core/Engine.hpp"
 
@@ -27,11 +26,11 @@ namespace
 
 namespace ouzel::assets
 {
-    bool WaveLoader::loadAsset(Cache&,
-                               Bundle& bundle,
-                               const std::string& name,
-                               const std::vector<std::byte>& data,
-                               const Asset::Options&)
+    bool loadWave(Cache&,
+                  Bundle& bundle,
+                  const std::string& name,
+                  const std::vector<std::byte>& data,
+                  const Asset::Options&)
     {
         try
         {
