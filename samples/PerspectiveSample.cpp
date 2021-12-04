@@ -161,7 +161,6 @@ namespace samples
         characterSprite.setAnimation("", true);
         characterSprite.play();
         characterSprite.getMaterial()->textures[0]->setMaxAnisotropy(4);
-        characterSprite.getMaterial()->cullMode = graphics::CullMode::none;
 
         character.addComponent(characterSprite);
         layer.addChild(character);

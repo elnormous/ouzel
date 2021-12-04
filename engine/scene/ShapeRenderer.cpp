@@ -42,7 +42,7 @@ namespace ouzel::scene
         const auto modelViewProj = renderViewProjection * transformMatrix;
         const auto colorVector = {1.0F, 1.0F, 1.0F, opacity};
 
-        for (const DrawCommand& drawCommand : drawCommands)
+        for (const auto& drawCommand : drawCommands)
         {
             std::vector<std::vector<float>> fragmentShaderConstants(1);
             fragmentShaderConstants[0] = {std::begin(colorVector), std::end(colorVector)};
