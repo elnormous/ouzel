@@ -51,15 +51,15 @@ namespace ouzel::audio::mixer
     {
     public:
         explicit constexpr InitObjectCommand(ObjectId initObjectId) noexcept:
-            Command(Command::Type::initObject),
-            objectId(initObjectId)
+            Command{Command::Type::initObject},
+            objectId{initObjectId}
         {}
 
         InitObjectCommand(ObjectId initObjectId,
                           std::unique_ptr<Source> initSource) noexcept:
-            Command(Command::Type::initObject),
-            objectId(initObjectId),
-            source(std::move(initSource))
+            Command{Command::Type::initObject},
+            objectId{initObjectId},
+            source{std::move(initSource)}
         {}
 
         const ObjectId objectId;
@@ -70,8 +70,8 @@ namespace ouzel::audio::mixer
     {
     public:
         explicit constexpr DeleteObjectCommand(ObjectId initObjectId) noexcept:
-            Command(Command::Type::deleteObject),
-            objectId(initObjectId)
+            Command{Command::Type::deleteObject},
+            objectId{initObjectId}
         {}
 
         const ObjectId objectId;
@@ -82,9 +82,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr AddChildCommand(ObjectId initObjectId,
                                   ObjectId initChildId) noexcept:
-            Command(Command::Type::addChild),
-            objectId(initObjectId),
-            childId(initChildId)
+            Command{Command::Type::addChild},
+            objectId{initObjectId},
+            childId{initChildId}
         {}
 
         const ObjectId objectId;
@@ -96,9 +96,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr RemoveChildCommand(ObjectId initObjectId,
                                      ObjectId initChildId) noexcept:
-            Command(Command::Type::removeChild),
-            objectId(initObjectId),
-            childId(initChildId)
+            Command{Command::Type::removeChild},
+            objectId{initObjectId},
+            childId{initChildId}
         {}
 
         const ObjectId objectId;
@@ -109,8 +109,8 @@ namespace ouzel::audio::mixer
     {
     public:
         explicit constexpr PlayCommand(ObjectId initObjectId) noexcept:
-            Command(Command::Type::play),
-            objectId(initObjectId)
+            Command{Command::Type::play},
+            objectId{initObjectId}
         {}
 
         const ObjectId objectId;
@@ -121,9 +121,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr StopCommand(ObjectId initObjectId,
                               bool initReset) noexcept:
-            Command(Command::Type::stop),
-            objectId(initObjectId),
-            reset(initReset)
+            Command{Command::Type::stop},
+            objectId{initObjectId},
+            reset{initReset}
         {}
 
         const ObjectId objectId;
@@ -134,8 +134,8 @@ namespace ouzel::audio::mixer
     {
     public:
         explicit constexpr InitBusCommand(ObjectId initBusId) noexcept:
-            Command(Command::Type::initBus),
-            busId(initBusId)
+            Command{Command::Type::initBus},
+            busId{initBusId}
         {}
 
         const ObjectId busId;
@@ -146,9 +146,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr SetBusOutputCommand(ObjectId initBusId,
                                       ObjectId initOutputBusId) noexcept:
-            Command(Command::Type::setBusOutput),
-            busId(initBusId),
-            outputBusId(initOutputBusId)
+            Command{Command::Type::setBusOutput},
+            busId{initBusId},
+            outputBusId{initOutputBusId}
         {}
 
         const ObjectId busId;
@@ -160,9 +160,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr AddProcessorCommand(ObjectId initBusId,
                                       ObjectId initProcessorId) noexcept:
-            Command(Command::Type::addProcessor),
-            busId(initBusId),
-            processorId(initProcessorId)
+            Command{Command::Type::addProcessor},
+            busId{initBusId},
+            processorId{initProcessorId}
         {}
 
         const ObjectId busId;
@@ -174,9 +174,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr RemoveProcessorCommand(ObjectId initBusId,
                                          ObjectId initProcessorId) noexcept:
-            Command(Command::Type::removeProcessor),
-            busId(initBusId),
-            processorId(initProcessorId)
+            Command{Command::Type::removeProcessor},
+            busId{initBusId},
+            processorId{initProcessorId}
         {}
 
         const ObjectId busId;
@@ -187,8 +187,8 @@ namespace ouzel::audio::mixer
     {
     public:
         explicit constexpr SetMasterBusCommand(ObjectId initBusId) noexcept:
-            Command(Command::Type::setMasterBus),
-            busId(initBusId)
+            Command{Command::Type::setMasterBus},
+            busId{initBusId}
         {}
 
         const ObjectId busId;
@@ -199,9 +199,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr InitStreamCommand(ObjectId initStreamId,
                                     ObjectId initDataId) noexcept:
-            Command(Command::Type::initStream),
-            streamId(initStreamId),
-            dataId(initDataId)
+            Command{Command::Type::initStream},
+            streamId{initStreamId},
+            dataId{initDataId}
         {}
 
         const ObjectId streamId;
@@ -212,8 +212,8 @@ namespace ouzel::audio::mixer
     {
     public:
         explicit constexpr PlayStreamCommand(ObjectId initStreamId) noexcept:
-            Command(Command::Type::playStream),
-            streamId(initStreamId)
+            Command{Command::Type::playStream},
+            streamId{initStreamId}
         {}
 
         const ObjectId streamId;
@@ -224,9 +224,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr StopStreamCommand(ObjectId initStreamId,
                                     bool initReset) noexcept:
-            Command(Command::Type::stopStream),
-            streamId(initStreamId),
-            reset(initReset)
+            Command{Command::Type::stopStream},
+            streamId{initStreamId},
+            reset{initReset}
         {}
 
         const ObjectId streamId;
@@ -238,9 +238,9 @@ namespace ouzel::audio::mixer
     public:
         constexpr SetStreamOutputCommand(ObjectId initStreamId,
                                          ObjectId initBusId) noexcept:
-            Command(Command::Type::setStreamOutput),
-            streamId(initStreamId),
-            busId(initBusId)
+            Command{Command::Type::setStreamOutput},
+            streamId{initStreamId},
+            busId{initBusId}
         {}
 
         const ObjectId streamId;
@@ -252,9 +252,9 @@ namespace ouzel::audio::mixer
     public:
         InitDataCommand(ObjectId initDataId,
                         std::unique_ptr<Data> initData) noexcept:
-            Command(Command::Type::initData),
-            dataId(initDataId),
-            data(std::move(initData))
+            Command{Command::Type::initData},
+            dataId{initDataId},
+            data{std::move(initData)}
         {}
 
         const ObjectId dataId;
@@ -266,9 +266,9 @@ namespace ouzel::audio::mixer
     public:
         InitProcessorCommand(ObjectId initProcessorId,
                             std::unique_ptr<Processor> initProcessor) noexcept:
-            Command(Command::Type::initProcessor),
-            processorId(initProcessorId),
-            processor(std::move(initProcessor))
+            Command{Command::Type::initProcessor},
+            processorId{initProcessorId},
+            processor{std::move(initProcessor)}
         {}
 
         const ObjectId processorId;
@@ -280,9 +280,9 @@ namespace ouzel::audio::mixer
     public:
         UpdateProcessorCommand(ObjectId initProcessorId,
                                const std::function<void(Processor*)>& initUpdateFunction) noexcept:
-            Command(Command::Type::updateProcessor),
-            processorId(initProcessorId),
-            updateFunction(initUpdateFunction)
+            Command{Command::Type::updateProcessor},
+            processorId{initProcessorId},
+            updateFunction{initUpdateFunction}
         {}
 
         const ObjectId processorId;
