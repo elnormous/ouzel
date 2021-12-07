@@ -28,7 +28,7 @@
 
 namespace
 {
-    ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode)
+    ouzel::input::Keyboard::Key convertKeyCode(NSInteger keyCode) noexcept
     {
         switch (keyCode)
         {

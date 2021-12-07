@@ -59,7 +59,7 @@ enum
 
 namespace
 {
-    ouzel::input::Keyboard::Key convertKeyCode(unsigned short keyCode)
+    ouzel::input::Keyboard::Key convertKeyCode(unsigned short keyCode) noexcept
     {
         switch (keyCode)
         {
