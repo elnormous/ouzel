@@ -30,10 +30,10 @@ namespace ouzel::graphics::metal::macos
         void renderCallback();
 
     private:
+        void changeScreen(const std::uint32_t) final;
         bool handleWindow(const WindowEvent& event);
 
         platform::corevideo::DisplayLink displayLink;
-        EventHandler eventHandler;
 
         std::atomic_bool running{false};
     };

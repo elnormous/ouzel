@@ -59,9 +59,6 @@ namespace ouzel::graphics::metal::macos
 
         colorFormat = metalLayer.pixelFormat;
 
-        eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
-        engine->getEventDispatcher().addEventHandler(eventHandler);
-
         displayLink.setCallback(macos::renderCallback, this);
 
         running = true;
@@ -104,28 +101,23 @@ namespace ouzel::graphics::metal::macos
         displayLink.start();
     }
 
-    bool RenderDevice::handleWindow(const WindowEvent& event)
+    void RenderDevice::changeScreen(const std::uint32_t screenId)
     {
-        if (event.type == ouzel::Event::Type::screenChange)
-        {
-            engine->executeOnMainThread([this, event]() {
-                running = false;
+        engine->executeOnMainThread([this, screenId]() {
+            running = false;
 
-                CommandBuffer commandBuffer;
-                commandBuffer.pushCommand(std::make_unique<PresentCommand>());
-                submitCommandBuffer(std::move(commandBuffer));
+            CommandBuffer commandBuffer;
+            commandBuffer.pushCommand(std::make_unique<PresentCommand>());
+            submitCommandBuffer(std::move(commandBuffer));
 
-                const CGDirectDisplayID displayId = event.screenId;
-                displayLink = platform::corevideo::DisplayLink{displayId};
-                displayLink.setCallback(macos::renderCallback, this);
+            const CGDirectDisplayID displayId = screenId;
+            displayLink = platform::corevideo::DisplayLink{displayId};
+            displayLink.setCallback(macos::renderCallback, this);
 
-                running = true;
+            running = true;
 
-                displayLink.start();
-            });
-        }
-
-        return false;
+            displayLink.start();
+        });
     }
 
     void RenderDevice::renderCallback()

@@ -143,6 +143,8 @@ namespace ouzel::core
             {
                 displayId = event.displayId;
 
+                engine.getGraphics()->changeScreen(displayId);
+
                 auto screenChangeEvent = std::make_unique<WindowEvent>();
                 screenChangeEvent->type = Event::Type::screenChange;
                 screenChangeEvent->window = this;

@@ -90,6 +90,7 @@ namespace ouzel::graphics
         }
 
     private:
+        void changeScreen(const std::uint32_t screenId);
         void setSize(const math::Size<std::uint32_t, 2>& newSize);
 
         SamplerFilter textureFilter = SamplerFilter::point;

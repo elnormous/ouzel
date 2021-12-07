@@ -154,6 +154,11 @@ namespace ouzel::graphics
         device->start();
     }
 
+    void Graphics::changeScreen(const std::uint32_t screenId)
+    {
+        device->changeScreen(screenId);
+    }
+
     void Graphics::setSize(const math::Size<std::uint32_t, 2>& newSize)
     {
         size = newSize;
