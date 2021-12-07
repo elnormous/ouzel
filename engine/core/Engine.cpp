@@ -167,6 +167,14 @@ namespace ouzel::core
 
             return settings;
         }
+
+        auto getWindowFlags(const Settings& settings) noexcept
+        {
+            return (settings.resizable ? Window::Flags::resizable : Window::Flags::none) |
+                (settings.fullscreen ? Window::Flags::fullscreen : Window::Flags::none) |
+                (settings.exclusiveFullscreen ? Window::Flags::exclusiveFullscreen : Window::Flags::none) |
+                (settings.highDpi ? Window::Flags::highDpi : Window::Flags::none);
+        }
     }
 
     Engine::Engine(const std::vector<std::string>& initArgs):
@@ -202,15 +210,9 @@ namespace ouzel::core
         const auto settings = parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
                                             fileSystem.fileExists(settingsPath) ? ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{});
 
-        const Window::Flags windowFlags =
-            (settings.resizable ? Window::Flags::resizable : Window::Flags::none) |
-            (settings.fullscreen ? Window::Flags::fullscreen : Window::Flags::none) |
-            (settings.exclusiveFullscreen ? Window::Flags::exclusiveFullscreen : Window::Flags::none) |
-            (settings.highDpi ? Window::Flags::highDpi : Window::Flags::none);
-
         window = std::make_unique<Window>(*this,
                                           settings.size,
-                                          windowFlags,
+                                          getWindowFlags(settings),
                                           OUZEL_APPLICATION_NAME,
                                           settings.graphicsDriver);
 
