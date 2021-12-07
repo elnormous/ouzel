@@ -10,7 +10,7 @@ namespace ouzel
 {
     namespace
     {
-        std::function<std::uint32_t(const std::byte*)> getDecodeFunction(std::uint32_t magic)
+        std::function<std::uint32_t(const std::byte*)> getDecodeFunction(const std::uint32_t magic)
         {
             constexpr std::uint32_t magicBig = 0xDE120495U;
             constexpr std::uint32_t magicLittle = 0x950412DEU;
@@ -105,10 +105,14 @@ namespace ouzel
                 data.size() < translations[i].translationOffset + translations[i].translationLength)
                 throw std::runtime_error("Not enough data");
 
-            const std::string str(reinterpret_cast<const char*>(data.data() + translations[i].stringOffset),
-                                  translations[i].stringLength);
-            const std::string_view translation(reinterpret_cast<const char*>(data.data() + translations[i].translationOffset),
-                                               translations[i].translationLength);
+            const std::string str{
+                reinterpret_cast<const char*>(data.data() + translations[i].stringOffset),
+                translations[i].stringLength
+            };
+            const std::string_view translation{
+                reinterpret_cast<const char*>(data.data() + translations[i].translationOffset),
+                translations[i].translationLength
+            };
 
             strings[str] = translation;
         }
@@ -122,7 +126,8 @@ namespace ouzel
             return str;
     }
 
-    void Localization::addLanguage(const std::string& name, const std::vector<std::byte>& data)
+    void Localization::addLanguage(const std::string& name,
+                                   const std::vector<std::byte>& data)
     {
         if (const auto i = languages.find(name); i != languages.end())
             i->second = Language{data};

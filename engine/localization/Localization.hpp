@@ -25,7 +25,8 @@ namespace ouzel
     class Localization final
     {
     public:
-        void addLanguage(const std::string& name, const std::vector<std::byte>& data);
+        void addLanguage(const std::string& name,
+                         const std::vector<std::byte>& data);
         void removeLanguage(const std::string& name);
         void setLanguage(const std::string& name);
         std::string getString(const std::string& str) const;
