@@ -21,7 +21,7 @@ namespace ouzel::core::ios
         Engine(int argc, char* argv[]);
         ~Engine() override;
 
-        void run(int argc, char* argv[]);
+        void run();
 
         void openUrl(const std::string& url) final;
 
@@ -31,6 +31,9 @@ namespace ouzel::core::ios
 
     private:
         void runOnMainThread(const std::function<void()>& func) final;
+
+        int argumentCount;
+        char** arguments;
 
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;

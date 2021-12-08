@@ -94,7 +94,9 @@ namespace ouzel::core::tvos
     }
 
     Engine::Engine(int argc, char* argv[]):
-        core::Engine{parseArgs(argc, argv)}
+        core::Engine{parseArgs(argc, argv)},
+        argumentCount{argc},
+        arguments{argv}
     {
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
@@ -104,9 +106,9 @@ namespace ouzel::core::tvos
         if (executeHanlder) [executeHanlder release];
     }
 
-    void Engine::run(int argc, char* argv[])
+    void Engine::run()
     {
-        UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        UIApplicationMain(argumentCount, arguments, nil, NSStringFromClass([AppDelegate class]));
     }
 
     void Engine::runOnMainThread(const std::function<void()>& func)
