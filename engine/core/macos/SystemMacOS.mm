@@ -66,8 +66,6 @@ int main(int argc, char* argv[])
 {
     try
     {
-        ouzel::platform::foundation::AutoreleasePool autoreleasePool;
-
         ouzel::core::macos::System system{argc, argv};
         systemPointer = &system;
         system.run();
@@ -117,6 +115,7 @@ namespace ouzel::core::macos
 
     void System::run()
     {
+        ouzel::platform::foundation::AutoreleasePool autoreleasePool;
         [application run];
     }
 

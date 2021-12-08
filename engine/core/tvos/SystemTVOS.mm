@@ -66,8 +66,6 @@ int main(int argc, char* argv[])
 {
     try
     {
-        ouzel::platform::foundation::AutoreleasePool autoreleasePool;
-        
         ouzel::core::tvos::System system{argc, argv};
         systemPointer = &system;
         return system.run();
@@ -101,6 +99,7 @@ namespace ouzel::core::tvos
 
     int System::run()
     {
+        ouzel::platform::foundation::AutoreleasePool autoreleasePool;
         return UIApplicationMain(argumentCount, arguments, nil, NSStringFromClass([AppDelegate class]));
     }
 
