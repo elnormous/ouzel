@@ -41,16 +41,16 @@ namespace samples
                     checkBox.setChecked(!checkBox.isChecked());
                 else if (event.actor == &fullscreenButton)
                 {
-                    bool fullscreen = engine->getWindow()->isFullscreen();
-                    engine->getWindow()->setFullscreen(!fullscreen);
+                    bool fullscreen = engine->getWindow().isFullscreen();
+                    engine->getWindow().setFullscreen(!fullscreen);
                 }
                 else if (event.actor == &minimizeButton)
                 {
-                    engine->getWindow()->minimize();
+                    engine->getWindow().minimize();
                 }
                 else if (event.actor == &maximizeButton)
                 {
-                    engine->getWindow()->maximize();
+                    engine->getWindow().maximize();
                 }
             }
 

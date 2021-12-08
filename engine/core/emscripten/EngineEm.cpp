@@ -47,7 +47,6 @@ namespace ouzel::core::emscripten
 
     void Engine::run()
     {
-        init();
         start();
 
         emscripten_set_main_loop_arg(loop, this, 0, 1);

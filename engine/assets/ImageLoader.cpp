@@ -144,7 +144,7 @@ namespace ouzel::assets
             imageData
         };
 
-        auto texture = std::make_shared<graphics::Texture>(*engine->getGraphics(),
+        auto texture = std::make_shared<graphics::Texture>(engine->getGraphics(),
                                                            image.getData(),
                                                            image.getSize(),
                                                            graphics::Flags::none,

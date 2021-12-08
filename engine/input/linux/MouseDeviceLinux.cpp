@@ -19,14 +19,14 @@ namespace ouzel::input::linux
     {
 #if OUZEL_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow().getNativeWindow());
         auto display = engineLinux->getDisplay();
         auto window = windowLinux->getNativeWindow();
 
         XWindowAttributes attributes;
         XGetWindowAttributes(display, window, &attributes);
 
-        const auto windowLocation = engine->getWindow()->convertNormalizedToWindowLocation(position);
+        const auto windowLocation = engine->getWindow().convertNormalizedToWindowLocation(position);
 
         XWarpPointer(display, None, window, 0, 0, 0, 0,
                      attributes.x + static_cast<int>(windowLocation.v[0]),
@@ -44,7 +44,7 @@ namespace ouzel::input::linux
     {
 #if OUZEL_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow().getNativeWindow());
         auto display = engineLinux->getDisplay();
         auto window = windowLinux->getNativeWindow();
 

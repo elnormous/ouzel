@@ -174,26 +174,15 @@ namespace ouzel::core
     Engine::Engine(const std::vector<std::string>& initArgs):
         fileSystem(*this),
         settings{getSettings(fileSystem)},
+        window{*this, settings.size, getWindowFlags(settings), OUZEL_APPLICATION_NAME, settings.graphicsDriver},
+        graphics{settings.graphicsDriver, window, settings.graphicsSettings},
+        audio{settings.audioDriver, settings.audioSettings},
         assetBundle(cache, fileSystem),
         args{initArgs}
     {
         engine = this;
 
         thread::setCurrentThreadName("Main");
-
-        window = std::make_unique<Window>(*this,
-                                          settings.size,
-                                          getWindowFlags(settings),
-                                          OUZEL_APPLICATION_NAME,
-                                          settings.graphicsDriver);
-
-        graphics = std::make_unique<graphics::Graphics>(settings.graphicsDriver,
-                                                        *window,
-                                                        settings.graphicsSettings);
-
-        audio = std::make_unique<audio::Audio>(settings.audioDriver, settings.audioSettings);
-
-        inputManager = std::make_unique<input::InputManager>();
 
         // default assets
         switch (settings.graphicsDriver)
@@ -203,11 +192,11 @@ namespace ouzel::core
             {
                 std::unique_ptr<graphics::Shader> textureShader;
 
-                switch (graphics->getDevice()->getAPIMajorVersion())
+                switch (graphics.getDevice()->getAPIMajorVersion())
                 {
 #  if OUZEL_OPENGLES
                     case 2:
-                        textureShader = std::make_unique<graphics::Shader>(*graphics,
+                        textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                            std::vector<std::uint8_t>(std::begin(TexturePSGLES2_glsl),
                                                                                                      std::end(TexturePSGLES2_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGLES2_glsl),
@@ -225,7 +214,7 @@ namespace ouzel::core
                                                                            });
                         break;
                     case 3:
-                        textureShader = std::make_unique<graphics::Shader>(*graphics,
+                        textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                            std::vector<std::uint8_t>(std::begin(TexturePSGLES3_glsl),
                                                                                                      std::end(TexturePSGLES3_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGLES3_glsl),
@@ -244,7 +233,7 @@ namespace ouzel::core
                         break;
 #  else
                     case 2:
-                        textureShader = std::make_unique<graphics::Shader>(*graphics,
+                        textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                            std::vector<std::uint8_t>(std::begin(TexturePSGL2_glsl),
                                                                                                      std::end(TexturePSGL2_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGL2_glsl),
@@ -262,7 +251,7 @@ namespace ouzel::core
                                                                            });
                         break;
                     case 3:
-                        textureShader = std::make_unique<graphics::Shader>(*graphics,
+                        textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                            std::vector<std::uint8_t>(std::begin(TexturePSGL3_glsl),
                                                                                                      std::end(TexturePSGL3_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGL3_glsl),
@@ -280,7 +269,7 @@ namespace ouzel::core
                                                                            });
                         break;
                     case 4:
-                        textureShader = std::make_unique<graphics::Shader>(*graphics,
+                        textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                            std::vector<std::uint8_t>(std::begin(TexturePSGL4_glsl),
                                                                                                      std::end(TexturePSGL4_glsl)),
                                                                            std::vector<std::uint8_t>(std::begin(TextureVSGL4_glsl),
@@ -306,11 +295,11 @@ namespace ouzel::core
 
                 std::unique_ptr<graphics::Shader> colorShader;
 
-                switch (graphics->getDevice()->getAPIMajorVersion())
+                switch (graphics.getDevice()->getAPIMajorVersion())
                 {
 #  if OUZEL_OPENGLES
                     case 2:
-                        colorShader = std::make_unique<graphics::Shader>(*graphics,
+                        colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                          std::vector<std::uint8_t>(std::begin(ColorPSGLES2_glsl),
                                                                                                    std::end(ColorPSGLES2_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGLES2_glsl),
@@ -327,7 +316,7 @@ namespace ouzel::core
                                                                          });
                         break;
                     case 3:
-                        colorShader = std::make_unique<graphics::Shader>(*graphics,
+                        colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                          std::vector<std::uint8_t>(std::begin(ColorPSGLES3_glsl),
                                                                                                    std::end(ColorPSGLES3_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGLES3_glsl),
@@ -345,7 +334,7 @@ namespace ouzel::core
                         break;
 #  else
                     case 2:
-                        colorShader = std::make_unique<graphics::Shader>(*graphics,
+                        colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                          std::vector<std::uint8_t>(std::begin(ColorPSGL2_glsl),
                                                                                                    std::end(ColorPSGL2_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGL2_glsl),
@@ -362,7 +351,7 @@ namespace ouzel::core
                                                                          });
                         break;
                     case 3:
-                        colorShader = std::make_unique<graphics::Shader>(*graphics,
+                        colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                          std::vector<std::uint8_t>(std::begin(ColorPSGL3_glsl),
                                                                                                    std::end(ColorPSGL3_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGL3_glsl),
@@ -379,7 +368,7 @@ namespace ouzel::core
                                                                          });
                         break;
                     case 4:
-                        colorShader = std::make_unique<graphics::Shader>(*graphics,
+                        colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                          std::vector<std::uint8_t>(std::begin(ColorPSGL4_glsl),
                                                                                                    std::end(ColorPSGL4_glsl)),
                                                                          std::vector<std::uint8_t>(std::begin(ColorVSGL4_glsl),
@@ -408,7 +397,7 @@ namespace ouzel::core
 #if OUZEL_COMPILE_DIRECT3D11
             case graphics::Driver::direct3D11:
             {
-                auto textureShader = std::make_unique<graphics::Shader>(*graphics,
+                auto textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                         std::vector<std::uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_D3D11),
                                                                                                   std::end(TEXTURE_PIXEL_SHADER_D3D11)),
                                                                         std::vector<std::uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_D3D11),
@@ -427,7 +416,7 @@ namespace ouzel::core
 
                 assetBundle.setShader(shaderTexture, std::move(textureShader));
 
-                auto colorShader = std::make_unique<graphics::Shader>(*graphics,
+                auto colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                       std::vector<std::uint8_t>(std::begin(COLOR_PIXEL_SHADER_D3D11),
                                                                                                 std::end(COLOR_PIXEL_SHADER_D3D11)),
                                                                       std::vector<std::uint8_t>(std::begin(COLOR_VERTEX_SHADER_D3D11),
@@ -451,7 +440,7 @@ namespace ouzel::core
 #if OUZEL_COMPILE_METAL
             case graphics::Driver::metal:
             {
-                auto textureShader = std::make_unique<graphics::Shader>(*graphics,
+                auto textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                         std::vector<std::uint8_t>(std::begin(TEXTURE_PIXEL_SHADER_METAL),
                                                                                                   std::end(TEXTURE_PIXEL_SHADER_METAL)),
                                                                         std::vector<std::uint8_t>(std::begin(TEXTURE_VERTEX_SHADER_METAL),
@@ -471,7 +460,7 @@ namespace ouzel::core
 
                 assetBundle.setShader(shaderTexture, std::move(textureShader));
 
-                auto colorShader = std::make_unique<graphics::Shader>(*graphics,
+                auto colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                       std::vector<std::uint8_t>(std::begin(COLOR_PIXEL_SHADER_METAL),
                                                                                                 std::end(COLOR_PIXEL_SHADER_METAL)),
                                                                       std::vector<std::uint8_t>(std::begin(COLOR_VERTEX_SHADER_METAL),
@@ -495,7 +484,7 @@ namespace ouzel::core
 
             default:
             {
-                auto textureShader = std::make_unique<graphics::Shader>(*graphics,
+                auto textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                         std::vector<std::uint8_t>(),
                                                                         std::vector<std::uint8_t>(),
                                                                         std::set<graphics::Vertex::Attribute::Semantic>{
@@ -512,7 +501,7 @@ namespace ouzel::core
 
                 assetBundle.setShader(shaderTexture, std::move(textureShader));
 
-                auto colorShader = std::make_unique<graphics::Shader>(*graphics,
+                auto colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                       std::vector<std::uint8_t>(),
                                                                       std::vector<std::uint8_t>(),
                                                                       std::set<graphics::Vertex::Attribute::Semantic>{
@@ -531,7 +520,7 @@ namespace ouzel::core
             }
         }
 
-        auto noBlendState = std::make_unique<graphics::BlendState>(*graphics,
+        auto noBlendState = std::make_unique<graphics::BlendState>(graphics,
                                                                    false,
                                                                    graphics::BlendFactor::one,
                                                                    graphics::BlendFactor::zero,
@@ -542,7 +531,7 @@ namespace ouzel::core
 
         assetBundle.setBlendState(blendNoBlend, std::move(noBlendState));
 
-        auto addBlendState = std::make_unique<graphics::BlendState>(*graphics,
+        auto addBlendState = std::make_unique<graphics::BlendState>(graphics,
                                                                     true,
                                                                     graphics::BlendFactor::one,
                                                                     graphics::BlendFactor::one,
@@ -553,7 +542,7 @@ namespace ouzel::core
 
         assetBundle.setBlendState(blendAdd, std::move(addBlendState));
 
-        auto multiplyBlendState = std::make_unique<graphics::BlendState>(*graphics,
+        auto multiplyBlendState = std::make_unique<graphics::BlendState>(graphics,
                                                                          true,
                                                                          graphics::BlendFactor::destColor,
                                                                          graphics::BlendFactor::zero,
@@ -564,7 +553,7 @@ namespace ouzel::core
 
         assetBundle.setBlendState(blendMultiply, std::move(multiplyBlendState));
 
-        auto alphaBlendState = std::make_unique<graphics::BlendState>(*graphics,
+        auto alphaBlendState = std::make_unique<graphics::BlendState>(graphics,
                                                                       true,
                                                                       graphics::BlendFactor::srcAlpha,
                                                                       graphics::BlendFactor::invSrcAlpha,
@@ -575,7 +564,7 @@ namespace ouzel::core
 
         assetBundle.setBlendState(blendAlpha, std::move(alphaBlendState));
 
-        auto screenBlendState = std::make_unique<graphics::BlendState>(*graphics,
+        auto screenBlendState = std::make_unique<graphics::BlendState>(graphics,
                                                                        true,
                                                                        graphics::BlendFactor::one,
                                                                        graphics::BlendFactor::invSrcAlpha,
@@ -586,7 +575,7 @@ namespace ouzel::core
 
         assetBundle.setBlendState(blendScreen, std::move(screenBlendState));
 
-        auto whitePixelTexture = std::make_shared<graphics::Texture>(*graphics,
+        auto whitePixelTexture = std::make_shared<graphics::Texture>(graphics,
                                                                      std::vector<std::uint8_t>{255, 255, 255, 255},
                                                                      math::Size<std::uint32_t, 2>{1U, 1U},
                                                                      graphics::Flags::none, 1);
@@ -621,7 +610,7 @@ namespace ouzel::core
             active = true;
             paused = false;
 
-            audio->start();
+            audio.start();
 
 #ifndef __EMSCRIPTEN__
             updateThread = thread::Thread{&Engine::engineMain, this};
@@ -689,9 +678,9 @@ namespace ouzel::core
             eventDispatcher.dispatchEvent(std::move(updateEvent));
         }
 
-        inputManager->update();
-        window->update(false);
-        audio->update();
+        inputManager.update();
+        window.update(false);
+        audio.update();
 
         if (refillRenderQueue)
         {
@@ -699,7 +688,7 @@ namespace ouzel::core
             refillRenderQueue = false;
         }
 
-        refillRenderQueue = graphics->getRefillQueue(oneUpdatePerFrame);
+        refillRenderQueue = graphics.getRefillQueue(oneUpdatePerFrame);
 
     }
 
@@ -719,7 +708,7 @@ namespace ouzel::core
 #ifndef __EMSCRIPTEN__
             while (active)
                 if (paused)
-                    window->update(true);
+                    window.update(true);
                 else
                     update();
 

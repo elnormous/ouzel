@@ -16,10 +16,10 @@ namespace ouzel::scene
                                const math::Vector<float, 2>& initTextAnchor):
         shader{engine->getCache().getShader(shaderTexture)},
         blendState{engine->getCache().getBlendState(blendAlpha)},
-        indexBuffer{*engine->getGraphics(),
+        indexBuffer{engine->getGraphics(),
                     graphics::BufferType::index,
                     graphics::Flags::dynamic},
-        vertexBuffer{*engine->getGraphics(),
+        vertexBuffer{engine->getGraphics(),
                      graphics::BufferType::vertex,
                      graphics::Flags::dynamic},
         text{initText},
@@ -41,10 +41,10 @@ namespace ouzel::scene
                                const math::Vector<float, 2>& initTextAnchor):
         shader{engine->getCache().getShader(shaderTexture)},
         blendState{engine->getCache().getBlendState(blendAlpha)},
-        indexBuffer{*engine->getGraphics(),
+        indexBuffer{engine->getGraphics(),
                     graphics::BufferType::index,
                     graphics::Flags::dynamic},
-        vertexBuffer{*engine->getGraphics(),
+        vertexBuffer{engine->getGraphics(),
                      graphics::BufferType::vertex,
                      graphics::Flags::dynamic},
         font{&initFont},
@@ -111,19 +111,19 @@ namespace ouzel::scene
         std::vector<std::vector<float>> vertexShaderConstants(1);
         vertexShaderConstants[0] = {std::begin(modelViewProj.m.v), std::end(modelViewProj.m.v)};
 
-        engine->getGraphics()->setPipelineState(blendState->getResource(),
-                                                shader->getResource(),
-                                                graphics::CullMode::none,
-                                                wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
-        engine->getGraphics()->setShaderConstants(fragmentShaderConstants,
-                                                  vertexShaderConstants);
-        engine->getGraphics()->setTextures({wireframe ? whitePixelTexture->getResource() : texture ? texture->getResource() : 0U});
-        engine->getGraphics()->draw(indexBuffer.getResource(),
-                                    static_cast<std::uint32_t>(indices.size()),
-                                    sizeof(std::uint16_t),
-                                    vertexBuffer.getResource(),
-                                    graphics::DrawMode::triangleList,
-                                    0);
+        engine->getGraphics().setPipelineState(blendState->getResource(),
+                                               shader->getResource(),
+                                               graphics::CullMode::none,
+                                               wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
+        engine->getGraphics().setShaderConstants(fragmentShaderConstants,
+                                                 vertexShaderConstants);
+        engine->getGraphics().setTextures({wireframe ? whitePixelTexture->getResource() : texture ? texture->getResource() : 0U});
+        engine->getGraphics().draw(indexBuffer.getResource(),
+                                   static_cast<std::uint32_t>(indices.size()),
+                                   sizeof(std::uint16_t),
+                                   vertexBuffer.getResource(),
+                                   graphics::DrawMode::triangleList,
+                                   0);
     }
 
     void TextRenderer::setText(const std::string& newText)

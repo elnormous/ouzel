@@ -321,7 +321,6 @@ namespace ouzel::core::linux
 
     void Engine::run()
     {
-        init();
         start();
 
         auto& inputSystemLinux = inputManager->getInputSystem();

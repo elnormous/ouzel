@@ -48,7 +48,7 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemTVOS = ouzel::engine->getInputManager()->getInputSystem();
+    auto& inputSystemTVOS = ouzel::engine->getInputManager().getInputSystem();
     const auto keyboardDevice = inputSystemTVOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {
@@ -65,7 +65,7 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemTVOS = ouzel::engine->getInputManager()->getInputSystem();
+    auto& inputSystemTVOS = ouzel::engine->getInputManager().getInputSystem();
     const auto keyboardDevice = inputSystemTVOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {
@@ -82,7 +82,7 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemTVOS = ouzel::engine->getInputManager()->getInputSystem();
+    auto& inputSystemTVOS = ouzel::engine->getInputManager().getInputSystem();
     const auto keyboardDevice = inputSystemTVOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {

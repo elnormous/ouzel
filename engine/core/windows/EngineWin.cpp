@@ -72,7 +72,6 @@ namespace ouzel::core::windows
 
     void Engine::run()
     {
-        init();
         start();
 
         auto& inputSystemWin = inputManager->getInputSystem();

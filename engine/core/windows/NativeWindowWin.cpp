@@ -321,7 +321,7 @@ namespace
             {
                 if (LOWORD(lParam) == HTCLIENT)
                 {
-                    auto& inputSystemWin = ouzel::engine->getInputManager()->getInputSystem();
+                    auto& inputSystemWin = ouzel::engine->getInputManager().getInputSystem();
                     inputSystemWin.updateCursor();
                     return TRUE;
                 }
@@ -362,7 +362,7 @@ namespace
             case WM_ERASEBKGND:
             {
                 // Erase background only for the Empty renderer
-                //if (ouzel::engine->getGraphics()->getDevice()->getDriver() != ouzel::graphics::Driver::empty)
+                //if (ouzel::engine->getGraphics().getDevice()->getDriver() != ouzel::graphics::Driver::empty)
                 //    return TRUE;
 
                 break;
@@ -665,9 +665,9 @@ namespace ouzel::core::windows
     {
         if (exclusiveFullscreen)
         {
-            if (engine->getGraphics()->getDevice()->getDriver() == graphics::Driver::direct3D11)
+            if (engine->getGraphics().getDevice()->getDriver() == graphics::Driver::direct3D11)
             {
-                const auto renderDevice = static_cast<graphics::d3d11::RenderDevice*>(engine->getGraphics()->getDevice());
+                const auto renderDevice = static_cast<graphics::d3d11::RenderDevice*>(engine->getGraphics().getDevice());
                 renderDevice->setFullscreen(newFullscreen);
             }
         }
@@ -737,7 +737,7 @@ namespace ouzel::core::windows
 
         if (wParam)
         {
-                auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+                auto& inputSystemWin = engine->getInputManager().getInputSystem();
                 const auto mouseDevice = inputSystemWin.getMouseDevice();
 
                 POINT cursorPos;
@@ -749,7 +749,7 @@ namespace ouzel::core::windows
                     static_cast<float>(cursorPos.y)
                 };
 
-                mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
+                mouseDevice->handleMove(engine->getWindow().convertWindowToNormalizedLocation(position));
         }
     }
 
@@ -778,7 +778,7 @@ namespace ouzel::core::windows
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
 
-        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto& inputSystemWin = engine->getInputManager().getInputSystem();
         const auto mouseDevice = inputSystemWin.getMouseDevice();
 
         POINT cursorPos;
@@ -790,14 +790,14 @@ namespace ouzel::core::windows
             static_cast<float>(cursorPos.y)
         };
 
-        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
+        mouseDevice->handleMove(engine->getWindow().convertWindowToNormalizedLocation(position));
 
         sendEvent(Event(Event::Type::restore));
     }
 
     void NativeWindow::handleKey(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto& inputSystemWin = engine->getInputManager().getInputSystem();
         const auto keyboardDevice = inputSystemWin.getKeyboardDevice();
 
         if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
@@ -808,7 +808,7 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleMouseMove(LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto& inputSystemWin = engine->getInputManager().getInputSystem();
         const auto mouseDevice = inputSystemWin.getMouseDevice();
 
         const math::Vector<float, 2> position{
@@ -816,12 +816,12 @@ namespace ouzel::core::windows
             static_cast<float>(GET_Y_LPARAM(lParam))
         };
 
-        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
+        mouseDevice->handleMove(engine->getWindow().convertWindowToNormalizedLocation(position));
     }
 
     void NativeWindow::handleMouseButton(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto& inputSystemWin = engine->getInputManager().getInputSystem();
         const auto mouseDevice = inputSystemWin.getMouseDevice();
 
         const math::Vector<float, 2> position{
@@ -831,15 +831,15 @@ namespace ouzel::core::windows
 
         if (isMouseButtonDown(message))
             mouseDevice->handleButtonPress(getMouseButton(message, wParam),
-                                           engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                           engine->getWindow().convertWindowToNormalizedLocation(position));
         else
             mouseDevice->handleButtonRelease(getMouseButton(message, wParam),
-                                             engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                             engine->getWindow().convertWindowToNormalizedLocation(position));
     }
 
     void NativeWindow::handleMouseWheel(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto& inputSystemWin = engine->getInputManager().getInputSystem();
         const auto mouseDevice = inputSystemWin.getMouseDevice();
 
         const math::Vector<float, 2> position{
@@ -851,19 +851,19 @@ namespace ouzel::core::windows
         {
             const auto param = static_cast<short>(HIWORD(wParam));
             mouseDevice->handleScroll(math::Vector<float, 2>{0.0F, -static_cast<float>(param) / static_cast<float>(WHEEL_DELTA)},
-                                      engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                      engine->getWindow().convertWindowToNormalizedLocation(position));
         }
         else if (message == WM_MOUSEHWHEEL)
         {
             const auto param = static_cast<short>(HIWORD(wParam));
             mouseDevice->handleScroll(math::Vector<float, 2>{static_cast<float>(param) / static_cast<float>(WHEEL_DELTA), 0.0F},
-                                      engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                      engine->getWindow().convertWindowToNormalizedLocation(position));
         }
     }
 
     void NativeWindow::handleTouch(WPARAM wParam, LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager()->getInputSystem();
+        auto& inputSystemWin = engine->getInputManager().getInputSystem();
         const auto touchpadDevice = inputSystemWin.getTouchpadDevice();
 
         const UINT inputCount = LOWORD(wParam);
@@ -881,15 +881,15 @@ namespace ouzel::core::windows
 
             if (touch.dwFlags & TOUCHEVENTF_DOWN)
                 touchpadDevice->handleTouchBegin(touch.dwID,
-                                                 engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                                 engine->getWindow().convertWindowToNormalizedLocation(position));
 
             if (touch.dwFlags & TOUCHEVENTF_UP)
                 touchpadDevice->handleTouchEnd(touch.dwID,
-                                               engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                               engine->getWindow().convertWindowToNormalizedLocation(position));
 
             if (touch.dwFlags & TOUCHEVENTF_MOVE)
                 touchpadDevice->handleTouchMove(touch.dwID,
-                                                engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                                engine->getWindow().convertWindowToNormalizedLocation(position));
         }
 
         if (!CloseTouchInputHandle(bitCast<HTOUCHINPUT>(lParam)))

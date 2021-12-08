@@ -12,23 +12,23 @@ using namespace math;
 namespace samples
 {
     SoundSample::SoundSample():
-        submix{*engine->getAudio()},
-        listener{*engine->getAudio()},
-        soundGain{*engine->getAudio()},
-        test8BitSubmix{*engine->getAudio()},
-        test8BitVoice{*engine->getAudio(), engine->getCache().getSound("8-bit.wav")},
-        test8BitPitch{*engine->getAudio()},
-        test24BitSubmix{*engine->getAudio()},
-        test24BitVoice{*engine->getAudio(), engine->getCache().getSound("24-bit.wav")},
-        test24BitPitch{*engine->getAudio()},
-        jumpSubmix{*engine->getAudio()},
-        jumpVoice{*engine->getAudio(), engine->getCache().getSound("jump.wav")},
-        jumpPanner{*engine->getAudio()},
-        jumpReverb{*engine->getAudio()},
-        ambientVoice{*engine->getAudio(), engine->getCache().getSound("ambient.wav")},
-        music{*engine->getAudio(), engine->getCache().getSound("music.ogg")},
-        tone{*engine->getAudio(), 200.0F, Oscillator::Type::sine, 0.5F, 1.0F},
-        toneVoice{*engine->getAudio(), &tone},
+        submix{engine->getAudio()},
+        listener{engine->getAudio()},
+        soundGain{engine->getAudio()},
+        test8BitSubmix{engine->getAudio()},
+        test8BitVoice{engine->getAudio(), engine->getCache().getSound("8-bit.wav")},
+        test8BitPitch{engine->getAudio()},
+        test24BitSubmix{engine->getAudio()},
+        test24BitVoice{engine->getAudio(), engine->getCache().getSound("24-bit.wav")},
+        test24BitPitch{engine->getAudio()},
+        jumpSubmix{engine->getAudio()},
+        jumpVoice{engine->getAudio(), engine->getCache().getSound("jump.wav")},
+        jumpPanner{engine->getAudio()},
+        jumpReverb{engine->getAudio()},
+        ambientVoice{engine->getAudio(), engine->getCache().getSound("ambient.wav")},
+        music{engine->getAudio(), engine->getCache().getSound("music.ogg")},
+        tone{engine->getAudio(), 200.0F, Oscillator::Type::sine, 0.5F, 1.0F},
+        toneVoice{engine->getAudio(), &tone},
         backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor},
         test8BitButton{"button.png", "button_selected.png", "button_down.png", "", "8-bit", "Arial", 1.0F, blackColor, blackColor, blackColor},
         test24BitButton{"button.png", "button_selected.png", "button_down.png", "", "24-bit", "Arial", 1.0F, blackColor, blackColor, blackColor},
@@ -102,7 +102,7 @@ namespace samples
 
         engine->getEventDispatcher().addEventHandler(handler);
 
-        submix.setOutput(&engine->getAudio()->getMasterMix());
+        submix.setOutput(&engine->getAudio().getMasterMix());
 
         listener.setMix(&submix);
         submix.addEffect(&soundGain);

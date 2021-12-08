@@ -87,13 +87,13 @@ namespace ouzel::scene
         boundingBox.min = finalOffset;
         boundingBox.max = finalOffset + math::Vector<float, 2>{frameRectangle.size.v[0], frameRectangle.size.v[1]};
 
-        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
+        indexBuffer = std::make_unique<graphics::Buffer>(engine->getGraphics(),
                                                          graphics::BufferType::index,
                                                          graphics::Flags::none,
                                                          indices.data(),
                                                          static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
+        vertexBuffer = std::make_unique<graphics::Buffer>(engine->getGraphics(),
                                                           graphics::BufferType::vertex,
                                                           graphics::Flags::none,
                                                           vertices.data(),
@@ -110,13 +110,13 @@ namespace ouzel::scene
         for (const graphics::Vertex& vertex : vertices)
             insertPoint(boundingBox, math::Vector<float, 2>{vertex.position});
 
-        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
+        indexBuffer = std::make_unique<graphics::Buffer>(engine->getGraphics(),
                                                          graphics::BufferType::index,
                                                          graphics::Flags::none,
                                                          indices.data(),
                                                          static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
+        vertexBuffer = std::make_unique<graphics::Buffer>(engine->getGraphics(),
                                                           graphics::BufferType::vertex,
                                                           graphics::Flags::none,
                                                           vertices.data(),
@@ -143,13 +143,13 @@ namespace ouzel::scene
             -sourceSize.v[1] * pivot.v[1] + (sourceSize.v[1] - frameRectangle.size.v[1] - sourceOffset.v[1])
         };
 
-        indexBuffer = std::make_shared<graphics::Buffer>(*engine->getGraphics(),
+        indexBuffer = std::make_shared<graphics::Buffer>(engine->getGraphics(),
                                                          graphics::BufferType::index,
                                                          graphics::Flags::none,
                                                          indices.data(),
                                                          static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = std::make_shared<graphics::Buffer>(*engine->getGraphics(),
+        vertexBuffer = std::make_shared<graphics::Buffer>(engine->getGraphics(),
                                                           graphics::BufferType::vertex,
                                                           graphics::Flags::none,
                                                           vertices.data(),
@@ -387,22 +387,22 @@ namespace ouzel::scene
             for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
                 textures.push_back(texture ? texture->getResource() : 0);
 
-            engine->getGraphics()->setPipelineState(material->blendState->getResource(),
-                                                    material->shader->getResource(),
-                                                    material->cullMode,
-                                                    wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
-            engine->getGraphics()->setShaderConstants(fragmentShaderConstants,
-                                                      vertexShaderConstants);
-            engine->getGraphics()->setTextures(textures);
+            engine->getGraphics().setPipelineState(material->blendState->getResource(),
+                                                   material->shader->getResource(),
+                                                   material->cullMode,
+                                                   wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
+            engine->getGraphics().setShaderConstants(fragmentShaderConstants,
+                                                     vertexShaderConstants);
+            engine->getGraphics().setTextures(textures);
 
             const auto& frame = currentAnimation->animation->frames[currentFrame];
 
-            engine->getGraphics()->draw(frame.getIndexBuffer()->getResource(),
-                                        frame.getIndexCount(),
-                                        sizeof(std::uint16_t),
-                                        frame.getVertexBuffer()->getResource(),
-                                        graphics::DrawMode::triangleList,
-                                        0);
+            engine->getGraphics().draw(frame.getIndexBuffer()->getResource(),
+                                       frame.getIndexCount(),
+                                       sizeof(std::uint16_t),
+                                       frame.getVertexBuffer()->getResource(),
+                                       graphics::DrawMode::triangleList,
+                                       0);
         }
     }
 

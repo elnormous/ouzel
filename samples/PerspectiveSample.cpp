@@ -14,17 +14,17 @@ using namespace math;
 namespace samples
 {
     PerspectiveSample::PerspectiveSample():
-        submix{*engine->getAudio()},
-        listener{*engine->getAudio()},
-        jumpSubmix{*engine->getAudio()},
-        jumpVoice{*engine->getAudio(), engine->getCache().getSound("jump.wav")},
-        jumpPanner{*engine->getAudio()},
+        submix{engine->getAudio()},
+        listener{engine->getAudio()},
+        jumpSubmix{engine->getAudio()},
+        jumpVoice{engine->getAudio(), engine->getCache().getSound("jump.wav")},
+        jumpPanner{engine->getAudio()},
         backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor},
-        cursor{*engine->getInputManager()}
+        cursor{engine->getInputManager()}
     {
         cursor.init(SystemCursor::cross);
 
-        if (Mouse* mouse = engine->getInputManager()->getMouse())
+        if (Mouse* mouse = engine->getInputManager().getMouse())
             mouse->setCursor(&cursor);
 
         handler.keyboardHandler = [this](const KeyboardEvent& event) {
@@ -53,7 +53,7 @@ namespace samples
                         jumpVoice.play();
                         break;
                     case Keyboard::Key::s:
-                        engine->getGraphics()->saveScreenshot("test.png");
+                        engine->getGraphics().saveScreenshot("test.png");
                         break;
                     default:
                         break;
@@ -166,11 +166,11 @@ namespace samples
         layer.addChild(character);
         character.setPosition(Vector<float, 2>{10.0F, 0.0F});
 
-        submix.setOutput(&engine->getAudio()->getMasterMix());
+        submix.setOutput(&engine->getAudio().getMasterMix());
 
         cameraActor.addComponent(listener);
         listener.setMix(&submix);
-        submix.setOutput(&engine->getAudio()->getMasterMix());
+        submix.setOutput(&engine->getAudio().getMasterMix());
 
         jumpSubmix.setOutput(&submix);
         jumpVoice.setOutput(&jumpSubmix);

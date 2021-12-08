@@ -159,14 +159,14 @@ namespace ouzel::input::tvos
 
     void InputSystem::showVirtualKeyboard()
     {
-        const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(engine->getWindow().getNativeWindow());
         auto textField = windowTVOS->getTextField();
         [textField becomeFirstResponder];
     }
 
     void InputSystem::hideVirtualKeyboard()
     {
-        const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(engine->getWindow()->getNativeWindow());
+        const auto windowTVOS = static_cast<core::tvos::NativeWindow*>(engine->getWindow().getNativeWindow());
         auto textField = windowTVOS->getTextField();
         [textField resignFirstResponder];
     }

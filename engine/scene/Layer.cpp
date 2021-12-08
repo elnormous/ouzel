@@ -32,9 +32,9 @@ namespace ouzel::scene
             for (const auto actor : children)
                 actor->visit(drawQueue, math::identityMatrix<float, 4>, false, camera, 0, false);
 
-            engine->getGraphics()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
-            engine->getGraphics()->setViewport(camera->getRenderViewport());
-            engine->getGraphics()->setDepthStencilState(camera->getDepthStencilState() ? camera->getDepthStencilState()->getResource() : 0,
+            engine->getGraphics().setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
+            engine->getGraphics().setViewport(camera->getRenderViewport());
+            engine->getGraphics().setDepthStencilState(camera->getDepthStencilState() ? camera->getDepthStencilState()->getResource() : 0,
                                                         camera->getStencilReferenceValue());
 
             for (const auto actor : drawQueue)

@@ -260,7 +260,7 @@ namespace ouzel::assets
                     throw std::runtime_error("Failed to load sound file, unsupported bit depth");
             }
 
-            auto sound = std::make_unique<audio::PcmClip>(*engine->getAudio(), channels, sampleRate, samples);
+            auto sound = std::make_unique<audio::PcmClip>(engine->getAudio(), channels, sampleRate, samples);
             bundle.setSound(name, std::move(sound));
         }
         catch (const std::exception&)

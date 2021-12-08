@@ -65,15 +65,20 @@ namespace ouzel::core
         [[nodiscard]] auto& getCache() { return cache; }
         [[nodiscard]] auto& getCache() const { return cache; }
 
-        [[nodiscard]] auto getWindow() const { return window.get(); }
+        [[nodiscard]] auto& getWindow() { return window; }
+        [[nodiscard]] auto& getWindow() const { return window; }
 
-        [[nodiscard]] auto getGraphics() const noexcept { return graphics.get(); }
-        [[nodiscard]] auto getAudio() const noexcept { return audio.get(); }
+        [[nodiscard]] auto& getGraphics() noexcept { return graphics; }
+        [[nodiscard]] auto& getGraphics() const noexcept { return graphics; }
+
+        [[nodiscard]] auto& getAudio() noexcept { return audio; }
+        [[nodiscard]] auto& getAudio() const noexcept { return audio; }
 
         [[nodiscard]] auto& getSceneManager() { return sceneManager; }
         [[nodiscard]] auto& getSceneManager() const { return sceneManager; }
 
-        [[nodiscard]] auto getInputManager() const noexcept { return inputManager.get(); }
+        [[nodiscard]] auto& getInputManager() noexcept { return inputManager; }
+        [[nodiscard]] auto& getInputManager() const noexcept { return inputManager; }
 
         [[nodiscard]] auto& getLocalization() { return localization; }
         [[nodiscard]] auto& getLocalization() const { return localization; }
@@ -123,10 +128,10 @@ namespace ouzel::core
         storage::FileSystem fileSystem;
         Settings settings;
         EventDispatcher eventDispatcher;
-        std::unique_ptr<Window> window;
-        std::unique_ptr<graphics::Graphics> graphics;
-        std::unique_ptr<audio::Audio> audio;
-        std::unique_ptr<input::InputManager> inputManager;
+        Window window;
+        graphics::Graphics graphics;
+        audio::Audio audio;
+        input::InputManager inputManager;
         Localization localization;
         assets::Cache cache;
         assets::Bundle assetBundle;

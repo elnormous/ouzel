@@ -196,14 +196,14 @@ namespace ouzel::input::emscripten
             {
                 case EMSCRIPTEN_EVENT_MOUSEDOWN:
                     mouseDevice->handleButtonPress(button,
-                                                   ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                                   ouzel::engine->getWindow().convertWindowToNormalizedLocation(position));
                     return EM_TRUE;
                 case EMSCRIPTEN_EVENT_MOUSEUP:
                     mouseDevice->handleButtonRelease(button,
-                                                     ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                                     ouzel::engine->getWindow().convertWindowToNormalizedLocation(position));
                     return EM_TRUE;
                 case EMSCRIPTEN_EVENT_MOUSEMOVE:
-                    mouseDevice->handleMove(ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                    mouseDevice->handleMove(ouzel::engine->getWindow().convertWindowToNormalizedLocation(position));
                     return EM_TRUE;
             }
 
@@ -222,7 +222,7 @@ namespace ouzel::input::emscripten
                 };
 
                 mouseDevice->handleScroll(ouzel::math::Vector<float, 2>{static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)},
-                                          ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                          ouzel::engine->getWindow().convertWindowToNormalizedLocation(position));
 
                 return EM_TRUE;
             }
@@ -278,22 +278,22 @@ namespace ouzel::input::emscripten
                     {
                         case EMSCRIPTEN_EVENT_TOUCHSTART:
                             touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
-                                                             ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                             ouzel::engine->getWindow().convertWindowToNormalizedLocation(position),
                                                              1.0F);
                             break;
                         case EMSCRIPTEN_EVENT_TOUCHEND:
                             touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
-                                                           ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                           ouzel::engine->getWindow().convertWindowToNormalizedLocation(position),
                                                            1.0F);
                             break;
                         case EMSCRIPTEN_EVENT_TOUCHMOVE:
                             touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
-                                                            ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                            ouzel::engine->getWindow().convertWindowToNormalizedLocation(position),
                                                             1.0F);
                             break;
                         case EMSCRIPTEN_EVENT_TOUCHCANCEL:
                             touchpadDevice->handleTouchCancel(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
-                                                              ouzel::engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                              ouzel::engine->getWindow().convertWindowToNormalizedLocation(position),
                                                               1.0F);
                             break;
                     }

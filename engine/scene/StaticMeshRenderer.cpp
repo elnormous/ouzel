@@ -33,20 +33,20 @@ namespace ouzel::scene
             for (const auto index : indices)
                 convertedIndices.push_back(static_cast<std::uint16_t>(index));
 
-            indexBuffer = graphics::Buffer(*engine->getGraphics(),
+            indexBuffer = graphics::Buffer(engine->getGraphics(),
                                            graphics::BufferType::index,
                                            graphics::Flags::none,
                                            convertedIndices.data(),
                                            static_cast<std::uint32_t>(getVectorSize(convertedIndices)));
         }
         else if (indexSize == sizeof(std::uint32_t))
-            indexBuffer = graphics::Buffer(*engine->getGraphics(),
+            indexBuffer = graphics::Buffer(engine->getGraphics(),
                                            graphics::BufferType::index,
                                            graphics::Flags::none,
                                            indices.data(),
                                            static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = graphics::Buffer(*engine->getGraphics(),
+        vertexBuffer = graphics::Buffer(engine->getGraphics(),
                                         graphics::BufferType::vertex,
                                         graphics::Flags::none,
                                         vertices.data(),
@@ -96,18 +96,17 @@ namespace ouzel::scene
         for (const std::shared_ptr<graphics::Texture>& texture : material->textures)
             textures.push_back(texture ? texture->getResource() : 0);
 
-        engine->getGraphics()->setPipelineState(material->blendState->getResource(),
-                                                material->shader->getResource(),
-                                                material->cullMode,
-                                                wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
-        engine->getGraphics()->setShaderConstants(fragmentShaderConstants,
-                                                  vertexShaderConstants);
-        engine->getGraphics()->setTextures(textures);
-        engine->getGraphics()->draw(indexBuffer->getResource(),
-                                    indexCount,
-                                    indexSize,
-                                    vertexBuffer->getResource(),
-                                    graphics::DrawMode::triangleList,
-                                    0);
+        engine->getGraphics().setPipelineState(material->blendState->getResource(),
+                                               material->shader->getResource(),
+                                               material->cullMode,
+                                               wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
+        engine->getGraphics().setShaderConstants(fragmentShaderConstants, vertexShaderConstants);
+        engine->getGraphics().setTextures(textures);
+        engine->getGraphics().draw(indexBuffer->getResource(),
+                                   indexCount,
+                                   indexSize,
+                                   vertexBuffer->getResource(),
+                                   graphics::DrawMode::triangleList,
+                                   0);
     }
 }

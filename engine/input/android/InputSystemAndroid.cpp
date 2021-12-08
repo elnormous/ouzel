@@ -103,7 +103,7 @@ namespace ouzel::input::android
                     };
 
                     touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
-                                                     engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                     engine->getWindow().convertWindowToNormalizedLocation(position),
                                                      pressure);
                     return true;
                 }
@@ -131,7 +131,7 @@ namespace ouzel::input::android
                     };
 
                     touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(pointerId),
-                                                     engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                     engine->getWindow().convertWindowToNormalizedLocation(position),
                                                      pressure);
                     return true;
                 }
@@ -153,7 +153,7 @@ namespace ouzel::input::android
                             static_cast<float>(y)
                         };
 
-                        mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
+                        mouseDevice->handleMove(engine->getWindow().convertWindowToNormalizedLocation(position));
                     }
                     return true;
                 }
@@ -169,7 +169,7 @@ namespace ouzel::input::android
                     };
 
                     touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(pointerId),
-                                                    engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                    engine->getWindow().convertWindowToNormalizedLocation(position),
                                                     pressure);
                     return true;
                 }
@@ -196,7 +196,7 @@ namespace ouzel::input::android
                     };
 
                     touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
-                                                   engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                   engine->getWindow().convertWindowToNormalizedLocation(position),
                                                    pressure);
                     return true;
                 }
@@ -224,7 +224,7 @@ namespace ouzel::input::android
                     };
 
                     touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(pointerId),
-                                                   engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                   engine->getWindow().convertWindowToNormalizedLocation(position),
                                                    pressure);
                     return true;
                 }
@@ -246,7 +246,7 @@ namespace ouzel::input::android
                             static_cast<float>(y)
                         };
 
-                        mouseDevice->handleButtonRelease(Mouse::Button::left, engine->getWindow()->convertWindowToNormalizedLocation(position));
+                        mouseDevice->handleButtonRelease(Mouse::Button::left, engine->getWindow().convertWindowToNormalizedLocation(position));
                     }
                     return true;
                 }
@@ -262,7 +262,7 @@ namespace ouzel::input::android
                     };
 
                     touchpadDevice->handleTouchCancel(static_cast<std::uint64_t>(pointerId),
-                                                      engine->getWindow()->convertWindowToNormalizedLocation(position),
+                                                      engine->getWindow().convertWindowToNormalizedLocation(position),
                                                       pressure);
                     return true;
                 }
@@ -299,7 +299,7 @@ namespace ouzel::input::android
                         static_cast<float>(y)
                     };
 
-                    mouseDevice->handleMove(engine->getWindow()->convertWindowToNormalizedLocation(position));
+                    mouseDevice->handleMove(engine->getWindow().convertWindowToNormalizedLocation(position));
                     return true;
                 }
                 break;
@@ -317,7 +317,7 @@ namespace ouzel::input::android
                     };
 
                     mouseDevice->handleScroll(math::Vector<float, 2>{scrollX, scrollY},
-                                              engine->getWindow()->convertWindowToNormalizedLocation(position));
+                                              engine->getWindow().convertWindowToNormalizedLocation(position));
                     return true;
                 }
                 break;
@@ -349,9 +349,9 @@ namespace ouzel::input::android
                 };
 
                 if (newButtonState & buttonState)
-                    mouseDevice->handleButtonPress(button, engine->getWindow()->convertWindowToNormalizedLocation(position));
+                    mouseDevice->handleButtonPress(button, engine->getWindow().convertWindowToNormalizedLocation(position));
                 else
-                    mouseDevice->handleButtonRelease(button, engine->getWindow()->convertWindowToNormalizedLocation(position));
+                    mouseDevice->handleButtonRelease(button, engine->getWindow().convertWindowToNormalizedLocation(position));
 
                 result = true;
             }

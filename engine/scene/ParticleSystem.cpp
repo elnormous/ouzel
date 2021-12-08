@@ -73,19 +73,19 @@ namespace ouzel::scene
             std::vector<std::vector<float>> vertexShaderConstants(1);
             vertexShaderConstants[0] = {std::begin(transform.m.v), std::end(transform.m.v)};
 
-            engine->getGraphics()->setPipelineState(blendState->getResource(),
-                                                    shader->getResource(),
-                                                    graphics::CullMode::none,
-                                                    wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
-            engine->getGraphics()->setShaderConstants(pixelShaderConstants,
-                                                      vertexShaderConstants);
-            engine->getGraphics()->setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
-            engine->getGraphics()->draw(indexBuffer->getResource(),
-                                        particleCount * 6,
-                                        sizeof(std::uint16_t),
-                                        vertexBuffer->getResource(),
-                                        graphics::DrawMode::triangleList,
-                                        0);
+            engine->getGraphics().setPipelineState(blendState->getResource(),
+                                                   shader->getResource(),
+                                                   graphics::CullMode::none,
+                                                   wireframe ? graphics::FillMode::wireframe : graphics::FillMode::solid);
+            engine->getGraphics().setShaderConstants(pixelShaderConstants,
+                                                     vertexShaderConstants);
+            engine->getGraphics().setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
+            engine->getGraphics().draw(indexBuffer->getResource(),
+                                       particleCount * 6,
+                                       sizeof(std::uint16_t),
+                                       vertexBuffer->getResource(),
+                                       graphics::DrawMode::triangleList,
+                                       0);
         }
     }
 
@@ -309,13 +309,13 @@ namespace ouzel::scene
                                   math::Vector<float, 2>{1.0F, 0.0F}, math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
         }
 
-        indexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
+        indexBuffer = std::make_unique<graphics::Buffer>(engine->getGraphics(),
                                                          graphics::BufferType::index,
                                                          graphics::Flags::none,
                                                          indices.data(),
                                                          static_cast<std::uint32_t>(getVectorSize(indices)));
 
-        vertexBuffer = std::make_unique<graphics::Buffer>(*engine->getGraphics(),
+        vertexBuffer = std::make_unique<graphics::Buffer>(engine->getGraphics(),
                                                           graphics::BufferType::vertex,
                                                           graphics::Flags::dynamic,
                                                           vertices.data(),

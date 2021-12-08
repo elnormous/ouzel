@@ -46,20 +46,20 @@ namespace ouzel::scene
                 if ((camera->getClearColorBuffer() || camera->getClearDepthBuffer() || camera->getClearStencilBuffer()) &&
                     clearedRenderTargets.insert(camera->getRenderTarget()).second)
                 {
-                    engine->getGraphics()->setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
-                    engine->getGraphics()->clearRenderTarget(camera->getClearColorBuffer(),
-                                                             camera->getClearDepthBuffer(),
-                                                             camera->getClearStencilBuffer(),
-                                                             camera->getClearColor(),
-                                                             camera->getClearDepth(),
-                                                             camera->getClearStencil());
+                    engine->getGraphics().setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
+                    engine->getGraphics().clearRenderTarget(camera->getClearColorBuffer(),
+                                                            camera->getClearDepthBuffer(),
+                                                            camera->getClearStencilBuffer(),
+                                                            camera->getClearColor(),
+                                                            camera->getClearDepth(),
+                                                            camera->getClearStencil());
                 }
             }
 
             layer->draw();
         }
 
-        engine->getGraphics()->present();
+        engine->getGraphics().present();
     }
 
     void Scene::addLayer(Layer& layer)

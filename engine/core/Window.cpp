@@ -119,7 +119,7 @@ namespace ouzel::core
             {
                 resolution = event.size;
 
-                engine.getGraphics()->setSize(resolution);
+                engine.getGraphics().setSize(resolution);
 
                 auto resolutionChangeEvent = std::make_unique<WindowEvent>();
                 resolutionChangeEvent->type = Event::Type::resolutionChange;
@@ -143,7 +143,7 @@ namespace ouzel::core
             {
                 displayId = event.displayId;
 
-                engine.getGraphics()->changeScreen(displayId);
+                engine.getGraphics().changeScreen(displayId);
 
                 auto screenChangeEvent = std::make_unique<WindowEvent>();
                 screenChangeEvent->type = Event::Type::screenChange;

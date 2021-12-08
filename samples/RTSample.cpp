@@ -13,12 +13,12 @@ namespace samples
     RTSample::RTSample():
         characterSprite{"run.json"},
         backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor},
-        renderTexture{std::make_shared<graphics::Texture>(*engine->getGraphics(),
+        renderTexture{std::make_shared<graphics::Texture>(engine->getGraphics(),
                                                           math::Size<std::uint32_t, 2>{256U, 256U},
                                                           graphics::Flags::bindRenderTarget |
                                                           graphics::Flags::bindShader, 1, 1)},
-        depthTexture{*engine->getGraphics(), math::Size<std::uint32_t, 2>{256U, 256U}, graphics::Flags::bindRenderTarget | graphics::Flags::bindShader, 1, 1, graphics::PixelFormat::depth},
-        renderTarget{*engine->getGraphics(), {renderTexture.get()}, &depthTexture}
+        depthTexture{engine->getGraphics(), math::Size<std::uint32_t, 2>{256U, 256U}, graphics::Flags::bindRenderTarget | graphics::Flags::bindShader, 1, 1, graphics::PixelFormat::depth},
+        renderTarget{engine->getGraphics(), {renderTexture.get()}, &depthTexture}
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)

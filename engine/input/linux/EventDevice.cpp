@@ -450,7 +450,7 @@ namespace ouzel::input::linux
                             static_cast<float>(cursorPosition.x),
                             static_cast<float>(cursorPosition.y)
                         };
-                        const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
+                        const auto normalizedPosition = engine->getWindow().convertWindowToNormalizedLocation(position);
                         mouseDevice->handleMove(normalizedPosition);
                         break;
                     }
@@ -464,7 +464,7 @@ namespace ouzel::input::linux
                                     static_cast<float>(event.value),
                                     0.0F
                                 };
-                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
+                                const auto normalizedPosition = engine->getWindow().convertWindowToNormalizedLocation(position);
                                 mouseDevice->handleRelativeMove(normalizedPosition);
                                 break;
                             }
@@ -474,7 +474,7 @@ namespace ouzel::input::linux
                                     0.0F,
                                     static_cast<float>(event.value)
                                 };
-                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
+                                const auto normalizedPosition = engine->getWindow().convertWindowToNormalizedLocation(position);
                                 mouseDevice->handleRelativeMove(normalizedPosition);
                                 break;
                             }
@@ -484,7 +484,7 @@ namespace ouzel::input::linux
                                     static_cast<float>(cursorPosition.x),
                                     static_cast<float>(cursorPosition.y)
                                 };
-                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
+                                const auto normalizedPosition = engine->getWindow().convertWindowToNormalizedLocation(position);
                                 mouseDevice->handleScroll(math::Vector<float, 2>{0.0F, static_cast<float>(event.value)}, normalizedPosition);
                                 break;
                             }
@@ -494,7 +494,7 @@ namespace ouzel::input::linux
                                     static_cast<float>(cursorPosition.x),
                                     static_cast<float>(cursorPosition.y)
                                 };
-                                const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
+                                const auto normalizedPosition = engine->getWindow().convertWindowToNormalizedLocation(position);
                                 mouseDevice->handleScroll(math::Vector<float, 2>{static_cast<float>(event.value), 0.0F}, normalizedPosition);
                                 break;
                             }
@@ -507,7 +507,7 @@ namespace ouzel::input::linux
                             static_cast<float>(cursorPosition.x),
                             static_cast<float>(cursorPosition.y)
                         };
-                        const auto normalizedPosition = engine->getWindow()->convertWindowToNormalizedLocation(position);
+                        const auto normalizedPosition = engine->getWindow().convertWindowToNormalizedLocation(position);
 
                         if (event.value == 1)
                             mouseDevice->handleButtonPress(convertButtonCode(event.code), normalizedPosition);
