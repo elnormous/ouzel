@@ -1,63 +1,9 @@
 // Ouzel by Elviss Strazdins
 
 #include <stdexcept>
-#import <Cocoa/Cocoa.h>
+#include <objc/NSObject.h>
 #include "EngineMacOS.hpp"
 #include "../../input/macos/IOKitErrorCategory.hpp"
-
-@interface AppDelegate: NSObject<NSApplicationDelegate>
-@end
-
-@implementation AppDelegate
-
-- (void)applicationWillFinishLaunching:(__unused NSNotification*)notification
-{
-    ouzel::engine->init();
-}
-
-- (void)applicationDidFinishLaunching:(__unused NSNotification*)notification
-{
-    ouzel::engine->start();
-}
-
-- (void)applicationWillTerminate:(__unused NSNotification*)notification
-{
-    ouzel::engine->exit();
-}
-
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication*)sender
-{
-    return YES;
-}
-
-- (BOOL)application:(__unused NSApplication*)sender openFile:(NSString*)filename
-{
-    if (ouzel::engine)
-    {
-        auto event = std::make_unique<ouzel::SystemEvent>();
-        event->type = ouzel::Event::Type::openFile;
-        event->filename = [filename cStringUsingEncoding:NSUTF8StringEncoding];
-        ouzel::engine->getEventDispatcher().postEvent(std::move(event));
-    }
-
-    return YES;
-}
-
-- (void)applicationDidBecomeActive:(__unused NSNotification*)notification
-{
-    //ouzel::engine->resume();
-}
-
-- (void)applicationDidResignActive:(__unused NSNotification*)notification
-{
-    //ouzel::engine->pause();
-}
-
-- (void)handleQuit:(id)sender
-{
-    [[NSApplication sharedApplication] terminate:sender];
-}
-@end
 
 @interface ExecuteHandler: NSObject
 @end
@@ -83,38 +29,9 @@
 
 namespace ouzel::core::macos
 {
-    namespace
+    Engine::Engine(const std::vector<std::string>& args):
+        core::Engine{args}
     {
-        std::vector<std::string> parseArgs(int argc, char* argv[])
-        {
-            std::vector<std::string> result;
-            for (int i = 0; i < argc; ++i)
-                result.push_back(argv[i]);
-            return result;
-        }
-    }
-
-    Engine::Engine(int argc, char* argv[]):
-        core::Engine{parseArgs(argc, argv)}
-    {
-        application = [NSApplication sharedApplication];
-        [application activateIgnoringOtherApps:YES];
-        [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
-
-        NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
-
-        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] init] autorelease];
-        [mainMenu addItem:mainMenuItem];
-
-        NSMenu* subMenu = [[[NSMenu alloc] init] autorelease];
-        [mainMenuItem setSubmenu:subMenu];
-
-        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
-        [quitItem setTarget:[application delegate]];
-        [subMenu addItem:quitItem];
-
-        application.mainMenu = mainMenu;
-
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
 
@@ -122,11 +39,6 @@ namespace ouzel::core::macos
     {
         if (executeHanlder) [executeHanlder release];
         if (noSleepAssertionId) IOPMAssertionRelease(noSleepAssertionId);
-    }
-
-    void Engine::run()
-    {
-        [application run];
     }
 
     void Engine::runOnMainThread(const std::function<void()>& func)
@@ -180,10 +92,6 @@ namespace ouzel::core::macos
     void Engine::engineMain()
     {
         core::Engine::engineMain();
-
-        executeOnMainThread([this]() {
-            if ([application isRunning]) [application terminate:nil];
-        });
     }
 
     void Engine::executeAll()
