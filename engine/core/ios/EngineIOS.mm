@@ -1,103 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#import <UIKit/UIKit.h>
+#include <objc/NSObject.h>
 #include "EngineIOS.hpp"
-
-@interface AppDelegate: UIResponder<UIApplicationDelegate>
-@end
-
-@implementation AppDelegate
-
-- (BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
-{
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:[UIDevice currentDevice]];
-
-    ouzel::engine->init();
-
-    return YES;
-}
-
-- (BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
-{
-    if (ouzel::engine)
-        ouzel::engine->start();
-
-    return YES;
-}
-
-- (void)applicationDidBecomeActive:(__unused UIApplication*)application
-{
-    ouzel::engine->resume();
-}
-
-- (void)applicationWillResignActive:(__unused UIApplication*)application
-{
-    ouzel::engine->pause();
-}
-
-- (void)applicationDidEnterBackground:(__unused UIApplication*)application
-{
-}
-
-- (void)applicationWillEnterForeground:(__unused UIApplication*)application
-{
-}
-
-- (void)applicationWillTerminate:(__unused UIApplication*)application
-{
-    ouzel::engine->exit();
-}
-
-- (void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application
-{
-    if (ouzel::engine)
-    {
-        auto event = std::make_unique<ouzel::SystemEvent>();
-        event->type = ouzel::Event::Type::lowMemory;
-
-        ouzel::engine->getEventDispatcher().postEvent(std::move(event));
-    }
-}
-
-- (void)deviceOrientationDidChange:(NSNotification*)note
-{
-    UIDevice* device = note.object;
-    const UIDeviceOrientation orientation = device.orientation;
-
-    auto event = std::make_unique<ouzel::SystemEvent>();
-    event->type = ouzel::Event::Type::orientationChange;
-
-    switch (orientation)
-    {
-        case UIDeviceOrientationPortrait:
-            event->orientation = ouzel::SystemEvent::Orientation::portrait;
-            break;
-        case UIDeviceOrientationPortraitUpsideDown:
-            event->orientation = ouzel::SystemEvent::Orientation::portraitReverse;
-            break;
-        case UIDeviceOrientationLandscapeLeft:
-            event->orientation = ouzel::SystemEvent::Orientation::landscape;
-            break;
-        case UIDeviceOrientationLandscapeRight:
-            event->orientation = ouzel::SystemEvent::Orientation::landscapeReverse;
-            break;
-        case UIDeviceOrientationFaceUp:
-            event->orientation = ouzel::SystemEvent::Orientation::faceUp;
-            break;
-        case UIDeviceOrientationFaceDown:
-            event->orientation = ouzel::SystemEvent::Orientation::faceDown;
-            break;
-        default: // unsupported orientation, assume portrait
-            event->orientation = ouzel::SystemEvent::Orientation::portrait;
-            break;
-    }
-
-    ouzel::engine->getEventDispatcher().postEvent(std::move(event));
-}
-@end
 
 @interface ExecuteHandler: NSObject
 @end
@@ -123,21 +27,8 @@
 
 namespace ouzel::core::ios
 {
-    namespace
-    {
-        std::vector<std::string> parseArgs(int argc, char* argv[])
-        {
-            std::vector<std::string> result;
-            for (int i = 0; i < argc; ++i)
-                result.push_back(argv[i]);
-            return result;
-        }
-    }
-
-    Engine::Engine(int argc, char* argv[]):
-        core::Engine{parseArgs(argc, argv)},
-        argumentCount{argc},
-        arguments{argv}
+    Engine::Engine(const std::vector<std::string>& args):
+        core::Engine{args}
     {
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
@@ -145,11 +36,6 @@ namespace ouzel::core::ios
     Engine::~Engine()
     {
         if (executeHanlder) [executeHanlder release];
-    }
-
-    void Engine::run()
-    {
-        UIApplicationMain(argumentCount, arguments, nil, NSStringFromClass([AppDelegate class]));
     }
 
     void Engine::runOnMainThread(const std::function<void()>& func)

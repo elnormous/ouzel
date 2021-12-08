@@ -3,6 +3,9 @@
 #ifndef OUZEL_CORE_ENGINEIOS_HPP
 #define OUZEL_CORE_ENGINEIOS_HPP
 
+#include <string>
+#include <vector>
+
 #ifdef __OBJC__
 @class ExecuteHandler;
 typedef ExecuteHandler* ExecuteHandlerPtr;
@@ -18,10 +21,8 @@ namespace ouzel::core::ios
     class Engine final: public core::Engine
     {
     public:
-        Engine(int argc, char* argv[]);
+        Engine(const std::vector<std::string>& args);
         ~Engine() override;
-
-        void run();
 
         void openUrl(const std::string& url) final;
 
@@ -31,9 +32,6 @@ namespace ouzel::core::ios
 
     private:
         void runOnMainThread(const std::function<void()>& func) final;
-
-        int argumentCount;
-        char** arguments;
 
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;

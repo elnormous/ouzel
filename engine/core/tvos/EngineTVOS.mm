@@ -1,62 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#import <UIKit/UIKit.h>
+#include <objc/NSObject.h>
 #include "EngineTVOS.hpp"
-
-@interface AppDelegate: UIResponder<UIApplicationDelegate>
-@end
-
-@implementation AppDelegate
-
-- (BOOL)application:(__unused UIApplication*)application willFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
-{
-    ouzel::engine->init();
-
-    return YES;
-}
-
-- (BOOL)application:(__unused UIApplication*)application didFinishLaunchingWithOptions:(__unused NSDictionary*)launchOptions
-{
-    if (ouzel::engine)
-        ouzel::engine->start();
-
-    return YES;
-}
-
-- (void)applicationDidBecomeActive:(__unused UIApplication*)application
-{
-    ouzel::engine->resume();
-}
-
-- (void)applicationWillResignActive:(__unused UIApplication*)application
-{
-    ouzel::engine->pause();
-}
-
-- (void)applicationDidEnterBackground:(__unused UIApplication*)application
-{
-}
-
-- (void)applicationWillEnterForeground:(__unused UIApplication*)application
-{
-}
-
-- (void)applicationWillTerminate:(__unused UIApplication*)application
-{
-    ouzel::engine->exit();
-}
-
-- (void)applicationDidReceiveMemoryWarning:(__unused UIApplication*)application
-{
-    if (ouzel::engine)
-    {
-        auto event = std::make_unique<ouzel::SystemEvent>();
-        event->type = ouzel::Event::Type::lowMemory;
-
-        ouzel::engine->getEventDispatcher().postEvent(std::move(event));
-    }
-}
-@end
 
 @interface ExecuteHandler: NSObject
 @end
@@ -82,21 +27,8 @@
 
 namespace ouzel::core::tvos
 {
-    namespace
-    {
-        std::vector<std::string> parseArgs(int argc, char* argv[])
-        {
-            std::vector<std::string> result;
-            for (int i = 0; i < argc; ++i)
-                result.push_back(argv[i]);
-            return result;
-        }
-    }
-
-    Engine::Engine(int argc, char* argv[]):
-        core::Engine{parseArgs(argc, argv)},
-        argumentCount{argc},
-        arguments{argv}
+    Engine::Engine(const std::vector<std::string>& args):
+        core::Engine{args}
     {
         executeHanlder = [[ExecuteHandler alloc] initWithEngine:this];
     }
@@ -104,11 +36,6 @@ namespace ouzel::core::tvos
     Engine::~Engine()
     {
         if (executeHanlder) [executeHanlder release];
-    }
-
-    void Engine::run()
-    {
-        UIApplicationMain(argumentCount, arguments, nil, NSStringFromClass([AppDelegate class]));
     }
 
     void Engine::runOnMainThread(const std::function<void()>& func)
