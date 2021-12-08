@@ -25,6 +25,11 @@
 
 namespace ouzel::core::windows
 {
+    namespace
+    {
+        const platform::winapi::ShellExecuteErrorCategory shellExecuteErrorCategory{};
+    }
+
     Engine::Engine(const std::vector<std::string>& args):
         core::Engine{args}
     {
