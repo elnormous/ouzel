@@ -318,7 +318,7 @@ namespace ouzel::core::linux
         auto& inputSystemLinux = inputManager.getInputSystem();
 
 #if OUZEL_SUPPORTS_X11
-        const auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
+        const auto windowLinux = static_cast<NativeWindow*>(window.getNativeWindow());
 
         int xInputOpCode = 0;
         int eventCode;
@@ -406,10 +406,10 @@ namespace ouzel::core::linux
 
                         if (event.type == ButtonPress)
                             mouseDevice->handleButtonPress(convertButtonCode(event.xbutton.button),
-                                                           window->convertWindowToNormalizedLocation(position));
+                                                           window.convertWindowToNormalizedLocation(position));
                         else
                             mouseDevice->handleButtonRelease(convertButtonCode(event.xbutton.button),
-                                                             window->convertWindowToNormalizedLocation(position));
+                                                             window.convertWindowToNormalizedLocation(position));
                         break;
                     }
                     case MapNotify:
@@ -432,7 +432,7 @@ namespace ouzel::core::linux
                             static_cast<float>(event.xmotion.y)
                         };
 
-                        mouseDevice->handleMove(window->convertWindowToNormalizedLocation(position));
+                        mouseDevice->handleMove(window.convertWindowToNormalizedLocation(position));
 
                         break;
                     }
@@ -470,7 +470,7 @@ namespace ouzel::core::linux
                                     };
 
                                     touchpadDevice->handleTouchBegin(xievent->detail,
-                                                                     window->convertWindowToNormalizedLocation(position));
+                                                                     window.convertWindowToNormalizedLocation(position));
                                     break;
                                 }
                                 case XI_TouchEnd:
@@ -482,7 +482,7 @@ namespace ouzel::core::linux
                                     };
 
                                     touchpadDevice->handleTouchEnd(xievent->detail,
-                                                                   window->convertWindowToNormalizedLocation(position));
+                                                                   window.convertWindowToNormalizedLocation(position));
                                     break;
                                 }
                                 case XI_TouchUpdate:
@@ -494,7 +494,7 @@ namespace ouzel::core::linux
                                     };
 
                                     touchpadDevice->handleTouchMove(xievent->detail,
-                                                                    window->convertWindowToNormalizedLocation(position));
+                                                                    window.convertWindowToNormalizedLocation(position));
                                     break;
                                 }
                             }
@@ -521,7 +521,7 @@ namespace ouzel::core::linux
     void Engine::runOnMainThread(const std::function<void()>& func)
     {
 #if OUZEL_SUPPORTS_X11
-        const auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
+        const auto windowLinux = static_cast<NativeWindow*>(window.getNativeWindow());
 
         XEvent event;
         event.type = ClientMessage;

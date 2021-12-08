@@ -50,7 +50,7 @@ namespace ouzel::core::windows
         start();
 
         auto& inputSystemWin = inputManager.getInputSystem();
-        const auto windowWin = static_cast<NativeWindow*>(window->getNativeWindow());
+        const auto windowWin = static_cast<NativeWindow*>(window.getNativeWindow());
 
         while (active)
         {
@@ -93,7 +93,7 @@ namespace ouzel::core::windows
 
     void Engine::runOnMainThread(const std::function<void()>& func)
     {
-        const auto windowWin = static_cast<NativeWindow*>(window->getNativeWindow());
+        const auto windowWin = static_cast<NativeWindow*>(window.getNativeWindow());
 
         std::unique_lock lock{executeMutex};
         executeQueue.push(func);

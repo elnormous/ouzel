@@ -169,7 +169,7 @@ namespace ouzel::core::android
 
         if (active)
         {
-            const auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
+            const auto windowAndroid = static_cast<NativeWindow*>(window.getNativeWindow());
             windowAndroid->handleSurfaceChange(surface);
 
             if (graphics)
@@ -238,7 +238,7 @@ namespace ouzel::core::android
 
         if (active)
         {
-            const auto windowAndroid = static_cast<NativeWindow*>(window->getNativeWindow());
+            const auto windowAndroid = static_cast<NativeWindow*>(window.getNativeWindow());
             windowAndroid->handleSurfaceDestroy();
 
             if (graphics)
