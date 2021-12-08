@@ -25,7 +25,7 @@ namespace ouzel::core::windows
     class Engine final: public core::Engine
     {
     public:
-        Engine(int argc, LPWSTR* argv);
+        Engine(const std::vector<std::string>& args);
 
         void run();
 

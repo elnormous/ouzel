@@ -266,14 +266,6 @@ namespace ouzel::core::linux
 #if OUZEL_SUPPORTS_X11
         const platform::x11::ErrorCategory errorCategory;
 #endif
-
-        std::vector<std::string> parseArgs(int argc, char* argv[])
-        {
-            std::vector<std::string> result;
-            for (int i = 0; i < argc; ++i)
-                result.push_back(argv[i]);
-            return result;
-        }
     }
 
 #if OUZEL_SUPPORTS_X11
@@ -288,8 +280,8 @@ namespace ouzel::core::linux
     }
 #endif
 
-    Engine::Engine(int argc, char* argv[]):
-        core::Engine{parseArgs(argc, argv)}
+    Engine::Engine(const std::vector<std::string>& args):
+        core::Engine{args}
     {
 #if OUZEL_SUPPORTS_X11
         XSetErrorHandler(errorHandler);
@@ -323,7 +315,7 @@ namespace ouzel::core::linux
     {
         start();
 
-        auto& inputSystemLinux = inputManager->getInputSystem();
+        auto& inputSystemLinux = inputManager.getInputSystem();
 
 #if OUZEL_SUPPORTS_X11
         const auto windowLinux = static_cast<NativeWindow*>(window->getNativeWindow());
@@ -388,7 +380,7 @@ namespace ouzel::core::linux
                     case KeyPress: // keyboard
                     case KeyRelease:
                     {
-                        auto& inputSystemLinux = inputManager->getInputSystem();
+                        auto& inputSystemLinux = inputManager.getInputSystem();
                         const auto keyboardDevice = inputSystemLinux.getKeyboardDevice();
 
                         const auto keySym = XkbKeycodeToKeysym(display,
@@ -404,7 +396,7 @@ namespace ouzel::core::linux
                     case ButtonPress: // mouse button
                     case ButtonRelease:
                     {
-                        auto& inputSystemLinux = inputManager->getInputSystem();
+                        auto& inputSystemLinux = inputManager.getInputSystem();
                         const auto mouseDevice = inputSystemLinux.getMouseDevice();
 
                         const math::Vector<float, 2> position{
@@ -432,7 +424,7 @@ namespace ouzel::core::linux
                     }
                     case MotionNotify:
                     {
-                        auto& inputSystemLinux = inputManager->getInputSystem();
+                        auto& inputSystemLinux = inputManager.getInputSystem();
                         const auto mouseDevice = inputSystemLinux.getMouseDevice();
 
                         const math::Vector<float, 2> position{
@@ -464,7 +456,7 @@ namespace ouzel::core::linux
                         XGenericEventCookie* cookie = &event.xcookie;
                         if (cookie->extension == xInputOpCode)
                         {
-                            auto& inputSystemLinux = inputManager->getInputSystem();
+                            auto& inputSystemLinux = inputManager.getInputSystem();
                             const auto touchpadDevice = inputSystemLinux.getTouchpadDevice();
 
                             switch (cookie->evtype)

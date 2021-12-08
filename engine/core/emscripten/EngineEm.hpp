@@ -10,7 +10,7 @@ namespace ouzel::core::emscripten
     class Engine final: public core::Engine
     {
     public:
-        Engine(int argc, char* argv[]);
+        Engine(const std::vector<std::string>& args);
 
         void run();
 

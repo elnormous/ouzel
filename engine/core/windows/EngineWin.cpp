@@ -25,33 +25,8 @@
 
 namespace ouzel::core::windows
 {
-    namespace
-    {
-        std::vector<std::string> parseArgs(int argc, LPWSTR* argv)
-        {
-            std::vector<std::string> result;
-            if (argv)
-                for (int i = 0; i < argc; ++i)
-                {
-                    const auto bufferSize = WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
-                    if (bufferSize == 0)
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
-
-                    auto buffer = std::make_unique<char[]>(bufferSize);
-                    if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.get(), bufferSize, nullptr, nullptr) == 0)
-                        throw std::system_error(GetLastError(), std::system_category(), "Failed to convert wide char to UTF-8");
-
-                    result.push_back(buffer.get());
-                }
-
-            return result;
-        }
-
-        const platform::winapi::ShellExecuteErrorCategory shellExecuteErrorCategory{};
-    }
-
-    Engine::Engine(int argc, LPWSTR* argv):
-        core::Engine{parseArgs(argc, argv)}
+    Engine::Engine(const std::vector<std::string>& args):
+        core::Engine{args}
     {
     }
 
@@ -74,7 +49,7 @@ namespace ouzel::core::windows
     {
         start();
 
-        auto& inputSystemWin = inputManager->getInputSystem();
+        auto& inputSystemWin = inputManager.getInputSystem();
         const auto windowWin = static_cast<NativeWindow*>(window->getNativeWindow());
 
         while (active)

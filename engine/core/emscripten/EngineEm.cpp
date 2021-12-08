@@ -13,14 +13,6 @@ namespace ouzel::core::emscripten
 {
     namespace
     {
-        std::vector<std::string> parseArgs(int argc, char* argv[])
-        {
-            std::vector<std::string> result;
-            for (int i = 0; i < argc; ++i)
-                result.push_back(argv[i]);
-            return result;
-        }
-
         void loop(void* arg)
         {
             static_cast<Engine*>(arg)->step();
@@ -39,8 +31,8 @@ namespace ouzel::core::emscripten
         }
     }
 
-    Engine::Engine(int argc, char* argv[]):
-        core::Engine{parseArgs(argc, argv)}
+    Engine::Engine(const std::vector<std::string>& args):
+        core::Engine{args}
     {
         emscripten_set_orientationchange_callback(this, EM_TRUE, emOrientationChangeCallback);
     }
@@ -54,7 +46,7 @@ namespace ouzel::core::emscripten
 
     void Engine::step()
     {
-        auto& inputSystemEm = inputManager->getInputSystem();
+        auto& inputSystemEm = inputManager.getInputSystem();
 
         if (active)
         {

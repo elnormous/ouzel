@@ -147,6 +147,6 @@ namespace ouzel::core::ios
 
     void System::start()
     {
-        engine = std::make_unique<ouzel::core::ios::Engine>(getArgs());
+        engine = std::make_unique<Engine>(getArgs());
     }
 }

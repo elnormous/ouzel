@@ -4,6 +4,7 @@
 #define OUZEL_CORE_SYSTEMLINUX_HPP
 
 #include "../System.hpp"
+#include "EngineLinux.hpp"
 
 namespace ouzel::core::linux
 {
@@ -12,6 +13,11 @@ namespace ouzel::core::linux
     public:
         System(int argc, char* argv[]);
         ~System() override = default;
+
+        void run();
+
+    private:
+        Engine engine;
     };
 }
 

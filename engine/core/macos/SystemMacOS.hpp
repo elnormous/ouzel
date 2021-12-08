@@ -32,7 +32,7 @@ namespace ouzel::core::macos
         int argumentCount;
         char** arguments;
 
-        std::unique_ptr<ouzel::core::macos::Engine> engine;
+        std::unique_ptr<Engine> engine;
 
         NSApplicationPtr application = nil;
     };

@@ -22,7 +22,7 @@ namespace ouzel::core::linux
     class Engine final: public core::Engine
     {
     public:
-        Engine(int argc, char* argv[]);
+        Engine(const std::vector<std::string>& args);
         ~Engine() override;
 
         void run();

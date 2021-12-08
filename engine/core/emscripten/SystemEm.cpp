@@ -10,9 +10,7 @@ int main(int argc, char* argv[])
     try
     {
         ouzel::core::emscripten::System system{argc, argv};
-
-        ouzel::core::emscripten::Engine engine{argc, argv};
-        engine.run();
+        system.run();
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
@@ -36,7 +34,13 @@ namespace ouzel::core::emscripten
     }
 
     System::System(int argc, char* argv[]):
-        core::System{parseArgs(argc, argv)}
+        core::System{parseArgs(argc, argv)},
+        engine{getArgs()}
     {
+    }
+
+    void System::run()
+    {
+        engine.run();
     }
 }

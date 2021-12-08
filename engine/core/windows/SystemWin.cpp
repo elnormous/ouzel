@@ -18,9 +18,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
         };
 
         ouzel::core::windows::System system{argc, argv.get()};
-
-        ouzel::core::windows::Engine engine{argc, argv.get()};
-        engine.run();
+        system.run();
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
@@ -56,7 +54,13 @@ namespace ouzel::core::windows
     }
 
     System::System(int argc, LPWSTR* argv):
-        core::System{parseArgs(argc, argv)}
+        core::System{parseArgs(argc, argv)},
+        engine{getArgs()}
     {
+    }
+
+    void System::run()
+    {
+        engine.run();
     }
 }

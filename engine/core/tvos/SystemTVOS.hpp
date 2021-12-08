@@ -25,7 +25,7 @@ namespace ouzel::core::tvos
         int argumentCount;
         char** arguments;
 
-        std::unique_ptr<ouzel::core::tvos::Engine> engine;
+        std::unique_ptr<Engine> engine;
     };
 }
 

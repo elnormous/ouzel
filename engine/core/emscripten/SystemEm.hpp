@@ -4,6 +4,7 @@
 #define OUZEL_CORE_SYSTEMEM_HPP
 
 #include "../System.hpp"
+#include "EngineEm.hpp"
 
 namespace ouzel::core::emscripten
 {
@@ -12,6 +13,11 @@ namespace ouzel::core::emscripten
     public:
         System(int argc, char* argv[]);
         ~System() override = default;
+
+        void run();
+
+    private:
+        Engine engine;
     };
 }
 

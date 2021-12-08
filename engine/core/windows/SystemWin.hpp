@@ -4,6 +4,7 @@
 #define OUZEL_CORE_SYSTEMWIN_HPP
 
 #include "../System.hpp"
+#include "EngineWin.hpp"
 
 namespace ouzel::core::windows
 {
@@ -12,6 +13,11 @@ namespace ouzel::core::windows
     public:
         System(int argc, LPWSTR* argv);
         ~System() override = default;
+
+        void run();
+
+    private:
+        Engine engine;
     };
 }
 

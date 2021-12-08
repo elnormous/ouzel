@@ -25,7 +25,7 @@ namespace ouzel::core::ios
         int argumentCount;
         char** arguments;
 
-        std::unique_ptr<ouzel::core::ios::Engine> engine;
+        std::unique_ptr<Engine> engine;
     };
 }
 

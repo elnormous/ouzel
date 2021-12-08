@@ -3,9 +3,6 @@
 #ifndef OUZEL_CORE_ENGINEIOS_HPP
 #define OUZEL_CORE_ENGINEIOS_HPP
 
-#include <string>
-#include <vector>
-
 #ifdef __OBJC__
 @class ExecuteHandler;
 typedef ExecuteHandler* ExecuteHandlerPtr;
