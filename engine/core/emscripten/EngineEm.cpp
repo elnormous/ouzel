@@ -62,7 +62,7 @@ namespace ouzel::core::emscripten
 
             try
             {
-                audio->update();
+                audio.update();
             }
             catch (const std::exception& e)
             {
@@ -71,16 +71,16 @@ namespace ouzel::core::emscripten
 
             try
             {
-                graphics->getDevice()->process();
+                graphics.getDevice()->process();
             }
             catch (const std::exception& e)
             {
                 log(Log::Level::error) << e.what();
             }
 
-            if (audio->getDevice()->getDriver() == audio::Driver::openAl)
+            if (audio.getDevice()->getDriver() == audio::Driver::openAl)
             {
-                const auto audioDevice = static_cast<audio::openal::AudioDevice*>(audio->getDevice());
+                const auto audioDevice = static_cast<audio::openal::AudioDevice*>(audio.getDevice());
                 try
                 {
                     audioDevice->process();
