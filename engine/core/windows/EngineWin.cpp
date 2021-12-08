@@ -28,26 +28,26 @@ namespace ouzel::core::windows
     namespace
     {
         const platform::winapi::ShellExecuteErrorCategory shellExecuteErrorCategory{};
+
+        void translateMessage(HWND window, const std::set<HACCEL>& accelerators, MSG& message)
+        {
+            bool translate = true;
+
+            for (auto accelerator : accelerators)
+                if (TranslateAccelerator(window, accelerator, &message))
+                    translate = false;
+
+            if (translate)
+            {
+                TranslateMessage(&message);
+                DispatchMessage(&message);
+            }
+        }
     }
 
     Engine::Engine(const std::vector<std::string>& args):
         core::Engine{args}
     {
-    }
-
-    static void translateMessage(HWND window, const std::set<HACCEL>& accelerators, MSG& message)
-    {
-        bool translate = true;
-
-        for (auto accelerator : accelerators)
-            if (TranslateAccelerator(window, accelerator, &message))
-                translate = false;
-
-        if (translate)
-        {
-            TranslateMessage(&message);
-            DispatchMessage(&message);
-        }
     }
 
     void Engine::run()
