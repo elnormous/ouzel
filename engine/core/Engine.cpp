@@ -82,19 +82,6 @@ namespace ouzel::core
 
     namespace
     {
-        struct Settings final
-        {
-            math::Size<std::uint32_t, 2> size{};
-            graphics::Driver graphicsDriver;
-            graphics::Settings graphicsSettings;
-            bool resizable = false;
-            bool fullscreen = false;
-            bool exclusiveFullscreen = false;
-            bool highDpi = true; // should high DPI resolution be used
-            audio::Driver audioDriver;
-            audio::Settings audioSettings;
-        };
-
         Settings parseSettings(const ini::Data& defaultSettings,
                                const ini::Data& userSettings)
         {
@@ -168,6 +155,13 @@ namespace ouzel::core
             return settings;
         }
 
+        auto getSettings(storage::FileSystem& fileSystem)
+        {
+            const auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
+            return parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
+                                                fileSystem.fileExists(settingsPath) ? ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{});
+        }
+
         auto getWindowFlags(const Settings& settings) noexcept
         {
             return (settings.resizable ? Window::Flags::resizable : Window::Flags::none) |
@@ -179,6 +173,7 @@ namespace ouzel::core
 
     Engine::Engine(const std::vector<std::string>& initArgs):
         fileSystem(*this),
+        settings{getSettings(fileSystem)},
         assetBundle(cache, fileSystem),
         args{initArgs}
     {
@@ -205,10 +200,6 @@ namespace ouzel::core
     void Engine::init()
     {
         thread::setCurrentThreadName("Main");
-
-        const auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
-        const auto settings = parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
-                                            fileSystem.fileExists(settingsPath) ? ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{});
 
         window = std::make_unique<Window>(*this,
                                           settings.size,

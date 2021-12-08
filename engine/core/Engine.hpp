@@ -31,6 +31,19 @@ namespace ouzel::core
 {
     extern std::mt19937 randomEngine;
 
+    struct Settings final
+    {
+        math::Size<std::uint32_t, 2> size{};
+        graphics::Driver graphicsDriver;
+        graphics::Settings graphicsSettings;
+        bool resizable = false;
+        bool fullscreen = false;
+        bool exclusiveFullscreen = false;
+        bool highDpi = true; // should high DPI resolution be used
+        audio::Driver audioDriver;
+        audio::Settings audioSettings;
+    };
+
     class Engine
     {
     public:
@@ -110,6 +123,7 @@ namespace ouzel::core
         virtual void runOnMainThread(const std::function<void()>& func) = 0;
 
         storage::FileSystem fileSystem;
+        Settings settings;
         EventDispatcher eventDispatcher;
         std::unique_ptr<Window> window;
         std::unique_ptr<graphics::Graphics> graphics;
