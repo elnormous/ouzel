@@ -178,27 +178,7 @@ namespace ouzel::core
         args{initArgs}
     {
         engine = this;
-    }
 
-    Engine::~Engine()
-    {
-        if (active)
-        {
-            auto event = std::make_unique<SystemEvent>();
-            event->type = Event::Type::engineStop;
-            eventDispatcher.postEvent(std::move(event));
-        }
-
-        paused = true;
-        active = false;
-
-#ifndef __EMSCRIPTEN__
-        if (updateThread.isJoinable()) updateThread.join();
-#endif
-    }
-
-    void Engine::init()
-    {
         thread::setCurrentThreadName("Main");
 
         window = std::make_unique<Window>(*this,
@@ -611,6 +591,23 @@ namespace ouzel::core
                                                                      math::Size<std::uint32_t, 2>{1U, 1U},
                                                                      graphics::Flags::none, 1);
         assetBundle.setTexture(textureWhitePixel, whitePixelTexture);
+    }
+
+    Engine::~Engine()
+    {
+        if (active)
+        {
+            auto event = std::make_unique<SystemEvent>();
+            event->type = Event::Type::engineStop;
+            eventDispatcher.postEvent(std::move(event));
+        }
+
+        paused = true;
+        active = false;
+
+#ifndef __EMSCRIPTEN__
+        if (updateThread.isJoinable()) updateThread.join();
+#endif
     }
 
     void Engine::start()

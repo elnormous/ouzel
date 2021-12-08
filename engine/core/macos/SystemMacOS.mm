@@ -123,6 +123,5 @@ namespace ouzel::core::macos
     void System::start()
     {
         engine = std::make_unique<ouzel::core::macos::Engine>(getArgs());
-        engine->init();
     }
 }

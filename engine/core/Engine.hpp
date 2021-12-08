@@ -56,8 +56,6 @@ namespace ouzel::core
         Engine(Engine&&) = delete;
         Engine& operator=(Engine&&) = delete;
 
-        void init();
-
         [[nodiscard]] auto& getFileSystem() { return fileSystem; }
         [[nodiscard]] auto& getFileSystem() const { return fileSystem; }
 

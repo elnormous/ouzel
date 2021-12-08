@@ -107,6 +107,5 @@ namespace ouzel::core::tvos
     void System::start()
     {
         engine = std::make_unique<ouzel::core::tvos::Engine>(getArgs());
-        engine->init();
     }
 }

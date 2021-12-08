@@ -9,9 +9,9 @@ int main(int argc, char* argv[])
 {
     try
     {
-        ouzel::core::emscripten::System system(argc, argv);
+        ouzel::core::emscripten::System system{argc, argv};
 
-        ouzel::core::emscripten::Engine engine(argc, argv);
+        ouzel::core::emscripten::Engine engine{argc, argv};
         engine.run();
         return EXIT_SUCCESS;
     }
