@@ -112,7 +112,9 @@ namespace ouzel::core::macos
         NSMenu* subMenu = [[[NSMenu alloc] init] autorelease];
         [mainMenuItem setSubmenu:subMenu];
 
-        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit", nil) action:@selector(handleQuit:) keyEquivalent:@"q"] autorelease];
+        NSMenuItem* quitItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quit", nil)
+                                                           action:@selector(handleQuit:)
+                                                    keyEquivalent:@"q"] autorelease];
         [quitItem setTarget:[application delegate]];
         [subMenu addItem:quitItem];
 
