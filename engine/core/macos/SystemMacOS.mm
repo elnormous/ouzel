@@ -58,7 +58,22 @@ ouzel::core::macos::System* systemPointer;
 
 - (void)handleQuit:(id)sender
 {
-    [[NSApplication sharedApplication] terminate:sender];
+    [NSApplication.sharedApplication terminate:sender];
+}
+
+- (void)handleHide:(id)sender
+{
+    [NSApplication.sharedApplication hide:sender];
+}
+
+- (void)handleHideOthers:(id)sender
+{
+    [NSApplication.sharedApplication hideOtherApplications:sender];
+}
+
+- (void)handleShowAll:(id)sender
+{
+    [NSApplication.sharedApplication unhideAllApplications:sender];
 }
 @end
 
@@ -93,7 +108,7 @@ namespace ouzel::core::macos
 
     System::System(int argc, char* argv[]):
         core::System{parseArgs(argc, argv)},
-        application{[NSApplication sharedApplication]}
+        application{NSApplication.sharedApplication}
     {
     }
 
@@ -102,16 +117,16 @@ namespace ouzel::core::macos
         ouzel::platform::foundation::AutoreleasePool autoreleasePool;
 
         [application activateIgnoringOtherApps:YES];
-        [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
+        application.delegate = [[[AppDelegate alloc] init] autorelease];
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
         NSMenuItem* mainMenuItem = [mainMenu addItemWithTitle:@"Apple"
-                                                       action:NULL
+                                                       action:nil
                                                 keyEquivalent:@""];
 
         NSMenu* applicationMenu = [[[NSMenu alloc] init] autorelease];
-        [mainMenuItem setSubmenu:applicationMenu];
+        mainMenuItem.submenu = applicationMenu;
 
         NSMenuItem* servicesItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Services", nil)
                                                               action:nil
@@ -123,14 +138,32 @@ namespace ouzel::core::macos
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
-        NSString* bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+        NSString* bundleName = NSBundle.mainBundle.infoDictionary[@"CFBundleDisplayName"];
         if (!bundleName)
-            bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+            bundleName = NSBundle.mainBundle.infoDictionary[@"CFBundleName"];
+
+        NSMenuItem* hideItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Hide", nil), bundleName]
+                                                          action:@selector(handleHide:)
+                                                   keyEquivalent:@"h"];
+        hideItem.target = application.delegate;
+
+        NSMenuItem* hideOthersItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Hide Others", nil)
+                                                                action:@selector(handleHideOthers:)
+                                                         keyEquivalent:@"h"];
+        hideOthersItem.keyEquivalentModifierMask = NSEventModifierFlagOption | NSEventModifierFlagCommand;
+        hideOthersItem.target = application.delegate;
+
+        NSMenuItem* showAllItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Show All", nil)
+                                                             action:@selector(handleShowAll:)
+                                                      keyEquivalent:@""];
+        showAllItem.target = application.delegate;
+
+        [applicationMenu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem* quitItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Quit", nil), bundleName]
                                                           action:@selector(handleQuit:)
                                                    keyEquivalent:@"q"];
-        [quitItem setTarget:[application delegate]];
+        quitItem.target = application.delegate;
 
         NSMenuItem* windowsItem = [mainMenu addItemWithTitle:NSLocalizedString(@"Window", nil)
                                                       action:nil
