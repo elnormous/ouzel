@@ -55,26 +55,6 @@ ouzel::core::macos::System* systemPointer;
 {
     //if (ouzel::engine) ouzel::engine->pause();
 }
-
-- (void)handleQuit:(id)sender
-{
-    [NSApplication.sharedApplication terminate:sender];
-}
-
-- (void)handleHide:(id)sender
-{
-    [NSApplication.sharedApplication hide:sender];
-}
-
-- (void)handleHideOthers:(id)sender
-{
-    [NSApplication.sharedApplication hideOtherApplications:sender];
-}
-
-- (void)handleShowAll:(id)sender
-{
-    [NSApplication.sharedApplication unhideAllApplications:sender];
-}
 @end
 
 int main(int argc, char* argv[])
@@ -143,27 +123,27 @@ namespace ouzel::core::macos
             bundleName = NSBundle.mainBundle.infoDictionary[@"CFBundleName"];
 
         NSMenuItem* hideItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Hide", nil), bundleName]
-                                                          action:@selector(handleHide:)
+                                                          action:@selector(hide:)
                                                    keyEquivalent:@"h"];
-        hideItem.target = application.delegate;
+        hideItem.target = application;
 
         NSMenuItem* hideOthersItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Hide Others", nil)
-                                                                action:@selector(handleHideOthers:)
+                                                                action:@selector(hideOtherApplications:)
                                                          keyEquivalent:@"h"];
         hideOthersItem.keyEquivalentModifierMask = NSEventModifierFlagOption | NSEventModifierFlagCommand;
-        hideOthersItem.target = application.delegate;
+        hideOthersItem.target = application;
 
         NSMenuItem* showAllItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Show All", nil)
-                                                             action:@selector(handleShowAll:)
+                                                             action:@selector(unhideAllApplications:)
                                                       keyEquivalent:@""];
-        showAllItem.target = application.delegate;
+        showAllItem.target = application;
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem* quitItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Quit", nil), bundleName]
-                                                          action:@selector(handleQuit:)
+                                                          action:@selector(terminate:)
                                                    keyEquivalent:@"q"];
-        quitItem.target = application.delegate;
+        quitItem.target = application;
 
         NSMenuItem* windowsItem = [mainMenu addItemWithTitle:NSLocalizedString(@"Window", nil)
                                                       action:nil
