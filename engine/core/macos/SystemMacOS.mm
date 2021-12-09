@@ -106,26 +106,35 @@ namespace ouzel::core::macos
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
-        NSMenuItem* mainMenuItem = [[[NSMenuItem alloc] init] autorelease];
-        [mainMenu addItem:mainMenuItem];
+        NSMenuItem* mainMenuItem = [mainMenu addItemWithTitle:@"Apple"
+                                                       action:NULL
+                                                keyEquivalent:@""];
 
-        NSMenu* subMenu = [[[NSMenu alloc] init] autorelease];
-        [mainMenuItem setSubmenu:subMenu];
+        NSMenu* applicationMenu = [[[NSMenu alloc] init] autorelease];
+        [mainMenuItem setSubmenu:applicationMenu];
 
-        NSMenuItem* servicesItem = [subMenu addItemWithTitle:NSLocalizedString(@"Services", nil)
+        NSMenuItem* servicesItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Services", nil)
+                                                              action:nil
+                                                       keyEquivalent:@""];
+
+        NSMenu* servicesMenu = [[[NSMenu alloc] init] autorelease];
+        servicesItem.submenu = servicesMenu;
+        application.servicesMenu = servicesMenu;
+
+        [applicationMenu addItem:[NSMenuItem separatorItem]];
+
+        NSMenuItem* quitItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Quit", nil)
+                                                          action:@selector(handleQuit:)
+                                                   keyEquivalent:@"q"];
+        [quitItem setTarget:[application delegate]];
+
+        NSMenuItem* windowsItem = [mainMenu addItemWithTitle:NSLocalizedString(@"Window", nil)
                                                       action:nil
                                                keyEquivalent:@""];
 
-        NSMenu* servicesMenu = [[[NSMenu alloc] init] autorelease];
-        [servicesItem setSubmenu:servicesMenu];
-        application.servicesMenu = servicesMenu;
-
-        [subMenu addItem:[NSMenuItem separatorItem]];
-
-        NSMenuItem* quitItem = [subMenu addItemWithTitle:NSLocalizedString(@"Quit", nil)
-                                                  action:@selector(handleQuit:)
-                                           keyEquivalent:@"q"];
-        [quitItem setTarget:[application delegate]];
+        NSMenu* windowsMenu = [[[NSMenu alloc] initWithTitle:NSLocalizedString(@"Window", nil)] autorelease];
+        windowsItem.submenu = windowsMenu;
+        application.windowsMenu = windowsMenu;
 
         application.mainMenu = mainMenu;
 
