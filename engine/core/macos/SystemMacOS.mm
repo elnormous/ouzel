@@ -101,6 +101,7 @@ namespace ouzel::core::macos
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
+        // Apple menu
         NSMenuItem* mainMenuItem = [mainMenu addItemWithTitle:@"Apple"
                                                        action:nil
                                                 keyEquivalent:@""];
@@ -145,6 +146,15 @@ namespace ouzel::core::macos
                                                    keyEquivalent:@"q"];
         quitItem.target = application;
 
+        // View menu
+        NSMenuItem* viewItem = [mainMenu addItemWithTitle:NSLocalizedString(@"View", nil)
+                                                   action:nil
+                                            keyEquivalent:@""];
+
+        NSMenu* viewMenu = [[[NSMenu alloc] initWithTitle:NSLocalizedString(@"View", nil)] autorelease];
+        viewItem.submenu = viewMenu;
+
+        // Window menu
         NSMenuItem* windowsItem = [mainMenu addItemWithTitle:NSLocalizedString(@"Window", nil)
                                                       action:nil
                                                keyEquivalent:@""];
