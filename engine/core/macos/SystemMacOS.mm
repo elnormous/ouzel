@@ -123,7 +123,11 @@ namespace ouzel::core::macos
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
-        NSMenuItem* quitItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Quit", nil)
+        NSString* bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+        if (!bundleName)
+            bundleName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+
+        NSMenuItem* quitItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Quit", nil), bundleName]
                                                           action:@selector(handleQuit:)
                                                    keyEquivalent:@"q"];
         [quitItem setTarget:[application delegate]];
