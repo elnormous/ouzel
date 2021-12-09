@@ -92,9 +92,15 @@ namespace ouzel::core::macos
     }
 
     System::System(int argc, char* argv[]):
-        core::System{parseArgs(argc, argv)}
+        core::System{parseArgs(argc, argv)},
+        application{[NSApplication sharedApplication]}
     {
-        application = [NSApplication sharedApplication];
+    }
+
+    void System::run()
+    {
+        ouzel::platform::foundation::AutoreleasePool autoreleasePool;
+
         [application activateIgnoringOtherApps:YES];
         [application setDelegate:[[[AppDelegate alloc] init] autorelease]];
 
@@ -111,11 +117,7 @@ namespace ouzel::core::macos
         [subMenu addItem:quitItem];
 
         application.mainMenu = mainMenu;
-    }
 
-    void System::run()
-    {
-        ouzel::platform::foundation::AutoreleasePool autoreleasePool;
         [application run];
     }
 
