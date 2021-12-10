@@ -109,6 +109,17 @@ namespace ouzel::core::macos
         NSMenu* applicationMenu = [[[NSMenu alloc] init] autorelease];
         mainMenuItem.submenu = applicationMenu;
 
+        NSString* bundleName = NSBundle.mainBundle.infoDictionary[@"CFBundleDisplayName"];
+        if (!bundleName)
+            bundleName = NSBundle.mainBundle.infoDictionary[@"CFBundleName"];
+
+        NSMenuItem* aboutItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"About", nil), bundleName]
+                                                           action:@selector(orderFrontStandardAboutPanel:)
+                                                    keyEquivalent:@""];
+        aboutItem.target = application;
+
+        [applicationMenu addItem:[NSMenuItem separatorItem]];
+
         NSMenuItem* servicesItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Services", nil)
                                                               action:nil
                                                        keyEquivalent:@""];
@@ -118,10 +129,6 @@ namespace ouzel::core::macos
         application.servicesMenu = servicesMenu;
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
-
-        NSString* bundleName = NSBundle.mainBundle.infoDictionary[@"CFBundleDisplayName"];
-        if (!bundleName)
-            bundleName = NSBundle.mainBundle.infoDictionary[@"CFBundleName"];
 
         NSMenuItem* hideItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Hide", nil), bundleName]
                                                           action:@selector(hide:)
