@@ -48,12 +48,12 @@ ouzel::core::macos::System* systemPointer;
 
 - (void)applicationDidBecomeActive:(__unused NSNotification*)notification
 {
-    //if (ouzel::engine) ouzel::engine->resume();
+    if (ouzel::engine) ouzel::engine->resume();
 }
 
 - (void)applicationDidResignActive:(__unused NSNotification*)notification
 {
-    //if (ouzel::engine) ouzel::engine->pause();
+    if (ouzel::engine) ouzel::engine->pause();
 }
 @end
 

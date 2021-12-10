@@ -153,17 +153,11 @@ namespace ouzel::core
                 break;
             }
             case NativeWindow::Event::Type::focusChange:
-            {
-                if (event.focus)
-                    engine.resume();
-                else
-                    engine.pause();
+                // handled by applicationDidBecomeActive: and applicationDidResignActive:
                 break;
-            }
             case NativeWindow::Event::Type::close:
-                engine.exit();
+                // handled by applicationShouldTerminateAfterLastWindowClosed:
                 break;
-
             case NativeWindow::Event::Type::show:
                 visible = true;
                 break;
