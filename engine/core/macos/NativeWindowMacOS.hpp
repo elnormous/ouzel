@@ -22,7 +22,7 @@ typedef std::uint32_t CGDirectDisplayID;
 #endif
 
 #include "../NativeWindow.hpp"
-#include "../../graphics/Graphics.hpp"
+#include "../../graphics/Driver.hpp"
 
 namespace ouzel::core::macos
 {
