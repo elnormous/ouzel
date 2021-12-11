@@ -65,7 +65,7 @@ namespace ouzel::assets
             }
 
             if (result.empty())
-                throw std::runtime_error("Invalid string");
+                throw std::runtime_error{"Invalid string"};
 
             return result;
         }
@@ -117,7 +117,7 @@ namespace ouzel::assets
             {
                 value.push_back(static_cast<char>(*iterator));
                 if (++iterator == end)
-                    throw std::runtime_error("Invalid exponent");
+                    throw std::runtime_error{"Invalid exponent"};
 
                 if (static_cast<char>(*iterator) == '+' ||
                     static_cast<char>(*iterator) == '-')
@@ -126,7 +126,7 @@ namespace ouzel::assets
                 if (iterator == end ||
                     static_cast<char>(*iterator) < '0' ||
                     static_cast<char>(*iterator) > '9')
-                    throw std::runtime_error("Invalid exponent");
+                    throw std::runtime_error{"Invalid exponent"};
 
                 while (iterator != end &&
                        static_cast<char>(*iterator) >= '0' &&

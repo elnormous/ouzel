@@ -35,7 +35,7 @@ namespace ouzel::graphics::opengl
                                               (flags & Flags::dynamic) == Flags::dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
             if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
-                throw std::system_error(makeErrorCode(error), "Failed to create buffer");
+                throw std::system_error{makeErrorCode(error), "Failed to create buffer"};
         }
     }
 
@@ -63,7 +63,7 @@ namespace ouzel::graphics::opengl
                                               (flags & Flags::dynamic) == Flags::dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
             if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
-                throw std::system_error(makeErrorCode(error), "Failed to create buffer");
+                throw std::system_error{makeErrorCode(error), "Failed to create buffer"};
         }
     }
 
@@ -89,14 +89,14 @@ namespace ouzel::graphics::opengl
             renderDevice.glBufferDataProc(bufferType, size, data.data(), GL_DYNAMIC_DRAW);
 
             if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
-                throw std::system_error(makeErrorCode(error), "Failed to create buffer");
+                throw std::system_error{makeErrorCode(error), "Failed to create buffer"};
         }
         else
         {
             renderDevice.glBufferSubDataProc(bufferType, 0, static_cast<GLsizeiptr>(data.size()), data.data());
 
             if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
-                throw std::system_error(makeErrorCode(error), "Failed to upload buffer");
+                throw std::system_error{makeErrorCode(error), "Failed to upload buffer"};
         }
     }
 
@@ -105,7 +105,7 @@ namespace ouzel::graphics::opengl
         renderDevice.glGenBuffersProc(1, &bufferId);
 
         if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
-            throw std::system_error(makeErrorCode(error), "Failed to create buffer");
+            throw std::system_error{makeErrorCode(error), "Failed to create buffer"};
 
         switch (type)
         {

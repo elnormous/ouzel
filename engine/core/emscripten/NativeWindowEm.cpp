@@ -118,7 +118,7 @@ namespace ouzel::core::emscripten
             case Command::Type::restore:
                 break;
             default:
-                throw std::runtime_error("Invalid command");
+                throw std::runtime_error{"Invalid command"};
         }
     }
 

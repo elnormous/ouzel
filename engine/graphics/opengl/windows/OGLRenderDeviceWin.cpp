@@ -32,7 +32,7 @@ namespace ouzel::graphics::opengl::windows
             {
                 HINSTANCE instance = GetModuleHandleW(nullptr);
                 if (!instance)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to get module handle"};
 
                 WNDCLASSW wc;
                 wc.style = CS_OWNDC;
@@ -48,18 +48,18 @@ namespace ouzel::graphics::opengl::windows
 
                 windowClass = RegisterClassW(&wc);
                 if (!windowClass)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to register window class"};
 
                 window = CreateWindowW(MAKEINTATOM(windowClass), L"TempWindow", 0,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
                                        0, 0, instance, 0);
                 if (!window)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create window");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to create window"};
 
                 deviceContext = GetDC(window);
                 if (!deviceContext)
-                    throw std::runtime_error("Failed to get device context");
+                    throw std::runtime_error{"Failed to get device context"};
 
                 PIXELFORMATDESCRIPTOR pixelFormatDesc;
                 pixelFormatDesc.nSize = sizeof(pixelFormatDesc);
@@ -91,17 +91,17 @@ namespace ouzel::graphics::opengl::windows
 
                 const auto pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
                 if (!pixelFormat)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to choose pixel format");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to choose pixel format"};
 
                 if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set pixel format");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to set pixel format"};
 
                 renderContext = wglCreateContext(deviceContext);
                 if (!renderContext)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create OpenGL rendering context");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to create OpenGL rendering context"};
 
                 if (!wglMakeCurrent(deviceContext, renderContext))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to set OpenGL rendering context"};
             }
 
             ~TempContext()
@@ -146,7 +146,7 @@ namespace ouzel::graphics::opengl::windows
             const auto versionPtr = glGetStringProc(GL_VERSION);
 
             if (!versionPtr)
-                throw std::runtime_error("Failed to get OpenGL version");
+                throw std::runtime_error{"Failed to get OpenGL version"};
 
             const std::string_view versionStr{reinterpret_cast<const char*>(versionPtr)};
             ApiVersion version;
@@ -156,7 +156,7 @@ namespace ouzel::graphics::opengl::windows
                 if (c != '.')
                 {
                     if (c < '0' || c > '9')
-                        throw std::runtime_error("Invalid OpenGL version");
+                        throw std::runtime_error{"Invalid OpenGL version"};
 
                     version.v[part] = static_cast<std::uint16_t>(version.v[part] * 10 + c - '0');
                 }
@@ -179,7 +179,7 @@ namespace ouzel::graphics::opengl::windows
 
         deviceContext = GetDC(windowWin->getNativeWindow());
         if (!deviceContext)
-            throw std::runtime_error("Failed to get window's device context");
+            throw std::runtime_error{"Failed to get window's device context"};
 
         std::vector<std::string> extensions;
 
@@ -253,17 +253,17 @@ namespace ouzel::graphics::opengl::windows
             UINT numFormats;
 
             if (!wglChoosePixelFormatProc(deviceContext, attributeList, nullptr, 1, &pixelFormat, &numFormats))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to choose pixel format");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to choose pixel format"};
         }
         else
         {
             pixelFormat = ChoosePixelFormat(deviceContext, &pixelFormatDesc);
             if (!pixelFormat)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to choose pixel format");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to choose pixel format"};
         }
 
         if (!SetPixelFormat(deviceContext, pixelFormat, &pixelFormatDesc))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to set pixel format");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to set pixel format"};
 
         if (wglCreateContextAttribsProc)
         {
@@ -289,21 +289,21 @@ namespace ouzel::graphics::opengl::windows
             renderContext = wglCreateContext(deviceContext);
 
         if (!renderContext)
-            throw std::runtime_error("Failed to create OpenGL rendering context");
+            throw std::runtime_error{"Failed to create OpenGL rendering context"};
 
         if (!wglMakeCurrent(deviceContext, renderContext))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to set OpenGL rendering context"};
 
         apiVersion = getVersion();
 
         if (apiVersion.v[0] < 2 || apiVersion.v[0] > 4)
-            throw std::runtime_error("Unsupported OpenGL version");
+            throw std::runtime_error{"Unsupported OpenGL version"};
 
         init(static_cast<GLsizei>(window.getResolution().v[0]),
              static_cast<GLsizei>(window.getResolution().v[1]));
 
         if (!wglMakeCurrent(deviceContext, nullptr))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context"};
     }
 
     RenderDevice::~RenderDevice()
@@ -338,7 +338,7 @@ namespace ouzel::graphics::opengl::windows
     void RenderDevice::present()
     {
         if (!SwapBuffers(deviceContext))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to swap buffers");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to swap buffers"};
     }
 
     void RenderDevice::renderMain()
@@ -346,7 +346,7 @@ namespace ouzel::graphics::opengl::windows
         thread::setCurrentThreadName("Render");
 
         if (!wglMakeCurrent(deviceContext, renderContext))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to set OpenGL rendering context");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to set OpenGL rendering context"};
 
         while (running)
         {
@@ -361,7 +361,7 @@ namespace ouzel::graphics::opengl::windows
         }
 
         if (!wglMakeCurrent(deviceContext, nullptr))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to unset OpenGL rendering context"};
     }
 }
 

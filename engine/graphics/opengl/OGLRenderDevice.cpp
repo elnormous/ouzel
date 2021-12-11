@@ -638,21 +638,21 @@ namespace ouzel::graphics::opengl
         glDisableProc(GL_DITHER);
 
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-            throw std::system_error(makeErrorCode(error), "Failed to set depth function");
+            throw std::system_error{makeErrorCode(error), "Failed to set depth function"};
 
 #if !OUZEL_OPENGLES
         if (srgb)
             glEnableProc(GL_FRAMEBUFFER_SRGB);
 
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-            throw std::system_error(makeErrorCode(error), "Failed to enable sRGB frame buffer");
+            throw std::system_error{makeErrorCode(error), "Failed to enable sRGB frame buffer"};
 
         if (sampleCount > 1)
         {
             glEnableProc(GL_MULTISAMPLE);
 
             if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                throw std::system_error(makeErrorCode(error), "Failed to enable multi-sampling");
+                throw std::system_error{makeErrorCode(error), "Failed to enable multi-sampling"};
         }
 #endif
 
@@ -663,7 +663,7 @@ namespace ouzel::graphics::opengl
             glBindVertexArrayProc(vertexArrayId);
 
             if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                throw std::system_error(makeErrorCode(error), "Failed to bind vertex array");
+                throw std::system_error{makeErrorCode(error), "Failed to bind vertex array"};
         }
 
         setFrontFace(GL_CW);
@@ -858,7 +858,7 @@ namespace ouzel::graphics::opengl
                                 glStencilMaskProc(stateCache.stencilMask);
 
                             if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                                throw std::system_error(makeErrorCode(error), "Failed to clear frame buffer");
+                                throw std::system_error{makeErrorCode(error), "Failed to clear frame buffer"};
                         }
 
                         break;
@@ -954,7 +954,7 @@ namespace ouzel::graphics::opengl
                         }
 
                         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                            throw std::system_error(makeErrorCode(error), "Failed to update depth stencil state");
+                            throw std::system_error{makeErrorCode(error), "Failed to update depth stencil state"};
 
                         break;
                     }
@@ -1044,7 +1044,7 @@ namespace ouzel::graphics::opengl
                         }
 
                         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                            throw std::system_error(makeErrorCode(error), "Failed to update vertex attributes");
+                            throw std::system_error{makeErrorCode(error), "Failed to update vertex attributes"};
 
                         assert(drawCommand->indexCount);
                         assert(indexBuffer->getSize());
@@ -1059,7 +1059,7 @@ namespace ouzel::graphics::opengl
                                            indexOffset);
 
                         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                            throw std::system_error(makeErrorCode(error), "Failed to draw elements");
+                            throw std::system_error{makeErrorCode(error), "Failed to draw elements"};
 
                         break;
                     }
@@ -1252,7 +1252,7 @@ namespace ouzel::graphics::opengl
                          GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-            throw std::system_error(makeErrorCode(error), "Failed to read pixels from frame buffer");
+            throw std::system_error{makeErrorCode(error), "Failed to read pixels from frame buffer"};
 
         // flip the image vertically
         const auto rowSize = frameBufferWidth * pixelSize;

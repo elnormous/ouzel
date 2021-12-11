@@ -163,7 +163,7 @@ namespace ouzel::xcode
                     extension == "h" ? PBXFileType::sourcecodeCH :
                     extension == "cpp" ? PBXFileType::sourcecodeCppCpp :
                     extension == "hpp" ? PBXFileType::sourcecodeCppH :
-                    throw std::runtime_error("Unsupported file type");
+                    throw std::runtime_error{"Unsupported file type"};
                 fileReference->sourceTree = PBXSourceTree::group;
                 sourceFiles.push_back(fileReference);
 
@@ -470,7 +470,7 @@ namespace ouzel::xcode
                         }
 
                         default:
-                            throw std::runtime_error("Unsupported platform");
+                            throw std::runtime_error{"Unsupported platform"};
                     }
 
                     targetDebugConfiguration->buildSettings = buildSettings;

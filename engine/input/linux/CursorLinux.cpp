@@ -58,7 +58,7 @@ namespace ouzel::input::linux
             XcursorImage* cursorImage = XcursorImageCreate(width, height);
 
             if (!cursorImage)
-                throw std::runtime_error("Failed to create cursor image");
+                throw std::runtime_error{"Failed to create cursor image"};
 
             cursorImage->xhot = static_cast<int>(hotSpot.v[0]);
             cursorImage->yhot = height - static_cast<int>(hotSpot.v[1]) - 1;

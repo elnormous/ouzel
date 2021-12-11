@@ -15,7 +15,7 @@ namespace ouzel::platform::dispatch
             semaphore{dispatch_semaphore_create(value)}
         {
             if (!semaphore)
-                throw std::runtime_error("Failed to create dispatch semaphore");
+                throw std::runtime_error{"Failed to create dispatch semaphore"};
         }
 
         ~Semaphore()

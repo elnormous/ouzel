@@ -93,7 +93,7 @@ namespace ouzel::graphics::opengl::macos
         }
 
         if (!pixelFormat)
-            throw std::runtime_error("Failed to crete OpenGL pixel format");
+            throw std::runtime_error{"Failed to crete OpenGL pixel format"};
 
         // Create OpenGL context
         context = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];

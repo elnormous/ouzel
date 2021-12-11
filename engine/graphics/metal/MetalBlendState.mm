@@ -27,7 +27,7 @@ namespace ouzel::graphics::metal
                 case BlendFactor::srcAlphaSat: return MTLBlendFactorSourceAlphaSaturated;
                 case BlendFactor::blendFactor: return MTLBlendFactorBlendColor;
                 case BlendFactor::invBlendFactor: return MTLBlendFactorOneMinusBlendColor;
-                default: throw std::runtime_error("Unsupported blend factor");
+                default: throw std::runtime_error{"Unsupported blend factor"};
             }
         }
 
@@ -40,7 +40,7 @@ namespace ouzel::graphics::metal
                 case BlendOperation::reverseSubtract: return MTLBlendOperationReverseSubtract;
                 case BlendOperation::min: return MTLBlendOperationMin;
                 case BlendOperation::max: return MTLBlendOperationMax;
-                default: throw std::runtime_error("Unsupported blend operation");
+                default: throw std::runtime_error{"Unsupported blend operation"};
             }
         }
     }

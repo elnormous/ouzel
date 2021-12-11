@@ -67,7 +67,7 @@ namespace ouzel
         else if (s == "shader")
             return Asset::Type::shader;
         else
-            throw std::runtime_error("Invalid asset type");
+            throw std::runtime_error{"Invalid asset type"};
     }
 }
 

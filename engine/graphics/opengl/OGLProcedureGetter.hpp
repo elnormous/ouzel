@@ -124,7 +124,7 @@ namespace ouzel::graphics::opengl
             else if (auto p = dlsym(RTLD_DEFAULT, name); p)
                 return reinterpret_cast<T>(p);
             else
-                throw std::runtime_error(dlerror());
+                throw std::runtime_error{dlerror()};
 #  else
             (void)procApiVersion;
             return reinterpret_cast<T>(eglGetProcAddress(name));
@@ -138,7 +138,7 @@ namespace ouzel::graphics::opengl
             if (auto p = dlsym(RTLD_DEFAULT, name); p)
                 return reinterpret_cast<T>(p);
             else
-                throw std::runtime_error(dlerror());
+                throw std::runtime_error{dlerror()};
 #endif
         }
 
@@ -153,7 +153,7 @@ namespace ouzel::graphics::opengl
             if (auto p = dlsym(RTLD_DEFAULT, name); p)
                 return reinterpret_cast<T>(p);
             else
-                throw std::runtime_error(dlerror());
+                throw std::runtime_error{dlerror()};
 #endif
         }
 

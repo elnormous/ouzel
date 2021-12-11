@@ -173,7 +173,7 @@ namespace ouzel::core
                 minimized = false;
                 break;
             default:
-                throw std::runtime_error("Unhandled event");
+                throw std::runtime_error{"Unhandled event"};
         }
     }
 

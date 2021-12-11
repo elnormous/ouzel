@@ -15,7 +15,7 @@ namespace ouzel::input::windows
                 bitmap{CreateBitmap(width, height, planes, bitCount, bits)}
             {
                 if (!bitmap)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create mask bitmap");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to create mask bitmap"};
             }
 
             Bitmap(const platform::winapi::DeviceContext& deviceContext,
@@ -32,7 +32,7 @@ namespace ouzel::input::windows
                                         offset)}
             {
                 if (!bitmap)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to create mask bitmap");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to create mask bitmap"};
             }
 
             ~Bitmap()
@@ -74,7 +74,7 @@ namespace ouzel::input::windows
                 case SystemCursor::verticalResize: return LoadCursor(nullptr, IDC_SIZENS);
                 case SystemCursor::cross: return LoadCursor(nullptr, IDC_CROSS);
                 case SystemCursor::iBeam: return LoadCursor(nullptr, IDC_IBEAM);
-                default: throw std::runtime_error("Invalid cursor");
+                default: throw std::runtime_error{"Invalid cursor"};
             }
         }
     }
@@ -83,7 +83,7 @@ namespace ouzel::input::windows
         cursor{loadCursor(systemCursor)}
     {
         if (!cursor)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to load cursor"};
     }
 
     Cursor::Cursor(const std::vector<std::uint8_t>& data,
@@ -136,7 +136,7 @@ namespace ouzel::input::windows
 
             ownedCursor = CreateIconIndirect(&iconInfo);
             if (!ownedCursor)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to create cursor");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to create cursor"};
 
             cursor = ownedCursor;
         }

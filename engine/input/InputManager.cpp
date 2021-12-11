@@ -88,7 +88,7 @@ namespace ouzel::input
                         controllerMap.insert(std::make_pair(event.deviceId, std::move(controller)));
                         return engine->getEventDispatcher().dispatchEvent(std::move(connectEvent));
                     }
-                    default: throw std::runtime_error("Invalid controller type");
+                    default: throw std::runtime_error{"Invalid controller type"};
                 }
                 break;
             }
@@ -161,7 +161,7 @@ namespace ouzel::input
 
                             return engine->getEventDispatcher().dispatchEvent(std::move(disconnectEvent));
                         }
-                        default: throw std::runtime_error("Invalid controller type");
+                        default: throw std::runtime_error{"Invalid controller type"};
                     }
                 }
                 break;
@@ -261,7 +261,7 @@ namespace ouzel::input
                 }
                 break;
             default:
-                throw std::runtime_error("Unhandled event");
+                throw std::runtime_error{"Unhandled event"};
         }
 
         return false;

@@ -58,7 +58,7 @@ namespace ouzel::gui
                                 std::vector<std::byte>::const_iterator& iterator)
         {
             if (iterator == str.end())
-                throw std::runtime_error("Invalid string");
+                throw std::runtime_error{"Invalid string"};
 
             std::string result;
 
@@ -77,7 +77,7 @@ namespace ouzel::gui
                         break;
                     }
                     if (iterator == str.end())
-                        throw std::runtime_error("Unterminated string");
+                        throw std::runtime_error{"Unterminated string"};
 
                     result.push_back(static_cast<char>(*iterator));
 
@@ -97,7 +97,7 @@ namespace ouzel::gui
                 }
 
                 if (result.empty())
-                    throw std::runtime_error("Invalid string");
+                    throw std::runtime_error{"Invalid string"};
             }
 
             return result;
@@ -107,7 +107,7 @@ namespace ouzel::gui
                         std::vector<std::byte>::const_iterator& iterator)
         {
             if (iterator == str.end())
-                throw std::runtime_error("Invalid string");
+                throw std::runtime_error{"Invalid string"};
 
             if (static_cast<char>(*iterator) == '"')
             {
@@ -124,7 +124,7 @@ namespace ouzel::gui
                         break;
                     }
                     if (iterator == str.end())
-                        throw std::runtime_error("Unterminated string");
+                        throw std::runtime_error{"Unterminated string"};
 
                     ++iterator;
                 }
@@ -143,7 +143,7 @@ namespace ouzel::gui
                 }
 
                 if (empty)
-                    throw std::runtime_error("Invalid string");
+                    throw std::runtime_error{"Invalid string"};
             }
         }
 
@@ -171,7 +171,7 @@ namespace ouzel::gui
             }
 
             if (result.length() < length)
-                throw std::runtime_error("Invalid integer");
+                throw std::runtime_error{"Invalid integer"};
 
             return result;
         }
@@ -182,7 +182,7 @@ namespace ouzel::gui
         {
             if (iterator == str.end() ||
                 static_cast<char>(*iterator) != token)
-                throw std::runtime_error("Unexpected token");
+                throw std::runtime_error{"Unexpected token"};
 
             ++iterator;
         }

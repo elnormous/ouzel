@@ -78,7 +78,7 @@ namespace ouzel::thread
             };
 
             if (!SetThreadPriority(t.native_handle(), priorities[static_cast<std::size_t>((priority + 1.0F) * 6.0F / 2.0F)]))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to set thread name");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to set thread name"};
 #else
             if (priority < 0.0F) priority = 0.0F;
 
@@ -86,15 +86,15 @@ namespace ouzel::thread
 
             const auto minPriority = sched_get_priority_min(policy);
             if (minPriority == -1)
-                throw std::system_error(errno, std::system_category(), "Failed to get thread min priority");
+                throw std::system_error{errno, std::system_category(), "Failed to get thread min priority"};
             const auto maxPriority = sched_get_priority_max(policy);
             if (maxPriority == -1)
-                throw std::system_error(errno, std::system_category(), "Failed to get thread max priority");
+                throw std::system_error{errno, std::system_category(), "Failed to get thread max priority"};
 
             sched_param param;
             param.sched_priority = static_cast<int>(priority * static_cast<float>(maxPriority - minPriority)) + minPriority;
             if (const auto error = pthread_setschedparam(t.native_handle(), policy, &param); error != 0)
-                throw std::system_error(error, std::system_category(), "Failed to set thread priority");
+                throw std::system_error{error, std::system_category(), "Failed to set thread priority"};
 #endif
         }
 
@@ -135,11 +135,11 @@ namespace ouzel::thread
 #  ifdef __APPLE__
         const auto error = pthread_setname_np(name.c_str());
         if (error != 0)
-            throw std::system_error(error, std::system_category(), "Failed to set thread name");
+            throw std::system_error{error, std::system_category(), "Failed to set thread name"};
 #  elif defined(__linux__)
         const auto error = pthread_setname_np(pthread_self(), name.c_str());
         if (error != 0)
-            throw std::system_error(error, std::system_category(), "Failed to set thread name");
+            throw std::system_error{error, std::system_category(), "Failed to set thread name"};
 #  endif
 #endif
     }

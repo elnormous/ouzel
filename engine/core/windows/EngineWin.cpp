@@ -78,7 +78,7 @@ namespace ouzel::core::windows
             {
                 MSG message;
                 if (const auto ret = GetMessage(&message, nullptr, 0, 0); ret == -1)
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get message");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to get message"};
                 else if (ret == 0)
                 {
                     exit();
@@ -105,7 +105,7 @@ namespace ouzel::core::windows
         lock.unlock();
 
         if (!PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to post message");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to post message"};
     }
 
     void Engine::executeAll()
@@ -131,15 +131,15 @@ namespace ouzel::core::windows
     {
         const auto buferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
         if (buferSize == 0)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
         auto buffer = std::make_unique<WCHAR[]>(buferSize);
         if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, buffer.get(), buferSize) == 0)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
         // Result of the ShellExecuteW can be cast only to an int (https://docs.microsoft.com/en-us/windows/desktop/api/shellapi/nf-shellapi-shellexecutew)
         const auto result = ShellExecuteW(nullptr, L"open", buffer.get(), nullptr, nullptr, SW_SHOWNORMAL);
         if (const auto status = bitCast<std::intptr_t>(result); status <= 32)
-            throw std::system_error(static_cast<int>(status), shellExecuteErrorCategory, "Failed to execute open");
+            throw std::system_error{static_cast<int>(status), shellExecuteErrorCategory, "Failed to execute open"};
     }
 }

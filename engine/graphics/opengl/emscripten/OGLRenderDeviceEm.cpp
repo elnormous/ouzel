@@ -70,10 +70,10 @@ namespace ouzel::graphics::opengl::emscripten
         }
 
         if (!webGLContext)
-            throw std::runtime_error("Failed to create WebGL context");
+            throw std::runtime_error{"Failed to create WebGL context"};
 
         if (const auto result = emscripten_webgl_make_context_current(webGLContext); result != EMSCRIPTEN_RESULT_SUCCESS)
-            throw std::runtime_error("Failed to make WebGL context current");
+            throw std::runtime_error{"Failed to make WebGL context current"};
 
         emscripten_set_main_loop_timing(settings.verticalSync ? EM_TIMING_RAF : EM_TIMING_SETTIMEOUT, 1);
 
@@ -125,10 +125,10 @@ namespace ouzel::graphics::opengl::emscripten
         }
 
         if (!webGLContext)
-            throw std::runtime_error("Failed to create WebGL context");
+            throw std::runtime_error{"Failed to create WebGL context"};
 
         if (const auto result = emscripten_webgl_make_context_current(webGLContext); result != EMSCRIPTEN_RESULT_SUCCESS)
-            throw std::runtime_error("Failed to make WebGL context current");
+            throw std::runtime_error{"Failed to make WebGL context current"};
 
         for (const auto& resource : resources)
             if (resource) resource->restore();

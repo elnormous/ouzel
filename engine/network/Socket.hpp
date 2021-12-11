@@ -57,7 +57,7 @@ namespace ouzel::network
     {
         return (internetProtocol == InternetProtocol::v4) ? AF_INET :
             (internetProtocol == InternetProtocol::v6) ? AF_INET6 :
-            throw std::runtime_error("Unsupported protocol");
+            throw std::runtime_error{"Unsupported protocol"};
     }
 
     class Socket final
@@ -75,7 +75,7 @@ namespace ouzel::network
             endpoint{socket(getAddressFamily(internetProtocol), SOCK_STREAM, IPPROTO_TCP)}
         {
             if (endpoint == invalid)
-                throw std::system_error(getLastError(), std::system_category(), "Failed to create socket");
+                throw std::system_error{getLastError(), std::system_category(), "Failed to create socket"};
         }
 
         explicit constexpr Socket(Type s) noexcept:

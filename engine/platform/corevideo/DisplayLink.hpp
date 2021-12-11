@@ -15,7 +15,7 @@ namespace ouzel::platform::corevideo
         explicit DisplayLink(CGDirectDisplayID displayId)
         {
             if (const auto result = CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink); result != kCVReturnSuccess)
-                throw std::system_error(result, getErrorCategory(), "Failed to create display link");
+                throw std::system_error{result, getErrorCategory(), "Failed to create display link"};
         }
 
         ~DisplayLink()
@@ -56,21 +56,21 @@ namespace ouzel::platform::corevideo
         void setCallback(CVDisplayLinkOutputCallback callback, void* userInfo)
         {
             if (const auto result = CVDisplayLinkSetOutputCallback(displayLink, callback, userInfo); result != kCVReturnSuccess)
-                throw std::system_error(result, getErrorCategory(), "Failed to set output callback for the display link");
+                throw std::system_error{result, getErrorCategory(), "Failed to set output callback for the display link"};
         }
 
         void start()
         {
             if (displayLink)
                 if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
-                    throw std::system_error(result, getErrorCategory(), "Failed to start display link");
+                    throw std::system_error{result, getErrorCategory(), "Failed to start display link"};
         }
 
         void stop()
         {
             if (displayLink)
                 if (const auto result = CVDisplayLinkStop(displayLink); result != kCVReturnSuccess)
-                    throw std::system_error(result, getErrorCategory(), "Failed to stop display link");
+                    throw std::system_error{result, getErrorCategory(), "Failed to stop display link"};
         }
 
     private:

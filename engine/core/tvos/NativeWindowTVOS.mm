@@ -82,7 +82,7 @@ namespace ouzel::core::tvos
                 break;
 #endif
             default:
-                throw std::runtime_error("Unsupported render driver");
+                throw std::runtime_error{"Unsupported render driver"};
         }
 
         textField = [[UITextField alloc] init];
@@ -138,7 +138,7 @@ namespace ouzel::core::tvos
             case Command::Type::restore:
                 break;
             default:
-                throw std::runtime_error("Invalid command");
+                throw std::runtime_error{"Invalid command"};
         }
     }
 

@@ -14,7 +14,7 @@ namespace ouzel::platform::winapi
         Com()
         {
             if (const auto hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED); FAILED(hr))
-                throw std::system_error(hr, std::system_category(), "Failed to initialize COM");
+                throw std::system_error{hr, std::system_category(), "Failed to initialize COM"};
 
             initialized = true;
         }

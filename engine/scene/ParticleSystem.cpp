@@ -63,7 +63,7 @@ namespace ouzel::scene
                 renderViewProjection :
                 (particleSystemData.positionType == ParticleSystemData::PositionType::grouped) ?
                 renderViewProjection * transformMatrix :
-                throw std::runtime_error("Invalid position type");
+                throw std::runtime_error{"Invalid position type"};
 
             const auto colorVector = {1.0F, 1.0F, 1.0F, opacity};
 
@@ -242,7 +242,7 @@ namespace ouzel::scene
         texture = particleSystemData.texture;
 
         if (!texture)
-            throw std::runtime_error("Paricle system data has no texture");
+            throw std::runtime_error{"Paricle system data has no texture"};
 
         createParticleMesh();
         resume();
@@ -338,7 +338,7 @@ namespace ouzel::scene
                     math::Vector<float, 2>{actor->getPosition()} + particles[i].position :
                     (particleSystemData.positionType == ParticleSystemData::PositionType::grouped) ?
                     math::Vector<float, 2>{} :
-                    throw std::runtime_error("Invalid position type");
+                    throw std::runtime_error{"Invalid position type"};
 
                 const float halfSize = particles[i].size / 2.0F;
                 const math::Vector<float, 2> v1{-halfSize, -halfSize};
@@ -390,7 +390,7 @@ namespace ouzel::scene
                 math::Vector<float, 2>{actor->convertLocalToWorld(math::Vector<float, 3>{}) - actor->getPosition()} :
                 (particleSystemData.positionType == ParticleSystemData::PositionType::grouped) ?
                 math::Vector<float, 2>{} :
-                throw std::runtime_error("Invalid position type");
+                throw std::runtime_error{"Invalid position type"};
 
             for (std::uint32_t i = particleCount; i < particleCount + remainingCount; ++i)
             {

@@ -87,7 +87,7 @@ namespace ouzel::graphics
         else if (driver == "metal")
             return Driver::metal;
         else
-            throw std::runtime_error("Invalid graphics driver");
+            throw std::runtime_error{"Invalid graphics driver"};
     }
 
     namespace
@@ -227,7 +227,7 @@ namespace ouzel::graphics
                         std::uint32_t startIndex)
     {
         if (!indexBuffer || !vertexBuffer)
-            throw std::runtime_error("Invalid mesh buffer passed to render queue");
+            throw std::runtime_error{"Invalid mesh buffer passed to render queue"};
 
         addCommand(std::make_unique<DrawCommand>(indexBuffer,
                                                  indexCount,

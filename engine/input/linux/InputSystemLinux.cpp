@@ -48,7 +48,7 @@ namespace ouzel::input::linux
         using CloseDirFunction = int(*)(DIR*);
         std::unique_ptr<DIR, CloseDirFunction> dir(opendir("/dev/input"), &closedir);
         if (!dir)
-            throw std::system_error(errno, std::system_category(), "Failed to open directory");
+            throw std::system_error{errno, std::system_category(), "Failed to open directory"};
 
         while (const dirent* ent = readdir(dir.get()))
         {
@@ -194,7 +194,7 @@ namespace ouzel::input::linux
 
         int retval;
         if ((retval = select(maxFd + 1, &rfds, nullptr, nullptr, &tv)) == -1)
-            throw std::system_error(errno, std::system_category(), "Select failed");
+            throw std::system_error{errno, std::system_category(), "Select failed"};
 
         if (retval > 0)
         {
@@ -223,7 +223,7 @@ namespace ouzel::input::linux
             std::unique_ptr<DIR, CloseDirFunction> dir(opendir("/dev/input"), &closedir);
 
             if (!dir)
-                throw std::system_error(errno, std::system_category(), "Failed to open directory");
+                throw std::system_error{errno, std::system_category(), "Failed to open directory"};
 
             while (const dirent* ent = readdir(dir.get()))
             {

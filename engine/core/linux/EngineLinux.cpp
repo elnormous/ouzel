@@ -289,13 +289,13 @@ namespace ouzel::core::linux
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
         if (!display)
-            throw std::system_error(getLastError(), errorCategory, "Failed to open display");
+            throw std::system_error{getLastError(), errorCategory, "Failed to open display"};
 #elif OUZEL_SUPPORTS_DISPMANX
         bcm_host_init();
 
         display = vc_dispmanx_display_open(0);
         if (display == DISPMANX_NO_HANDLE)
-            throw std::runtime_error("Failed to open display");
+            throw std::runtime_error{"Failed to open display"};
 #endif
     }
 
@@ -539,7 +539,7 @@ namespace ouzel::core::linux
         lock.unlock();
 
         if (!XSendEvent(display, windowLinux->getNativeWindow(), False, NoEventMask, &event))
-            throw std::system_error(getLastError(), errorCategory, "Failed to send X11 delete message");
+            throw std::system_error{getLastError(), errorCategory, "Failed to send X11 delete message"};
 
         XFlush(display);
 #else

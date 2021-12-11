@@ -32,7 +32,7 @@ namespace ouzel
             case Platform::emscripten: return "Emscriptem";
         }
 
-        throw std::runtime_error("Unknown platform");
+        throw std::runtime_error{"Unknown platform"};
     }
 
     inline Platform stringToPlatform(const std::string& s)
@@ -52,7 +52,7 @@ namespace ouzel
         else if (s == "emscripten")
             return Platform::emscripten;
         else
-            throw std::runtime_error("Invalid platform");
+            throw std::runtime_error{"Invalid platform"};
     }
 }
 

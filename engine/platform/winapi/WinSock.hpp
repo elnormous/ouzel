@@ -24,12 +24,12 @@ namespace ouzel::platform::winapi
         {
             WSADATA wsaData;
             if (const auto error = WSAStartup(MAKEWORD(2, 2), &wsaData); error != 0)
-                throw std::system_error(error, std::system_category(), "WSAStartup failed");
+                throw std::system_error{error, std::system_category(), "WSAStartup failed"};
 
             if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2)
             {
                 WSACleanup();
-                throw std::runtime_error("Invalid WinSock version");
+                throw std::runtime_error{"Invalid WinSock version"};
             }
 
             started = true;

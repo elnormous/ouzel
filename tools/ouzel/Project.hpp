@@ -97,7 +97,7 @@ namespace ouzel
                 });
 
                 if (targetIterator == targets.end())
-                    throw std::runtime_error("Target not found");
+                    throw std::runtime_error{"Target not found"};
 
                 // TODO: check if input file exists
                 // TODO: check if output file exists and is older than the input file

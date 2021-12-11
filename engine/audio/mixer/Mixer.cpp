@@ -199,7 +199,7 @@ namespace ouzel::audio::mixer
                         break;
                     }
                     default:
-                        throw std::runtime_error("Invalid command");
+                        throw std::runtime_error{"Invalid command"};
                 }
             }
         }

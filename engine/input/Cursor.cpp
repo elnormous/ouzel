@@ -65,7 +65,7 @@ namespace ouzel::input
         };
 
         if (!tempData)
-            throw std::runtime_error("Failed to load texture, reason: " + std::string(stbi_failure_reason()));
+            throw std::runtime_error{"Failed to load texture, reason: " + std::string(stbi_failure_reason())};
 
         std::size_t pixelSize;
         graphics::PixelFormat pixelFormat;
@@ -139,7 +139,7 @@ namespace ouzel::input
                 break;
             }
             default:
-                throw std::runtime_error("Unsupported pixel size");
+                throw std::runtime_error{"Unsupported pixel size"};
         }
 
         const auto size = math::Size<std::uint32_t, 2>{

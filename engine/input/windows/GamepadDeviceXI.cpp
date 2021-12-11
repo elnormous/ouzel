@@ -26,9 +26,9 @@ namespace ouzel::input::windows
         if (const auto result = XInputGetState(playerIndex, &newState); result != ERROR_SUCCESS)
         {
             if (result == ERROR_DEVICE_NOT_CONNECTED)
-                throw std::runtime_error("Gamepad " + std::to_string(playerIndex) + " disconnected");
+                throw std::runtime_error{"Gamepad " + std::to_string(playerIndex) + " disconnected"};
             else
-                throw std::system_error(result, std::system_category(), "Failed to get state for gamepad " + std::to_string(playerIndex));
+                throw std::system_error{result, std::system_category(), "Failed to get state for gamepad " + std::to_string(playerIndex)};
         }
 
         if (newState.dwPacketNumber > state.dwPacketNumber)

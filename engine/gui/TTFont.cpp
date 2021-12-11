@@ -34,12 +34,12 @@ namespace ouzel::gui
         const auto offset = stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(data.data()), 0);
 
         if (offset == -1)
-            throw std::runtime_error("Not a font");
+            throw std::runtime_error{"Not a font"};
 
         font = std::make_unique<stbtt_fontinfo>();
 
         if (!stbtt_InitFont(font.get(), reinterpret_cast<const unsigned char*>(data.data()), offset))
-            throw std::runtime_error("Failed to load font");
+            throw std::runtime_error{"Failed to load font"};
     }
 
     Font::RenderData TTFont::getRenderData(const std::string_view& text,
@@ -48,7 +48,7 @@ namespace ouzel::gui
                                            const math::Vector<float, 2>& anchor) const
     {
         if (!font)
-            throw std::runtime_error("Font not loaded");
+            throw std::runtime_error{"Font not loaded"};
 
         constexpr std::uint32_t spacing = 2U;
 

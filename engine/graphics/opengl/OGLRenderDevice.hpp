@@ -181,7 +181,7 @@ namespace ouzel::graphics::opengl
                 stateCache.frontFace = mode;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set front face mode");
+                    throw std::system_error{makeErrorCode(error), "Failed to set front face mode"};
             }
         }
 
@@ -194,7 +194,7 @@ namespace ouzel::graphics::opengl
                 stateCache.textures[target][layer] = textureId;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to bind texture");
+                    throw std::system_error{makeErrorCode(error), "Failed to bind texture"};
             }
         }
 
@@ -206,7 +206,7 @@ namespace ouzel::graphics::opengl
                 stateCache.programId = programId;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to bind program");
+                    throw std::system_error{makeErrorCode(error), "Failed to bind program"};
             }
         }
 
@@ -218,7 +218,7 @@ namespace ouzel::graphics::opengl
                 stateCache.frameBufferId = bufferId;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to bind frame buffer");
+                    throw std::system_error{makeErrorCode(error), "Failed to bind frame buffer"};
             }
         }
 
@@ -232,7 +232,7 @@ namespace ouzel::graphics::opengl
                 currentBufferId = bufferId;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to bind element array buffer");
+                    throw std::system_error{makeErrorCode(error), "Failed to bind element array buffer"};
             }
         }
 
@@ -248,7 +248,7 @@ namespace ouzel::graphics::opengl
                     glDisableProc(GL_SCISSOR_TEST);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set scissor test");
+                    throw std::system_error{makeErrorCode(error), "Failed to set scissor test"};
 
                 stateCache.scissorTestEnabled = scissorTestEnabled;
             }
@@ -268,7 +268,7 @@ namespace ouzel::graphics::opengl
                 }
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set scissor test");
+                    throw std::system_error{makeErrorCode(error), "Failed to set scissor test"};
             }
         }
 
@@ -282,7 +282,7 @@ namespace ouzel::graphics::opengl
                     glDisableProc(GL_DEPTH_TEST);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to change depth test state");
+                    throw std::system_error{makeErrorCode(error), "Failed to change depth test state"};
 
                 stateCache.depthTestEnabled = enable;
             }
@@ -298,7 +298,7 @@ namespace ouzel::graphics::opengl
                     glDisableProc(GL_STENCIL_TEST);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to change stencil test state");
+                    throw std::system_error{makeErrorCode(error), "Failed to change stencil test state"};
 
                 stateCache.stencilTestEnabled = enable;
             }
@@ -319,7 +319,7 @@ namespace ouzel::graphics::opengl
                 stateCache.viewportHeight = height;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set viewport");
+                    throw std::system_error{makeErrorCode(error), "Failed to set viewport"};
             }
         }
 
@@ -341,7 +341,7 @@ namespace ouzel::graphics::opengl
                 stateCache.blendEnabled = blendEnabled;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to enable blend state");
+                    throw std::system_error{makeErrorCode(error), "Failed to enable blend state"};
             }
 
             if (blendEnabled)
@@ -373,7 +373,7 @@ namespace ouzel::graphics::opengl
                 }
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set blend state");
+                    throw std::system_error{makeErrorCode(error), "Failed to set blend state"};
             }
         }
 
@@ -395,7 +395,7 @@ namespace ouzel::graphics::opengl
                 stateCache.alphaMask = alphaMask;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set color mask");
+                    throw std::system_error{makeErrorCode(error), "Failed to set color mask"};
             }
         }
 
@@ -406,7 +406,7 @@ namespace ouzel::graphics::opengl
                 glDepthMaskProc(flag);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to change depth mask state");
+                    throw std::system_error{makeErrorCode(error), "Failed to change depth mask state"};
 
                 stateCache.depthMask = flag;
             }
@@ -419,7 +419,7 @@ namespace ouzel::graphics::opengl
                 glDepthFuncProc(depthFunc);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to change depth test state");
+                    throw std::system_error{makeErrorCode(error), "Failed to change depth test state"};
 
                 stateCache.depthFunc = depthFunc;
             }
@@ -432,7 +432,7 @@ namespace ouzel::graphics::opengl
                 glStencilMaskProc(stencilMask);
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to change stencil mask");
+                    throw std::system_error{makeErrorCode(error), "Failed to change stencil mask"};
 
                 stateCache.stencilMask = stencilMask;
             }
@@ -450,7 +450,7 @@ namespace ouzel::graphics::opengl
                 stateCache.cullEnabled = cullEnabled;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to enable cull face");
+                    throw std::system_error{makeErrorCode(error), "Failed to enable cull face"};
             }
 
             if (cullEnabled)
@@ -462,7 +462,7 @@ namespace ouzel::graphics::opengl
                 }
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set cull face");
+                    throw std::system_error{makeErrorCode(error), "Failed to set cull face"};
             }
         }
 
@@ -478,7 +478,7 @@ namespace ouzel::graphics::opengl
                 stateCache.clearColor = clearColorValue;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set clear color");
+                    throw std::system_error{makeErrorCode(error), "Failed to set clear color"};
             }
         }
 
@@ -495,7 +495,7 @@ namespace ouzel::graphics::opengl
                 stateCache.clearDepth = clearDepthValue;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set clear depth");
+                    throw std::system_error{makeErrorCode(error), "Failed to set clear depth"};
             }
         }
 
@@ -508,7 +508,7 @@ namespace ouzel::graphics::opengl
                 stateCache.clearStencil = clearStencilValue;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set clear stencil");
+                    throw std::system_error{makeErrorCode(error), "Failed to set clear stencil"};
             }
         }
 
@@ -557,7 +557,7 @@ namespace ouzel::graphics::opengl
                 stateCache.polygonFillMode = polygonFillMode;
 
                 if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
-                    throw std::system_error(makeErrorCode(error), "Failed to set blend state");
+                    throw std::system_error{makeErrorCode(error), "Failed to set blend state"};
             }
         }
 #endif

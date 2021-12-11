@@ -78,7 +78,7 @@ namespace ouzel::audio
                                                               nullptr, nullptr);
 
             if (!vorbisStream)
-                throw std::runtime_error("Failed to load Vorbis stream");
+                throw std::runtime_error{"Failed to load Vorbis stream"};
 
             stb_vorbis_info info = stb_vorbis_get_info(vorbisStream);
 
@@ -145,7 +145,7 @@ namespace ouzel::audio
                     channelData[5] = &samples[3 * frames];
                     break;
                 default:
-                    throw std::runtime_error("Unsupported channel count");
+                    throw std::runtime_error{"Unsupported channel count"};
             }
 
             resultFrames = stb_vorbis_get_samples_float(vorbisStream,

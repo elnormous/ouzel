@@ -53,7 +53,7 @@ namespace ouzel::audio
                 break;
             }
             default:
-                throw std::runtime_error("Invalid sample format");
+                throw std::runtime_error{"Invalid sample format"};
         }
     }
 }

@@ -465,7 +465,7 @@ namespace ouzel::graphics
                     break;
 
                 default:
-                    throw std::runtime_error("Invalid pixel format");
+                    throw std::runtime_error{"Invalid pixel format"};
             }
         }
 
@@ -532,7 +532,7 @@ namespace ouzel::graphics
                     break;
 
                 default:
-                    throw std::runtime_error("Invalid pixel format");
+                    throw std::runtime_error{"Invalid pixel format"};
             }
         }
 
@@ -619,7 +619,7 @@ namespace ouzel::graphics
                         break;
 
                     default:
-                        throw std::runtime_error("Invalid pixel format");
+                        throw std::runtime_error{"Invalid pixel format"};
                 }
 
                 encode(mipMapSize, newData, pixelFormat, encodedData);
@@ -676,7 +676,7 @@ namespace ouzel::graphics
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw std::runtime_error("Invalid mip map count");
+            throw std::runtime_error{"Invalid mip map count"};
 
         if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
@@ -711,7 +711,7 @@ namespace ouzel::graphics
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw std::runtime_error("Invalid mip map count");
+            throw std::runtime_error{"Invalid mip map count"};
 
         if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
@@ -745,7 +745,7 @@ namespace ouzel::graphics
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw std::runtime_error("Invalid mip map count");
+            throw std::runtime_error{"Invalid mip map count"};
 
         std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = initLevels;
 
@@ -769,7 +769,7 @@ namespace ouzel::graphics
     {
         if ((flags & Flags::dynamic) != Flags::dynamic ||
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
-            throw std::runtime_error("Texture is not dynamic");
+            throw std::runtime_error{"Texture is not dynamic"};
 
         const std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 

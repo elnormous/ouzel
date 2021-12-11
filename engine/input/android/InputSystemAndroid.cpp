@@ -20,7 +20,7 @@ namespace ouzel::input::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error(result, core::android::getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error{result, core::android::getErrorCategory(), "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -75,7 +75,7 @@ namespace ouzel::input::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error(result, core::android::getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error{result, core::android::getErrorCategory(), "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -279,7 +279,7 @@ namespace ouzel::input::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error(result, core::android::getErrorCategory(), "Failed to get JNI environment");
+            throw std::system_error{result, core::android::getErrorCategory(), "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 

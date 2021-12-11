@@ -22,7 +22,7 @@ namespace ouzel::core::android
                 char command;
                 while (read(fd, &command, sizeof(command)) == -1)
                     if (errno != EINTR)
-                        throw std::system_error(errno, std::system_category(), "Failed to read from pipe");
+                        throw std::system_error{errno, std::system_category(), "Failed to read from pipe"};
 
                 const auto engineAndroid = static_cast<Engine*>(data);
 
@@ -46,7 +46,7 @@ namespace ouzel::core::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
+            throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -83,7 +83,7 @@ namespace ouzel::core::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
+            throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -144,15 +144,15 @@ namespace ouzel::core::android
         // looper
         looper = ALooper_forThread(); // this is called on main thread, so it is safe to get the looper here
         if (!looper)
-            throw std::runtime_error("Main thread has no looper");
+            throw std::runtime_error{"Main thread has no looper"};
 
         ALooper_acquire(looper);
         while (pipe(looperPipe.data()) == -1)
             if (errno != EINTR)
-                throw std::system_error(errno, std::system_category(), "Failed to create pipe");
+                throw std::system_error{errno, std::system_category(), "Failed to create pipe"};
 
         if (ALooper_addFd(looper, looperPipe[0], ALOOPER_POLL_CALLBACK, ALOOPER_EVENT_INPUT, looperCallback, this) != 1)
-            throw std::runtime_error("Failed to add looper file descriptor");
+            throw std::runtime_error{"Failed to add looper file descriptor"};
     }
 
     void Engine::onSurfaceCreated(jobject newSurface)
@@ -160,7 +160,7 @@ namespace ouzel::core::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
+            throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -189,7 +189,7 @@ namespace ouzel::core::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
+            throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -226,7 +226,7 @@ namespace ouzel::core::android
     {
         void* jniEnvPointer;
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error(result, errorCategory, "Failed to get JNI environment");
+            throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -268,7 +268,7 @@ namespace ouzel::core::android
         const std::uint8_t command = 1;
         while (write(looperPipe[1], &command, sizeof(command)) == -1)
             if (errno != EINTR)
-                throw std::system_error(errno, std::system_category(), "Failed to write to pipe");
+                throw std::system_error{errno, std::system_category(), "Failed to write to pipe"};
     }
 
     void Engine::openUrl(const std::string& url)
@@ -277,7 +277,7 @@ namespace ouzel::core::android
             void* jniEnvPointer;
 
             if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-                throw std::system_error(result, errorCategory, "Failed to get JNI environment");
+                throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
             const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -296,7 +296,7 @@ namespace ouzel::core::android
             if (jniEnv->ExceptionCheck())
             {
                 jniEnv->ExceptionClear();
-                throw std::runtime_error("Failed to open URL");
+                throw std::runtime_error{"Failed to open URL"};
             }
         });
     }
@@ -309,7 +309,7 @@ namespace ouzel::core::android
             void* jniEnvPointer;
 
             if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-                throw std::system_error(result, errorCategory, "Failed to get JNI environment");
+                throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
             const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -346,7 +346,7 @@ namespace ouzel::core::android
         attachArgs.group = nullptr; // thread group
 
         if (const auto result = javaVm->AttachCurrentThread(&jniEnv, &attachArgs); result != JNI_OK)
-            throw std::system_error(result, errorCategory, "Failed to attach current thread to Java VM");
+            throw std::system_error{result, errorCategory, "Failed to attach current thread to Java VM"};
 
         core::Engine::engineMain();
 
@@ -354,6 +354,6 @@ namespace ouzel::core::android
             jniEnv->ExceptionDescribe();
 
         if (const auto result = javaVm->DetachCurrentThread(); result != JNI_OK)
-            throw std::system_error(result, errorCategory, "Failed to detach current thread from Java VM");
+            throw std::system_error{result, errorCategory, "Failed to detach current thread from Java VM"};
     }
 }

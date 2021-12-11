@@ -14,7 +14,7 @@ namespace ouzel::platform::x11
         ThreadSupport()
         {
             if (!XInitThreads())
-                throw std::runtime_error("Failed to initialize thread support");
+                throw std::runtime_error{"Failed to initialize thread support"};
         }
     };
 }

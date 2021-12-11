@@ -40,7 +40,7 @@ namespace ouzel::network
     {
         addrinfo* info;
         if (const auto ret = getaddrinfo(address.c_str(), nullptr, nullptr, &info); ret != 0)
-            throw std::system_error(errno, std::system_category(), "Failed to get address info of " + address);
+            throw std::system_error{errno, std::system_category(), "Failed to get address info of " + address};
 
         sockaddr_in* addr = bitCast<sockaddr_in*>(info->ai_addr);
         const std::uint32_t result = ntohl(addr->sin_addr.s_addr);

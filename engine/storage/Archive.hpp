@@ -35,7 +35,7 @@ namespace ouzel::storage
                     break;
 
                 if (decodeLittleEndian<std::uint32_t>(signatureData) != headerSignature)
-                    throw std::runtime_error("Bad signature");
+                    throw std::runtime_error{"Bad signature"};
 
                 file.seekg(2, std::ios::cur); // skip version
                 file.seekg(2, std::ios::cur); // skip flags
@@ -44,7 +44,7 @@ namespace ouzel::storage
                 file.read(reinterpret_cast<char*>(&compressionData), sizeof(compressionData));
 
                 if (decodeLittleEndian<std::uint16_t>(compressionData) != 0x00)
-                    throw std::runtime_error("Unsupported compression");
+                    throw std::runtime_error{"Unsupported compression"};
 
                 file.seekg(2, std::ios::cur); // skip modification time
                 file.seekg(2, std::ios::cur); // skip modification date
@@ -91,7 +91,7 @@ namespace ouzel::storage
                 return data;
             }
             else
-                throw std::runtime_error("File " + std::string{filename} + " does not exist");
+                throw std::runtime_error{"File " + std::string{filename} + " does not exist"};
         }
 
         bool fileExists(std::string_view filename) const

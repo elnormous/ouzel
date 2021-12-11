@@ -84,7 +84,7 @@ namespace ouzel::audio
         else if (driver == "wasapi")
             return Driver::wasapi;
         else
-            throw std::runtime_error("Invalid audio driver");
+            throw std::runtime_error{"Invalid audio driver"};
     }
 
     namespace

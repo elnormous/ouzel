@@ -446,11 +446,11 @@ namespace ouzel::core::windows
 
         HINSTANCE instance = GetModuleHandleW(nullptr);
         if (!instance)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to get module handle"};
 
         HCURSOR arrowCursor = LoadCursor(nullptr, IDC_ARROW);
         if (!arrowCursor)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to load cursor");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to load cursor"};
 
         WNDCLASSEXW wc;
         wc.cbSize = sizeof(wc);
@@ -469,7 +469,7 @@ namespace ouzel::core::windows
 
         windowClass = RegisterClassExW(&wc);
         if (!windowClass)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to register window class");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to register window class"};
 
         windowWindowedStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPSIBLINGS | WS_BORDER | WS_DLGFRAME | WS_THICKFRAME | WS_GROUP | WS_TABSTOP;
 
@@ -486,24 +486,24 @@ namespace ouzel::core::windows
 
         RECT windowRect = {0, 0, static_cast<LONG>(size.v[0]), static_cast<LONG>(size.v[1])};
         if (!AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowExStyle))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to adjust window rectangle");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to adjust window rectangle"};
 
         const int width = (size.v[0] > 0.0F) ? windowRect.right - windowRect.left : CW_USEDEFAULT;
         const int height = (size.v[1] > 0.0F) ? windowRect.bottom - windowRect.top : CW_USEDEFAULT;
 
         const auto buferSize = MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, nullptr, 0);
         if (buferSize == 0)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
         auto titleBuffer = std::make_unique<WCHAR[]>(buferSize);
         if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.get(), buferSize) == 0)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
         window = CreateWindowExW(windowExStyle, MAKEINTATOM(windowClass), titleBuffer.get(), windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to create window");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to create window"};
 
         monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
 
@@ -511,7 +511,7 @@ namespace ouzel::core::windows
             switchFullscreen(fullscreen);
 
         if (!GetClientRect(window, &windowRect))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get client rectangle");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to get client rectangle"};
 
         size.v[0] = static_cast<std::uint32_t>(windowRect.right - windowRect.left);
         size.v[1] = static_cast<std::uint32_t>(windowRect.bottom - windowRect.top);
@@ -526,7 +526,7 @@ namespace ouzel::core::windows
 
         if (!SetWindowLongPtr(window, GWLP_USERDATA, bitCast<LONG_PTR>(this)))
             if (const auto error = GetLastError())
-                throw std::system_error(error, std::system_category(), "Failed to set window pointer");
+                throw std::system_error{error, std::system_category(), "Failed to set window pointer"};
     }
 
     NativeWindow::~NativeWindow()
@@ -573,7 +573,7 @@ namespace ouzel::core::windows
                 restore();
                 break;
             default:
-                throw std::runtime_error("Invalid command");
+                throw std::runtime_error{"Invalid command"};
         }
     }
 
@@ -593,10 +593,10 @@ namespace ouzel::core::windows
 
         RECT rect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
         if (!AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to adjust window rectangle");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to adjust window rectangle"};
 
         if (!SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to set window position");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to set window position"};
 
         resolution = size;
 
@@ -618,14 +618,14 @@ namespace ouzel::core::windows
         {
             const auto buferSize = MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, nullptr, 0);
             if (buferSize == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
             auto titleBuffer = std::make_unique<WCHAR[]>(buferSize);
             if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer.get(), buferSize) == 0)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
             if (!SetWindowTextW(window, titleBuffer.get()))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to set window title");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to set window title"};
 
             title = newTitle;
         }
@@ -675,13 +675,13 @@ namespace ouzel::core::windows
         {
             windowStyle = (newFullscreen ? windowFullscreenStyle : windowWindowedStyle) | WS_VISIBLE;
             if (!SetWindowLong(window, GWL_STYLE, windowStyle))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to set window style");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to set window style"};
 
             if (newFullscreen)
             {
                 RECT windowRect;
                 if (!GetWindowRect(window, &windowRect))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get window rectangle");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to get window rectangle"};
 
                 windowX = windowRect.left;
                 windowY = windowRect.top;
@@ -691,19 +691,19 @@ namespace ouzel::core::windows
                 MONITORINFO info;
                 info.cbSize = sizeof(MONITORINFO);
                 if (!GetMonitorInfo(monitor, &info))
-                    throw std::runtime_error("Failed to get monitor info");
+                    throw std::runtime_error{"Failed to get monitor info"};
 
                 if (!SetWindowPos(window, nullptr, info.rcMonitor.left, info.rcMonitor.top,
                                   info.rcMonitor.right - info.rcMonitor.left,
                                   info.rcMonitor.bottom - info.rcMonitor.top,
                                   SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set window position");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to set window position"};
             }
             else
             {
                 if (!SetWindowPos(window, nullptr, windowX, windowY, windowWidth, windowHeight,
                                   SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to set window position");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to set window position"};
             }
         }
     }
@@ -742,7 +742,7 @@ namespace ouzel::core::windows
 
                 POINT cursorPos;
                 if (!GetCursorPos(&cursorPos))
-                    throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
+                    throw std::system_error{GetLastError(), std::system_category(), "Failed to get cursor position"};
 
                 const math::Vector<float, 2> position{
                     static_cast<float>(cursorPos.x),
@@ -783,7 +783,7 @@ namespace ouzel::core::windows
 
         POINT cursorPos;
         if (!GetCursorPos(&cursorPos))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get cursor position");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to get cursor position"};
 
         const math::Vector<float, 2> position{
             static_cast<float>(cursorPos.x),
@@ -870,7 +870,7 @@ namespace ouzel::core::windows
         std::vector<TOUCHINPUT> touches(inputCount);
 
         if (!GetTouchInputInfo(bitCast<HTOUCHINPUT>(lParam), inputCount, touches.data(), sizeof(TOUCHINPUT)))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get touch info");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to get touch info"};
 
         for (const auto& touch : touches)
         {
@@ -893,7 +893,7 @@ namespace ouzel::core::windows
         }
 
         if (!CloseTouchInputHandle(bitCast<HTOUCHINPUT>(lParam)))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to close touch input handle");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to close touch input handle"};
     }
 
     void NativeWindow::addAccelerator(HACCEL accelerator)

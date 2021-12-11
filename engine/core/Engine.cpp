@@ -114,7 +114,7 @@ namespace ouzel::core
                 else if (textureFilterValue == "trilinear")
                     settings.graphicsSettings.textureFilter = graphics::SamplerFilter::trilinear;
                 else
-                    throw std::runtime_error("Invalid texture filter specified");
+                    throw std::runtime_error{"Invalid texture filter specified"};
             }
 
             const auto& maxAnisotropyValue = userEngineSection.getValue("maxAnisotropy", defaultEngineSection.getValue("maxAnisotropy"));
@@ -288,7 +288,7 @@ namespace ouzel::core
                         break;
 #  endif
                     default:
-                        throw std::runtime_error("Unsupported OpenGL version");
+                        throw std::runtime_error{"Unsupported OpenGL version"};
                 }
 
                 assetBundle.setShader(shaderTexture, std::move(textureShader));
@@ -386,7 +386,7 @@ namespace ouzel::core
                         break;
 #  endif
                     default:
-                        throw std::runtime_error("Unsupported OpenGL version");
+                        throw std::runtime_error{"Unsupported OpenGL version"};
                 }
 
                 assetBundle.setShader(shaderColor, std::move(colorShader));

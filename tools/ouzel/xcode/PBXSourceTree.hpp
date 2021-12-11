@@ -29,7 +29,7 @@ namespace ouzel::xcode
             case PBXSourceTree::developerDir: return "DEVELOPER_DIR";
         }
 
-        throw std::runtime_error("Unsupported source tree");
+        throw std::runtime_error{"Unsupported source tree"};
     }
 }
 

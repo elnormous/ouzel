@@ -49,14 +49,14 @@ int main(int argc, const char* argv[])
                 action = Action::generateProject;
 
                 if (++i >= argc)
-                    throw std::runtime_error("Invalid command");
+                    throw std::runtime_error{"Invalid command"};
 
                 projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::native};
             }
             else if (std::string(argv[i]) == "--project")
             {
                 if (++i >= argc)
-                    throw std::runtime_error("Invalid command");
+                    throw std::runtime_error{"Invalid command"};
 
                 if (std::string(argv[i]) == "all")
                 {
@@ -71,21 +71,21 @@ int main(int argc, const char* argv[])
                 else if (std::string(argv[i]) == "xcode")
                     projectTypes.insert(ProjectType::xcode);
                 else
-                    throw std::runtime_error("Invalid project");
+                    throw std::runtime_error{"Invalid project"};
             }
             else if (std::string(argv[i]) == "--export-assets")
             {
                 action = Action::exportAssets;
 
                 if (++i >= argc)
-                    throw std::runtime_error("Invalid command");
+                    throw std::runtime_error{"Invalid command"};
 
                 projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::native};
             }
             else if (std::string(argv[i]) == "--target")
             {
                 if (++i >= argc)
-                    throw std::runtime_error("Invalid command");
+                    throw std::runtime_error{"Invalid command"};
 
                 targetName = argv[i];
             }
@@ -94,7 +94,7 @@ int main(int argc, const char* argv[])
         switch (action)
         {
             case Action::none:
-                throw std::runtime_error("No action selected");
+                throw std::runtime_error{"No action selected"};
             case Action::generateProject:
             {
                 ouzel::Project project{projectPath};

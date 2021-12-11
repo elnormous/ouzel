@@ -225,7 +225,7 @@ namespace ouzel::xcode
             case PBXFileType::wrapperPBProject: return "wrapper.pb-project";
         }
 
-        throw std::runtime_error("Unsupported file type");
+        throw std::runtime_error{"Unsupported file type"};
     }
 }
 

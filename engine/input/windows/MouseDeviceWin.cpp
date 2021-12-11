@@ -23,10 +23,10 @@ namespace ouzel::input::windows
         p.x = static_cast<LONG>(windowLocation.v[0]);
         p.y = static_cast<LONG>(windowLocation.v[1]);
         if (!ClientToScreen(nativeWindow, &p))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to convert client to screen coordinates");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to convert client to screen coordinates"};
 
         if (!SetCursorPos(static_cast<int>(p.x), static_cast<int>(p.y)))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to set cursor position");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to set cursor position"};
     }
 
     void MouseDevice::setCursorVisible(bool visible)
@@ -42,7 +42,7 @@ namespace ouzel::input::windows
 
             RECT windowRect;
             if (!GetWindowRect(nativeWindow, &windowRect))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to get window rectangle");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to get window rectangle"};
 
             const LONG centerX = (windowRect.left + windowRect.right) / 2;
             const LONG centerY = (windowRect.top + windowRect.bottom) / 2;
@@ -53,10 +53,10 @@ namespace ouzel::input::windows
             windowRect.bottom = centerY + 1;
 
             if (!ClipCursor(&windowRect))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to grab pointer");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to grab pointer"};
         }
         else if (!ClipCursor(nullptr))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to free pointer");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to free pointer"};
     }
 
     void MouseDevice::setCursor(Cursor* newCursor)

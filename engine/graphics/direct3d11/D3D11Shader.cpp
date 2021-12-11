@@ -75,7 +75,7 @@ namespace ouzel::graphics::d3d11
                 case DataType::float32Matrix3: return DXGI_FORMAT_UNKNOWN;
                 case DataType::float32Matrix4: return DXGI_FORMAT_UNKNOWN;
 
-                default: throw std::runtime_error("Invalid data type");
+                default: throw std::runtime_error{"Invalid data type"};
             }
         }
 
@@ -94,7 +94,7 @@ namespace ouzel::graphics::d3d11
                 case Vertex::Attribute::Usage::tangent: return {"TANGENT", static_cast<UINT>(semantic.index)};
                 case Vertex::Attribute::Usage::textureCoordinates: return {"TEXCOORD", static_cast<UINT>(semantic.index)};
                 default:
-                    throw std::runtime_error("Invalid vertex attribute usage");
+                    throw std::runtime_error{"Invalid vertex attribute usage"};
             }
         }
     }
@@ -114,13 +114,13 @@ namespace ouzel::graphics::d3d11
     {
         ID3D11PixelShader* newPixelShader;
         if (const auto hr = renderDevice.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &newPixelShader); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to create a Direct3D 11 pixel shader");
+            throw std::system_error{hr, getErrorCategory(), "Failed to create a Direct3D 11 pixel shader"};
 
         fragmentShader = newPixelShader;
 
         ID3D11VertexShader* newVertexShader;
         if (const auto hr = renderDevice.getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &newVertexShader); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to create a Direct3D 11 vertex shader");
+            throw std::system_error{hr, getErrorCategory(), "Failed to create a Direct3D 11 vertex shader"};
 
         vertexShader = newVertexShader;
 
@@ -135,7 +135,7 @@ namespace ouzel::graphics::d3d11
                 DXGI_FORMAT vertexFormat = getVertexFormat(vertexAttribute.dataType);
 
                 if (vertexFormat == DXGI_FORMAT_UNKNOWN)
-                    throw std::runtime_error("Invalid vertex format");
+                    throw std::runtime_error{"Invalid vertex format"};
 
                 const auto [semantic, index] = semanticToString(vertexAttribute.semantic);
 
@@ -156,7 +156,7 @@ namespace ouzel::graphics::d3d11
                                                                         vertexShaderData.data(),
                                                                         vertexShaderData.size(),
                                                                         &newInputLayout); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 input layout for vertex shader");
+            throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 input layout for vertex shader"};
 
         inputLayout = newInputLayout;
 
@@ -185,7 +185,7 @@ namespace ouzel::graphics::d3d11
 
         if (const auto hr = renderDevice.getDevice()->CreateBuffer(&fragmentShaderConstantBufferDesc, nullptr,
                                                                     &newFragmentShaderConstantBuffer); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 constant buffer");
+            throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 constant buffer"};
 
         fragmentShaderConstantBuffer = newFragmentShaderConstantBuffer;
 
@@ -214,7 +214,7 @@ namespace ouzel::graphics::d3d11
 
         if (const auto hr = renderDevice.getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr,
                                                                     &newVertexShaderConstantBuffer); FAILED(hr))
-            throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 constant buffer");
+            throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 constant buffer"};
 
         vertexShaderConstantBuffer = newVertexShaderConstantBuffer;
     }

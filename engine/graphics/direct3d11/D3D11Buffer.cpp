@@ -26,10 +26,10 @@ namespace ouzel::graphics::d3d11
     void Buffer::setData(const std::vector<std::uint8_t>& data)
     {
         if ((flags & Flags::dynamic) != Flags::dynamic)
-            throw std::runtime_error("Buffer is not dynamic");
+            throw std::runtime_error{"Buffer is not dynamic"};
 
         if (data.empty())
-            throw std::runtime_error("Data is empty");
+            throw std::runtime_error{"Data is empty"};
 
         if (!buffer || data.size() > size)
             createBuffer(static_cast<UINT>(data.size()), data);
@@ -43,7 +43,7 @@ namespace ouzel::graphics::d3d11
                 mappedSubresource.DepthPitch = 0;
 
                 if (const auto hr = renderDevice.getContext()->Map(buffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource); FAILED(hr))
-                    throw std::system_error(hr, getErrorCategory(), "Failed to lock Direct3D 11 buffer");
+                    throw std::system_error{hr, getErrorCategory(), "Failed to lock Direct3D 11 buffer"};
 
                 std::memcpy(mappedSubresource.pData, data.data(), data.size());
 
@@ -71,7 +71,7 @@ namespace ouzel::graphics::d3d11
                     bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
                     break;
                 default:
-                    throw std::runtime_error("Unsupported buffer type");
+                    throw std::runtime_error{"Unsupported buffer type"};
             }
 
             bufferDesc.CPUAccessFlags = (flags & Flags::dynamic) == Flags::dynamic ? D3D11_CPU_ACCESS_WRITE : 0;
@@ -82,7 +82,7 @@ namespace ouzel::graphics::d3d11
             {
                 ID3D11Buffer* newBuffer;
                 if (const auto hr = renderDevice.getDevice()->CreateBuffer(&bufferDesc, nullptr, &newBuffer); FAILED(hr))
-                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 buffer");
+                    throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 buffer"};
 
                 buffer = newBuffer;
             }
@@ -95,7 +95,7 @@ namespace ouzel::graphics::d3d11
 
                 ID3D11Buffer* newBuffer;
                 if (const auto hr = renderDevice.getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &newBuffer); FAILED(hr))
-                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 buffer");
+                    throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 buffer"};
 
                 buffer = newBuffer;
             }

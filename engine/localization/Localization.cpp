@@ -31,7 +31,7 @@ namespace ouzel
                             (static_cast<std::uint32_t>(bytes[3]) << 24);
                     };
                 default:
-                    throw std::runtime_error("Wrong magic " + std::to_string(magic));
+                    throw std::runtime_error{"Wrong magic " + std::to_string(magic)};
             }
         }
     }
@@ -39,7 +39,7 @@ namespace ouzel
     Language::Language(const std::vector<std::byte>& data)
     {
         if (data.size() < 5U * sizeof(std::uint32_t))
-            throw std::runtime_error("Not enough data");
+            throw std::runtime_error{"Not enough data"};
 
         const auto magic = static_cast<std::uint32_t>(data[0]) |
             (static_cast<std::uint32_t>(data[1]) << 8) |
@@ -52,7 +52,7 @@ namespace ouzel
         const std::uint32_t revision = decodeUInt32(data.data() + revisionOffset);
 
         if (revision != 0)
-            throw std::runtime_error("Unsupported revision " + std::to_string(revision));
+            throw std::runtime_error{"Unsupported revision " + std::to_string(revision)};
 
         const std::size_t stringCountOffset = revisionOffset + sizeof(revision);
         const std::uint32_t stringCount = decodeUInt32(data.data() + stringCountOffset);
@@ -74,7 +74,7 @@ namespace ouzel
         const std::uint32_t translationsOffset = decodeUInt32(data.data() + translationsOffsetOffset);
 
         if (data.size() < stringsOffset + 2 * sizeof(std::uint32_t) * stringCount)
-            throw std::runtime_error("Not enough data");
+            throw std::runtime_error{"Not enough data"};
 
         std::size_t stringOffset = stringsOffset;
         for (std::uint32_t i = 0; i < stringCount; ++i)
@@ -87,7 +87,7 @@ namespace ouzel
         }
 
         if (data.size() < translationsOffset + 2 * sizeof(std::uint32_t) * stringCount)
-            throw std::runtime_error("Not enough data");
+            throw std::runtime_error{"Not enough data"};
 
         std::size_t translationOffset = translationsOffset;
         for (std::uint32_t i = 0; i < stringCount; ++i)
@@ -103,7 +103,7 @@ namespace ouzel
         {
             if (data.size() < translations[i].stringOffset + translations[i].stringLength ||
                 data.size() < translations[i].translationOffset + translations[i].translationLength)
-                throw std::runtime_error("Not enough data");
+                throw std::runtime_error{"Not enough data"};
 
             const std::string str{
                 reinterpret_cast<const char*>(data.data() + translations[i].stringOffset),

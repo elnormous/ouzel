@@ -147,7 +147,7 @@ namespace ouzel::core::macos
             if (exclusiveFullscreen)
             {
                 if (const auto result = CGDisplayCapture(displayId); result != kCGErrorSuccess)
-                    throw std::system_error(result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display");
+                    throw std::system_error{result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display"};
 
                 windowRect = frame;
                 [window setStyleMask:NSBorderlessWindowMask];
@@ -195,7 +195,7 @@ namespace ouzel::core::macos
                 break;
 #endif
             default:
-                throw std::runtime_error("Unsupported render driver");
+                throw std::runtime_error{"Unsupported render driver"};
         }
 
         [view setAcceptsTouchEvents:YES];
@@ -271,7 +271,7 @@ namespace ouzel::core::macos
                 restore();
                 break;
             default:
-                throw std::runtime_error("Invalid command");
+                throw std::runtime_error{"Invalid command"};
         }
     }
 
@@ -329,7 +329,7 @@ namespace ouzel::core::macos
                 if (newFullscreen)
                 {
                     if (const auto result = CGDisplayCapture(displayId); result != kCGErrorSuccess)
-                        throw std::system_error(result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display");
+                        throw std::system_error{result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display"};
 
                     windowRect = [window frame];
                     [window setStyleMask:NSBorderlessWindowMask];
@@ -347,7 +347,7 @@ namespace ouzel::core::macos
                     [window setFrame:windowRect display:YES animate:NO];
 
                     if (const auto result = CGDisplayRelease(displayId); result != kCGErrorSuccess)
-                        throw std::system_error(result, platform::coregraphics::getErrorCategory(), "Failed to release the main display");
+                        throw std::system_error{result, platform::coregraphics::getErrorCategory(), "Failed to release the main display"};
                 }
             }
             else

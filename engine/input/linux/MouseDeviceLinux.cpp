@@ -54,7 +54,7 @@ namespace ouzel::input::linux
                              ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask,
                              GrabModeAsync, GrabModeAsync,
                              None, None, CurrentTime) != GrabSuccess)
-                throw std::runtime_error("Failed to grab pointer");
+                throw std::runtime_error{"Failed to grab pointer"};
         }
         else
             XUngrabPointer(display, CurrentTime);

@@ -47,12 +47,12 @@ namespace ouzel::storage
 #if defined(_WIN32)
         HINSTANCE instance = GetModuleHandleW(nullptr);
         if (!instance)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to get module handle"};
         std::vector<WCHAR> buffer(MAX_PATH + 1);
         for (;;)
         {
             if (!GetModuleFileNameW(instance, buffer.data(), static_cast<DWORD>(buffer.size())))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to get module filename");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to get module filename"};
 
             if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
                 buffer.resize(buffer.size() * 2);
@@ -67,11 +67,11 @@ namespace ouzel::storage
 #elif defined(__APPLE__)
         CFBundleRef bundle = CFBundleGetMainBundle();
         if (!bundle)
-            throw std::runtime_error("Failed to get main bundle");
+            throw std::runtime_error{"Failed to get main bundle"};
 
         CfPointer<CFURLRef> relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
         if (!relativePath)
-            throw std::runtime_error("Failed to get resource directory");
+            throw std::runtime_error{"Failed to get resource directory"};
 
         CfPointer<CFURLRef> absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
         CfPointer<CFStringRef> path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
@@ -79,7 +79,7 @@ namespace ouzel::storage
         const auto maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
         auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));
         if (const auto result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize); !result)
-            throw std::runtime_error("Failed to get resource directory");
+            throw std::runtime_error{"Failed to get resource directory"};
 
         appPath = Path{resourceDirectory.get(), Path::Format::native};
         log(Log::Level::info) << "Application directory: " << appPath;
@@ -92,7 +92,7 @@ namespace ouzel::storage
 
         const ssize_t length = readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory) - 1);
         if (length == -1)
-            throw std::system_error(errno, std::system_category(), "Failed to get current directory");
+            throw std::system_error{errno, std::system_category(), "Failed to get current directory"};
 
         executableDirectory[length] = '\0';
         const auto executablePath = Path{executableDirectory, Path::Format::native};
@@ -114,18 +114,18 @@ namespace ouzel::storage
                                              nullptr,
                                              SHGFP_TYPE_CURRENT,
                                              appDataPath); FAILED(hr))
-            throw std::system_error(hr, std::system_category(), "Failed to get the path of the AppData directory");
+            throw std::system_error{hr, std::system_category(), "Failed to get the path of the AppData directory"};
 
         auto path = Path{appDataPath, Path::Format::native};
 
         const auto instance = GetModuleHandleW(nullptr);
         if (!instance)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get module handle");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to get module handle"};
         std::vector<WCHAR> buffer(MAX_PATH + 1);
         for (;;)
         {
             if (!GetModuleFileNameW(instance, buffer.data(), static_cast<DWORD>(buffer.size())))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to get module filename");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to get module filename"};
 
             if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
                 buffer.resize(buffer.size() * 2);
@@ -137,13 +137,13 @@ namespace ouzel::storage
         DWORD handle;
         const auto fileVersionSize = GetFileVersionInfoSizeW(executablePath.getNative().c_str(), &handle);
         if (!fileVersionSize)
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get file version size");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to get file version size"};
 
         auto fileVersionBuffer = std::make_unique<char[]>(fileVersionSize);
         if (!GetFileVersionInfoW(executablePath.getNative().c_str(),
                                  0, fileVersionSize,
                                  fileVersionBuffer.get()))
-            throw std::system_error(GetLastError(), std::system_category(), "Failed to get file version");
+            throw std::system_error{GetLastError(), std::system_category(), "Failed to get file version"};
 
         LPWSTR companyName = nullptr;
         LPWSTR productName = nullptr;
@@ -224,7 +224,7 @@ namespace ouzel::storage
         const id documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
         if (!documentDirectory)
-            throw std::runtime_error("Failed to get document directory");
+            throw std::runtime_error{"Failed to get document directory"};
 
         const auto documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
         const auto pathUtf8String = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
@@ -239,7 +239,7 @@ namespace ouzel::storage
         const auto applicationSupportDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSApplicationSupportDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
         if (!applicationSupportDirectory)
-            throw std::runtime_error("Failed to get application support directory");
+            throw std::runtime_error{"Failed to get application support directory"};
 
         CFBundleRef bundle = CFBundleGetMainBundle();
         CFStringRef identifier = CFBundleGetIdentifier(bundle);
@@ -270,10 +270,10 @@ namespace ouzel::storage
                 if (result == ERANGE)
                     buffer.resize(buffer.size() * 2);
                 else
-                    throw std::system_error(result, std::system_category(), "Failed to get password record");
+                    throw std::system_error{result, std::system_category(), "Failed to get password record"};
 
             if (!pwentp)
-                throw std::system_error(result, std::system_category(), "No matching password record found");
+                throw std::system_error{result, std::system_category(), "No matching password record found"};
 
             path = Path{pwent.pw_dir, Path::Format::native};
             path /= ".local";
@@ -322,7 +322,7 @@ namespace ouzel::storage
             auto asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
 
             if (!asset)
-                throw std::runtime_error("Failed to open file " + std::string(filename));
+                throw std::runtime_error{"Failed to open file " + std::string(filename)};
 
             std::vector<std::byte> data;
             std::byte buffer[1024];
@@ -332,7 +332,7 @@ namespace ouzel::storage
                 const auto bytesRead = AAsset_read(asset, buffer, sizeof(buffer));
 
                 if (bytesRead < 0)
-                    throw std::runtime_error("Failed to read from file");
+                    throw std::runtime_error{"Failed to read from file"};
                 else if (bytesRead == 0)
                     break;
 
@@ -349,11 +349,11 @@ namespace ouzel::storage
 
         // file does not exist
         if (path.isEmpty())
-            throw std::runtime_error("Failed to find file " + std::string(filename));
+            throw std::runtime_error{"Failed to find file " + std::string(filename)};
 
         std::ifstream file{path, std::ios::binary};
         if (!file)
-            throw std::runtime_error("Failed to open file " + std::string(filename));
+            throw std::runtime_error{"Failed to open file " + std::string(filename)};
 
         std::vector<std::byte> data;
         std::byte buffer[1024];

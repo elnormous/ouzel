@@ -36,13 +36,13 @@ namespace ouzel::thread
         {
 #ifdef _MSC_VER
             if (semaphore == INVALID_HANDLE_VALUE)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to create semaphore");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to create semaphore"};
 #elif defined(__APPLE__)
             if (!semaphore)
-                throw std::runtime_error("Failed to create semaphore");
+                throw std::runtime_error{"Failed to create semaphore"};
 #else
             if (sem_init(&semaphore, 0, static_cast<unsigned int>(initValue)) == -1)
-                throw std::system_error(errno, std::system_category(), "Failed to open semaphore");
+                throw std::system_error{errno, std::system_category(), "Failed to open semaphore"};
 #endif
         }
 
@@ -67,14 +67,14 @@ namespace ouzel::thread
         {
 #ifdef _MSC_VER
             if (WaitForSingleObject(semaphore, INFINITE) == WAIT_FAILED)
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to wait for semaphore");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to wait for semaphore"};
 #elif defined(__APPLE__)
             if (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER) != 0)
-                throw std::runtime_error("Failed to wait for semaphore");
+                throw std::runtime_error{"Failed to wait for semaphore"};
 #else
             while (sem_wait(&semaphore) == -1)
                 if (errno != EINTR)
-                    throw std::system_error(errno, std::system_category(), "Failed to wait for semaphore");
+                    throw std::system_error{errno, std::system_category(), "Failed to wait for semaphore"};
 #endif
         }
 
@@ -82,15 +82,15 @@ namespace ouzel::thread
         {
 #ifdef _MSC_VER
             if (!ReleaseSemaphore(semaphore, static_cast<LONG>(count), nullptr))
-                throw std::system_error(GetLastError(), std::system_category(), "Failed to release semaphore");
+                throw std::system_error{GetLastError(), std::system_category(), "Failed to release semaphore"};
 #elif defined(__APPLE__)
             while (count-- > 0)
                 if (dispatch_semaphore_signal(semaphore) != 0)
-                    throw std::runtime_error("Failed to signal semaphore");
+                    throw std::runtime_error{"Failed to signal semaphore"};
 #else
             while (count-- > 0)
                 if (sem_post(&semaphore) == -1)
-                    throw std::system_error(errno, std::system_category(), "Failed to post semaphore");
+                    throw std::system_error{errno, std::system_category(), "Failed to post semaphore"};
 #endif
         }
 

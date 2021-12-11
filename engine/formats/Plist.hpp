@@ -473,10 +473,10 @@ namespace ouzel::plist
                 else if (auto date = std::get_if<Date>(&value.getValue()))
                 {
                     (void)date;
-                    throw std::runtime_error("Date fields are not supported");
+                    throw std::runtime_error{"Date fields are not supported"};
                 }
                 else
-                    throw std::runtime_error("Unsupported format");
+                    throw std::runtime_error{"Unsupported format"};
             }
         };
 
@@ -606,10 +606,10 @@ namespace ouzel::plist
                 else if (auto date = std::get_if<Date>(&value.getValue()))
                 {
                     (void)date;
-                    throw std::runtime_error("Date fields are not supported");
+                    throw std::runtime_error{"Date fields are not supported"};
                 }
                 else
-                    throw std::runtime_error("Unsupported format");
+                    throw std::runtime_error{"Unsupported format"};
             }
         };
 
@@ -619,7 +619,7 @@ namespace ouzel::plist
             case Format::xml: return XmlEncoder::encode(value, whitespaces);
         }
 
-        throw std::runtime_error("Unsupported format");
+        throw std::runtime_error{"Unsupported format"};
     }
 }
 

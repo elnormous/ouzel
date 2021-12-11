@@ -420,7 +420,7 @@ namespace ouzel::obf
                     break;
                 }
                 default:
-                    throw std::runtime_error("Unsupported type");
+                    throw std::runtime_error{"Unsupported type"};
             }
 
             return size;

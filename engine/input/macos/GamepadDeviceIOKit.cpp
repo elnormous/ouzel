@@ -29,7 +29,7 @@ namespace ouzel::input::macos
                 case kHIDUsage_GD_Rx: return 3;
                 case kHIDUsage_GD_Ry: return 4;
                 case kHIDUsage_GD_Rz: return 5;
-                default: throw std::runtime_error("Unknown axis");
+                default: throw std::runtime_error{"Unknown axis"};
             }
         }
     }
@@ -41,7 +41,7 @@ namespace ouzel::input::macos
         device{initDevice}
     {
         if (const auto result = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone); result != kIOReturnSuccess)
-            throw std::system_error(result, getErrorCategory(), "Failed to open HID device");
+            throw std::system_error{result, getErrorCategory(), "Failed to open HID device"};
 
         const auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
         if (productName)
@@ -59,19 +59,19 @@ namespace ouzel::input::macos
 
         const auto vendor = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)));
         if (!vendor)
-            throw std::runtime_error("Failed to get vendor ID");
+            throw std::runtime_error{"Failed to get vendor ID"};
 
         std::int32_t vendorId;
         if (!CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId))
-            throw std::runtime_error("Failed to get vendor ID");
+            throw std::runtime_error{"Failed to get vendor ID"};
 
         const auto product = static_cast<CFNumberRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)));
         if (!product)
-            throw std::runtime_error("Failed to get product ID");
+            throw std::runtime_error{"Failed to get product ID"};
 
         std::int32_t productId;
         if (!CFNumberGetValue(product, kCFNumberSInt32Type, &productId))
-            throw std::runtime_error("Failed to get product ID");
+            throw std::runtime_error{"Failed to get product ID"};
 
         const auto& gamepadConfig = getGamepadConfig(vendorId, productId);
 

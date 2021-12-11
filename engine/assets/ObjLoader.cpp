@@ -66,7 +66,7 @@ namespace ouzel::assets
             }
 
             if (result.empty())
-                throw std::runtime_error("Invalid string");
+                throw std::runtime_error{"Invalid string"};
 
             return result;
         }
@@ -146,7 +146,7 @@ namespace ouzel::assets
             {
                 value.push_back(static_cast<char>(*iterator));
                 if (++iterator == end)
-                    throw std::runtime_error("Invalid exponent");
+                    throw std::runtime_error{"Invalid exponent"};
 
                 if (static_cast<char>(*iterator) == '+' ||
                     static_cast<char>(*iterator) == '-')
@@ -155,7 +155,7 @@ namespace ouzel::assets
                 if (iterator == end ||
                     static_cast<char>(*iterator) < '0' ||
                     static_cast<char>(*iterator) > '9')
-                    throw std::runtime_error("Invalid exponent");
+                    throw std::runtime_error{"Invalid exponent"};
 
                 while (iterator != end &&
                        static_cast<char>(*iterator) >= '0' &&
@@ -316,7 +316,7 @@ namespace ouzel::assets
                             positionIndex = static_cast<std::int32_t>(positions.size()) + positionIndex + 1;
 
                         if (positionIndex < 1 || positionIndex > static_cast<std::int32_t>(positions.size()))
-                            throw std::runtime_error("Invalid position index");
+                            throw std::runtime_error{"Invalid position index"};
 
                         std::get<0>(i) = static_cast<std::uint32_t>(positionIndex);
 
@@ -333,7 +333,7 @@ namespace ouzel::assets
                                     texCoordIndex = static_cast<std::int32_t>(texCoords.size()) + texCoordIndex + 1;
 
                                 if (texCoordIndex < 1 || texCoordIndex > static_cast<std::int32_t>(texCoords.size()))
-                                    throw std::runtime_error("Invalid texture coordinate index");
+                                    throw std::runtime_error{"Invalid texture coordinate index"};
 
                                 std::get<1>(i) = static_cast<std::uint32_t>(texCoordIndex);
                             }
@@ -347,7 +347,7 @@ namespace ouzel::assets
                                     normalIndex = static_cast<std::int32_t>(normals.size()) + normalIndex + 1;
 
                                 if (normalIndex < 1 || normalIndex > static_cast<std::int32_t>(normals.size()))
-                                    throw std::runtime_error("Invalid normal index");
+                                    throw std::runtime_error{"Invalid normal index"};
 
                                 std::get<2>(i) = static_cast<std::uint32_t>(normalIndex);
                             }
@@ -375,7 +375,7 @@ namespace ouzel::assets
                     }
 
                     if (vertexIndices.size() < 3)
-                        throw std::runtime_error("Invalid face count");
+                        throw std::runtime_error{"Invalid face count"};
                     else if (vertexIndices.size() == 3)
                         for (const auto vertexIndex : vertexIndices)
                             indices.push_back(vertexIndex);

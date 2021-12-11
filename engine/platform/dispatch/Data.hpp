@@ -18,7 +18,7 @@ namespace ouzel::platform::dispatch
             data{dispatch_data_create(buffer, size, queue, destructor)}
         {
             if (!data)
-                throw std::runtime_error("Failed to create dispatch data");
+                throw std::runtime_error{"Failed to create dispatch data"};
         }
 
         ~Data()

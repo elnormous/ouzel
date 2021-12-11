@@ -26,7 +26,7 @@ namespace ouzel::platform::winapi
             dc{GetDC(window)}
         {
             if (!dc)
-                throw std::runtime_error("Failed to get device context");
+                throw std::runtime_error{"Failed to get device context"};
         }
 
         ~DeviceContext()

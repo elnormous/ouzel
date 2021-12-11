@@ -49,7 +49,7 @@ namespace ouzel::graphics::d3d11
                 case PixelFormat::rgba32Float: return DXGI_FORMAT_R32G32B32A32_FLOAT;
                 case PixelFormat::depth: return DXGI_FORMAT_D32_FLOAT;
                 case PixelFormat::depthStencil: return DXGI_FORMAT_D24_UNORM_S8_UINT;
-                default: throw std::runtime_error("Invalid pixel format");
+                default: throw std::runtime_error{"Invalid pixel format"};
             }
         }
 
@@ -60,7 +60,7 @@ namespace ouzel::graphics::d3d11
                 switch (type)
                 {
                     case TextureType::twoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2DMS;
-                    default: throw std::runtime_error("Invalid multisample texture type");
+                    default: throw std::runtime_error{"Invalid multisample texture type"};
                 }
             }
             else
@@ -71,7 +71,7 @@ namespace ouzel::graphics::d3d11
                     case TextureType::twoDimensional: return D3D11_SRV_DIMENSION_TEXTURE2D;
                     case TextureType::threeDimensional: return D3D11_SRV_DIMENSION_TEXTURE3D;
                     case TextureType::cube: return D3D11_SRV_DIMENSION_TEXTURE3D;
-                    default: throw std::runtime_error("Invalid texture type");
+                    default: throw std::runtime_error{"Invalid texture type"};
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace ouzel::graphics::d3d11
                 case CubeFace::negativeY: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Y;
                 case CubeFace::positiveZ: return D3D11_TEXTURECUBE_FACE_POSITIVE_Z;
                 case CubeFace::negativeZ: return D3D11_TEXTURECUBE_FACE_NEGATIVE_Z;
-                default: throw std::runtime_error("Invalid cube face");
+                default: throw std::runtime_error{"Invalid cube face"};
             }
         }
     }
@@ -109,10 +109,10 @@ namespace ouzel::graphics::d3d11
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw std::runtime_error("Invalid mip map count");
+            throw std::runtime_error{"Invalid mip map count"};
 
         if (pixelFormat == DXGI_FORMAT_UNKNOWN)
-            throw std::runtime_error("Invalid pixel format");
+            throw std::runtime_error{"Invalid pixel format"};
 
         DXGI_FORMAT texturePixelFormat = pixelFormat;
         DXGI_FORMAT shaderViewPixelFormat = pixelFormat;
@@ -136,7 +136,7 @@ namespace ouzel::graphics::d3d11
         height = static_cast<UINT>(levels.front().first.v[1]);
 
         if (!width || !height)
-            throw std::runtime_error("Invalid texture size");
+            throw std::runtime_error{"Invalid texture size"};
 
         D3D11_TEXTURE2D_DESC textureDescriptor;
         textureDescriptor.Width = width;
@@ -172,7 +172,7 @@ namespace ouzel::graphics::d3d11
         {
             ID3D11Texture2D* newTexture;
             if (const auto hr = renderDevice.getDevice()->CreateTexture2D(&textureDescriptor, nullptr, &newTexture); FAILED(hr))
-                throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 texture");
+                throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 texture"};
 
             texture = newTexture;
         }
@@ -189,7 +189,7 @@ namespace ouzel::graphics::d3d11
 
             ID3D11Texture2D* newTexture;
             if (const auto hr = renderDevice.getDevice()->CreateTexture2D(&textureDescriptor, subresourceData.data(), &newTexture); FAILED(hr))
-                throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 texture");
+                throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 texture"};
 
             texture = newTexture;
         }
@@ -218,7 +218,7 @@ namespace ouzel::graphics::d3d11
 
                 ID3D11Texture2D* newMsaaTexture;
                 if (const auto hr = renderDevice.getDevice()->CreateTexture2D(&msaaTextureDescriptor, nullptr, &newMsaaTexture); FAILED(hr))
-                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 texture");
+                    throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 texture"};
 
                 msaaTexture = newMsaaTexture;
 
@@ -233,7 +233,7 @@ namespace ouzel::graphics::d3d11
                     ID3D11DepthStencilView* newDepthStenciView;
 
                     if (const auto hr = renderDevice.getDevice()->CreateDepthStencilView(msaaTexture.get(), &depthStencilViewDesc, &newDepthStenciView); FAILED(hr))
-                        throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil view");
+                        throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil view"};
 
                     depthStencilView = newDepthStenciView;
                 }
@@ -247,7 +247,7 @@ namespace ouzel::graphics::d3d11
                     ID3D11RenderTargetView* newRenderTargetView;
 
                     if (const auto hr = renderDevice.getDevice()->CreateRenderTargetView(msaaTexture.get(), &renderTargetViewDesc, &newRenderTargetView); FAILED(hr))
-                        throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 render target view");
+                        throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 render target view"};
 
                     renderTargetView = newRenderTargetView;
                 }
@@ -264,7 +264,7 @@ namespace ouzel::graphics::d3d11
 
                     ID3D11DepthStencilView* newDepthStenciView;
                     if (const auto hr = renderDevice.getDevice()->CreateDepthStencilView(texture.get(), &depthStencilViewDesc, &newDepthStenciView); FAILED(hr))
-                        throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil view");
+                        throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 depth stencil view"};
 
                     depthStencilView = newDepthStenciView;
                 }
@@ -277,7 +277,7 @@ namespace ouzel::graphics::d3d11
 
                     ID3D11RenderTargetView* newRenderTargetView;
                     if (const auto hr = renderDevice.getDevice()->CreateRenderTargetView(texture.get(), &renderTargetViewDesc, &newRenderTargetView); FAILED(hr))
-                        throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 render target view");
+                        throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 render target view"};
 
                     renderTargetView = newRenderTargetView;
                 }
@@ -294,7 +294,7 @@ namespace ouzel::graphics::d3d11
 
                 ID3D11ShaderResourceView* newResourceView;
                 if (const auto hr = renderDevice.getDevice()->CreateShaderResourceView(texture.get(), &resourceViewDesc, &newResourceView); FAILED(hr))
-                    throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 shader resource view");
+                    throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 shader resource view"};
 
                 resourceView = newResourceView;
             }
@@ -309,7 +309,7 @@ namespace ouzel::graphics::d3d11
 
             ID3D11ShaderResourceView* newResourceView;
             if (const auto hr = renderDevice.getDevice()->CreateShaderResourceView(texture.get(), &resourceViewDesc, &newResourceView); FAILED(hr))
-                throw std::system_error(hr, getErrorCategory(), "Failed to create Direct3D 11 shader resource view");
+                throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 shader resource view"};
 
             resourceView = newResourceView;
         }
@@ -327,7 +327,7 @@ namespace ouzel::graphics::d3d11
     {
         if ((flags & Flags::dynamic) != Flags::dynamic ||
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
-            throw std::runtime_error("Texture is not dynamic");
+            throw std::runtime_error{"Texture is not dynamic"};
 
         for (std::size_t level = 0; level < levels.size(); ++level)
         {
@@ -341,7 +341,7 @@ namespace ouzel::graphics::d3d11
                 if (const auto hr = renderDevice.getContext()->Map(texture.get(), static_cast<UINT>(level),
                                                                    (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
                                                                    0, &mappedSubresource); FAILED(hr))
-                    throw std::system_error(hr, getErrorCategory(), "Failed to map Direct3D 11 texture");
+                    throw std::system_error{hr, getErrorCategory(), "Failed to map Direct3D 11 texture"};
 
 
                 if (mappedSubresource.RowPitch == levels[level].first.v[0] * pixelSize)
@@ -414,7 +414,7 @@ namespace ouzel::graphics::d3d11
         samplerState = renderDevice.getSamplerState(samplerDescriptor);
 
         if (!samplerState)
-            throw std::runtime_error("Failed to get D3D11 sampler state");
+            throw std::runtime_error{"Failed to get D3D11 sampler state"};
     }
 }
 

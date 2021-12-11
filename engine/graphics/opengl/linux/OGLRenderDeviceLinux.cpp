@@ -50,13 +50,13 @@ namespace ouzel::graphics::opengl::linux
             
             EGLint configCount;
             if (!eglChooseConfig(display, attributeList, nullptr, 0, &configCount))
-                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
+                throw std::system_error{eglGetError(), eglErrorCategory, "Failed to choose EGL config"};
 
             if (configCount == 0) return {};
 
             std::vector<EGLConfig> configs(configCount);
             if (!eglChooseConfig(display, attributeList, configs.data(), configCount, &configCount))
-                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to choose EGL config");
+                throw std::system_error{eglGetError(), eglErrorCategory, "Failed to choose EGL config"};
 
             return configs;
         }
@@ -82,19 +82,19 @@ namespace ouzel::graphics::opengl::linux
 
         display = eglGetDisplay(nativeDisplay);
         if (display == EGL_NO_DISPLAY)
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get display");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to get display"};
 
         if (!eglInitialize(display, nullptr, nullptr))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to initialize EGL");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to initialize EGL"};
 
         const auto eglVersionPtr = eglQueryString(display, EGL_VERSION);
         if (!eglVersionPtr)
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get EGL version");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to get EGL version"};
         log(Log::Level::all) << "EGL version: " << eglVersionPtr;
 
         const auto eglExtensionsPtr = eglQueryString(display, EGL_EXTENSIONS);
         if (!eglExtensionsPtr)
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to get EGL extensions");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to get EGL extensions"};
         const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
         log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
@@ -115,15 +115,15 @@ namespace ouzel::graphics::opengl::linux
 
 #if OUZEL_OPENGLES
             if (!eglBindAPI(EGL_OPENGL_ES_API))
-                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API");
+                throw std::system_error{eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API"};
 #else
             if (!eglBindAPI(EGL_OPENGL_API))
-                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to bind OpenGL API");
+                throw std::system_error{eglGetError(), eglErrorCategory, "Failed to bind OpenGL API"};
 #endif
 
             surface = eglCreateWindowSurface(display, configs[0], nativeWindow, nullptr);
             if (surface == EGL_NO_SURFACE)
-                throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL window surface");
+                throw std::system_error{eglGetError(), eglErrorCategory, "Failed to create EGL window surface"};
 
             const EGLint contextAttributes[] = {
                 EGL_CONTEXT_CLIENT_VERSION, version,
@@ -148,19 +148,19 @@ namespace ouzel::graphics::opengl::linux
         }
 
         if (context == EGL_NO_CONTEXT)
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to create EGL context");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to create EGL context"};
 
         if (!eglMakeCurrent(display, surface, surface, context))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to set current EGL context"};
 
         if (!eglSwapInterval(display, settings.verticalSync ? 1 : 0))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set EGL frame interval");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to set EGL frame interval"};
 
         init(static_cast<GLsizei>(window.getResolution().v[0]),
              static_cast<GLsizei>(window.getResolution().v[1]));
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to unset EGL context"};
     }
 
     RenderDevice::~RenderDevice()
@@ -226,7 +226,7 @@ namespace ouzel::graphics::opengl::linux
     void RenderDevice::present()
     {
         if (eglSwapBuffers(display, surface) != EGL_TRUE)
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to swap buffers");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to swap buffers"};
     }
 
     void RenderDevice::renderMain()
@@ -234,7 +234,7 @@ namespace ouzel::graphics::opengl::linux
         thread::setCurrentThreadName("Render");
 
         if (!eglMakeCurrent(display, surface, surface, context))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to set current EGL context");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to set current EGL context"};
 
         while (running)
         {
@@ -249,7 +249,7 @@ namespace ouzel::graphics::opengl::linux
         }
 
         if (!eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT))
-            throw std::system_error(eglGetError(), eglErrorCategory, "Failed to unset EGL context");
+            throw std::system_error{eglGetError(), eglErrorCategory, "Failed to unset EGL context"};
     }
 }
 

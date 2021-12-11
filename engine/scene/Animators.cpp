@@ -234,7 +234,7 @@ namespace ouzel::scene
                     case Func::back: progress = backIn(progress); break;
                     case Func::elastic: progress = elasticIn(progress); break;
                     case Func::bounce: progress = bounceIn(progress); break;
-                    default: throw std::runtime_error("Invalid function");
+                    default: throw std::runtime_error{"Invalid function"};
                 }
                 break;
             }
@@ -253,7 +253,7 @@ namespace ouzel::scene
                     case Func::back: progress = backOut(progress); break;
                     case Func::elastic: progress = elasticOut(progress); break;
                     case Func::bounce: progress = bounceOut(progress); break;
-                    default: throw std::runtime_error("Invalid function");
+                    default: throw std::runtime_error{"Invalid function"};
                 }
                 break;
             }
@@ -272,12 +272,12 @@ namespace ouzel::scene
                     case Func::back: progress = backInOut(progress); break;
                     case Func::elastic: progress = elasticInOut(progress); break;
                     case Func::bounce: progress = bounceInOut(progress); break;
-                    default: throw std::runtime_error("Invalid function");
+                    default: throw std::runtime_error{"Invalid function"};
                 }
                 break;
             }
 
-            default: throw std::runtime_error("Invalid mode");
+            default: throw std::runtime_error{"Invalid mode"};
         }
 
         animators.front()->setProgress(progress);
