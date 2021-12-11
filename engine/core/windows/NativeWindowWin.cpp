@@ -526,7 +526,7 @@ namespace ouzel::core::windows
 
         if (!SetWindowLongPtr(window, GWLP_USERDATA, bitCast<LONG_PTR>(this)))
             if (const auto error = GetLastError())
-                throw std::system_error{error, std::system_category(), "Failed to set window pointer"};
+                throw std::system_error{static_cast<int>(error), std::system_category(), "Failed to set window pointer"};
     }
 
     NativeWindow::~NativeWindow()

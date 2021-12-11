@@ -71,7 +71,7 @@ namespace ouzel::input::windows
             if (result == ERROR_SUCCESS)
                 gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, getNextDeviceId(), userIndex);
             else if (result != ERROR_DEVICE_NOT_CONNECTED)
-                throw std::system_error{result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex)};
+                throw std::system_error{static_cast<int>(result), std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex)};
         }
 
         if (const auto result = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(result))
@@ -223,7 +223,7 @@ namespace ouzel::input::windows
                     if (const auto result = XInputGetState(userIndex, &state); result == ERROR_SUCCESS)
                         gamepadsXI[userIndex] = std::make_unique<GamepadDeviceXI>(*this, getNextDeviceId(), userIndex);
                     else if (result != ERROR_DEVICE_NOT_CONNECTED)
-                        throw std::system_error{result, std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex)};
+                        throw std::system_error{static_cast<int>(result), std::system_category(), "Failed to get state for gamepad " + std::to_string(userIndex)};
                 }
             }
 
