@@ -126,7 +126,8 @@ namespace ouzel::core::macos
                                                backing:NSBackingStoreBuffered
                                                  defer:NO
                                                 screen:screen];
-        [window setFrameAutosaveName:@(OUZEL_DEVELOPER_NAME OUZEL_APPLICATION_NAME)];
+        
+        [window setFrameAutosaveName:@"Main Window"];
 
         const NSRect realFrame = [NSWindow contentRectForFrameRect:window.frame
                                                          styleMask:window.styleMask];
