@@ -539,7 +539,7 @@ namespace ouzel::core::linux
         executeQueue.push(func);
         lock.unlock();
 
-        if (!XSendEvent(display, windowLinux.getNativeWindow(), False, NoEventMask, &event))
+        if (XSendEvent(display, windowLinux.getNativeWindow(), False, NoEventMask, &event) == 0)
             throw std::system_error{getLastError(), errorCategory, "Failed to send X11 delete message"};
 
         XFlush(display);

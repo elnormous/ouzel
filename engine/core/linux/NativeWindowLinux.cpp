@@ -78,7 +78,7 @@ namespace ouzel::core::linux
                                0, DefaultDepth(display, screenNumber), InputOutput, DefaultVisual(display, screenNumber),
                                CWBorderPixel | CWBackPixel | CWEventMask, &attributes);
 
-        if (!XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr))
+        if (XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr) == 0)
             throw std::system_error{getLastError(), getErrorCategory(), "Failed to set window properties"};
 
         if (!resizable)
@@ -102,7 +102,7 @@ namespace ouzel::core::linux
             XSetWMNormalHints(display, window, &sizeHints);
         }
 
-        if (!XMapWindow(display, window))
+        if (XMapWindow(display, window) == 0)
             throw std::system_error{getLastError(), getErrorCategory(), "Failed to map window"};
 
         protocolsAtom = XInternAtom(display, "WM_PROTOCOLS", False);
@@ -129,8 +129,8 @@ namespace ouzel::core::linux
             event.xclient.data.l[3] = 1; // source indication: application
             event.xclient.data.l[4] = 0; // unused
 
-            if (!XSendEvent(display, DefaultRootWindow(display), 0,
-                            SubstructureNotifyMask | SubstructureRedirectMask, &event))
+            if (XSendEvent(display, DefaultRootWindow(display), 0,
+                           SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
                 throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 fullscreen message"};
         }
 #elif OUZEL_SUPPORTS_DISPMANX
@@ -244,7 +244,7 @@ namespace ouzel::core::linux
         event.xclient.data.l[2] = 0; // unused
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
-        if (!XSendEvent(display, window, False, NoEventMask, &event))
+        if (XSendEvent(display, window, False, NoEventMask, &event) == 0)
             throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 delete message"};
 #endif
     }
@@ -294,8 +294,8 @@ namespace ouzel::core::linux
             event.xclient.data.l[3] = 1; // source indication: application
             event.xclient.data.l[4] = 0; // unused
 
-            if (!XSendEvent(display, DefaultRootWindow(display), 0,
-                            SubstructureNotifyMask | SubstructureRedirectMask, &event))
+            if (XSendEvent(display, DefaultRootWindow(display), 0,
+                           SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
                 throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 fullscreen message"};
         }
 #endif
@@ -326,8 +326,8 @@ namespace ouzel::core::linux
         event.xclient.data.l[1] = CurrentTime;
         event.xclient.data.l[2] = 0;
 
-        if (!XSendEvent(display, DefaultRootWindow(display), 0,
-                        SubstructureNotifyMask | SubstructureRedirectMask, &event))
+        if (XSendEvent(display, DefaultRootWindow(display), 0,
+                       SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
             throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 activate window message"};
 
         XFlush(display);
@@ -382,8 +382,8 @@ namespace ouzel::core::linux
         event.xclient.data.l[1] = CurrentTime;
         event.xclient.data.l[2] = 0;
 
-        if (!XSendEvent(display, DefaultRootWindow(display), 0,
-                        SubstructureNotifyMask | SubstructureRedirectMask, &event))
+        if (XSendEvent(display, DefaultRootWindow(display), 0,
+                       SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
             throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 activate window message"};
 
         XFlush(display);
