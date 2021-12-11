@@ -318,7 +318,7 @@ namespace ouzel::core::linux
         auto& inputSystemLinux = inputManager.getInputSystem();
 
 #if OUZEL_SUPPORTS_X11
-        const auto& windowLinux = window.getNativeWindow();
+        auto& windowLinux = window.getNativeWindow();
 
         int xInputOpCode = 0;
         int eventCode;
