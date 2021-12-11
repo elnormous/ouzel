@@ -103,8 +103,8 @@ namespace ouzel::core
         virtual void executeCommand(const Command&) {}
         void sendEvent(const Event& event);
 
-        math::Size<std::uint32_t, 2> size;
-        math::Size<std::uint32_t, 2> resolution;
+        math::Size<std::uint32_t, 2> size{};
+        math::Size<std::uint32_t, 2> resolution{};
         float contentScale = 1.0F;
         bool resizable = false;
         bool fullscreen = false;

@@ -94,8 +94,8 @@ namespace ouzel::core
         Engine& engine;
         std::unique_ptr<NativeWindow> nativeWindow;
 
-        math::Size<std::uint32_t, 2> size;
-        math::Size<std::uint32_t, 2> resolution;
+        math::Size<std::uint32_t, 2> size{};
+        math::Size<std::uint32_t, 2> resolution{};
         bool resizable = false;
         bool fullscreen = false;
         bool exclusiveFullscreen = false;
