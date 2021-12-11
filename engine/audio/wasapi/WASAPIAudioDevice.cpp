@@ -235,13 +235,13 @@ namespace ouzel::audio::wasapi
 
         void* renderClientPointer;
         if (const auto hr = audioClient->GetService(IID_IAudioRenderClient, &renderClientPointer); FAILED(hr))
-            throw std::system_error{GetLastError(), std::system_category(), "Failed to get render client service"};
+            throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get render client service"};
 
         renderClient = static_cast<IAudioRenderClient*>(renderClientPointer);
 
         notifyEvent = CreateEvent(nullptr, false, false, nullptr);
         if (!notifyEvent)
-            throw std::system_error{GetLastError(), std::system_category(), "Failed to create event"};
+            throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to create event"};
 
         if (const auto hr = audioClient->SetEventHandle(notifyEvent); FAILED(hr))
             throw std::system_error{hr, errorCategory, "Failed to set event handle"};
@@ -292,7 +292,7 @@ namespace ouzel::audio::wasapi
             try
             {
                 if (const auto result = WaitForSingleObject(notifyEvent, INFINITE); result == WAIT_FAILED)
-                    throw std::system_error{GetLastError(), std::system_category(), "Failed to wait for event"};
+                    throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to wait for event"};
                 else if (result == WAIT_OBJECT_0)
                 {
                     if (!running) break;

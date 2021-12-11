@@ -78,7 +78,7 @@ namespace ouzel::thread
             };
 
             if (!SetThreadPriority(t.native_handle(), priorities[static_cast<std::size_t>((priority + 1.0F) * 6.0F / 2.0F)]))
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to set thread name"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to set thread name"};
 #else
             if (priority < 0.0F) priority = 0.0F;
 

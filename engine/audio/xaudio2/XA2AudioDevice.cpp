@@ -43,7 +43,7 @@ namespace ouzel::audio::xaudio2
             const auto xAudio2CreateProc = reinterpret_cast<XAudio2CreateProc>(GetProcAddress(xAudio2Library, "XAudio2Create"));
 
             if (!xAudio2CreateProc)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get address of XAudio2Create"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get address of XAudio2Create"};
 
             if (const auto hr = xAudio2CreateProc(&xAudio, 0, XAUDIO2_DEFAULT_PROCESSOR); FAILED(hr))
                 throw std::system_error{hr, errorCategory, "Failed to initialize XAudio2"};
@@ -73,7 +73,7 @@ namespace ouzel::audio::xaudio2
                 apiMinorVersion = 7;
             }
             else
-                throw std::system_error{GetLastError(),  std::system_category(), "Failed to load " + std::string(xaudio2dll27)};
+                throw std::system_error{static_cast<int>(GetLastError()),  std::system_category(), "Failed to load " + std::string(xaudio2dll27)};
 
             UINT32 flags = 0;
             if (settings.debugAudio) flags |= XAUDIO2_DEBUG_ENGINE;

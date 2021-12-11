@@ -47,12 +47,12 @@ namespace ouzel::storage
 #if defined(_WIN32)
         HINSTANCE instance = GetModuleHandleW(nullptr);
         if (!instance)
-            throw std::system_error{GetLastError(), std::system_category(), "Failed to get module handle"};
+            throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get module handle"};
         std::vector<WCHAR> buffer(MAX_PATH + 1);
         for (;;)
         {
             if (!GetModuleFileNameW(instance, buffer.data(), static_cast<DWORD>(buffer.size())))
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get module filename"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get module filename"};
 
             if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
                 buffer.resize(buffer.size() * 2);
@@ -120,12 +120,12 @@ namespace ouzel::storage
 
         const auto instance = GetModuleHandleW(nullptr);
         if (!instance)
-            throw std::system_error{GetLastError(), std::system_category(), "Failed to get module handle"};
+            throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get module handle"};
         std::vector<WCHAR> buffer(MAX_PATH + 1);
         for (;;)
         {
             if (!GetModuleFileNameW(instance, buffer.data(), static_cast<DWORD>(buffer.size())))
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get module filename"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get module filename"};
 
             if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)
                 buffer.resize(buffer.size() * 2);
@@ -137,13 +137,13 @@ namespace ouzel::storage
         DWORD handle;
         const auto fileVersionSize = GetFileVersionInfoSizeW(executablePath.getNative().c_str(), &handle);
         if (!fileVersionSize)
-            throw std::system_error{GetLastError(), std::system_category(), "Failed to get file version size"};
+            throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get file version size"};
 
         auto fileVersionBuffer = std::make_unique<char[]>(fileVersionSize);
         if (!GetFileVersionInfoW(executablePath.getNative().c_str(),
                                  0, fileVersionSize,
                                  fileVersionBuffer.get()))
-            throw std::system_error{GetLastError(), std::system_category(), "Failed to get file version"};
+            throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get file version"};
 
         LPWSTR companyName = nullptr;
         LPWSTR productName = nullptr;

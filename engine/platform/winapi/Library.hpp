@@ -28,7 +28,7 @@ namespace ouzel::platform::winapi
             handle(LoadLibraryA(filename.c_str()))
         {
             if (!handle)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to load opengl32.dll"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to load opengl32.dll"};
         }
 
         Library(const Library&) = delete;
@@ -68,7 +68,7 @@ namespace ouzel::platform::winapi
             if (const auto result = GetProcAddress(handle, procName); result)
                 return result;
             else
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get address of procedure"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get address of procedure"};
         }
 
     private:

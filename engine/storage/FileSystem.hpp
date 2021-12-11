@@ -225,7 +225,7 @@ namespace ouzel::storage
 #ifdef _WIN32
             WCHAR buffer[MAX_PATH + 1];
             if (!GetTempPathW(MAX_PATH + 1, buffer))
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get temp directory"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get temp directory"};
 
             return Path{buffer, Path::Format::native};
 #elif defined(__linux__) || defined(__APPLE__)
@@ -316,7 +316,7 @@ namespace ouzel::storage
             const auto pathLength = GetCurrentDirectoryW(0, 0);
             auto buffer = std::make_unique<wchar_t[]>(pathLength);
             if (GetCurrentDirectoryW(pathLength, buffer.get()) == 0)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get current directory"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get current directory"};
             return Path{buffer.get(), Path::Format::native};
 #elif defined(__unix__) || defined(__APPLE__)
             const auto pathMaxConfig = pathconf(".", _PC_PATH_MAX);
@@ -334,7 +334,7 @@ namespace ouzel::storage
         {
 #ifdef _WIN32
             if (SetCurrentDirectoryW(path.getNative().c_str()) == 0)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to set current directory"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to set current directory"};
 #elif defined(__unix__) || defined(__APPLE__)
             if (chdir(path.getNative().c_str()) == -1)
                 throw std::system_error{errno, std::system_category(), "Failed to set current directory"};
@@ -347,7 +347,7 @@ namespace ouzel::storage
         {
 #ifdef _WIN32
             if (CreateDirectoryW(path.getNative().c_str(), nullptr) == 0)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to create directory"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to create directory"};
 #elif defined(__unix__) || defined(__APPLE__)
             const mode_t mode = S_IRWXU | S_IRWXG | S_IRWXO;
             if (mkdir(path.getNative().c_str(), mode) == -1)
@@ -361,7 +361,7 @@ namespace ouzel::storage
         {
 #ifdef _WIN32
             if (!CopyFileW(from.getNative().c_str(), to.getNative().c_str(), overwrite ? FALSE : TRUE))
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to copy file"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to copy file"};
 #elif defined(__unix__) || defined(__APPLE__)
             class FileDescriptor final
             {
@@ -444,7 +444,7 @@ namespace ouzel::storage
         {
 #ifdef _WIN32
             if (!MoveFileExW(from.getNative().c_str(), to.getNative().c_str(), MOVEFILE_REPLACE_EXISTING))
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to move file"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to move file"};
 #elif defined(__unix__) || defined(__APPLE__)
             if (rename(from.getNative().c_str(), to.getNative().c_str()) == -1)
                 throw std::system_error{errno, std::system_category(), "Failed to move file"};
@@ -458,15 +458,15 @@ namespace ouzel::storage
 #ifdef _WIN32
             const auto attributes = GetFileAttributesW(path.getNative().c_str());
             if (attributes == INVALID_FILE_ATTRIBUTES)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get file attributes"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get file attributes"};
 
             if (attributes & FILE_ATTRIBUTE_DIRECTORY)
             {
                 if (!RemoveDirectoryW(path.getNative().c_str()))
-                    throw std::system_error{GetLastError(), std::system_category(), "Failed to delete directory"};
+                    throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to delete directory"};
             }
             else if (!DeleteFileW(path.getNative().c_str()))
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to delete file"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to delete file"};
 
 #elif defined(__unix__) || defined(__APPLE__)
             if (remove(path.getNative().c_str()) == -1)
@@ -576,13 +576,13 @@ namespace ouzel::storage
 #ifdef _WIN32
             HANDLE file = CreateFileW(path.getNative().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
             if (file == INVALID_HANDLE_VALUE)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to open file"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to open file"};
 
             FILETIME time;
             const auto ret = GetFileTime(file, nullptr, &time, nullptr);
             CloseHandle(file);
             if (!ret)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get file time"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get file time"};
 
             return FileTime{time};
 #elif defined(__unix__) || defined(__APPLE__)
@@ -605,13 +605,13 @@ namespace ouzel::storage
 #ifdef _WIN32
             HANDLE file = CreateFileW(path.getNative().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
             if (file == INVALID_HANDLE_VALUE)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to open file"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to open file"};
 
             FILETIME time;
             const auto ret = GetFileTime(file, nullptr, nullptr, &time);
             CloseHandle(file);
             if (!ret)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to get file time"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get file time"};
 
             return FileTime{time};
 #elif defined(__unix__) || defined(__APPLE__)

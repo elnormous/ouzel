@@ -15,7 +15,7 @@ namespace ouzel::platform::winapi
             allocated{AllocConsole() != FALSE}
         {
             if (!allocated)
-                throw std::system_error{GetLastError(), std::system_category(), "Failed to allocate console"};
+                throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to allocate console"};
         }
 
         ~Console()

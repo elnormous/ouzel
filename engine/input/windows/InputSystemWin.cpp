@@ -51,11 +51,11 @@ namespace ouzel::input::windows
     {
         defaultCursor = LoadCursor(nullptr, IDC_ARROW);
         if (!defaultCursor)
-            throw std::system_error{GetLastError(), std::system_category(), "Failed to load cursor"};
+            throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to load cursor"};
 
         HINSTANCE instance = GetModuleHandleW(nullptr);
         if (!instance)
-            throw std::system_error{GetLastError(), std::system_category(), "Failed to get module handle"};
+            throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to get module handle"};
 
         void* directInputPointer;
         if (const auto result = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, &directInputPointer, nullptr); FAILED(result))
