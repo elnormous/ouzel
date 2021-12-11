@@ -1,29 +1,10 @@
 // Ouzel by Elviss Strazdins
 
-#ifdef __APPLE__
-#  include <TargetConditionals.h>
-#endif
 #include <stdexcept>
 #include "Window.hpp"
 #include "Engine.hpp"
 #include "../events/EventDispatcher.hpp"
 #include "../graphics/Graphics.hpp"
-
-#if TARGET_OS_IOS
-#  include "ios/NativeWindowIOS.hpp"
-#elif TARGET_OS_TV
-#  include "tvos/NativeWindowTVOS.hpp"
-#elif TARGET_OS_MAC
-#  include "macos/NativeWindowMacOS.hpp"
-#elif defined(__ANDROID__)
-#  include "android/NativeWindowAndroid.hpp"
-#elif defined(__linux__)
-#  include "linux/NativeWindowLinux.hpp"
-#elif defined(_WIN32)
-#  include "windows/NativeWindowWin.hpp"
-#elif defined(__EMSCRIPTEN__)
-#  include "emscripten/NativeWindowEm.hpp"
-#endif
 
 namespace ouzel::core
 {
@@ -34,51 +15,57 @@ namespace ouzel::core
                    [[maybe_unused]] graphics::Driver graphicsDriver):
         engine{initEngine},
 #if TARGET_OS_IOS
-        nativeWindow{std::make_unique<ios::NativeWindow>(newTitle,
-                                                         graphicsDriver,
-                                                         (flags & Flags::highDpi) == Flags::highDpi)},
+        nativeWindow{newTitle, graphicsDriver, (flags & Flags::highDpi) == Flags::highDpi},
 #elif TARGET_OS_TV
-        nativeWindow{std::make_unique<tvos::NativeWindow>(newTitle,
-                                                          graphicsDriver,
-                                                          (flags & Flags::highDpi) == Flags::highDpi)},
+        nativeWindow{newTitle, graphicsDriver, (flags & Flags::highDpi) == Flags::highDpi},
 #elif TARGET_OS_MAC
-        nativeWindow{std::make_unique<macos::NativeWindow>(newSize,
-                                                           (flags & Flags::resizable) == Flags::resizable,
-                                                           (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                           (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
-                                                           newTitle,
-                                                           graphicsDriver,
-                                                           (flags & Flags::highDpi) == Flags::highDpi)},
+        nativeWindow{
+            newSize,
+            (flags & Flags::resizable) == Flags::resizable,
+            (flags & Flags::fullscreen) == Flags::fullscreen,
+            (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
+            newTitle,
+            graphicsDriver,
+            (flags & Flags::highDpi) == Flags::highDpi
+        },
 #elif defined(__ANDROID__)
-        nativeWindow{std::make_unique<android::NativeWindow>(newTitle)},
+        nativeWindow{newTitle)},
 #elif defined(__linux__)
-        nativeWindow{std::make_unique<linux::NativeWindow>(newSize,
-                                                           (flags & Flags::resizable) == Flags::resizable,
-                                                           (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                           (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
-                                                           newTitle)},
+        nativeWindow{
+            newSize,
+            (flags & Flags::resizable) == Flags::resizable,
+            (flags & Flags::fullscreen) == Flags::fullscreen,
+            (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
+            newTitle
+        },
 #elif defined(_WIN32)
-        nativeWindow{std::make_unique<windows::NativeWindow>(newSize,
-                                                             (flags & Flags::resizable) == Flags::resizable,
-                                                             (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                             (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
-                                                             newTitle,
-                                                             (flags & Flags::highDpi) == Flags::highDpi)},
+        nativeWindow{
+            newSize,
+            (flags & Flags::resizable) == Flags::resizable,
+            (flags & Flags::fullscreen) == Flags::fullscreen,
+            (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
+            newTitle,
+            (flags & Flags::highDpi) == Flags::highDpi
+        },
 #elif defined(__EMSCRIPTEN__)
-        nativeWindow{std::make_unique<emscripten::NativeWindow>(newSize,
-                                                                (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                                newTitle,
-                                                                (flags & Flags::highDpi) == Flags::highDpi)},
+        nativeWindow{
+            newSize,
+            (flags & Flags::fullscreen) == Flags::fullscreen,
+            newTitle,
+            (flags & Flags::highDpi) == Flags::highDpi
+        },
 #else
-        nativeWindow{std::make_unique<NativeWindow>(newSize,
-                                                    (flags & Flags::resizable) == Flags::resizable,
-                                                    (flags & Flags::fullscreen) == Flags::fullscreen,
-                                                    (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
-                                                    newTitle,
-                                                    (flags & Flags::highDpi) == Flags::highDpi)},
+        nativeWindow{
+            newSize,
+            (flags & Flags::resizable) == Flags::resizable,
+            (flags & Flags::fullscreen) == Flags::fullscreen,
+            (flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen,
+            newTitle,
+            (flags & Flags::highDpi) == Flags::highDpi
+        },
 #endif
-        size{nativeWindow->getSize()},
-        resolution{nativeWindow->getResolution()},
+        size{nativeWindow.getSize()},
+        resolution{nativeWindow.getResolution()},
         resizable{(flags & Flags::resizable) == Flags::resizable},
         fullscreen{(flags & Flags::fullscreen) == Flags::fullscreen},
         exclusiveFullscreen{(flags & Flags::exclusiveFullscreen) == Flags::exclusiveFullscreen},
@@ -89,7 +76,7 @@ namespace ouzel::core
 
     void Window::update(bool waitForEvents)
     {
-        auto events = nativeWindow->getEvents(waitForEvents);
+        auto events = nativeWindow.getEvents(waitForEvents);
 
         while (!events.empty())
         {
@@ -180,7 +167,7 @@ namespace ouzel::core
     void Window::close()
     {
         NativeWindow::Command command(NativeWindow::Command::Type::close);
-        nativeWindow->addCommand(command);
+        nativeWindow.addCommand(command);
     }
 
     void Window::setSize(const math::Size<std::uint32_t, 2>& newSize)
@@ -191,7 +178,7 @@ namespace ouzel::core
 
             NativeWindow::Command command(NativeWindow::Command::Type::changeSize);
             command.size = newSize;
-            nativeWindow->addCommand(command);
+            nativeWindow.addCommand(command);
 
             auto event = std::make_unique<WindowEvent>();
             event->type = Event::Type::windowSizeChange;
@@ -211,7 +198,7 @@ namespace ouzel::core
 
             NativeWindow::Command command(NativeWindow::Command::Type::changeFullscreen);
             command.fullscreen = newFullscreen;
-            nativeWindow->addCommand(command);
+            nativeWindow.addCommand(command);
 
             auto event = std::make_unique<WindowEvent>();
             event->type = Event::Type::fullscreenChange;
@@ -231,7 +218,7 @@ namespace ouzel::core
 
             NativeWindow::Command command(NativeWindow::Command::Type::setTitle);
             command.title = newTitle;
-            nativeWindow->addCommand(command);
+            nativeWindow.addCommand(command);
 
             auto event = std::make_unique<WindowEvent>();
             event->type = Event::Type::windowTitleChange;
@@ -246,36 +233,36 @@ namespace ouzel::core
     void Window::bringToFront()
     {
         NativeWindow::Command command(NativeWindow::Command::Type::bringToFront);
-        nativeWindow->addCommand(command);
+        nativeWindow.addCommand(command);
     }
 
     void Window::show()
     {
         NativeWindow::Command command(NativeWindow::Command::Type::show);
-        nativeWindow->addCommand(command);
+        nativeWindow.addCommand(command);
     }
 
     void Window::hide()
     {
         NativeWindow::Command command(NativeWindow::Command::Type::hide);
-        nativeWindow->addCommand(command);
+        nativeWindow.addCommand(command);
     }
 
     void Window::minimize()
     {
         NativeWindow::Command command(NativeWindow::Command::Type::minimize);
-        nativeWindow->addCommand(command);
+        nativeWindow.addCommand(command);
     }
 
     void Window::maximize()
     {
         NativeWindow::Command command(NativeWindow::Command::Type::maximize);
-        nativeWindow->addCommand(command);
+        nativeWindow.addCommand(command);
     }
 
     void Window::restore()
     {
         NativeWindow::Command command(NativeWindow::Command::Type::restore);
-        nativeWindow->addCommand(command);
+        nativeWindow.addCommand(command);
     }
 }

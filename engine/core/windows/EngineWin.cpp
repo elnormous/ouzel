@@ -55,7 +55,7 @@ namespace ouzel::core::windows
         start();
 
         auto& inputSystemWin = inputManager.getInputSystem();
-        const auto windowWin = static_cast<NativeWindow*>(window.getNativeWindow());
+        const auto& windowWin = window.getNativeWindow();
 
         while (active)
         {
@@ -64,8 +64,8 @@ namespace ouzel::core::windows
                 MSG message;
                 if (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE))
                 {
-                    translateMessage(windowWin->getNativeWindow(),
-                                     windowWin->accelerators, message);
+                    translateMessage(windowWin.getNativeWindow(),
+                                     windowWin.accelerators, message);
 
                     if (message.message == WM_QUIT)
                     {
@@ -85,8 +85,8 @@ namespace ouzel::core::windows
                     break;
                 }
                 else
-                    translateMessage(windowWin->getNativeWindow(),
-                                     windowWin->accelerators,
+                    translateMessage(windowWin.getNativeWindow(),
+                                     windowWin.accelerators,
                                      message);
             }
 
@@ -98,13 +98,13 @@ namespace ouzel::core::windows
 
     void Engine::runOnMainThread(const std::function<void()>& func)
     {
-        const auto windowWin = static_cast<NativeWindow*>(window.getNativeWindow());
+        const auto& windowWin = window.getNativeWindow();
 
         std::unique_lock lock{executeMutex};
         executeQueue.push(func);
         lock.unlock();
 
-        if (!PostMessage(windowWin->getNativeWindow(), WM_USER, 0, 0))
+        if (!PostMessage(windowWin.getNativeWindow(), WM_USER, 0, 0))
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to post message"};
     }
 

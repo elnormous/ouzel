@@ -175,9 +175,9 @@ namespace ouzel::graphics::opengl::windows
 
         const TempContext tempContext;
 
-        const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
+        const auto& windowWin = window.getNativeWindow();
 
-        deviceContext = GetDC(windowWin->getNativeWindow());
+        deviceContext = GetDC(windowWin.getNativeWindow());
         if (!deviceContext)
             throw std::runtime_error{"Failed to get window's device context"};
 
@@ -324,8 +324,8 @@ namespace ouzel::graphics::opengl::windows
 
         if (deviceContext)
         {
-            const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
-            ReleaseDC(windowWin->getNativeWindow(), deviceContext);
+            const auto& windowWin = window.getNativeWindow();
+            ReleaseDC(windowWin.getNativeWindow(), deviceContext);
         }
     }
     

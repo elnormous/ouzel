@@ -17,7 +17,7 @@ namespace ouzel::input::windows
     void MouseDevice::setPosition(const math::Vector<float, 2>& position)
     {
         const auto windowLocation = engine->getWindow().convertNormalizedToWindowLocation(position);
-        const auto nativeWindow = static_cast<core::windows::NativeWindow*>(engine->getWindow().getNativeWindow())->getNativeWindow();
+        const auto nativeWindow = engine->getWindow().getNativeWindow().getNativeWindow();
 
         POINT p;
         p.x = static_cast<LONG>(windowLocation.v[0]);
@@ -38,7 +38,7 @@ namespace ouzel::input::windows
     {
         if (locked)
         {
-            HWND nativeWindow = static_cast<core::windows::NativeWindow*>(engine->getWindow().getNativeWindow())->getNativeWindow();
+            HWND nativeWindow = engine->getWindow().getNativeWindow().getNativeWindow();
 
             RECT windowRect;
             if (!GetWindowRect(nativeWindow, &windowRect))

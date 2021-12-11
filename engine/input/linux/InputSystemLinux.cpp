@@ -247,9 +247,9 @@ namespace ouzel::input::linux
     void InputSystem::updateCursor() const
     {
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow().getNativeWindow());
+        const auto& windowLinux = engine->getWindow().getNativeWindow();
         auto display = engineLinux->getDisplay();
-        auto window = windowLinux->getNativeWindow();
+        auto window = windowLinux.getNativeWindow();
 
         if (mouseDevice->isCursorVisible())
         {

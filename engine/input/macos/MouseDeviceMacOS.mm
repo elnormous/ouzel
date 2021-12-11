@@ -19,8 +19,8 @@ namespace ouzel::input::macos
 
         const CGPoint screenOrigin = [[NSScreen mainScreen] visibleFrame].origin;
 
-        const auto windowMacOS = static_cast<core::macos::NativeWindow*>(engine->getWindow().getNativeWindow());
-        const CGPoint windowOrigin = [windowMacOS->getNativeWindow() frame].origin;
+        const auto& windowMacOs = engine->getWindow().getNativeWindow();
+        const CGPoint windowOrigin = [windowMacOs.getNativeWindow() frame].origin;
 
         CGWarpMouseCursorPosition(CGPointMake(screenOrigin.x + windowOrigin.x + windowLocation.v[0],
                                               screenOrigin.y + windowOrigin.y + windowLocation.v[1]));

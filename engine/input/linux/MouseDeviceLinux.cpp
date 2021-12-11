@@ -19,9 +19,9 @@ namespace ouzel::input::linux
     {
 #if OUZEL_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow().getNativeWindow());
+        const auto& windowLinux = engine->getWindow().getNativeWindow();
         auto display = engineLinux->getDisplay();
-        auto window = windowLinux->getNativeWindow();
+        auto window = windowLinux.getNativeWindow();
 
         XWindowAttributes attributes;
         XGetWindowAttributes(display, window, &attributes);
@@ -44,9 +44,9 @@ namespace ouzel::input::linux
     {
 #if OUZEL_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
-        const auto windowLinux = static_cast<core::linux::NativeWindow*>(engine->getWindow().getNativeWindow());
+        const auto& windowLinux = engine->getWindow().getNativeWindow();
         auto display = engineLinux->getDisplay();
-        auto window = windowLinux->getNativeWindow();
+        auto window = windowLinux.getNativeWindow();
 
         if (locked)
         {

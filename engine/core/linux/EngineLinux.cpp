@@ -318,7 +318,7 @@ namespace ouzel::core::linux
         auto& inputSystemLinux = inputManager.getInputSystem();
 
 #if OUZEL_SUPPORTS_X11
-        const auto windowLinux = static_cast<NativeWindow*>(window.getNativeWindow());
+        const auto& windowLinux = window.getNativeWindow();
 
         int xInputOpCode = 0;
         int eventCode;
@@ -343,7 +343,7 @@ namespace ouzel::core::linux
                 XISetMask(mask, XI_TouchEnd);
                 XISetMask(mask, XI_TouchUpdate);
 
-                XISelectEvents(display, windowLinux->getNativeWindow(), &eventMask, 1);
+                XISelectEvents(display, windowLinux.getNativeWindow(), &eventMask, 1);
             }
             else
                 log(Log::Level::warning) << "XInput2 not supported";
@@ -367,15 +367,15 @@ namespace ouzel::core::linux
                     {
                         if (event.xclient.message_type == executeAtom)
                             executeAll();
-                        else if (event.xclient.message_type == windowLinux->getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux->getDeleteAtom())
+                        else if (event.xclient.message_type == windowLinux.getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux.getDeleteAtom())
                             exit();
                         break;
                     }
                     case FocusIn:
-                        windowLinux->handleFocusIn();
+                        windowLinux.handleFocusIn();
                         break;
                     case FocusOut:
-                        windowLinux->handleFocusOut();
+                        windowLinux.handleFocusOut();
                         break;
                     case KeyPress: // keyboard
                     case KeyRelease:
@@ -414,12 +414,12 @@ namespace ouzel::core::linux
                     }
                     case MapNotify:
                     {
-                        windowLinux->handleMap();
+                        windowLinux.handleMap();
                         break;
                     }
                     case UnmapNotify:
                     {
-                        windowLinux->handleUnmap();
+                        windowLinux.handleUnmap();
                         break;
                     }
                     case MotionNotify:
@@ -443,7 +443,7 @@ namespace ouzel::core::linux
                             static_cast<std::uint32_t>(event.xconfigure.height)
                         };
 
-                        windowLinux->handleResize(size);
+                        windowLinux.handleResize(size);
                         break;
                     }
                     case Expose:
@@ -521,7 +521,7 @@ namespace ouzel::core::linux
     void Engine::runOnMainThread(const std::function<void()>& func)
     {
 #if OUZEL_SUPPORTS_X11
-        const auto windowLinux = static_cast<NativeWindow*>(window.getNativeWindow());
+        const auto& windowLinux = window.getNativeWindow();
 
         XEvent event;
         event.type = ClientMessage;
@@ -538,7 +538,7 @@ namespace ouzel::core::linux
         executeQueue.push(func);
         lock.unlock();
 
-        if (!XSendEvent(display, windowLinux->getNativeWindow(), False, NoEventMask, &event))
+        if (!XSendEvent(display, windowLinux.getNativeWindow(), False, NoEventMask, &event))
             throw std::system_error{getLastError(), errorCategory, "Failed to send X11 delete message"};
 
         XFlush(display);

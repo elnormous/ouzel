@@ -5,7 +5,24 @@
 
 #include <memory>
 #include <string>
-#include "NativeWindow.hpp"
+#ifdef __APPLE__
+#  include <TargetConditionals.h>
+#endif
+#if TARGET_OS_IOS
+#  include "ios/NativeWindowIOS.hpp"
+#elif TARGET_OS_TV
+#  include "tvos/NativeWindowTVOS.hpp"
+#elif TARGET_OS_MAC
+#  include "macos/NativeWindowMacOS.hpp"
+#elif defined(__ANDROID__)
+#  include "android/NativeWindowAndroid.hpp"
+#elif defined(__linux__)
+#  include "linux/NativeWindowLinux.hpp"
+#elif defined(_WIN32)
+#  include "windows/NativeWindowWin.hpp"
+#elif defined(__EMSCRIPTEN__)
+#  include "emscripten/NativeWindowEm.hpp"
+#endif
 #include "../graphics/Driver.hpp"
 #include "../math/Size.hpp"
 
@@ -43,7 +60,8 @@ namespace ouzel::core
         Window(Window&&) = delete;
         Window& operator=(Window&&) = delete;
 
-        auto getNativeWindow() const noexcept { return nativeWindow.get(); }
+        auto& getNativeWindow() noexcept { return nativeWindow; }
+        auto& getNativeWindow() const noexcept { return nativeWindow; }
 
         void close();
         void update(bool waitForEvents);
@@ -92,7 +110,23 @@ namespace ouzel::core
         void handleEvent(const NativeWindow::Event& event);
 
         Engine& engine;
-        std::unique_ptr<NativeWindow> nativeWindow;
+#if TARGET_OS_IOS
+        ios::NativeWindow nativeWindow;
+#elif TARGET_OS_TV
+        tvos::NativeWindow nativeWindow;
+#elif TARGET_OS_MAC
+        macos::NativeWindow nativeWindow;
+#elif defined(__ANDROID__)
+        android::NativeWindow nativeWindow;
+#elif defined(__linux__)
+        linux::NativeWindow nativeWindow;
+#elif defined(_WIN32)
+        windows::NativeWindow nativeWindow;
+#elif defined(__EMSCRIPTEN__)
+        emscripten::NativeWindow nativeWindow;
+#else
+        NativeWindow nativeWindow;
+#endif
 
         math::Size<std::uint32_t, 2> size{};
         math::Size<std::uint32_t, 2> resolution{};

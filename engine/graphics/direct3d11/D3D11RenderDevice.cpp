@@ -142,7 +142,7 @@ namespace ouzel::graphics::d3d11
             }
         }
 
-        const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
+        const auto& windowWin = window.getNativeWindow();
 
         frameBufferWidth = static_cast<UINT>(window.getResolution().v[0]);
         frameBufferHeight = static_cast<UINT>(window.getResolution().v[1]);
@@ -175,8 +175,8 @@ namespace ouzel::graphics::d3d11
         swapChainDesc.SampleDesc.Quality = 0;
         swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swapChainDesc.BufferCount = 1;
-        swapChainDesc.OutputWindow = windowWin->getNativeWindow();
-        swapChainDesc.Windowed = (windowWin->isExclusiveFullscreen() && windowWin->isFullscreen()) ? FALSE : TRUE;
+        swapChainDesc.OutputWindow = windowWin.getNativeWindow();
+        swapChainDesc.Windowed = (windowWin.isExclusiveFullscreen() && windowWin.isFullscreen()) ? FALSE : TRUE;
         swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
         swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
@@ -189,7 +189,7 @@ namespace ouzel::graphics::d3d11
 
         swapChain = newSwapCahin;
 
-        factory->MakeWindowAssociation(windowWin->getNativeWindow(), DXGI_MWA_NO_ALT_ENTER);
+        factory->MakeWindowAssociation(windowWin.getNativeWindow(), DXGI_MWA_NO_ALT_ENTER);
 
         // Backbuffer
         void* newBackBuffer;
@@ -810,8 +810,8 @@ namespace ouzel::graphics::d3d11
 
     IDXGIOutput* RenderDevice::getOutput() const
     {
-        const auto windowWin = static_cast<core::windows::NativeWindow*>(window.getNativeWindow());
-        const auto monitor = windowWin->getMonitor();
+        const auto& windowWin = window.getNativeWindow();
+        const auto monitor = windowWin.getMonitor();
 
         if (!monitor)
             throw std::runtime_error{"Window is not on any monitor"};

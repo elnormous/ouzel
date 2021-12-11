@@ -322,11 +322,11 @@ namespace ouzel::input::windows
 
             if (!found)
             {
-                const auto windowWin = static_cast<core::windows::NativeWindow*>(engine->getWindow().getNativeWindow());
+                const auto& windowWin = engine->getWindow().getNativeWindow();
 
                 gamepadsDI.emplace_back(std::make_unique<GamepadDeviceDI>(*this, getNextDeviceId(),
                                                                           didInstance, directInput,
-                                                                          windowWin->getNativeWindow()));
+                                                                          windowWin.getNativeWindow()));
             }
         }
     }

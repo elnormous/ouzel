@@ -72,12 +72,12 @@ namespace ouzel::graphics::opengl::linux
         embedded = false;
 #endif
 
-        const auto windowLinux = static_cast<core::linux::NativeWindow*>(window.getNativeWindow());
+        const auto& windowLinux = window.getNativeWindow();
 
 #if OUZEL_OPENGLES
         const auto nativeDisplay = EGL_DEFAULT_DISPLAY;
 #else
-        const auto nativeDisplay = bitCast<EGLNativeDisplayType>(windowLinux->getDisplay());
+        const auto nativeDisplay = bitCast<EGLNativeDisplayType>(windowLinux.getDisplay());
 #endif
 
         display = eglGetDisplay(nativeDisplay);
@@ -99,9 +99,9 @@ namespace ouzel::graphics::opengl::linux
         log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
 #if OUZEL_OPENGLES
-        const auto nativeWindow = bitCast<EGLNativeWindowType>(&windowLinux->getNativeWindow());
+        const auto nativeWindow = bitCast<EGLNativeWindowType>(&windowLinux.getNativeWindow());
 #else
-        const auto nativeWindow = bitCast<EGLNativeWindowType>(windowLinux->getNativeWindow());
+        const auto nativeWindow = bitCast<EGLNativeWindowType>(windowLinux.getNativeWindow());
 #endif
 
 #if OUZEL_OPENGLES

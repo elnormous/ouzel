@@ -26,13 +26,13 @@ namespace ouzel::graphics::opengl::tvos
     {
         embedded = true;
 
-        const auto view = static_cast<core::tvos::NativeWindow*>(window.getNativeWindow())->getNativeView();
+        const auto view = window.getNativeWindow().getNativeView();
 
         eaglLayer = (CAEAGLLayer*)view.layer;
         eaglLayer.opaque = YES;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-        eaglLayer.contentsScale = window.getNativeWindow()->getContentScale();
+        eaglLayer.contentsScale = window.getNativeWindow().getContentScale();
 
         shareGroup = [[EAGLSharegroup alloc] init];
 

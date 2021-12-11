@@ -46,10 +46,10 @@ namespace ouzel::graphics::metal::macos
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow):
         metal::RenderDevice{settings, initWindow},
-        displayLink{static_cast<core::macos::NativeWindow*>(window.getNativeWindow())->getDisplayId()}
+        displayLink{window.getNativeWindow().getDisplayId()}
     {
-        const auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
-        MetalView* view = (MetalView*)windowMacOS->getNativeView();
+        const auto& windowMacOs = window.getNativeWindow();
+        MetalView* view = (MetalView*)windowMacOs.getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;
         metalLayer.device = device.get();

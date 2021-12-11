@@ -47,7 +47,7 @@ namespace ouzel::graphics::opengl::macos
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& initWindow):
         opengl::RenderDevice{settings, initWindow},
-        displayLink{static_cast<core::macos::NativeWindow*>(window.getNativeWindow())->getDisplayId()}
+        displayLink{window.getNativeWindow().getDisplayId()}
     {
         embedded = false;
 
@@ -99,8 +99,8 @@ namespace ouzel::graphics::opengl::macos
         context = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
         [context makeCurrentContext];
 
-        const auto windowMacOS = static_cast<core::macos::NativeWindow*>(window.getNativeWindow());
-        OpenGLView* openGlView = (OpenGLView*)windowMacOS->getNativeView();
+        const auto& windowMacOs = window.getNativeWindow();
+        OpenGLView* openGlView = (OpenGLView*)windowMacOs.getNativeView();
 
         [openGlView setOpenGLContext:context];
         [context setView:openGlView];
