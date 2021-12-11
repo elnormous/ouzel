@@ -56,17 +56,17 @@ namespace ouzel::core
         Engine(Engine&&) = delete;
         Engine& operator=(Engine&&) = delete;
 
-        [[nodiscard]] auto& getFileSystem() { return fileSystem; }
-        [[nodiscard]] auto& getFileSystem() const { return fileSystem; }
+        [[nodiscard]] auto& getFileSystem() noexcept { return fileSystem; }
+        [[nodiscard]] auto& getFileSystem() const noexcept { return fileSystem; }
 
-        [[nodiscard]] auto& getEventDispatcher() { return eventDispatcher; }
-        [[nodiscard]] auto& getEventDispatcher() const { return eventDispatcher; }
+        [[nodiscard]] auto& getEventDispatcher() noexcept { return eventDispatcher; }
+        [[nodiscard]] auto& getEventDispatcher() const noexcept { return eventDispatcher; }
 
-        [[nodiscard]] auto& getCache() { return cache; }
-        [[nodiscard]] auto& getCache() const { return cache; }
+        [[nodiscard]] auto& getCache() noexcept { return cache; }
+        [[nodiscard]] auto& getCache() const noexcept { return cache; }
 
-        [[nodiscard]] auto& getWindow() { return window; }
-        [[nodiscard]] auto& getWindow() const { return window; }
+        [[nodiscard]] auto& getWindow() noexcept { return window; }
+        [[nodiscard]] auto& getWindow() const noexcept { return window; }
 
         [[nodiscard]] auto& getGraphics() noexcept { return graphics; }
         [[nodiscard]] auto& getGraphics() const noexcept { return graphics; }
@@ -74,17 +74,17 @@ namespace ouzel::core
         [[nodiscard]] auto& getAudio() noexcept { return audio; }
         [[nodiscard]] auto& getAudio() const noexcept { return audio; }
 
-        [[nodiscard]] auto& getSceneManager() { return sceneManager; }
-        [[nodiscard]] auto& getSceneManager() const { return sceneManager; }
+        [[nodiscard]] auto& getSceneManager() noexcept { return sceneManager; }
+        [[nodiscard]] auto& getSceneManager() const noexcept { return sceneManager; }
 
         [[nodiscard]] auto& getInputManager() noexcept { return inputManager; }
         [[nodiscard]] auto& getInputManager() const noexcept { return inputManager; }
 
-        [[nodiscard]] auto& getLocalization() { return localization; }
-        [[nodiscard]] auto& getLocalization() const { return localization; }
+        [[nodiscard]] auto& getLocalization() noexcept { return localization; }
+        [[nodiscard]] auto& getLocalization() const noexcept { return localization; }
 
-        [[nodiscard]] auto& getNetwork() { return network; }
-        [[nodiscard]] auto& getNetwork() const { return network; }
+        [[nodiscard]] auto& getNetwork() noexcept { return network; }
+        [[nodiscard]] auto& getNetwork() const noexcept { return network; }
 
         void start();
         void pause();
