@@ -367,7 +367,8 @@ namespace ouzel::core::linux
                     {
                         if (event.xclient.message_type == executeAtom)
                             executeAll();
-                        else if (event.xclient.message_type == windowLinux.getProtocolsAtom() && static_cast<Atom>(event.xclient.data.l[0]) == windowLinux.getDeleteAtom())
+                        else if (event.xclient.message_type == windowLinux.getProtocolsAtom() &&
+                                 static_cast<Atom>(event.xclient.data.l[0]) == windowLinux.getDeleteAtom())
                             exit();
                         break;
                     }
@@ -543,7 +544,7 @@ namespace ouzel::core::linux
 
         XFlush(display);
 #else
-        std::scoped_lock lock(executeMutex);
+        std::scoped_lock lock{executeMutex};
         executeQueue.push(func);
 #endif
     }
