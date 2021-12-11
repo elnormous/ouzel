@@ -41,7 +41,7 @@ namespace ouzel::input
             inputDevices.erase(i);
     }
 
-    InputDevice* InputSystem::getInputDevice(DeviceId id)
+    InputDevice* InputSystem::getInputDevice(DeviceId id) noexcept
     {
         if (const auto i = inputDevices.find(id); i != inputDevices.end())
             return i->second;

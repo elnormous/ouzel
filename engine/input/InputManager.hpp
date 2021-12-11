@@ -9,8 +9,6 @@
 #include <memory>
 #include <unordered_map>
 #include <vector>
-#include "../math/Vector.hpp"
-
 #if TARGET_OS_IOS
 #  include "ios/InputSystemIOS.hpp"
 #elif TARGET_OS_TV
@@ -28,6 +26,7 @@
 #else
 #  include "InputSystem.hpp"
 #endif
+#include "../math/Vector.hpp"
 
 namespace ouzel::input
 {

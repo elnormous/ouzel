@@ -158,7 +158,7 @@ namespace ouzel::input
         std::future<bool> sendEvent(const Event& event);
         void addInputDevice(InputDevice& inputDevice);
         void removeInputDevice(const InputDevice& inputDevice);
-        InputDevice* getInputDevice(DeviceId id);
+        InputDevice* getInputDevice(DeviceId id) noexcept;
 
     private:
         virtual void executeCommand(const Command&) {}
