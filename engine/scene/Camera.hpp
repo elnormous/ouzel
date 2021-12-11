@@ -144,8 +144,8 @@ namespace ouzel::scene
         math::Matrix<float, 4> projection;
 
         math::Rect<float> viewport = math::Rect<float>{0.0F, 0.0F, 1.0F, 1.0F};
-        math::Rect<float> renderViewport;
-        math::Size<float, 2> targetContentSize;
+        math::Rect<float> renderViewport{};
+        math::Size<float, 2> targetContentSize{};
 
         ScaleMode scaleMode = ScaleMode::noScale;
         math::Size<float, 2> contentSize{};
