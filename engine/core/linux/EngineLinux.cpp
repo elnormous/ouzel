@@ -323,30 +323,33 @@ namespace ouzel::core::linux
         int xInputOpCode = 0;
         int eventCode;
         int err;
-        if (XQueryExtension(display, "XInputExtension", &xInputOpCode, &eventCode, &err))
+        if (XQueryExtension(display, "XInputExtension", &xInputOpCode, &eventCode, &err) != 0)
         {
             int majorVersion = 2;
             int minorVersion = 0;
 
-            XIQueryVersion(display, &majorVersion, &minorVersion);
-
-            if (majorVersion >= 2)
+            if (XIQueryVersion(display, &majorVersion, &minorVersion) != 0)
             {
-                unsigned char mask[] = {0, 0 ,0};
+                if (majorVersion >= 2)
+                {
+                    unsigned char mask[] = {0, 0 ,0};
 
-                XIEventMask eventMask;
-                eventMask.deviceid = XIAllMasterDevices;
-                eventMask.mask_len = sizeof(mask);
-                eventMask.mask = mask;
+                    XIEventMask eventMask;
+                    eventMask.deviceid = XIAllMasterDevices;
+                    eventMask.mask_len = sizeof(mask);
+                    eventMask.mask = mask;
 
-                XISetMask(mask, XI_TouchBegin);
-                XISetMask(mask, XI_TouchEnd);
-                XISetMask(mask, XI_TouchUpdate);
+                    XISetMask(mask, XI_TouchBegin);
+                    XISetMask(mask, XI_TouchEnd);
+                    XISetMask(mask, XI_TouchUpdate);
 
-                XISelectEvents(display, windowLinux.getNativeWindow(), &eventMask, 1);
+                    XISelectEvents(display, windowLinux.getNativeWindow(), &eventMask, 1);
+                }
+                else
+                    log(Log::Level::warning) << "XInput2 not supported";
             }
             else
-                log(Log::Level::warning) << "XInput2 not supported";
+                log(Log::Level::warning) << "Failed to query XInput version";
         }
         else
             log(Log::Level::warning) << "XInput not supported";
