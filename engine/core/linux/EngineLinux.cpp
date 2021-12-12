@@ -456,7 +456,7 @@ namespace ouzel::core::linux
                             auto& inputSystemLinux = inputManager.getInputSystem();
                             const auto touchpadDevice = inputSystemLinux.getTouchpadDevice();
 
-                            switch (cookie.evtype)
+                            switch (event.xcookie.evtype)
                             {
                                 case XI_TouchBegin:
                                 {
