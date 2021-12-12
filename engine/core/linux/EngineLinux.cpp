@@ -323,7 +323,7 @@ namespace ouzel::core::linux
         int xInputOpCode = 0;
         int eventCode;
         int err;
-        if (XQueryExtension(display, "XInputExtension", &xInputOpCode, &eventCode, &err) != 0)
+        if (XQueryExtension(display, "XInputExtension", &xInputOpCode, &eventCode, &err) == True)
         {
             int majorVersion = 2;
             int minorVersion = 0;
