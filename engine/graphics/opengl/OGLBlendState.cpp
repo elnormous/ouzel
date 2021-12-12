@@ -29,7 +29,7 @@ namespace ouzel::graphics::opengl
                 case BlendFactor::srcAlphaSat: return GL_SRC_ALPHA_SATURATE;
                 case BlendFactor::blendFactor: return GL_CONSTANT_COLOR;
                 case BlendFactor::invBlendFactor: return GL_ONE_MINUS_CONSTANT_COLOR;
-                default: throw Error("Unsupported blend factor");
+                default: throw Error{"Unsupported blend factor"};
             }
         }
 
@@ -44,7 +44,7 @@ namespace ouzel::graphics::opengl
                 case BlendOperation::min: return GL_MIN;
                 case BlendOperation::max: return GL_MAX;
 #endif
-                default: throw Error("Unsupported blend operation");
+                default: throw Error{"Unsupported blend operation"};
             }
         }
     }

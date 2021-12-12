@@ -29,10 +29,10 @@ namespace ouzel::graphics::metal
     void Buffer::setData(const std::vector<std::uint8_t>& data)
     {
         if ((flags & Flags::dynamic) != Flags::dynamic)
-            throw Error("Buffer is not dynamic");
+            throw Error{"Buffer is not dynamic"};
 
         if (data.empty())
-            throw Error("Data is empty");
+            throw Error{"Data is empty"};
 
         if (!buffer || data.size() > size)
             createBuffer(static_cast<std::uint32_t>(data.size()));
@@ -50,7 +50,7 @@ namespace ouzel::graphics::metal
                                                                  options:MTLResourceCPUCacheModeWriteCombined];
 
             if (!buffer)
-                throw Error("Failed to create Metal buffer");
+                throw Error{"Failed to create Metal buffer"};
         }
     }
 }

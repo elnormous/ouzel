@@ -784,7 +784,7 @@ namespace ouzel::xml
                         std::tolower(name[1]) == 'm' &&
                         std::tolower(name[2]) == 'l')
                     {
-                        throw ParseError("Invalid processing instruction");
+                        throw ParseError{"Invalid processing instruction"};
                     }
 
                     result.setName(name);
@@ -792,7 +792,7 @@ namespace ouzel::xml
                     skipWhitespaces(iterator, end);
 
                     if (iterator == end)
-                        throw ParseError{ "Unexpected end of data" };
+                        throw ParseError{"Unexpected end of data"};
 
                     std::string value;
 
@@ -801,7 +801,7 @@ namespace ouzel::xml
                         value += fromUtf32(*iterator);
 
                         if (++iterator == end)
-                            throw ParseError{ "Unexpected end of data" };
+                            throw ParseError{"Unexpected end of data"};
                     }
 
                     if (++iterator == end)

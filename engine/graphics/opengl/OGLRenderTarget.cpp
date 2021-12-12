@@ -91,7 +91,7 @@ namespace ouzel::graphics::opengl
                     throw std::system_error{makeErrorCode(error), "Failed to set frame buffer's color render buffer"};
 
                 if (const auto status = renderDevice.glCheckFramebufferStatusProc(GL_FRAMEBUFFER); status != GL_FRAMEBUFFER_COMPLETE)
-                    throw Error("Failed to create frame buffer, status: " + statusToString(status));
+                    throw Error{"Failed to create frame buffer, status: " + statusToString(status)};
 
                 if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                     throw std::system_error{makeErrorCode(error), "Failed to check frame buffer status"};
@@ -113,7 +113,7 @@ namespace ouzel::graphics::opengl
                 throw std::system_error{makeErrorCode(error), "Failed to set frame buffer's depth render buffer"};
 
             if (const auto status = renderDevice.glCheckFramebufferStatusProc(GL_FRAMEBUFFER); status != GL_FRAMEBUFFER_COMPLETE)
-                throw Error("Failed to create frame buffer, status: " + statusToString(status));
+                throw Error{"Failed to create frame buffer, status: " + statusToString(status)};
 
             if (const auto error = renderDevice.glGetErrorProc(); error != GL_NO_ERROR)
                 throw std::system_error{makeErrorCode(error), "Failed to check frame buffer status"};

@@ -23,7 +23,7 @@ namespace ouzel::graphics::metal
         renderPassDescriptor = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 
         if (!renderPassDescriptor)
-            throw Error("Failed to create Metal render pass descriptor");
+            throw Error{"Failed to create Metal render pass descriptor"};
 
         for (const auto colorTexture : colorTextures)
             if (colorTexture)

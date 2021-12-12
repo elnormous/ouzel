@@ -60,7 +60,7 @@ namespace ouzel::graphics::metal
                 switch (type)
                 {
                     case TextureType::twoDimensional: return MTLTextureType2DMultisample;
-                    default: throw Error("Invalid multisample texture type");
+                    default: throw Error{"Invalid multisample texture type"};
                 }
             }
             else
@@ -71,7 +71,7 @@ namespace ouzel::graphics::metal
                     case TextureType::twoDimensional: return MTLTextureType2D;
                     case TextureType::threeDimensional: return MTLTextureType3D;
                     case TextureType::cube: return MTLTextureTypeCube;
-                    default: throw Error("Invalid texture type");
+                    default: throw Error{"Invalid texture type"};
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace ouzel::graphics::metal
                 case CubeFace::negativeY: return 3;
                 case CubeFace::positiveZ: return 4;
                 case CubeFace::negativeZ: return 5;
-                default: throw Error("Invalid cube face");
+                default: throw Error{"Invalid cube face"};
             }
         }
     }
@@ -110,16 +110,16 @@ namespace ouzel::graphics::metal
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw Error("Invalid mip map count");
+            throw Error{"Invalid mip map count"};
 
         if (pixelFormat == MTLPixelFormatInvalid)
-            throw Error("Invalid pixel format");
+            throw Error{"Invalid pixel format"};
 
         width = static_cast<NSUInteger>(levels.front().first.v[0]);
         height = static_cast<NSUInteger>(levels.front().first.v[1]);
 
         if (!width || !height)
-            throw Error("Invalid texture size");
+            throw Error{"Invalid texture size"};
 
         // TODO: don't create texture if only MSAA is needed
         Pointer<MTLTextureDescriptor*> textureDescriptor = [[MTLTextureDescriptor alloc] init];
@@ -147,7 +147,7 @@ namespace ouzel::graphics::metal
         texture = [renderDevice.getDevice().get() newTextureWithDescriptor:textureDescriptor.get()];
 
         if (!texture)
-            throw Error("Failed to create Metal texture");
+            throw Error{"Failed to create Metal texture"};
 
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
         {
@@ -169,7 +169,7 @@ namespace ouzel::graphics::metal
                 msaaTexture = [renderDevice.getDevice().get() newTextureWithDescriptor:msaaTextureDescriptor.get()];
 
                 if (!msaaTexture)
-                    throw Error("Failed to create MSAA texture");
+                    throw Error{"Failed to create MSAA texture"};
             }
         }
         else
@@ -199,7 +199,7 @@ namespace ouzel::graphics::metal
     {
         if ((flags & Flags::dynamic) != Flags::dynamic ||
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
-            throw Error("Texture is not dynamic");
+            throw Error{"Texture is not dynamic"};
 
         for (std::size_t level = 0; level < levels.size(); ++level)
         {
@@ -248,7 +248,7 @@ namespace ouzel::graphics::metal
         samplerState = renderDevice.getSamplerState(samplerDescriptor);
 
         if (!samplerState)
-            throw Error("Failed to get Metal sampler state");
+            throw Error{"Failed to get Metal sampler state"};
     }
 }
 

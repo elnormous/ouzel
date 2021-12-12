@@ -78,7 +78,7 @@ namespace ouzel::graphics::metal
                 case DataType::float32Matrix3: return MTLVertexFormatInvalid;
                 case DataType::float32Matrix4: return MTLVertexFormatInvalid;
 
-                default: throw Error("Invalid data type");
+                default: throw Error{"Invalid data type"};
             }
         }
     }
@@ -108,7 +108,7 @@ namespace ouzel::graphics::metal
                 const MTLVertexFormat vertexFormat = getVertexFormat(vertexAttribute.dataType);
 
                 if (vertexFormat == MTLVertexFormatInvalid)
-                    throw Error("Invalid vertex format");
+                    throw Error{"Invalid vertex format"};
 
                 vertexDescriptor.get().attributes[index].format = vertexFormat;
                 vertexDescriptor.get().attributes[index].offset = offset;
@@ -135,18 +135,18 @@ namespace ouzel::graphics::metal
         Pointer<id<MTLLibrary>> fragmentShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:fragmentShaderDispatchData.get() error:&err];
 
         if (err != nil)
-            throw Error("Failed to load fragment shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]));
+            throw Error{"Failed to load fragment shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding])};
 
         if (!fragmentShaderLibrary)
-            throw Error("Failed to load fragment shader");
+            throw Error{"Failed to load fragment shader"};
 
         fragmentShader = [fragmentShaderLibrary.get() newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:fragmentShaderFunction.c_str()])];
 
         if (err != nil)
-            throw Error("Failed to get function from fragment shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]));
+            throw Error{"Failed to get function from fragment shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding])};
 
         if (!fragmentShader)
-            throw Error("Failed to get function from fragment shader");
+            throw Error{"Failed to get function from fragment shader"};
 
         if (!fragmentShaderConstantInfo.empty())
         {
@@ -171,18 +171,18 @@ namespace ouzel::graphics::metal
         Pointer<id<MTLLibrary>> vertexShaderLibrary = [renderDevice.getDevice().get() newLibraryWithData:vertexShaderDispatchData.get() error:&err];
 
         if (err != nil)
-            throw Error("Failed to load vertex shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]));
+            throw Error{"Failed to load vertex shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding])};
 
         if (!vertexShaderLibrary)
-            throw Error("Failed to load vertex shader");
+            throw Error{"Failed to load vertex shader"};
 
         vertexShader = [vertexShaderLibrary.get() newFunctionWithName:static_cast<NSString* _Nonnull>([NSString stringWithUTF8String:vertexShaderFunction.c_str()])];
 
         if (err != nil)
-            throw Error("Failed to get function from vertex shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding]));
+            throw Error{"Failed to get function from vertex shader, " + std::string([err.localizedDescription cStringUsingEncoding:NSUTF8StringEncoding])};
 
         if (!vertexShader)
-            throw Error("Failed to get function from vertex shader");
+            throw Error{"Failed to get function from vertex shader"};
 
         if (!vertexShaderConstantInfo.empty())
         {

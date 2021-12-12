@@ -24,7 +24,7 @@ namespace ouzel::graphics::opengl
                 case CompareFunction::notEqual: return GL_NOTEQUAL;
                 case CompareFunction::greaterEqual: return GL_GEQUAL;
                 case CompareFunction::always: return GL_ALWAYS;
-                default: throw Error("Unsupported compare function");
+                default: throw Error{"Unsupported compare function"};
             }
         }
 
@@ -40,7 +40,7 @@ namespace ouzel::graphics::opengl
                 case StencilOperation::invert: return GL_INVERT;
                 case StencilOperation::incrementWrap: return GL_INCR_WRAP;
                 case StencilOperation::decrementWrap: return GL_DECR_WRAP;
-                default: throw Error("Unsupported stencil operation");
+                default: throw Error{"Unsupported stencil operation"};
             }
         }
     }

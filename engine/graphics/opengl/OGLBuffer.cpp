@@ -70,7 +70,7 @@ namespace ouzel::graphics::opengl
     void Buffer::setData(const std::vector<std::uint8_t>& newData)
     {
         if ((flags & Flags::dynamic) != Flags::dynamic)
-            throw Error("Buffer is not dynamic");
+            throw Error{"Buffer is not dynamic"};
 
         if (newData.empty())
             throw std::invalid_argument("Data is empty");
@@ -78,7 +78,7 @@ namespace ouzel::graphics::opengl
         data = newData;
 
         if (!bufferId)
-            throw Error("Buffer not initialized");
+            throw Error{"Buffer not initialized"};
 
         renderDevice.bindBuffer(bufferType, bufferId);
 
@@ -116,7 +116,7 @@ namespace ouzel::graphics::opengl
                 bufferType = GL_ARRAY_BUFFER;
                 break;
             default:
-                throw Error("Unsupported buffer type");
+                throw Error{"Unsupported buffer type"};
         }
     }
 }
