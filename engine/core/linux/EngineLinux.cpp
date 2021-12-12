@@ -364,19 +364,19 @@ namespace ouzel::core::linux
                 switch (event.type)
                 {
                     case ClientMessage:
-                    {
                         if (event.xclient.message_type == executeAtom)
                             executeAll();
                         else if (event.xclient.message_type == windowLinux.getProtocolsAtom() &&
                                  static_cast<Atom>(event.xclient.data.l[0]) == windowLinux.getDeleteAtom())
                             exit();
                         break;
-                    }
                     case FocusIn:
-                        windowLinux.handleFocusIn();
+                        if (event.xfocus.window == windowLinux.getNativeWindow())
+                            windowLinux.handleFocusIn();
                         break;
                     case FocusOut:
-                        windowLinux.handleFocusOut();
+                        if (event.xfocus.window == windowLinux.getNativeWindow())
+                            windowLinux.handleFocusOut();
                         break;
                     case KeyPress: // keyboard
                     case KeyRelease:
@@ -414,15 +414,13 @@ namespace ouzel::core::linux
                         break;
                     }
                     case MapNotify:
-                    {
-                        windowLinux.handleMap();
+                        if (event.xmap.window == windowLinux.getNativeWindow())
+                            windowLinux.handleMap();
                         break;
-                    }
                     case UnmapNotify:
-                    {
-                        windowLinux.handleUnmap();
+                        if (event.xmap.window == windowLinux.getNativeWindow())
+                            windowLinux.handleUnmap();
                         break;
-                    }
                     case MotionNotify:
                     {
                         auto& inputSystemLinux = inputManager.getInputSystem();
@@ -434,37 +432,35 @@ namespace ouzel::core::linux
                         };
 
                         mouseDevice->handleMove(window.convertWindowToNormalizedLocation(position));
-
                         break;
                     }
                     case ConfigureNotify:
-                    {
-                        const math::Size<std::uint32_t, 2> size{
-                            static_cast<std::uint32_t>(event.xconfigure.width),
-                            static_cast<std::uint32_t>(event.xconfigure.height)
-                        };
+                        if (event.xconfigure.window == windowLinux.getNativeWindow())
+                        {
+                            const math::Size<std::uint32_t, 2> size{
+                                static_cast<std::uint32_t>(event.xconfigure.width),
+                                static_cast<std::uint32_t>(event.xconfigure.height)
+                            };
 
-                        windowLinux.handleResize(size);
+                            windowLinux.handleResize(size);
+                        }
                         break;
-                    }
                     case Expose:
                     {
                         // need to redraw
                         break;
                     }
                     case GenericEvent:
-                    {
-                        XGenericEventCookie* cookie = &event.xcookie;
-                        if (cookie->extension == xInputOpCode)
+                        if (event.xcookie.extension == xInputOpCode)
                         {
                             auto& inputSystemLinux = inputManager.getInputSystem();
                             const auto touchpadDevice = inputSystemLinux.getTouchpadDevice();
 
-                            switch (cookie->evtype)
+                            switch (cookie.evtype)
                             {
                                 case XI_TouchBegin:
                                 {
-                                    const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const auto xievent = static_cast<XIDeviceEvent*>(event.xcookie.data);
                                     const math::Vector<float, 2> position{
                                         static_cast<float>(xievent->event_x),
                                         static_cast<float>(xievent->event_y)
@@ -476,7 +472,7 @@ namespace ouzel::core::linux
                                 }
                                 case XI_TouchEnd:
                                 {
-                                    const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const auto xievent = static_cast<XIDeviceEvent*>(event.xcookie.data);
                                     const math::Vector<float, 2> position{
                                         static_cast<float>(xievent->event_x),
                                         static_cast<float>(xievent->event_y)
@@ -488,7 +484,7 @@ namespace ouzel::core::linux
                                 }
                                 case XI_TouchUpdate:
                                 {
-                                    const auto xievent = static_cast<XIDeviceEvent*>(cookie->data);
+                                    const auto xievent = static_cast<XIDeviceEvent*>(event.xcookie.data);
                                     const math::Vector<float, 2> position{
                                         static_cast<float>(xievent->event_x),
                                         static_cast<float>(xievent->event_y)
@@ -501,7 +497,6 @@ namespace ouzel::core::linux
                             }
                         }
                         break;
-                    }
                 }
             }
 
