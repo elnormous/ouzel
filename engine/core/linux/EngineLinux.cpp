@@ -290,6 +290,9 @@ namespace ouzel::core::linux
         display = XOpenDisplay(nullptr);
         if (!display)
             throw std::system_error{getLastError(), errorCategory, "Failed to open display"};
+
+        executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
+
 #elif OUZEL_SUPPORTS_DISPMANX
         bcm_host_init();
 
@@ -353,8 +356,6 @@ namespace ouzel::core::linux
         }
         else
             log(Log::Level::warning) << "XInput not supported";
-
-        executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
         while (active)
         {
