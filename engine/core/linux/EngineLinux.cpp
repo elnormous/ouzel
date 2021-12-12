@@ -384,39 +384,41 @@ namespace ouzel::core::linux
                         break;
                     case KeyPress: // keyboard
                     case KeyRelease:
-                    {
-                        auto& inputSystemLinux = inputManager.getInputSystem();
-                        const auto keyboardDevice = inputSystemLinux.getKeyboardDevice();
+                        if (event.xkey.window == windowLinux.getNativeWindow())
+                        {
+                            auto& inputSystemLinux = inputManager.getInputSystem();
+                            const auto keyboardDevice = inputSystemLinux.getKeyboardDevice();
 
-                        const auto keySym = XkbKeycodeToKeysym(display,
-                                                               event.xkey.keycode, 0,
-                                                               event.xkey.state & ShiftMask ? 1 : 0);
+                            const auto keySym = XkbKeycodeToKeysym(display,
+                                                                   event.xkey.keycode, 0,
+                                                                   event.xkey.state & ShiftMask ? 1 : 0);
 
-                        if (event.type == KeyPress)
-                            keyboardDevice->handleKeyPress(convertKeyCode(keySym));
-                        else
-                            keyboardDevice->handleKeyRelease(convertKeyCode(keySym));
+                            if (event.type == KeyPress)
+                                keyboardDevice->handleKeyPress(convertKeyCode(keySym));
+                            else
+                                keyboardDevice->handleKeyRelease(convertKeyCode(keySym));
+                        }
                         break;
-                    }
                     case ButtonPress: // mouse button
                     case ButtonRelease:
-                    {
-                        auto& inputSystemLinux = inputManager.getInputSystem();
-                        const auto mouseDevice = inputSystemLinux.getMouseDevice();
+                        if (event.xbutton.window == windowLinux.getNativeWindow())
+                        {
+                            auto& inputSystemLinux = inputManager.getInputSystem();
+                            const auto mouseDevice = inputSystemLinux.getMouseDevice();
 
-                        const math::Vector<float, 2> position{
-                            static_cast<float>(event.xbutton.x),
-                            static_cast<float>(event.xbutton.y)
-                        };
+                            const math::Vector<float, 2> position{
+                                static_cast<float>(event.xbutton.x),
+                                static_cast<float>(event.xbutton.y)
+                            };
 
-                        if (event.type == ButtonPress)
-                            mouseDevice->handleButtonPress(convertButtonCode(event.xbutton.button),
-                                                           window.convertWindowToNormalizedLocation(position));
-                        else
-                            mouseDevice->handleButtonRelease(convertButtonCode(event.xbutton.button),
-                                                             window.convertWindowToNormalizedLocation(position));
+                            if (event.type == ButtonPress)
+                                mouseDevice->handleButtonPress(convertButtonCode(event.xbutton.button),
+                                                               window.convertWindowToNormalizedLocation(position));
+                            else
+                                mouseDevice->handleButtonRelease(convertButtonCode(event.xbutton.button),
+                                                                 window.convertWindowToNormalizedLocation(position));
+                        }
                         break;
-                    }
                     case MapNotify:
                         if (event.xmap.window == windowLinux.getNativeWindow())
                             windowLinux.handleMap();
@@ -426,18 +428,19 @@ namespace ouzel::core::linux
                             windowLinux.handleUnmap();
                         break;
                     case MotionNotify:
-                    {
-                        auto& inputSystemLinux = inputManager.getInputSystem();
-                        const auto mouseDevice = inputSystemLinux.getMouseDevice();
+                        if (event.xbutton.window == windowLinux.getNativeWindow())
+                        {
+                            auto& inputSystemLinux = inputManager.getInputSystem();
+                            const auto mouseDevice = inputSystemLinux.getMouseDevice();
 
-                        const math::Vector<float, 2> position{
-                            static_cast<float>(event.xmotion.x),
-                            static_cast<float>(event.xmotion.y)
-                        };
+                            const math::Vector<float, 2> position{
+                                static_cast<float>(event.xmotion.x),
+                                static_cast<float>(event.xmotion.y)
+                            };
 
-                        mouseDevice->handleMove(window.convertWindowToNormalizedLocation(position));
+                            mouseDevice->handleMove(window.convertWindowToNormalizedLocation(position));
+                        }
                         break;
-                    }
                     case ConfigureNotify:
                         if (event.xconfigure.window == windowLinux.getNativeWindow())
                         {
