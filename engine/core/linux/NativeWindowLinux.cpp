@@ -432,7 +432,8 @@ namespace ouzel::core::linux
     bool NativeWindow::isMapped() const
     {
         XWindowAttributes attributes;
-        XGetWindowAttributes(display, window, &attributes);
+        if (XGetWindowAttributes(display, window, &attributes) == 0)
+            throw std::system_error{getLastError(), getErrorCategory(), "Failed to get window attributes"};
         return attributes.map_state != IsUnmapped;
     }
 #endif
