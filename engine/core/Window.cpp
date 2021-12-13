@@ -166,7 +166,7 @@ namespace ouzel::core
 
     void Window::close()
     {
-        NativeWindow::Command command(NativeWindow::Command::Type::close);
+        NativeWindow::Command command{NativeWindow::Command::Type::close};
         nativeWindow.addCommand(command);
     }
 
@@ -176,7 +176,7 @@ namespace ouzel::core
         {
             size = newSize;
 
-            NativeWindow::Command command(NativeWindow::Command::Type::changeSize);
+            NativeWindow::Command command{NativeWindow::Command::Type::changeSize};
             command.size = newSize;
             nativeWindow.addCommand(command);
 
@@ -196,7 +196,7 @@ namespace ouzel::core
         {
             fullscreen = newFullscreen;
 
-            NativeWindow::Command command(NativeWindow::Command::Type::changeFullscreen);
+            NativeWindow::Command command{NativeWindow::Command::Type::changeFullscreen};
             command.fullscreen = newFullscreen;
             nativeWindow.addCommand(command);
 
@@ -216,7 +216,7 @@ namespace ouzel::core
         {
             title = newTitle;
 
-            NativeWindow::Command command(NativeWindow::Command::Type::setTitle);
+            NativeWindow::Command command{NativeWindow::Command::Type::setTitle};
             command.title = newTitle;
             nativeWindow.addCommand(command);
 
@@ -232,37 +232,37 @@ namespace ouzel::core
 
     void Window::bringToFront()
     {
-        NativeWindow::Command command(NativeWindow::Command::Type::bringToFront);
+        NativeWindow::Command command{NativeWindow::Command::Type::bringToFront};
         nativeWindow.addCommand(command);
     }
 
     void Window::show()
     {
-        NativeWindow::Command command(NativeWindow::Command::Type::show);
+        NativeWindow::Command command{NativeWindow::Command::Type::show};
         nativeWindow.addCommand(command);
     }
 
     void Window::hide()
     {
-        NativeWindow::Command command(NativeWindow::Command::Type::hide);
+        NativeWindow::Command command{NativeWindow::Command::Type::hide};
         nativeWindow.addCommand(command);
     }
 
     void Window::minimize()
     {
-        NativeWindow::Command command(NativeWindow::Command::Type::minimize);
+        NativeWindow::Command command{NativeWindow::Command::Type::minimize};
         nativeWindow.addCommand(command);
     }
 
     void Window::maximize()
     {
-        NativeWindow::Command command(NativeWindow::Command::Type::maximize);
+        NativeWindow::Command command{NativeWindow::Command::Type::maximize};
         nativeWindow.addCommand(command);
     }
 
     void Window::restore()
     {
-        NativeWindow::Command command(NativeWindow::Command::Type::restore);
+        NativeWindow::Command command{NativeWindow::Command::Type::restore};
         nativeWindow.addCommand(command);
     }
 }

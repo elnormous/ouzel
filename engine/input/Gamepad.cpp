@@ -16,7 +16,7 @@ namespace ouzel::input
     {
         absoluteDpadValues = newAbsoluteDpadValues;
 
-        InputSystem::Command command(InputSystem::Command::Type::setAbsoluteDpadValues);
+        InputSystem::Command command{InputSystem::Command::Type::setAbsoluteDpadValues};
         command.deviceId = deviceId;
         command.absoluteDpadValues = absoluteDpadValues;
         inputManager.getInputSystem().addCommand(command);
@@ -26,7 +26,7 @@ namespace ouzel::input
     {
         rotationAllowed = newRotationAllowed;
 
-        InputSystem::Command command(InputSystem::Command::Type::setRotationAllowed);
+        InputSystem::Command command{InputSystem::Command::Type::setRotationAllowed};
         command.deviceId = deviceId;
         command.rotationAllowed = rotationAllowed;
         inputManager.getInputSystem().addCommand(command);
@@ -36,7 +36,7 @@ namespace ouzel::input
     {
         playerIndex = newPlayerIndex;
 
-        InputSystem::Command command(InputSystem::Command::Type::setPlayerIndex);
+        InputSystem::Command command{InputSystem::Command::Type::setPlayerIndex};
         command.deviceId = deviceId;
         command.playerIndex = playerIndex;
         inputManager.getInputSystem().addCommand(command);
@@ -63,7 +63,7 @@ namespace ouzel::input
     {
         vibration[static_cast<std::uint32_t>(motor)] = speed;
 
-        InputSystem::Command command(InputSystem::Command::Type::setVibration);
+        InputSystem::Command command{InputSystem::Command::Type::setVibration};
         command.deviceId = deviceId;
         command.motor = motor;
         command.speed = speed;

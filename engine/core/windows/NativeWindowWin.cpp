@@ -600,7 +600,7 @@ namespace ouzel::core::windows
 
         resolution = size;
 
-        Event resolutionChangeEvent(Event::Type::resolutionChange);
+        Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
@@ -715,11 +715,11 @@ namespace ouzel::core::windows
         size = newSize;
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::sizeChange);
+        Event sizeChangeEvent{Event::Type::sizeChange};
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::resolutionChange);
+        Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
@@ -731,7 +731,7 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleActivate(WPARAM wParam)
     {
-        Event focusChangeEvent(Event::Type::focusChange);
+        Event focusChangeEvent{Event::Type::focusChange};
         focusChangeEvent.focus = wParam != 0;
         sendEvent(focusChangeEvent);
 
@@ -760,7 +760,7 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleMinimize()
     {
-        Event focusChangeEvent(Event::Type::focusChange);
+        Event focusChangeEvent{Event::Type::focusChange};
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
 
@@ -774,7 +774,7 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleRestore()
     {
-        Event focusChangeEvent(Event::Type::focusChange);
+        Event focusChangeEvent{Event::Type::focusChange};
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
 

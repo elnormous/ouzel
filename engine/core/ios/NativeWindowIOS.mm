@@ -161,11 +161,11 @@ namespace ouzel::core::ios
         size = newSize;
         resolution = size * static_cast<std::uint32_t>(contentScale);
 
-        Event sizeChangeEvent(Event::Type::sizeChange);
+        Event sizeChangeEvent{Event::Type::sizeChange};
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::resolutionChange);
+        Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }

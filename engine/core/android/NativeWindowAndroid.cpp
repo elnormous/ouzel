@@ -72,11 +72,11 @@ namespace ouzel::core::android
         size = newSize;
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::sizeChange);
+        Event sizeChangeEvent{Event::Type::sizeChange};
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::resolutionChange);
+        Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }

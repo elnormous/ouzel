@@ -162,11 +162,11 @@ namespace ouzel::core::emscripten
         };
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::sizeChange);
+        Event sizeChangeEvent{Event::Type::sizeChange};
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::resolutionChange);
+        Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
@@ -175,7 +175,7 @@ namespace ouzel::core::emscripten
     {
         fullscreen = newFullscreen;
 
-        Event fullscreenChangeEvent(Event::Type::fullscreenChange);
+        Event fullscreenChangeEvent{Event::Type::fullscreenChange};
         fullscreenChangeEvent.fullscreen = fullscreen;
         sendEvent(fullscreenChangeEvent);
     }

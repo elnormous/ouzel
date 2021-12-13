@@ -30,7 +30,7 @@ namespace ouzel::input
     {
         if (cursorResource)
         {
-            InputSystem::Command command(InputSystem::Command::Type::destroyCursor);
+            InputSystem::Command command{InputSystem::Command::Type::destroyCursor};
             command.cursorResource = cursorResource;
             inputManager.getInputSystem().addCommand(command);
 
@@ -40,7 +40,7 @@ namespace ouzel::input
 
     void Cursor::init(SystemCursor systemCursor)
     {
-        InputSystem::Command command(InputSystem::Command::Type::initCursor);
+        InputSystem::Command command{InputSystem::Command::Type::initCursor};
         command.cursorResource = cursorResource;
         command.systemCursor = systemCursor;
         inputManager.getInputSystem().addCommand(command);
@@ -155,7 +155,7 @@ namespace ouzel::input
                       graphics::PixelFormat pixelFormat,
                       const math::Vector<float, 2>& hotSpot)
     {
-        InputSystem::Command command(InputSystem::Command::Type::initCursor);
+        InputSystem::Command command{InputSystem::Command::Type::initCursor};
         command.cursorResource = cursorResource;
         command.data = data;
         command.size = size;

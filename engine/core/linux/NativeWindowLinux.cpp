@@ -272,7 +272,7 @@ namespace ouzel::core::linux
 
         resolution = size;
 
-        Event resolutionChangeEvent(Event::Type::resolutionChange);
+        Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
 #endif
@@ -393,14 +393,14 @@ namespace ouzel::core::linux
 #if OUZEL_SUPPORTS_X11
     void NativeWindow::handleFocusIn()
     {
-        Event focusChangeEvent(Event::Type::focusChange);
+        Event focusChangeEvent{Event::Type::focusChange};
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
     }
 
     void NativeWindow::handleFocusOut()
     {
-        Event focusChangeEvent(Event::Type::focusChange);
+        Event focusChangeEvent{Event::Type::focusChange};
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
     }
@@ -410,11 +410,11 @@ namespace ouzel::core::linux
         size = newSize;
         resolution = size;
 
-        Event sizeChangeEvent(Event::Type::sizeChange);
+        Event sizeChangeEvent{Event::Type::sizeChange};
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::resolutionChange);
+        Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }

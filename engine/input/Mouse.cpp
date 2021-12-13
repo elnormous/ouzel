@@ -19,7 +19,7 @@ namespace ouzel::input
     {
         position = newPosition;
 
-        InputSystem::Command command(InputSystem::Command::Type::setPosition);
+        InputSystem::Command command{InputSystem::Command::Type::setPosition};
         command.deviceId = deviceId;
         command.position = position;
         inputManager.getInputSystem().addCommand(command);
@@ -29,7 +29,7 @@ namespace ouzel::input
     {
         cursorVisible = visible;
 
-        InputSystem::Command command(InputSystem::Command::Type::setCursorVisible);
+        InputSystem::Command command{InputSystem::Command::Type::setCursorVisible};
         command.deviceId = deviceId;
         command.visible = cursorVisible;
         inputManager.getInputSystem().addCommand(command);
@@ -39,7 +39,7 @@ namespace ouzel::input
     {
         cursorLocked = locked;
 
-        InputSystem::Command command(InputSystem::Command::Type::setCursorLocked);
+        InputSystem::Command command{InputSystem::Command::Type::setCursorLocked};
         command.deviceId = deviceId;
         command.locked = cursorLocked;
         inputManager.getInputSystem().addCommand(command);
@@ -49,7 +49,7 @@ namespace ouzel::input
     {
         cursor = newCursor;
 
-        InputSystem::Command command(InputSystem::Command::Type::setCursor);
+        InputSystem::Command command{InputSystem::Command::Type::setCursor};
         command.deviceId = deviceId;
         command.cursorResource = cursor->getCursorResource();
         inputManager.getInputSystem().addCommand(command);

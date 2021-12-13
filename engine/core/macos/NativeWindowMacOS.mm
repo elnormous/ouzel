@@ -314,7 +314,7 @@ namespace ouzel::core::macos
             [window setFrame:newFrame display:YES animate:NO];
             resolution = size * static_cast<std::uint32_t>(contentScale);
 
-            Event resolutionChangeEvent(Event::Type::resolutionChange);
+            Event resolutionChangeEvent{Event::Type::resolutionChange};
             resolutionChangeEvent.size = resolution;
             sendEvent(resolutionChangeEvent);
         }
@@ -416,11 +416,11 @@ namespace ouzel::core::macos
         };
         resolution = size * static_cast<std::uint32_t>(contentScale);
 
-        Event sizeChangeEvent(Event::Type::sizeChange);
+        Event sizeChangeEvent{Event::Type::sizeChange};
         sizeChangeEvent.size = size;
         sendEvent(sizeChangeEvent);
 
-        Event resolutionChangeEvent(Event::Type::resolutionChange);
+        Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
     }
@@ -444,7 +444,7 @@ namespace ouzel::core::macos
     {
         fullscreen = newFullscreen;
 
-        Event fullscreenChangeEvent(Event::Type::fullscreenChange);
+        Event fullscreenChangeEvent{Event::Type::fullscreenChange};
         fullscreenChangeEvent.fullscreen = fullscreen;
         sendEvent(fullscreenChangeEvent);
     }
@@ -456,7 +456,7 @@ namespace ouzel::core::macos
             contentScale = static_cast<float>(window.backingScaleFactor);
             resolution = size * static_cast<std::uint32_t>(contentScale);
 
-            Event resolutionChangeEvent(Event::Type::resolutionChange);
+            Event resolutionChangeEvent{Event::Type::resolutionChange};
             resolutionChangeEvent.size = resolution;
             sendEvent(resolutionChangeEvent);
         }
@@ -467,21 +467,21 @@ namespace ouzel::core::macos
         screen = [window screen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-        Event screenChangeEvent(Event::Type::screenChange);
+        Event screenChangeEvent{Event::Type::screenChange};
         screenChangeEvent.displayId = displayId;
         sendEvent(screenChangeEvent);
     }
 
     void NativeWindow::handleBecomeKeyChange()
     {
-        Event focusChangeEvent(Event::Type::focusChange);
+        Event focusChangeEvent{Event::Type::focusChange};
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
     }
 
     void NativeWindow::handleResignKeyChange()
     {
-        Event focusChangeEvent(Event::Type::focusChange);
+        Event focusChangeEvent{Event::Type::focusChange};
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
     }
