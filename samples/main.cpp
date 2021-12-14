@@ -70,9 +70,11 @@ namespace samples
     private:
         std::unique_ptr<assets::Bundle> bundle;
     };
+
+    std::unique_ptr<samples::Samples> samples;
 }
 
-std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
+void ouzel::main(ouzel::core::Engine& engine, const std::vector<std::string>& args)
 {
-    return std::make_unique<samples::Samples>(args);
+    samples::samples = std::make_unique<samples::Samples>(args);
 }

@@ -168,7 +168,7 @@ namespace ouzel
 
     const std::string textureWhitePixel = "textureWhitePixel";
 
-    std::unique_ptr<Application> main(const std::vector<std::string>& args);
+    void main(core::Engine& engine, const std::vector<std::string>& args);
     inline core::Engine* engine = nullptr;
 }
 
