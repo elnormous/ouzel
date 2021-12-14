@@ -13,7 +13,7 @@ using namespace ouzel;
 
 namespace samples
 {
-    class Samples final
+    class Samples: public ouzel::Application
     {
     public:
         explicit Samples(const std::vector<std::string>& args):
@@ -70,11 +70,9 @@ namespace samples
     private:
         std::unique_ptr<assets::Bundle> bundle;
     };
-
-    std::unique_ptr<samples::Samples> samples;
 }
 
-void ouzel::main(ouzel::core::Engine& engine, const std::vector<std::string>& args)
+std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
 {
-    samples::samples = std::make_unique<samples::Samples>(args);
+    return std::make_unique<samples::Samples>(args);
 }

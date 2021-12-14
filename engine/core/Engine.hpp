@@ -9,6 +9,7 @@
 #include <random>
 #include <thread>
 #include <vector>
+#include "Application.hpp"
 #include "Timer.hpp"
 #include "Window.hpp"
 #include "../graphics/Graphics.hpp"
@@ -167,7 +168,7 @@ namespace ouzel
 
     const std::string textureWhitePixel = "textureWhitePixel";
 
-    void main(core::Engine& engine, const std::vector<std::string>& args);
+    std::unique_ptr<Application> main(const std::vector<std::string>& args);
     inline core::Engine* engine = nullptr;
 }
 

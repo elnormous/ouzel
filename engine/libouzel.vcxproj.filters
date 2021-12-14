@@ -402,6 +402,9 @@
     <ClInclude Include="graphics\DataType.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="core\Application.hpp">
+      <Filter>engine\core</Filter>
+    </ClInclude>
     <ClInclude Include="core\Engine.hpp">
       <Filter>engine\core</Filter>
     </ClInclude>

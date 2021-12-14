@@ -1106,6 +1106,7 @@
 		30EABE39220E5C6C001C70A6 /* Animators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animators.hpp; sourceTree = "<group>"; };
 		30EE13B0267D6BE600788085 /* Asset.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Asset.hpp; sourceTree = "<group>"; };
 		30EE13B4268C569700788085 /* SpriteSheetLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SpriteSheetLoader.hpp; sourceTree = "<group>"; };
+		30EEADB5215DA81500D2F525 /* Application.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Application.hpp; sourceTree = "<group>"; };
 		30EEADB721605A3400D2F525 /* KeyboardDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KeyboardDevice.hpp; sourceTree = "<group>"; };
 		30EEADB821605A4000D2F525 /* MouseDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MouseDevice.hpp; sourceTree = "<group>"; };
 		30EEADB921605A8400D2F525 /* TouchpadDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TouchpadDevice.hpp; sourceTree = "<group>"; };
@@ -1405,6 +1406,7 @@
 		303B75111C28838C00FEDE92 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				30EEADB5215DA81500D2F525 /* Application.hpp */,
 				304A8E2D1C237C70008B1151 /* Engine.cpp */,
 				304A8E2E1C237C70008B1151 /* Engine.hpp */,
 				303B756F1C2A3D0300FEDE92 /* ios */,

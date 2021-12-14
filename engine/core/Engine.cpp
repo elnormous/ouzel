@@ -703,7 +703,7 @@ namespace ouzel::core
 
         try
         {
-            ouzel::main(*this, args);
+            std::unique_ptr<Application> application = ouzel::main(args);
 
 #ifndef __EMSCRIPTEN__
             while (active)

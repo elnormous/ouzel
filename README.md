@@ -60,7 +60,7 @@ The following code will open create a scene with a sprite in the center of it:
 #include "scene/Scene.hpp"
 #include "scene/SpriteRenderer.hpp"
 
-class Example final
+class Example: public ouzel::Application
 {
 public:
     Example():
@@ -86,11 +86,9 @@ private:
     ouzel::assets::Bundle assets;
 };
 
-std::unique_ptr<Example> example;
-
-std::unique_ptr<ouzel::Application> ouzel::main(ouzel::core::Engine& engine, const std::vector<std::string>& args)
+std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
 {
-    example = std::make_unique<Example>();
+    return std::make_unique<Example>();
 }
 ```
 
