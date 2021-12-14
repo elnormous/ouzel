@@ -192,7 +192,6 @@
     <ClInclude Include="assets\Cache.hpp" />
     <ClInclude Include="core\Platform.h" />
     <ClInclude Include="core\Setup.h" />
-    <ClInclude Include="core\Application.hpp" />
     <ClInclude Include="core\Engine.hpp" />
     <ClInclude Include="core\NativeWindow.hpp" />
     <ClInclude Include="core\System.hpp" />

@@ -9,7 +9,6 @@
 #include <random>
 #include <thread>
 #include <vector>
-#include "Application.hpp"
 #include "Timer.hpp"
 #include "Window.hpp"
 #include "../graphics/Graphics.hpp"

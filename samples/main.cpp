@@ -13,7 +13,7 @@ using namespace ouzel;
 
 namespace samples
 {
-    class Samples: public ouzel::Application
+    class Samples final
     {
     public:
         explicit Samples(const std::vector<std::string>& args):
