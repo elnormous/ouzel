@@ -21,7 +21,7 @@ namespace samples
         handler.keyboardHandler = [this](const KeyboardEvent& event) {
             if (event.type == Event::Type::keyboardKeyPress)
             {
-                Vector<float, 2> flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+                auto flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
                 switch (event.key)
                 {
@@ -103,7 +103,7 @@ namespace samples
         handler.gamepadHandler = [this](const GamepadEvent& event) {
             if (event.type == Event::Type::gamepadButtonChange)
             {
-                Vector<float, 2> flamePosition = camera.convertWorldToNormalized(flame.getPosition());
+                auto flamePosition = camera.convertWorldToNormalized(flame.getPosition());
 
                 switch (event.button)
                 {
@@ -199,7 +199,7 @@ namespace samples
         backButton.setPosition(Vector<float, 2>{-200.0F, -200.0F});
         menu.addWidget(backButton);
 
-        if (Mouse* mouse = engine->getInputManager().getMouse())
+        if (auto mouse = engine->getInputManager().getMouse())
         {
             mouse->setCursor(&cursor);
 

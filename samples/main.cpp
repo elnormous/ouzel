@@ -17,7 +17,7 @@ namespace samples
     {
     public:
         explicit Samples(const std::vector<std::string>& args):
-            bundle{std::make_unique<assets::Bundle>(engine->getCache(), engine->getFileSystem())}
+            bundle{engine->getCache(), engine->getFileSystem()}
         {
             // disable screen saver
             engine->setScreenSaverEnabled(false);
@@ -44,11 +44,11 @@ namespace samples
             }
 
 #ifndef __ANDROID__
-            ouzel::storage::Archive archive(engine->getFileSystem().getPath("gui.zip"));
+            ouzel::storage::Archive archive{engine->getFileSystem().getPath("gui.zip")};
             engine->getFileSystem().addArchive("gui.zip", std::move(archive));
 #endif
 
-            bundle->loadAssets("assets.json");
+            bundle.loadAssets("assets.json");
 
             std::unique_ptr<ouzel::scene::Scene> currentScene;
 
@@ -68,7 +68,7 @@ namespace samples
             engine->getSceneManager().setScene(std::move(currentScene));
         }
     private:
-        std::unique_ptr<assets::Bundle> bundle;
+        assets::Bundle bundle;
     };
 }
 
