@@ -7,9 +7,8 @@
 #include <stdexcept>
 #include "Setup.h"
 #include "Engine.hpp"
+#include "../scene/Scene.hpp"
 #include "../utils/Utils.hpp"
-#include "../graphics/Graphics.hpp"
-#include "../audio/Audio.hpp"
 
 #if OUZEL_COMPILE_OPENGL
 #  include "../graphics/opengl/OGL.h"
