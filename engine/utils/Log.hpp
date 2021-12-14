@@ -279,7 +279,7 @@ namespace ouzel
         return stream << val.getGeneric();
     }
 
-    extern Logger log;
+    inline Logger log;
 }
 
 #endif // OUZEL_UTILS_LOG_HPP

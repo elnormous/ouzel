@@ -28,7 +28,7 @@
 
 namespace ouzel::core
 {
-    extern std::mt19937 randomEngine;
+    inline std::mt19937 randomEngine{std::random_device{}()};
 
     struct Settings final
     {

@@ -31,8 +31,6 @@
 
 namespace ouzel
 {
-    Logger log;
-
     void Logger::logString(const std::string& str, Log::Level level)
     {
 #ifdef __ANDROID__

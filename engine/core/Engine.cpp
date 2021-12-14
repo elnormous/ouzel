@@ -77,8 +77,6 @@
 
 namespace ouzel::core
 {
-    std::mt19937 randomEngine(std::random_device{}());
-
     namespace
     {
         Settings parseSettings(const ini::Data& defaultSettings,
