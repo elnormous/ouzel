@@ -77,6 +77,17 @@
 
 namespace ouzel::core::macos
 {
+    namespace
+    {
+        NSWindowStyleMask getWindowStyleMask(bool resiable) noexcept
+        {
+            return NSWindowStyleMaskTitled |
+                NSWindowStyleMaskClosable |
+                NSWindowStyleMaskMiniaturizable |
+                (resiable ? NSWindowStyleMaskResizable : 0);
+        }
+    }
+
     NativeWindow::NativeWindow(const math::Size<std::uint32_t, 2>& newSize,
                                bool newResizable,
                                bool newFullscreen,
@@ -116,15 +127,8 @@ namespace ouzel::core::macos
                                         std::round(screen.frame.size.height / 2.0F - windowSize.height / 2.0F),
                                         windowSize.width, windowSize.height);
 
-        windowStyleMask = NSWindowStyleMaskTitled |
-            NSWindowStyleMaskClosable |
-            NSWindowStyleMaskMiniaturizable;
-
-        if (resizable)
-            windowStyleMask |= NSWindowStyleMaskResizable;
-
         window = [[NSWindow alloc] initWithContentRect:frame
-                                             styleMask:windowStyleMask
+                                             styleMask:getWindowStyleMask(resizable)
                                                backing:NSBackingStoreBuffered
                                                  defer:NO
                                                 screen:screen];
@@ -345,7 +349,7 @@ namespace ouzel::core::macos
                 }
                 else
                 {
-                    [window setStyleMask:windowStyleMask];
+                    [window setStyleMask:getWindowStyleMask(resizable)];
                     [window setFrame:windowRect display:YES animate:NO];
 
                     if (const auto result = CGDisplayRelease(displayId); result != kCGErrorSuccess)

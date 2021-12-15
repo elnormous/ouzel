@@ -73,7 +73,6 @@ namespace ouzel::core::macos
         NSWindowDelegatePtr windowDelegate = nil;
         NSScreenPtr screen = nil;
         CGDirectDisplayID displayId = 0;
-        NSUInteger windowStyleMask = 0;
         CGRect windowRect;
     };
 }
