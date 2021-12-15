@@ -172,8 +172,8 @@ namespace ouzel::core::macos
 
             NSMethodSignature* signature = [NSWindow methodSignatureForSelector:@selector(setAllowsAutomaticWindowTabbing:)];
             NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
-            [invocation setSelector: @selector(setAllowsAutomaticWindowTabbing:)];
-            [invocation setArgument: &value atIndex: 2];
+            [invocation setSelector:@selector(setAllowsAutomaticWindowTabbing:)];
+            [invocation setArgument:&value atIndex:2];
             [invocation invoke];
         }
 
