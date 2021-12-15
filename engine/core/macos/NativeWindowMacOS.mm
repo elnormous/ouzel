@@ -116,10 +116,12 @@ namespace ouzel::core::macos
                                         std::round(screen.frame.size.height / 2.0F - windowSize.height / 2.0F),
                                         windowSize.width, windowSize.height);
 
-        windowStyleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
+        windowStyleMask = NSWindowStyleMaskTitled |
+            NSWindowStyleMaskClosable |
+            NSWindowStyleMaskMiniaturizable;
 
         if (resizable)
-            windowStyleMask |= NSResizableWindowMask;
+            windowStyleMask |= NSWindowStyleMaskResizable;
 
         window = [[NSWindow alloc] initWithContentRect:frame
                                              styleMask:windowStyleMask
