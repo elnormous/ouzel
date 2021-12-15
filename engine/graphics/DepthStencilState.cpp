@@ -6,7 +6,7 @@
 namespace ouzel::graphics
 {
     DepthStencilState::DepthStencilState(Graphics& initGraphics):
-        resource(*initGraphics.getDevice())
+        resource{*initGraphics.getDevice()}
     {
     }
 

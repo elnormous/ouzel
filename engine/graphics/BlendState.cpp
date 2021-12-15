@@ -6,7 +6,7 @@
 namespace ouzel::graphics
 {
     BlendState::BlendState(Graphics& initGraphics):
-        resource(*initGraphics.getDevice())
+        resource{*initGraphics.getDevice()}
     {
     }
 

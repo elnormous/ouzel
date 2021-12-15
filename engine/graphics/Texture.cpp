@@ -636,10 +636,10 @@ namespace ouzel::graphics
     }
 
     Texture::Texture(Graphics& initGraphics):
-        graphics(&initGraphics),
-        resource(*initGraphics.getDevice()),
-        filter(graphics->getTextureFilter()),
-        maxAnisotropy(graphics->getMaxAnisotropy())
+        graphics{&initGraphics},
+        resource{*initGraphics.getDevice()},
+        filter{graphics->getTextureFilter()},
+        maxAnisotropy{graphics->getMaxAnisotropy()}
     {
     }
 
@@ -664,15 +664,15 @@ namespace ouzel::graphics
                      std::uint32_t initMipmaps,
                      std::uint32_t initSampleCount,
                      PixelFormat initPixelFormat):
-        graphics(&initGraphics),
-        resource(*initGraphics.getDevice()),
-        size(initSize),
-        flags(initFlags),
-        mipmaps(initMipmaps),
-        sampleCount(initSampleCount),
-        pixelFormat(initPixelFormat),
-        filter(graphics->getTextureFilter()),
-        maxAnisotropy(graphics->getMaxAnisotropy())
+        graphics{&initGraphics},
+        resource{*initGraphics.getDevice()},
+        size{initSize},
+        flags{initFlags},
+        mipmaps{initMipmaps},
+        sampleCount{initSampleCount},
+        pixelFormat{initPixelFormat},
+        filter{graphics->getTextureFilter()},
+        maxAnisotropy{graphics->getMaxAnisotropy()}
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))

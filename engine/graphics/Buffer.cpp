@@ -7,8 +7,8 @@
 namespace ouzel::graphics
 {
     Buffer::Buffer(Graphics& initGraphics):
-        graphics(&initGraphics),
-        resource(*initGraphics.getDevice())
+        graphics{&initGraphics},
+        resource{*initGraphics.getDevice()}
     {
     }
 
