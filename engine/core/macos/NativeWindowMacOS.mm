@@ -79,12 +79,17 @@ namespace ouzel::core::macos
 {
     namespace
     {
-        NSWindowStyleMask getWindowStyleMask(bool resiable) noexcept
+        NSWindowStyleMask getWindowStyleMask(bool resiable,
+                                             bool fullscreen,
+                                             bool exclusiveFullscreen) noexcept
         {
-            return NSWindowStyleMaskTitled |
-                NSWindowStyleMaskClosable |
-                NSWindowStyleMaskMiniaturizable |
-                (resiable ? NSWindowStyleMaskResizable : 0);
+            if (fullscreen && exclusiveFullscreen)
+                return NSWindowStyleMaskBorderless;
+            else
+                return NSWindowStyleMaskTitled |
+                    NSWindowStyleMaskClosable |
+                    NSWindowStyleMaskMiniaturizable |
+                    (resiable ? NSWindowStyleMaskResizable : 0);
         }
     }
 
@@ -128,7 +133,9 @@ namespace ouzel::core::macos
                                         windowSize.width, windowSize.height);
 
         window = [[NSWindow alloc] initWithContentRect:frame
-                                             styleMask:getWindowStyleMask(resizable)
+                                             styleMask:getWindowStyleMask(resizable,
+                                                                          fullscreen,
+                                                                          exclusiveFullscreen)
                                                backing:NSBackingStoreBuffered
                                                  defer:NO
                                                 screen:screen];
@@ -156,7 +163,6 @@ namespace ouzel::core::macos
                     throw std::system_error{result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display"};
 
                 windowRect = frame;
-                [window setStyleMask:NSBorderlessWindowMask];
 
                 const NSRect screenRect = [screen frame];
                 [window setFrame:screenRect display:YES animate:NO];
@@ -330,6 +336,10 @@ namespace ouzel::core::macos
     {
         if (fullscreen != newFullscreen)
         {
+            [window setStyleMask:getWindowStyleMask(resizable,
+                                                    fullscreen,
+                                                    exclusiveFullscreen)];
+
             if (exclusiveFullscreen)
             {
                 if (newFullscreen)
@@ -338,7 +348,6 @@ namespace ouzel::core::macos
                         throw std::system_error{result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display"};
 
                     windowRect = [window frame];
-                    [window setStyleMask:NSBorderlessWindowMask];
 
                     const NSRect screenRect = [screen frame];
                     [window setFrame:screenRect display:YES animate:NO];
@@ -349,7 +358,6 @@ namespace ouzel::core::macos
                 }
                 else
                 {
-                    [window setStyleMask:getWindowStyleMask(resizable)];
                     [window setFrame:windowRect display:YES animate:NO];
 
                     if (const auto result = CGDisplayRelease(displayId); result != kCGErrorSuccess)
