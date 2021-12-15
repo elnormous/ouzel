@@ -5,6 +5,7 @@
 #include "Engine.hpp"
 #include "../events/EventDispatcher.hpp"
 #include "../graphics/Graphics.hpp"
+#include "../scene/SceneManager.hpp"
 
 namespace ouzel::core
 {
@@ -107,6 +108,7 @@ namespace ouzel::core
                 resolution = event.size;
 
                 engine.getGraphics().setSize(resolution);
+                engine.getSceneManager().calculateProjection();
 
                 auto resolutionChangeEvent = std::make_unique<WindowEvent>();
                 resolutionChangeEvent->type = Event::Type::resolutionChange;

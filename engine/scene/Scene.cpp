@@ -14,7 +14,6 @@ namespace ouzel::scene
     Scene::Scene():
         eventHandler{EventHandler::priorityMax + 1}
     {
-        eventHandler.windowHandler = std::bind(&Scene::handleWindow, this, std::placeholders::_1);
         eventHandler.mouseHandler = std::bind(&Scene::handleMouse, this, std::placeholders::_1);
         eventHandler.touchHandler = std::bind(&Scene::handleTouch, this, std::placeholders::_1);
     }
@@ -187,14 +186,6 @@ namespace ouzel::scene
 
         for (auto layer : layers)
             layer->leave();
-    }
-
-    bool Scene::handleWindow(const WindowEvent& event)
-    {
-        if (event.type == Event::Type::resolutionChange)
-            calculateProjection();
-
-        return false;
     }
 
     bool Scene::handleMouse(const MouseEvent& event)

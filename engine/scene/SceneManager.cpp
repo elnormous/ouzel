@@ -22,6 +22,7 @@ namespace ouzel::scene
         if (scene.sceneManger) scene.sceneManger->removeScene(scene);
 
         scene.sceneManger = this;
+        scene.calculateProjection();
 
         scenes.push_back(&scene);
     }
@@ -64,5 +65,11 @@ namespace ouzel::scene
             if (!scene->entered) scene->enter();
             scene->draw();
         }
+    }
+
+    void SceneManager::calculateProjection()
+    {
+        for (const auto scene : scenes)
+            scene->calculateProjection();
     }
 }

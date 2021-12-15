@@ -53,7 +53,6 @@ namespace ouzel::scene
         virtual void enter();
         virtual void leave();
 
-        bool handleWindow(const WindowEvent& event);
         bool handleMouse(const MouseEvent& event);
         bool handleTouch(const TouchEvent& event);
 

@@ -36,6 +36,8 @@ namespace ouzel::scene
 
         auto getScene() const noexcept { return scenes.empty() ? nullptr : scenes.back(); }
 
+        void calculateProjection();
+
     private:
         std::vector<Scene*> scenes;
         std::vector<std::unique_ptr<Scene>> ownedScenes;
