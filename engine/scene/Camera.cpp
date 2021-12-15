@@ -15,7 +15,6 @@ namespace ouzel::scene
         projectionMode{ProjectionMode::custom}, projection{initProjection}
 
     {
-        calculateViewProjection();
     }
 
     Camera::Camera(const math::Size<float, 2>& initTargetContentSize, ScaleMode initScaleMode):
@@ -23,7 +22,6 @@ namespace ouzel::scene
         targetContentSize{initTargetContentSize},
         scaleMode{initScaleMode}
     {
-        calculateViewProjection();
     }
 
     Camera::Camera(float initFov, float initNearPlane, float initFarPlane):
@@ -32,7 +30,6 @@ namespace ouzel::scene
         nearPlane{initNearPlane},
         farPlane{initFarPlane}
     {
-        calculateViewProjection();
     }
 
     Camera::~Camera()
