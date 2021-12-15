@@ -63,7 +63,7 @@ namespace ouzel::scene
         viewProjectionDirty = inverseViewProjectionDirty = true;
     }
 
-    void Camera::recalculateProjection()
+    void Camera::calculateProjection() const
     {
         const math::Size<std::uint32_t, 2> renderTargetSize = renderTarget ?
             !renderTarget->getColorTextures().empty() ?
@@ -142,6 +142,7 @@ namespace ouzel::scene
                 return;
         }
 
+        projectionDirty = false;
         viewProjectionDirty = inverseViewProjectionDirty = true;
     }
 
@@ -174,6 +175,8 @@ namespace ouzel::scene
 
     void Camera::calculateViewProjection() const
     {
+        if (projectionDirty) calculateProjection();
+
         if (actor)
         {
             viewProjection = projection * actor->getInverseTransform();
@@ -271,25 +274,25 @@ namespace ouzel::scene
     void Camera::setViewport(const math::Rect<float>& newViewport)
     {
         viewport = newViewport;
-        recalculateProjection();
+        projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
     }
 
     void Camera::setScaleMode(ScaleMode newScaleMode)
     {
         scaleMode = newScaleMode;
-        recalculateProjection();
+        projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
     }
 
     void Camera::setTargetContentSize(const math::Size<float, 2>& newTargetContentSize)
     {
         targetContentSize = newTargetContentSize;
-        recalculateProjection();
+        projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
     }
 
     void Camera::setRenderTarget(graphics::RenderTarget* newRenderTarget)
     {
         renderTarget = newRenderTarget;
-        recalculateProjection();
+        projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
     }
 
     void Camera::setDepthTest(bool newDepthTest)

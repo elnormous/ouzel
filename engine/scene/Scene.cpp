@@ -121,10 +121,10 @@ namespace ouzel::scene
         return std::find(layers.cbegin(), layers.cend(), &layer) != layers.end();
     }
 
-    void Scene::recalculateProjection()
+    void Scene::calculateProjection()
     {
         for (auto layer : layers)
-            layer->recalculateProjection();
+            layer->calculateProjection();
     }
 
     std::pair<Actor*, math::Vector<float, 3>> Scene::pickActor(const math::Vector<float, 2>& position, bool renderTargets) const
@@ -172,7 +172,7 @@ namespace ouzel::scene
     {
         entered = true;
 
-        recalculateProjection();
+        calculateProjection();
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
         for (auto layer : layers)
@@ -192,7 +192,7 @@ namespace ouzel::scene
     bool Scene::handleWindow(const WindowEvent& event)
     {
         if (event.type == Event::Type::resolutionChange)
-            recalculateProjection();
+            calculateProjection();
 
         return false;
     }

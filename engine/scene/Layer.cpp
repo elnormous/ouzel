@@ -136,17 +136,17 @@ namespace ouzel::scene
         order = newOrder;
     }
 
-    void Layer::recalculateProjection()
+    void Layer::calculateProjection()
     {
         for (const auto camera : cameras)
-            camera->recalculateProjection();
+            camera->calculateProjection();
     }
 
     void Layer::enter()
     {
         ActorContainer::enter();
 
-        recalculateProjection();
+        calculateProjection();
     }
 
     void Layer::removeFromScene()

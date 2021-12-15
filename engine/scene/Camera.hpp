@@ -43,37 +43,36 @@ namespace ouzel::scene
         void setProjectionMode(ProjectionMode newProjectionMode)
         {
             projectionMode = newProjectionMode;
-            recalculateProjection();
+            projectionDirty = true;
         }
 
         [[nodiscard]] auto getFov() const noexcept { return fov; }
         void setFov(float newFov)
         {
             fov = newFov;
-            recalculateProjection();
+            projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
         }
 
         [[nodiscard]] auto getNearPlane() const noexcept { return nearPlane; }
         void setNearPlane(float newNearPlane)
         {
             nearPlane = newNearPlane;
-            recalculateProjection();
+            projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
         }
 
         [[nodiscard]] auto getFarPlane() const noexcept { return farPlane; }
         void setFarPlane(float newFarPlane)
         {
             farPlane = newFarPlane;
-            recalculateProjection();
+            projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
         }
 
         [[nodiscard]] auto& getProjection() const noexcept { return projection; }
         void setProjection(const math::Matrix<float, 4>& newProjection)
         {
             projection = newProjection;
-            recalculateProjection();
+            projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
         }
-        void recalculateProjection();
 
         const math::Matrix<float, 4>& getViewProjection() const;
         const math::Matrix<float, 4>& getRenderViewProjection() const;
@@ -134,6 +133,7 @@ namespace ouzel::scene
         void setLayer(Layer* newLayer) override;
 
         void updateTransform() override;
+        void calculateProjection() const;
         void calculateViewProjection() const;
 
         ProjectionMode projectionMode;
@@ -141,16 +141,17 @@ namespace ouzel::scene
         float nearPlane = 1.0F;
         float farPlane = 100.0F;
 
-        math::Matrix<float, 4> projection;
+        mutable bool projectionDirty = true;
+        mutable math::Matrix<float, 4> projection;
 
         math::Rect<float> viewport = math::Rect<float>{0.0F, 0.0F, 1.0F, 1.0F};
-        math::Rect<float> renderViewport{};
+        mutable math::Rect<float> renderViewport{};
         math::Size<float, 2> targetContentSize{};
 
         ScaleMode scaleMode = ScaleMode::noScale;
-        math::Size<float, 2> contentSize{};
-        math::Vector<float, 2> contentScale{};
-        math::Vector<float, 2> contentPosition{};
+        mutable math::Size<float, 2> contentSize{};
+        mutable math::Vector<float, 2> contentScale{};
+        mutable math::Vector<float, 2> contentPosition{};
 
         bool depthTest = false;
         bool wireframe = false;

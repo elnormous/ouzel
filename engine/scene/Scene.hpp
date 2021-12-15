@@ -43,7 +43,7 @@ namespace ouzel::scene
         bool hasLayer(const Layer& layer) const;
         auto& getLayers() const noexcept { return layers; }
 
-        virtual void recalculateProjection();
+        virtual void calculateProjection();
 
         std::pair<Actor*, math::Vector<float, 3>> pickActor(const math::Vector<float, 2>& position, bool renderTargets = false) const;
         std::vector<std::pair<Actor*, math::Vector<float, 3>>> pickActors(const math::Vector<float, 2>& position, bool renderTargets = false) const;

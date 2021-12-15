@@ -48,7 +48,7 @@ namespace ouzel::scene
         void addLight(Light& light);
         void removeLight(Light& light);
 
-        virtual void recalculateProjection();
+        virtual void calculateProjection();
         void enter() override;
 
         Scene* scene = nullptr;
