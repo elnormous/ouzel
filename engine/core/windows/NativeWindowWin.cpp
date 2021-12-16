@@ -767,7 +767,7 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleShowWindow(BOOL shown)
     {
-        sendEvent(Event(shown ? Event::Type::show : Event::Type::hide));
+        sendEvent(Event{shown ? Event::Type::show : Event::Type::hide});
     }
 
     void NativeWindow::handleMinimize()
@@ -776,12 +776,12 @@ namespace ouzel::core::windows
         focusChangeEvent.focus = false;
         sendEvent(focusChangeEvent);
 
-        sendEvent(Event(Event::Type::minimize));
+        sendEvent(Event{Event::Type::minimize});
     }
 
     void NativeWindow::handleMaximize()
     {
-        sendEvent(Event(Event::Type::maximize));
+        sendEvent(Event{Event::Type::maximize});
     }
 
     void NativeWindow::handleRestore()
@@ -804,7 +804,7 @@ namespace ouzel::core::windows
 
         mouseDevice->handleMove(engine->getWindow().convertWindowToNormalizedLocation(position));
 
-        sendEvent(Event(Event::Type::restore));
+        sendEvent(Event{Event::Type::restore});
     }
 
     void NativeWindow::handleKey(UINT message, WPARAM wParam, LPARAM lParam)
