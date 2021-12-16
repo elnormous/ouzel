@@ -72,7 +72,6 @@ namespace ouzel::core::windows
         ATOM windowClass = 0;
         HWND window = nullptr;
         DWORD windowStyle = 0;
-        DWORD windowExStyle = 0;
         DWORD windowWindowedStyle = 0;
         DWORD windowFullscreenStyle = 0;
         HMONITOR monitor = nullptr;

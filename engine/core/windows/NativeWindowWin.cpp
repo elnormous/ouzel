@@ -482,10 +482,9 @@ namespace ouzel::core::windows
         const int y = CW_USEDEFAULT;
 
         windowStyle = windowWindowedStyle;
-        windowExStyle = WS_EX_APPWINDOW;
 
         RECT windowRect = {0, 0, static_cast<LONG>(size.v[0]), static_cast<LONG>(size.v[1])};
-        if (!AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowExStyle))
+        if (!AdjustWindowRectEx(&windowRect, windowStyle, FALSE, WS_EX_APPWINDOW))
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to adjust window rectangle"};
 
         const int width = (size.v[0] > 0.0F) ? windowRect.right - windowRect.left : CW_USEDEFAULT;
@@ -499,7 +498,7 @@ namespace ouzel::core::windows
         if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.get(), buferSize) == 0)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
-        window = CreateWindowExW(windowExStyle, MAKEINTATOM(windowClass), titleBuffer.get(), windowStyle,
+        window = CreateWindowExW(WS_EX_APPWINDOW, MAKEINTATOM(windowClass), titleBuffer.get(), windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
@@ -592,7 +591,7 @@ namespace ouzel::core::windows
         const UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
         RECT rect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
-        if (!AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, windowExStyle))
+        if (!AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, WS_EX_APPWINDOW))
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to adjust window rectangle"};
 
         if (!SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags))
