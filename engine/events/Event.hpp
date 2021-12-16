@@ -7,7 +7,6 @@
 #include <vector>
 #include <string>
 #include "../audio/Voice.hpp"
-#include "../core/Window.hpp"
 #include "../math/Vector.hpp"
 #include "../math/Size.hpp"
 #include "../input/Gamepad.hpp"
@@ -126,6 +125,11 @@ namespace ouzel
         float value = 0.0F;
         float previousValue = 0.0F;
     };
+
+    namespace core
+    {
+        class Window;
+    }
 
     struct WindowEvent final: Event
     {
