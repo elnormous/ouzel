@@ -71,7 +71,14 @@ namespace ouzel::core::linux
         XSetWindowAttributes attributes;
         attributes.background_pixel = XWhitePixel(display, screenNumber);
         attributes.border_pixel = 0;
-        attributes.event_mask = FocusChangeMask | KeyPressMask | KeyRelease | ExposureMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | StructureNotifyMask;
+        attributes.event_mask = FocusChangeMask |
+            KeyPressMask |
+            KeyRelease |
+            ExposureMask |
+            ButtonPressMask |
+            ButtonReleaseMask |
+            PointerMotionMask |
+            StructureNotifyMask;
 
         window = XCreateWindow(display, rootWindow, x, y,
                                static_cast<unsigned int>(size.v[0]), static_cast<unsigned int>(size.v[1]),
@@ -138,7 +145,7 @@ namespace ouzel::core::linux
         auto display = engineLinux->getDisplay();
 
         DISPMANX_MODEINFO_T modeInfo;
-        const std::int32_t success = vc_dispmanx_display_get_info(display, &modeInfo);
+        const auto success = vc_dispmanx_display_get_info(display, &modeInfo);
 
         if (success < 0)
             throw std::runtime_error{"Failed to get display size"};
