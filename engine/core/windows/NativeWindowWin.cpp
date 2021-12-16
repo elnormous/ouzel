@@ -411,6 +411,27 @@ namespace
 
 namespace ouzel::core::windows
 {
+    namespace
+    {
+        DWORD getWindowStyle(bool resizable,
+                             bool fullscreen) noexcept
+        {
+            if (fullscreen)
+                return WS_CLIPSIBLINGS | WS_GROUP | WS_TABSTOP;
+            else
+                return WS_CAPTION |
+                    WS_SYSMENU |
+                    WS_MINIMIZEBOX |
+                    WS_CLIPSIBLINGS |
+                    WS_BORDER |
+                    WS_DLGFRAME |
+                    WS_THICKFRAME |
+                    WS_GROUP |
+                    WS_TABSTOP |
+                    (resizable ? WS_SIZEBOX | WS_MAXIMIZEBOX : 0);
+        }
+    }
+
     NativeWindow::NativeWindow(const math::Size<std::uint32_t, 2>& newSize,
                                bool newResizable,
                                bool newFullscreen,
@@ -471,17 +492,10 @@ namespace ouzel::core::windows
         if (!windowClass)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to register window class"};
 
-        windowWindowedStyle = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_CLIPSIBLINGS | WS_BORDER | WS_DLGFRAME | WS_THICKFRAME | WS_GROUP | WS_TABSTOP;
-
-        if (resizable)
-            windowWindowedStyle |= WS_SIZEBOX | WS_MAXIMIZEBOX;
-
-        windowFullscreenStyle = WS_CLIPSIBLINGS | WS_GROUP | WS_TABSTOP;
-
         const int x = CW_USEDEFAULT;
         const int y = CW_USEDEFAULT;
 
-        windowStyle = windowWindowedStyle;
+        const auto windowStyle = getWindowStyle(resizable, fullscreen);
 
         RECT windowRect = {0, 0, static_cast<LONG>(size.v[0]), static_cast<LONG>(size.v[1])};
         if (!AdjustWindowRectEx(&windowRect, windowStyle, FALSE, WS_EX_APPWINDOW))
@@ -591,7 +605,7 @@ namespace ouzel::core::windows
         const UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER;
 
         RECT rect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
-        if (!AdjustWindowRectEx(&rect, windowStyle, GetMenu(window) ? TRUE : FALSE, WS_EX_APPWINDOW))
+        if (!AdjustWindowRectEx(&rect, getWindowStyle(resizable, fullscreen), GetMenu(window) ? TRUE : FALSE, WS_EX_APPWINDOW))
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to adjust window rectangle"};
 
         if (!SetWindowPos(window, nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top, swpFlags))
@@ -672,8 +686,7 @@ namespace ouzel::core::windows
         }
         else
         {
-            windowStyle = (newFullscreen ? windowFullscreenStyle : windowWindowedStyle) | WS_VISIBLE;
-            if (!SetWindowLong(window, GWL_STYLE, windowStyle))
+            if (!SetWindowLong(window, GWL_STYLE, getWindowStyle(resizable, fullscreen) | WS_VISIBLE))
                 throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to set window style"};
 
             if (newFullscreen)
