@@ -78,6 +78,9 @@ namespace ouzel::scene
         const math::Matrix<float, 4>& getRenderViewProjection() const;
         const math::Matrix<float, 4>& getInverseViewProjection() const;
 
+        math::Vector<float, 3> convertClipToWorld(const math::Vector<float, 3>& clipPosition) const;
+        math::Vector<float, 3> convertWorldToClip(const math::Vector<float, 3>& worldPosition) const;
+
         math::Vector<float, 3> convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const;
         math::Vector<float, 2> convertWorldToNormalized(const math::Vector<float, 3>& worldPosition) const;
 

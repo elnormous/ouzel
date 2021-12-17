@@ -184,27 +184,38 @@ namespace ouzel::scene
         }
     }
 
-    math::Vector<float, 3> Camera::convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const
+    math::Vector<float, 3> Camera::convertClipToWorld(const math::Vector<float, 3>& clipPosition) const
     {
-        // convert window normalized to viewport clip position
-        auto result = math::Vector<float, 3>{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
-                               (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
-                               0.0F};
-
+        math::Vector<float, 3> result = clipPosition;
         transformPoint(getInverseViewProjection(), result);
-
         return result;
     }
 
-    math::Vector<float, 2> Camera::convertWorldToNormalized(const math::Vector<float, 3>& normalizedPosition) const
+    math::Vector<float, 3> Camera::convertWorldToClip(const math::Vector<float, 3>& worldPosition) const
     {
-        math::Vector<float, 3> result = normalizedPosition;
+        math::Vector<float, 3> result = worldPosition;
         transformPoint(getViewProjection(), result);
+        return result;
+    }
+
+    math::Vector<float, 3> Camera::convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const
+    {
+        // convert window normalized to viewport clip position
+        auto clipPosition = math::Vector<float, 3>{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
+                               (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
+                               0.0F};
+
+        return convertClipToWorld(clipPosition);
+    }
+
+    math::Vector<float, 2> Camera::convertWorldToNormalized(const math::Vector<float, 3>& worldPosition) const
+    {
+        const auto clipPosition = convertWorldToClip(worldPosition);
 
         // convert viewport clip position to window normalized
         return math::Vector<float, 2>{
-            (result.v[0] / 2.0F + 0.5F) * viewport.size.v[0] + viewport.position.v[0],
-            1.0F - ((result.v[1] / 2.0F + 0.5F) * viewport.size.v[1] + viewport.position.v[1])
+            (clipPosition.v[0] / 2.0F + 0.5F) * viewport.size.v[0] + viewport.position.v[0],
+            1.0F - ((clipPosition.v[1] / 2.0F + 0.5F) * viewport.size.v[1] + viewport.position.v[1])
         };
     }
 
