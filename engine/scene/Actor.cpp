@@ -461,8 +461,8 @@ namespace ouzel::scene
         localTransform *= rotationMatrix;
 
         const auto finalScale = math::Vector<float, 3>{
-            scale.v[0] * (flipX ? -1.0F : 1.0F),
-            scale.v[1] * (flipY ? -1.0F : 1.0F),
+            flipX ? -scale.v[0] : scale.v[0],
+            flipY ? -scale.v[1] : scale.v[1],
             scale.v[2]
         };
 
