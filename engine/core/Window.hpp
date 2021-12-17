@@ -3,7 +3,9 @@
 #ifndef OUZEL_CORE_WINDOW_HPP
 #define OUZEL_CORE_WINDOW_HPP
 
+#include <cstdint>
 #include <memory>
+#include <queue>
 #include <string>
 #ifdef __APPLE__
 #  include <TargetConditionals.h>
@@ -23,13 +25,12 @@
 #elif defined(__EMSCRIPTEN__)
 #  include "emscripten/NativeWindowEm.hpp"
 #endif
+#include "../events/Event.hpp"
 #include "../graphics/Driver.hpp"
 #include "../math/Size.hpp"
 
 namespace ouzel::core
 {
-    class Engine;
-
     class Window final
     {
     public:
@@ -49,8 +50,7 @@ namespace ouzel::core
             fullscreen
         };
 
-        Window(Engine& initEngine,
-               const math::Size<std::uint32_t, 2>& newSize,
+        Window(const math::Size<std::uint32_t, 2>& newSize,
                Flags flags,
                const std::string& newTitle,
                graphics::Driver graphicsDriver);
@@ -64,7 +64,7 @@ namespace ouzel::core
         auto& getNativeWindow() const noexcept { return nativeWindow; }
 
         void close();
-        void update(bool waitForEvents);
+        std::queue<std::unique_ptr<Event>> getEvents(bool waitForEvents);
 
         auto& getSize() const noexcept { return size; }
         void setSize(const math::Size<std::uint32_t, 2>& newSize);
@@ -107,9 +107,6 @@ namespace ouzel::core
         }
 
     private:
-        void handleEvent(const NativeWindow::Event& event);
-
-        Engine& engine;
 #if TARGET_OS_IOS
         ios::NativeWindow nativeWindow;
 #elif TARGET_OS_TV

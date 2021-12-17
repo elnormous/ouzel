@@ -2,19 +2,13 @@
 
 #include <stdexcept>
 #include "Window.hpp"
-#include "Engine.hpp"
-#include "../events/EventDispatcher.hpp"
-#include "../graphics/Graphics.hpp"
-#include "../scene/SceneManager.hpp"
 
 namespace ouzel::core
 {
-    Window::Window(Engine& initEngine,
-                   [[maybe_unused]] const math::Size<std::uint32_t, 2>& newSize,
+    Window::Window([[maybe_unused]] const math::Size<std::uint32_t, 2>& newSize,
                    Flags flags,
                    const std::string& newTitle,
                    [[maybe_unused]] graphics::Driver graphicsDriver):
-        engine{initEngine},
 #if TARGET_OS_IOS
         nativeWindow{newTitle, graphicsDriver, (flags & Flags::highDpi) == Flags::highDpi},
 #elif TARGET_OS_TV
@@ -75,95 +69,89 @@ namespace ouzel::core
     {
     }
 
-    void Window::update(bool waitForEvents)
+    std::queue<std::unique_ptr<Event>> Window::getEvents(bool waitForEvents)
     {
         auto events = nativeWindow.getEvents(waitForEvents);
+
+        std::queue<std::unique_ptr<Event>> result;
 
         while (!events.empty())
         {
             const auto event = std::move(events.front());
             events.pop();
 
-            handleEvent(event);
+            switch (event.type)
+            {
+                case NativeWindow::Event::Type::sizeChange:
+                {
+                    size = event.size;
+
+                    auto sizeChangeEvent = std::make_unique<WindowEvent>();
+                    sizeChangeEvent->type = Event::Type::windowSizeChange;
+                    sizeChangeEvent->window = this;
+                    sizeChangeEvent->size = event.size;
+                    result.push(std::move(sizeChangeEvent));
+                    break;
+                }
+                case NativeWindow::Event::Type::resolutionChange:
+                {
+                    resolution = event.size;
+
+                    auto resolutionChangeEvent = std::make_unique<WindowEvent>();
+                    resolutionChangeEvent->type = Event::Type::resolutionChange;
+                    resolutionChangeEvent->window = this;
+                    resolutionChangeEvent->size = event.size;
+                    result.push(std::move(resolutionChangeEvent));
+                    break;
+                }
+                case NativeWindow::Event::Type::fullscreenChange:
+                {
+                    fullscreen = event.fullscreen;
+
+                    auto fullscreenChangeEvent = std::make_unique<WindowEvent>();
+                    fullscreenChangeEvent->type = Event::Type::fullscreenChange;
+                    fullscreenChangeEvent->window = this;
+                    fullscreenChangeEvent->fullscreen = event.fullscreen;
+                    result.push(std::move(fullscreenChangeEvent));
+                    break;
+                }
+                case NativeWindow::Event::Type::screenChange:
+                {
+                    displayId = event.displayId;
+
+                    auto screenChangeEvent = std::make_unique<WindowEvent>();
+                    screenChangeEvent->type = Event::Type::screenChange;
+                    screenChangeEvent->window = this;
+                    screenChangeEvent->screenId = event.displayId;
+                    result.push(std::move(screenChangeEvent));
+                    break;
+                }
+                case NativeWindow::Event::Type::focusChange:
+                    // handled by applicationDidBecomeActive: and applicationDidResignActive:
+                    break;
+                case NativeWindow::Event::Type::close:
+                    // handled by applicationShouldTerminateAfterLastWindowClosed:
+                    break;
+                case NativeWindow::Event::Type::show:
+                    visible = true;
+                    break;
+                case NativeWindow::Event::Type::hide:
+                    visible = false;
+                    break;
+                case NativeWindow::Event::Type::minimize:
+                    minimized = true;
+                    break;
+                case NativeWindow::Event::Type::maximize:
+                    break;
+                case NativeWindow::Event::Type::restore:
+                    minimized = false;
+                    break;
+                default:
+                    throw std::runtime_error{"Unhandled event"};
+            }
         }
-    }
 
-    void Window::handleEvent(const NativeWindow::Event& event)
-    {
-        switch (event.type)
-        {
-            case NativeWindow::Event::Type::sizeChange:
-            {
-                size = event.size;
-
-                auto sizeChangeEvent = std::make_unique<WindowEvent>();
-                sizeChangeEvent->type = Event::Type::windowSizeChange;
-                sizeChangeEvent->window = this;
-                sizeChangeEvent->size = event.size;
-                engine.getEventDispatcher().dispatchEvent(std::move(sizeChangeEvent));
-                break;
-            }
-            case NativeWindow::Event::Type::resolutionChange:
-            {
-                resolution = event.size;
-
-                engine.getGraphics().setSize(resolution);
-                engine.getSceneManager().calculateProjection();
-
-                auto resolutionChangeEvent = std::make_unique<WindowEvent>();
-                resolutionChangeEvent->type = Event::Type::resolutionChange;
-                resolutionChangeEvent->window = this;
-                resolutionChangeEvent->size = event.size;
-                engine.getEventDispatcher().dispatchEvent(std::move(resolutionChangeEvent));
-                break;
-            }
-            case NativeWindow::Event::Type::fullscreenChange:
-            {
-                fullscreen = event.fullscreen;
-
-                auto fullscreenChangeEvent = std::make_unique<WindowEvent>();
-                fullscreenChangeEvent->type = Event::Type::fullscreenChange;
-                fullscreenChangeEvent->window = this;
-                fullscreenChangeEvent->fullscreen = event.fullscreen;
-                engine.getEventDispatcher().dispatchEvent(std::move(fullscreenChangeEvent));
-                break;
-            }
-            case NativeWindow::Event::Type::screenChange:
-            {
-                displayId = event.displayId;
-
-                engine.getGraphics().changeScreen(displayId);
-
-                auto screenChangeEvent = std::make_unique<WindowEvent>();
-                screenChangeEvent->type = Event::Type::screenChange;
-                screenChangeEvent->window = this;
-                screenChangeEvent->screenId = event.displayId;
-                engine.getEventDispatcher().dispatchEvent(std::move(screenChangeEvent));
-                break;
-            }
-            case NativeWindow::Event::Type::focusChange:
-                // handled by applicationDidBecomeActive: and applicationDidResignActive:
-                break;
-            case NativeWindow::Event::Type::close:
-                // handled by applicationShouldTerminateAfterLastWindowClosed:
-                break;
-            case NativeWindow::Event::Type::show:
-                visible = true;
-                break;
-            case NativeWindow::Event::Type::hide:
-                visible = false;
-                break;
-            case NativeWindow::Event::Type::minimize:
-                minimized = true;
-                break;
-            case NativeWindow::Event::Type::maximize:
-                break;
-            case NativeWindow::Event::Type::restore:
-                minimized = false;
-                break;
-            default:
-                throw std::runtime_error{"Unhandled event"};
-        }
+        return result;
     }
 
     void Window::close()
@@ -181,14 +169,6 @@ namespace ouzel::core
             NativeWindow::Command command{NativeWindow::Command::Type::changeSize};
             command.size = newSize;
             nativeWindow.addCommand(command);
-
-            auto event = std::make_unique<WindowEvent>();
-            event->type = Event::Type::windowSizeChange;
-            event->window = this;
-            event->size = size;
-            event->title = title;
-            event->fullscreen = fullscreen;
-            engine.getEventDispatcher().dispatchEvent(std::move(event));
         }
     }
 
@@ -201,14 +181,6 @@ namespace ouzel::core
             NativeWindow::Command command{NativeWindow::Command::Type::changeFullscreen};
             command.fullscreen = newFullscreen;
             nativeWindow.addCommand(command);
-
-            auto event = std::make_unique<WindowEvent>();
-            event->type = Event::Type::fullscreenChange;
-            event->window = this;
-            event->size = size;
-            event->title = title;
-            event->fullscreen = fullscreen;
-            engine.getEventDispatcher().dispatchEvent(std::move(event));
         }
     }
 

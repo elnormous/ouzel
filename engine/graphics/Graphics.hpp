@@ -18,6 +18,12 @@
 #include "../math/Size.hpp"
 #include "../math/Color.hpp"
 
+namespace ouzel::core
+{
+    class Engine;
+    class Window;
+}
+
 namespace ouzel::graphics
 {
     std::set<Driver> getAvailableRenderDrivers();
@@ -25,7 +31,7 @@ namespace ouzel::graphics
 
     class Graphics final
     {
-        friend core::Window;
+        friend core::Engine;
     public:
         Graphics(Driver driver,
                  core::Window& initWindow,

@@ -171,7 +171,7 @@ namespace ouzel::core
     Engine::Engine(const std::vector<std::string>& initArgs):
         fileSystem(*this),
         settings{getSettings(fileSystem)},
-        window{*this, settings.size, getWindowFlags(settings), OUZEL_APPLICATION_NAME, settings.graphicsDriver},
+        window{settings.size, getWindowFlags(settings), OUZEL_APPLICATION_NAME, settings.graphicsDriver},
         graphics{settings.graphicsDriver, window, settings.graphicsSettings},
         audio{settings.audioDriver, settings.audioSettings},
         assetBundle(cache, fileSystem),
@@ -677,7 +677,7 @@ namespace ouzel::core
         }
 
         inputManager.update();
-        window.update(false);
+        handleWindowEvents(window.getEvents(false));
         audio.update();
 
         if (refillRenderQueue)
@@ -705,7 +705,7 @@ namespace ouzel::core
 #ifndef __EMSCRIPTEN__
             while (active)
                 if (paused)
-                    window.update(true);
+                    handleWindowEvents(window.getEvents(false));
                 else
                     update();
 
@@ -726,5 +726,33 @@ namespace ouzel::core
     void Engine::setScreenSaverEnabled(bool newScreenSaverEnabled)
     {
         screenSaverEnabled = newScreenSaverEnabled;
+    }
+
+    void Engine::handleWindowEvents(std::queue<std::unique_ptr<Event>> windowEvents)
+    {
+        while (!windowEvents.empty())
+        {
+            auto windowEvent = std::move(windowEvents.front());
+            windowEvents.pop();
+
+            switch (windowEvent->type)
+            {
+                case Event::Type::windowSizeChange:
+                    break;
+                case Event::Type::resolutionChange:
+                    graphics.setSize(static_cast<WindowEvent*>(windowEvent.get())->size);
+                    sceneManager.calculateProjection();
+                    break;
+                case Event::Type::fullscreenChange:
+                    break;
+                case Event::Type::screenChange:
+                    graphics.changeScreen(static_cast<WindowEvent*>(windowEvent.get())->screenId);
+                    break;
+                default:
+                    break;
+            }
+
+            eventDispatcher.dispatchEvent(std::move(windowEvent));
+        }
     }
 }
