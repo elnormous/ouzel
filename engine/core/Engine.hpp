@@ -150,7 +150,7 @@ namespace ouzel::core
         std::atomic_bool screenSaverEnabled{true};
 
     private:
-        void handleWindowEvents(std::queue<std::unique_ptr<Event>> windowEvents);
+        void handleEvents(std::queue<std::unique_ptr<Event>> windowEvents);
         std::vector<std::string> args;
     };
 }

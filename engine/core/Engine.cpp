@@ -677,7 +677,7 @@ namespace ouzel::core
         }
 
         inputManager.update();
-        handleWindowEvents(window.getEvents(false));
+        handleEvents(window.getEvents(false));
         audio.update();
 
         if (refillRenderQueue)
@@ -705,7 +705,7 @@ namespace ouzel::core
 #ifndef __EMSCRIPTEN__
             while (active)
                 if (paused)
-                    handleWindowEvents(window.getEvents(false));
+                    handleEvents(window.getEvents(false));
                 else
                     update();
 
@@ -728,7 +728,7 @@ namespace ouzel::core
         screenSaverEnabled = newScreenSaverEnabled;
     }
 
-    void Engine::handleWindowEvents(std::queue<std::unique_ptr<Event>> windowEvents)
+    void Engine::handleEvents(std::queue<std::unique_ptr<Event>> windowEvents)
     {
         while (!windowEvents.empty())
         {
