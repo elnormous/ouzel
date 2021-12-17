@@ -63,6 +63,7 @@ namespace samples
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
                 cameraActor.setRotation(Vector<float, 3>{cameraRotation.x(), cameraRotation.y(), 0.0F});
+                updateArrowPosition();
             }
             else if (event.type == Event::Type::keyboardKeyRelease)
             {
@@ -91,6 +92,7 @@ namespace samples
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
                 cameraActor.setRotation(Vector<float, 3>{cameraRotation.x(), cameraRotation.y(), 0.0F});
+                updateArrowPosition();
             }
 
             return false;
@@ -107,6 +109,7 @@ namespace samples
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
 
                 cameraActor.setRotation(Vector<float, 3>{cameraRotation.x(), cameraRotation.y(), 0.0F});
+                updateArrowPosition();
             }
 
             return false;
@@ -166,6 +169,12 @@ namespace samples
         layer.addChild(character);
         character.setPosition(Vector<float, 2>{10.0F, 0.0F});
 
+        // box
+        boxModel.init(*engine->getCache().getStaticMeshData("cube.obj"));
+        box.addComponent(boxModel);
+        box.setPosition(Vector<float, 3>{-160.0F, 0.0F, -50.0F});
+        layer.addChild(box);
+
         submix.setOutput(&engine->getAudio().getMasterMix());
 
         cameraActor.addComponent(listener);
@@ -182,11 +191,6 @@ namespace samples
         character.addComponent(*rotate);
         rotate->start();
 
-        boxModel.init(*engine->getCache().getStaticMeshData("cube.obj"));
-        box.addComponent(boxModel);
-        box.setPosition(Vector<float, 3>{-160.0F, 0.0F, -50.0F});
-        layer.addChild(box);
-
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
         guiCamera.setTargetContentSize(math::Size<float, 2>{800.0F, 600.0F});
         guiCameraActor.addComponent(guiCamera);
@@ -197,5 +201,19 @@ namespace samples
 
         backButton.setPosition(Vector<float, 2>{-200.0F, -200.0F});
         menu.addWidget(backButton);
+
+        // arrow
+        arrowSprite.init("arrow");
+        arrow.addComponent(arrowSprite);
+        updateArrowPosition();
+        guiLayer.addChild(arrow);
+    }
+
+    void PerspectiveSample::updateArrowPosition()
+    {
+        const auto worldPosition = box.convertLocalToWorld(Vector<float, 3>{0.0F, 100.0F, 0.0F});
+        const auto normalizedPosition = camera.convertWorldToNormalized(worldPosition);
+        const auto guiPosition = guiCamera.convertNormalizedToWorld(normalizedPosition);
+        arrow.setPosition(guiPosition);
     }
 }

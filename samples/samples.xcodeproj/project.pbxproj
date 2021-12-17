@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		300E4499276CE2B400E0721F /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 300E4497276CE2B400E0721F /* arrow.png */; };
+		300E449A276CE2B400E0721F /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 300E4497276CE2B400E0721F /* arrow.png */; };
+		300E449B276CE2B400E0721F /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 300E4497276CE2B400E0721F /* arrow.png */; };
 		3011E1CA1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
 		3011E1CB1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
 		3011E1CC1F00444500CB1DDC /* settings.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3011E1C91F00444500CB1DDC /* settings.ini */; };
@@ -205,6 +208,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		300E4497276CE2B400E0721F /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		3011E1C91F00444500CB1DDC /* settings.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = settings.ini; sourceTree = SOURCE_ROOT; };
 		3013FAAD1DDD20AC0069E2BD /* GameSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSample.cpp; sourceTree = "<group>"; };
 		3013FAAE1DDD20AC0069E2BD /* GameSample.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameSample.hpp; sourceTree = "<group>"; };
@@ -436,6 +440,7 @@
 				30A8835D1E70E5B1004A033F /* 24-bit.wav */,
 				30419E641D1F6A7600A63759 /* ambient.wav */,
 				30B8599A1F3D377700A16952 /* AmosisTechnik.ttf */,
+				300E4497276CE2B400E0721F /* arrow.png */,
 				30C246FA211E0B98001E8DA6 /* assets.json */,
 				3045F0DA1D0F575F00125436 /* ball.png */,
 				30C2C3411F817E5100B3AAC2 /* cube.mtl */,
@@ -674,6 +679,7 @@
 				3089900622F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1431F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906920D08AB500C79662 /* gui.zip in Resources */,
+				300E4499276CE2B400E0721F /* arrow.png in Resources */,
 				30B8599B1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30419E661D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF31D78F4DB0067DE35 /* triangle.png in Resources */,
@@ -708,6 +714,7 @@
 				3089900822F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1451F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906B20D08AB500C79662 /* gui.zip in Resources */,
+				300E449B276CE2B400E0721F /* arrow.png in Resources */,
 				30B8599D1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30419E671D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF41D78F4DB0067DE35 /* triangle.png in Resources */,
@@ -742,6 +749,7 @@
 				3089900722F1154A001C13F2 /* 8-bit.json in Resources */,
 				3031C1441F0C4A3B002CA717 /* music.ogg in Resources */,
 				30E1906A20D08AB500C79662 /* gui.zip in Resources */,
+				300E449A276CE2B400E0721F /* arrow.png in Resources */,
 				30B8599C1F3D377700A16952 /* AmosisTechnik.ttf in Resources */,
 				30419E651D1F6A7600A63759 /* ambient.wav in Resources */,
 				30224DF21D78F4DB0067DE35 /* triangle.png in Resources */,

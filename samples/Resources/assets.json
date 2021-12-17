@@ -146,6 +146,12 @@
             "type": 4,
             "filename": "witch.png",
             "mipmaps": true
+        },
+        {
+            "type": 4,
+            "name": "arrow",
+            "filename": "arrow.png",
+            "mipmaps": true
         }
     ]
 }

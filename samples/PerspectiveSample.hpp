@@ -21,6 +21,8 @@ namespace samples
         PerspectiveSample();
 
     private:
+        void updateArrowPosition();
+
         ouzel::audio::Submix submix;
         ouzel::audio::Listener listener;
 
@@ -41,6 +43,9 @@ namespace samples
 
         ouzel::scene::StaticMeshRenderer boxModel;
         ouzel::scene::Actor box;
+
+        ouzel::scene::SpriteRenderer arrowSprite;
+        ouzel::scene::Actor arrow;
 
         std::unique_ptr<ouzel::scene::Animator> rotate;
 
