@@ -79,7 +79,7 @@ namespace ouzel::graphics
 
         bool getRefillQueue(bool waitForNextFrame) const;
 
-        math::Vector<float, 2> convertScreenToNormalizedLocation(const math::Vector<float, 2>& position)
+        math::Vector<float, 2> convertScreenToNormalizedLocation(const math::Vector<float, 2>& position) const noexcept
         {
             return math::Vector<float, 2>{
                 position.v[0] / size.v[0],
@@ -87,7 +87,7 @@ namespace ouzel::graphics
             };
         }
 
-        math::Vector<float, 2> convertNormalizedToScreenLocation(const math::Vector<float, 2>& position)
+        math::Vector<float, 2> convertNormalizedToScreenLocation(const math::Vector<float, 2>& position) const noexcept
         {
             return math::Vector<float, 2>{
                 position.v[0] * size.v[0],

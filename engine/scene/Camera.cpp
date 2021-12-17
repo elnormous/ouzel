@@ -184,21 +184,21 @@ namespace ouzel::scene
         }
     }
 
-    math::Vector<float, 3> Camera::convertClipToWorld(const math::Vector<float, 3>& clipPosition) const
+    math::Vector<float, 3> Camera::convertClipToWorld(const math::Vector<float, 3>& clipPosition) const noexcept
     {
         math::Vector<float, 3> result = clipPosition;
         transformPoint(getInverseViewProjection(), result);
         return result;
     }
 
-    math::Vector<float, 3> Camera::convertWorldToClip(const math::Vector<float, 3>& worldPosition) const
+    math::Vector<float, 3> Camera::convertWorldToClip(const math::Vector<float, 3>& worldPosition) const noexcept
     {
         math::Vector<float, 3> result = worldPosition;
         transformPoint(getViewProjection(), result);
         return result;
     }
 
-    math::Vector<float, 3> Camera::convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const
+    math::Vector<float, 3> Camera::convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const noexcept
     {
         // convert window normalized to viewport clip position
         auto clipPosition = math::Vector<float, 3>{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
@@ -208,7 +208,7 @@ namespace ouzel::scene
         return convertClipToWorld(clipPosition);
     }
 
-    math::Vector<float, 2> Camera::convertWorldToNormalized(const math::Vector<float, 3>& worldPosition) const
+    math::Vector<float, 2> Camera::convertWorldToNormalized(const math::Vector<float, 3>& worldPosition) const noexcept
     {
         const auto clipPosition = convertWorldToClip(worldPosition);
 
