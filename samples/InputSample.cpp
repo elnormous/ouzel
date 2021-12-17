@@ -26,10 +26,10 @@ namespace samples
                 switch (event.key)
                 {
                     case Keyboard::Key::up:
-                        flamePosition.y() += 0.01F;
+                        flamePosition.y() -= 0.01F;
                         break;
                     case Keyboard::Key::down:
-                        flamePosition.y() -= 0.01F;
+                        flamePosition.y() += 0.01F;
                         break;
                     case Keyboard::Key::left:
                         flamePosition.x() -= 0.01F;
