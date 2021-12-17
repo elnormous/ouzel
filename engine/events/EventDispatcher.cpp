@@ -106,7 +106,6 @@ namespace ouzel
                             return true;
                         break;
                     case Event::Type::windowSizeChange:
-                    case Event::Type::windowTitleChange:
                     case Event::Type::fullscreenChange:
                     case Event::Type::screenChange:
                     case Event::Type::resolutionChange:

@@ -50,7 +50,6 @@ namespace ouzel
 
             // window events
             windowSizeChange,
-            windowTitleChange,
             fullscreenChange,
             screenChange,
             resolutionChange,

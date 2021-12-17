@@ -221,14 +221,6 @@ namespace ouzel::core
             NativeWindow::Command command{NativeWindow::Command::Type::setTitle};
             command.title = newTitle;
             nativeWindow.addCommand(command);
-
-            auto event = std::make_unique<WindowEvent>();
-            event->type = Event::Type::windowTitleChange;
-            event->window = this;
-            event->size = size;
-            event->title = title;
-            event->fullscreen = fullscreen;
-            engine.getEventDispatcher().dispatchEvent(std::move(event));
         }
     }
 
