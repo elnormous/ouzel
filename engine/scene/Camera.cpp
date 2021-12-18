@@ -229,14 +229,15 @@ namespace ouzel::scene
             // offset the center point, so that it is relative to 0,0
             math::Vector<float, 3> v3p{
                 box.min.v[0] + diff.v[0] / 2.0F,
-                box.min.v[1] + diff.v[1] / 2.0F, 0.0F
+                box.min.v[1] + diff.v[1] / 2.0F,
+                0.0F
             };
 
             // apply local transform to the center point
             transformPoint(boxTransform, v3p);
 
             // tranform the center to viewport's clip space
-            const auto clipPos = math::Vector<float, 4>{v3p.v[0], v3p.v[1], v3p.v[2], 1.0F} * getViewProjection();
+            const auto clipPos = getViewProjection() * math::Vector<float, 4>{v3p.v[0], v3p.v[1], v3p.v[2], 1.0F};
 
             assert(clipPos.v[3] != 0.0F);
 
