@@ -197,21 +197,22 @@ namespace samples
         guiLayer.addChild(guiCameraActor);
         addLayer(guiLayer);
 
+        // arrow
+        arrowSprite.init("arrow");
+        arrowSprite.setOffset(Vector<float, 2>{0.0F, -arrowSprite.getBoundingBox().min[1] + 20.0F});
+        arrow.addComponent(arrowSprite);
+        updateArrowPosition();
+        guiLayer.addChild(arrow);
+
         guiLayer.addChild(menu);
 
         backButton.setPosition(Vector<float, 2>{-200.0F, -200.0F});
         menu.addWidget(backButton);
-
-        // arrow
-        arrowSprite.init("arrow");
-        arrow.addComponent(arrowSprite);
-        updateArrowPosition();
-        guiLayer.addChild(arrow);
     }
 
     void PerspectiveSample::updateArrowPosition()
     {
-        const auto worldPosition = box.convertLocalToWorld(Vector<float, 3>{0.0F, 100.0F, 0.0F});
+        const auto worldPosition = box.convertLocalToWorld(Vector<float, 3>{0.0F, 50.0F, 0.0F});
         const auto normalizedPosition = camera.convertWorldToNormalized(worldPosition);
         const auto guiPosition = guiCamera.convertNormalizedToWorld(normalizedPosition);
         arrow.setPosition(guiPosition);
