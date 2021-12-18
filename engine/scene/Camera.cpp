@@ -201,9 +201,11 @@ namespace ouzel::scene
     math::Vector<float, 3> Camera::convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const noexcept
     {
         // convert window normalized to viewport clip position
-        auto clipPosition = math::Vector<float, 3>{((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
-                               (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
-                               0.0F};
+        const auto clipPosition = math::Vector<float, 3>{
+            ((normalizedPosition.v[0] - viewport.position.v[0]) / viewport.size.v[0] - 0.5F) * 2.0F,
+            (((1.0F - normalizedPosition.v[1]) - viewport.position.v[1]) / viewport.size.v[1] - 0.5F) * 2.0F,
+            0.0F
+        };
 
         return convertClipToWorld(clipPosition);
     }
