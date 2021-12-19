@@ -212,7 +212,7 @@ namespace samples
 
     void PerspectiveSample::updateArrowPosition()
     {
-        const auto worldPosition = box.convertLocalToWorld(Vector<float, 3>{0.0F, 50.0F, 0.0F});
+        const auto worldPosition = box.convertLocalToWorld(Vector<float, 3>{0.0F, boxModel.getBoundingBox().max[1], 0.0F});
         const auto normalizedPosition = camera.convertWorldToNormalized(worldPosition);
         const auto guiPosition = guiCamera.convertNormalizedToWorld(normalizedPosition);
         arrow.setPosition(guiPosition);
