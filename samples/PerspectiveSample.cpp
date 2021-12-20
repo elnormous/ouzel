@@ -151,6 +151,7 @@ namespace samples
         camera.setDepthTest(true);
 
         camera.setProjectionMode(scene::Camera::ProjectionMode::perspective);
+        camera.setNearPlane(1.0F);
         camera.setFarPlane(1000.0F);
         cameraActor.setPosition(Vector<float, 3>{0.0F, 0.0F, -400.0F});
         cameraActor.addComponent(camera);
