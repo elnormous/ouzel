@@ -474,7 +474,10 @@ namespace ouzel::scene
             command.mode = graphics::DrawMode::triangleList;
 
             for (std::uint16_t i = 0; i < edges.size(); ++i)
-                vertices.emplace_back(math::Vector<float, 3>{edges[i]}, color, math::Vector<float, 2>{}, math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                vertices.emplace_back(math::Vector<float, 3>{edges[i]},
+                                      color,
+                                      math::Vector<float, 2>{},
+                                      math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
 
             command.indexCount = static_cast<std::uint32_t>(edges.size() - 2) * 3;
 
@@ -567,7 +570,7 @@ namespace ouzel::scene
             }
             else
             {
-                const std::vector<std::uint32_t> binomialCoefficients = pascalsTriangleRow(static_cast<std::uint32_t>(controlPoints.size() - 1));
+                const auto binomialCoefficients = pascalsTriangleRow(static_cast<std::uint32_t>(controlPoints.size() - 1));
 
                 for (std::uint32_t segment = 0; segment < segments; ++segment)
                 {
@@ -580,10 +583,12 @@ namespace ouzel::scene
                             std::pow(1.0F - t, static_cast<float>(controlPoints.size() - n - 1)) *
                             controlPoints[n];
 
-                    graphics::Vertex vertex(math::Vector<float, 3>{position},
-                                            color,
-                                            math::Vector<float, 2>{},
-                                            math::Vector<float, 3>{0.0F, 0.0F, -1.0F});
+                    const graphics::Vertex vertex{
+                        math::Vector<float, 3>{position},
+                        color,
+                        math::Vector<float, 2>{},
+                        math::Vector<float, 3>{0.0F, 0.0F, -1.0F}
+                    };
 
                     indices.push_back(startVertex + static_cast<std::uint16_t>(command.indexCount));
                     ++command.indexCount;
