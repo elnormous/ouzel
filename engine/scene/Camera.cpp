@@ -16,9 +16,11 @@ namespace ouzel::scene
     {
     }
 
-    Camera::Camera(const math::Size<float, 2>& initTargetContentSize, ScaleMode initScaleMode):
+    Camera::Camera(const math::Size<float, 2>& initTargetContentSize,
+                   ScaleMode initScaleMode):
         projectionMode{ProjectionMode::orthographic},
-        //viewport{math::Vector<float, 2>{}, initTargetContentSize},
+        nearPlane{-1.0F},
+        farPlane{1.0F},
         targetContentSize{initTargetContentSize},
         scaleMode{initScaleMode}
     {
@@ -130,7 +132,7 @@ namespace ouzel::scene
                 // do nothing
                 break;
             case ProjectionMode::orthographic:
-                setOrthographic(projection, contentSize.v[0], contentSize.v[1], -1.0F, 1.0F);
+                setOrthographic(projection, contentSize.v[0], contentSize.v[1], nearPlane, farPlane);
                 break;
             case ProjectionMode::perspective:
                 setPerspective(projection, fov, contentSize.v[0] / contentSize.v[1], nearPlane, farPlane);

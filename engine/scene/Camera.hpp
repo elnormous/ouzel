@@ -35,8 +35,11 @@ namespace ouzel::scene
         };
 
         explicit Camera(const math::Matrix<float, 4>& initProjection);
-        explicit Camera(const math::Size<float, 2>& initTargetContentSize = math::Size<float, 2>{}, ScaleMode initScaleMode = ScaleMode::noScale);
-        explicit Camera(float initFov, float initNearPlane = 1.0F, float initFarPlane = 100.0F);
+        explicit Camera(const math::Size<float, 2>& initTargetContentSize = math::Size<float, 2>{},
+                        ScaleMode initScaleMode = ScaleMode::noScale);
+        explicit Camera(float initFov,
+                        float initNearPlane = 1.0F,
+                        float initFarPlane = 100.0F);
         ~Camera() override;
 
         [[nodiscard]] auto getProjectionMode() const noexcept { return projectionMode; }
@@ -139,7 +142,7 @@ namespace ouzel::scene
         void calculateProjection() const;
         void calculateViewProjection() const;
 
-        ProjectionMode projectionMode;
+        ProjectionMode projectionMode = ProjectionMode::perspective;
         float fov = math::tau<float> / 6.0F;
         float nearPlane = 1.0F;
         float farPlane = 100.0F;
