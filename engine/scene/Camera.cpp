@@ -13,12 +13,12 @@ namespace ouzel::scene
 {
     Camera::Camera(const math::Matrix<float, 4>& initProjection):
         projectionMode{ProjectionMode::custom}, projection{initProjection}
-
     {
     }
 
     Camera::Camera(const math::Size<float, 2>& initTargetContentSize, ScaleMode initScaleMode):
         projectionMode{ProjectionMode::orthographic},
+        //viewport{math::Vector<float, 2>{}, initTargetContentSize},
         targetContentSize{initTargetContentSize},
         scaleMode{initScaleMode}
     {

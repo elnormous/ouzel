@@ -136,6 +136,13 @@ namespace samples
             return false;
         };
 
+        handler.windowHandler = [this](const WindowEvent& event) {
+            if (event.type == Event::Type::resolutionChange)
+                updateArrowPosition();
+
+            return false;
+        };
+
         engine->getEventDispatcher().addEventHandler(handler);
 
         camera.setClearColorBuffer(true);
