@@ -77,17 +77,17 @@ namespace ouzel::scene
             projectionDirty = viewProjectionDirty = inverseViewProjectionDirty = true;
         }
 
-        const math::Matrix<float, 4>& getViewProjection() const;
-        const math::Matrix<float, 4>& getRenderViewProjection() const;
-        const math::Matrix<float, 4>& getInverseViewProjection() const;
+        [[nodiscard]] const math::Matrix<float, 4>& getViewProjection() const;
+        [[nodiscard]] const math::Matrix<float, 4>& getRenderViewProjection() const;
+        [[nodiscard]] const math::Matrix<float, 4>& getInverseViewProjection() const;
 
-        math::Vector<float, 3> convertClipToWorld(const math::Vector<float, 3>& clipPosition) const noexcept;
-        math::Vector<float, 3> convertWorldToClip(const math::Vector<float, 3>& worldPosition) const noexcept;
+        [[nodiscard]] math::Vector<float, 3> convertClipToWorld(const math::Vector<float, 3>& clipPosition) const noexcept;
+        [[nodiscard]] math::Vector<float, 3> convertWorldToClip(const math::Vector<float, 3>& worldPosition) const noexcept;
 
-        math::Vector<float, 3> convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const noexcept;
-        math::Vector<float, 2> convertWorldToNormalized(const math::Vector<float, 3>& worldPosition) const noexcept;
+        [[nodiscard]] math::Vector<float, 3> convertNormalizedToWorld(const math::Vector<float, 2>& normalizedPosition) const noexcept;
+        [[nodiscard]] math::Vector<float, 2> convertWorldToNormalized(const math::Vector<float, 3>& worldPosition) const noexcept;
 
-        bool checkVisibility(const math::Matrix<float, 4>& boxTransform, const math::Box<float, 3>& box) const;
+        [[nodiscard]] bool checkVisibility(const math::Matrix<float, 4>& boxTransform, const math::Box<float, 3>& box) const;
 
         [[nodiscard]] auto& getViewport() const noexcept { return viewport; }
         void setViewport(const math::Rect<float>& newViewport);
