@@ -1060,14 +1060,15 @@ namespace ouzel::math
     void transformPoint(const Matrix<T, 4, 4>& matrix,
                         Vector<T, 3>& point) noexcept
     {
-        Vector<T, 3> result;
-
         const auto w = matrix.m.v[0 * 4 + 3] * point.v[0] + matrix.m.v[1 * 4 + 3] * point.v[1] + matrix.m.v[2 * 4 + 3] * point.v[2] + matrix.m.v[3 * 4 + 3];
-        result[0] = (matrix.m.v[0 * 4 + 0] * point.v[0] + matrix.m.v[1 * 4 + 0] * point.v[1] + matrix.m.v[2 * 4 + 0] * point.v[2] + matrix.m.v[3 * 4 + 0]) / w;
-        result[1] = (matrix.m.v[0 * 4 + 1] * point.v[0] + matrix.m.v[1 * 4 + 1] * point.v[1] + matrix.m.v[2 * 4 + 1] * point.v[2] + matrix.m.v[3 * 4 + 1]) / w;
-        result[2] = (matrix.m.v[0 * 4 + 2] * point.v[0] + matrix.m.v[1 * 4 + 2] * point.v[1] + matrix.m.v[2 * 4 + 2] * point.v[2] + matrix.m.v[3 * 4 + 2]) / w;
 
-        point = std::move(result);
+        assert(w != T(0));
+
+        point = Vector<T, 3>{
+            (matrix.m.v[0 * 4 + 0] * point.v[0] + matrix.m.v[1 * 4 + 0] * point.v[1] + matrix.m.v[2 * 4 + 0] * point.v[2] + matrix.m.v[3 * 4 + 0]) / w,
+            (matrix.m.v[0 * 4 + 1] * point.v[0] + matrix.m.v[1 * 4 + 1] * point.v[1] + matrix.m.v[2 * 4 + 1] * point.v[2] + matrix.m.v[3 * 4 + 1]) / w,
+            (matrix.m.v[0 * 4 + 2] * point.v[0] + matrix.m.v[1 * 4 + 2] * point.v[1] + matrix.m.v[2 * 4 + 2] * point.v[2] + matrix.m.v[3 * 4 + 2]) / w
+        };
     }
 }
 
