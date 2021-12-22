@@ -45,8 +45,8 @@ namespace ouzel::scene
         void setLayer(Layer* newLayer) override;
 
         Type type = Type::point;
-        math::Color color;
-        math::Quaternion<float> direction = math::identityQuaternion<float>; // for spot and directional ligt
+        math::Color color = math::whiteColor;
+        math::Quaternion<float> direction = math::identityQuaternion<float>; // for spot and directional light
         float angle = 0.0F; // for spot light
         float range = 0.0F; // for point and spot light
         float intensity = 1.0F;
