@@ -170,8 +170,8 @@ namespace ouzel::scene
                             particles[i].direction += directionChange;
 
                             const math::Vector<float, 2> positionChange{
-                                particles[i].direction.v[0] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F),
-                                particles[i].direction.v[1] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F)
+                                particles[i].direction.v[0] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : -1.0F),
+                                particles[i].direction.v[1] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : -1.0F)
                             };
                             particles[i].position += positionChange;
                         }
@@ -180,7 +180,7 @@ namespace ouzel::scene
                             particles[i].angle += particles[i].degreesPerSecond * updateStep;
                             particles[i].radius += particles[i].deltaRadius * updateStep;
                             particles[i].position.v[0] = -std::cos(particles[i].angle) * particles[i].radius;
-                            particles[i].position.v[1] = -std::sin(particles[i].angle) * particles[i].radius * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
+                            particles[i].position.v[1] = -std::sin(particles[i].angle) * particles[i].radius * (particleSystemData.yCoordFlipped ? 1.0F : -1.0F);
                         }
 
                         // color r,g,b,a
