@@ -138,7 +138,7 @@ namespace ouzel::scene
 
             if (active)
             {
-                for (std::uint32_t counter = particleCount; counter > 0; --counter)
+                for (std::size_t counter = particleCount; counter > 0; --counter)
                 {
                     const std::size_t i = counter - 1;
 
@@ -154,12 +154,11 @@ namespace ouzel::scene
                             if (particles[i].position.v[0] == 0.0F || particles[i].position.v[1] == 0.0F)
                                 radial = normalized(particles[i].position);
 
-                            math::Vector<float, 2> tangential = radial;
-                            radial *= particles[i].radialAcceleration;
+                            math::Vector<float, 2> tangential = radial * particles[i].radialAcceleration;
 
                             // tangential acceleration
                             std::swap(tangential.v[0], tangential.v[1]);
-                            tangential.v[0] *= - particles[i].tangentialAcceleration;
+                            tangential.v[0] *= -particles[i].tangentialAcceleration;
                             tangential.v[1] *= particles[i].tangentialAcceleration;
 
                             // (gravity + radial + tangential) * updateStep

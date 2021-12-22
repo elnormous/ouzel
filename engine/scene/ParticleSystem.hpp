@@ -200,7 +200,7 @@ namespace ouzel::scene
         std::vector<std::uint16_t> indices;
         std::vector<graphics::Vertex> vertices;
 
-        std::uint32_t particleCount = 0;
+        std::size_t particleCount = 0;
 
         float emitCounter = 0.0F;
         float elapsed = 0.0F;
