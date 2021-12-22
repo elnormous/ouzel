@@ -163,18 +163,17 @@ namespace ouzel::scene
                             tangential.v[1] *= particles[i].tangentialAcceleration;
 
                             // (gravity + radial + tangential) * updateStep
-                            math::Vector<float, 2> tmp{
-                                radial.v[0] + tangential.v[0] + particleSystemData.gravity.v[0],
-                                radial.v[1] + tangential.v[1] + particleSystemData.gravity.v[1]
+                            const math::Vector<float, 2> directionChange{
+                                (radial.v[0] + tangential.v[0] + particleSystemData.gravity.v[0]) * updateStep,
+                                (radial.v[1] + tangential.v[1] + particleSystemData.gravity.v[1]) * updateStep
                             };
-                            tmp *= updateStep;
+                            particles[i].direction += directionChange;
 
-                            particles[i].direction.v[0] += tmp.v[0];
-                            particles[i].direction.v[1] += tmp.v[1];
-                            tmp.v[0] = particles[i].direction.v[0] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
-                            tmp.v[1] = particles[i].direction.v[1] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F);
-                            particles[i].position.v[0] += tmp.v[0];
-                            particles[i].position.v[1] += tmp.v[1];
+                            const math::Vector<float, 2> positionChange{
+                                particles[i].direction.v[0] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F),
+                                particles[i].direction.v[1] * updateStep * (particleSystemData.yCoordFlipped ? 1.0F : 0.0F)
+                            };
+                            particles[i].position += positionChange;
                         }
                         else
                         {
