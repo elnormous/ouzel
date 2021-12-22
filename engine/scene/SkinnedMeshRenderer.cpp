@@ -7,7 +7,6 @@ namespace ouzel::scene
 {
     SkinnedMeshRenderer::SkinnedMeshRenderer()
     {
-        whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
     }
 
     SkinnedMeshRenderer::SkinnedMeshRenderer(const SkinnedMeshData& meshData)

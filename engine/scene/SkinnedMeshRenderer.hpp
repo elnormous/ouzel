@@ -50,7 +50,6 @@ namespace ouzel::scene
 
     private:
         std::shared_ptr<graphics::Material> material;
-        std::shared_ptr<graphics::Texture> whitePixelTexture;
     };
 }
 
