@@ -112,19 +112,7 @@ namespace ouzel::core::macos
         screen = [NSScreen mainScreen];
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
-        CGSize windowSize;
-
-        if (highDpi)
-        {
-            windowSize.width = size.v[0];
-            windowSize.height = size.v[1];
-        }
-        else
-        {
-            windowSize.width = std::round(size.v[0] / screen.backingScaleFactor);
-            windowSize.height = std::round(size.v[1] / screen.backingScaleFactor);
-        }
-
+        CGSize windowSize = CGSizeMake(size.v[0], size.v[1]);
         if (windowSize.width <= 0.0F) windowSize.width = std::round(screen.frame.size.width * 0.8);
         if (windowSize.height <= 0.0F) windowSize.height = std::round(screen.frame.size.height * 0.8);
 
