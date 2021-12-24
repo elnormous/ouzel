@@ -142,8 +142,6 @@ namespace ouzel::gui
                 }
         }
 
-        RenderData result;
-
         auto texture = std::make_shared<graphics::Texture>(engine->getGraphics(),
                                                            textureData,
                                                            math::Size<std::uint32_t, 2>{width, height},
