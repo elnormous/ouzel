@@ -147,7 +147,7 @@ namespace ouzel::scene
             std::tie(indices, vertices, texture) = font->getRenderData(text, math::whiteColor, fontSize, textAnchor);
             needsMeshUpdate = true;
 
-            for (const graphics::Vertex& vertex : vertices)
+            for (const auto& vertex : vertices)
                 insertPoint(boundingBox, vertex.position);
         }
         else
