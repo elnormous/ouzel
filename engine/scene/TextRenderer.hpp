@@ -46,7 +46,10 @@ namespace ouzel::scene
         void setText(const std::string& newText);
 
         auto getColor() const noexcept { return color; }
-        void setColor(math::Color newColor);
+        void setColor(math::Color newColor) noexcept
+        {
+            color = newColor;
+        }
 
         auto& getShader() const noexcept { return shader; }
         void setShader(const graphics::Shader* newShader)

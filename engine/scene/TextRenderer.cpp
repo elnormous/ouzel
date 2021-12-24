@@ -133,11 +133,6 @@ namespace ouzel::scene
         updateText();
     }
 
-    void TextRenderer::setColor(math::Color newColor)
-    {
-        color = newColor;
-    }
-
     void TextRenderer::updateText()
     {
         reset(boundingBox);
