@@ -22,15 +22,13 @@ namespace ouzel::scene
         vertexBuffer{engine->getGraphics(),
                      graphics::BufferType::vertex,
                      graphics::Flags::dynamic},
+        whitePixelTexture{engine->getCache().getTexture(textureWhitePixel)},
+        font{engine->getCache().getFont(fontFile)},
         text{initText},
         fontSize{initFontSize},
         textAnchor{initTextAnchor},
         color{initColor}
     {
-        whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
-
-        font = engine->getCache().getFont(fontFile);
-
         updateText();
     }
 
@@ -47,14 +45,13 @@ namespace ouzel::scene
         vertexBuffer{engine->getGraphics(),
                      graphics::BufferType::vertex,
                      graphics::Flags::dynamic},
+        whitePixelTexture{engine->getCache().getTexture(textureWhitePixel)},
         font{&initFont},
         text{initText},
         fontSize{initFontSize},
         textAnchor{initTextAnchor},
         color{initColor}
     {
-        whitePixelTexture = engine->getCache().getTexture(textureWhitePixel);
-
         updateText();
     }
 
