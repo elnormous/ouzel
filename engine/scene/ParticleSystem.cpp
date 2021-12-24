@@ -326,7 +326,7 @@ namespace ouzel::scene
     {
         if (actor)
         {
-            for (std::uint32_t counter = particleCount; counter > 0; --counter)
+            for (std::size_t counter = particleCount; counter > 0; --counter)
             {
                 const std::size_t i = counter - 1;
 
