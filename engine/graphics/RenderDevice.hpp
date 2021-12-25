@@ -149,7 +149,7 @@ namespace ouzel::graphics
             Resource& operator=(const Resource&) = delete;
 
             Resource(Resource&& other) noexcept:
-                renderDevice{other.renderDevice}, id(other.id)
+                renderDevice{other.renderDevice}, id{other.id}
             {
                 other.renderDevice = nullptr;
                 other.id = 0;
