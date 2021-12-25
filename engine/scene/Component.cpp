@@ -31,8 +31,7 @@ namespace ouzel::scene
         {
             std::pair<float, float> result{};
 
-            auto i = begin;
-            if (i != end)
+            if (auto i = begin; i != end)
             {
                 result.first = result.second = dot(v, *i);
                 ++i;
