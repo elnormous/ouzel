@@ -157,9 +157,7 @@ namespace ouzel::assets
 
         std::uint32_t materialCount = 0;
 
-        auto iterator = data.cbegin();
-
-        while (iterator != data.end())
+        for (auto iterator = data.cbegin(); iterator != data.end();)
         {
             if (isNewline(*iterator))
             {
