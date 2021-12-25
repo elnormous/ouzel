@@ -678,7 +678,7 @@ namespace ouzel::graphics
             (mipmaps == 0 || mipmaps > 1))
             throw std::runtime_error{"Invalid mip map count"};
 
-        if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
+        if (!initGraphics.getDevice()->isNpotTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
 
         std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = calculateSizes(size, mipmaps, pixelFormat);
@@ -713,7 +713,7 @@ namespace ouzel::graphics
             (mipmaps == 0 || mipmaps > 1))
             throw std::runtime_error{"Invalid mip map count"};
 
-        if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
+        if (!initGraphics.getDevice()->isNpotTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
 
         std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = calculateSizes(size, initData, mipmaps, pixelFormat);
@@ -749,7 +749,7 @@ namespace ouzel::graphics
 
         std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = initLevels;
 
-        if (!initGraphics.getDevice()->isNPOTTexturesSupported() && !isPowerOfTwo(size))
+        if (!initGraphics.getDevice()->isNpotTexturesSupported() && !isPowerOfTwo(size))
         {
             mipmaps = 1;
             levels.resize(1);

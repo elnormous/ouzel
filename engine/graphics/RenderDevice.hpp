@@ -113,7 +113,7 @@ namespace ouzel::graphics
         auto getAPIMajorVersion() const noexcept { return apiVersion.v[0]; }
         auto getAPIMinorVersion() const noexcept { return apiVersion.v[1]; }
 
-        auto isNPOTTexturesSupported() const noexcept { return npotTexturesSupported; }
+        auto isNpotTexturesSupported() const noexcept { return npotTexturesSupported; }
         auto isAnisotropicFilteringSupported() const noexcept { return anisotropicFilteringSupported; }
         auto isRenderTargetsSupported() const noexcept { return renderTargetsSupported; }
 
