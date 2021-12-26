@@ -89,12 +89,14 @@ namespace ouzel::core::macos
     System::System(int argc, char* argv[]):
         core::System{parseArgs(argc, argv)}
     {
-        [NSApplication sharedApplication];
     }
 
     void System::run()
     {
         ouzel::platform::foundation::AutoreleasePool autoreleasePool;
+
+        [NSApplication sharedApplication];
+        NSApp.activationPolicy = NSApplicationActivationPolicyRegular;
 
         [NSApp activateIgnoringOtherApps:YES];
         NSApp.delegate = [[[AppDelegate alloc] init] autorelease];
