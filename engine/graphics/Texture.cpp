@@ -747,7 +747,7 @@ namespace ouzel::graphics
             (mipmaps == 0 || mipmaps > 1))
             throw std::runtime_error{"Invalid mip map count"};
 
-        std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = initLevels;
+        auto levels = initLevels;
 
         if (!initGraphics.getDevice()->isNpotTexturesSupported() && !isPowerOfTwo(size))
         {
@@ -771,7 +771,7 @@ namespace ouzel::graphics
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
             throw std::runtime_error{"Texture is not dynamic"};
 
-        const std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = calculateSizes(size, newData, mipmaps, pixelFormat);
+        const auto levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 
         if (resource)
             graphics->addCommand(std::make_unique<SetTextureDataCommand>(resource,
