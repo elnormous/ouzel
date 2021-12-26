@@ -681,16 +681,16 @@ namespace ouzel::graphics
         if (!initGraphics.getDevice()->isNpotTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
 
-        std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels = calculateSizes(size, mipmaps, pixelFormat);
+        const auto levels = calculateSizes(size, mipmaps, pixelFormat);
 
         initGraphics.addCommand(std::make_unique<InitTextureCommand>(resource,
-                                                                    levels,
-                                                                    TextureType::twoDimensional,
-                                                                    flags,
-                                                                    sampleCount,
-                                                                    pixelFormat,
-                                                                    filter,
-                                                                    maxAnisotropy));
+                                                                     levels,
+                                                                     TextureType::twoDimensional,
+                                                                     flags,
+                                                                     sampleCount,
+                                                                     pixelFormat,
+                                                                     filter,
+                                                                     maxAnisotropy));
     }
 
     Texture::Texture(Graphics& initGraphics,
