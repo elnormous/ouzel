@@ -87,17 +87,17 @@ namespace ouzel::core::macos
     }
 
     System::System(int argc, char* argv[]):
-        core::System{parseArgs(argc, argv)},
-        application{NSApplication.sharedApplication}
+        core::System{parseArgs(argc, argv)}
     {
+        [NSApplication sharedApplication];
     }
 
     void System::run()
     {
         ouzel::platform::foundation::AutoreleasePool autoreleasePool;
 
-        [application activateIgnoringOtherApps:YES];
-        application.delegate = [[[AppDelegate alloc] init] autorelease];
+        [NSApp activateIgnoringOtherApps:YES];
+        NSApp.delegate = [[[AppDelegate alloc] init] autorelease];
 
         NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
 
@@ -116,7 +116,7 @@ namespace ouzel::core::macos
         NSMenuItem* aboutItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"About", nil), bundleName]
                                                            action:@selector(orderFrontStandardAboutPanel:)
                                                     keyEquivalent:@""];
-        aboutItem.target = application;
+        aboutItem.target = NSApp;
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
@@ -126,32 +126,32 @@ namespace ouzel::core::macos
 
         NSMenu* servicesMenu = [[[NSMenu alloc] init] autorelease];
         servicesItem.submenu = servicesMenu;
-        application.servicesMenu = servicesMenu;
+        NSApp.servicesMenu = servicesMenu;
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem* hideItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Hide", nil), bundleName]
                                                           action:@selector(hide:)
                                                    keyEquivalent:@"h"];
-        hideItem.target = application;
+        hideItem.target = NSApp;
 
         NSMenuItem* hideOthersItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Hide Others", nil)
                                                                 action:@selector(hideOtherApplications:)
                                                          keyEquivalent:@"h"];
         hideOthersItem.keyEquivalentModifierMask = NSEventModifierFlagOption | NSEventModifierFlagCommand;
-        hideOthersItem.target = application;
+        hideOthersItem.target = NSApp;
 
         NSMenuItem* showAllItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Show All", nil)
                                                              action:@selector(unhideAllApplications:)
                                                       keyEquivalent:@""];
-        showAllItem.target = application;
+        showAllItem.target = NSApp;
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem* quitItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Quit", nil), bundleName]
                                                           action:@selector(terminate:)
                                                    keyEquivalent:@"q"];
-        quitItem.target = application;
+        quitItem.target = NSApp;
 
         // View menu
         NSMenuItem* viewItem = [mainMenu addItemWithTitle:NSLocalizedString(@"View", nil)
@@ -168,11 +168,11 @@ namespace ouzel::core::macos
 
         NSMenu* windowsMenu = [[[NSMenu alloc] initWithTitle:NSLocalizedString(@"Window", nil)] autorelease];
         windowsItem.submenu = windowsMenu;
-        application.windowsMenu = windowsMenu;
+        NSApp.windowsMenu = windowsMenu;
 
-        application.mainMenu = mainMenu;
+        NSApp.mainMenu = mainMenu;
 
-        [application run];
+        [NSApp run];
     }
 
     void System::start()

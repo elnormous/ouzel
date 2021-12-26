@@ -354,7 +354,7 @@ namespace ouzel::core::macos
             }
             else
             {
-                const NSApplicationPresentationOptions options = [NSApplication.sharedApplication presentationOptions];
+                const NSApplicationPresentationOptions options = [NSApp presentationOptions];
                 const bool isFullscreen = (options & NSApplicationPresentationFullScreen) > 0;
 
                 if (isFullscreen != newFullscreen)

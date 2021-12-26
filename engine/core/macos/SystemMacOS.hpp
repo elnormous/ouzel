@@ -33,8 +33,6 @@ namespace ouzel::core::macos
         char** arguments;
 
         std::unique_ptr<Engine> engine;
-
-        NSApplicationPtr application = nil;
     };
 }
 
