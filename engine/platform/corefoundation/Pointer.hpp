@@ -1,32 +1,32 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_STORAGE_CFPOINTER_HPP
-#define OUZEL_STORAGE_CFPOINTER_HPP
+#ifndef OUZEL_PLATFORM_COREFOUNDATION_POINTER_HPP
+#define OUZEL_PLATFORM_COREFOUNDATION_POINTER_HPP
 
 #include <CoreFoundation/CoreFoundation.h>
 
-namespace ouzel::storage
+namespace ouzel::platform::corefoundation
 {
     template <class T>
-    class CfPointer final
+    class Pointer final
     {
     public:
-        CfPointer() noexcept = default;
+        Pointer() noexcept = default;
 
-        CfPointer(T a) noexcept: p{a} {}
-        CfPointer& operator=(T a) noexcept
+        Pointer(T a) noexcept: p{a} {}
+        Pointer& operator=(T a) noexcept
         {
             if (p) CFRelease(p);
             p = a;
             return *this;
         }
 
-        CfPointer(const CfPointer& other) noexcept: p{other.p}
+        Pointer(const Pointer& other) noexcept: p{other.p}
         {
             if (p) CFRetain(p);
         }
 
-        CfPointer& operator=(const CfPointer& other) noexcept
+        Pointer& operator=(const Pointer& other) noexcept
         {
             if (&other == this) return *this;
             if (p) CFRelease(p);
@@ -35,12 +35,12 @@ namespace ouzel::storage
             return *this;
         }
 
-        CfPointer(CfPointer&& other) noexcept: p{other.p}
+        Pointer(Pointer&& other) noexcept: p{other.p}
         {
             other.p = nil;
         }
 
-        CfPointer& operator=(CfPointer&& other) noexcept
+        Pointer& operator=(Pointer&& other) noexcept
         {
             if (&other == this) return *this;
             if (p) CFRelease(p);
@@ -49,7 +49,7 @@ namespace ouzel::storage
             return *this;
         }
 
-        ~CfPointer()
+        ~Pointer()
         {
             if (p) CFRelease(p);
         }
@@ -69,4 +69,4 @@ namespace ouzel::storage
     };
 }
 
-#endif // OUZEL_STORAGE_CFPOINTER_HPP
+#endif // OUZEL_PLATFORM_COREFOUNDATION_POINTER_HPP

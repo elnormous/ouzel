@@ -36,7 +36,7 @@
 #include "../utils/Log.hpp"
 
 #ifdef __APPLE__
-#  include "CfPointer.hpp"
+#  include "../platform/corefoundation/Pointer.hpp"
 #endif
 
 namespace ouzel::storage
@@ -69,12 +69,12 @@ namespace ouzel::storage
         if (!bundle)
             throw std::runtime_error{"Failed to get main bundle"};
 
-        CfPointer<CFURLRef> relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
+        platform::corefoundation::Pointer<CFURLRef> relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
         if (!relativePath)
             throw std::runtime_error{"Failed to get resource directory"};
 
-        CfPointer<CFURLRef> absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
-        CfPointer<CFStringRef> path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
+        platform::corefoundation::Pointer<CFURLRef> absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
+        platform::corefoundation::Pointer<CFStringRef> path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
 
         const auto maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
         auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));

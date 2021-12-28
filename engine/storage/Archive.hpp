@@ -94,7 +94,7 @@ namespace ouzel::storage
                 throw std::runtime_error{"File " + std::string{filename} + " does not exist"};
         }
 
-        bool fileExists(std::string_view filename) const
+        bool fileExists(std::string_view filename) const noexcept(false)
         {
             return entries.find(filename) != entries.end();
         }

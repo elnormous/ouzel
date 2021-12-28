@@ -1009,7 +1009,7 @@
 		30861B1824E629F4007E48E4 /* ALCErrorCategory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ALCErrorCategory.hpp; sourceTree = "<group>"; };
 		30861B1C24E7585D007E48E4 /* IOKitErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IOKitErrorCategory.hpp; sourceTree = "<group>"; };
 		30898FE222EFA380001C13F2 /* CueLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CueLoader.hpp; sourceTree = "<group>"; };
-		3089C32224586F93004CDF16 /* CfPointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CfPointer.hpp; sourceTree = "<group>"; };
+		3089C32224586F93004CDF16 /* Pointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Pointer.hpp; sourceTree = "<group>"; };
 		308E37FF2648102B00CD49B8 /* Data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
 		3098A5531EA01C8A00528A54 /* GamepadDeviceIOKit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceIOKit.hpp; sourceTree = "<group>"; };
 		3098A5541EA01C8A00528A54 /* GamepadDeviceIOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GamepadDeviceIOKit.cpp; sourceTree = "<group>"; };
@@ -1179,12 +1179,13 @@
 		301116C62595A8EB0093FF14 /* platform */ = {
 			isa = PBXGroup;
 			children = (
-				30CFB65F26C8A6D8005F8385 /* objc */,
 				307F4C2024E20CFE00994B7A /* cocoa */,
+				3043DB5A277ACA1300E874DD /* corefoundation */,
 				304BB5DF256B3A420024DD25 /* coregraphics */,
 				304BB5D32569E40F0024DD25 /* corevideo */,
 				308E37FC2643ECD000CD49B8 /* dispatch */,
 				30DC8C3926A4E27A000F2B3B /* foundation */,
+				30CFB65F26C8A6D8005F8385 /* objc */,
 				301116D0259C3D740093FF14 /* quartzcore */,
 			);
 			path = platform;
@@ -1429,7 +1430,6 @@
 			isa = PBXGroup;
 			children = (
 				30A883631E7432DA004A033F /* Archive.hpp */,
-				3089C32224586F93004CDF16 /* CfPointer.hpp */,
 				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
 				303B74FF1C28208800FEDE92 /* FileSystem.hpp */,
 				30E266192411CFAE0098C124 /* Path.hpp */,
@@ -1608,6 +1608,14 @@
 				30861B1624E4AF83007E48E4 /* OALErrorCategory.hpp */,
 			);
 			path = openal;
+			sourceTree = "<group>";
+		};
+		3043DB5A277ACA1300E874DD /* corefoundation */ = {
+			isa = PBXGroup;
+			children = (
+				3089C32224586F93004CDF16 /* Pointer.hpp */,
+			);
+			path = corefoundation;
 			sourceTree = "<group>";
 		};
 		304A8E011C237B95008B1151 = {
