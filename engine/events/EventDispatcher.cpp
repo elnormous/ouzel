@@ -197,7 +197,7 @@ namespace ouzel
     std::future<bool> EventDispatcher::postEvent(std::unique_ptr<Event> event)
     {
         std::promise<bool> promise;
-        std::future<bool> future = promise.get_future();
+        auto future = promise.get_future();
 
 #ifdef __EMSCRIPTEN__
         promise.set_value(dispatchEvent(std::move(event)));

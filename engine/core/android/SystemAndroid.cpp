@@ -250,7 +250,7 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyDow
 {
     auto& inputSystemAndroid = ouzel::engine->getInputManager().getInputSystem();
     const auto keyboardDevice = inputSystemAndroid.getKeyboardDevice();
-    std::future<bool> f = keyboardDevice->handleKeyPress(convertKeyCode(keyCode));
+    auto f = keyboardDevice->handleKeyPress(convertKeyCode(keyCode));
 
     if (keyCode == AKEYCODE_BACK)
         return f.get();
@@ -262,7 +262,7 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyUp(
 {
     auto& inputSystemAndroid = ouzel::engine->getInputManager().getInputSystem();
     const auto keyboardDevice = inputSystemAndroid.getKeyboardDevice();
-    std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(keyCode));
+    auto f = keyboardDevice->handleKeyRelease(convertKeyCode(keyCode));
 
     if (keyCode == AKEYCODE_BACK)
         return f.get();

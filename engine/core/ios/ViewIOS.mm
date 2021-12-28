@@ -124,7 +124,7 @@ namespace
     const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {
-        std::future<bool> f = keyboardDevice->handleKeyPress(convertKeyCode(press.type));
+        auto f = keyboardDevice->handleKeyPress(convertKeyCode(press.type));
         if (press.type == UIPressTypeMenu && !f.get())
             forward = true;
     }
@@ -141,7 +141,7 @@ namespace
     const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {
-        std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
+        auto f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
         if (press.type == UIPressTypeMenu && !f.get())
             forward = true;
     }
@@ -158,7 +158,7 @@ namespace
     const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
     for (UIPress* press in presses)
     {
-        std::future<bool> f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
+        auto f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
         if (press.type == UIPressTypeMenu && !f.get())
             forward = true;
     }

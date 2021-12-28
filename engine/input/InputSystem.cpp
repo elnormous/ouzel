@@ -14,7 +14,7 @@ namespace ouzel::input
     std::future<bool> InputSystem::sendEvent(const Event& event)
     {
         std::pair<std::promise<bool>, InputSystem::Event> p{std::promise<bool>(), event};
-        std::future<bool> f = p.first.get_future();
+        auto f = p.first.get_future();
 
         std::scoped_lock lock{eventQueueMutex};
         eventQueue.push(std::move(p));
