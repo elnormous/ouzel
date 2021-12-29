@@ -457,7 +457,8 @@ namespace ouzel::core::windows
                 try
                 {
                     const auto setProcessDpiAwarenessProc = reinterpret_cast<SetProcessDpiAwarenessProc>(shcoreModule.getProcAddress("SetProcessDpiAwareness"));
-                    setProcessDpiAwarenessProc(PROCESS_PER_MONITOR_DPI_AWARE);
+                    if (const auto hr = setProcessDpiAwarenessProc(PROCESS_PER_MONITOR_DPI_AWARE); FAILED(hr))
+                        log(Log::Level::warning) << "Failed to set window DPI awareness";
                 }
                 catch (...)
                 {
