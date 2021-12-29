@@ -54,7 +54,7 @@ namespace ouzel::platform::corefoundation
             if (p) CFRelease(p);
         }
 
-        T get() const noexcept
+        auto get() const noexcept
         {
             return p;
         }
