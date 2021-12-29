@@ -46,13 +46,12 @@ namespace ouzel::graphics::opengl::macos
         void resizeFrameBuffer() final;
         void present() final;
 
-        bool handleWindow(const WindowEvent& event);
+        void changeScreen(const std::uintptr_t) final;
 
         NSOpenGLContextPtr context = nil;
         NSOpenGLPixelFormatPtr pixelFormat = nil;
 
         platform::corevideo::DisplayLink displayLink;
-        EventHandler eventHandler;
 
         std::atomic_bool running{false};
     };

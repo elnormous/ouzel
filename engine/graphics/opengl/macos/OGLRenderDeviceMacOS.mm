@@ -111,9 +111,6 @@ namespace ouzel::graphics::opengl::macos
         init(static_cast<GLsizei>(window.getResolution().v[0]),
              static_cast<GLsizei>(window.getResolution().v[1]));
 
-        eventHandler.windowHandler = std::bind(&RenderDevice::handleWindow, this, std::placeholders::_1);
-        engine->getEventDispatcher().addEventHandler(eventHandler);
-
         displayLink.setCallback(macos::renderCallback, this);
 
         running = true;
@@ -175,20 +172,15 @@ namespace ouzel::graphics::opengl::macos
         [context flushBuffer];
     }
 
-    bool RenderDevice::handleWindow(const WindowEvent& event)
+    void RenderDevice::changeScreen(const std::uintptr_t screenId)
     {
-        if (event.type == ouzel::Event::Type::screenChange)
-        {
-            engine->executeOnMainThread([this, event]() {
-                const CGDirectDisplayID displayId = event.screenId;
-                displayLink = platform::corevideo::DisplayLink{displayId};
-                displayLink.setCallback(macos::renderCallback, this);
+        engine->executeOnMainThread([this, screenId]() {
+            const auto displayId = static_cast<CGDirectDisplayID>(screenId);
+            displayLink = platform::corevideo::DisplayLink{displayId};
+            displayLink.setCallback(macos::renderCallback, this);
 
-                displayLink.start();
-            });
-        }
-
-        return false;
+            displayLink.start();
+        });
     }
 
     void RenderDevice::renderCallback()
