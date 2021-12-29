@@ -178,7 +178,7 @@ namespace ouzel::graphics
     protected:
         void executeAll();
 
-        virtual void changeScreen(const std::uint32_t) {}
+        virtual void changeScreen(const std::uintptr_t) {}
         virtual void generateScreenshot(const std::string& filename);
 
         Driver driver;

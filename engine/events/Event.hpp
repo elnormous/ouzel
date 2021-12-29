@@ -136,7 +136,7 @@ namespace ouzel
         math::Size<std::uint32_t, 2> size{};
         std::string title;
         bool fullscreen = false;
-        std::uint32_t screenId = 0;
+        std::uintptr_t screenId = 0;
     };
 
     struct SystemEvent final: Event

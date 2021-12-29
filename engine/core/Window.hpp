@@ -133,7 +133,7 @@ namespace ouzel::core
         bool highDpi = true;
         bool visible = false;
         bool minimized = false;
-        std::uint32_t displayId = 0;
+        std::uintptr_t displayId = 0;
 
         std::string title;
     };

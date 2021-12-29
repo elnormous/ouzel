@@ -68,7 +68,7 @@ namespace ouzel::core
             union
             {
                 bool fullscreen = false;
-                std::uint32_t displayId;
+                std::uintptr_t displayId;
                 bool focus;
             };
         };

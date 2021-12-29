@@ -101,7 +101,7 @@ namespace ouzel::graphics::metal::macos
         displayLink.start();
     }
 
-    void RenderDevice::changeScreen(const std::uint32_t screenId)
+    void RenderDevice::changeScreen(const std::uintptr_t screenId)
     {
         engine->executeOnMainThread([this, screenId]() {
             running = false;
@@ -110,7 +110,7 @@ namespace ouzel::graphics::metal::macos
             commandBuffer.pushCommand(std::make_unique<PresentCommand>());
             submitCommandBuffer(std::move(commandBuffer));
 
-            const CGDirectDisplayID displayId = screenId;
+            const auto displayId = static_cast<CGDirectDisplayID>(screenId);
             displayLink = platform::corevideo::DisplayLink{displayId};
             displayLink.setCallback(macos::renderCallback, this);
 

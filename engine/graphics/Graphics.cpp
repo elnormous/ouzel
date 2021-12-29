@@ -154,7 +154,7 @@ namespace ouzel::graphics
         device->start();
     }
 
-    void Graphics::changeScreen(const std::uint32_t screenId)
+    void Graphics::changeScreen(const std::uintptr_t screenId)
     {
         device->changeScreen(screenId);
     }
