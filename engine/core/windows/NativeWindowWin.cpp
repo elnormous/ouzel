@@ -723,8 +723,6 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleResize(const math::Size<std::uint32_t, 2>& newSize)
     {
-        monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
-
         size = newSize;
         resolution = size;
 
@@ -735,11 +733,27 @@ namespace ouzel::core::windows
         Event resolutionChangeEvent{Event::Type::resolutionChange};
         resolutionChangeEvent.size = resolution;
         sendEvent(resolutionChangeEvent);
+
+        if (const auto newMonitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST); newMonitor != monitor)
+        {
+            monitor = newMonitor;
+
+            Event screenChangeEvent{Event::Type::screenChange};
+            screenChangeEvent.displayId = bitCast<std::uintptr_t>(monitor);
+            sendEvent(screenChangeEvent);
+        }
     }
 
     void NativeWindow::handleMove()
     {
-        monitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST);
+        if (const auto newMonitor = MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST); newMonitor != monitor)
+        {
+            monitor = newMonitor;
+
+            Event screenChangeEvent{Event::Type::screenChange};
+            screenChangeEvent.displayId = bitCast<std::uintptr_t>(monitor);
+            sendEvent(screenChangeEvent);
+        }
     }
 
     void NativeWindow::handleActivate(WPARAM wParam)
