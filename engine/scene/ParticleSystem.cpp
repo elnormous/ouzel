@@ -81,7 +81,7 @@ namespace ouzel::scene
                                                      vertexShaderConstants);
             engine->getGraphics().setTextures({wireframe ? whitePixelTexture->getResource() : texture->getResource()});
             engine->getGraphics().draw(indexBuffer->getResource(),
-                                       particleCount * 6,
+                                       static_cast<std::uint32_t>(particleCount * 6),
                                        sizeof(std::uint16_t),
                                        vertexBuffer->getResource(),
                                        graphics::DrawMode::triangleList,
@@ -390,7 +390,7 @@ namespace ouzel::scene
                 math::Vector<float, 2>{} :
                 throw std::runtime_error{"Invalid position type"};
 
-            for (std::uint32_t i = particleCount; i < particleCount + remainingCount; ++i)
+            for (std::size_t i = particleCount; i < particleCount + remainingCount; ++i)
             {
                 if (particleSystemData.emitterType == ParticleSystemData::EmitterType::gravity)
                 {
