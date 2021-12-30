@@ -138,7 +138,7 @@ namespace ouzel::scene
         }
 
         math::Vector<float, 3> getWorldPosition() const;
-        virtual std::int32_t getWorldOrder() const { return worldOrder; }
+        virtual Order getWorldOrder() const { return worldOrder; }
 
         math::Vector<float, 3> convertWorldToLocal(const math::Vector<float, 3>& worldPosition) const;
         math::Vector<float, 3> convertLocalToWorld(const math::Vector<float, 3>& localPosition) const;
