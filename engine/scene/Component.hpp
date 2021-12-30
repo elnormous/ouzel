@@ -34,8 +34,11 @@ namespace ouzel::scene
                           const math::Matrix<float, 4>& renderViewProjection,
                           bool wireframe);
 
-        virtual const math::Box<float, 3>& getBoundingBox() const noexcept { return boundingBox; }
-        virtual void setBoundingBox(const math::Box<float, 3>& newBoundingBox) { boundingBox = newBoundingBox; }
+        const auto& getBoundingBox() const noexcept { return boundingBox; }
+        void setBoundingBox(const math::Box<float, 3>& newBoundingBox) noexcept
+        {
+            boundingBox = newBoundingBox;
+        }
 
         virtual bool pointOn(const math::Vector<float, 2>& position) const;
         virtual bool shapeOverlaps(const std::vector<math::Vector<float, 2>>& edges) const;
