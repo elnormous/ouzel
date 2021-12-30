@@ -34,7 +34,7 @@ namespace ouzel::scene
                           const math::Matrix<float, 4>& renderViewProjection,
                           bool wireframe);
 
-        const auto& getBoundingBox() const noexcept { return boundingBox; }
+        [[nodiscard]] const auto& getBoundingBox() const noexcept { return boundingBox; }
         void setBoundingBox(const math::Box<float, 3>& newBoundingBox) noexcept
         {
             boundingBox = newBoundingBox;
