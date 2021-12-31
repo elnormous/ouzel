@@ -9,6 +9,7 @@
 #include <vector>
 #include "Animator.hpp"
 #include "Component.hpp"
+#include "../easing/Easing.hpp"
 #include "../events/EventHandler.hpp"
 #include "../math/Quaternion.hpp"
 #include "../math/Vector.hpp"
@@ -18,34 +19,13 @@ namespace ouzel::scene
     class Ease final: public Animator
     {
     public:
-        enum class Mode
-        {
-            easeIn,
-            easeOut,
-            easeInOut
-        };
-
-        enum class Func
-        {
-            sine,
-            quad,
-            cubic,
-            quart,
-            quint,
-            expo,
-            circ,
-            back,
-            elastic,
-            bounce
-        };
-
-        Ease(Animator& animator, Mode initModee, Func initFunc);
+        Ease(Animator& animator, easing::Func initFunc, easing::Mode initModee);
 
     private:
         void updateProgress() override;
 
-        Mode mode;
-        Func func;
+        easing::Func func;
+        easing::Mode mode;
     };
 
     class Fade final: public Animator

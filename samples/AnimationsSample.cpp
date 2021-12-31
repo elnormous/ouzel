@@ -135,7 +135,7 @@ namespace samples
 
         ballDelay = std::make_unique<scene::Animator>(1.0F);
         ballMove = std::make_unique<scene::Move>(2.0F, Vector<float, 3>{0.0F, -240.0F, 0.0F}, false);
-        ballEase = std::make_unique<scene::Ease>(*ballMove, scene::Ease::Mode::easeOut, scene::Ease::Func::bounce);
+        ballEase = std::make_unique<scene::Ease>(*ballMove, easing::Func::bounce, easing::Mode::easeOut);
 
         std::vector<scene::Animator*> sequence2 = {
             ballDelay.get(),
