@@ -18,9 +18,9 @@ namespace ouzel::input
         event->keyboard = this;
         event->key = key;
 
-        if (!keyStates[static_cast<std::uint32_t>(key)])
+        if (!keyStates[static_cast<std::size_t>(key)])
         {
-            keyStates[static_cast<std::uint32_t>(key)] = true;
+            keyStates[static_cast<std::size_t>(key)] = true;
 
             event->type = Event::Type::keyboardKeyPress;
             return engine->getEventDispatcher().dispatchEvent(std::move(event));
@@ -31,7 +31,7 @@ namespace ouzel::input
 
     bool Keyboard::handleKeyRelease(Keyboard::Key key)
     {
-        keyStates[static_cast<std::uint32_t>(key)] = false;
+        keyStates[static_cast<std::size_t>(key)] = false;
 
         auto event = std::make_unique<KeyboardEvent>();
         event->type = Event::Type::keyboardKeyRelease;

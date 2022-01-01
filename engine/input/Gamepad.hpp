@@ -92,10 +92,10 @@ namespace ouzel::input
 
         auto& getButtonState(Button button) const
         {
-            return buttonStates[static_cast<std::uint32_t>(button)];
+            return buttonStates[static_cast<std::size_t>(button)];
         }
 
-        auto getVibration(Motor motor) { return vibration[static_cast<std::uint32_t>(motor)]; }
+        auto getVibration(Motor motor) { return vibration[static_cast<std::size_t>(motor)]; }
         void setVibration(Motor motor, float speed);
 
     private:

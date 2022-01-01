@@ -32,7 +32,7 @@ namespace ouzel::input
         void setPosition(const math::Vector<float, 2>& newPosition);
         auto isButtonDown(Button button) const
         {
-            return buttonStates[static_cast<std::uint32_t>(button)];
+            return buttonStates[static_cast<std::size_t>(button)];
         }
         auto isCursorVisible() const noexcept { return cursorVisible; }
         void setCursorVisible(bool visible);
