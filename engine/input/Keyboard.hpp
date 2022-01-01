@@ -182,7 +182,7 @@ namespace ouzel::input
             audioPrevious, // Play previous media key
             mediaSelect, // Launch media select key
             mail, // Mail function key
-            count
+            last = mail
         };
 
         Keyboard(InputManager& initInputManager, DeviceId initDeviceId);
@@ -193,7 +193,7 @@ namespace ouzel::input
         bool handleKeyPress(Keyboard::Key key);
         bool handleKeyRelease(Keyboard::Key key);
 
-        bool keyStates[static_cast<std::uint32_t>(Key::count)]{false};
+        bool keyStates[static_cast<std::size_t>(Key::last) + 1U]{false};
     };
 }
 

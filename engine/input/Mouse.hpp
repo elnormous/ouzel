@@ -23,7 +23,7 @@ namespace ouzel::input
             middle, // Middle mouse button (three-button mouse)
             x1, // First extra mouse button
             x2, // Second extra mouse button
-            count
+            last = x2
         };
 
         Mouse(InputManager& initInputManager, DeviceId initDeviceId);
@@ -50,7 +50,7 @@ namespace ouzel::input
         bool handleCursorLockChange(bool locked);
 
         math::Vector<float, 2> position{};
-        bool buttonStates[static_cast<std::uint32_t>(Button::count)]{false};
+        bool buttonStates[static_cast<std::size_t>(Button::last) + 1U]{false};
         bool cursorVisible = true;
         bool cursorLocked = false;
         const Cursor* cursor = nullptr;

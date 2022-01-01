@@ -54,7 +54,7 @@ namespace ouzel::input
             rightThumbRight,
             rightThumbUp,
             rightThumbDown,
-            count
+            last = rightThumbDown
         };
 
         enum class Motor
@@ -62,7 +62,7 @@ namespace ouzel::input
             all,
             left,
             right,
-            count
+            last = right
         };
 
         struct ButtonState final
@@ -101,12 +101,12 @@ namespace ouzel::input
     private:
         bool handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
 
-        ButtonState buttonStates[static_cast<std::uint32_t>(Button::count)];
+        ButtonState buttonStates[static_cast<std::size_t>(Button::last) + 1U];
         std::int32_t playerIndex = -1;
         bool absoluteDpadValues = false;
         bool rotationAllowed = false;
         bool attached = false;
-        float vibration[static_cast<std::uint32_t>(Motor::count)]{};
+        float vibration[static_cast<std::size_t>(Motor::last) + 1U]{};
     };
 }
 
