@@ -3,11 +3,12 @@
 #ifndef OUZEL_PLATFORM_COREFOUNDATION_POINTER_HPP
 #define OUZEL_PLATFORM_COREFOUNDATION_POINTER_HPP
 
+#include <type_traits>
 #include <CoreFoundation/CoreFoundation.h>
 
 namespace ouzel::platform::corefoundation
 {
-    template <class T>
+    template <class T, typename std::enable_if_t<std::is_pointer_v<T>>* = nullptr>
     class Pointer final
     {
     public:
