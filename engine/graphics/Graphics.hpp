@@ -12,7 +12,6 @@
 #include "Driver.hpp"
 #include "RenderDevice.hpp"
 #include "Settings.hpp"
-#include "renderer/Renderer.hpp"
 #include "../math/Rect.hpp"
 #include "../math/Matrix.hpp"
 #include "../math/Size.hpp"
@@ -106,7 +105,6 @@ namespace ouzel::graphics
         CommandBuffer commandBuffer;
 
         std::unique_ptr<RenderDevice> device;
-        renderer::Renderer renderer;
     };
 }
 

@@ -151,7 +151,7 @@ namespace ouzel
             faceDown
         };
 
-        Orientation orientation;
+        Orientation orientation = Orientation::portrait;
         std::string filename;
     };
 

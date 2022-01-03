@@ -307,9 +307,6 @@
     <ClCompile Include="input\windows\GamepadDeviceWin.cpp">
       <Filter>engine\input\windows</Filter>
     </ClCompile>
-    <ClCompile Include="graphics\renderer\Renderer.cpp">
-      <Filter>engine\graphics\renderer</Filter>
-    </ClCompile>
     <ClCompile Include="graphics\Graphics.cpp">
       <Filter>engine\graphics</Filter>
     </ClCompile>
@@ -935,24 +932,6 @@
     </ClInclude>
     <ClInclude Include="audio\wasapi\WASAPIPointer.hpp">
       <Filter>engine\audio\wasapi</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics\renderer\Camera.hpp">
-      <Filter>engine\graphics\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics\renderer\Commands.hpp">
-      <Filter>engine\graphics\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics\renderer\Light.hpp">
-      <Filter>engine\graphics\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics\renderer\Material.hpp">
-      <Filter>engine\graphics\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics\renderer\Object.hpp">
-      <Filter>engine\graphics\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics\renderer\Renderer.hpp">
-      <Filter>engine\graphics\renderer</Filter>
     </ClInclude>
     <ClInclude Include="graphics\direct3d11\D3D11ErrorCategory.hpp">
       <Filter>engine\graphics\direct3d11</Filter>

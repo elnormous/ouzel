@@ -148,8 +148,7 @@ namespace ouzel::graphics
         textureFilter{settings.textureFilter},
         maxAnisotropy{settings.maxAnisotropy},
         size{initWindow.getResolution()},
-        device{createRenderDevice(driver, initWindow, settings)},
-        renderer{*device}
+        device{createRenderDevice(driver, initWindow, settings)}
     {
         device->start();
     }
