@@ -797,8 +797,6 @@ namespace ouzel::graphics::d3d11
                         break;
                     }
 
-                    case Command::Type::renderScene: break;
-
                     default:
                         throw std::runtime_error{"Invalid command"};
                 }

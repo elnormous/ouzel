@@ -250,7 +250,6 @@ namespace ouzel::graphics
 
     void Graphics::present()
     {
-        addCommand(std::make_unique<RenderSceneCommand>());
         addCommand(std::make_unique<PresentCommand>());
         device->submitCommandBuffer(std::move(commandBuffer));
         commandBuffer = CommandBuffer();

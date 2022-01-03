@@ -792,8 +792,6 @@ namespace ouzel::graphics::metal
                         break;
                     }
 
-                    case Command::Type::renderScene: break;
-
                     default: throw Error{"Invalid command"};
                 }
 

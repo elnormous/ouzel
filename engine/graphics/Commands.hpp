@@ -65,8 +65,7 @@ namespace ouzel::graphics
             initCamera,
             setCameraParameters,
             initLight,
-            setLightParameters,
-            renderScene,
+            setLightParameters
         };
 
         explicit constexpr Command(Type initType) noexcept:
@@ -563,17 +562,6 @@ namespace ouzel::graphics
 
         const ResourceId renderPass;
         const std::set<ResourceId> renderTargets;
-    };
-
-    class RenderSceneCommand final: public Command
-    {
-    public:
-        explicit RenderSceneCommand() noexcept(false):
-            Command{Type::renderScene}
-        {
-        }
-
-        const std::vector<ResourceId> textures;
     };
 
     class CommandBuffer final
