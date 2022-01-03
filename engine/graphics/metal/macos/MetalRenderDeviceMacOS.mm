@@ -14,6 +14,7 @@
 #include "../../../core/Engine.hpp"
 #include "../../../core/macos/NativeWindowMacOS.hpp"
 #include "../../../platform/foundation/AutoreleasePool.hpp"
+#include "../../../platform/corefoundation/Pointer.hpp"
 #include "../../../utils/Bit.hpp"
 #include "../../../utils/Log.hpp"
 
@@ -76,12 +77,12 @@ namespace ouzel::graphics::metal::macos
     {
         std::vector<math::Size<std::uint32_t, 2>> result;
 
-        const CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
-        const CFIndex displayModeCount = CFArrayGetCount(displayModes);
+        const platform::corefoundation::Pointer displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
+        const CFIndex displayModeCount = CFArrayGetCount(displayModes.get());
 
         for (CFIndex i = 0; i < displayModeCount; ++i)
         {
-            const auto displayMode = bitCast<CGDisplayModeRef>(CFArrayGetValueAtIndex(displayModes, i));
+            const auto displayMode = bitCast<CGDisplayModeRef>(CFArrayGetValueAtIndex(displayModes.get(), i));
 
             const math::Size<std::uint32_t, 2> resolution{
                 static_cast<std::uint32_t>(CGDisplayModeGetWidth(displayMode)),
@@ -90,8 +91,6 @@ namespace ouzel::graphics::metal::macos
 
             result.emplace_back(resolution);
         }
-
-        CFRelease(displayModes);
 
         return result;
     }
