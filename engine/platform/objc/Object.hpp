@@ -20,22 +20,22 @@ namespace ouzel::platform::objc
         Object(T a) noexcept: p{a} {}
         Object& operator=(T a) noexcept
         {
-            if (p) objc_msgSend(p, releaseSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
             p = a;
             return *this;
         }
 
         Object(const Object& other) noexcept: p{other.p}
         {
-            if (p) objc_msgSend(p, retainSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, retainSel);
         }
 
         Object& operator=(const Object& other) noexcept
         {
             if (&other == this) return *this;
-            if (p) objc_msgSend(p, releaseSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
             p = other.p;
-            if (p) objc_msgSend(p, retainSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, retainSel);
             return *this;
         }
 
@@ -47,7 +47,7 @@ namespace ouzel::platform::objc
         Object& operator=(Object&& other) noexcept
         {
             if (&other == this) return *this;
-            if (p) objc_msgSend(p, releaseSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
             p = other.p;
             other.p = nil;
             return *this;
@@ -55,7 +55,7 @@ namespace ouzel::platform::objc
 
         ~Object()
         {
-            if (p) objc_msgSend(p, releaseSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
         }
 
         T get() const noexcept

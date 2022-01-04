@@ -24,22 +24,22 @@ namespace ouzel::graphics::metal
         Pointer(T a) noexcept: p{a} {}
         Pointer& operator=(T a) noexcept
         {
-            if (p) objc_msgSend(p, releaseSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
             p = a;
             return *this;
         }
 
         Pointer(const Pointer& other) noexcept: p{other.p}
         {
-            if (p) objc_msgSend(p, retainSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, retainSel);
         }
 
         Pointer& operator=(const Pointer& other) noexcept
         {
             if (&other == this) return *this;
-            if (p) objc_msgSend(p, releaseSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
             p = other.p;
-            if (p) objc_msgSend(p, retainSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, retainSel);
             return *this;
         }
 
@@ -51,7 +51,7 @@ namespace ouzel::graphics::metal
         Pointer& operator=(Pointer&& other) noexcept
         {
             if (&other == this) return *this;
-            if (p) objc_msgSend(p, releaseSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
             p = other.p;
             other.p = nil;
             return *this;
@@ -59,7 +59,7 @@ namespace ouzel::graphics::metal
 
         ~Pointer()
         {
-            if (p) objc_msgSend(p, releaseSel);
+            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
         }
 
         T get() const noexcept
