@@ -69,12 +69,12 @@ namespace ouzel::storage
         if (!bundle)
             throw std::runtime_error{"Failed to get main bundle"};
 
-        platform::corefoundation::Pointer relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
+        const platform::corefoundation::Pointer relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
         if (!relativePath)
             throw std::runtime_error{"Failed to get resource directory"};
 
-        platform::corefoundation::Pointer absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
-        platform::corefoundation::Pointer path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
+        const platform::corefoundation::Pointer absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
+        const platform::corefoundation::Pointer path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
 
         const auto maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
         auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));

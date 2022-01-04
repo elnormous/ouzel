@@ -25,6 +25,7 @@ typedef id GCControllerPtr;
 #include "GamepadDeviceGC.hpp"
 #include "GamepadDeviceIOKit.hpp"
 #include "MouseDeviceMacOS.hpp"
+#include "../../platform/corefoundation/Pointer.hpp"
 
 namespace ouzel::input::macos
 {
@@ -69,7 +70,7 @@ namespace ouzel::input::macos
         std::unordered_map<IOHIDDeviceRef, std::unique_ptr<GamepadDeviceIOKit>> gamepadDevicesIOKit;
 
         id connectDelegate = nil;
-        IOHIDManagerRef hidManager = nullptr;
+        platform::corefoundation::Pointer<IOHIDManagerRef> hidManager;
 
         std::vector<std::unique_ptr<Cursor>> cursors;
 

@@ -13,6 +13,7 @@
 #include "CAAudioDevice.hpp"
 #include "CAErrorCategory.hpp"
 #include "../../core/Engine.hpp"
+#include "../../platform/corefoundation/Pointer.hpp"
 #include "../../utils/Log.hpp"
 
 #if TARGET_OS_IOS || TARGET_OS_TV
@@ -209,19 +210,20 @@ namespace ouzel::audio::coreaudio
                                                            &tempStringRef); result != noErr)
             throw std::system_error{result, errorCategory, "Failed to get CoreAudio device name"};
 
-        if (tempStringRef)
+        const platform::corefoundation::Pointer stringPointer = tempStringRef;
+
+        if (stringPointer)
         {
             std::string name;
-            if (const char* deviceName = CFStringGetCStringPtr(tempStringRef, kCFStringEncodingUTF8))
+            if (const char* deviceName = CFStringGetCStringPtr(stringPointer, kCFStringEncodingUTF8))
                 name = deviceName;
             else
             {
-                const CFIndex stringLength = CFStringGetLength(tempStringRef);
+                const CFIndex stringLength = CFStringGetLength(stringPointer);
                 std::vector<char> temp(static_cast<std::size_t>(CFStringGetMaximumSizeForEncoding(stringLength, kCFStringEncodingUTF8)) + 1);
-                if (CFStringGetCString(tempStringRef, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
+                if (CFStringGetCString(stringPointer, temp.data(), static_cast<CFIndex>(temp.size()), kCFStringEncodingUTF8))
                     name = temp.data();
             }
-            CFRelease(tempStringRef);
 
             log(Log::Level::info) << "Using " << name << " for audio";
         }

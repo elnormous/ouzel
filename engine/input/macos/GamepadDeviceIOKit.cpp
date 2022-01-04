@@ -5,6 +5,7 @@
 #include "InputSystemMacOS.hpp"
 #include "IOKitErrorCategory.hpp"
 #include "../GamepadConfig.hpp"
+#include "../../platform/corefoundation/Pointer.hpp"
 #include "../../utils/Bit.hpp"
 
 namespace ouzel::input::macos
@@ -75,7 +76,7 @@ namespace ouzel::input::macos
 
         const auto& gamepadConfig = getGamepadConfig(vendorId, productId);
 
-        const auto elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
+        const platform::corefoundation::Pointer elementArray = IOHIDDeviceCopyMatchingElements(device, nullptr, kIOHIDOptionsTypeNone);
         const auto count = CFArrayGetCount(elementArray);
 
         for (CFIndex i = 0; i < count; ++i)
@@ -146,8 +147,6 @@ namespace ouzel::input::macos
                 axes.insert(std::pair(element, axis));
             }
         }
-
-        CFRelease(elementArray);
 
         IOHIDDeviceRegisterInputValueCallback(device, deviceInput, this);
     }

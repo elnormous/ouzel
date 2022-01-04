@@ -14,6 +14,7 @@
 #include "OpenGLView.h"
 #include "../../../core/Engine.hpp"
 #include "../../../core/macos/NativeWindowMacOS.hpp"
+#include "../../../platform/corefoundation/Pointer.hpp"
 #include "../../../platform/foundation/AutoreleasePool.hpp"
 #include "../../../utils/Bit.hpp"
 #include "../../../utils/Log.hpp"
@@ -142,7 +143,7 @@ namespace ouzel::graphics::opengl::macos
     {
         std::vector<math::Size<std::uint32_t, 2>> result;
 
-        const CFArrayRef displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
+        const platform::corefoundation::Pointer displayModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, nullptr);
         const CFIndex displayModeCount = CFArrayGetCount(displayModes);
 
         for (CFIndex i = 0; i < displayModeCount; ++i)
@@ -156,8 +157,6 @@ namespace ouzel::graphics::opengl::macos
 
             result.emplace_back(resolution);
         }
-
-        CFRelease(displayModes);
 
         return result;
     }

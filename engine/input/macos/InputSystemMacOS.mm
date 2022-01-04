@@ -136,10 +136,7 @@ namespace ouzel::input::macos
             [connectDelegate release];
 
         if (hidManager)
-        {
             IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
-            CFRelease(hidManager);
-        }
     }
 
     void InputSystem::executeCommand(const Command& command)
@@ -291,17 +288,13 @@ namespace ouzel::input::macos
             {
                 auto service = reinterpret_cast<IOHIDServiceClientRef (*)(id, SEL)>(&objc_msgSend)([hidServices firstObject], sel_getUid("service"));
 
-                if (const auto vendor = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDVendorIDKey))))
-                {
+                if (const platform::corefoundation::Pointer vendor = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service,
+                                                                                                                             CFSTR(kIOHIDVendorIDKey))))
                     CFNumberGetValue(vendor, kCFNumberSInt32Type, &vendorId);
-                    CFRelease(vendor);
-                }
 
-                if (const auto product = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service, CFSTR(kIOHIDProductIDKey))))
-                {
+                if (const platform::corefoundation::Pointer product = static_cast<CFNumberRef>(IOHIDServiceClientCopyProperty(service,
+                                                                                                                              CFSTR(kIOHIDProductIDKey))))
                     CFNumberGetValue(product, kCFNumberSInt32Type, &productId);
-                    CFRelease(product);
-                }
             }
         }
 
