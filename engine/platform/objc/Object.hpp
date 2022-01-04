@@ -3,13 +3,14 @@
 #ifndef OUZEL_PLATFORM_OBJC_HPP
 #define OUZEL_PLATFORM_OBJC_HPP
 
-#ifndef __OBJC__
-# include <objc/message.h>
-# include <objc/objc.h>
-#endif
+#include <objc/message.h>
+#include <objc/objc.h>
 
 namespace ouzel::platform::objc
 {
+    inline const auto retainSel = sel_registerName("retain");
+    inline const auto releaseSel = sel_registerName("release");
+
     template <class T>
     class Object final
     {
@@ -19,41 +20,22 @@ namespace ouzel::platform::objc
         Object(T a) noexcept: p{a} {}
         Object& operator=(T a) noexcept
         {
-#ifdef __OBJC__
-            [p release];
-#else
-            if (p) objc_msgSend(p, sel_getUid("release"));
-#endif
-
+            if (p) objc_msgSend(p, releaseSel);
             p = a;
             return *this;
         }
 
         Object(const Object& other) noexcept: p{other.p}
         {
-#ifdef __OBJC__
-            [p retain];
-#else
-            if (p) objc_msgSend(p, sel_getUid("retain"));
-#endif
+            if (p) objc_msgSend(p, retainSel);
         }
 
         Object& operator=(const Object& other) noexcept
         {
             if (&other == this) return *this;
-#ifdef __OBJC__
-            [p release];
-#else
-            if (p) objc_msgSend(p, sel_getUid("release"));
-#endif
-
+            if (p) objc_msgSend(p, releaseSel);
             p = other.p;
-
-#ifdef __OBJC__
-            [p retain];
-#else
-            if (p) objc_msgSend(p, sel_getUid("retain"));
-#endif
+            if (p) objc_msgSend(p, retainSel);
             return *this;
         }
 
@@ -65,11 +47,7 @@ namespace ouzel::platform::objc
         Object& operator=(Object&& other) noexcept
         {
             if (&other == this) return *this;
-#ifdef __OBJC__
-            [p release];
-#else
-            if (p) objc_msgSend(p, sel_getUid("release"));
-#endif
+            if (p) objc_msgSend(p, releaseSel);
             p = other.p;
             other.p = nil;
             return *this;
@@ -77,11 +55,7 @@ namespace ouzel::platform::objc
 
         ~Object()
         {
-#ifdef __OBJC__
-            [p release];
-#else
-            if (p) objc_msgSend(p, sel_getUid("release"));
-#endif
+            if (p) objc_msgSend(p, releaseSel);
         }
 
         T get() const noexcept
