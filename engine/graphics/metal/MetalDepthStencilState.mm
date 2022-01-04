@@ -61,13 +61,13 @@ namespace ouzel::graphics::metal
                                          CompareFunction initBackFaceStencilCompareFunction):
         RenderResource{initRenderDevice}
     {
-        Pointer<MTLDepthStencilDescriptor*> depthStencilDescriptor = [[MTLDepthStencilDescriptor alloc] init];
+        platform::objc::Pointer depthStencilDescriptor = [[MTLDepthStencilDescriptor alloc] init];
 
         depthStencilDescriptor.get().depthCompareFunction = initDepthTest ? getCompareFunction(initCompareFunction) : MTLCompareFunctionAlways; // depth read
         depthStencilDescriptor.get().depthWriteEnabled = initDepthWrite ? YES : NO; // depth write
         if (initStencilEnabled)
         {
-            Pointer<MTLStencilDescriptor*> frontFaceStencil = [[MTLStencilDescriptor alloc] init];
+            platform::objc::Pointer frontFaceStencil = [[MTLStencilDescriptor alloc] init];
             frontFaceStencil.get().stencilFailureOperation = getStencilOperation(initFrontFaceStencilFailureOperation);
             frontFaceStencil.get().depthFailureOperation = getStencilOperation(initFrontFaceStencilDepthFailureOperation);
             frontFaceStencil.get().depthStencilPassOperation = getStencilOperation(initFrontFaceStencilPassOperation);
@@ -77,7 +77,7 @@ namespace ouzel::graphics::metal
 
             depthStencilDescriptor.get().frontFaceStencil = frontFaceStencil.get();
 
-            Pointer<MTLStencilDescriptor*> backFaceStencil = [[MTLStencilDescriptor alloc] init];
+            platform::objc::Pointer backFaceStencil = [[MTLStencilDescriptor alloc] init];
             backFaceStencil.get().stencilFailureOperation = getStencilOperation(initBackFaceStencilFailureOperation);
             backFaceStencil.get().depthFailureOperation = getStencilOperation(initBackFaceStencilDepthFailureOperation);
             backFaceStencil.get().depthStencilPassOperation = getStencilOperation(initBackFaceStencilPassOperation);

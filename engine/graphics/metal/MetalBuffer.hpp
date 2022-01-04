@@ -16,9 +16,9 @@ using MTLBufferPtr = id;
 #endif
 
 #include "MetalRenderResource.hpp"
-#include "MetalPointer.hpp"
 #include "../BufferType.hpp"
 #include "../Flags.hpp"
+#include "../../platform/objc/Pointer.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -47,7 +47,7 @@ namespace ouzel::graphics::metal
         BufferType type = BufferType::index;
         Flags flags = Flags::none;
 
-        Pointer<MTLBufferPtr> buffer;
+        platform::objc::Pointer<MTLBufferPtr> buffer;
         NSUInteger size = 0;
     };
 }

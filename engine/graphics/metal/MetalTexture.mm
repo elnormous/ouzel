@@ -122,7 +122,7 @@ namespace ouzel::graphics::metal
             throw Error{"Invalid texture size"};
 
         // TODO: don't create texture if only MSAA is needed
-        Pointer<MTLTextureDescriptor*> textureDescriptor = [[MTLTextureDescriptor alloc] init];
+        platform::objc::Pointer textureDescriptor = [[MTLTextureDescriptor alloc] init];
         textureDescriptor.get().pixelFormat = pixelFormat;
         textureDescriptor.get().width = width;
         textureDescriptor.get().height = height;
@@ -153,7 +153,7 @@ namespace ouzel::graphics::metal
         {
             if (sampleCount > 1)
             {
-                Pointer<MTLTextureDescriptor*> msaaTextureDescriptor = [[MTLTextureDescriptor alloc] init];
+                platform::objc::Pointer msaaTextureDescriptor = [[MTLTextureDescriptor alloc] init];
                 msaaTextureDescriptor.get().pixelFormat = pixelFormat;
                 msaaTextureDescriptor.get().width = width;
                 msaaTextureDescriptor.get().height = height;

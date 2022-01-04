@@ -25,13 +25,13 @@ using MTLLoadAction = NSUInteger;
 
 #include <tuple>
 #include "MetalRenderResource.hpp"
-#include "MetalPointer.hpp"
 #include "../Flags.hpp"
 #include "../PixelFormat.hpp"
 #include "../SamplerAddressMode.hpp"
 #include "../SamplerFilter.hpp"
 #include "../TextureType.hpp"
 #include "../../math/Size.hpp"
+#include "../../platform/objc/Pointer.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -94,13 +94,13 @@ namespace ouzel::graphics::metal
 
         SamplerStateDescriptor samplerDescriptor;
 
-        Pointer<MTLTexturePtr> texture;
+        platform::objc::Pointer<MTLTexturePtr> texture;
 
         NSUInteger width = 0;
         NSUInteger height = 0;
 
         MTLSamplerStatePtr samplerState = nil;
-        Pointer<MTLTexturePtr> msaaTexture;
+        platform::objc::Pointer<MTLTexturePtr> msaaTexture;
 
         MTLPixelFormat pixelFormat;
         std::uint32_t pixelSize = 0;

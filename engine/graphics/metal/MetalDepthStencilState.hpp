@@ -18,9 +18,9 @@ using MTLDepthStencilStatePtr = id;
 #endif
 
 #include "MetalRenderResource.hpp"
-#include "MetalPointer.hpp"
 #include "../CompareFunction.hpp"
 #include "../StencilOperation.hpp"
+#include "../../platform/objc/Pointer.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -48,7 +48,7 @@ namespace ouzel::graphics::metal
         auto& getDepthStencilState() const noexcept { return depthStencilState; }
 
     private:
-        Pointer<MTLDepthStencilStatePtr> depthStencilState;
+        platform::objc::Pointer<MTLDepthStencilStatePtr> depthStencilState;
     };
 }
 

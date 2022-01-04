@@ -20,9 +20,9 @@ using MTLVertexDescriptorPtr = id;
 #endif
 
 #include "MetalRenderResource.hpp"
-#include "MetalPointer.hpp"
 #include "../DataType.hpp"
 #include "../Vertex.hpp"
+#include "../../platform/objc/Pointer.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -75,10 +75,10 @@ namespace ouzel::graphics::metal
         std::vector<std::pair<std::string, DataType>> vertexShaderConstantInfo;
         std::uint32_t vertexShaderAlignment = 0;
 
-        Pointer<MTLFunctionPtr> fragmentShader;
-        Pointer<MTLFunctionPtr> vertexShader;
+        platform::objc::Pointer<MTLFunctionPtr> fragmentShader;
+        platform::objc::Pointer<MTLFunctionPtr> vertexShader;
 
-        Pointer<MTLVertexDescriptorPtr> vertexDescriptor;
+        platform::objc::Pointer<MTLVertexDescriptorPtr> vertexDescriptor;
 
         std::vector<Location> fragmentShaderConstantLocations;
         std::uint32_t fragmentShaderConstantSize = 0;

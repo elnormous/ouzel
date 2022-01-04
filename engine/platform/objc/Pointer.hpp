@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_PLATFORM_OBJC_HPP
-#define OUZEL_PLATFORM_OBJC_HPP
+#ifndef OUZEL_PLATFORM_OBJC_POINTER_HPP
+#define OUZEL_PLATFORM_OBJC_POINTER_HPP
 
 #include <objc/message.h>
 #include <objc/objc.h>
@@ -12,25 +12,25 @@ namespace ouzel::platform::objc
     inline const auto releaseSel = sel_registerName("release");
 
     template <class T>
-    class Object final
+    class Pointer final
     {
     public:
-        Object() noexcept = default;
+        Pointer() noexcept = default;
 
-        Object(T a) noexcept: p{a} {}
-        Object& operator=(T a) noexcept
+        Pointer(T a) noexcept: p{a} {}
+        Pointer& operator=(T a) noexcept
         {
             if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
             p = a;
             return *this;
         }
 
-        Object(const Object& other) noexcept: p{other.p}
+        Pointer(const Pointer& other) noexcept: p{other.p}
         {
             if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, retainSel);
         }
 
-        Object& operator=(const Object& other) noexcept
+        Pointer& operator=(const Pointer& other) noexcept
         {
             if (&other == this) return *this;
             if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
@@ -39,12 +39,12 @@ namespace ouzel::platform::objc
             return *this;
         }
 
-        Object(Object&& other) noexcept: p{other.p}
+        Pointer(Pointer&& other) noexcept: p{other.p}
         {
             other.p = nil;
         }
 
-        Object& operator=(Object&& other) noexcept
+        Pointer& operator=(Pointer&& other) noexcept
         {
             if (&other == this) return *this;
             if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
@@ -53,7 +53,7 @@ namespace ouzel::platform::objc
             return *this;
         }
 
-        ~Object()
+        ~Pointer()
         {
             if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
         }
@@ -68,14 +68,24 @@ namespace ouzel::platform::objc
             return p;
         }
 
-        bool operator==(const Object& other) const noexcept
+        bool operator==(const Pointer& other) const noexcept
         {
             return p == other.p;
         }
 
-        bool operator!=(const Object& other) const noexcept
+        bool operator!=(const Pointer& other) const noexcept
         {
             return p != other.p;
+        }
+
+        bool operator==(std::nullptr_t) const noexcept
+        {
+            return p == nullptr;
+        }
+
+        bool operator!=(std::nullptr_t) const noexcept
+        {
+            return p != nullptr;
         }
 
     private:
@@ -83,4 +93,4 @@ namespace ouzel::platform::objc
     };
 }
 
-#endif // OUZEL_PLATFORM_OBJC_HPP
+#endif // OUZEL_PLATFORM_OBJC_POINTER_HPP

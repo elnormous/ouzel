@@ -75,6 +75,16 @@ namespace ouzel::platform::corefoundation
             return p != other.p;
         }
 
+        bool operator==(std::nullptr_t) const noexcept
+        {
+            return p == nullptr;
+        }
+
+        bool operator!=(std::nullptr_t) const noexcept
+        {
+            return p != nullptr;
+        }
+
     private:
         T p = nil;
     };

@@ -93,7 +93,7 @@ namespace ouzel::graphics::metal
 
     bool RenderDevice::available() noexcept
     {
-        Pointer<id<MTLDevice>> device = MTLCreateSystemDefaultDevice();
+        platform::objc::Pointer device = MTLCreateSystemDefaultDevice();
         return device != nullptr;
     }
 
@@ -156,7 +156,7 @@ namespace ouzel::graphics::metal
         renderPassDescriptor.get().stencilAttachment.loadAction = MTLLoadActionClear;
         renderPassDescriptor.get().stencilAttachment.clearStencil = 0;
 
-        Pointer<MTLDepthStencilDescriptor*> depthStencilDescriptor = [[MTLDepthStencilDescriptor alloc] init];
+        platform::objc::Pointer depthStencilDescriptor = [[MTLDepthStencilDescriptor alloc] init];
 
         depthStencilDescriptor.get().depthCompareFunction = MTLCompareFunctionAlways; // depth read
         depthStencilDescriptor.get().depthWriteEnabled = NO; // depth write
@@ -839,7 +839,7 @@ namespace ouzel::graphics::metal
             return pipelineStateIterator->second.get();
         else
         {
-            Pointer<MTLRenderPipelineDescriptor*> pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+            platform::objc::Pointer pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
             pipelineStateDescriptor.get().sampleCount = desc.sampleCount;
 
             if (desc.shader)
@@ -876,9 +876,8 @@ namespace ouzel::graphics::metal
                 }
 
             NSError* error;
-            Pointer<id<MTLRenderPipelineState>> pipelineState = [device.get()
-                                                                 newRenderPipelineStateWithDescriptor:pipelineStateDescriptor.get()
-                                                                                                error:&error];
+            platform::objc::Pointer pipelineState = [device.get() newRenderPipelineStateWithDescriptor:pipelineStateDescriptor.get()
+                                                                                                 error:&error];
             if (error || !pipelineState)
                 throw Error{"Failed to created Metal pipeline state"};
 
@@ -898,7 +897,7 @@ namespace ouzel::graphics::metal
             return samplerStatesIterator->second.get();
         else
         {
-            Pointer<MTLSamplerDescriptor*> samplerDescriptor = [[MTLSamplerDescriptor alloc] init];
+            platform::objc::Pointer samplerDescriptor = [[MTLSamplerDescriptor alloc] init];
             switch (descriptor.filter)
             {
                 case SamplerFilter::point:

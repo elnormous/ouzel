@@ -18,8 +18,8 @@ using MTLLoadAction = NSUInteger;
 
 #include <set>
 #include "MetalRenderResource.hpp"
-#include "MetalPointer.hpp"
 #include "../../math/Color.hpp"
+#include "../../platform/objc/Pointer.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -52,7 +52,7 @@ namespace ouzel::graphics::metal
         MTLPixelFormat depthFormat;
         MTLPixelFormat stencilFormat;
 
-        Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
+        platform::objc::Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
     };
 }
 

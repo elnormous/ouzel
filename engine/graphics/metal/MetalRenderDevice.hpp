@@ -43,10 +43,10 @@ using MTLPixelFormat = NSUInteger;
 #endif
 
 #include "../RenderDevice.hpp"
-#include "MetalPointer.hpp"
 #include "MetalShader.hpp"
 #include "MetalTexture.hpp"
 #include "../../platform/dispatch/Semaphore.hpp"
+#include "../../platform/objc/Pointer.hpp"
 
 namespace ouzel::graphics::metal
 {
@@ -98,14 +98,14 @@ namespace ouzel::graphics::metal
 
         MTLRenderPipelineStatePtr getPipelineState(const PipelineStateDesc& desc);
 
-        Pointer<MTLDevicePtr> device;
-        Pointer<MTLCommandQueuePtr> metalCommandQueue;
+        platform::objc::Pointer<MTLDevicePtr> device;
+        platform::objc::Pointer<MTLCommandQueuePtr> metalCommandQueue;
         CAMetalLayerPtr metalLayer = nil;
-        Pointer<MTLTexturePtr> currentMetalTexture;
+        platform::objc::Pointer<MTLTexturePtr> currentMetalTexture;
 
         struct ShaderConstantBuffer final
         {
-            std::vector<Pointer<MTLBufferPtr>> buffers;
+            std::vector<platform::objc::Pointer<MTLBufferPtr>> buffers;
             std::uint32_t index = 0;
             std::uint32_t offset = 0;
         };
@@ -113,12 +113,12 @@ namespace ouzel::graphics::metal
         std::uint32_t shaderConstantBufferIndex = 0;
         std::array<ShaderConstantBuffer, bufferCount> shaderConstantBuffers;
 
-        Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
-        Pointer<MTLDepthStencilStatePtr> defaultDepthStencilState;
+        platform::objc::Pointer<MTLRenderPassDescriptorPtr> renderPassDescriptor;
+        platform::objc::Pointer<MTLDepthStencilStatePtr> defaultDepthStencilState;
 
-        Pointer<MTLTexturePtr> msaaTexture;
-        Pointer<MTLTexturePtr> depthTexture;
-        std::map<SamplerStateDescriptor, Pointer<MTLSamplerStatePtr>> samplerStates;
+        platform::objc::Pointer<MTLTexturePtr> msaaTexture;
+        platform::objc::Pointer<MTLTexturePtr> depthTexture;
+        std::map<SamplerStateDescriptor, platform::objc::Pointer<MTLSamplerStatePtr>> samplerStates;
 
         MTLPixelFormat colorFormat;
         MTLPixelFormat depthFormat;
@@ -126,7 +126,7 @@ namespace ouzel::graphics::metal
 
         platform::dispatch::Semaphore inflightSemaphore{bufferCount};
 
-        std::map<PipelineStateDesc, Pointer<MTLRenderPipelineStatePtr>> pipelineStates;
+        std::map<PipelineStateDesc, platform::objc::Pointer<MTLRenderPipelineStatePtr>> pipelineStates;
 
         std::vector<std::unique_ptr<RenderResource>> resources;
     };
