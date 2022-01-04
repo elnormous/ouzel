@@ -89,9 +89,9 @@ namespace ouzel::platform::objc
             return p;
         }
 
-        explicit operator bool() const noexcept
+        operator T() const noexcept
         {
-            return p != nil;
+            return p;
         }
 
         bool operator==(const Object& other) const noexcept

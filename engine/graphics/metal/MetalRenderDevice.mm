@@ -94,8 +94,7 @@ namespace ouzel::graphics::metal
     bool RenderDevice::available() noexcept
     {
         Pointer<id<MTLDevice>> device = MTLCreateSystemDefaultDevice();
-
-        return static_cast<bool>(device);
+        return device != nullptr;
     }
 
     RenderDevice::RenderDevice(const Settings& settings,

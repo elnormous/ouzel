@@ -60,9 +60,9 @@ namespace ouzel::platform::corefoundation
             return p;
         }
 
-        explicit operator bool() const noexcept
+        operator T() const noexcept
         {
-            return p != nil;
+            return p;
         }
 
     private:
