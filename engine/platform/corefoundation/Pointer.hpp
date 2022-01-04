@@ -65,6 +65,16 @@ namespace ouzel::platform::corefoundation
             return p;
         }
 
+        bool operator==(const Pointer& other) const noexcept
+        {
+            return p == other.p;
+        }
+
+        bool operator!=(const Pointer& other) const noexcept
+        {
+            return p != other.p;
+        }
+
     private:
         T p = nil;
     };
