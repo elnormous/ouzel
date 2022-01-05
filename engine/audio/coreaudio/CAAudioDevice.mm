@@ -359,9 +359,7 @@ namespace ouzel::audio::coreaudio
             AudioComponentInstanceDispose(audioUnit);
         }
 
-#if TARGET_OS_IOS || TARGET_OS_TV
-        if (routeChangeDelegate) [routeChangeDelegate release];
-#elif TARGET_OS_MAC
+#if !TARGET_OS_IOS && !TARGET_OS_TV
         constexpr AudioObjectPropertyAddress deviceListAddress = {
             kAudioHardwarePropertyDevices,
             kAudioObjectPropertyScopeGlobal,

@@ -22,6 +22,7 @@
 #include <AudioUnit/AudioUnit.h>
 
 #include "../AudioDevice.hpp"
+#include "../../platform/objc/Pointer.hpp"
 
 namespace ouzel::audio::coreaudio
 {
@@ -42,7 +43,7 @@ namespace ouzel::audio::coreaudio
 
     private:
 #if TARGET_OS_IOS || TARGET_OS_TV
-        id routeChangeDelegate = nil;
+        platform::objc::Pointer<> routeChangeDelegate;
 #elif TARGET_OS_MAC
         AudioDeviceID deviceId = 0;
 #endif
