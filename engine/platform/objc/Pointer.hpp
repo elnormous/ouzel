@@ -11,7 +11,7 @@ namespace ouzel::platform::objc
     inline const auto retainSel = sel_registerName("retain");
     inline const auto releaseSel = sel_registerName("release");
 
-    template <class T>
+    template <class T = id>
     class Pointer final
     {
     public:

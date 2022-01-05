@@ -8,7 +8,7 @@
 
 namespace ouzel::platform::corefoundation
 {
-    template <class T, typename std::enable_if_t<std::is_pointer_v<T>>* = nullptr>
+    template <class T = CFTypeRef, typename std::enable_if_t<std::is_pointer_v<T>>* = nullptr>
     class Pointer final
     {
     public:
