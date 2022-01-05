@@ -181,6 +181,7 @@
     <ClInclude Include="windows\resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="Resources\arrow.png" />
     <CopyFileToFolders Include="Resources\ball.png" />
     <CopyFileToFolders Include="Resources\cube.png" />
     <CopyFileToFolders Include="Resources\cursor.png" />
