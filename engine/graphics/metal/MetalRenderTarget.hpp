@@ -9,7 +9,7 @@
 
 #ifdef __OBJC__
 #  import <Metal/Metal.h>
-typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
+using MTLRenderPassDescriptorPtr = MTLRenderPassDescriptor*;
 #else
 #  include <objc/objc.h>
 using MTLRenderPassDescriptorPtr = id;

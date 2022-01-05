@@ -5,7 +5,7 @@
 
 #ifdef __OBJC__
 #  import <Cocoa/Cocoa.h>
-typedef NSWindow* NSWindowPtr;
+using NSWindowPtr = NSWindow*;
 #else
 #  include <objc/NSObjCRuntime.h>
 using NSWindowPtr = id;

@@ -11,8 +11,8 @@
 
 #ifdef __OBJC__
 #  import <Metal/Metal.h>
-typedef id<MTLFunction> MTLFunctionPtr;
-typedef MTLVertexDescriptor* MTLVertexDescriptorPtr;
+using MTLFunctionPtr = id<MTLFunction>;
+using MTLVertexDescriptorPtr = MTLVertexDescriptor*;
 #else
 #  include <objc/objc.h>
 using MTLFunctionPtr = id;

@@ -6,10 +6,10 @@
 #include <string>
 #ifdef __OBJC__
 #  include <GameController/GameController.h>
-typedef GCController* GCControllerPtr;
+using GCControllerPtr = GCController*;
 #else
 #  include <objc/objc.h>
-typedef id GCControllerPtr;
+using GCControllerPtr = id;
 #endif
 
 #include "../GamepadDevice.hpp"

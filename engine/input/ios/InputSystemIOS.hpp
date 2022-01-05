@@ -7,11 +7,11 @@
 #include <unordered_map>
 #ifdef __OBJC__
 #  include <GameController/GameController.h>
-typedef GCController* GCControllerPtr;
+using GCControllerPtr = GCController*;
 #else
 #  include <objc/objc.h>
 #  include <objc/NSObjCRuntime.h>
-typedef id GCControllerPtr;
+using GCControllerPtr = id;
 #endif
 
 #include "../InputSystem.hpp"

@@ -9,7 +9,7 @@
 
 #ifdef __OBJC__
 #  import <Metal/Metal.h>
-typedef id<MTLBuffer> MTLBufferPtr;
+using MTLBufferPtr = id<MTLBuffer>;
 #else
 #  include <objc/objc.h>
 using MTLBufferPtr = id;

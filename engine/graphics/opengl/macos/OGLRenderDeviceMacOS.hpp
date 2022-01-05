@@ -13,12 +13,12 @@
 
 #ifdef __OBJC__
 #  import <AppKit/NSOpenGL.h>
-typedef NSOpenGLContext* NSOpenGLContextPtr;
-typedef NSOpenGLPixelFormat* NSOpenGLPixelFormatPtr;
+using NSOpenGLContextPtr = NSOpenGLContext*;
+using NSOpenGLPixelFormatPtr = NSOpenGLPixelFormat*;
 #else
 #  include <objc/objc.h>
-typedef id NSOpenGLContextPtr;
-typedef id NSOpenGLPixelFormatPtr;
+using NSOpenGLContextPtr = id;
+using NSOpenGLPixelFormatPtr = id;
 #endif
 
 #include "../OGLRenderDevice.hpp"

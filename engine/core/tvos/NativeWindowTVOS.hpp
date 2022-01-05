@@ -5,18 +5,18 @@
 
 #ifdef __OBJC__
 #  import <UIKit/UIKit.h>
-typedef UIScreen* UIScreenPtr;
-typedef UIWindow* UIWindowPtr;
-typedef UIView* UIViewPtr;
-typedef UIViewController* UIViewControllerPtr;
-typedef UITextField* UITextFieldPtr;
+using UIScreenPtr = UIScreen*;
+using UIWindowPtr = UIWindow*;
+using UIViewPtr = UIView*;
+using UIViewControllerPtr = UIViewController*;
+using UITextFieldPtr = UITextField*;
 #else
 #  include <objc/objc.h>
-typedef id UIScreenPtr;
-typedef id UIWindowPtr;
-typedef id UIViewPtr;
-typedef id UIViewControllerPtr;
-typedef id UITextFieldPtr;
+using UIScreenPtr = id;
+using UIWindowPtr = id;
+using UIViewPtr = id;
+using UIViewControllerPtr = id;
+using UITextFieldPtr = id;
 #endif
 
 #include "../NativeWindow.hpp"

@@ -8,10 +8,10 @@
 
 #ifdef __OBJC__
 #  import <AppKit/AppKit.h>
-typedef NSCursor* NSCursorPtr;
+using NSCursorPtr = NSCursor*;
 #else
 #  include <objc/objc.h>
-typedef id NSCursorPtr;
+using NSCursorPtr = id;
 #endif
 
 #include "../Cursor.hpp"

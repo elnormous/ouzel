@@ -7,10 +7,10 @@
 #include <stdexcept>
 #ifdef __OBJC__
 #  import <QuartzCore/CADisplayLink.h>
-typedef CADisplayLink* CADisplayLinkPtr;
+using CADisplayLinkPtr = CADisplayLink*;
 #else
 #  include <objc/objc.h>
-typedef id CADisplayLinkPtr;
+using CADisplayLinkPtr = id;
 #endif
 
 #include "../foundation/RunLoop.hpp"

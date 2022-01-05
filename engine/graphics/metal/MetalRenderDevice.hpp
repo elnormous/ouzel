@@ -16,15 +16,15 @@
 #  import <CoreVideo/CoreVideo.h>
 #  import <QuartzCore/QuartzCore.h>
 #  import <Metal/Metal.h>
-typedef CAMetalLayer* CAMetalLayerPtr;
-typedef id<MTLDevice> MTLDevicePtr;
-typedef id<MTLBuffer> MTLBufferPtr;
-typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
-typedef id<MTLSamplerState> MTLSamplerStatePtr;
-typedef id<MTLCommandQueue> MTLCommandQueuePtr;
-typedef id<MTLRenderPipelineState> MTLRenderPipelineStatePtr;
-typedef id<MTLTexture> MTLTexturePtr;
-typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
+using CAMetalLayerPtr = CAMetalLayer*;
+using MTLDevicePtr = id<MTLDevice>;
+using MTLBufferPtr = id<MTLBuffer>;
+using MTLRenderPassDescriptorPtr = MTLRenderPassDescriptor*;
+using MTLSamplerStatePtr = id<MTLSamplerState>;
+using MTLCommandQueuePtr = id<MTLCommandQueue>;
+using MTLRenderPipelineStatePtr = id<MTLRenderPipelineState>;
+using MTLTexturePtr = id<MTLTexture>;
+using MTLDepthStencilStatePtr = id<MTLDepthStencilState>;
 #else
 #  include <objc/objc.h>
 #  include <objc/NSObjCRuntime.h>

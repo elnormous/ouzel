@@ -11,9 +11,9 @@
 
 #ifdef __OBJC__
 #  import <Metal/Metal.h>
-typedef id<MTLSamplerState> MTLSamplerStatePtr;
-typedef id<MTLTexture> MTLTexturePtr;
-typedef MTLRenderPassDescriptor* MTLRenderPassDescriptorPtr;
+using MTLSamplerStatePtr = id<MTLSamplerState>;
+using MTLTexturePtr = id<MTLTexture>;
+using MTLRenderPassDescriptorPtr = MTLRenderPassDescriptor*;
 #else
 #  include <objc/objc.h>
 using MTLSamplerStatePtr = id;

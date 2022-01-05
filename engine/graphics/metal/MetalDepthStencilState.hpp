@@ -11,7 +11,7 @@
 #  import <CoreVideo/CoreVideo.h>
 #  import <QuartzCore/QuartzCore.h>
 #  import <Metal/Metal.h>
-typedef id<MTLDepthStencilState> MTLDepthStencilStatePtr;
+using MTLDepthStencilStatePtr = id<MTLDepthStencilState>;
 #else
 #  include <objc/objc.h>
 using MTLDepthStencilStatePtr = id;

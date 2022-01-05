@@ -6,7 +6,7 @@
 #include <functional>
 #ifdef __OBJC__
 #  import <Foundation/NSRunLoop.h>
-typedef NSRunLoop* NSRunLoopPtr;
+using NSRunLoopPtr = NSRunLoop*;
 #else
 #  include <objc/NSObjCRuntime.h>
 using NSRunLoopPtr = id;

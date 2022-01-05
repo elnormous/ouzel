@@ -18,14 +18,14 @@
 
 #ifdef __OBJC__
 #  import <UIKit/UIKit.h>
-typedef EAGLSharegroup* EAGLSharegroupPtr;
-typedef EAGLContext* EAGLContextPtr;
-typedef CAEAGLLayer* CAEAGLLayerPtr;
+using EAGLSharegroupPtr = EAGLSharegroup*;
+using EAGLContextPtr = EAGLContext*;
+using CAEAGLLayerPtr = CAEAGLLayer*;
 #else
 #  include <objc/objc.h>
-typedef id EAGLSharegroupPtr;
-typedef id EAGLContextPtr;
-typedef id CAEAGLLayerPtr;
+using EAGLSharegroupPtr = id;
+using EAGLContextPtr = id;
+using CAEAGLLayerPtr = id;
 #endif
 
 namespace ouzel::graphics::opengl::ios

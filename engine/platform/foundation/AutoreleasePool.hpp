@@ -5,7 +5,7 @@
 
 #ifdef __OBJC__
 #  import <Foundation/NSAutoreleasePool.h>
-typedef NSAutoreleasePool* NSAutoreleasePoolPtr;
+using NSAutoreleasePoolPtr = NSAutoreleasePool*;
 #else
 #  include <objc/NSObjCRuntime.h>
 using NSAutoreleasePoolPtr = id;

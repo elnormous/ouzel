@@ -8,17 +8,17 @@
 
 #ifdef __OBJC__
 #  import <Cocoa/Cocoa.h>
-typedef NSWindow* NSWindowPtr;
-typedef NSView* NSViewPtr;
-typedef id<NSWindowDelegate> NSWindowDelegatePtr;
-typedef NSScreen* NSScreenPtr;
+using NSWindowPtr = NSWindow*;
+using NSViewPtr = NSView*;
+using NSWindowDelegatePtr = id<NSWindowDelegate>;
+using NSScreenPtr = NSScreen*;
 #else
 #  include <objc/NSObjCRuntime.h>
-typedef id NSWindowPtr;
-typedef id NSViewPtr;
-typedef id NSWindowDelegatePtr;
-typedef id NSScreenPtr;
-typedef UInt32 CGDirectDisplayID;
+using NSWindowPtr = id;
+using NSViewPtr = id;
+using NSWindowDelegatePtr = id;
+using NSScreenPtr = id;
+using CGDirectDisplayID = UInt32;
 #endif
 
 #include "../NativeWindow.hpp"

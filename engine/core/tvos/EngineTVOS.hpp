@@ -5,10 +5,10 @@
 
 #ifdef __OBJC__
 @class ExecuteHandler;
-typedef ExecuteHandler* ExecuteHandlerPtr;
+using ExecuteHandlerPtr = ExecuteHandler*;
 #else
 #  include <objc/NSObjCRuntime.h>
-typedef id ExecuteHandlerPtr;
+using ExecuteHandlerPtr = id;
 #endif
 
 #include "../Engine.hpp"

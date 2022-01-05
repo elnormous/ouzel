@@ -10,13 +10,13 @@
 
 #ifdef __OBJC__
 #  import <AppKit/NSCursor.h>
-typedef NSCursor* NSCursorPtr;
+using NSCursorPtr = NSCursor*;
 #  include <GameController/GameController.h>
-typedef GCController* GCControllerPtr;
+using GCControllerPtr = GCController*;
 #else
 #  include <objc/NSObjCRuntime.h>
-typedef id NSCursorPtr;
-typedef id GCControllerPtr;
+using NSCursorPtr = id;
+using GCControllerPtr = id;
 #endif
 
 #include "../InputSystem.hpp"

@@ -5,10 +5,10 @@
 
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
-typedef NSApplication* NSApplicationPtr;
+using NSApplicationPtr = NSApplication*;
 #else
 #  include <objc/NSObjCRuntime.h>
-typedef id NSApplicationPtr;
+using NSApplicationPtr = id;
 #endif
 #include "../System.hpp"
 #include "EngineMacOS.hpp"
