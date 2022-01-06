@@ -33,16 +33,16 @@ namespace samples
                 switch (event.key)
                 {
                     case Keyboard::Key::up:
-                        cameraRotation.x() -= tau<float> / 100.0F;
-                        break;
-                    case Keyboard::Key::down:
                         cameraRotation.x() += tau<float> / 100.0F;
                         break;
+                    case Keyboard::Key::down:
+                        cameraRotation.x() -= tau<float> / 100.0F;
+                        break;
                     case Keyboard::Key::left:
-                        cameraRotation.y() -= tau<float> / 100.0F;
+                        cameraRotation.y() += tau<float> / 100.0F;
                         break;
                     case Keyboard::Key::right:
-                        cameraRotation.y() += tau<float> / 100.0F;
+                        cameraRotation.y() -= tau<float> / 100.0F;
                         break;
                     case Keyboard::Key::escape:
                     case Keyboard::Key::menu:
@@ -85,8 +85,8 @@ namespace samples
             if (event.type == Event::Type::mouseMove &&
                 event.mouse->isButtonDown(Mouse::Button::left))
             {
-                cameraRotation.x() -= event.difference.y();
-                cameraRotation.y() -= event.difference.x();
+                cameraRotation.x() += event.difference.y();
+                cameraRotation.y() += event.difference.x();
 
                 if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
@@ -102,8 +102,8 @@ namespace samples
             if (event.touchpad->isScreen() &&
                 event.type == Event::Type::touchMove)
             {
-                cameraRotation.x() -= event.difference.y();
-                cameraRotation.y() -= event.difference.x();
+                cameraRotation.x() += event.difference.y();
+                cameraRotation.y() += event.difference.x();
 
                 if (cameraRotation.x() < -tau<float> / 6.0F) cameraRotation.x() = -tau<float> / 6.0F;
                 if (cameraRotation.x() > tau<float> / 6.0F) cameraRotation.x() = tau<float> / 6.0F;
@@ -153,7 +153,7 @@ namespace samples
         camera.setProjectionMode(scene::Camera::ProjectionMode::perspective);
         camera.setNearPlane(1.0F);
         camera.setFarPlane(1000.0F);
-        cameraActor.setPosition(Vector<float, 3>{0.0F, 0.0F, -400.0F});
+        cameraActor.setPosition(Vector<float, 3>{0.0F, 0.0F, 400.0F});
         cameraActor.addComponent(camera);
         layer.addChild(cameraActor);
         addLayer(layer);
