@@ -785,12 +785,12 @@ namespace ouzel::math
         // row 3
         matrix.m.v[2] = T(0);
         matrix.m.v[6] = T(0);
-        matrix.m.v[10] = farClip / (farClip - nearClip);
-        matrix.m.v[14] = -nearClip * farClip / (farClip - nearClip);
+        matrix.m.v[10] = -(farClip + nearClip) / (farClip - nearClip);
+        matrix.m.v[14] = -T(2) * farClip * nearClip / (farClip - nearClip);
         // row 4
         matrix.m.v[3] = T(0);
         matrix.m.v[7] = T(0);
-        matrix.m.v[11] = T(1);
+        matrix.m.v[11] = -T(1);
         matrix.m.v[15] = T(0);
     }
 
