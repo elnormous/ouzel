@@ -315,10 +315,7 @@ namespace ouzel::scene
 
     void Actor::setRotation(const math::Vector<float, 3>& newRotation)
     {
-        math::Quaternion<float> roationQuaternion;
-        setEulerAngles(roationQuaternion, newRotation);
-
-        rotation = roationQuaternion;
+        setEulerAngles(rotation, newRotation);
 
         updateLocalTransform();
     }
