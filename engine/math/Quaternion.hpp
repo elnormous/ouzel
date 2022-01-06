@@ -378,17 +378,17 @@ namespace ouzel::math
     void setEulerAngles(Quaternion<T>& quat,
                         const math::Vector<T, 3>& angles) noexcept
     {
-        const auto angleR = angles.v[0] / T(2);
-        const auto sr = std::sin(angleR);
-        const auto cr = std::cos(angleR);
+        const auto roll = angles.v[0] / T(2);
+        const auto sr = std::sin(roll);
+        const auto cr = std::cos(roll);
 
-        const auto angleP = angles.v[1] / T(2);
-        const auto sp = std::sin(angleP);
-        const auto cp = std::cos(angleP);
+        const auto pitch = angles.v[1] / T(2);
+        const auto sp = std::sin(pitch);
+        const auto cp = std::cos(pitch);
 
-        const auto angleY = angles.v[2] / T(2);
-        const auto sy = std::sin(angleY);
-        const auto cy = std::cos(angleY);
+        const auto yaw = angles.v[2] / T(2);
+        const auto sy = std::sin(yaw);
+        const auto cy = std::cos(yaw);
 
         const auto cpcy = cp * cy;
         const auto spcy = sp * cy;
