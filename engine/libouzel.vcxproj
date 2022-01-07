@@ -197,6 +197,7 @@
     <ClInclude Include="core\System.hpp" />
     <ClInclude Include="core\Timer.hpp" />
     <ClInclude Include="core\Window.hpp" />
+    <ClInclude Include="core\WorkerPool.hpp" />
     <ClInclude Include="core\windows\EngineWin.hpp" />
     <ClInclude Include="core\windows\NativeWindowWin.hpp" />
     <ClInclude Include="core\windows\SystemWin.hpp" />

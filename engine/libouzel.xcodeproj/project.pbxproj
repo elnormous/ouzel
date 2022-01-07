@@ -889,6 +889,7 @@
 		30419DF01D162BEF00A63759 /* Sound.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Sound.hpp; sourceTree = "<group>"; };
 		3043DB5D277EAEF800E874DD /* Easing.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Easing.hpp; sourceTree = "<group>"; };
 		304736D81E0B4776009BC562 /* Box.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Box.hpp; sourceTree = "<group>"; };
+		3047D79B2787E04C003514DE /* WorkerPool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WorkerPool.hpp; sourceTree = "<group>"; };
 		3047F73C1C4C344A00774E3D /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animator.cpp; sourceTree = "<group>"; };
 		3047F73D1C4C344A00774E3D /* Animator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Animator.hpp; sourceTree = "<group>"; };
 		3049DCB31ED8687C0000997A /* ConvexVolume.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConvexVolume.hpp; sourceTree = "<group>"; };
@@ -1411,6 +1412,7 @@
 				303B76311C355A3400FEDE92 /* tvos */,
 				3009341A1C88698500CC50D3 /* Window.cpp */,
 				3009341B1C88698500CC50D3 /* Window.hpp */,
+				3047D79B2787E04C003514DE /* WorkerPool.hpp */,
 			);
 			path = core;
 			sourceTree = "<group>";

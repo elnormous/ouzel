@@ -12,6 +12,7 @@
 #include "Application.hpp"
 #include "Timer.hpp"
 #include "Window.hpp"
+#include "WorkerPool.hpp"
 #include "../graphics/Graphics.hpp"
 #include "../audio/Audio.hpp"
 #include "../events/EventDispatcher.hpp"
@@ -136,6 +137,7 @@ namespace ouzel::core
         assets::Bundle assetBundle;
         scene::SceneManager sceneManager;
         network::Network network;
+        WorkerPool workerPool;
 
 #ifndef __EMSCRIPTEN__
         thread::Thread updateThread;

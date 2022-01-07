@@ -465,6 +465,9 @@
     <ClInclude Include="core\Window.hpp">
       <Filter>engine\core</Filter>
     </ClInclude>
+    <ClInclude Include="core\WorkerPool.hpp">
+      <Filter>engine\core</Filter>
+    </ClInclude>
     <ClInclude Include="core\windows\NativeWindowWin.hpp">
       <Filter>engine\core\windows</Filter>
     </ClInclude>
