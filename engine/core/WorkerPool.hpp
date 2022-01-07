@@ -18,7 +18,8 @@ namespace ouzel::core
     public:
         WorkerPool()
         {
-            const auto count = std::thread::hardware_concurrency();
+            const std::size_t cpuCount = std::thread::hardware_concurrency();
+            const std::size_t count = (cpuCount > 1) ? cpuCount - 1 : 1;
 
             for (unsigned int i = 0; i < count; ++i)
                 workers.emplace_back(&WorkerPool::work, this);
@@ -55,7 +56,7 @@ namespace ouzel::core
 
                 task();
             }
-            
+
             log(Log::Level::info) << "Worker finished";
         }
 
