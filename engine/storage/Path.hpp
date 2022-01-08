@@ -94,6 +94,12 @@ namespace ouzel::storage
             return path != p.path;
         }
 
+        template <class Source>
+        bool operator!=(const Source& p) const
+        {
+            return path != convertToNative(p);
+        }
+
         Path& operator+=(const Path& p)
         {
             path += p.path;
