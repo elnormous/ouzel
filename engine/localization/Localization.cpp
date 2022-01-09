@@ -97,10 +97,7 @@ namespace ouzel
 
             translations[i].translationOffset = decodeUInt32(data.data() + translationOffset);
             translationOffset += sizeof(translations[i].translationOffset);
-        }
 
-        for (std::uint32_t i = 0; i < stringCount; ++i)
-        {
             if (data.size() < translations[i].stringOffset + translations[i].stringLength ||
                 data.size() < translations[i].translationOffset + translations[i].translationLength)
                 throw std::runtime_error{"Not enough data"};
