@@ -360,7 +360,7 @@ namespace ouzel::core::linux
         while (isActive())
         {
             // XNextEvent will block if there is no event pending, so don't call it if engine is not paused
-            if (paused || XPending(display))
+            if (isPaused() || XPending(display))
             {
                 XEvent event;
                 XNextEvent(display, &event);
