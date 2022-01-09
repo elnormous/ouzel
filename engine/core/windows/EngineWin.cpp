@@ -59,7 +59,7 @@ namespace ouzel::core::windows
 
         while (isActive())
         {
-            if (!paused)
+            if (!isPaused())
             {
                 MSG message;
                 if (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE))
