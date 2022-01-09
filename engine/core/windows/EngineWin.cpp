@@ -57,7 +57,7 @@ namespace ouzel::core::windows
         auto& inputSystemWin = inputManager.getInputSystem();
         const auto& windowWin = window.getNativeWindow();
 
-        while (active)
+        while (isActive())
         {
             if (!paused)
             {

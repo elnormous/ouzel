@@ -48,7 +48,7 @@ namespace ouzel::core::emscripten
     {
         auto& inputSystemEm = inputManager.getInputSystem();
 
-        if (active)
+        if (isActive())
         {
             try
             {

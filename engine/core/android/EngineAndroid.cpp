@@ -167,7 +167,7 @@ namespace ouzel::core::android
         if (surface) jniEnv->DeleteGlobalRef(surface);
         surface = jniEnv->NewGlobalRef(newSurface);
 
-        if (active)
+        if (isActive())
         {
             window.getNativeWindow().handleSurfaceChange(surface);
 
@@ -235,7 +235,7 @@ namespace ouzel::core::android
             surface = nullptr;
         }
 
-        if (active)
+        if (isActive())
         {
             window.getNativeWindow().handleSurfaceDestroy();
 

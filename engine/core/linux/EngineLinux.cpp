@@ -357,7 +357,7 @@ namespace ouzel::core::linux
         else
             log(Log::Level::warning) << "XInput not supported";
 
-        while (active)
+        while (isActive())
         {
             // XNextEvent will block if there is no event pending, so don't call it if engine is not paused
             if (paused || XPending(display))
@@ -510,7 +510,7 @@ namespace ouzel::core::linux
             inputSystemLinux.update();
         }
 #else
-        while (active)
+        while (isActive())
         {
             executeAll();
 
