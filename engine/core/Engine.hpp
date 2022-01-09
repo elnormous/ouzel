@@ -139,6 +139,10 @@ namespace ouzel::core
         network::Network network;
         WorkerPool workerPool;
 
+    private:
+        void handleEvents(std::queue<std::unique_ptr<Event>> windowEvents);
+        std::vector<std::string> args;
+
 #ifndef __EMSCRIPTEN__
         thread::Thread updateThread;
 #endif
@@ -150,10 +154,6 @@ namespace ouzel::core
         bool refillRenderQueue = true;
 
         std::atomic_bool screenSaverEnabled{true};
-
-    private:
-        void handleEvents(std::queue<std::unique_ptr<Event>> windowEvents);
-        std::vector<std::string> args;
     };
 }
 

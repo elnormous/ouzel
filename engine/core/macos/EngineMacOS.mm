@@ -82,7 +82,8 @@ namespace ouzel::core::macos
                     CFStringRef reasonForActivity = CFSTR("Ouzel disabling screen saver");
 
                     if (const auto error = IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
-                                                                       kIOPMAssertionLevelOn, reasonForActivity, &noSleepAssertionId); error != kIOReturnSuccess)
+                                                                       kIOPMAssertionLevelOn, reasonForActivity,
+                                                                       &noSleepAssertionId); error != kIOReturnSuccess)
                         throw std::system_error{error, input::macos::getErrorCategory(), "Failed to disable screen saver"};
                 }
             }
