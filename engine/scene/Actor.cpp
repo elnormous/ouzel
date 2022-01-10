@@ -177,7 +177,7 @@ namespace ouzel::scene
 
                     if (actor->isPickable() && actor->pointOn(position))
                     {
-                        auto result = std::pair(actor, actor->convertWorldToLocal(math::Vector<float, 3>{position}));
+                        const auto result = std::pair(actor, actor->convertWorldToLocal(math::Vector<float, 3>{position}));
 
                         const auto upperBound = std::upper_bound(actors.begin(), actors.end(), result,
                                                                  [](const auto& a, const auto& b) noexcept {
@@ -322,12 +322,9 @@ namespace ouzel::scene
 
     void Actor::setRotation(float newRotation)
     {
-        math::Quaternion<float> roationQuaternion;
-        rotate(roationQuaternion,
+        rotate(rotation,
                newRotation,
                math::Vector<float, 3>{0.0F, 0.0F, 1.0F});
-
-        rotation = roationQuaternion;
 
         updateLocalTransform();
     }
