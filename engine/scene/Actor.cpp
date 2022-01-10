@@ -322,9 +322,7 @@ namespace ouzel::scene
 
     void Actor::setRotation(float newRotation)
     {
-        rotate(rotation,
-               newRotation,
-               math::Vector<float, 3>{0.0F, 0.0F, 1.0F});
+        rotateZ(rotation, newRotation);
 
         updateLocalTransform();
     }

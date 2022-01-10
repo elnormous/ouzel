@@ -300,6 +300,36 @@ namespace ouzel::math
     }
 
     template <typename T>
+    void rotateX(Quaternion<T>& quat,
+                 const T angle) noexcept
+    {
+        quat.v[0] = std::sin(angle / T(2));
+        quat.v[1] = T(0);
+        quat.v[2] = T(0);
+        quat.v[3] = std::cos(angle / T(2));
+    }
+
+    template <typename T>
+    void rotateY(Quaternion<T>& quat,
+                 const T angle) noexcept
+    {
+        quat.v[0] = T(0);
+        quat.v[1] = std::sin(angle / T(2));
+        quat.v[2] = T(0);
+        quat.v[3] = std::cos(angle / T(2));
+    }
+
+    template <typename T>
+    void rotateZ(Quaternion<T>& quat,
+                 const T angle) noexcept
+    {
+        quat.v[0] = T(0);
+        quat.v[1] = T(0);
+        quat.v[2] = std::sin(angle / T(2));
+        quat.v[3] = std::cos(angle / T(2));
+    }
+
+    template <typename T>
     void rotateVector(math::Vector<T, 3>& vec,
                       const Quaternion<T>& quat) noexcept
     {
