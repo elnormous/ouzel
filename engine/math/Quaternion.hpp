@@ -284,9 +284,9 @@ namespace ouzel::math
     }
 
     template <typename T>
-    void rotate(Quaternion<T>& quat,
-                const T angle,
-                const math::Vector<T, 3>& axis) noexcept
+    void setRotation(Quaternion<T>& quat,
+                     const T angle,
+                     const math::Vector<T, 3>& axis) noexcept
     {
         const auto normalizedAxis = normalized(axis);
 
@@ -300,8 +300,8 @@ namespace ouzel::math
     }
 
     template <typename T>
-    void rotateX(Quaternion<T>& quat,
-                 const T angle) noexcept
+    void setRotationX(Quaternion<T>& quat,
+                      const T angle) noexcept
     {
         quat.v[0] = std::sin(angle / T(2));
         quat.v[1] = T(0);
@@ -310,8 +310,8 @@ namespace ouzel::math
     }
 
     template <typename T>
-    void rotateY(Quaternion<T>& quat,
-                 const T angle) noexcept
+    void setRotationY(Quaternion<T>& quat,
+                      const T angle) noexcept
     {
         quat.v[0] = T(0);
         quat.v[1] = std::sin(angle / T(2));
@@ -320,8 +320,8 @@ namespace ouzel::math
     }
 
     template <typename T>
-    void rotateZ(Quaternion<T>& quat,
-                 const T angle) noexcept
+    void setRotationZ(Quaternion<T>& quat,
+                      const T angle) noexcept
     {
         quat.v[0] = T(0);
         quat.v[1] = T(0);
