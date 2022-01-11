@@ -57,7 +57,7 @@ namespace ouzel::input
 
     bool Mouse::handleButtonPress(Mouse::Button button, const math::Vector<float, 2>& pos)
     {
-        buttonStates[static_cast<std::size_t>(button)] = true;
+        buttonStates.set(static_cast<std::size_t>(button));
 
         auto event = std::make_unique<MouseEvent>();
         event->type = Event::Type::mousePress;
@@ -70,7 +70,7 @@ namespace ouzel::input
 
     bool Mouse::handleButtonRelease(Mouse::Button button, const math::Vector<float, 2>& pos)
     {
-        buttonStates[static_cast<std::size_t>(button)] = false;
+        buttonStates.reset(static_cast<std::size_t>(button));
 
         auto event = std::make_unique<MouseEvent>();
         event->type = Event::Type::mouseRelease;

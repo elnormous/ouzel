@@ -3,6 +3,7 @@
 #ifndef OUZEL_INPUT_KEYBOARD_HPP
 #define OUZEL_INPUT_KEYBOARD_HPP
 
+#include <bitset>
 #include <cstdint>
 #include "Controller.hpp"
 
@@ -187,13 +188,13 @@ namespace ouzel::input
 
         Keyboard(InputManager& initInputManager, DeviceId initDeviceId);
 
-        auto isKeyDown(Key key) const noexcept { return keyStates[static_cast<std::size_t>(key)]; }
+        auto isKeyDown(Key key) const noexcept { return keyStates.test(static_cast<std::size_t>(key)); }
 
     private:
         bool handleKeyPress(Keyboard::Key key);
         bool handleKeyRelease(Keyboard::Key key);
 
-        bool keyStates[static_cast<std::size_t>(Key::last) + 1U]{false};
+        std::bitset<static_cast<std::size_t>(Key::last) + 1U> keyStates;
     };
 }
 

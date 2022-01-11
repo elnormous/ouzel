@@ -3,6 +3,7 @@
 #ifndef OUZEL_INPUT_MOUSE_HPP
 #define OUZEL_INPUT_MOUSE_HPP
 
+#include <bitset>
 #include <cstdint>
 #include "Controller.hpp"
 #include "../math/Vector.hpp"
@@ -32,7 +33,7 @@ namespace ouzel::input
         void setPosition(const math::Vector<float, 2>& newPosition);
         auto isButtonDown(Button button) const
         {
-            return buttonStates[static_cast<std::size_t>(button)];
+            return buttonStates.test(static_cast<std::size_t>(button));
         }
         auto isCursorVisible() const noexcept { return cursorVisible; }
         void setCursorVisible(bool visible);
@@ -50,7 +51,7 @@ namespace ouzel::input
         bool handleCursorLockChange(bool locked);
 
         math::Vector<float, 2> position{};
-        bool buttonStates[static_cast<std::size_t>(Button::last) + 1U]{false};
+        std::bitset<static_cast<std::size_t>(Button::last) + 1U> buttonStates;
         bool cursorVisible = true;
         bool cursorLocked = false;
         const Cursor* cursor = nullptr;
