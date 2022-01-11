@@ -48,13 +48,13 @@ namespace ouzel::input
         event->type = Event::Type::gamepadButtonChange;
         event->gamepad = this;
         event->button = button;
-        event->previousPressed = buttonStates[static_cast<std::size_t>(button)].pressed;
+        event->previousPressed = buttonStates.test(static_cast<std::size_t>(button));
         event->pressed = pressed;
         event->value = value;
-        event->previousValue = buttonStates[static_cast<std::size_t>(button)].value;
+        event->previousValue = buttonValues[static_cast<std::size_t>(button)];
 
-        buttonStates[static_cast<std::size_t>(button)].pressed = pressed;
-        buttonStates[static_cast<std::size_t>(button)].value = value;
+        buttonStates.set(static_cast<std::size_t>(button), pressed);
+        buttonValues[static_cast<std::size_t>(button)] = value;
 
         return engine->getEventDispatcher().dispatchEvent(std::move(event));
     }

@@ -3,6 +3,8 @@
 #ifndef OUZEL_INPUT_GAMEPAD_HPP
 #define OUZEL_INPUT_GAMEPAD_HPP
 
+#include <array>
+#include <bitset>
 #include <cstdint>
 #include <string>
 #include "Controller.hpp"
@@ -65,12 +67,6 @@ namespace ouzel::input
             last = right
         };
 
-        struct ButtonState final
-        {
-            bool pressed = false;
-            float value = 0.0F;
-        };
-
         Gamepad(InputManager& initInputManager, DeviceId initDeviceId);
 
         Gamepad(const Gamepad&) = delete;
@@ -90,9 +86,9 @@ namespace ouzel::input
         auto getPlayerIndex() const noexcept { return playerIndex; }
         void setPlayerIndex(std::int32_t newPlayerIndex);
 
-        auto& getButtonState(Button button) const
+        auto getButtonState(Button button) const
         {
-            return buttonStates[static_cast<std::size_t>(button)];
+            return buttonStates.test(static_cast<std::size_t>(button));
         }
 
         auto getVibration(Motor motor) { return vibration[static_cast<std::size_t>(motor)]; }
@@ -101,12 +97,13 @@ namespace ouzel::input
     private:
         bool handleButtonValueChange(Gamepad::Button button, bool pressed, float value);
 
-        ButtonState buttonStates[static_cast<std::size_t>(Button::last) + 1U];
+        std::bitset<static_cast<std::size_t>(Button::last) + 1U> buttonStates;
+        std::array<float, static_cast<std::size_t>(Button::last) + 1U> buttonValues{};
         std::int32_t playerIndex = -1;
         bool absoluteDpadValues = false;
         bool rotationAllowed = false;
         bool attached = false;
-        float vibration[static_cast<std::size_t>(Motor::last) + 1U]{};
+        std::array<float, static_cast<std::size_t>(Motor::last) + 1U> vibration{};
     };
 }
 
