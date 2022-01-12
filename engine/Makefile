@@ -283,16 +283,6 @@ $(LIBRARY): $(OBJECTS)
 
 -include $(DEPENDENCIES)
 
-# The build config file
-Config.h:
-ifeq ($(PLATFORM),windows)
-	if not exist Config.h copy DefaultConfig.h Config.h
-else
-	if [ ! -f Config.h ]; then \
-		cp DefaultConfig.h Config.h; \
-	fi
-endif
-
 # Precompiled headers
 pch/cpp/Prefix.h: Prefix.pch
 ifeq ($(PLATFORM),windows)
@@ -334,13 +324,13 @@ pch/objcpp/Prefix.h.gch: pch/objcpp/Prefix.h
 	$(CXX) -c -x objective-c++-header $(CPPFLAGS) $(OBJCXXFLAGS) $< -o pch/objcpp/Prefix.h.gch
 
 # Source files
-%.o: %.cpp pch/cpp/Prefix.h.gch Config.h
+%.o: %.cpp pch/cpp/Prefix.h.gch
 	$(CXX) -c -x c++ $(CPPFLAGS) $(CXXFLAGS) -include pch/cpp/Prefix.h -MMD -MP $< -o $@
 
-%.o: %.m pch/objc/Prefix.h.gch Config.h
+%.o: %.m pch/objc/Prefix.h.gch
 	$(CC) -c -x objective-c $(CPPFLAGS) $(OBJCFLAGS) -include pch/objc/Prefix.h -MMD -MP $< -o $@
 
-%.o: %.mm pch/objcpp/Prefix.h.gch Config.h
+%.o: %.mm pch/objcpp/Prefix.h.gch
 	$(CXX) -c -x objective-c++ $(CPPFLAGS) $(OBJCXXFLAGS) -include pch/objcpp/Prefix.h -MMD -MP $< -o $@
 
 .PHONY: clean

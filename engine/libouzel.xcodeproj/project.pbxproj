@@ -2395,7 +2395,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 303B75341C2A3C5800FEDE92 /* Build configuration list for PBXNativeTarget "libouzel_ios" */;
 			buildPhases = (
-				304E76481F70AD820025C0DB /* ShellScript */,
 				303B752F1C2A3C5800FEDE92 /* Sources */,
 				303B75301C2A3C5800FEDE92 /* Frameworks */,
 				303B75311C2A3C5800FEDE92 /* Headers */,
@@ -2413,7 +2412,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 303B767D1C355A3B00FEDE92 /* Build configuration list for PBXNativeTarget "libouzel_tvos" */;
 			buildPhases = (
-				304E76491F70AD890025C0DB /* ShellScript */,
 				303B76331C355A3B00FEDE92 /* Sources */,
 				303B76561C355A3B00FEDE92 /* Frameworks */,
 				303B76571C355A3B00FEDE92 /* Headers */,
@@ -2431,7 +2429,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 304A8E261C237C30008B1151 /* Build configuration list for PBXNativeTarget "libouzel_macos" */;
 			buildPhases = (
-				304E76471F70AD760025C0DB /* ShellScript */,
 				304A8E211C237C30008B1151 /* Sources */,
 				304A8E221C237C30008B1151 /* Frameworks */,
 				304A8E231C237C30008B1151 /* Headers */,
@@ -2482,48 +2479,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		304E76471F70AD760025C0DB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! -f ../engine/Config.h ]; then\n    cp ../engine/DefaultConfig.h ../engine/Config.h\nfi";
-		};
-		304E76481F70AD820025C0DB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! -f ../engine/Config.h ]; then\n    cp ../engine/DefaultConfig.h ../engine/Config.h\nfi\n";
-		};
-		304E76491F70AD890025C0DB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ ! -f ../engine/Config.h ]; then\n    cp ../engine/DefaultConfig.h ../engine/Config.h\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		303B752F1C2A3C5800FEDE92 /* Sources */ = {

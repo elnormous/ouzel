@@ -4,7 +4,11 @@
 #define OUZEL_SETUP_H
 
 #include "Platform.h"
-#include "../Config.h"
+#if __has_include("../Config.h")
+#  include "../Config.h"
+#else
+#  include "../DefaultConfig.h"
+#endif
 
 #ifndef OUZEL_DEVELOPER_NAME
 #  error "OUZEL_DEVELOPER_NAME must be set"
