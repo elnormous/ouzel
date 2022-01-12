@@ -53,7 +53,7 @@ namespace samples
                         jumpVoice.play();
                         break;
                     case Keyboard::Key::s:
-                        engine->getGraphics().saveScreenshot("test.png");
+                        engine->getGraphics().saveScreenshot(engine->getFileSystem().getStorageDirectory() / "test.png");
                         break;
                     default:
                         break;
