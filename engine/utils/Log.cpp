@@ -31,45 +31,81 @@
 
 namespace ouzel
 {
-    void Logger::logString(const std::string& str, Log::Level level)
-    {
 #ifdef __ANDROID__
-        int priority = 0;
+    constexpr int getPriority(Log::Level level) noexcept
+    {
         switch (level)
         {
-            case Log::Level::error: priority = ANDROID_LOG_ERROR; break;
-            case Log::Level::warning: priority = ANDROID_LOG_WARN; break;
-            case Log::Level::info: priority = ANDROID_LOG_INFO; break;
-            case Log::Level::all: priority = ANDROID_LOG_DEBUG; break;
-            default: return;
+            case Log::Level::error: return ANDROID_LOG_ERROR;
+            case Log::Level::warning: return ANDROID_LOG_WARN;
+            case Log::Level::info: return ANDROID_LOG_INFO;
+            case Log::Level::all: return ANDROID_LOG_DEBUG;
+            default: return ANDROID_LOG_DEFAULT;
         }
-        __android_log_print(priority, "Ouzel", "%s", str.c_str());
+    }
 #elif TARGET_OS_IOS || TARGET_OS_TV
-        int priority = 0;
+    constexpr int getPriority(Log::Level level) noexcept
+    {
         switch (level)
         {
-            case Log::Level::error: priority = LOG_ERR; break;
-            case Log::Level::warning: priority = LOG_WARNING; break;
-            case Log::Level::info: priority = LOG_INFO; break;
-            case Log::Level::all: priority = LOG_DEBUG; break;
-            default: return;
+            case Log::Level::error: return LOG_ERR;
+            case Log::Level::warning: return LOG_WARNING;
+            case Log::Level::info: return LOG_INFO;
+            case Log::Level::all: return LOG_DEBUG;
+            default: return 0;
         }
-        syslog(priority, "%s", str.c_str());
+    }
 #elif TARGET_OS_MAC || defined(__linux__)
-        int fd = 0;
+    constexpr int getFd(Log::Level level) noexcept
+    {
         switch (level)
         {
             case Log::Level::error:
             case Log::Level::warning:
-                fd = STDERR_FILENO;
-                break;
+                return STDERR_FILENO;
             case Log::Level::info:
             case Log::Level::all:
-                fd = STDOUT_FILENO;
-                break;
-            default: return;
+                return STDOUT_FILENO;
+            default: return STDOUT_FILENO;
         }
+    }
+#elif defined(__EMSCRIPTEN__)
+    constexpr int getFlags(Log::Level level) noexcept
+    {
+        switch (level)
+        {
+            case Log::Level::error: return EM_LOG_CONSOLE | EM_LOG_ERROR;
+            case Log::Level::warning: return EM_LOG_CONSOLE | EM_LOG_WARN;
+            case Log::Level::info:
+            case Log::Level::all:
+                return EM_LOG_CONSOLE
+            default: return EM_LOG_CONSOLE
+        }
+    }
+#elif defined(_WIN32) && DEBUG
+    int getHandle(Log::Level level) noexcept
+    {
+        switch (level)
+        {
+            case Log::Level::error:
+            case Log::Level::warning:
+                return GetStdHandle(STD_ERROR_HANDLE);
+            case Log::Level::info:
+            case Log::Level::all:
+                return GetStdHandle(STD_OUTPUT_HANDLE);
+            default: return INVALID_HANDLE_VALUE;
+        }
+    }
+#endif
 
+    void Logger::logString(const std::string& str, Log::Level level)
+    {
+#ifdef __ANDROID__
+        __android_log_print(getPriority(level), "Ouzel", "%s", str.c_str());
+#elif TARGET_OS_IOS || TARGET_OS_TV
+        syslog(getPriority(level), "%s", str.c_str());
+#elif TARGET_OS_MAC || defined(__linux__)
+        const int fd = getFd(level);
         std::vector<char> output(str.begin(), str.end());
         output.push_back('\n');
 
@@ -85,6 +121,8 @@ namespace ouzel
 
             offset += static_cast<std::size_t>(written);
         }
+#elif defined(__EMSCRIPTEN__)
+        emscripten_log(getFlags(level), "%s", str.c_str());
 #elif defined(_WIN32)
         const auto bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
         if (bufferSize == 0)
@@ -99,41 +137,12 @@ namespace ouzel
 
         OutputDebugStringW(buffer.get());
 #  if DEBUG
-        HANDLE handle = INVALID_HANDLE_VALUE;
-        switch (level)
-        {
-            case Log::Level::error:
-            case Log::Level::warning:
-                handle = GetStdHandle(STD_ERROR_HANDLE);
-                break;
-            case Log::Level::info:
-            case Log::Level::all:
-                handle = GetStdHandle(STD_OUTPUT_HANDLE);
-                break;
-            default: return;
-        }
-
+        const HANDLE handle = getHandle(level);
         if (handle == INVALID_HANDLE_VALUE)
             return;
 
         WriteConsoleW(handle, buffer.get(), static_cast<DWORD>(wcslen(buffer.get())), nullptr, nullptr);
 #  endif
-#elif defined(__EMSCRIPTEN__)
-        int flags = EM_LOG_CONSOLE;
-        switch (level)
-        {
-            case Log::Level::error:
-                flags |= EM_LOG_ERROR;
-                break;
-            case Log::Level::warning:
-                flags |= EM_LOG_WARN;
-                break;
-            case Log::Level::info:
-            case Log::Level::all:
-                break;
-            default: return;
-        }
-        emscripten_log(flags, "%s", str.c_str());
 #endif
     }
 }
