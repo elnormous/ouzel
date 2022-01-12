@@ -137,11 +137,8 @@ namespace ouzel
 
         OutputDebugStringW(buffer.get());
 #  if DEBUG
-        const HANDLE handle = getHandle(level);
-        if (handle == INVALID_HANDLE_VALUE)
-            return;
-
-        WriteConsoleW(handle, buffer.get(), static_cast<DWORD>(wcslen(buffer.get())), nullptr, nullptr);
+        if (const HANDLE handle = getHandle(level); handle != INVALID_HANDLE_VALUE)
+            WriteConsoleW(handle, buffer.get(), static_cast<DWORD>(wcslen(buffer.get())), nullptr, nullptr);
 #  endif
 #endif
     }
