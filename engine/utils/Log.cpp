@@ -83,7 +83,7 @@ namespace ouzel
         }
     }
 #elif defined(_WIN32) && DEBUG
-    int getHandle(Log::Level level) noexcept
+    HANDLE getHandle(Log::Level level) noexcept
     {
         switch (level)
         {
