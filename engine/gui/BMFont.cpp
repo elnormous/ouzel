@@ -329,7 +329,7 @@ namespace ouzel::gui
                         else
                             skipString(data, iterator);
 
-                        kern[std::pair(first, second)] = amount;
+                        kern[std::pair{first, second}] = amount;
                     }
                 }
                 else
@@ -430,7 +430,7 @@ namespace ouzel::gui
 
     std::int16_t BMFont::getKerningPair(char32_t first, char32_t second) const
     {
-        if (const auto i = kern.find(std::pair(first, second)); i != kern.end())
+        if (const auto i = kern.find(std::pair{first, second}); i != kern.end())
             return i->second;
 
         return 0;

@@ -85,7 +85,7 @@ namespace ouzel::scene
             }
         }
 
-        return std::pair(nullptr, math::Vector<float, 3>{});
+        return std::pair{nullptr, math::Vector<float, 3>{}};
     }
 
     std::vector<std::pair<Actor*, math::Vector<float, 3>>> Layer::pickActors(const math::Vector<float, 2>& position, bool renderTargets) const

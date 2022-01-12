@@ -399,13 +399,13 @@ namespace ouzel::json
                 while (iterator != end && expectedBegin != expectedEnd)
                 {
                     if (static_cast<char>(*iterator) != *expectedBegin)
-                        return std::pair(false, iterator);
+                        return std::pair{false, iterator};
 
                     ++iterator;
                     ++expectedBegin;
                 }
 
-                return std::pair(true, iterator);
+                return std::pair{true, iterator};
             }
 
             static std::pair<Value, Iterator> parseValue(Iterator begin, Iterator end)
@@ -454,7 +454,7 @@ namespace ouzel::json
 
                     ++iterator;
 
-                    return std::pair(result, iterator);
+                    return std::pair{result, iterator};
                 }
                 else if (static_cast<char>(*iterator) == '[')
                 {
@@ -487,7 +487,7 @@ namespace ouzel::json
 
                     ++iterator;
 
-                    return std::pair(result, iterator);
+                    return std::pair{result, iterator};
                 }
                 else if (static_cast<char>(*iterator) == '-' ||
                          (static_cast<char>(*iterator) >= '0' &&
@@ -563,14 +563,14 @@ namespace ouzel::json
                     }
 
                     return floatingPoint ?
-                        std::pair(Value{std::stod(value)}, iterator) :
-                        std::pair(Value{static_cast<std::int64_t>(std::stoll(value))}, iterator);
+                        std::pair{Value{std::stod(value)}, iterator} :
+                        std::pair{Value{static_cast<std::int64_t>(std::stoll(value))}, iterator};
                 }
                 else if (static_cast<char>(*iterator) == '"')
                 {
                     const auto [stringValue, stringIterator] = parseString(iterator, end);
                     iterator = stringIterator;
-                    return std::pair(Value{stringValue}, iterator);
+                    return std::pair{Value{stringValue}, iterator};
                 }
                 else
                 {
@@ -583,21 +583,21 @@ namespace ouzel::json
                                                                std::end(trueString));
                     iterator = trueIterator;
                     if (isTrue)
-                        return std::pair(Value{true}, iterator);
+                        return std::pair{Value{true}, iterator};
 
                     const auto [isFalse, falseIterator] = isSame(iterator, end,
                                                                  std::begin(falseString),
                                                                  std::end(falseString));
                     iterator = falseIterator;
                     if (isFalse)
-                        return std::pair(Value{false}, iterator);
+                        return std::pair{Value{false}, iterator};
 
                     const auto [isNull, nullIterator] = isSame(iterator, end,
                                                                std::begin(nullString),
                                                                std::end(nullString));
                     iterator = nullIterator;
                     if (isNull)
-                        return std::pair(Value{nullptr}, iterator);
+                        return std::pair{Value{nullptr}, iterator};
 
                     throw ParseError{"Unexpected identifier"};
                 }
@@ -693,7 +693,7 @@ namespace ouzel::json
 
                 ++iterator;
 
-                return std::pair(result, iterator);
+                return std::pair{result, iterator};
             }
         };
 

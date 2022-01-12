@@ -37,8 +37,8 @@ namespace ouzel::graphics::opengl::ios
         shareGroup = [[EAGLSharegroup alloc] init];
 
         constexpr std::array<std::pair<EAGLRenderingAPI, std::uint16_t>, 2> openGlVersions = {
-            std::pair(kEAGLRenderingAPIOpenGLES3, 3),
-            std::pair(kEAGLRenderingAPIOpenGLES2, 2)
+            std::pair{kEAGLRenderingAPIOpenGLES3, 3},
+            std::pair{kEAGLRenderingAPIOpenGLES2, 2}
         };
 
         for (const auto& [eaglOpenGlVersion, openGlVersion] : openGlVersions)

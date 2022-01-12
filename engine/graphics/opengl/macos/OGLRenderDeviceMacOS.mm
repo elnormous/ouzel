@@ -53,9 +53,9 @@ namespace ouzel::graphics::opengl::macos
         embedded = false;
 
         constexpr std::array<std::pair<NSOpenGLPixelFormatAttribute, ApiVersion>, 3> openGlVersions = {
-            std::pair(NSOpenGLProfileVersion4_1Core, ApiVersion{4, 1}),
-            std::pair(NSOpenGLProfileVersion3_2Core, ApiVersion{3, 2}),
-            std::pair(NSOpenGLProfileVersionLegacy, ApiVersion{2, 0})
+            std::pair{NSOpenGLProfileVersion4_1Core, ApiVersion{4, 1}},
+            std::pair{NSOpenGLProfileVersion3_2Core, ApiVersion{3, 2}},
+            std::pair{NSOpenGLProfileVersionLegacy, ApiVersion{2, 0}}
         };
 
         for (const auto& [openGlProfileVersion, openGlVersion] : openGlVersions)

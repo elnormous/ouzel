@@ -136,7 +136,7 @@ namespace ouzel::scene
             if (result.first) return result;
         }
 
-        return std::pair(nullptr, math::Vector<float, 3>{});
+        return std::pair{nullptr, math::Vector<float, 3>{}};
     }
 
     std::vector<std::pair<Actor*, math::Vector<float, 3>>> Scene::pickActors(const math::Vector<float, 2>& position, bool renderTargets) const
@@ -297,7 +297,7 @@ namespace ouzel::scene
     {
         if (actor)
         {
-            pointerDownOnActors[pointerId] = std::pair(actor, localPosition);
+            pointerDownOnActors[pointerId] = std::pair{actor, localPosition};
 
             auto event = std::make_unique<UIEvent>();
             event->type = Event::Type::actorPress;

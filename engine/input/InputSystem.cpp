@@ -13,7 +13,7 @@ namespace ouzel::input
 
     std::future<bool> InputSystem::sendEvent(const Event& event)
     {
-        std::pair<std::promise<bool>, InputSystem::Event> p{std::promise<bool>(), event};
+        std::pair p{std::promise<bool>(), event};
         auto f = p.first.get_future();
 
         std::scoped_lock lock{eventQueueMutex};
@@ -32,7 +32,7 @@ namespace ouzel::input
 
     void InputSystem::addInputDevice(InputDevice& inputDevice)
     {
-        inputDevices.insert(std::pair(inputDevice.getId(), &inputDevice));
+        inputDevices.insert(std::pair{inputDevice.getId(), &inputDevice});
     }
 
     void InputSystem::removeInputDevice(const InputDevice& inputDevice)
