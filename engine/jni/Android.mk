@@ -2,10 +2,6 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-$(shell (if [ ! -f $(LOCAL_PATH)/../Config.h ]; then \
-    cp $(LOCAL_PATH)/../DefaultConfig.h $(LOCAL_PATH)/../Config.h; \
-fi))
-
 LOCAL_MODULE := ouzel
 LOCAL_ARM_MODE := arm
 LOCAL_CFLAGS := -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion
