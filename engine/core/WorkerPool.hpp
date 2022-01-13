@@ -13,6 +13,14 @@
 
 namespace ouzel::core
 {
+    class TaskGroup final
+    {
+        TaskGroup()
+        {
+
+        }
+    };
+
     class WorkerPool final
     {
     public:
@@ -31,7 +39,12 @@ namespace ouzel::core
             taskQueueCondition.notify_all();
         }
 
-        void addTask(std::function<void()> task)
+        void execute(TaskGroup taskGroup)
+        {
+            (void)taskGroup;
+        }
+
+        void execute(std::function<void()> task)
         {
             std::unique_lock lock{taskQueueMutex};
             taskQueue.push(std::move(task));
