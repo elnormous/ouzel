@@ -15,10 +15,17 @@ namespace ouzel::core
 {
     class TaskGroup final
     {
-        TaskGroup()
-        {
+        friend class WorkerPool;
+    public:
+        TaskGroup() = default;
 
+        void execute(std::function<void()> task)
+        {
+            taskQueue.push(std::move(task));
         }
+
+    private:
+        std::queue<std::function<void()>> taskQueue;
     };
 
     class WorkerPool final
@@ -39,9 +46,19 @@ namespace ouzel::core
             taskQueueCondition.notify_all();
         }
 
-        void execute(TaskGroup taskGroup)
+        void execute(TaskGroup&& taskGroup)
         {
-            (void)taskGroup;
+            std::unique_lock lock{taskQueueMutex};
+
+            while (!taskGroup.taskQueue.empty())
+            {
+                taskQueue.push(std::move(taskGroup.taskQueue.front()));
+                taskGroup.taskQueue.pop();
+            }
+
+            lock.unlock();
+
+            taskQueueCondition.notify_all();
         }
 
         void execute(std::function<void()> task)
