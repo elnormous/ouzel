@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_SETUP_H
-#define OUZEL_SETUP_H
+#ifndef OUZEL_CORE_SETUP_H
+#define OUZEL_CORE_SETUP_H
 
 #include "Platform.h"
 #if __has_include("../Config.h")
@@ -90,4 +90,4 @@
 #  define OUZEL_COMPILE_WASAPI 1
 #endif
 
-#endif // OUZEL_SETUP_H
+#endif // OUZEL_CORE_SETUP_H
