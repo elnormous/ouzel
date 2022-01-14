@@ -19,7 +19,7 @@ namespace ouzel::core
     public:
         TaskGroup() = default;
 
-        void execute(std::function<void()> task)
+        void add(std::function<void()> task)
         {
             taskQueue.push(std::move(task));
         }
@@ -46,7 +46,7 @@ namespace ouzel::core
             taskQueueCondition.notify_all();
         }
 
-        void execute(TaskGroup&& taskGroup)
+        void run(TaskGroup& taskGroup)
         {
             std::unique_lock lock{taskQueueMutex};
 
@@ -61,7 +61,7 @@ namespace ouzel::core
             taskQueueCondition.notify_all();
         }
 
-        void execute(std::function<void()> task)
+        void run(std::function<void()> task)
         {
             std::unique_lock lock{taskQueueMutex};
             taskQueue.push(std::move(task));
