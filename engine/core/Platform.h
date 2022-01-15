@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_PLATFORM_H
-#define OUZEL_PLATFORM_H
+#ifndef OUZEL_CORE_PLATFORM_H
+#define OUZEL_CORE_PLATFORM_H
 
 #if defined(_WIN32) // Windows
 #  define OUZEL_PLATFORM_WINDOWS 1
@@ -68,4 +68,4 @@
 #  error "Unsupported platform"
 #endif
 
-#endif // OUZEL_PLATFORM_H
+#endif // OUZEL_CORE_PLATFORM_H
