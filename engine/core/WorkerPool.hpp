@@ -50,6 +50,8 @@ namespace ouzel::core
         {
             std::unique_lock lock{taskQueueMutex};
 
+            taskGroupQueue.push(taskGroup);
+
             while (!taskGroup.taskQueue.empty())
             {
                 taskQueue.push(std::move(taskGroup.taskQueue.front()));
@@ -93,6 +95,7 @@ namespace ouzel::core
         std::vector<thread::Thread> workers;
         bool running = true;
         std::queue<std::function<void()>> taskQueue;
+        std::queue<TaskGroup> taskGroupQueue;
         std::mutex taskQueueMutex;
         std::condition_variable taskQueueCondition;
     };
