@@ -26,7 +26,6 @@ namespace ouzel::core
         }
 
         std::size_t getTaskCount() const noexcept { return taskQueue.size(); }
-        bool hasTasks() const noexcept { return !taskQueue.empty(); }
 
     private:
         std::queue<std::function<void()>> taskQueue;
