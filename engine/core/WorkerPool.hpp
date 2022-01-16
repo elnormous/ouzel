@@ -48,7 +48,7 @@ namespace ouzel::core
         }
 
     private:
-        void finishTask()
+        bool finishTask()
         {
             std::unique_lock lock{taskMutex};
 
@@ -56,7 +56,10 @@ namespace ouzel::core
             {
                 lock.unlock();
                 taskCondition.notify_all();
+                return true;
             }
+
+            return false;
         }
 
         std::size_t taskCount = 0;
@@ -115,7 +118,12 @@ namespace ouzel::core
 
                 task();
 
-                taskGroup.first->finishTask();
+                if (taskGroup.first->finishTask())
+                {
+                    lock.lock();
+                    taskGroupQueue.pop();
+                }
+
             }
 
             log(Log::Level::info) << "Worker finished";
