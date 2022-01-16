@@ -36,25 +36,25 @@ namespace ouzel::core
         friend class WorkerPool;
     public:
         Future(const TaskGroup& taskGroup) noexcept:
-            data{std::make_shared<Data>(taskGroup.getTaskCount())}
+            sharedState{std::make_shared<State>(taskGroup.getTaskCount())}
         {
         }
 
         void wait()
         {
-            data->wait();
+            sharedState->wait();
         }
 
     private:
         void finishTask()
         {
-            data->finishTask();
+            sharedState->finishTask();
         }
 
-        class Data final
+        class State final
         {
         public:
-            Data(std::size_t count): taskCount{count}
+            State(std::size_t count): taskCount{count}
             {
             }
 
@@ -81,7 +81,7 @@ namespace ouzel::core
             std::condition_variable taskCondition;
         };
 
-        std::shared_ptr<Data> data;
+        std::shared_ptr<State> sharedState;
     };
 
     class WorkerPool final
