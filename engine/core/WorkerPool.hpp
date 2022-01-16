@@ -22,10 +22,32 @@ namespace ouzel::core
         void add(std::function<void()> task)
         {
             taskQueue.push(std::move(task));
+            ++taskCount;
+        }
+
+        void wait()
+        {
+            std::unique_lock lock{taskMutex};
+
+            taskCondition.wait(lock, [this]() noexcept { return taskCount != 0; });
         }
 
     private:
+        void finishTask()
+        {
+            std::unique_lock lock{taskMutex};
+
+            if (--taskCount == 0)
+            {
+                lock.unlock();
+                taskCondition.notify_all();
+            }
+        }
+
         std::queue<std::function<void()>> taskQueue;
+        std::size_t taskCount = 0;
+        std::mutex taskMutex;
+        std::condition_variable taskCondition;
     };
 
     class WorkerPool final
@@ -95,7 +117,7 @@ namespace ouzel::core
         std::vector<thread::Thread> workers;
         bool running = true;
         std::queue<std::function<void()>> taskQueue;
-        std::queue<TaskGroup> taskGroupQueue;
+        std::queue<std::reference_wrapper<TaskGroup>> taskGroupQueue;
         std::mutex taskQueueMutex;
         std::condition_variable taskQueueCondition;
     };
