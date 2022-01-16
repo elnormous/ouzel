@@ -33,55 +33,62 @@ namespace ouzel::core
 
     class Future final
     {
-        friend class WorkerPool;
+        friend class Promise;
     public:
-        Future(const TaskGroup& taskGroup) noexcept:
-            sharedState{std::make_shared<State>(taskGroup.getTaskCount())}
-        {
-        }
-
         void wait()
         {
-            sharedState->wait();
+            std::unique_lock lock{sharedState->mutex};
+            sharedState->condition.wait(lock, [this]() noexcept { return sharedState->count == 0; });
         }
 
     private:
-        void finishTask()
-        {
-            sharedState->finishTask();
-        }
-
-        class State final
+        struct State final
         {
         public:
-            State(std::size_t count): taskCount{count}
+            State(std::size_t c): count{c}
             {
             }
 
-            void wait()
-            {
-                std::unique_lock lock{taskMutex};
-                taskCondition.wait(lock, [this]() noexcept { return taskCount == 0; });
-            }
-
-            void finishTask()
-            {
-                std::unique_lock lock{taskMutex};
-
-                if (--taskCount == 0)
-                {
-                    lock.unlock();
-                    taskCondition.notify_all();
-                }
-            }
-
-        private:
-            std::size_t taskCount = 0;
-            std::mutex taskMutex;
-            std::condition_variable taskCondition;
+            std::size_t count = 0;
+            std::mutex mutex;
+            std::condition_variable condition;
         };
 
+        Future(std::shared_ptr<State> state) noexcept:
+            sharedState{state}
+        {
+        }
+
         std::shared_ptr<State> sharedState;
+    };
+
+    class Promise final
+    {
+        friend class WorkerPool;
+    public:
+        Future getFuture() const
+        {
+            return Future{sharedState};
+        }
+
+    private:
+        Promise(const TaskGroup& taskGroup) noexcept:
+            sharedState{std::make_shared<Future::State>(taskGroup.getTaskCount())}
+        {
+        }
+
+        void finishTask()
+        {
+            std::unique_lock lock{sharedState->mutex};
+
+            if (sharedState->count == 0 || --sharedState->count == 0)
+            {
+                lock.unlock();
+                sharedState->condition.notify_all();
+            }
+        }
+
+        std::shared_ptr<Future::State> sharedState;
     };
 
     class WorkerPool final
@@ -104,13 +111,15 @@ namespace ouzel::core
 
         Future run(TaskGroup&& taskGroup)
         {
-            Future future{taskGroup};
+            Promise promise{taskGroup};
+            Future future = promise.getFuture();
 
             std::unique_lock lock{taskQueueMutex};
 
             while (!taskGroup.taskQueue.empty())
             {
-                taskQueue.push(std::pair(future, std::move(taskGroup.taskQueue.front())));
+                taskQueue.push(std::pair(std::move(promise),
+                                         std::move(taskGroup.taskQueue.front())));
                 taskGroup.taskQueue.pop();
             }
 
@@ -145,7 +154,7 @@ namespace ouzel::core
 
         std::vector<thread::Thread> workers;
         bool running = true;
-        std::queue<std::pair<Future, std::function<void()>>> taskQueue;
+        std::queue<std::pair<Promise, std::function<void()>>> taskQueue;
         std::mutex taskQueueMutex;
         std::condition_variable taskQueueCondition;
     };
