@@ -46,9 +46,9 @@ namespace ouzel::core
         }
 
     private:
-        bool finishTask()
+        void finishTask()
         {
-            return data->finishTask();
+            data->finishTask();
         }
 
         class Data final
@@ -64,7 +64,7 @@ namespace ouzel::core
                 taskCondition.wait(lock, [this]() noexcept { return taskCount == 0; });
             }
 
-            bool finishTask()
+            void finishTask()
             {
                 std::unique_lock lock{taskMutex};
 
@@ -72,10 +72,7 @@ namespace ouzel::core
                 {
                     lock.unlock();
                     taskCondition.notify_all();
-                    return true;
                 }
-
-                return false;
             }
 
         private:
@@ -111,7 +108,11 @@ namespace ouzel::core
 
             std::unique_lock lock{taskQueueMutex};
 
-            taskGroupQueue.push(std::pair(future, std::move(taskGroup.taskQueue)));
+            while (!taskGroup.taskQueue.empty())
+            {
+                taskQueue.push(std::pair(future, std::move(taskGroup.taskQueue.front())));
+                taskGroup.taskQueue.pop();
+            }
 
             lock.unlock();
 
@@ -128,20 +129,15 @@ namespace ouzel::core
             for (;;)
             {
                 std::unique_lock lock{taskQueueMutex};
-                taskQueueCondition.wait(lock, [this]() noexcept { return !running || !taskGroupQueue.empty(); });
+                taskQueueCondition.wait(lock, [this]() noexcept { return !running || !taskQueue.empty(); });
                 if (!running) break;
-                auto& taskGroup = taskGroupQueue.front();
-                const auto task = std::move(taskGroup.second.front());
-                taskGroup.second.pop();
+                auto task = std::move(taskQueue.front());
+                taskQueue.pop();
                 lock.unlock();
 
-                task();
+                task.second();
 
-                if (taskGroup.first.finishTask())
-                {
-                    lock.lock();
-                    taskGroupQueue.pop();
-                }
+                task.first.finishTask();
             }
 
             log(Log::Level::info) << "Worker finished";
@@ -149,7 +145,7 @@ namespace ouzel::core
 
         std::vector<thread::Thread> workers;
         bool running = true;
-        std::queue<std::pair<Future, std::queue<std::function<void()>>>> taskGroupQueue;
+        std::queue<std::pair<Future, std::function<void()>>> taskQueue;
         std::mutex taskQueueMutex;
         std::condition_variable taskQueueCondition;
     };
