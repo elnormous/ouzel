@@ -71,13 +71,7 @@ namespace ouzel::core
             return Future{sharedState};
         }
 
-    private:
-        Promise(const TaskGroup& taskGroup) noexcept:
-            sharedState{std::make_shared<Future::State>(taskGroup.getTaskCount())}
-        {
-        }
-
-        void finishTask()
+        void decrement()
         {
             std::unique_lock lock{sharedState->mutex};
 
@@ -86,6 +80,12 @@ namespace ouzel::core
                 lock.unlock();
                 sharedState->condition.notify_all();
             }
+        }
+
+    private:
+        Promise(const TaskGroup& taskGroup) noexcept:
+            sharedState{std::make_shared<Future::State>(taskGroup.getTaskCount())}
+        {
         }
 
         std::shared_ptr<Future::State> sharedState;
@@ -146,7 +146,7 @@ namespace ouzel::core
 
                 task.second();
 
-                task.first.finishTask();
+                task.first.decrement();
             }
 
             log(Log::Level::info) << "Worker finished";
