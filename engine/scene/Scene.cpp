@@ -132,8 +132,7 @@ namespace ouzel::scene
         for (auto i = layers.rbegin(); i != layers.rend(); ++i)
         {
             const auto layer = *i;
-            std::pair<Actor*, math::Vector<float, 3>> result = layer->pickActor(position, renderTargets);
-
+            const auto result = layer->pickActor(position, renderTargets);
             if (result.first) return result;
         }
 
@@ -147,8 +146,7 @@ namespace ouzel::scene
 
         for (auto i = layers.rbegin(); i != layers.rend(); ++i)
         {
-            auto actors = (*i)->pickActors(position, renderTargets);
-
+            const auto actors = (*i)->pickActors(position, renderTargets);
             result.insert(result.end(), actors.begin(), actors.end());
         }
 
@@ -162,8 +160,7 @@ namespace ouzel::scene
 
         for (auto i = layers.rbegin(); i != layers.rend(); ++i)
         {
-            std::vector<Actor*> actors = (*i)->pickActors(edges, renderTargets);
-
+            const auto actors = (*i)->pickActors(edges, renderTargets);
             result.insert(result.end(), actors.begin(), actors.end());
         }
 
@@ -197,22 +194,22 @@ namespace ouzel::scene
         {
             case Event::Type::mousePress:
             {
-                std::pair<Actor*, math::Vector<float, 3>> actor = pickActor(event.position);
+                const auto actor = pickActor(event.position);
                 pointerDownOnActor(0, actor.first, event.position, actor.second);
                 break;
             }
             case Event::Type::mouseRelease:
             {
-                std::pair<Actor*, math::Vector<float, 3>> actor = pickActor(event.position);
+                const auto actor = pickActor(event.position);
                 pointerUpOnActor(0, actor.first, event.position);
                 break;
             }
             case Event::Type::mouseMove:
             {
-                std::pair<Actor*, math::Vector<float, 3>> previousActor = pickActor(event.position - event.difference);
+                const auto previousActor = pickActor(event.position - event.difference);
                 pointerLeaveActor(0, previousActor.first, event.position);
 
-                std::pair<Actor*, math::Vector<float, 3>> actor = pickActor(event.position);
+                const auto actor = pickActor(event.position);
                 pointerEnterActor(0, actor.first, event.position);
 
                 if (const auto i = pointerDownOnActors.find(0); i != pointerDownOnActors.end())
@@ -234,22 +231,22 @@ namespace ouzel::scene
             {
                 case Event::Type::touchBegin:
                 {
-                    std::pair<Actor*, math::Vector<float, 3>> actor = pickActor(event.position);
+                    const auto actor = pickActor(event.position);
                     pointerDownOnActor(event.touchId, actor.first, event.position, actor.second);
                     break;
                 }
                 case Event::Type::touchEnd:
                 {
-                    std::pair<Actor*, math::Vector<float, 3>> actor = pickActor(event.position);
+                    const auto actor = pickActor(event.position);
                     pointerUpOnActor(event.touchId, actor.first, event.position);
                     break;
                 }
                 case Event::Type::touchMove:
                 {
-                    std::pair<Actor*, math::Vector<float, 3>> previousActor = pickActor(event.position - event.difference);
+                    const auto previousActor = pickActor(event.position - event.difference);
                     pointerLeaveActor(0, previousActor.first, event.position);
 
-                    std::pair<Actor*, math::Vector<float, 3>> actor = pickActor(event.position);
+                    const auto actor = pickActor(event.position);
                     pointerEnterActor(0, actor.first, event.position);
 
                     if (const auto i = pointerDownOnActors.find(event.touchId); i != pointerDownOnActors.end())
@@ -258,7 +255,7 @@ namespace ouzel::scene
                 }
                 case Event::Type::touchCancel:
                 {
-                    std::pair<Actor*, math::Vector<float, 3>> actor = pickActor(event.position);
+                    const auto actor = pickActor(event.position);
                     pointerUpOnActor(event.touchId, actor.first, event.position);
                     break;
                 }
