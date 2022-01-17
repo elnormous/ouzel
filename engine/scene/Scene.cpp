@@ -126,7 +126,8 @@ namespace ouzel::scene
             layer->calculateProjection();
     }
 
-    std::pair<Actor*, math::Vector<float, 3>> Scene::pickActor(const math::Vector<float, 2>& position, bool renderTargets) const
+    std::pair<Actor*, math::Vector<float, 3>> Scene::pickActor(const math::Vector<float, 2>& position,
+                                                               bool renderTargets) const
     {
         for (auto i = layers.rbegin(); i != layers.rend(); ++i)
         {
@@ -139,7 +140,8 @@ namespace ouzel::scene
         return std::pair{nullptr, math::Vector<float, 3>{}};
     }
 
-    std::vector<std::pair<Actor*, math::Vector<float, 3>>> Scene::pickActors(const math::Vector<float, 2>& position, bool renderTargets) const
+    std::vector<std::pair<Actor*, math::Vector<float, 3>>> Scene::pickActors(const math::Vector<float, 2>& position,
+                                                                             bool renderTargets) const
     {
         std::vector<std::pair<Actor*, math::Vector<float, 3>>> result;
 
@@ -153,7 +155,8 @@ namespace ouzel::scene
         return result;
     }
 
-    std::vector<Actor*> Scene::pickActors(const std::vector<math::Vector<float, 2>>& edges, bool renderTargets) const
+    std::vector<Actor*> Scene::pickActors(const std::vector<math::Vector<float, 2>>& edges,
+                                          bool renderTargets) const
     {
         std::vector<Actor*> result;
 
@@ -267,7 +270,8 @@ namespace ouzel::scene
         return false;
     }
 
-    void Scene::pointerEnterActor(std::uint64_t pointerId, Actor* actor, const math::Vector<float, 2>& position)
+    void Scene::pointerEnterActor(std::uint64_t pointerId, Actor* actor,
+                                  const math::Vector<float, 2>& position)
     {
         if (actor)
         {
@@ -280,7 +284,8 @@ namespace ouzel::scene
         }
     }
 
-    void Scene::pointerLeaveActor(std::uint64_t pointerId, Actor* actor, const math::Vector<float, 2>& position)
+    void Scene::pointerLeaveActor(std::uint64_t pointerId, Actor* actor,
+                                  const math::Vector<float, 2>& position)
     {
         if (actor)
         {
@@ -293,7 +298,9 @@ namespace ouzel::scene
         }
     }
 
-    void Scene::pointerDownOnActor(std::uint64_t pointerId, Actor* actor, const math::Vector<float, 2>& position, const math::Vector<float, 3>& localPosition)
+    void Scene::pointerDownOnActor(std::uint64_t pointerId, Actor* actor,
+                                   const math::Vector<float, 2>& position,
+                                   const math::Vector<float, 3>& localPosition)
     {
         if (actor)
         {
@@ -309,7 +316,8 @@ namespace ouzel::scene
         }
     }
 
-    void Scene::pointerUpOnActor(std::uint64_t pointerId, Actor* actor, const math::Vector<float, 2>& position)
+    void Scene::pointerUpOnActor(std::uint64_t pointerId, Actor* actor,
+                                 const math::Vector<float, 2>& position)
     {
         if (const auto i = pointerDownOnActors.find(pointerId); i != pointerDownOnActors.end())
         {
@@ -342,8 +350,10 @@ namespace ouzel::scene
         pointerDownOnActors.erase(pointerId);
     }
 
-    void Scene::pointerDragActor(std::uint64_t pointerId, Actor* actor, const math::Vector<float, 2>& position,
-                                 const math::Vector<float, 2>& difference, const math::Vector<float, 3>& localPosition)
+    void Scene::pointerDragActor(std::uint64_t pointerId, Actor* actor,
+                                 const math::Vector<float, 2>& position,
+                                 const math::Vector<float, 2>& difference,
+                                 const math::Vector<float, 3>& localPosition)
     {
         if (actor)
         {
