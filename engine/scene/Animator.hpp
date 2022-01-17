@@ -19,11 +19,11 @@ namespace ouzel::scene
 
         virtual void update(float delta);
 
-        virtual void start();
+        void start();
         virtual void play();
 
-        virtual void resume();
-        virtual void stop(bool resetAnimation = false);
+        void resume();
+        void stop(bool resetAnimation = false);
         virtual void reset();
 
         auto isRunning() const noexcept { return running; }
