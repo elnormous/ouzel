@@ -33,7 +33,7 @@ namespace ouzel::scene
         auto getCurrentTime() const noexcept { return currentTime; }
 
         auto getProgress() const noexcept { return progress; }
-        virtual void setProgress(float newProgress);
+        void setProgress(float newProgress);
 
         auto getTargetActor() const noexcept { return targetActor; }
 
