@@ -12,9 +12,9 @@ namespace ouzel::platform::dispatch
     {
     public:
         explicit Data(const void* buffer,
-                              size_t size,
-                              dispatch_queue_t queue,
-                              dispatch_block_t destructor):
+                      size_t size,
+                      dispatch_queue_t queue,
+                      dispatch_block_t destructor):
             data{dispatch_data_create(buffer, size, queue, destructor)}
         {
             if (!data)

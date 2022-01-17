@@ -80,12 +80,12 @@ namespace ouzel::platform::objc
 
         bool operator==(std::nullptr_t) const noexcept
         {
-            return p == nullptr;
+            return p == nil;
         }
 
         bool operator!=(std::nullptr_t) const noexcept
         {
-            return p != nullptr;
+            return p != nil;
         }
 
     private:
