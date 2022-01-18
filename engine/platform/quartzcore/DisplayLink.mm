@@ -34,8 +34,6 @@ namespace ouzel::platform::quartzcore
     {
         if (!displayLink)
             throw DisplayLinkError{"Failed to create display link"};
-
-        [displayLink setFrameInterval:1.0F];
     }
 
     DisplayLink::~DisplayLink()
@@ -45,6 +43,11 @@ namespace ouzel::platform::quartzcore
             [displayLink invalidate];
             [displayLink release];
         }
+    }
+
+    void DisplayLink::setFrameInterval(std::uint32_t frameInterval)
+    {
+        [displayLink setFrameInterval:frameInterval];
     }
 
     void DisplayLink::addToRunLoop(const foundation::RunLoop& runLoop) const noexcept

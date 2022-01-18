@@ -34,6 +34,7 @@ namespace ouzel::platform::quartzcore
         DisplayLink(DisplayLink&&) = delete;
         DisplayLink& operator=(DisplayLink&&) = delete;
 
+        void setFrameInterval(std::uint32_t frameInterval);
         void addToRunLoop(const foundation::RunLoop& runLoop) const noexcept;
         void removeFromRunLoop(const foundation::RunLoop& runLoop) const noexcept;
 
