@@ -2,7 +2,6 @@
 
 #include "Component.hpp"
 #include "Actor.hpp"
-#include "../math/Scalar.hpp"
 
 namespace ouzel::scene
 {
