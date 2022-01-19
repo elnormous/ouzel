@@ -5,12 +5,12 @@
 
 #include <string>
 #include "Component.hpp"
-#include "../math/Color.hpp"
-#include "../gui/BMFont.hpp"
 #include "../graphics/BlendState.hpp"
 #include "../graphics/Buffer.hpp"
 #include "../graphics/Shader.hpp"
 #include "../graphics/Texture.hpp"
+#include "../gui/BMFont.hpp"
+#include "../math/Color.hpp"
 
 namespace ouzel::scene
 {

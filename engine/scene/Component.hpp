@@ -5,11 +5,11 @@
 
 #include <memory>
 #include <vector>
+#include "../graphics/Texture.hpp"
 #include "../math/Box.hpp"
 #include "../math/Matrix.hpp"
 #include "../math/Color.hpp"
 #include "../math/Rect.hpp"
-#include "../graphics/Texture.hpp"
 
 namespace ouzel::scene
 {

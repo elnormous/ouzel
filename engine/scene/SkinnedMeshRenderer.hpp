@@ -5,7 +5,7 @@
 
 #include <memory>
 #include <vector>
-#include "../scene/Component.hpp"
+#include "Component.hpp"
 #include "../graphics/Material.hpp"
 
 namespace ouzel::scene

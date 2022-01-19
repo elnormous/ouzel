@@ -3,7 +3,7 @@
 #ifndef OUZEL_SCENE_LIGHT_HPP
 #define OUZEL_SCENE_LIGHT_HPP
 
-#include "../scene/Component.hpp"
+#include "Component.hpp"
 #include "../math/Color.hpp"
 #include "../math/Quaternion.hpp"
 

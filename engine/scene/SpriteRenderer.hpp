@@ -8,10 +8,6 @@
 #include <memory>
 #include <vector>
 #include "Component.hpp"
-#include "../math/Box.hpp"
-#include "../math/Rect.hpp"
-#include "../math/Size.hpp"
-#include "../math/Vector.hpp"
 #include "../events/EventHandler.hpp"
 #include "../graphics/BlendState.hpp"
 #include "../graphics/Buffer.hpp"
@@ -19,6 +15,10 @@
 #include "../graphics/Shader.hpp"
 #include "../graphics/Texture.hpp"
 #include "../graphics/Vertex.hpp"
+#include "../math/Box.hpp"
+#include "../math/Rect.hpp"
+#include "../math/Size.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel::scene
 {

@@ -5,14 +5,14 @@
 
 #include <cstdint>
 #include <vector>
-#include "../scene/Actor.hpp"
+#include "Actor.hpp"
+#include "Camera.hpp"
+#include "Light.hpp"
 #include "../math/Vector.hpp"
 
 namespace ouzel::scene
 {
     class Scene;
-    class Camera;
-    class Light;
 
     class Layer: public ActorContainer
     {

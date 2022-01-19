@@ -6,8 +6,8 @@
 #include <vector>
 #include <unordered_map>
 #include <cstdint>
-#include "../math/Vector.hpp"
 #include "../events/EventHandler.hpp"
+#include "../math/Vector.hpp"
 
 namespace ouzel::scene
 {
