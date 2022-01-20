@@ -343,8 +343,6 @@ namespace ouzel::graphics::opengl::windows
 
     void RenderDevice::renderMain()
     {
-        thread::setCurrentThreadName("Render");
-
         if (!wglMakeCurrent(deviceContext, renderContext))
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to set OpenGL rendering context"};
 

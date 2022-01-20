@@ -285,8 +285,6 @@ namespace ouzel::audio::wasapi
 
     void AudioDevice::run()
     {
-        thread::setCurrentThreadName("Audio");
-
         while (running)
         {
             try

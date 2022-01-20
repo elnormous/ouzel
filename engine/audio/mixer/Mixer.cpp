@@ -226,8 +226,6 @@ namespace ouzel::audio::mixer
 
     void Mixer::mixerMain()
     {
-        thread::setCurrentThreadName("Mixer");
-
         for (;;)
         {
             break; // TODO: remove

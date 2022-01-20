@@ -50,8 +50,6 @@ namespace ouzel::graphics::metal::tvos
 
     void RenderDevice::renderMain()
     {
-        thread::setCurrentThreadName("Render");
-
         if (verticalSync)
         {
             runLoop = platform::foundation::currentRunLoop();

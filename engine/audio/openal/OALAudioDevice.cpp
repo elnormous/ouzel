@@ -372,8 +372,6 @@ namespace ouzel::audio::openal
 
     void AudioDevice::run()
     {
-        thread::setCurrentThreadName("Audio");
-
         if (!alcMakeContextCurrent(context))
             throw std::runtime_error{"Failed to make ALC context current"};
 

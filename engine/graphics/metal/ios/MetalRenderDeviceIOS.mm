@@ -54,8 +54,6 @@ namespace ouzel::graphics::metal::ios
 
     void RenderDevice::renderMain()
     {
-        thread::setCurrentThreadName("Render");
-
         if (verticalSync)
         {
             runLoop = platform::foundation::currentRunLoop();

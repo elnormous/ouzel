@@ -179,8 +179,6 @@ namespace ouzel::core
     {
         engine = this;
 
-        thread::setCurrentThreadName("Main");
-
         // default assets
         switch (settings.graphicsDriver)
         {
@@ -696,8 +694,6 @@ namespace ouzel::core
 
     void Engine::engineMain()
     {
-        thread::setCurrentThreadName("Application");
-
         try
         {
             std::unique_ptr<Application> application = ouzel::main(args);

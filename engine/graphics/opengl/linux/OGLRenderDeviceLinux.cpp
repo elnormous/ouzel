@@ -231,8 +231,6 @@ namespace ouzel::graphics::opengl::linux
 
     void RenderDevice::renderMain()
     {
-        thread::setCurrentThreadName("Render");
-
         if (!eglMakeCurrent(display, surface, surface, context))
             throw std::system_error{eglGetError(), eglErrorCategory, "Failed to set current EGL context"};
 

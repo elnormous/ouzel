@@ -1078,8 +1078,6 @@ namespace ouzel::graphics::d3d11
 
     void RenderDevice::renderMain()
     {
-        thread::setCurrentThreadName("Render");
-
         while (running)
         {
             try

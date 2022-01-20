@@ -302,8 +302,6 @@ namespace ouzel::graphics::opengl::ios
 
     void RenderDevice::renderMain()
     {
-        thread::setCurrentThreadName("Render");
-
         if (verticalSync)
         {
             runLoop = platform::foundation::currentRunLoop();

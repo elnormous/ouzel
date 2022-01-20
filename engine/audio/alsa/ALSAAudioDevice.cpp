@@ -123,8 +123,6 @@ namespace ouzel::audio::alsa
 
     void AudioDevice::run()
     {
-        thread::setCurrentThreadName("Audio");
-
         while (running)
         {
             try

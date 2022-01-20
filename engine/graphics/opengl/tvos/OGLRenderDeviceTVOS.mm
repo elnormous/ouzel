@@ -302,8 +302,6 @@ namespace ouzel::graphics::opengl::tvos
 
     void RenderDevice::renderMain()
     {
-        thread::setCurrentThreadName("Render");
-
         if (verticalSync)
         {
             runLoop = platform::foundation::currentRunLoop();
