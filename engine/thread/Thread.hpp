@@ -44,6 +44,7 @@ namespace ouzel::thread
         Thread& operator=(const std::thread&) = delete;
         Thread& operator=(std::thread&& other) noexcept
         {
+            if (t.joinable()) t.join();
             t = std::move(other);
             return *this;
         }
