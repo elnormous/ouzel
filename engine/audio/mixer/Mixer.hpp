@@ -80,7 +80,7 @@ namespace ouzel::audio::mixer
         {
             if (const auto i = deletedObjectIds.begin(); i != deletedObjectIds.end())
             {
-                std::size_t objectId = *i;
+                const auto objectId = *i;
                 deletedObjectIds.erase(i);
                 return objectId;
             }
