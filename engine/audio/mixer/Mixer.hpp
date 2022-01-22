@@ -55,7 +55,7 @@ namespace ouzel::audio::mixer
             };
 
             Event() noexcept = default;
-            explicit Event(Type initType) noexcept: type(initType) {}
+            explicit Event(Type initType) noexcept: type{initType} {}
 
             Type type;
             std::size_t objectId;
@@ -130,14 +130,14 @@ namespace ouzel::audio::mixer
         {
         public:
             Buffer(std::size_t size, std::uint32_t initChannels):
-                maxFrames(size),
-                channels(initChannels),
+                maxFrames{size},
+                channels{initChannels},
                 buffer(size * channels)
             {
             }
 
-            bool canRead() const { return frames > 0; }
-            bool canWrite() const { return frames < maxFrames; }
+            bool canRead() const noexcept { return frames > 0; }
+            bool canWrite() const noexcept { return frames < maxFrames; }
 
         private:
             std::size_t frames = 0;
