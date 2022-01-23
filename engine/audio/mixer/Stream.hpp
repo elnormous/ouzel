@@ -42,7 +42,7 @@ namespace ouzel::audio::mixer
         }
 
         auto isPlaying() const noexcept { return playing; }
-        void play() { playing = true; }
+        void play() noexcept { playing = true; }
 
         void stop(bool shouldReset)
         {
