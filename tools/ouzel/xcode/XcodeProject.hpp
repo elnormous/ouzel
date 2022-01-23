@@ -588,7 +588,7 @@ namespace ouzel::xcode
         template <class T>
         T* alloc()
         {
-            std::unique_ptr<T> object = std::make_unique<T>();
+            auto object = std::make_unique<T>();
             T* result = object.get();
             objects.push_back(std::move(object));
             return result;

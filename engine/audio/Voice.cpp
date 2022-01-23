@@ -119,7 +119,7 @@ namespace ouzel::audio
             }
         }
 
-        std::unique_ptr<mixer::Source> source = std::make_unique<VoiceSource>();
+        auto source = std::make_unique<VoiceSource>();
 
         audio.addCommand(std::make_unique<mixer::InitObjectCommand>(audio.getMixer().getObjectId(),
                                                                     std::move(source)));

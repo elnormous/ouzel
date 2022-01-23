@@ -49,7 +49,7 @@ namespace ouzel::audio
     };
 
     PcmStream::PcmStream(PcmData& pcmData):
-        Stream(pcmData)
+        Stream{pcmData}
     {
     }
 
