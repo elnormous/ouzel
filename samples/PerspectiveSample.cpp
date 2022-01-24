@@ -19,6 +19,7 @@ namespace samples
         jumpSubmix{engine->getAudio()},
         jumpVoice{engine->getAudio(), engine->getCache().getSound("jump.wav")},
         jumpPanner{engine->getAudio()},
+        rotate{10.0F, Vector<float, 3>{0.0F, tau<float>, 0.0F}},
         backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor},
         cursor{engine->getInputManager()}
     {
@@ -195,9 +196,8 @@ namespace samples
         jumpPanner.setRolloffFactor(0.01F);
         character.addComponent(jumpPanner);
 
-        rotate = std::make_unique<scene::Rotate>(10.0F, Vector<float, 3>{0.0F, tau<float>, 0.0F});
-        character.addComponent(*rotate);
-        rotate->start();
+        character.addComponent(rotate);
+        rotate.start();
 
         guiCamera.setScaleMode(scene::Camera::ScaleMode::showAll);
         guiCamera.setTargetContentSize(math::Size<float, 2>{800.0F, 600.0F});

@@ -80,7 +80,7 @@ namespace samples
 
         ouzel::input::Cursor cursor;
 
-        std::unique_ptr<Mover> mover;
+        Mover mover;
     };
 }
 

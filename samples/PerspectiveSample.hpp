@@ -47,7 +47,7 @@ namespace samples
         ouzel::scene::SpriteRenderer arrowSprite;
         ouzel::scene::Actor arrow;
 
-        std::unique_ptr<ouzel::scene::Animator> rotate;
+        ouzel::scene::Rotate rotate;
 
         ouzel::EventHandler handler;
 

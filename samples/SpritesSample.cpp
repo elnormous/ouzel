@@ -14,6 +14,7 @@ namespace samples
     SpritesSample::SpritesSample():
         hideButton{"button.png", "button_selected.png", "button_down.png", "", "Show/hide", "Arial", 1.0F, blackColor, blackColor, blackColor},
         wireframeButton{"button.png", "button_selected.png", "button_down.png", "", "Wireframe", "Arial", 1.0F, blackColor, blackColor, blackColor},
+        move{4.0F, Vector<float, 3>{300.0F, 0.0F, 0.0F}},
         backButton{"button.png", "button_selected.png", "button_down.png", "", "Back", "Arial", 1.0F, blackColor, blackColor, blackColor}
     {
         handler.gamepadHandler = [](const GamepadEvent& event) {
@@ -90,9 +91,8 @@ namespace samples
         layer.addChild(character);
         character.setPosition(Vector<float, 2>{-300.0F, 0.0F});
 
-        move = std::make_unique<scene::Move>(4.0F, Vector<float, 3>{300.0F, 0.0F, 0.0F});
-        character.addComponent(*move);
-        move->start();
+        character.addComponent(move);
+        move.start();
 
         // fire
         fireSprite.init("fire.json");

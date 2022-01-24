@@ -28,7 +28,7 @@ namespace samples
         ouzel::scene::SpriteRenderer triangleSprite;
         ouzel::scene::Actor triangleActor;
 
-        std::unique_ptr<ouzel::scene::Animator> move;
+        ouzel::scene::Move move;
 
         ouzel::EventHandler handler;
 

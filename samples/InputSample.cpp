@@ -170,8 +170,7 @@ namespace samples
         camera.setTargetContentSize(math::Size<float, 2>{800.0F, 600.0F});
         cameraActor.addComponent(camera);
 
-        mover = std::make_unique<Mover>();
-        cameraActor.addComponent(*mover);
+        cameraActor.addComponent(mover);
 
         layer.addChild(cameraActor);
         addLayer(layer);
