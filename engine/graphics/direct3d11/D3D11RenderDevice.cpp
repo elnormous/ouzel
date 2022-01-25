@@ -220,7 +220,7 @@ namespace ouzel::graphics::d3d11
         const std::array<D3D11_CULL_MODE, 3> cullModes = {D3D11_CULL_NONE, D3D11_CULL_FRONT, D3D11_CULL_BACK};
 
         for (std::size_t fillMode = 0; fillMode < fillModes.size(); ++fillMode)
-            for (std::size_t cullMode = 0; cullMode < fillModes.size(); ++cullMode)
+            for (std::size_t cullMode = 0; cullMode < cullModes.size(); ++cullMode)
                 for (std::uint32_t scissorEnable = 0; scissorEnable < 2; ++scissorEnable)
                 {
                     rasterStateDesc.FillMode = fillModes[fillMode];
