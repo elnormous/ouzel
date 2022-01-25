@@ -457,9 +457,9 @@ namespace ouzel::graphics::d3d11
                             context->RSSetScissorRects(1, &rect);
                         }
 
-                        scissorEnableIndex = (setScissorTestCommand->enabled) ? 1 : 0;
+                        scissorEnableIndex = (setScissorTestCommand->enabled) ? 1U : 0U;
 
-                        const std::uint32_t rasterizerStateIndex = fillModeIndex * 2 * 3 + cullModeIndex * 2 + scissorEnableIndex;
+                        const std::uint32_t rasterizerStateIndex = fillModeIndex * 2U * 3U + cullModeIndex * 2U + scissorEnableIndex;
                         context->RSSetState(rasterizerStates[rasterizerStateIndex].get());
 
                         break;
