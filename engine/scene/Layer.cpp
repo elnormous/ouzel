@@ -129,7 +129,7 @@ namespace ouzel::scene
         return result;
     }
 
-    void Layer::setOrder(std::int32_t newOrder)
+    void Layer::setOrder(Order newOrder) noexcept
     {
         order = newOrder;
     }
