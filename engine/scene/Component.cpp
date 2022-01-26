@@ -17,7 +17,7 @@ namespace ouzel::scene
     {
     }
 
-    bool Component::pointOn(const math::Vector<float, 2>& position) const
+    bool Component::pointOn(const math::Vector<float, 2>& position) const noexcept
     {
         return containsPoint(boundingBox, math::Vector<float, 3>{position});
     }
@@ -72,7 +72,7 @@ namespace ouzel::scene
         }
     }
 
-    bool Component::shapeOverlaps(const std::vector<math::Vector<float, 2>>& edges) const
+    bool Component::shapeOverlaps(const std::vector<math::Vector<float, 2>>& edges) const noexcept
     {
         const auto boundingBoxEdges = {
             math::Vector<float, 2>{boundingBox.min},

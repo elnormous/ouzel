@@ -40,8 +40,8 @@ namespace ouzel::scene
             boundingBox = newBoundingBox;
         }
 
-        virtual bool pointOn(const math::Vector<float, 2>& position) const;
-        virtual bool shapeOverlaps(const std::vector<math::Vector<float, 2>>& edges) const;
+        bool pointOn(const math::Vector<float, 2>& position) const noexcept;
+        bool shapeOverlaps(const std::vector<math::Vector<float, 2>>& edges) const noexcept;
 
         [[nodiscard]] auto isHidden() const noexcept { return hidden; }
         void setHidden(bool newHidden) { hidden = newHidden; }
