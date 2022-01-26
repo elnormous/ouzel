@@ -214,14 +214,14 @@ namespace ouzel::graphics::d3d11
         rasterStateDesc.MultisampleEnable = (sampleCount > 1) ? TRUE : FALSE;
         rasterStateDesc.AntialiasedLineEnable = TRUE;
 
-        std::uint32_t rasterStateIndex = 0;
+        std::size_t rasterStateIndex = 0;
 
         const std::array<D3D11_FILL_MODE, 2> fillModes = {D3D11_FILL_SOLID, D3D11_FILL_WIREFRAME};
         const std::array<D3D11_CULL_MODE, 3> cullModes = {D3D11_CULL_NONE, D3D11_CULL_FRONT, D3D11_CULL_BACK};
 
         for (std::size_t fillMode = 0; fillMode < fillModes.size(); ++fillMode)
             for (std::size_t cullMode = 0; cullMode < cullModes.size(); ++cullMode)
-                for (std::uint32_t scissorEnable = 0; scissorEnable < 2; ++scissorEnable)
+                for (std::size_t scissorEnable = 0; scissorEnable < 2U; ++scissorEnable)
                 {
                     rasterStateDesc.FillMode = fillModes[fillMode];
                     rasterStateDesc.CullMode = cullModes[cullMode];
@@ -312,9 +312,9 @@ namespace ouzel::graphics::d3d11
 
         std::vector<float> shaderData;
 
-        std::uint32_t fillModeIndex = 0U;
-        std::uint32_t scissorEnableIndex = 0U;
-        std::uint32_t cullModeIndex = 0U;
+        std::size_t fillModeIndex = 0U;
+        std::size_t scissorEnableIndex = 0U;
+        std::size_t cullModeIndex = 0U;
         RenderTarget* currentRenderTarget = nullptr;
         const Shader* currentShader = nullptr;
 
@@ -459,7 +459,7 @@ namespace ouzel::graphics::d3d11
 
                         scissorEnableIndex = (setScissorTestCommand->enabled) ? 1U : 0U;
 
-                        const std::uint32_t rasterizerStateIndex = fillModeIndex * 2U * 3U + cullModeIndex * 2U + scissorEnableIndex;
+                        const std::size_t rasterizerStateIndex = fillModeIndex * 2U * 3U + cullModeIndex * 2U + scissorEnableIndex;
                         context->RSSetState(rasterizerStates[rasterizerStateIndex].get());
 
                         break;
@@ -568,7 +568,7 @@ namespace ouzel::graphics::d3d11
                             default: throw std::runtime_error{"Invalid fill mode"};
                         }
 
-                        const std::uint32_t rasterizerStateIndex = fillModeIndex * 2U * 3U + cullModeIndex * 2U + scissorEnableIndex;
+                        const std::size_t rasterizerStateIndex = fillModeIndex * 2U * 3U + cullModeIndex * 2U + scissorEnableIndex;
                         context->RSSetState(rasterizerStates[rasterizerStateIndex].get());
                         break;
                     }
