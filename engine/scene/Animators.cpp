@@ -28,7 +28,7 @@ namespace ouzel::scene
     }
 
     Fade::Fade(float initLength, float initOpacity, bool initRelative):
-        Animator(initLength), opacity(initOpacity), relative(initRelative)
+        Animator{initLength}, opacity{initOpacity}, relative{initRelative}
     {
     }
 
@@ -54,7 +54,7 @@ namespace ouzel::scene
     }
 
     Move::Move(float initLength, const math::Vector<float, 3>& initPosition, bool initRelative):
-        Animator(initLength), position(initPosition), relative(initRelative)
+        Animator{initLength}, position{initPosition}, relative{initRelative}
     {
     }
 
@@ -123,7 +123,7 @@ namespace ouzel::scene
     }
 
     Repeat::Repeat(Animator& animator, std::uint32_t initCount):
-        Animator(animator.getLength() * static_cast<float>(initCount)), count(initCount)
+        Animator{animator.getLength() * static_cast<float>(initCount)}, count{initCount}
     {
         addAnimator(animator);
     }
@@ -172,7 +172,7 @@ namespace ouzel::scene
     }
 
     Rotate::Rotate(float initLength, const math::Vector<float, 3>& initRotation, bool initRelative):
-        Animator(initLength), rotation(initRotation), relative(initRelative)
+        Animator{initLength}, rotation{initRotation}, relative{initRelative}
     {
     }
 
@@ -199,7 +199,7 @@ namespace ouzel::scene
     }
 
     Scale::Scale(float initLength, const math::Vector<float, 3>& initScale, bool initRelative):
-        Animator(initLength), scale(initScale), relative(initRelative)
+        Animator{initLength}, scale{initScale}, relative{initRelative}
     {
     }
 
@@ -298,7 +298,7 @@ namespace ouzel::scene
     }
 
     Shake::Shake(float initLength, const math::Vector<float, 3>& initDistance, float initTimeScale):
-        Animator(initLength), distance(initDistance), timeScale(initTimeScale)
+        Animator{initLength}, distance{initDistance}, timeScale{initTimeScale}
     {
         seedX = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(core::randomEngine);
         seedY = std::uniform_int_distribution<std::uint32_t>{0, std::numeric_limits<std::uint32_t>::max()}(core::randomEngine);
