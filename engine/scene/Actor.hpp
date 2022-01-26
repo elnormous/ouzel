@@ -10,7 +10,6 @@
 #include "../math/Matrix.hpp"
 #include "../math/Quaternion.hpp"
 #include "../math/Vector.hpp"
-#include "../events/EventHandler.hpp"
 
 namespace ouzel::scene
 {
@@ -197,8 +196,6 @@ namespace ouzel::scene
 
         std::vector<Component*> components;
         std::vector<std::unique_ptr<Component>> ownedComponents;
-
-        EventHandler animationUpdateHandler;
     };
 }
 
