@@ -76,8 +76,6 @@ namespace ouzel::graphics::d3d11
         if ((colorMask & ColorMask::alpha) == ColorMask::alpha) targetBlendDesc.RenderTargetWriteMask |= D3D11_COLOR_WRITE_ENABLE_ALPHA;
         blendStateDesc.RenderTarget[0] = targetBlendDesc;
 
-        if (blendState) blendState->Release();
-
         ID3D11BlendState* newBlendState;
         if (const auto hr = renderDevice.getDevice()->CreateBlendState(&blendStateDesc, &newBlendState); FAILED(hr))
             throw std::system_error{hr, getErrorCategory(), "Failed to create Direct3D 11 blend state"};
