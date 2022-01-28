@@ -149,7 +149,7 @@ namespace ouzel::scene
         void createParticleMesh();
         void updateParticleMesh();
 
-        void emitParticles(const std::uint32_t count);
+        void emitParticles(const std::size_t count);
 
         ParticleSystemData particleSystemData;
 

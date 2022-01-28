@@ -110,7 +110,7 @@ namespace ouzel::scene
                         emitCounter = 0.0F;
                 }
 
-                const auto emitCount = static_cast<std::uint32_t>(std::min(static_cast<float>(particleSystemData.maxParticles - particleCount), emitCounter / rate));
+                const auto emitCount = static_cast<std::size_t>(std::min(static_cast<float>(particleSystemData.maxParticles - particleCount), emitCounter / rate));
                 emitParticles(emitCount);
                 emitCounter -= rate * emitCount;
 
@@ -220,7 +220,7 @@ namespace ouzel::scene
                 {
                     const auto& inverseTransform = actor->getInverseTransform();
 
-                    for (std::uint32_t i = 0; i < particleCount; ++i)
+                    for (std::size_t i = 0; i < particleCount; ++i)
                     {
                         auto position = math::Vector<float, 3>{particles[i].position};
                         transformPoint(inverseTransform, position);
@@ -229,7 +229,7 @@ namespace ouzel::scene
                 }
             }
             else if (particleSystemData.positionType == ParticleSystemData::PositionType::grouped)
-                for (std::uint32_t i = 0; i < particleCount; ++i)
+                for (std::size_t i = 0; i < particleCount; ++i)
                     insertPoint(boundingBox, math::Vector<float, 3>{particles[i].position});
         }
     }
@@ -377,7 +377,7 @@ namespace ouzel::scene
         }
     }
 
-    void ParticleSystem::emitParticles(const std::uint32_t count)
+    void ParticleSystem::emitParticles(const std::size_t count)
     {
         const auto remainingCount = (particleCount + count > particleSystemData.maxParticles) ?
             particleSystemData.maxParticles - particleCount : count;
