@@ -774,7 +774,7 @@ namespace ouzel::graphics::metal
                         if (!currentRenderCommandEncoder)
                             throw Error{"Metal render command encoder not initialized"};
 
-                        for (std::uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
+                        for (std::size_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                         {
                             if (auto texture = getResource<Texture>(setTexturesCommand->textures[layer]))
                             {

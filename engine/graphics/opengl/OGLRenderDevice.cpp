@@ -1216,7 +1216,7 @@ namespace ouzel::graphics::opengl
                     {
                         const auto setTexturesCommand = static_cast<const SetTexturesCommand*>(command.get());
 
-                        for (std::uint32_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
+                        for (std::size_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                             if (auto texture = getResource<Texture>(setTexturesCommand->textures[layer]))
                                 bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
                             else
