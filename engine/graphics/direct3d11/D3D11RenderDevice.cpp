@@ -806,7 +806,7 @@ namespace ouzel::graphics::d3d11
         }
     }
 
-    IDXGIOutput* RenderDevice::getOutput() const
+    Pointer<IDXGIOutput> RenderDevice::getOutput() const
     {
         const auto& windowWin = window.getNativeWindow();
         const auto monitor = windowWin.getMonitor();
@@ -815,17 +815,15 @@ namespace ouzel::graphics::d3d11
             throw std::runtime_error{"Window is not on any monitor"};
 
         HRESULT hr;
-        IDXGIOutput* output;
-        for (UINT i = 0U; (hr = adapter->EnumOutputs(i, &output)) != DXGI_ERROR_NOT_FOUND; ++i)
+        IDXGIOutput* outputPointer;
+        for (UINT i = 0U; (hr = adapter->EnumOutputs(i, &outputPointer)) != DXGI_ERROR_NOT_FOUND; ++i)
             if (SUCCEEDED(hr))
             {
+                Pointer<IDXGIOutput> output = outputPointer;
+
                 DXGI_OUTPUT_DESC outputDesc;
-                hr = output->GetDesc(&outputDesc);
-
-                if (SUCCEEDED(hr) && outputDesc.Monitor == monitor)
+                if (SUCCEEDED(output->GetDesc(&outputDesc)) && outputDesc.Monitor == monitor)
                     return output;
-
-                output->Release();
             }
 
         return nullptr;

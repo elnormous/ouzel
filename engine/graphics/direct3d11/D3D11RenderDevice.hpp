@@ -66,7 +66,7 @@ namespace ouzel::graphics::d3d11
         void generateScreenshot(const std::string& filename) final;
         void renderMain();
 
-        IDXGIOutput* getOutput() const;
+        Pointer<IDXGIOutput> getOutput() const;
 
         Pointer<ID3D11Device> device;
         Pointer<ID3D11DeviceContext> context;
