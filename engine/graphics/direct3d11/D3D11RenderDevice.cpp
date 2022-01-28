@@ -835,17 +835,13 @@ namespace ouzel::graphics::d3d11
     {
         std::vector<math::Size<std::uint32_t, 2>> result;
 
-        IDXGIOutput* output = getOutput();
-
+        Pointer<IDXGIOutput> output = getOutput();
         if (!output) return result;
 
         UINT numModes = 0U;
         DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
         if (const auto hr = output->GetDisplayModeList(format, 0, &numModes, nullptr); FAILED(hr))
-        {
-            output->Release();
             throw std::system_error{hr, errorCategory, "Failed to get display mode list"};
-        }
 
         if (numModes > 0U)
         {
@@ -862,8 +858,6 @@ namespace ouzel::graphics::d3d11
                 result.emplace_back(resolution);
             }
         }
-
-        output->Release();
 
         return result;
     }
