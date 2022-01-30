@@ -1218,9 +1218,9 @@ namespace ouzel::graphics::opengl
 
                         for (std::size_t layer = 0; layer < setTexturesCommand->textures.size(); ++layer)
                             if (auto texture = getResource<Texture>(setTexturesCommand->textures[layer]))
-                                bindTexture(GL_TEXTURE_2D, layer, texture->getTextureId());
+                                bindTexture(GL_TEXTURE_2D, static_cast<GLenum>(layer), texture->getTextureId());
                             else
-                                bindTexture(GL_TEXTURE_2D, layer, 0);
+                                bindTexture(GL_TEXTURE_2D, static_cast<GLenum>(layer), 0);
 
                         break;
                     }
