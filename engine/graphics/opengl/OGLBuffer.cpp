@@ -73,7 +73,7 @@ namespace ouzel::graphics::opengl
             throw Error{"Buffer is not dynamic"};
 
         if (newData.empty())
-            throw std::invalid_argument("Data is empty");
+            throw std::invalid_argument{"Data is empty"};
 
         data = newData;
 

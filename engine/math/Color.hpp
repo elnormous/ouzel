@@ -138,12 +138,12 @@ namespace ouzel::math
             return (c >= '0' && c <= '9') ? static_cast<std::uint8_t>(c - '0') :
                 (c >= 'a' && c <= 'f') ? static_cast<std::uint8_t>(c - 'a' + 10) :
                 (c >= 'A' && c <= 'F') ? static_cast<std::uint8_t>(c - 'A' + 10) :
-                throw std::out_of_range("Invalid hex digit");
+                throw std::out_of_range{"Invalid hex digit"};
         };
 
         const auto decToInt = [](const char c) constexpr {
             return (c >= '0' && c <= '9') ? static_cast<std::uint8_t>(c - '0') :
-                throw std::out_of_range("Invalid hex digit");
+                throw std::out_of_range{"Invalid hex digit"};
         };
 
         if (!color.empty())
