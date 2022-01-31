@@ -42,7 +42,6 @@
 #include "../../core/Engine.hpp"
 #include "../../core/Window.hpp"
 #include "../../utils/Log.hpp"
-#include "stb_image_write.h"
 
 namespace ouzel::graphics::opengl
 {
@@ -1272,10 +1271,9 @@ namespace ouzel::graphics::opengl
                       data.begin() + bottomRowOffset);
         }
 
-        if (!stbi_write_png(filename.c_str(),
-                            frameBufferWidth, frameBufferHeight, pixelSize,
-                            data.data(), frameBufferWidth * pixelSize))
-            throw Error{"Failed to save image to file"};
+        saveScreenshot(filename,
+                       frameBufferWidth, frameBufferHeight, pixelSize,
+                       data.data(), frameBufferWidth * pixelSize);
     }
 }
 

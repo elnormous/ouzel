@@ -823,10 +823,7 @@ namespace ouzel::graphics::metal
                 data[((y * width + x) * 4) + 3] = 255;
             }
 
-        if (!stbi_write_png(filename.c_str(),
-                            static_cast<int>(width), static_cast<int>(height),
-                            4, data.data(), static_cast<int>(width * 4)))
-            throw Error{"Failed to save image to file"};
+        saveScreenshot(filename, width, height, 4, data.data(), width * 4);
     }
 
     MTLRenderPipelineStatePtr RenderDevice::getPipelineState(const PipelineStateDesc& desc)

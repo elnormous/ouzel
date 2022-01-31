@@ -180,6 +180,12 @@ namespace ouzel::graphics
 
         virtual void changeScreen(const std::uintptr_t) {}
         virtual void generateScreenshot(const std::string& filename);
+        void saveScreenshot(const std::string& filename,
+                            std::size_t width,
+                            std::size_t height,
+                            std::size_t pixelSize,
+                            const void *data,
+                            std::size_t stride);
 
         Driver driver;
         core::Window& window;

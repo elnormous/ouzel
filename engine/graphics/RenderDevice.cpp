@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "RenderDevice.hpp"
+#include "stb_image_write.h"
 
 namespace ouzel::graphics
 {
@@ -100,5 +101,21 @@ namespace ouzel::graphics
 
             if (func) func();
         }
+    }
+
+    void RenderDevice::saveScreenshot(const std::string& filename,
+                                      std::size_t width,
+                                      std::size_t height,
+                                      std::size_t pixelSize,
+                                      const void *data,
+                                      std::size_t stride)
+    {
+        if (!stbi_write_png(filename.c_str(),
+                            static_cast<int>(width),
+                            static_cast<int>(height),
+                            static_cast<int>(pixelSize),
+                            data,
+                            static_cast<int>(stride)))
+            throw std::runtime_error{"Failed to save image to file"};
     }
 }
