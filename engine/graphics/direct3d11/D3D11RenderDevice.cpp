@@ -1012,9 +1012,7 @@ namespace ouzel::graphics::d3d11
 
     ID3D11SamplerState* RenderDevice::getSamplerState(const SamplerStateDesc& desc)
     {
-        auto samplerStatesIterator = samplerStates.find(desc);
-
-        if (samplerStatesIterator != samplerStates.end())
+        if (const auto samplerStatesIterator = samplerStates.find(desc); samplerStatesIterator != samplerStates.end())
             return samplerStatesIterator->second.get();
         else
         {
