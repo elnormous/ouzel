@@ -871,22 +871,43 @@ namespace ouzel::graphics::d3d11
         class MappedSubresource final
         {
         public:
-            MappedSubresource(ID3D11DeviceContext* context, ID3D11Resource* resource) noexcept:
+            MappedSubresource(ID3D11DeviceContext* context) noexcept:
                 deviceContext{context}, mappedResource{resource}
             {
             }
 
             ~MappedSubresource()
             {
-                deviceContext->Unmap(mappedResource, 0);
+                if (mappedResource) deviceContext->Unmap(mappedResource, 0);
             }
 
             MappedSubresource(const MappedSubresource&) = delete;
             MappedSubresource& operator=(const MappedSubresource&) = delete;
 
+            D3D11_MAPPED_SUBRESOURCE map(ID3D11Resource* resource, std::size_t i, D3D11_MAP mapType)
+            {
+                if (mappedResource) unmap();
+
+                D3D11_MAPPED_SUBRESOURCE result;
+                if (const auto hr = context->Map(resource, static_cast<UINT>(i), mapType, 0, &result); FAILED(hr))
+                    throw std::system_error{hr, errorCategory, "Failed to map Direct3D 11 resource"};
+
+                mappedResource = resource;
+                index = i;
+
+                return result;
+            }
+
+            void unmap()
+            {
+                deviceContext->Unmap(mappedResource, static_cast<UINT>(index));
+                mappedResource = nullptr;
+            }
+
         private:
-            ID3D11DeviceContext* deviceContext;
-            ID3D11Resource* mappedResource;
+            ID3D11DeviceContext* deviceContext = nullptr;
+            ID3D11Resource* mappedResource = nullptr;
+            std::size_t index = 0;
         };
     }
     
@@ -948,11 +969,8 @@ namespace ouzel::graphics::d3d11
         else
             context->CopyResource(texture.get(), backBuffer.get());
 
-        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-        if (const auto hr = context->Map(texture.get(), 0, D3D11_MAP_READ, 0, &mappedSubresource); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to map Direct3D 11 resource"};
-
-        MappedSubresource mappedResource{context.get(), texture.get()};
+        MappedSubresource mapped{context.get()};
+        const auto mappedSubresource = mapped.map(texture.get(), 0, D3D11_MAP_READ);
 
         saveScreenshot(filename,
                        textureDesc.Width, textureDesc.Height, 4,
@@ -1022,13 +1040,9 @@ namespace ouzel::graphics::d3d11
 
     void RenderDevice::uploadBuffer(ID3D11Buffer* buffer, const void* data, std::uint32_t dataSize)
     {
-        D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-        if (const auto hr = context->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to lock Direct3D 11 buffer"};
-
+        MappedSubresource mapped{context.get()};
+        const auto mappedSubresource = mapped.map(texture.get(), 0, D3D11_MAP_WRITE_DISCARD);
         std::memcpy(mappedSubresource.pData, data, dataSize);
-
-        context->Unmap(buffer, 0);
     }
 
     ID3D11SamplerState* RenderDevice::getSamplerState(const SamplerStateDesc& desc)
