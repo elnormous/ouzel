@@ -951,13 +951,10 @@ namespace ouzel::graphics::d3d11
 
         MappedSubresource mappedResource{context.get(), texture.get()};
 
-        if (!stbi_write_png(filename.c_str(),
-                            textureDesc.Width, textureDesc.Height, 4,
-                            mappedSubresource.pData,
-                            static_cast<int>(mappedSubresource.RowPitch)))
-        {
-            throw std::runtime_error{"Failed to save screenshot to file"};
-        }
+        saveScreenshot(filename,
+                       textureDesc.Width, textureDesc.Height, 4,
+                       mappedSubresource.data(),
+                       mappedSubresource.RowPitch);
     }
 
     void RenderDevice::resizeBackBuffer(UINT newWidth, UINT newHeight)
