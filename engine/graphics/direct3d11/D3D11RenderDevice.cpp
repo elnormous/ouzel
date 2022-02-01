@@ -881,9 +881,12 @@ namespace ouzel::graphics::d3d11
                 deviceContext->Unmap(mappedResource, 0);
             }
 
+            MappedSubresource(const MappedSubresource&) = delete;
+            MappedSubresource& operator=(const MappedSubresource&) = delete;
+
         private:
-            const ID3D11DeviceContext* deviceContext;
-            const ID3D11Resource* mappedResource;
+            ID3D11DeviceContext* deviceContext;
+            ID3D11Resource* mappedResource;
         };
     }
     
