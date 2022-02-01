@@ -974,7 +974,7 @@ namespace ouzel::graphics::d3d11
 
         saveScreenshot(filename,
                        textureDesc.Width, textureDesc.Height, 4,
-                       mappedSubresource.data(),
+                       mappedSubresource.pData,
                        mappedSubresource.RowPitch);
     }
 
