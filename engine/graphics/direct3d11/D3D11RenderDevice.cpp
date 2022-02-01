@@ -866,6 +866,28 @@ namespace ouzel::graphics::d3d11
         renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
 
+    namespace
+    {
+        class MappedSubresource final
+        {
+        public:
+            MappedSubresource(ID3D11DeviceContext* context, ID3D11Resource* resource) noexcept:
+                deviceContext{context}, mappedResource{resource}
+            {
+            }
+
+            ~MappedSubresource()
+            {
+                deviceContext->Unmap(mappedResource, 0);
+            }
+
+        private:
+            const ID3D11DeviceContext* deviceContext;
+            const ID3D11Resource* mappedResource;
+        };
+    }
+    
+
     void RenderDevice::generateScreenshot(const std::string& filename)
     {
         void* backBufferTexturePtr;
@@ -927,16 +949,15 @@ namespace ouzel::graphics::d3d11
         if (const auto hr = context->Map(texture.get(), 0, D3D11_MAP_READ, 0, &mappedSubresource); FAILED(hr))
             throw std::system_error{hr, errorCategory, "Failed to map Direct3D 11 resource"};
 
+        MappedSubresource mappedResource{context.get(), texture.get()};
+
         if (!stbi_write_png(filename.c_str(),
                             textureDesc.Width, textureDesc.Height, 4,
                             mappedSubresource.pData,
                             static_cast<int>(mappedSubresource.RowPitch)))
         {
-            context->Unmap(texture.get(), 0);
             throw std::runtime_error{"Failed to save screenshot to file"};
         }
-
-        context->Unmap(texture.get(), 0);
     }
 
     void RenderDevice::resizeBackBuffer(UINT newWidth, UINT newHeight)
