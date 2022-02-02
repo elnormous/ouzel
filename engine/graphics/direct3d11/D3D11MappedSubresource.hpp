@@ -20,6 +20,8 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
+#include "D3D11ErrorCategory.hpp"
+
 namespace ouzel::graphics::d3d11
 {
     class MappedSubresource final
@@ -44,7 +46,7 @@ namespace ouzel::graphics::d3d11
 
             D3D11_MAPPED_SUBRESOURCE result;
             if (const auto hr = deviceContext->Map(resource, static_cast<UINT>(i), mapType, 0, &result); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to map Direct3D 11 resource"};
+                throw std::system_error{hr, getErrorCategory(), "Failed to map Direct3D 11 resource"};
 
             mappedResource = resource;
             index = i;

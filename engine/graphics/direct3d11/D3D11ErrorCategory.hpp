@@ -50,6 +50,8 @@ namespace ouzel::graphics::d3d11
             }
         }
     };
+
+    const std::error_category& getErrorCategory() noexcept;
 }
 #endif
 
