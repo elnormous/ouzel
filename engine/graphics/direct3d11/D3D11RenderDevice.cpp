@@ -11,6 +11,7 @@
 #include "D3D11Buffer.hpp"
 #include "D3D11DepthStencilState.hpp"
 #include "D3D11ErrorCategory.hpp"
+#include "D3D11MappedSubresource.hpp"
 #include "D3D11RenderTarget.hpp"
 #include "D3D11Shader.hpp"
 #include "D3D11Texture.hpp"
@@ -865,52 +866,6 @@ namespace ouzel::graphics::d3d11
         running = true;
         renderThread = thread::Thread{&RenderDevice::renderMain, this};
     }
-
-    namespace
-    {
-        class MappedSubresource final
-        {
-        public:
-            MappedSubresource(ID3D11DeviceContext* context) noexcept:
-                deviceContext{context}
-            {
-            }
-
-            ~MappedSubresource()
-            {
-                if (mappedResource) deviceContext->Unmap(mappedResource, 0);
-            }
-
-            MappedSubresource(const MappedSubresource&) = delete;
-            MappedSubresource& operator=(const MappedSubresource&) = delete;
-
-            D3D11_MAPPED_SUBRESOURCE map(ID3D11Resource* resource, std::size_t i, D3D11_MAP mapType)
-            {
-                if (mappedResource) unmap();
-
-                D3D11_MAPPED_SUBRESOURCE result;
-                if (const auto hr = deviceContext->Map(resource, static_cast<UINT>(i), mapType, 0, &result); FAILED(hr))
-                    throw std::system_error{hr, errorCategory, "Failed to map Direct3D 11 resource"};
-
-                mappedResource = resource;
-                index = i;
-
-                return result;
-            }
-
-            void unmap()
-            {
-                deviceContext->Unmap(mappedResource, static_cast<UINT>(index));
-                mappedResource = nullptr;
-            }
-
-        private:
-            ID3D11DeviceContext* deviceContext = nullptr;
-            ID3D11Resource* mappedResource = nullptr;
-            std::size_t index = 0;
-        };
-    }
-    
 
     void RenderDevice::generateScreenshot(const std::string& filename)
     {

@@ -237,6 +237,7 @@
     <ClInclude Include="graphics\direct3d11\D3D11Buffer.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11DepthStencilState.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11ErrorCategory.hpp" />
+    <ClInclude Include="graphics\direct3d11\D3D11MappedResource.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11RenderDevice.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11RenderResource.hpp" />
     <ClInclude Include="graphics\direct3d11\D3D11RenderTarget.hpp" />

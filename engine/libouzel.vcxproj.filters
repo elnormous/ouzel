@@ -939,6 +939,9 @@
     <ClInclude Include="graphics\direct3d11\D3D11ErrorCategory.hpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\direct3d11\D3D11MappedResource.hpp">
+      <Filter>engine\graphics\direct3d11</Filter>
+    </ClInclude>
     <ClInclude Include="platform\winapi\DeviceContext.hpp">
       <Filter>engine\platform\winapi</Filter>
     </ClInclude>
