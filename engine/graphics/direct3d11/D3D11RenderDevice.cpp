@@ -872,7 +872,7 @@ namespace ouzel::graphics::d3d11
         {
         public:
             MappedSubresource(ID3D11DeviceContext* context) noexcept:
-                deviceContext{context}, mappedResource{resource}
+                deviceContext{context}
             {
             }
 
@@ -889,7 +889,7 @@ namespace ouzel::graphics::d3d11
                 if (mappedResource) unmap();
 
                 D3D11_MAPPED_SUBRESOURCE result;
-                if (const auto hr = context->Map(resource, static_cast<UINT>(i), mapType, 0, &result); FAILED(hr))
+                if (const auto hr = deviceContext->Map(resource, static_cast<UINT>(i), mapType, 0, &result); FAILED(hr))
                     throw std::system_error{hr, errorCategory, "Failed to map Direct3D 11 resource"};
 
                 mappedResource = resource;
@@ -1041,7 +1041,7 @@ namespace ouzel::graphics::d3d11
     void RenderDevice::uploadBuffer(ID3D11Buffer* buffer, const void* data, std::uint32_t dataSize)
     {
         MappedSubresource mapped{context.get()};
-        const auto mappedSubresource = mapped.map(texture.get(), 0, D3D11_MAP_WRITE_DISCARD);
+        const auto mappedSubresource = mapped.map(buffer, 0, D3D11_MAP_WRITE_DISCARD);
         std::memcpy(mappedSubresource.pData, data, dataSize);
     }
 
