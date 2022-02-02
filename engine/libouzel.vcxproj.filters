@@ -939,7 +939,7 @@
     <ClInclude Include="graphics\direct3d11\D3D11ErrorCategory.hpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
-    <ClInclude Include="graphics\direct3d11\D3D11MappedResource.hpp">
+    <ClInclude Include="graphics\direct3d11\D3D11MappedSubresource.hpp">
       <Filter>engine\graphics\direct3d11</Filter>
     </ClInclude>
     <ClInclude Include="platform\winapi\DeviceContext.hpp">
