@@ -6,6 +6,7 @@
 
 #include <stdexcept>
 #include "D3D11Shader.hpp"
+#include "D3D11ErrorCategory.hpp"
 #include "D3D11RenderDevice.hpp"
 
 namespace ouzel::graphics::d3d11

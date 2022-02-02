@@ -6,6 +6,7 @@
 
 #include <cstring>
 #include "D3D11Buffer.hpp"
+#include "D3D11ErrorCategory.hpp"
 #include "D3D11RenderDevice.hpp"
 
 namespace ouzel::graphics::d3d11

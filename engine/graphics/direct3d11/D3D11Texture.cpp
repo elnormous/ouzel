@@ -7,6 +7,7 @@
 #include <cstring>
 #include <stdexcept>
 #include "D3D11Texture.hpp"
+#include "D3D11ErrorCategory.hpp"
 #include "D3D11RenderDevice.hpp"
 
 namespace ouzel::graphics::d3d11

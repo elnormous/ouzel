@@ -5,6 +5,7 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include "D3D11BlendState.hpp"
+#include "D3D11ErrorCategory.hpp"
 #include "D3D11RenderDevice.hpp"
 
 namespace ouzel::graphics::d3d11
