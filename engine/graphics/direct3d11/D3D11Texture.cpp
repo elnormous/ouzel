@@ -335,7 +335,7 @@ namespace ouzel::graphics::d3d11
         {
             if (!levels[level].second.empty())
             {
-                MappedSubresource mapped{renderDevice.getDevice()};
+                MappedSubresource mapped{renderDevice.getContext().get()};
                 const auto mappedSubresource = mapped.map(texture.get(), level,
                                                           (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE);
 

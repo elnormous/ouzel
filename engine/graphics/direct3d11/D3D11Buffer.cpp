@@ -39,7 +39,7 @@ namespace ouzel::graphics::d3d11
         {
             if (!data.empty())
             {
-                MappedSubresource mapped{renderDevice.getDevice()};
+                MappedSubresource mapped{renderDevice.getContext().get()};
                 const auto mappedSubresource = mapped.map(buffer.get(), 0, D3D11_MAP_WRITE_DISCARD);
 
                 std::memcpy(mappedSubresource.pData, data.data(), data.size());
