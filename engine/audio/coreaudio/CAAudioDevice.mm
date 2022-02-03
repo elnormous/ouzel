@@ -215,7 +215,7 @@ namespace ouzel::audio::coreaudio
         if (stringPointer)
         {
             std::string name;
-            if (const char* deviceName = CFStringGetCStringPtr(stringPointer, kCFStringEncodingUTF8))
+            if (const auto deviceName = CFStringGetCStringPtr(stringPointer, kCFStringEncodingUTF8))
                 name = deviceName;
             else
             {

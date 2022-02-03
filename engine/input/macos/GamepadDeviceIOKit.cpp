@@ -47,7 +47,7 @@ namespace ouzel::input::macos
         const auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
         if (productName)
         {
-            if (const char* deviceName = CFStringGetCStringPtr(productName, kCFStringEncodingUTF8))
+            if (const auto deviceName = CFStringGetCStringPtr(productName, kCFStringEncodingUTF8))
                 name = deviceName;
             else
             {
