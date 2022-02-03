@@ -17,26 +17,26 @@
 namespace ouzel::audio::alc
 {
     class ErrorCategory final: public std::error_category
+    {
+    public:
+        const char* name() const noexcept override
         {
-        public:
-            const char* name() const noexcept override
-            {
-                return "ALC";
-            }
+            return "ALC";
+        }
 
-            std::string message(const int condition) const override
+        std::string message(const int condition) const override
+        {
+            switch (condition)
             {
-                switch (condition)
-                {
-                    case ALC_INVALID_DEVICE: return "ALC_INVALID_DEVICE";
-                    case ALC_INVALID_CONTEXT: return "ALC_INVALID_CONTEXT";
-                    case ALC_INVALID_ENUM: return "ALC_INVALID_ENUM";
-                    case ALC_INVALID_VALUE: return "ALC_INVALID_VALUE";
-                    case ALC_OUT_OF_MEMORY: return "ALC_OUT_OF_MEMORY";
-                    default: return "Unknown error (" + std::to_string(condition) + ")";
-                }
+                case ALC_INVALID_DEVICE: return "ALC_INVALID_DEVICE";
+                case ALC_INVALID_CONTEXT: return "ALC_INVALID_CONTEXT";
+                case ALC_INVALID_ENUM: return "ALC_INVALID_ENUM";
+                case ALC_INVALID_VALUE: return "ALC_INVALID_VALUE";
+                case ALC_OUT_OF_MEMORY: return "ALC_OUT_OF_MEMORY";
+                default: return "Unknown error (" + std::to_string(condition) + ")";
             }
-        };
+        }
+    };
 }
 #endif
 
