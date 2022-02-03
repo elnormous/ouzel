@@ -1272,8 +1272,11 @@ namespace ouzel::graphics::opengl
         }
 
         saveScreenshot(filename,
-                       frameBufferWidth, frameBufferHeight, pixelSize,
-                       data.data(), frameBufferWidth * pixelSize);
+                       static_cast<std::size_t>(frameBufferWidth),
+                       static_cast<std::size_t>(frameBufferHeight),
+                       static_cast<std::size_t>(pixelSize),
+                       data.data(),
+                       static_cast<std::size_t>(frameBufferWidth * pixelSize));
     }
 }
 
