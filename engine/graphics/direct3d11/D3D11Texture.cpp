@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include "D3D11Texture.hpp"
 #include "D3D11ErrorCategory.hpp"
+#include "D3D11MappedSubresource.hpp"
 #include "D3D11RenderDevice.hpp"
 
 namespace ouzel::graphics::d3d11
@@ -334,16 +335,9 @@ namespace ouzel::graphics::d3d11
         {
             if (!levels[level].second.empty())
             {
-                D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-                mappedSubresource.pData = nullptr;
-                mappedSubresource.RowPitch = 0;
-                mappedSubresource.DepthPitch = 0;
-
-                if (const auto hr = renderDevice.getContext()->Map(texture.get(), static_cast<UINT>(level),
-                                                                   (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE,
-                                                                   0, &mappedSubresource); FAILED(hr))
-                    throw std::system_error{hr, getErrorCategory(), "Failed to map Direct3D 11 texture"};
-
+                MappedSubresource mapped{renderDevice.getContext()};
+                const auto mappedSubresource = mapped.map(texture.get(), level,
+                                                          (level == 0) ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE);
 
                 if (mappedSubresource.RowPitch == levels[level].first.v[0] * pixelSize)
                 {
@@ -368,8 +362,6 @@ namespace ouzel::graphics::d3d11
                         destination += mappedSubresource.RowPitch;
                     }
                 }
-
-                renderDevice.getContext()->Unmap(texture.get(), static_cast<UINT>(level));
             }
         }
     }

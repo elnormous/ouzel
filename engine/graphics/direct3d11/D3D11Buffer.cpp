@@ -7,6 +7,7 @@
 #include <cstring>
 #include "D3D11Buffer.hpp"
 #include "D3D11ErrorCategory.hpp"
+#include "D3D11MappedSubresource.hpp"
 #include "D3D11RenderDevice.hpp"
 
 namespace ouzel::graphics::d3d11
@@ -38,17 +39,10 @@ namespace ouzel::graphics::d3d11
         {
             if (!data.empty())
             {
-                D3D11_MAPPED_SUBRESOURCE mappedSubresource;
-                mappedSubresource.pData = nullptr;
-                mappedSubresource.RowPitch = 0;
-                mappedSubresource.DepthPitch = 0;
-
-                if (const auto hr = renderDevice.getContext()->Map(buffer.get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource); FAILED(hr))
-                    throw std::system_error{hr, getErrorCategory(), "Failed to lock Direct3D 11 buffer"};
+                MappedSubresource mapped{renderDevice.getContext()};
+                const auto mappedSubresource = mapped.map(buffer.get(), 0, D3D11_MAP_WRITE_DISCARD);
 
                 std::memcpy(mappedSubresource.pData, data.data(), data.size());
-
-                renderDevice.getContext()->Unmap(buffer.get(), 0);
             }
         }
     }
