@@ -278,7 +278,7 @@ namespace ouzel::core::linux
         // open a connection to the X server
         display = XOpenDisplay(nullptr);
         if (!display)
-            throw std::system_error{getLastError(), errorCategory, "Failed to open display"};
+            throw std::system_error{getLastError(), platform::x11::errorCategory, "Failed to open display"};
 
         executeAtom = XInternAtom(display, "OUZEL_EXECUTE", False);
 
@@ -531,7 +531,7 @@ namespace ouzel::core::linux
         lock.unlock();
 
         if (XSendEvent(display, windowLinux.getNativeWindow(), False, NoEventMask, &event) == 0)
-            throw std::system_error{getLastError(), errorCategory, "Failed to send X11 delete message"};
+            throw std::system_error{getLastError(), platform::x11::errorCategory, "Failed to send X11 delete message"};
 
         XFlush(display);
 #else
