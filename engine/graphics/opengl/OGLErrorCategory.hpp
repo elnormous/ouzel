@@ -40,6 +40,12 @@ namespace ouzel::graphics::opengl
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
+    inline std::error_code makeErrorCode(GLenum e) noexcept
+    {
+        return std::error_code{static_cast<int>(e), errorCategory};
+    }
 }
 #endif
 

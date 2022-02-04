@@ -47,8 +47,6 @@ namespace ouzel::graphics::opengl
 {
     namespace
     {
-        const ErrorCategory errorCategory{};
-
         constexpr GLenum getIndexType(std::uint32_t indexSize)
         {
             switch (indexSize)
@@ -257,11 +255,6 @@ namespace ouzel::graphics::opengl
             }
         }
 #endif
-    }
-
-    const std::error_category& getErrorCategory() noexcept
-    {
-        return errorCategory;
     }
 
     RenderDevice::RenderDevice(const Settings& settings,

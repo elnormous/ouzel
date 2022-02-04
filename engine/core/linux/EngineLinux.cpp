@@ -15,13 +15,14 @@
 #endif
 #include "EngineLinux.hpp"
 #include "NativeWindowLinux.hpp"
-#include "../../platform/x11/X11ErrorCategory.hpp"
 #include "../../events/Event.hpp"
 #include "../../graphics/RenderDevice.hpp"
 #include "../../input/linux/InputSystemLinux.hpp"
 #include "../../utils/Log.hpp"
 
 #if OUZEL_SUPPORTS_X11
+#  include "../../platform/x11/X11ErrorCategory.hpp"
+
 namespace
 {
     thread_local static int error;
@@ -261,19 +262,7 @@ namespace
 
 namespace ouzel::core::linux
 {
-    namespace
-    {
 #if OUZEL_SUPPORTS_X11
-        const platform::x11::ErrorCategory errorCategory;
-#endif
-    }
-
-#if OUZEL_SUPPORTS_X11
-    const std::error_category& getErrorCategory() noexcept
-    {
-        return errorCategory;
-    }
-
     int getLastError() noexcept
     {
         return error;

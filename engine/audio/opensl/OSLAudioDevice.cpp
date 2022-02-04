@@ -15,13 +15,6 @@ namespace ouzel::audio::opensl
 {
     namespace
     {
-        const ErrorCategory errorCategory{};
-
-        std::error_code makeErrorCode(SLresult e)
-        {
-            return std::error_code(static_cast<int>(e), errorCategory);
-        }
-
         void playerCallback(SLAndroidSimpleBufferQueueItf bufferQueue, void* context)
         {
             try

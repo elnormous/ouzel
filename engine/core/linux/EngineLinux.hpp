@@ -15,7 +15,6 @@
 namespace ouzel::core::linux
 {
 #if OUZEL_SUPPORTS_X11
-    const std::error_category& getErrorCategory() noexcept;
     int getLastError() noexcept;
 #endif
 

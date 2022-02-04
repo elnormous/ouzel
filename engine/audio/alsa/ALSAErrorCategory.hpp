@@ -25,6 +25,8 @@ namespace ouzel::audio::alsa
             return snd_strerror(condition);
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 #endif
 

@@ -67,6 +67,8 @@ namespace ouzel::input::windows
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 
 #endif // OUZEL_INPUT_DIERRORCATEGORY_HPP

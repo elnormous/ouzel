@@ -28,8 +28,6 @@ namespace ouzel::input::windows
 {
     namespace
     {
-        const ErrorCategory errorCategory{};
-
         BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
         {
             const auto inputSystemWin = static_cast<InputSystem*>(context);
@@ -37,11 +35,6 @@ namespace ouzel::input::windows
 
             return DIENUM_CONTINUE;
         }
-    }
-
-    const std::error_category& getErrorCategory() noexcept
-    {
-        return errorCategory;
     }
 
     InputSystem::InputSystem():

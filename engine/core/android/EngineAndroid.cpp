@@ -13,8 +13,6 @@ namespace ouzel::core::android
 {
     namespace
     {
-        const ErrorCategory errorCategory{};
-
         int looperCallback(int fd, int events, void* data)
         {
             if (events & ALOOPER_EVENT_INPUT)
@@ -32,11 +30,6 @@ namespace ouzel::core::android
 
             return 1;
         }
-    }
-
-    const std::error_category& getErrorCategory() noexcept
-    {
-        return errorCategory;
     }
 
     Engine::Engine(JavaVM* initJavaVm):

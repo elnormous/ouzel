@@ -41,6 +41,8 @@ namespace ouzel::platform::x11
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 
 #endif // OUZEL_PLATFORM_X11_X11ERRORCATEGORY_HPP

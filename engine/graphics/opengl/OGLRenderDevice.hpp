@@ -31,17 +31,12 @@
 #endif
 
 #include "../RenderDevice.hpp"
+#include "OGLErrorCategory.hpp"
 #include "OGLShader.hpp"
 #include "OGLStateCache.hpp"
 
 namespace ouzel::graphics::opengl
 {
-    const std::error_category& getErrorCategory() noexcept;
-    inline std::error_code makeErrorCode(GLenum e)
-    {
-        return std::error_code(static_cast<int>(e), getErrorCategory());
-    }
-
     class RenderDevice: public graphics::RenderDevice
     {
         friend Graphics;

@@ -46,8 +46,6 @@ namespace ouzel::input::macos
 {
     namespace
     {
-        const ErrorCategory errorCategory{};
-
         void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
         {
             const auto inputSystemMacOS = static_cast<InputSystem*>(ctx);
@@ -59,11 +57,6 @@ namespace ouzel::input::macos
             const auto inputSystemMacOS = static_cast<InputSystem*>(ctx);
             inputSystemMacOS->handleGamepadDisconnected(device);
         }
-    }
-
-    const std::error_category& getErrorCategory() noexcept
-    {
-        return errorCategory;
     }
 
     InputSystem::InputSystem():

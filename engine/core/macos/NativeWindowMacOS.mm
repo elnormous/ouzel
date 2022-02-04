@@ -148,7 +148,7 @@ namespace ouzel::core::macos
             if (exclusiveFullscreen)
             {
                 if (const auto result = CGDisplayCapture(displayId); result != kCGErrorSuccess)
-                    throw std::system_error{result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display"};
+                    throw std::system_error{result, platform::coregraphics::errorCategory, "Failed to capture the main display"};
 
                 windowRect = frame;
 
@@ -333,7 +333,7 @@ namespace ouzel::core::macos
                 if (newFullscreen)
                 {
                     if (const auto result = CGDisplayCapture(displayId); result != kCGErrorSuccess)
-                        throw std::system_error{result, platform::coregraphics::getErrorCategory(), "Failed to capture the main display"};
+                        throw std::system_error{result, platform::coregraphics::errorCategory, "Failed to capture the main display"};
 
                     windowRect = [window frame];
 
@@ -349,7 +349,7 @@ namespace ouzel::core::macos
                     [window setFrame:windowRect display:YES animate:NO];
 
                     if (const auto result = CGDisplayRelease(displayId); result != kCGErrorSuccess)
-                        throw std::system_error{result, platform::coregraphics::getErrorCategory(), "Failed to release the main display"};
+                        throw std::system_error{result, platform::coregraphics::errorCategory, "Failed to release the main display"};
                 }
             }
             else

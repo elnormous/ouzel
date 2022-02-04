@@ -70,7 +70,7 @@ namespace ouzel::core::macos
                 if (noSleepAssertionId)
                 {
                     if (const auto error = IOPMAssertionRelease(noSleepAssertionId); error != kIOReturnSuccess)
-                        throw std::system_error{error, input::macos::getErrorCategory(), "Failed to enable screen saver"};
+                        throw std::system_error{error, input::macos::errorCategory, "Failed to enable screen saver"};
 
                     noSleepAssertionId = 0;
                 }
@@ -84,7 +84,7 @@ namespace ouzel::core::macos
                     if (const auto error = IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
                                                                        kIOPMAssertionLevelOn, reasonForActivity,
                                                                        &noSleepAssertionId); error != kIOReturnSuccess)
-                        throw std::system_error{error, input::macos::getErrorCategory(), "Failed to disable screen saver"};
+                        throw std::system_error{error, input::macos::errorCategory, "Failed to disable screen saver"};
                 }
             }
         });

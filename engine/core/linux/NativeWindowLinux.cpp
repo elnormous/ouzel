@@ -8,6 +8,8 @@
 #include "EngineLinux.hpp"
 
 #if OUZEL_SUPPORTS_X11
+#  include "../../platform/x11/X11ErrorCategory.hpp"
+
 namespace
 {
     constexpr long NET_WM_STATE_REMOVE = 0L;
@@ -85,7 +87,7 @@ namespace ouzel::core::linux
                                CWBorderPixel | CWBackPixel | CWEventMask, &attributes);
 
         if (XSetStandardProperties(display, window, title.c_str(), title.c_str(), None, nullptr, 0, nullptr) == 0)
-            throw std::system_error{getLastError(), getErrorCategory(), "Failed to set window properties"};
+            throw std::system_error{getLastError(), errorCategory, "Failed to set window properties"};
 
         if (!resizable)
         {
@@ -109,17 +111,17 @@ namespace ouzel::core::linux
         }
 
         if (XMapWindow(display, window) == 0)
-            throw std::system_error{getLastError(), getErrorCategory(), "Failed to map window"};
+            throw std::system_error{getLastError(), errorCategory, "Failed to map window"};
 
         protocolsAtom = XInternAtom(display, "WM_PROTOCOLS", False);
         deleteAtom = XInternAtom(display, "WM_DELETE_WINDOW", False);
         XSetWMProtocols(display, window, &deleteAtom, 1);
         stateAtom = XInternAtom(display, "_NET_WM_STATE", False);
         if (!stateAtom)
-            throw std::system_error{getLastError(), getErrorCategory(), "State atom is null"};
+            throw std::system_error{getLastError(), errorCategory, "State atom is null"};
         stateFullscreenAtom = XInternAtom(display, "_NET_WM_STATE_FULLSCREEN", False);
         if (!stateFullscreenAtom)
-            throw std::system_error{getLastError(), getErrorCategory(), "Fullscreen state atom is null"};
+            throw std::system_error{getLastError(), errorCategory, "Fullscreen state atom is null"};
         activateWindowAtom = XInternAtom(display, "_NET_ACTIVE_WINDOW", False);
 
         if (fullscreen)
@@ -137,7 +139,7 @@ namespace ouzel::core::linux
 
             if (XSendEvent(display, DefaultRootWindow(display), 0,
                            SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
-                throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 fullscreen message"};
+                throw std::system_error{getLastError(), errorCategory, "Failed to send X11 fullscreen message"};
         }
 #elif OUZEL_SUPPORTS_DISPMANX
         const auto engineLinux = static_cast<Engine*>(engine);
@@ -251,7 +253,7 @@ namespace ouzel::core::linux
         event.xclient.data.l[3] = 0; // unused
         event.xclient.data.l[4] = 0; // unused
         if (XSendEvent(display, window, False, NoEventMask, &event) == 0)
-            throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 delete message"};
+            throw std::system_error{getLastError(), errorCategory, "Failed to send X11 delete message"};
 #endif
     }
 
@@ -302,7 +304,7 @@ namespace ouzel::core::linux
 
             if (XSendEvent(display, DefaultRootWindow(display), 0,
                            SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
-                throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 fullscreen message"};
+                throw std::system_error{getLastError(), errorCategory, "Failed to send X11 fullscreen message"};
         }
 #endif
 
@@ -334,7 +336,7 @@ namespace ouzel::core::linux
 
         if (XSendEvent(display, DefaultRootWindow(display), 0,
                        SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
-            throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 activate window message"};
+            throw std::system_error{getLastError(), errorCategory, "Failed to send X11 activate window message"};
 
         XFlush(display);
 #endif
@@ -390,7 +392,7 @@ namespace ouzel::core::linux
 
         if (XSendEvent(display, DefaultRootWindow(display), 0,
                        SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
-            throw std::system_error{getLastError(), getErrorCategory(), "Failed to send X11 activate window message"};
+            throw std::system_error{getLastError(), errorCategory, "Failed to send X11 activate window message"};
 
         XFlush(display);
 #endif
@@ -439,7 +441,7 @@ namespace ouzel::core::linux
     {
         XWindowAttributes attributes;
         if (XGetWindowAttributes(display, window, &attributes) == 0)
-            throw std::system_error{getLastError(), getErrorCategory(), "Failed to get window attributes"};
+            throw std::system_error{getLastError(), errorCategory, "Failed to get window attributes"};
         return attributes.map_state != IsUnmapped;
     }
 #endif

@@ -77,7 +77,7 @@ namespace ouzel::input::macos
         }
     };
 
-    const std::error_category& getErrorCategory() noexcept;
+    inline const ErrorCategory errorCategory;
 }
 
 #endif

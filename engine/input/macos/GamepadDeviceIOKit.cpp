@@ -42,7 +42,7 @@ namespace ouzel::input::macos
         device{initDevice}
     {
         if (const auto result = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone); result != kIOReturnSuccess)
-            throw std::system_error{result, getErrorCategory(), "Failed to open HID device"};
+            throw std::system_error{result, errorCategory, "Failed to open HID device"};
 
         const auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
         if (productName)

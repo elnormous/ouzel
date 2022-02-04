@@ -25,8 +25,6 @@ namespace ouzel::graphics::d3d11
 {
     namespace
     {
-        const ErrorCategory errorCategory{};
-
         constexpr DXGI_FORMAT getIndexFormat(std::uint32_t indexSize)
         {
             switch (indexSize)
@@ -66,11 +64,6 @@ namespace ouzel::graphics::d3d11
                     throw std::runtime_error{"Invalid address mode"};
             }
         }
-    }
-
-    const std::error_category& getErrorCategory() noexcept
-    {
-        return errorCategory;
     }
 
     RenderDevice::RenderDevice(const Settings& settings,

@@ -37,6 +37,8 @@ namespace ouzel::audio::openal
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 #endif
 

@@ -116,8 +116,6 @@ namespace ouzel::audio::wasapi
         private:
             LONG refCount = 1;
         };
-
-        const ErrorCategory errorCategory{};
     }
 
     AudioDevice::AudioDevice(const Settings& settings,

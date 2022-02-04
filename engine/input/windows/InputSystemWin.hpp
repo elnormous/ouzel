@@ -27,8 +27,6 @@
 
 namespace ouzel::input::windows
 {
-    const std::error_category& getErrorCategory() noexcept;
-
     class GamepadDeviceDI;
     class GamepadDeviceXI;
     class Cursor;

@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include "NativeWindowAndroid.hpp"
+#include "JniErrorCategory.hpp"
 #include "EngineAndroid.hpp"
 
 namespace ouzel::core::android
@@ -21,7 +22,7 @@ namespace ouzel::core::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error{result, getErrorCategory(), "Failed to get JNI environment"};
+            throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 
@@ -88,7 +89,7 @@ namespace ouzel::core::android
         void* jniEnvPointer;
 
         if (const auto result = javaVm->GetEnv(&jniEnvPointer, JNI_VERSION_1_6); result != JNI_OK)
-            throw std::system_error{result, getErrorCategory(), "Failed to get JNI environment"};
+            throw std::system_error{result, errorCategory, "Failed to get JNI environment"};
 
         const auto jniEnv = static_cast<JNIEnv*>(jniEnvPointer);
 

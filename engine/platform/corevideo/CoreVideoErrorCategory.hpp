@@ -48,7 +48,7 @@ namespace ouzel::platform::corevideo
         }
     };
 
-    const std::error_category& getErrorCategory() noexcept;
+    inline const ErrorCategory errorCategory;
 }
 
 #endif // OUZEL_PLATFORM_COREVIDEO_COREVIDEOERRORCATEGORY_HPP

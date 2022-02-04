@@ -366,8 +366,6 @@
 		304B27581C9384A600BA162D /* Size.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size.hpp */; };
 		304B27591C9384A600BA162D /* Size.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size.hpp */; };
 		304B275A1C9384A600BA162D /* Size.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304B27541C9384A600BA162D /* Size.hpp */; };
-		304BB5DB2569E8EF0024DD25 /* CoreVideoErrorCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304BB5D72569E8390024DD25 /* CoreVideoErrorCategory.cpp */; };
-		304BB5E2256B3A430024DD25 /* CoreGraphicsErrorCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304BB5E0256B3A420024DD25 /* CoreGraphicsErrorCategory.cpp */; };
 		304BB5E3256B3A430024DD25 /* CoreGraphicsErrorCategory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 304BB5E1256B3A420024DD25 /* CoreGraphicsErrorCategory.hpp */; };
 		304E76391F7095DE0025C0DB /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304E76371F7095DE0025C0DB /* Client.cpp */; };
 		304E763A1F7095DE0025C0DB /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304E76371F7095DE0025C0DB /* Client.cpp */; };
@@ -923,8 +921,6 @@
 		304AA8BD1E1190E4006FA70E /* Obf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Obf.hpp; sourceTree = "<group>"; };
 		304B27541C9384A600BA162D /* Size.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Size.hpp; sourceTree = "<group>"; };
 		304BB5D22569E3900024DD25 /* CoreVideoErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CoreVideoErrorCategory.hpp; sourceTree = "<group>"; };
-		304BB5D72569E8390024DD25 /* CoreVideoErrorCategory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CoreVideoErrorCategory.cpp; sourceTree = "<group>"; };
-		304BB5E0256B3A420024DD25 /* CoreGraphicsErrorCategory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CoreGraphicsErrorCategory.cpp; sourceTree = "<group>"; };
 		304BB5E1256B3A420024DD25 /* CoreGraphicsErrorCategory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CoreGraphicsErrorCategory.hpp; sourceTree = "<group>"; };
 		304E76371F7095DE0025C0DB /* Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client.cpp; sourceTree = "<group>"; };
 		304E76381F7095DE0025C0DB /* Client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hpp; sourceTree = "<group>"; };
@@ -1665,7 +1661,6 @@
 		304BB5D32569E40F0024DD25 /* corevideo */ = {
 			isa = PBXGroup;
 			children = (
-				304BB5D72569E8390024DD25 /* CoreVideoErrorCategory.cpp */,
 				304BB5D22569E3900024DD25 /* CoreVideoErrorCategory.hpp */,
 				305B76042649E6ED001F9322 /* DisplayLink.hpp */,
 			);
@@ -1675,7 +1670,6 @@
 		304BB5DF256B3A420024DD25 /* coregraphics */ = {
 			isa = PBXGroup;
 			children = (
-				304BB5E0256B3A420024DD25 /* CoreGraphicsErrorCategory.cpp */,
 				304BB5E1256B3A420024DD25 /* CoreGraphicsErrorCategory.hpp */,
 			);
 			path = coregraphics;
@@ -2767,7 +2761,6 @@
 				304F92A61F4D89C50063EEC0 /* Network.cpp in Sources */,
 				300862D32154712E00D8CC45 /* InputSystemMacOS.mm in Sources */,
 				30AEFA1520C0FB2E00CDFD33 /* RenderTarget.cpp in Sources */,
-				304BB5E2256B3A430024DD25 /* CoreGraphicsErrorCategory.cpp in Sources */,
 				30A3821121B4BDBC0043568A /* Mix.cpp in Sources */,
 				30381F8C1D80A3EC00677CAB /* OGLTexture.cpp in Sources */,
 				30C758B61F4A0309008499DC /* RenderDevice.cpp in Sources */,
@@ -2781,7 +2774,6 @@
 				3031C1351F0C4350002CA717 /* VorbisClip.cpp in Sources */,
 				305B11392250413900EDA4F5 /* Containers.cpp in Sources */,
 				30381F6E1D80A3EC00677CAB /* OGLBuffer.cpp in Sources */,
-				304BB5DB2569E8EF0024DD25 /* CoreVideoErrorCategory.cpp in Sources */,
 				30DADE9C1C5167BC001A63B4 /* Cache.cpp in Sources */,
 				30519CB91F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */,

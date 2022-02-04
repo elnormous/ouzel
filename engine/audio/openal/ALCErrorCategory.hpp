@@ -37,6 +37,8 @@ namespace ouzel::audio::alc
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 #endif
 

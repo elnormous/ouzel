@@ -42,6 +42,8 @@ namespace ouzel::graphics::egl
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 #endif
 

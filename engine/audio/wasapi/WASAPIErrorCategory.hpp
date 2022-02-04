@@ -70,6 +70,8 @@ namespace ouzel::audio::wasapi
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 #endif
 

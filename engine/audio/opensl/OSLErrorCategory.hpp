@@ -44,6 +44,12 @@ namespace ouzel::audio::opensl
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
+    inline std::error_code makeErrorCode(SLresult e) noexcept
+    {
+        return std::error_code{static_cast<int>(e), errorCategory};
+    }
 }
 #endif
 

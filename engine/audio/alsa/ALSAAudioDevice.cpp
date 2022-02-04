@@ -12,11 +12,6 @@
 
 namespace ouzel::audio::alsa
 {
-    namespace
-    {
-        const ErrorCategory errorCategory{};
-    }
-
     AudioDevice::AudioDevice(const Settings& settings,
                              const std::function<void(std::uint32_t frames,
                                                       std::uint32_t channels,

@@ -32,6 +32,8 @@ namespace ouzel::audio::xaudio2
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 #endif
 

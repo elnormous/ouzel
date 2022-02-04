@@ -35,6 +35,8 @@ namespace ouzel::audio::coreaudio
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 #endif
 

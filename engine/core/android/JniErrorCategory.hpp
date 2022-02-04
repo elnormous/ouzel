@@ -30,6 +30,8 @@ namespace ouzel::core::android
             }
         }
     };
+
+    inline const ErrorCategory errorCategory;
 }
 
 #endif // OUZEL_CORE_JNIERRORCATEGORY_HPP
