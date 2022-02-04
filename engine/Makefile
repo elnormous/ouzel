@@ -187,8 +187,6 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	input/macos/MouseDeviceMacOS.mm \
 	input/macos/CursorMacOS.cpp \
 	platform/cocoa/Window.mm \
-	platform/coregraphics/CoreGraphicsErrorCategory.cpp \
-	platform/corevideo/CoreVideoErrorCategory.cpp \
 	platform/foundation/AutoreleasePool.mm \
 	platform/foundation/RunLoop.mm
 else ifeq ($(PLATFORM),ios)
