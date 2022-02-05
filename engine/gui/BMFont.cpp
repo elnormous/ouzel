@@ -43,15 +43,8 @@ namespace ouzel::gui
                       std::vector<std::byte>::const_iterator& iterator) noexcept
         {
             while (iterator != str.end())
-            {
-                if (isNewline(*iterator))
-                {
-                    ++iterator;
+                if (isNewline(*iterator++))
                     break;
-                }
-
-                ++iterator;
-            }
         }
 
         std::string parseString(const std::vector<std::byte>& str,
