@@ -1,12 +1,12 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_INPUT_IOKITERRORCATEGORY_HPP
-#define OUZEL_INPUT_IOKITERRORCATEGORY_HPP
+#ifndef OUZEL_PLATFORM_IOKIT_ERRORCATEGORY_HPP
+#define OUZEL_PLATFORM_IOKIT_ERRORCATEGORY_HPP
 
 #include <system_error>
 #include <IOKit/IOReturn.h>
 
-namespace ouzel::input::macos
+namespace ouzel::platform::iokit
 {
     class ErrorCategory final: public std::error_category
     {
@@ -80,4 +80,4 @@ namespace ouzel::input::macos
     inline const ErrorCategory errorCategory;
 }
 
-#endif
+#endif // OUZEL_PLATFORM_IOKIT_ERRORCATEGORY_HPP

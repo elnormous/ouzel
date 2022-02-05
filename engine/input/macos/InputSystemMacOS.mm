@@ -3,10 +3,10 @@
 #include <objc/message.h>
 #include "InputSystemMacOS.hpp"
 #include "CursorMacOS.hpp"
-#include "IOKitErrorCategory.hpp"
 #include "../../core/macos/NativeWindowMacOS.hpp"
 #include "../../core/Engine.hpp"
 #include "../../events/Event.hpp"
+#include "../../platform/iokit/ErrorCategory.hpp"
 #include "../../utils/Log.hpp"
 
 typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient* IOHIDServiceClientRef;
@@ -110,7 +110,7 @@ namespace ouzel::input::macos
 
         IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
         if (const auto result = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone); result != kIOReturnSuccess)
-            throw std::system_error{result, errorCategory, "Failed to initialize HID manager"};
+            throw std::system_error{result, platform::iokit::errorCategory, "Failed to initialize HID manager"};
 
         IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
         IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);

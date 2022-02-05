@@ -1002,7 +1002,7 @@
 		30861B1624E4AF83007E48E4 /* OALErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OALErrorCategory.hpp; sourceTree = "<group>"; };
 		30861B1724E4B029007E48E4 /* OGLErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLErrorCategory.hpp; sourceTree = "<group>"; };
 		30861B1824E629F4007E48E4 /* ALCErrorCategory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ALCErrorCategory.hpp; sourceTree = "<group>"; };
-		30861B1C24E7585D007E48E4 /* IOKitErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IOKitErrorCategory.hpp; sourceTree = "<group>"; };
+		30861B1C24E7585D007E48E4 /* ErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ErrorCategory.hpp; sourceTree = "<group>"; };
 		30898FE222EFA380001C13F2 /* CueLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CueLoader.hpp; sourceTree = "<group>"; };
 		3089C32224586F93004CDF16 /* Pointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Pointer.hpp; sourceTree = "<group>"; };
 		308E37FF2648102B00CD49B8 /* Data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
@@ -1172,6 +1172,7 @@
 				304BB5D32569E40F0024DD25 /* corevideo */,
 				308E37FC2643ECD000CD49B8 /* dispatch */,
 				30DC8C3926A4E27A000F2B3B /* foundation */,
+				30C0DF7E27AE05C600CA6D96 /* iokit */,
 				30CFB65F26C8A6D8005F8385 /* objc */,
 				301116D0259C3D740093FF14 /* quartzcore */,
 			);
@@ -1831,7 +1832,6 @@
 				300862DE2155CCED00D8CC45 /* GamepadDeviceMacOS.hpp */,
 				300862D22154712E00D8CC45 /* InputSystemMacOS.hpp */,
 				300862D12154712E00D8CC45 /* InputSystemMacOS.mm */,
-				30861B1C24E7585D007E48E4 /* IOKitErrorCategory.hpp */,
 				C6AC8A8B215BD7D500F14D75 /* MouseDeviceMacOS.hpp */,
 				C6AC8A8A215BD7D500F14D75 /* MouseDeviceMacOS.mm */,
 			);
@@ -1878,6 +1878,14 @@
 				30A9C1301CAE80570084C4BF /* Localization.hpp */,
 			);
 			path = localization;
+			sourceTree = "<group>";
+		};
+		30C0DF7E27AE05C600CA6D96 /* iokit */ = {
+			isa = PBXGroup;
+			children = (
+				30861B1C24E7585D007E48E4 /* ErrorCategory.hpp */,
+			);
+			path = iokit;
 			sourceTree = "<group>";
 		};
 		30CFB65F26C8A6D8005F8385 /* objc */ = {

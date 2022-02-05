@@ -3,9 +3,9 @@
 #include <vector>
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
-#include "IOKitErrorCategory.hpp"
 #include "../GamepadConfig.hpp"
 #include "../../platform/corefoundation/Pointer.hpp"
+#include "../../platform/iokit/ErrorCategory.hpp"
 #include "../../utils/Bit.hpp"
 
 namespace ouzel::input::macos
@@ -42,7 +42,7 @@ namespace ouzel::input::macos
         device{initDevice}
     {
         if (const auto result = IOHIDDeviceOpen(device, kIOHIDOptionsTypeNone); result != kIOReturnSuccess)
-            throw std::system_error{result, errorCategory, "Failed to open HID device"};
+            throw std::system_error{result, platform::iokit::errorCategory, "Failed to open HID device"};
 
         const auto productName = static_cast<CFStringRef>(IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey)));
         if (productName)
