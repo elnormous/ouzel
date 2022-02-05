@@ -42,15 +42,8 @@ namespace ouzel::assets
                       std::vector<std::byte>::const_iterator end) noexcept
         {
             while (iterator != end)
-            {
-                if (isNewline(*iterator))
-                {
-                    ++iterator;
+                if (isNewline(*iterator++))
                     break;
-                }
-
-                ++iterator;
-            }
         }
 
         std::string parseString(std::vector<std::byte>::const_iterator& iterator,
