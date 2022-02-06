@@ -1060,7 +1060,7 @@
 		30BB848C20843FCD00C145A2 /* Mouse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
 		30BB848D20843FDB00C145A2 /* Keyboard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
 		30BB848E2084410500C145A2 /* Touchpad.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Touchpad.hpp; sourceTree = "<group>"; };
-		30C0DF8127AF487E00CA6D96 /* AssertionId.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AssertionId.hpp; sourceTree = "<group>"; };
+		30C0DF8127AF487E00CA6D96 /* PmAssertionId.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PmAssertionId.hpp; sourceTree = "<group>"; };
 		30C3F26E219D0846003FE9ED /* Effect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effect.cpp; sourceTree = "<group>"; };
 		30C3F270219D0847003FE9ED /* Effect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Effect.hpp; sourceTree = "<group>"; };
 		30C3F290219D0DD9003FE9ED /* Object.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Object.hpp; sourceTree = "<group>"; };
@@ -1885,7 +1885,7 @@
 			isa = PBXGroup;
 			children = (
 				30861B1C24E7585D007E48E4 /* ErrorCategory.hpp */,
-				30C0DF8127AF487E00CA6D96 /* AssertionId.hpp */,
+				30C0DF8127AF487E00CA6D96 /* PmAssertionId.hpp */,
 			);
 			path = iokit;
 			sourceTree = "<group>";

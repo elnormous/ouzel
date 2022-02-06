@@ -70,7 +70,7 @@ namespace ouzel::core::macos
                 if (!noSleepAssertionId)
                 {
                     CFStringRef reasonForActivity = CFSTR("Ouzel disabling screen saver");
-                    noSleepAssertionId = platform::iokit::AssertionId{
+                    noSleepAssertionId = platform::iokit::PmAssertionId{
                         kIOPMAssertionTypePreventUserIdleDisplaySleep,
                         kIOPMAssertionLevelOn,
                         reasonForActivity

@@ -9,22 +9,22 @@
 
 namespace ouzel::platform::iokit
 {
-    class AssertionId final
+    class PmAssertionId final
     {
     public:
-        AssertionId() noexcept = default;
-        ~AssertionId() noexcept
+        PmAssertionId() noexcept = default;
+        ~PmAssertionId() noexcept
         {
             if (assertionId) IOPMAssertionRelease(assertionId);
         }
 
-        AssertionId(const AssertionId& other) noexcept:
+        PmAssertionId(const PmAssertionId& other) noexcept:
             assertionId{other.assertionId}
         {
             if (assertionId) IOPMAssertionRetain(assertionId);
         }
 
-        AssertionId& operator=(const AssertionId& other) noexcept
+        PmAssertionId& operator=(const PmAssertionId& other) noexcept
         {
             if (&other == this) return *this;
 
@@ -35,13 +35,13 @@ namespace ouzel::platform::iokit
             return *this;
         }
 
-        AssertionId(AssertionId&& other) noexcept:
+        PmAssertionId(PmAssertionId&& other) noexcept:
             assertionId{other.assertionId}
         {
             other.assertionId = 0;
         }
 
-        AssertionId& operator=(AssertionId&& other) noexcept
+        PmAssertionId& operator=(PmAssertionId&& other) noexcept
         {
             if (&other == this) return *this;
 
@@ -52,7 +52,7 @@ namespace ouzel::platform::iokit
             return *this;
         }
 
-        AssertionId(CFStringRef          assertionType,
+        PmAssertionId(CFStringRef          assertionType,
                     IOPMAssertionLevel   assertionLevel,
                     CFStringRef          assertionName)
         {
@@ -65,8 +65,8 @@ namespace ouzel::platform::iokit
 
         operator bool() const noexcept { return assertionId != 0; }
 
-        bool operator==(const AssertionId& other) const noexcept { return assertionId == other.assertionId; }
-        bool operator!=(const AssertionId& other) const noexcept { return assertionId != other.assertionId; }
+        bool operator==(const PmAssertionId& other) const noexcept { return assertionId == other.assertionId; }
+        bool operator!=(const PmAssertionId& other) const noexcept { return assertionId != other.assertionId; }
 
         void release()
         {
