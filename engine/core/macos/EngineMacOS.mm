@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <objc/NSObject.h>
 #include "EngineMacOS.hpp"
-#include "../../platform/iokit/ErrorCategory.hpp"
 
 @interface ExecuteHandler: NSObject
 @end
@@ -38,7 +37,6 @@ namespace ouzel::core::macos
     Engine::~Engine()
     {
         if (executeHanlder) [executeHanlder release];
-        if (noSleepAssertionId) IOPMAssertionRelease(noSleepAssertionId);
     }
 
     void Engine::runOnMainThread(const std::function<void()>& func)
@@ -66,25 +64,17 @@ namespace ouzel::core::macos
 
         executeOnMainThread([this, newScreenSaverEnabled]() {
             if (newScreenSaverEnabled)
-            {
-                if (noSleepAssertionId)
-                {
-                    if (const auto error = IOPMAssertionRelease(noSleepAssertionId); error != kIOReturnSuccess)
-                        throw std::system_error{error, platform::iokit::errorCategory, "Failed to enable screen saver"};
-
-                    noSleepAssertionId = 0;
-                }
-            }
+                noSleepAssertionId.release();
             else
             {
                 if (!noSleepAssertionId)
                 {
                     CFStringRef reasonForActivity = CFSTR("Ouzel disabling screen saver");
-
-                    if (const auto error = IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
-                                                                       kIOPMAssertionLevelOn, reasonForActivity,
-                                                                       &noSleepAssertionId); error != kIOReturnSuccess)
-                        throw std::system_error{error, platform::iokit::errorCategory, "Failed to disable screen saver"};
+                    noSleepAssertionId = platform::iokit::AssertionId{
+                        kIOPMAssertionTypePreventUserIdleDisplaySleep,
+                        kIOPMAssertionLevelOn,
+                        reasonForActivity
+                    };
                 }
             }
         });

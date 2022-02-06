@@ -90,8 +90,8 @@ namespace ouzel::thread
 
         operator bool() const noexcept { return ptr != nullptr; }
 
-        bool operator==(const ChannelIterator& i) const noexcept { return ptr == i.ptr; }
-        bool operator!=(const ChannelIterator& i) const noexcept { return ptr != i.ptr; }
+        bool operator==(const ChannelIterator& other) const noexcept { return ptr == other.ptr; }
+        bool operator!=(const ChannelIterator& other) const noexcept { return ptr != other.ptr; }
 
         Type& operator*() noexcept { return *ptr; }
         const Type& operator*() const noexcept { return *ptr; }

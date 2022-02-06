@@ -3,9 +3,8 @@
 #ifndef OUZEL_CORE_ENGINEMACOS_HPP
 #define OUZEL_CORE_ENGINEMACOS_HPP
 
-#include <IOKit/pwr_mgt/IOPMLib.h>
-
 #include "../Engine.hpp"
+#include "../../platform/iokit/AssertionId.hpp"
 
 namespace ouzel::core::macos
 {
@@ -30,7 +29,7 @@ namespace ouzel::core::macos
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
-        IOPMAssertionID noSleepAssertionId = 0;
+        platform::iokit::AssertionId noSleepAssertionId;
         id executeHanlder = nil;
     };
 }
