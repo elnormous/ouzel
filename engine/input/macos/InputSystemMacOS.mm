@@ -129,7 +129,10 @@ namespace ouzel::input::macos
             [connectDelegate release];
 
         if (hidManager)
+        {
             IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
+            CFRelease(hidManager);
+        }
     }
 
     void InputSystem::executeCommand(const Command& command)
