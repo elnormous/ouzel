@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_PLATFORM_IOKIT_ASSERTIONID_HPP
-#define OUZEL_PLATFORM_IOKIT_ASSERTIONID_HPP
+#ifndef OUZEL_PLATFORM_IOKIT_PMASSERTIONID_HPP
+#define OUZEL_PLATFORM_IOKIT_PMASSERTIONID_HPP
 
 #include <system_error>
 #include <IOKit/pwr_mgt/IOPMLib.h>
@@ -80,4 +80,4 @@ namespace ouzel::platform::iokit
     };
 }
 
-#endif // OUZEL_PLATFORM_IOKIT_ASSERTIONID_HPP
+#endif // OUZEL_PLATFORM_IOKIT_PMASSERTIONID_HPP
