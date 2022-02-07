@@ -38,7 +38,7 @@ namespace ouzel::platform::corefoundation
 
         Pointer(Pointer&& other) noexcept: p{other.p}
         {
-            other.p = nil;
+            other.p = nullptr;
         }
 
         Pointer& operator=(Pointer&& other) noexcept
@@ -46,7 +46,7 @@ namespace ouzel::platform::corefoundation
             if (&other == this) return *this;
             if (p) CFRelease(p);
             p = other.p;
-            other.p = nil;
+            other.p = nullptr;
             return *this;
         }
 
@@ -77,16 +77,16 @@ namespace ouzel::platform::corefoundation
 
         bool operator==(std::nullptr_t) const noexcept
         {
-            return p == nil;
+            return p == nullptr;
         }
 
         bool operator!=(std::nullptr_t) const noexcept
         {
-            return p != nil;
+            return p != nullptr;
         }
 
     private:
-        T p = nil;
+        T p = nullptr;
     };
 }
 

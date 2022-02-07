@@ -4,7 +4,6 @@
 #define OUZEL_INPUT_INPUTSYSTEMMACOS_HPP
 
 #include <memory>
-#include <system_error>
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
 
