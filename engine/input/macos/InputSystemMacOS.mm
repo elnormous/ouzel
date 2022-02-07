@@ -6,7 +6,7 @@
 #include "../../core/macos/NativeWindowMacOS.hpp"
 #include "../../core/Engine.hpp"
 #include "../../events/Event.hpp"
-#include "../../platform/iokit/ErrorCategory.hpp"
+#include "../../platform/corefoundation/Pointer.hpp"
 #include "../../utils/Log.hpp"
 
 typedef struct CF_BRIDGED_TYPE(id) __IOHIDServiceClient* IOHIDServiceClientRef;
@@ -106,11 +106,9 @@ namespace ouzel::input::macos
                                 @{@kIOHIDDeviceUsagePageKey: @(kHIDPage_GenericDesktop), @kIOHIDDeviceUsageKey: @(kHIDUsage_GD_MultiAxisController)}
                             ];
 
-        hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
-
         IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)criteria);
-        if (const auto result = IOHIDManagerOpen(hidManager, kIOHIDOptionsTypeNone); result != kIOReturnSuccess)
-            throw std::system_error{result, platform::iokit::errorCategory, "Failed to initialize HID manager"};
+
+        hidManager.open();
 
         IOHIDManagerRegisterDeviceMatchingCallback(hidManager, deviceAdded, this);
         IOHIDManagerRegisterDeviceRemovalCallback(hidManager, deviceRemoved, this);
@@ -127,12 +125,6 @@ namespace ouzel::input::macos
 
         if (connectDelegate)
             [connectDelegate release];
-
-        if (hidManager)
-        {
-            IOHIDManagerClose(hidManager, kIOHIDOptionsTypeNone);
-            CFRelease(hidManager);
-        }
     }
 
     void InputSystem::executeCommand(const Command& command)

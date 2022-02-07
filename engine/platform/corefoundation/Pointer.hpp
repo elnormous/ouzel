@@ -14,6 +14,11 @@ namespace ouzel::platform::corefoundation
     public:
         Pointer() noexcept = default;
 
+        ~Pointer()
+        {
+            if (p) CFRelease(p);
+        }
+
         Pointer(T a) noexcept: p{a} {}
         Pointer& operator=(T a) noexcept
         {
@@ -48,11 +53,6 @@ namespace ouzel::platform::corefoundation
             p = other.p;
             other.p = nullptr;
             return *this;
-        }
-
-        ~Pointer()
-        {
-            if (p) CFRelease(p);
         }
 
         auto get() const noexcept

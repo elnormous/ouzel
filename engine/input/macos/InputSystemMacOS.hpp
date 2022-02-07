@@ -5,7 +5,6 @@
 
 #include <memory>
 #include <unordered_map>
-#include <IOKit/hid/IOHIDManager.h>
 
 #ifdef __OBJC__
 #  import <AppKit/NSCursor.h>
@@ -24,7 +23,7 @@ using GCControllerPtr = id;
 #include "GamepadDeviceGC.hpp"
 #include "GamepadDeviceIOKit.hpp"
 #include "MouseDeviceMacOS.hpp"
-#include "../../platform/corefoundation/Pointer.hpp"
+#include "../../platform/iokit/HidManager.hpp"
 
 namespace ouzel::input::macos
 {
@@ -69,7 +68,7 @@ namespace ouzel::input::macos
         std::unordered_map<IOHIDDeviceRef, std::unique_ptr<GamepadDeviceIOKit>> gamepadDevicesIOKit;
 
         id connectDelegate = nil;
-        platform::corefoundation::Pointer<IOHIDManagerRef> hidManager;
+        platform::iokit::HidManager hidManager;
 
         std::vector<std::unique_ptr<Cursor>> cursors;
 
