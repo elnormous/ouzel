@@ -228,6 +228,8 @@ namespace ouzel::assets
                     skipLine(iterator, data.end());
                 else if (keyword == "Kd") // diffuse color
                 {
+                    // TODO: handle spectral and xyz
+
                     skipWhitespaces(iterator, data.end());
                     const auto red = parseFloat(iterator, data.end());
                     skipWhitespaces(iterator, data.end());
@@ -243,7 +245,7 @@ namespace ouzel::assets
                     skipLine(iterator, data.end());
                 else if (keyword == "Ke") // emissive color
                     skipLine(iterator, data.end());
-                else if (keyword == "d") // opacity
+                else if (keyword == "d") // dissolve
                 {
                     skipWhitespaces(iterator, data.end());
                     opacity = parseFloat(iterator, data.end());
@@ -260,6 +262,8 @@ namespace ouzel::assets
                     // d = 1 - Tr
                     opacity = 1.0F - transparency;
                 }
+                else if (keyword == "Tf") // transmission filter
+                    skipLine(iterator, data.end());
                 else
                 {
                     // skip all unknown commands
