@@ -267,8 +267,10 @@ namespace ouzel::assets
                 }
                 else if (keyword == "map_Ka") // ambient texture map
                 {
-                    // TODO: parse options
                     skipWhitespaces(iterator, data.end());
+
+                    skipTextureMapOptions(iterator, data.end()); // TODO: parse options
+
                     const auto filename = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
