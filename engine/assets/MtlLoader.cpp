@@ -11,19 +11,19 @@ namespace ouzel::assets
 {
     namespace
     {
-        constexpr auto isWhitespace(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isWhitespace(std::byte c) noexcept
         {
             return static_cast<char>(c) == ' ' ||
                 static_cast<char>(c) == '\t';
         }
 
-        constexpr auto isNewline(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isNewline(std::byte c) noexcept
         {
             return static_cast<char>(c) == '\r' ||
                 static_cast<char>(c) == '\n';
         }
 
-        constexpr auto isControlChar(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isControlChar(std::byte c) noexcept
         {
             return static_cast<std::uint8_t>(c) <= 0x1F;
         }
@@ -46,8 +46,23 @@ namespace ouzel::assets
                     break;
         }
 
-        std::string parseString(std::vector<std::byte>::const_iterator& iterator,
-                                std::vector<std::byte>::const_iterator end)
+        void skipString(std::vector<std::byte>::const_iterator& iterator,
+                        std::vector<std::byte>::const_iterator end)
+        {
+            std::size_t length = 0;
+
+            while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
+            {
+                ++length;
+                ++iterator;
+            }
+
+            if (length == 0)
+                throw std::runtime_error{"Invalid string"};
+        }
+
+        [[nodiscard]] std::string parseString(std::vector<std::byte>::const_iterator& iterator,
+                                              std::vector<std::byte>::const_iterator end)
         {
             std::string result;
 
@@ -63,8 +78,8 @@ namespace ouzel::assets
             return result;
         }
 
-        float parseFloat(std::vector<std::byte>::const_iterator& iterator,
-                         std::vector<std::byte>::const_iterator end)
+        [[nodiscard]] float parseFloat(std::vector<std::byte>::const_iterator& iterator,
+                                       std::vector<std::byte>::const_iterator end)
         {
             std::string value;
             std::uint32_t length = 1;
@@ -133,6 +148,64 @@ namespace ouzel::assets
             if (value.length() < length) return false;
 
             return std::stof(value);
+        }
+
+        void skipTextureMapOptions(std::vector<std::byte>::const_iterator& iterator,
+                                   std::vector<std::byte>::const_iterator end)
+        {
+            while (iterator != end)
+            {
+                if (static_cast<char>(*iterator) == '-')
+                {
+                    const auto option = parseString(iterator, end);
+                    skipWhitespaces(iterator, end);
+
+                    if (option == "-blende")
+                        skipString(iterator, end); // on | off
+                    else if (option == "-blende")
+                        skipString(iterator, end); // on | off
+                    else if (option == "-cc")
+                        skipString(iterator, end); // on | off
+                    else if (option == "-clamp")
+                        skipString(iterator, end); // on | off
+                    else if (option == "-mm")
+                    {
+                        skipString(iterator, end); // base
+                        skipWhitespaces(iterator, end);
+                        skipString(iterator, end); // gain
+                    }
+                    else if (option == "-o")
+                    {
+                        skipString(iterator, end); // u
+                        skipWhitespaces(iterator, end);
+                        skipString(iterator, end); // v
+                        skipWhitespaces(iterator, end);
+                        skipString(iterator, end); // w
+                    }
+                    else if (option == "-s")
+                    {
+                        skipString(iterator, end); // u
+                        skipWhitespaces(iterator, end);
+                        skipString(iterator, end); // v
+                        skipWhitespaces(iterator, end);
+                        skipString(iterator, end); // w
+                    }
+                    else if (option == "-t")
+                    {
+                        skipString(iterator, end); // u
+                        skipWhitespaces(iterator, end);
+                        skipString(iterator, end); // v
+                        skipWhitespaces(iterator, end);
+                        skipString(iterator, end); // w
+                    }
+                    else if (option == "-texres")
+                        skipString(iterator, end); // value
+
+                    skipWhitespaces(iterator, end);
+                }
+                else
+                    break;
+            }
         }
     }
 
@@ -210,8 +283,10 @@ namespace ouzel::assets
                 }
                 else if (keyword == "map_Kd") // diffuse texture map
                 {
-                    // TODO: parse options
                     skipWhitespaces(iterator, data.end());
+
+                    skipTextureMapOptions(iterator, data.end()); // TODO: parse options
+
                     const auto filename = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());

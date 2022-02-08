@@ -11,19 +11,19 @@ namespace ouzel::assets
 {
     namespace
     {
-        constexpr auto isWhitespace(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isWhitespace(std::byte c) noexcept
         {
             return static_cast<char>(c) == ' ' ||
                 static_cast<char>(c) == '\t';
         }
 
-        constexpr auto isNewline(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isNewline(std::byte c) noexcept
         {
             return static_cast<char>(c) == '\r' ||
                 static_cast<char>(c) == '\n';
         }
 
-        constexpr auto isControlChar(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isControlChar(std::byte c) noexcept
         {
             return static_cast<std::uint8_t>(c) <= 0x1F;
         }
@@ -46,8 +46,8 @@ namespace ouzel::assets
                     break;
         }
 
-        std::string parseString(std::vector<std::byte>::const_iterator& iterator,
-                                std::vector<std::byte>::const_iterator end)
+        [[nodiscard]] std::string parseString(std::vector<std::byte>::const_iterator& iterator,
+                                              std::vector<std::byte>::const_iterator end)
         {
             std::string result;
 
@@ -64,8 +64,8 @@ namespace ouzel::assets
             return result;
         }
 
-        std::int32_t parseInt32(std::vector<std::byte>::const_iterator& iterator,
-                                std::vector<std::byte>::const_iterator end)
+        [[nodiscard]] std::int32_t parseInt32(std::vector<std::byte>::const_iterator& iterator,
+                                              std::vector<std::byte>::const_iterator end)
         {
             std::string value;
             std::uint32_t length = 1;
@@ -92,8 +92,8 @@ namespace ouzel::assets
             return std::stoi(value);
         }
 
-        float parseFloat(std::vector<std::byte>::const_iterator& iterator,
-                         std::vector<std::byte>::const_iterator end)
+        [[nodiscard]] float parseFloat(std::vector<std::byte>::const_iterator& iterator,
+                                       std::vector<std::byte>::const_iterator end)
         {
             std::string value;
             std::uint32_t length = 1;
@@ -164,9 +164,9 @@ namespace ouzel::assets
             return std::stof(value);
         }
 
-        bool parseToken(const std::vector<std::byte>& str,
-                        std::vector<std::byte>::const_iterator& iterator,
-                        char token)
+        [[nodiscard]] bool parseToken(const std::vector<std::byte>& str,
+                                      std::vector<std::byte>::const_iterator& iterator,
+                                      char token)
         {
             if (iterator == str.end() || static_cast<char>(*iterator) != token) return false;
 
