@@ -27,7 +27,7 @@
 
 - (BOOL)prefersStatusBarHidden
 {
-    return YES;
+    return window->isFullscreen() ? YES : NO;
 }
 
 - (void)textFieldDidChange:(__unused id)sender
