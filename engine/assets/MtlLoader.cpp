@@ -218,6 +218,7 @@ namespace ouzel::assets
         std::string materialName = name;
         std::shared_ptr<graphics::Texture> diffuseTexture;
         std::shared_ptr<graphics::Texture> ambientTexture;
+        math::Color ambientColor = math::whiteColor;
         math::Color diffuseColor = math::whiteColor;
         float opacity = 1.0F;
 
@@ -302,7 +303,20 @@ namespace ouzel::assets
                     }
                 }
                 else if (keyword == "Ka") // ambient color
+                {
+                    // TODO: handle spectral and xyz
+
+                    skipWhitespaces(iterator, data.end());
+                    const auto red = parseFloat(iterator, data.end());
+                    skipWhitespaces(iterator, data.end());
+                    const auto green = parseFloat(iterator, data.end());
+                    skipWhitespaces(iterator, data.end());
+                    const auto blue = parseFloat(iterator, data.end());
+
                     skipLine(iterator, data.end());
+
+                    ambientColor = math::Color{red, green, blue};
+                }
                 else if (keyword == "Kd") // diffuse color
                 {
                     // TODO: handle spectral and xyz
@@ -316,7 +330,7 @@ namespace ouzel::assets
 
                     skipLine(iterator, data.end());
 
-                    diffuseColor = math::Color{red, green, blue, 1.0F};
+                    diffuseColor = math::Color{red, green, blue};
                 }
                 else if (keyword == "Ks") // specular color
                     skipLine(iterator, data.end());
@@ -358,6 +372,7 @@ namespace ouzel::assets
             material->shader = cache.getShader(shaderTexture);
             material->textures[0] = diffuseTexture;
             material->textures[1] = ambientTexture;
+            material->ambientColor = ambientColor;
             material->diffuseColor = diffuseColor;
             material->opacity = opacity;
             material->cullMode = graphics::CullMode::back;
