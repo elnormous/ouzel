@@ -64,8 +64,12 @@ namespace ouzel::core
 
     class Promise final
     {
-        friend class WorkerPool;
     public:
+        Promise(const TaskGroup& taskGroup) noexcept:
+            sharedState{std::make_shared<Future::State>(taskGroup.getTaskCount())}
+        {
+        }
+
         Future getFuture() const
         {
             return Future{sharedState};
@@ -83,11 +87,6 @@ namespace ouzel::core
         }
 
     private:
-        Promise(const TaskGroup& taskGroup) noexcept:
-            sharedState{std::make_shared<Future::State>(taskGroup.getTaskCount())}
-        {
-        }
-
         std::shared_ptr<Future::State> sharedState;
     };
 
@@ -99,7 +98,7 @@ namespace ouzel::core
             const std::size_t cpuCount = std::thread::hardware_concurrency();
             const std::size_t count = (cpuCount > 1) ? cpuCount - 1 : 1;
 
-            for (unsigned int i = 0; i < count; ++i)
+            for (std::size_t i = 0; i < count; ++i)
                 workers.emplace_back(&WorkerPool::work, this);
         }
 
