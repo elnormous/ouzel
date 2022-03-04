@@ -169,7 +169,7 @@ namespace ouzel::core
     }
 
     Engine::Engine(const std::vector<std::string>& initArgs):
-        fileSystem(*this),
+        fileSystem{*this},
         settings{getSettings(fileSystem)},
         window{settings.size, getWindowFlags(settings), OUZEL_APPLICATION_NAME, settings.graphicsDriver},
         graphics{settings.graphicsDriver, window, settings.graphicsSettings},
