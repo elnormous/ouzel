@@ -365,15 +365,15 @@ namespace ouzel::plist
     using String = std::string;
     using Date = std::chrono::system_clock::time_point;
 
-    inline std::string encode(const Value& value, Format format, bool whitespaces = false)
+    inline std::string encode(const Value& value, Format format, bool whiteSpaces = false)
     {
         class TextEncoder final
         {
         public:
-            static std::string encode(const Value& value, bool whitespaces)
+            static std::string encode(const Value& value, bool whiteSpaces)
             {
                 std::string result = "// !$*UTF8*$!\n";
-                encode(value, result, whitespaces);
+                encode(value, result, whiteSpaces);
                 return result;
             }
 
@@ -406,24 +406,24 @@ namespace ouzel::plist
                     result += "\"\"";
             }
 
-            static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
+            static void encode(const Value& value, std::string& result, bool whiteSpaces, size_t level = 0)
             {
                 if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
                 {
                     result.push_back('{');
                     for (const auto& [key, entryValue] : *dictionary)
                     {
-                        if (whitespaces) result.push_back('\n');
-                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        if (whiteSpaces) result.push_back('\n');
+                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
                         encode(key, result);
-                        if (whitespaces) result.push_back(' ');
+                        if (whiteSpaces) result.push_back(' ');
                         result.push_back('=');
-                        if (whitespaces) result.push_back(' ');
-                        encode(entryValue, result, whitespaces, level + 1);
+                        if (whiteSpaces) result.push_back(' ');
+                        encode(entryValue, result, whiteSpaces, level + 1);
                         result.push_back(';'); // trailing semicolon is mandatory
                     }
-                    if (whitespaces) result.push_back('\n');
-                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    if (whiteSpaces) result.push_back('\n');
+                    if (whiteSpaces) result.insert(result.end(), level, '\t');
                     result += "}";
                 }
                 else if (auto array = std::get_if<Array>(&value.getValue()))
@@ -433,12 +433,12 @@ namespace ouzel::plist
                     for (const auto& child : *array)
                     {
                         if (count++) result.push_back(','); // trailing comma is optional
-                        if (whitespaces) result.push_back('\n');
-                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                        encode(child, result, whitespaces, level + 1);
+                        if (whiteSpaces) result.push_back('\n');
+                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                        encode(child, result, whiteSpaces, level + 1);
                     }
-                    if (whitespaces) result.push_back('\n');
-                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    if (whiteSpaces) result.push_back('\n');
+                    if (whiteSpaces) result.insert(result.end(), level, '\t');
                     result += ')';
                 }
                 else if (auto string = std::get_if<String>(&value.getValue()))
@@ -463,7 +463,7 @@ namespace ouzel::plist
                     std::size_t count = 0;
                     for (const auto b : *data)
                     {
-                        if (whitespaces && count++) result.push_back(' ');
+                        if (whiteSpaces && count++) result.push_back(' ');
                         constexpr char digits[] = "0123456789ABCDEF";
                         result += digits[(static_cast<std::size_t>(b) >> 4) & 0x0F];
                         result += digits[static_cast<std::size_t>(b) & 0x0F];
@@ -483,16 +483,16 @@ namespace ouzel::plist
         class XmlEncoder final
         {
         public:
-            static std::string encode(const Value& value, bool whitespaces)
+            static std::string encode(const Value& value, bool whiteSpaces)
             {
                 std::string result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-                if (whitespaces) result.push_back('\n');
+                if (whiteSpaces) result.push_back('\n');
                 result += "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">";
-                if (whitespaces) result.push_back('\n');
+                if (whiteSpaces) result.push_back('\n');
                 result += "<plist version=\"1.0\">";
-                if (whitespaces) result.push_back('\n');
-                encode(value, result, whitespaces);
-                if (whitespaces) result.push_back('\n');
+                if (whiteSpaces) result.push_back('\n');
+                encode(value, result, whiteSpaces);
+                if (whiteSpaces) result.push_back('\n');
                 result += "</plist>";
                 return result;
             }
@@ -507,22 +507,22 @@ namespace ouzel::plist
                     else result.push_back(c);
             }
 
-            static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
+            static void encode(const Value& value, std::string& result, bool whiteSpaces, size_t level = 0)
             {
                 if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
                 {
                     result += "<dict>";
-                    if (whitespaces) result.push_back('\n');
+                    if (whiteSpaces) result.push_back('\n');
                     for (const auto& [key, entryValue] : *dictionary)
                     {
-                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
                         result += "<key>";
                         encode(key, result);
                         result += "</key>";
-                        if (whitespaces) result += '\n';
-                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                        encode(entryValue, result, whitespaces, level + 1);
-                        if (whitespaces) result += '\n';
+                        if (whiteSpaces) result += '\n';
+                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                        encode(entryValue, result, whiteSpaces, level + 1);
+                        if (whiteSpaces) result += '\n';
                     }
                     result.insert(result.end(), level, '\t');
                     result += "</dict>";
@@ -530,14 +530,14 @@ namespace ouzel::plist
                 else if (auto array = std::get_if<Array>(&value.getValue()))
                 {
                     result += "<array>";
-                    if (whitespaces) result.push_back('\n');
+                    if (whiteSpaces) result.push_back('\n');
                     for (const auto& child : *array)
                     {
-                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                        encode(child, result, whitespaces, level + 1);
-                        if (whitespaces) result.push_back('\n');
+                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                        encode(child, result, whiteSpaces, level + 1);
+                        if (whiteSpaces) result.push_back('\n');
                     }
-                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    if (whiteSpaces) result.insert(result.end(), level, '\t');
                     result += "</array>";
                 }
                 else if (auto string = std::get_if<String>(&value.getValue()))
@@ -615,8 +615,8 @@ namespace ouzel::plist
 
         switch (format)
         {
-            case Format::text: return TextEncoder::encode(value, whitespaces);
-            case Format::xml: return XmlEncoder::encode(value, whitespaces);
+            case Format::text: return TextEncoder::encode(value, whiteSpaces);
+            case Format::xml: return XmlEncoder::encode(value, whiteSpaces);
         }
 
         throw std::runtime_error{"Unsupported format"};

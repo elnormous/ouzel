@@ -186,7 +186,7 @@ namespace ouzel::xml
 
     template <class Iterator>
     Data parse(const Iterator begin, const Iterator end,
-               const bool preserveWhitespaces = false,
+               const bool preserveWhiteSpaces = false,
                const bool preserveComments = false,
                const bool preserveProcessingInstructions = false)
     {
@@ -305,7 +305,7 @@ namespace ouzel::xml
             }
 
             static Data parse(const Iterator begin, const Iterator end,
-                              const bool preserveWhitespaces,
+                              const bool preserveWhiteSpaces,
                               const bool preserveComments,
                               const bool preserveProcessingInstructions)
             {
@@ -320,12 +320,12 @@ namespace ouzel::xml
 
                 for (;;)
                 {
-                    if (!preserveWhitespaces) skipWhitespaces(iterator, str.end());
+                    if (!preserveWhiteSpaces) skipWhiteSpaces(iterator, str.end());
 
                     if (iterator == str.end()) break;
 
                     const auto node = parse(iterator, str.end(),
-                                            preserveWhitespaces,
+                                            preserveWhiteSpaces,
                                             preserveComments,
                                             preserveProcessingInstructions,
                                             prologAllowed);
@@ -365,7 +365,7 @@ namespace ouzel::xml
                 return true;
             }
 
-            static constexpr bool isWhitespace(const char32_t c) noexcept
+            static constexpr bool isWhiteSpace(const char32_t c) noexcept
             {
                 return c == ' ' || c == '\t' || c == '\r' || c == '\n';
             }
@@ -399,10 +399,10 @@ namespace ouzel::xml
                     (c >= 0x203F && c <= 0x2040);
             }
 
-            static void skipWhitespaces(std::u32string::const_iterator& iterator,
+            static void skipWhiteSpaces(std::u32string::const_iterator& iterator,
                                         const std::u32string::const_iterator end)
             {
-                while (iterator != end && isWhitespace(*iterator))
+                while (iterator != end && isWhiteSpace(*iterator))
                     ++iterator;
             }
 
@@ -598,7 +598,7 @@ namespace ouzel::xml
                     result = Node::Type::notation;
                 }
 
-                skipWhitespaces(iterator, end);
+                skipWhiteSpaces(iterator, end);
 
                 result.setName(parseName(iterator, end));
 
@@ -619,7 +619,7 @@ namespace ouzel::xml
 
             static Node parseElement(std::u32string::const_iterator& iterator,
                                      const std::u32string::const_iterator end,
-                                     const bool preserveWhitespaces,
+                                     const bool preserveWhiteSpaces,
                                      const bool preserveComments,
                                      const bool preserveProcessingInstructions,
                                      const bool prologAllowed)
@@ -717,12 +717,12 @@ namespace ouzel::xml
 
                         result = Node::Type::documentTypeDefinition;
 
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
 
                         const auto name = parseName(iterator, end);
                         result.setName(name);
 
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
                         
                         if (iterator == end)
                             throw ParseError{"Unexpected end of data"};
@@ -732,7 +732,7 @@ namespace ouzel::xml
                             if (++iterator == end)
                                 throw ParseError{"Unexpected end of data"};
 
-                            skipWhitespaces(iterator, end);
+                            skipWhiteSpaces(iterator, end);
 
                             if (iterator == end)
                                 throw ParseError{"Unexpected end of data"};
@@ -741,7 +741,7 @@ namespace ouzel::xml
                             {
                                 result.pushBack(parseDtdElement(iterator, end));
 
-                                skipWhitespaces(iterator, end);
+                                skipWhiteSpaces(iterator, end);
 
                                 if (iterator == end)
                                     throw ParseError{"Unexpected end of data"};
@@ -762,7 +762,7 @@ namespace ouzel::xml
                             result.setValue(value);
                         }
 
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
 
                         if (iterator == end)
                             throw ParseError{"Unexpected end of data"};
@@ -790,7 +790,7 @@ namespace ouzel::xml
 
                     result.setName(name);
 
-                    skipWhitespaces(iterator, end);
+                    skipWhiteSpaces(iterator, end);
 
                     if (iterator == end)
                         throw ParseError{"Unexpected end of data"};
@@ -821,7 +821,7 @@ namespace ouzel::xml
 
                     for (;;)
                     {
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
 
                         if (iterator == end)
                             throw ParseError{"Unexpected end of data"};
@@ -843,11 +843,11 @@ namespace ouzel::xml
 
                         const auto attribute = parseName(iterator, end);
 
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
 
                         expect(iterator, end, '=');
 
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
 
                         result[attribute] = parseString(iterator, end);
                     }
@@ -856,7 +856,7 @@ namespace ouzel::xml
                     {
                         for (;;)
                         {
-                            if (!preserveWhitespaces) skipWhitespaces(iterator, end);
+                            if (!preserveWhiteSpaces) skipWhiteSpaces(iterator, end);
 
                             if (iterator == end)
                                 throw ParseError{"Unexpected end of data"};
@@ -877,7 +877,7 @@ namespace ouzel::xml
                             else
                             {
                                 const auto node = parse(iterator, end,
-                                                        preserveWhitespaces,
+                                                        preserveWhiteSpaces,
                                                         preserveComments,
                                                         preserveProcessingInstructions,
                                                         false);
@@ -922,7 +922,7 @@ namespace ouzel::xml
 
             static Node parse(std::u32string::const_iterator& iterator,
                               const std::u32string::const_iterator end,
-                              const bool preserveWhitespaces,
+                              const bool preserveWhiteSpaces,
                               const bool preserveComments,
                               const bool preserveProcessingInstructions,
                               const bool prologAllowed)
@@ -933,7 +933,7 @@ namespace ouzel::xml
 
                 if (*iterator == '<')
                     return parseElement(iterator, end,
-                                        preserveWhitespaces,
+                                        preserveWhiteSpaces,
                                         preserveComments,
                                         preserveProcessingInstructions,
                                         prologAllowed);
@@ -943,46 +943,46 @@ namespace ouzel::xml
         };
 
         return Parser::parse(begin, end,
-                             preserveWhitespaces,
+                             preserveWhiteSpaces,
                              preserveComments,
                              preserveProcessingInstructions);
     }
 
     inline Data parse(const char* data,
-                      const bool preserveWhitespaces = false,
+                      const bool preserveWhiteSpaces = false,
                       const bool preserveComments = false,
                       const bool preserveProcessingInstructions = false)
     {
         auto end = data;
         while (*end) ++end;
         return parse(data, end,
-                     preserveWhitespaces,
+                     preserveWhiteSpaces,
                      preserveComments,
                      preserveProcessingInstructions);
     }
 
     template <class T>
     Data parse(const T& data,
-               const bool preserveWhitespaces = false,
+               const bool preserveWhiteSpaces = false,
                const bool preserveComments = false,
                const bool preserveProcessingInstructions = false)
     {
         using std::begin, std::end; // add std::begin and std::end to lookup
         return parse(begin(data), end(data),
-                     preserveWhitespaces,
+                     preserveWhiteSpaces,
                      preserveComments,
                      preserveProcessingInstructions);
     }
 
     inline std::string encode(const Data& data,
-                              const bool whitespaces = false,
+                              const bool whiteSpaces = false,
                               const bool byteOrderMark = false)
     {
         class Encoder final
         {
         public:
             static std::string encode(const Data& data,
-                                      const bool whitespaces,
+                                      const bool whiteSpaces,
                                       const bool byteOrderMark)
             {
                 std::string result;
@@ -991,8 +991,8 @@ namespace ouzel::xml
 
                 for (const Node& node : data)
                 {
-                    encode(node, result, whitespaces);
-                    if (whitespaces) result.push_back('\n');
+                    encode(node, result, whiteSpaces);
+                    if (whiteSpaces) result.push_back('\n');
                 }
 
                 return result;
@@ -1029,7 +1029,7 @@ namespace ouzel::xml
             }
 
             static void encode(const Node& node, std::string& result,
-                               const bool whitespaces,
+                               const bool whiteSpaces,
                                const std::size_t level = 0)
             {
                 switch (node.getType())
@@ -1089,16 +1089,16 @@ namespace ouzel::xml
                         if (const auto& children = node.getChildren(); !children.empty())
                         {
                             result.insert(result.end(), {' ', '['});
-                            if (whitespaces) result.push_back('\n');
+                            if (whiteSpaces) result.push_back('\n');
 
                             for (const Node& child : children)
                             {
-                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                                encode(child, result, whitespaces, level + 1);
-                                if (whitespaces) result.push_back('\n');
+                                if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                                encode(child, result, whiteSpaces, level + 1);
+                                if (whiteSpaces) result.push_back('\n');
                             }
 
-                            if (whitespaces) result.insert(result.end(), level, '\t');
+                            if (whiteSpaces) result.insert(result.end(), level, '\t');
                             result.insert(result.end(), ']');
                         }
 
@@ -1185,16 +1185,16 @@ namespace ouzel::xml
                         if (const auto& children = node.getChildren(); !children.empty())
                         {
                             result.insert(result.end(), '>');
-                            if (whitespaces) result.push_back('\n');
+                            if (whiteSpaces) result.push_back('\n');
 
                             for (const Node& child : children)
                             {
-                                if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                                encode(child, result, whitespaces, level + 1);
-                                if (whitespaces) result.push_back('\n');
+                                if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                                encode(child, result, whiteSpaces, level + 1);
+                                if (whiteSpaces) result.push_back('\n');
                             }
 
-                            if (whitespaces) result.insert(result.end(), level, '\t');
+                            if (whiteSpaces) result.insert(result.end(), level, '\t');
                             result.insert(result.end(), {'<', '/'});
                             result.insert(result.end(), name.begin(), name.end());
                             result.insert(result.end(), '>');
@@ -1215,7 +1215,7 @@ namespace ouzel::xml
             }
         };
 
-        return Encoder::encode(data, whitespaces, byteOrderMark);
+        return Encoder::encode(data, whiteSpaces, byteOrderMark);
     }
 }
 

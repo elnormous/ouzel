@@ -11,35 +11,35 @@ namespace ouzel::assets
 {
     namespace
     {
-        [[nodiscard]] constexpr auto isWhitespace(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isWhiteSpace(const std::byte c) noexcept
         {
             return static_cast<char>(c) == ' ' ||
                 static_cast<char>(c) == '\t';
         }
 
-        [[nodiscard]] constexpr auto isNewline(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isNewline(const std::byte c) noexcept
         {
             return static_cast<char>(c) == '\r' ||
                 static_cast<char>(c) == '\n';
         }
 
-        [[nodiscard]] constexpr auto isControlChar(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isControlChar(const std::byte c) noexcept
         {
             return static_cast<std::uint8_t>(c) <= 0x1F;
         }
 
-        void skipWhitespaces(std::vector<std::byte>::const_iterator& iterator,
-                             std::vector<std::byte>::const_iterator end) noexcept
+        void skipWhiteSpaces(std::vector<std::byte>::const_iterator& iterator,
+                             const std::vector<std::byte>::const_iterator end) noexcept
         {
             while (iterator != end)
-                if (isWhitespace(*iterator))
+                if (isWhiteSpace(*iterator))
                     ++iterator;
                 else
                     break;
         }
 
         void skipLine(std::vector<std::byte>::const_iterator& iterator,
-                      std::vector<std::byte>::const_iterator end) noexcept
+                      const std::vector<std::byte>::const_iterator end) noexcept
         {
             while (iterator != end)
                 if (isNewline(*iterator++))
@@ -47,11 +47,11 @@ namespace ouzel::assets
         }
 
         [[nodiscard]] std::string parseString(std::vector<std::byte>::const_iterator& iterator,
-                                              std::vector<std::byte>::const_iterator end)
+                                              const std::vector<std::byte>::const_iterator end)
         {
             std::string result;
 
-            while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
+            while (iterator != end && !isControlChar(*iterator) && !isWhiteSpace(*iterator))
             {
                 result.push_back(static_cast<char>(*iterator));
 
@@ -65,7 +65,7 @@ namespace ouzel::assets
         }
 
         [[nodiscard]] std::int32_t parseInt32(std::vector<std::byte>::const_iterator& iterator,
-                                              std::vector<std::byte>::const_iterator end)
+                                              const std::vector<std::byte>::const_iterator end)
         {
             std::string value;
             std::uint32_t length = 1;
@@ -93,7 +93,7 @@ namespace ouzel::assets
         }
 
         [[nodiscard]] float parseFloat(std::vector<std::byte>::const_iterator& iterator,
-                                       std::vector<std::byte>::const_iterator end)
+                                       const std::vector<std::byte>::const_iterator end)
         {
             std::string value;
             std::uint32_t length = 1;
@@ -166,7 +166,7 @@ namespace ouzel::assets
 
         [[nodiscard]] bool parseToken(const std::vector<std::byte>& str,
                                       std::vector<std::byte>::const_iterator& iterator,
-                                      char token)
+                                      const char token)
         {
             if (iterator == str.end() || static_cast<char>(*iterator) != token) return false;
 
@@ -208,11 +208,11 @@ namespace ouzel::assets
             }
             else
             {
-                skipWhitespaces(iterator, data.end());
+                skipWhiteSpaces(iterator, data.end());
 
                 if (const auto keyword = parseString(iterator, data.end()); keyword == "mtllib")
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto filename = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -223,7 +223,7 @@ namespace ouzel::assets
                 }
                 else if (keyword == "usemtl")
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto materialName = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -238,7 +238,7 @@ namespace ouzel::assets
                         bundle.setStaticMeshData(objectName, std::move(meshData));
                     }
 
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     objectName = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -252,11 +252,11 @@ namespace ouzel::assets
                 }
                 else if (keyword == "v")
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto x = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto y = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto z = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -265,9 +265,9 @@ namespace ouzel::assets
                 }
                 else if (keyword == "vt")
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto u = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto v = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -276,11 +276,11 @@ namespace ouzel::assets
                 }
                 else if (keyword == "vn")
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto x = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto y = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto z = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -300,7 +300,7 @@ namespace ouzel::assets
                     {
                         if (isNewline(*iterator)) break;
 
-                        skipWhitespaces(iterator, data.end());
+                        skipWhiteSpaces(iterator, data.end());
                         positionIndex = parseInt32(iterator, data.end());
 
                         if (positionIndex < 0)

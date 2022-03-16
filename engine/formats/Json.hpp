@@ -361,36 +361,35 @@ namespace ouzel::json
             {
                 const auto startIterator = hasByteOrderMark(begin, end) ? begin + 3 : begin;
                 const auto [result, valueIterator] = parseValue(startIterator, end);
-                if (const auto endIterator = skipWhitespaces(valueIterator, end); endIterator != end)
+                if (const auto endIterator = skipWhiteSpaces(valueIterator, end); endIterator != end)
                     throw ParseError{"Unexpected data"};
 
                 return result;
             }
 
         private:
-            static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
+            static bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
             {
+                auto i = begin;
                 for (const auto b : utf8ByteOrderMark)
-                    if (begin == end || static_cast<std::uint8_t>(*begin) != b)
+                    if (begin == end || static_cast<std::uint8_t>(*i++) != b)
                         return false;
-                    else
-                        ++begin;
                 return true;
             }
 
-            static constexpr bool isWhitespace(const char c) noexcept
+            static constexpr bool isWhiteSpace(const char c) noexcept
             {
                 return c == ' ' || c == '\t' || c == '\r' || c == '\n';
             }
 
-            static Iterator skipWhitespaces(Iterator begin, Iterator end)
+            static Iterator skipWhiteSpaces(const Iterator begin, const Iterator end)
             {
                 for (auto i = begin; i != end; ++i)
-                    if (!isWhitespace(static_cast<char>(*i))) return i;
+                    if (!isWhiteSpace(static_cast<char>(*i))) return i;
                 return end;
             }
 
-            static std::pair<bool, Iterator> isSame(Iterator begin, Iterator end,
+            static std::pair<bool, Iterator> isSame(const Iterator begin, const Iterator end,
                                                     const char* expectedBegin,
                                                     const char* expectedEnd)
             {
@@ -408,9 +407,9 @@ namespace ouzel::json
                 return std::pair{true, iterator};
             }
 
-            static std::pair<Value, Iterator> parseValue(Iterator begin, Iterator end)
+            static std::pair<Value, Iterator> parseValue(const Iterator begin, const Iterator end)
             {
-                Iterator iterator = skipWhitespaces(begin, end);
+                Iterator iterator = skipWhiteSpaces(begin, end);
 
                 if (iterator == end)
                     throw ParseError{"Unexpected end of data"};
@@ -423,7 +422,7 @@ namespace ouzel::json
 
                     bool firstValue = true;
 
-                    while ((iterator = skipWhitespaces(iterator, end)) != end &&
+                    while ((iterator = skipWhiteSpaces(iterator, end)) != end &&
                            static_cast<char>(*iterator) != '}')
                     {
                         if (firstValue)
@@ -433,16 +432,16 @@ namespace ouzel::json
                             if (static_cast<char>(*iterator++) != ',')
                                 throw ParseError{"Invalid object"};
 
-                            iterator = skipWhitespaces(iterator, end);
+                            iterator = skipWhiteSpaces(iterator, end);
                         }
 
                         const auto [key, stringIterator] = parseString(iterator, end);
-                        iterator = skipWhitespaces(stringIterator, end);
+                        iterator = skipWhiteSpaces(stringIterator, end);
 
                         if (static_cast<char>(*iterator++) != ':')
                             throw ParseError{"Invalid object"};
 
-                        iterator = skipWhitespaces(iterator, end);
+                        iterator = skipWhiteSpaces(iterator, end);
 
                         const auto [value, valueIterator] = parseValue(iterator, end);
                         iterator = valueIterator;
@@ -464,7 +463,7 @@ namespace ouzel::json
 
                     bool firstValue = true;
 
-                    while ((iterator = skipWhitespaces(iterator, end)) != end &&
+                    while ((iterator = skipWhiteSpaces(iterator, end)) != end &&
                            static_cast<char>(*iterator) != ']')
                     {
                         if (firstValue)
@@ -474,7 +473,7 @@ namespace ouzel::json
                             if (static_cast<char>(*iterator++) != ',')
                                 throw ParseError{"Invalid object"};
 
-                            iterator = skipWhitespaces(iterator, end);
+                            iterator = skipWhiteSpaces(iterator, end);
                         }
 
                         const auto [value, valueIterator] = parseValue(iterator, end);
@@ -714,17 +713,17 @@ namespace ouzel::json
         return parse(begin(data), end(data));
     }
 
-    inline std::string encode(const Value& value, bool whitespaces = false, bool byteOrderMark = false)
+    inline std::string encode(const Value& value, bool whiteSpaces = false, bool byteOrderMark = false)
     {
         class Encoder final
         {
         public:
-            static std::string encode(const Value& value, bool whitespaces, bool byteOrderMark)
+            static std::string encode(const Value& value, bool whiteSpaces, bool byteOrderMark)
             {
                 std::string result;
                 if (byteOrderMark) result.assign(utf8ByteOrderMark.begin(),
                                                  utf8ByteOrderMark.end());
-                encode(value, result, whitespaces);
+                encode(value, result, whiteSpaces);
                 return result;
             }
 
@@ -755,7 +754,7 @@ namespace ouzel::json
                         result.push_back(c);
             }
 
-            static void encode(const Value& value, std::string& result, bool whitespaces, size_t level = 0)
+            static void encode(const Value& value, std::string& result, bool whiteSpaces, size_t level = 0)
             {
                 if (std::holds_alternative<std::nullptr_t>(value.getValue()))
                 {
@@ -780,38 +779,38 @@ namespace ouzel::json
                 else if (auto o = std::get_if<Object>(&value.getValue()))
                 {
                     result.push_back('{');
-                    if (whitespaces) result.push_back('\n');
+                    if (whiteSpaces) result.push_back('\n');
 
                     for (auto entryIterator = o->begin(); entryIterator != o->end();)
                     {
                         const auto& [key, entryValue] = *entryIterator;
-                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
+                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
                         result.push_back('"');
                         encode(key, result);
                         result.insert(result.end(), {'"', ':'});
-                        encode(entryValue, result, whitespaces, level + 1);
+                        encode(entryValue, result, whiteSpaces, level + 1);
                         if (++entryIterator != o->end()) result.push_back(',');
-                        if (whitespaces) result.push_back('\n');
+                        if (whiteSpaces) result.push_back('\n');
                     }
 
-                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    if (whiteSpaces) result.insert(result.end(), level, '\t');
                     result.push_back('}');
                 }
                 else if (auto a = std::get_if<Array>(&value.getValue()))
                 {
                     result.push_back('[');
-                    if (whitespaces) result.push_back('\n');
+                    if (whiteSpaces) result.push_back('\n');
 
                     for (auto entryIterator = a->begin(); entryIterator != a->end();)
                     {
                         const auto& entry = *entryIterator;
-                        if (whitespaces) result.insert(result.end(), level + 1, '\t');
-                        encode(entry, result, whitespaces, level + 1);
+                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                        encode(entry, result, whiteSpaces, level + 1);
                         if (++entryIterator != a->end()) result.push_back(',');
-                        if (whitespaces) result.push_back('\n');
+                        if (whiteSpaces) result.push_back('\n');
                     }
 
-                    if (whitespaces) result.insert(result.end(), level, '\t');
+                    if (whiteSpaces) result.insert(result.end(), level, '\t');
                     result.push_back(']');
                 }
                 else if (auto b = std::get_if<bool>(&value.getValue()))
@@ -824,7 +823,7 @@ namespace ouzel::json
             }
         };
 
-        return Encoder::encode(value, whitespaces, byteOrderMark);
+        return Encoder::encode(value, whiteSpaces, byteOrderMark);
     }
 }
 

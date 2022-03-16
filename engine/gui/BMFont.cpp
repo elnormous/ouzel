@@ -12,28 +12,28 @@ namespace ouzel::gui
 {
     namespace
     {
-        constexpr auto isWhitespace(std::byte c) noexcept
+        constexpr auto isWhiteSpace(const std::byte c) noexcept
         {
             return static_cast<char>(c) == ' ' ||
                 static_cast<char>(c) == '\t';
         }
 
-        constexpr auto isNewline(std::byte c) noexcept
+        constexpr auto isNewline(const std::byte c) noexcept
         {
             return static_cast<char>(c) == '\r' ||
                 static_cast<char>(c) == '\n';
         }
 
-        constexpr auto isControlChar(std::byte c) noexcept
+        constexpr auto isControlChar(const std::byte c) noexcept
         {
             return static_cast<std::uint8_t>(c) <= 0x1F;
         }
 
-        void skipWhitespaces(const std::vector<std::byte>& str,
+        void skipWhiteSpaces(const std::vector<std::byte>& str,
                              std::vector<std::byte>::const_iterator& iterator) noexcept
         {
             while (iterator != str.end())
-                if (isWhitespace(*iterator))
+                if (isWhiteSpace(*iterator))
                     ++iterator;
                 else
                     break;
@@ -63,7 +63,7 @@ namespace ouzel::gui
                 {
                     if (static_cast<char>(*iterator) == '"' &&
                         (iterator + 1 == str.end() ||
-                         isWhitespace(*(iterator + 1)) ||
+                         isWhiteSpace(*(iterator + 1)) ||
                          isNewline(*(iterator + 1))))
                     {
                         ++iterator;
@@ -81,7 +81,7 @@ namespace ouzel::gui
             {
                 while (iterator != str.end() &&
                        !isControlChar(*iterator) &&
-                       !isWhitespace(*iterator) &&
+                       !isWhiteSpace(*iterator) &&
                        static_cast<char>(*iterator) != '=')
                 {
                     result.push_back(static_cast<char>(*iterator));
@@ -110,7 +110,7 @@ namespace ouzel::gui
                 {
                     if (static_cast<char>(*iterator) == '"' &&
                         (iterator + 1 == str.end() ||
-                         isWhitespace(*(iterator + 1)) ||
+                         isWhiteSpace(*(iterator + 1)) ||
                          isNewline(*(iterator + 1))))
                     {
                         ++iterator;
@@ -128,7 +128,7 @@ namespace ouzel::gui
 
                 while (iterator != str.end() &&
                        !isControlChar(*iterator) &&
-                       !isWhitespace(*iterator) &&
+                       !isWhiteSpace(*iterator) &&
                        static_cast<char>(*iterator) != '=')
                 {
                     ++iterator;
@@ -197,7 +197,7 @@ namespace ouzel::gui
             }
             else
             {
-                skipWhitespaces(data, iterator);
+                skipWhiteSpaces(data, iterator);
                 keyword = parseString(data, iterator);
 
                 if (keyword == "page")
@@ -206,7 +206,7 @@ namespace ouzel::gui
                     {
                         if (isNewline(*iterator)) break;
 
-                        skipWhitespaces(data, iterator);
+                        skipWhiteSpaces(data, iterator);
                         key = parseString(data, iterator);
 
                         expectToken(data, iterator, '=');
@@ -222,7 +222,7 @@ namespace ouzel::gui
                     {
                         if (isNewline(*iterator)) break;
 
-                        skipWhitespaces(data, iterator);
+                        skipWhiteSpaces(data, iterator);
                         key = parseString(data, iterator);
 
                         expectToken(data, iterator, '=');
@@ -252,7 +252,7 @@ namespace ouzel::gui
                     {
                         if (isNewline(*iterator)) break;
 
-                        skipWhitespaces(data, iterator);
+                        skipWhiteSpaces(data, iterator);
                         key = parseString(data, iterator);
 
                         expectToken(data, iterator, '=');
@@ -287,7 +287,7 @@ namespace ouzel::gui
                     {
                         if (isNewline(*iterator)) break;
 
-                        skipWhitespaces(data, iterator);
+                        skipWhiteSpaces(data, iterator);
                         key = parseString(data, iterator);
 
                         expectToken(data, iterator, '=');
@@ -308,7 +308,7 @@ namespace ouzel::gui
                     {
                         if (isNewline(*iterator)) break;
 
-                        skipWhitespaces(data, iterator);
+                        skipWhiteSpaces(data, iterator);
                         key = parseString(data, iterator);
 
                         expectToken(data, iterator, '=');

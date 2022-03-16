@@ -200,9 +200,9 @@ namespace ouzel::ini
 
                 for (auto iterator = hasByteOrderMark(begin, end) ? begin + 3 : begin; iterator != end;)
                 {
-                    if (isWhitespace(static_cast<char>(*iterator)) ||
+                    if (isWhiteSpace(static_cast<char>(*iterator)) ||
                         static_cast<char>(*iterator) == '\n' ||
-                        static_cast<char>(*iterator) == '\r') // line starts with a whitespace
+                        static_cast<char>(*iterator) == '\r') // line starts with a white space
                         ++iterator; // skip the white space
                     else if (static_cast<char>(*iterator) == '[') // section
                     {
@@ -339,17 +339,16 @@ namespace ouzel::ini
             }
 
         private:
-            static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
+            static bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
             {
+                auto i = begin;
                 for (const auto b : utf8ByteOrderMark)
-                    if (begin == end || static_cast<std::uint8_t>(*begin) != b)
+                    if (begin == end || static_cast<std::uint8_t>(*i++) != b)
                         return false;
-                    else
-                        ++begin;
                 return true;
             }
 
-            static constexpr bool isWhitespace(const char c) noexcept
+            static constexpr bool isWhiteSpace(const char c) noexcept
             {
                 return c == ' ' || c == '\t';
             }
@@ -357,14 +356,14 @@ namespace ouzel::ini
             static std::string& leftTrim(std::string& s)
             {
                 s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                                                [](char c) noexcept {return !isWhitespace(c);}));
+                                                [](char c) noexcept {return !isWhiteSpace(c);}));
                 return s;
             }
 
             static std::string& rightTrim(std::string& s)
             {
                 s.erase(std::find_if(s.rbegin(), s.rend(),
-                                     [](char c) noexcept {return !isWhitespace(c);}).base(), s.end());
+                                     [](char c) noexcept {return !isWhiteSpace(c);}).base(), s.end());
                 return s;
             }
 

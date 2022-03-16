@@ -11,35 +11,35 @@ namespace ouzel::assets
 {
     namespace
     {
-        [[nodiscard]] constexpr auto isWhitespace(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isWhiteSpace(const std::byte c) noexcept
         {
             return static_cast<char>(c) == ' ' ||
                 static_cast<char>(c) == '\t';
         }
 
-        [[nodiscard]] constexpr auto isNewline(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isNewline(const std::byte c) noexcept
         {
             return static_cast<char>(c) == '\r' ||
                 static_cast<char>(c) == '\n';
         }
 
-        [[nodiscard]] constexpr auto isControlChar(std::byte c) noexcept
+        [[nodiscard]] constexpr auto isControlChar(const std::byte c) noexcept
         {
             return static_cast<std::uint8_t>(c) <= 0x1F;
         }
 
-        void skipWhitespaces(std::vector<std::byte>::const_iterator& iterator,
-                             std::vector<std::byte>::const_iterator end) noexcept
+        void skipWhiteSpaces(std::vector<std::byte>::const_iterator& iterator,
+                             const std::vector<std::byte>::const_iterator end) noexcept
         {
             while (iterator != end)
-                if (isWhitespace(*iterator))
+                if (isWhiteSpace(*iterator))
                     ++iterator;
                 else
                     break;
         }
 
         void skipLine(std::vector<std::byte>::const_iterator& iterator,
-                      std::vector<std::byte>::const_iterator end) noexcept
+                      const std::vector<std::byte>::const_iterator end) noexcept
         {
             while (iterator != end)
                 if (isNewline(*iterator++))
@@ -47,11 +47,11 @@ namespace ouzel::assets
         }
 
         void skipString(std::vector<std::byte>::const_iterator& iterator,
-                        std::vector<std::byte>::const_iterator end)
+                        const std::vector<std::byte>::const_iterator end)
         {
             std::size_t length = 0;
 
-            while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
+            while (iterator != end && !isControlChar(*iterator) && !isWhiteSpace(*iterator))
             {
                 ++length;
                 ++iterator;
@@ -62,11 +62,11 @@ namespace ouzel::assets
         }
 
         [[nodiscard]] std::string parseString(std::vector<std::byte>::const_iterator& iterator,
-                                              std::vector<std::byte>::const_iterator end)
+                                              const std::vector<std::byte>::const_iterator end)
         {
             std::string result;
 
-            while (iterator != end && !isControlChar(*iterator) && !isWhitespace(*iterator))
+            while (iterator != end && !isControlChar(*iterator) && !isWhiteSpace(*iterator))
             {
                 result.push_back(static_cast<char>(*iterator));
                 ++iterator;
@@ -79,7 +79,7 @@ namespace ouzel::assets
         }
 
         [[nodiscard]] float parseFloat(std::vector<std::byte>::const_iterator& iterator,
-                                       std::vector<std::byte>::const_iterator end)
+                                       const std::vector<std::byte>::const_iterator end)
         {
             std::string value;
             std::uint32_t length = 1;
@@ -151,14 +151,14 @@ namespace ouzel::assets
         }
 
         void skipTextureMapOptions(std::vector<std::byte>::const_iterator& iterator,
-                                   std::vector<std::byte>::const_iterator end)
+                                   const std::vector<std::byte>::const_iterator end)
         {
             while (iterator != end)
             {
                 if (static_cast<char>(*iterator) == '-')
                 {
                     const auto option = parseString(iterator, end);
-                    skipWhitespaces(iterator, end);
+                    skipWhiteSpaces(iterator, end);
 
                     if (option == "-blende")
                         skipString(iterator, end); // on | off
@@ -171,37 +171,37 @@ namespace ouzel::assets
                     else if (option == "-mm")
                     {
                         skipString(iterator, end); // base
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
                         skipString(iterator, end); // gain
                     }
                     else if (option == "-o")
                     {
                         skipString(iterator, end); // u
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
                         skipString(iterator, end); // v
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
                         skipString(iterator, end); // w
                     }
                     else if (option == "-s")
                     {
                         skipString(iterator, end); // u
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
                         skipString(iterator, end); // v
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
                         skipString(iterator, end); // w
                     }
                     else if (option == "-t")
                     {
                         skipString(iterator, end); // u
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
                         skipString(iterator, end); // v
-                        skipWhitespaces(iterator, end);
+                        skipWhiteSpaces(iterator, end);
                         skipString(iterator, end); // w
                     }
                     else if (option == "-texres")
                         skipString(iterator, end); // value
 
-                    skipWhitespaces(iterator, end);
+                    skipWhiteSpaces(iterator, end);
                 }
                 else
                     break;
@@ -238,7 +238,7 @@ namespace ouzel::assets
             }
             else
             {
-                skipWhitespaces(iterator, data.end());
+                skipWhiteSpaces(iterator, data.end());
 
                 if (const auto keyword = parseString(iterator, data.end()); keyword == "newmtl")
                 {
@@ -256,7 +256,7 @@ namespace ouzel::assets
                         bundle.setMaterial(materialName, std::move(material));
                     }
 
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     materialName = parseString(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -268,7 +268,7 @@ namespace ouzel::assets
                 }
                 else if (keyword == "map_Ka") // ambient texture map
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
 
                     skipTextureMapOptions(iterator, data.end()); // TODO: parse options
 
@@ -286,7 +286,7 @@ namespace ouzel::assets
                 }
                 else if (keyword == "map_Kd") // diffuse texture map
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
 
                     skipTextureMapOptions(iterator, data.end()); // TODO: parse options
 
@@ -306,11 +306,11 @@ namespace ouzel::assets
                 {
                     // TODO: handle spectral and xyz
 
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto red = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto green = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto blue = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -321,11 +321,11 @@ namespace ouzel::assets
                 {
                     // TODO: handle spectral and xyz
 
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto red = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto green = parseFloat(iterator, data.end());
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto blue = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
@@ -338,14 +338,14 @@ namespace ouzel::assets
                     skipLine(iterator, data.end());
                 else if (keyword == "d") // dissolve
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     opacity = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
                 }
                 else if (keyword == "Tr") // transparency
                 {
-                    skipWhitespaces(iterator, data.end());
+                    skipWhiteSpaces(iterator, data.end());
                     const auto transparency = parseFloat(iterator, data.end());
 
                     skipLine(iterator, data.end());
