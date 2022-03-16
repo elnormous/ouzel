@@ -343,7 +343,7 @@ namespace ouzel::ini
             {
                 auto i = begin;
                 for (const auto b : utf8ByteOrderMark)
-                    if (begin == end || static_cast<std::uint8_t>(*i++) != b)
+                    if (i == end || static_cast<std::uint8_t>(*i++) != b)
                         return false;
                 return true;
             }
