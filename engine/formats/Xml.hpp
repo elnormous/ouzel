@@ -53,13 +53,13 @@ namespace ouzel::xml
         };
 
         Node() = default;
-        Node(Type initType): type{initType} {}
+        Node(const Type initType): type{initType} {}
         Node(std::string&& val) noexcept: type{Type::text}, value{std::move(val)} {}
 
         template <class Source>
         Node(const Source& val): type{Type::text}, value{std::string{val}} {}
 
-        Node& operator=(Type newType) noexcept
+        Node& operator=(const Type newType) noexcept
         {
             type = newType;
             return *this;
@@ -81,7 +81,7 @@ namespace ouzel::xml
         }
 
         Type getType() const noexcept { return type; }
-        void setType(Type newType) noexcept { type = newType; }
+        void setType(const Type newType) noexcept { type = newType; }
 
         auto begin() noexcept
         {
@@ -185,15 +185,15 @@ namespace ouzel::xml
     }
 
     template <class Iterator>
-    Data parse(Iterator begin, Iterator end,
-               bool preserveWhitespaces = false,
-               bool preserveComments = false,
-               bool preserveProcessingInstructions = false)
+    Data parse(const Iterator begin, const Iterator end,
+               const bool preserveWhitespaces = false,
+               const bool preserveComments = false,
+               const bool preserveProcessingInstructions = false)
     {
         class Parser final
         {
         public:
-            static std::u32string toUtf32(Iterator begin, Iterator end)
+            static std::u32string toUtf32(const Iterator begin, const Iterator end)
             {
                 std::u32string result;
 
@@ -239,7 +239,7 @@ namespace ouzel::xml
                 return result;
             }
 
-            static std::string fromUtf32(char32_t c)
+            static std::string fromUtf32(const char32_t c)
             {
                 std::string result;
 
@@ -267,8 +267,8 @@ namespace ouzel::xml
                 return result;
             }
 
-            static std::string fromUtf32(std::u32string::const_iterator begin,
-                                         std::u32string::const_iterator end)
+            static std::string fromUtf32(const std::u32string::const_iterator begin,
+                                         const std::u32string::const_iterator end)
             {
                 std::string result;
 
@@ -304,10 +304,10 @@ namespace ouzel::xml
                 return fromUtf32(std::begin(text), std::end(text));
             }
 
-            static Data parse(Iterator begin, Iterator end,
-                              bool preserveWhitespaces,
-                              bool preserveComments,
-                              bool preserveProcessingInstructions)
+            static Data parse(const Iterator begin, const Iterator end,
+                              const bool preserveWhitespaces,
+                              const bool preserveComments,
+                              const bool preserveProcessingInstructions)
             {
                 bool byteOrderMark = hasByteOrderMark(begin, end);
 
@@ -354,7 +354,7 @@ namespace ouzel::xml
             }
 
         private:
-            static bool hasByteOrderMark(Iterator begin, Iterator end) noexcept
+            static bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
             {
                 for (const auto b : utf8ByteOrderMark)
                     if (begin == end || static_cast<std::uint8_t>(*begin) != b)
@@ -399,14 +399,14 @@ namespace ouzel::xml
             }
 
             static void skipWhitespaces(std::u32string::const_iterator& iterator,
-                                        std::u32string::const_iterator end)
+                                        const std::u32string::const_iterator end)
             {
                 while (iterator != end && isWhitespace(*iterator))
                     ++iterator;
             }
 
             static void expect(std::u32string::const_iterator& iterator,
-                               std::u32string::const_iterator end,
+                               const std::u32string::const_iterator end,
                                const char32_t c)
             {
                 if (iterator == end)
@@ -419,7 +419,7 @@ namespace ouzel::xml
             }
 
             static std::string parseName(std::u32string::const_iterator& iterator,
-                                         std::u32string::const_iterator end)
+                                         const std::u32string::const_iterator end)
             {
                 std::string result;
 
@@ -441,7 +441,7 @@ namespace ouzel::xml
             }
 
             static std::string parseReference(std::u32string::const_iterator& iterator,
-                                              std::u32string::const_iterator end)
+                                              const std::u32string::const_iterator end)
             {
                 std::string result;
 
@@ -531,7 +531,7 @@ namespace ouzel::xml
             }
 
             static std::string parseString(std::u32string::const_iterator& iterator,
-                                           std::u32string::const_iterator end)
+                                           const std::u32string::const_iterator end)
             {
                 std::string result;
 
@@ -568,7 +568,7 @@ namespace ouzel::xml
             }
 
             static Node parseDtdElement(std::u32string::const_iterator& iterator,
-                                        std::u32string::const_iterator end)
+                                        const std::u32string::const_iterator end)
             {
                 expect(iterator, end, '<');
                 expect(iterator, end, '!');
@@ -617,11 +617,11 @@ namespace ouzel::xml
             }
 
             static Node parseElement(std::u32string::const_iterator& iterator,
-                                     std::u32string::const_iterator end,
-                                     bool preserveWhitespaces,
-                                     bool preserveComments,
-                                     bool preserveProcessingInstructions,
-                                     bool prologAllowed)
+                                     const std::u32string::const_iterator end,
+                                     const bool preserveWhitespaces,
+                                     const bool preserveComments,
+                                     const bool preserveProcessingInstructions,
+                                     const bool prologAllowed)
             {
                 expect(iterator, end, '<');
 
@@ -893,7 +893,7 @@ namespace ouzel::xml
             }
 
             static Node parseText(std::u32string::const_iterator& iterator,
-                                  std::u32string::const_iterator end)
+                                  const std::u32string::const_iterator end)
             {
                 Node result;
                 result = Node::Type::text;
@@ -920,11 +920,11 @@ namespace ouzel::xml
             }
 
             static Node parse(std::u32string::const_iterator& iterator,
-                              std::u32string::const_iterator end,
-                              bool preserveWhitespaces,
-                              bool preserveComments,
-                              bool preserveProcessingInstructions,
-                              bool prologAllowed)
+                              const std::u32string::const_iterator end,
+                              const bool preserveWhitespaces,
+                              const bool preserveComments,
+                              const bool preserveProcessingInstructions,
+                              const bool prologAllowed)
             {
 
                 if (iterator == end)
@@ -948,9 +948,9 @@ namespace ouzel::xml
     }
 
     inline Data parse(const char* data,
-                      bool preserveWhitespaces = false,
-                      bool preserveComments = false,
-                      bool preserveProcessingInstructions = false)
+                      const bool preserveWhitespaces = false,
+                      const bool preserveComments = false,
+                      const bool preserveProcessingInstructions = false)
     {
         auto end = data;
         while (*end) ++end;
@@ -962,9 +962,9 @@ namespace ouzel::xml
 
     template <class T>
     Data parse(const T& data,
-               bool preserveWhitespaces = false,
-               bool preserveComments = false,
-               bool preserveProcessingInstructions = false)
+               const bool preserveWhitespaces = false,
+               const bool preserveComments = false,
+               const bool preserveProcessingInstructions = false)
     {
         using std::begin, std::end; // add std::begin and std::end to lookup
         return parse(begin(data), end(data),
@@ -973,12 +973,16 @@ namespace ouzel::xml
                      preserveProcessingInstructions);
     }
 
-    inline std::string encode(const Data& data, bool whitespaces = false, bool byteOrderMark = false)
+    inline std::string encode(const Data& data,
+                              const bool whitespaces = false,
+                              const bool byteOrderMark = false)
     {
         class Encoder final
         {
         public:
-            static std::string encode(const Data& data, bool whitespaces, bool byteOrderMark)
+            static std::string encode(const Data& data,
+                                      const bool whitespaces,
+                                      const bool byteOrderMark)
             {
                 std::string result;
                 if (byteOrderMark) result.assign(utf8ByteOrderMark.begin(),
@@ -1023,7 +1027,9 @@ namespace ouzel::xml
                 }
             }
 
-            static void encode(const Node& node, std::string& result, bool whitespaces, size_t level = 0)
+            static void encode(const Node& node, std::string& result,
+                               const bool whitespaces,
+                               const std::size_t level = 0)
             {
                 switch (node.getType())
                 {
