@@ -356,11 +356,12 @@ namespace ouzel::xml
         private:
             static bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
             {
+                auto i = begin;
+
                 for (const auto b : utf8ByteOrderMark)
-                    if (begin == end || static_cast<std::uint8_t>(*begin) != b)
+                    if (begin == end || static_cast<std::uint8_t>(*i++) != b)
                         return false;
-                    else
-                        ++begin;
+
                 return true;
             }
 
