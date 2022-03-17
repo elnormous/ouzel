@@ -283,7 +283,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        Value& operator[](std::size_t index) &
+        Value& operator[](const std::size_t index) &
         {
             if (const auto p = std::get_if<Array>(&value))
             {
@@ -294,7 +294,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        const Value& operator[](std::size_t index) const&
+        const Value& operator[](const std::size_t index) const&
         {
             if (const auto p = std::get_if<Array>(&value))
             {
@@ -365,12 +365,14 @@ namespace ouzel::plist
     using String = std::string;
     using Date = std::chrono::system_clock::time_point;
 
-    inline std::string encode(const Value& value, Format format, bool whiteSpaces = false)
+    inline std::string encode(const Value& value,
+                              const Format format,
+                              const bool whiteSpaces = false)
     {
         class TextEncoder final
         {
         public:
-            static std::string encode(const Value& value, bool whiteSpaces)
+            static std::string encode(const Value& value, const bool whiteSpaces)
             {
                 std::string result = "// !$*UTF8*$!\n";
                 encode(value, result, whiteSpaces);
@@ -406,7 +408,9 @@ namespace ouzel::plist
                     result += "\"\"";
             }
 
-            static void encode(const Value& value, std::string& result, bool whiteSpaces, size_t level = 0)
+            static void encode(const Value& value, std::string& result,
+                               const bool whiteSpaces,
+                               const std::size_t level = 0)
             {
                 if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
                 {
@@ -483,7 +487,7 @@ namespace ouzel::plist
         class XmlEncoder final
         {
         public:
-            static std::string encode(const Value& value, bool whiteSpaces)
+            static std::string encode(const Value& value, const bool whiteSpaces)
             {
                 std::string result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
                 if (whiteSpaces) result.push_back('\n');
@@ -507,7 +511,9 @@ namespace ouzel::plist
                     else result.push_back(c);
             }
 
-            static void encode(const Value& value, std::string& result, bool whiteSpaces, size_t level = 0)
+            static void encode(const Value& value, std::string& result,
+                               const bool whiteSpaces,
+                               const std::size_t level = 0)
             {
                 if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
                 {

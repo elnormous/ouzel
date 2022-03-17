@@ -357,7 +357,7 @@ namespace ouzel::json
         class Parser final
         {
         public:
-            static Value parse(Iterator begin, Iterator end)
+            static Value parse(const Iterator begin, const Iterator end)
             {
                 const auto startIterator = hasByteOrderMark(begin, end) ? begin + 3 : begin;
                 const auto [result, valueIterator] = parseValue(startIterator, end);
@@ -602,7 +602,7 @@ namespace ouzel::json
                 }
             }
 
-            static std::pair<std::string, Iterator> parseString(Iterator begin, Iterator end)
+            static std::pair<std::string, Iterator> parseString(const Iterator begin, const Iterator end)
             {
                 std::string result;
                 Iterator iterator = begin;
@@ -713,12 +713,16 @@ namespace ouzel::json
         return parse(begin(data), end(data));
     }
 
-    inline std::string encode(const Value& value, bool whiteSpaces = false, bool byteOrderMark = false)
+    inline std::string encode(const Value& value,
+                              const bool whiteSpaces = false,
+                              const bool byteOrderMark = false)
     {
         class Encoder final
         {
         public:
-            static std::string encode(const Value& value, bool whiteSpaces, bool byteOrderMark)
+            static std::string encode(const Value& value,
+                                      const bool whiteSpaces,
+                                      const bool byteOrderMark)
             {
                 std::string result;
                 if (byteOrderMark) result.assign(utf8ByteOrderMark.begin(),
@@ -754,7 +758,9 @@ namespace ouzel::json
                         result.push_back(c);
             }
 
-            static void encode(const Value& value, std::string& result, bool whiteSpaces, size_t level = 0)
+            static void encode(const Value& value, std::string& result,
+                               const bool whiteSpaces,
+                               const std::size_t level = 0)
             {
                 if (std::holds_alternative<std::nullptr_t>(value.getValue()))
                 {
