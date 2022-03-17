@@ -323,7 +323,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        void resize(std::size_t size) &
+        void resize(const std::size_t size) &
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->resize(size);
@@ -339,7 +339,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        void pushBack(std::byte v)
+        void pushBack(const std::byte v)
         {
             if (const auto p = std::get_if<Data>(&value))
                 return p->push_back(v);
