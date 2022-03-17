@@ -55,15 +55,15 @@ namespace ouzel::storage
 
                 std::uint8_t uncompressedSizeData[4];
                 file.read(reinterpret_cast<char*>(uncompressedSizeData), sizeof(uncompressedSizeData));
-                const size_t uncompressedSize = decodeLittleEndian<std::uint32_t>(uncompressedSizeData);
+                const std::size_t uncompressedSize = decodeLittleEndian<std::uint32_t>(uncompressedSizeData);
 
                 std::uint8_t fileNameLengthData[2];
                 file.read(reinterpret_cast<char*>(fileNameLengthData), sizeof(fileNameLengthData));
-                const size_t fileNameLength = decodeLittleEndian<std::uint16_t>(fileNameLengthData);
+                const std::size_t fileNameLength = decodeLittleEndian<std::uint16_t>(fileNameLengthData);
 
                 std::uint8_t extraFieldLengthData[2];
                 file.read(reinterpret_cast<char*>(extraFieldLengthData), sizeof(extraFieldLengthData));
-                const size_t extraFieldLength = decodeLittleEndian<std::uint16_t>(extraFieldLengthData);
+                const std::size_t extraFieldLength = decodeLittleEndian<std::uint16_t>(extraFieldLengthData);
 
                 const auto name = std::make_unique<char[]>(fileNameLength + 1); // +1 for null character
 

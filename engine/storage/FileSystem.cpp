@@ -165,7 +165,7 @@ namespace ouzel::storage
 
             for (UINT i = 0; i < translationLength / sizeof(LANGANDCODEPAGE); ++i)
             {
-                constexpr size_t subBlockSize = 37U;
+                constexpr std::size_t subBlockSize = 37U;
                 WCHAR subBlock[subBlockSize];
 
                 StringCchPrintfW(subBlock, subBlockSize,
