@@ -95,19 +95,19 @@ namespace ouzel::plist
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<bool>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<double>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<std::int64_t>(value);
         }
@@ -116,37 +116,37 @@ namespace ouzel::plist
             std::is_same_v<T, String> ||
             std::is_same_v<T, const char*>
         >* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<String>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Dictionary>>* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<Dictionary>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Array>>* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<Array>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Data>>* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<Data>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, Date>>* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<Date>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, bool>>* = nullptr>
-        T as() const
+        [[nodiscard]] T as() const
         {
             if (const auto b = std::get_if<bool>(&value))
                 return *b;
@@ -162,7 +162,7 @@ namespace ouzel::plist
             std::is_arithmetic_v<T> &&
             !std::is_same_v<T, bool>
         >* = nullptr>
-        T as() const
+        [[nodiscard]] T as() const
         {
             if (const auto d = std::get_if<double>(&value))
                 return static_cast<T>(*d);
@@ -181,7 +181,7 @@ namespace ouzel::plist
             std::is_same_v<T, Data> ||
             std::is_same_v<T, Date>
         >* = nullptr>
-        T& as()
+        [[nodiscard]] T& as()
         {
             if (const auto p = std::get_if<T>(&value))
                 return *p;
@@ -190,7 +190,7 @@ namespace ouzel::plist
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, const char*>>* = nullptr>
-        T as() const
+        [[nodiscard]] T as() const
         {
             if (const auto p = std::get_if<String>(&value))
                 return p->c_str();
@@ -205,7 +205,7 @@ namespace ouzel::plist
             std::is_same_v<T, Data> ||
             std::is_same_v<T, Date>
         >* = nullptr>
-        const T& as() const
+        [[nodiscard]] const T& as() const
         {
             if (const auto p = std::get_if<T>(&value))
                 return *p;
@@ -213,7 +213,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        auto begin()
+        [[nodiscard]] auto begin()
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->begin();
@@ -221,7 +221,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        auto end()
+        [[nodiscard]] auto end()
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->end();
@@ -229,7 +229,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        auto begin() const
+        [[nodiscard]] auto begin() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->begin();
@@ -237,7 +237,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        auto end() const
+        [[nodiscard]] auto end() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->end();
@@ -245,7 +245,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        auto hasMember(const std::string& member) const
+        [[nodiscard]] auto hasMember(const std::string& member) const
         {
             if (const auto p = std::get_if<Dictionary>(&value))
                 return p->find(member) != p->end();
@@ -253,7 +253,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        Value& operator[](const std::string& member) &
+        [[nodiscard]] Value& operator[](const std::string& member) &
         {
             if (const auto p = std::get_if<Dictionary>(&value))
             {
@@ -270,7 +270,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        const Value& operator[](const std::string& member) const&
+        [[nodiscard]] const Value& operator[](const std::string& member) const&
         {
             if (const auto p = std::get_if<Dictionary>(&value))
             {
@@ -283,7 +283,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        Value& operator[](const std::size_t index) &
+        [[nodiscard]] Value& operator[](const std::size_t index) &
         {
             if (const auto p = std::get_if<Array>(&value))
             {
@@ -294,7 +294,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        const Value& operator[](const std::size_t index) const&
+        [[nodiscard]] const Value& operator[](const std::size_t index) const&
         {
             if (const auto p = std::get_if<Array>(&value))
             {
@@ -307,7 +307,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        bool isEmpty() const
+        [[nodiscard]] bool isEmpty() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->empty();
@@ -315,7 +315,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        std::size_t getSize() const
+        [[nodiscard]] std::size_t getSize() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->size();
@@ -347,7 +347,7 @@ namespace ouzel::plist
                 throw TypeError{"Wrong type"};
         }
 
-        auto& getValue() const noexcept { return value; }
+        [[nodiscard]] auto& getValue() const noexcept { return value; }
 
     private:
         std::variant<Dictionary, Array, String, double, std::int64_t, bool, Data, Date> value;
@@ -372,6 +372,7 @@ namespace ouzel::plist
         class TextEncoder final
         {
         public:
+            [[nodiscard]]
             static std::string encode(const Value& value, const bool whiteSpaces)
             {
                 std::string result = "// !$*UTF8*$!\n";
@@ -487,6 +488,7 @@ namespace ouzel::plist
         class XmlEncoder final
         {
         public:
+            [[nodiscard]]
             static std::string encode(const Value& value, const bool whiteSpaces)
             {
                 std::string result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";

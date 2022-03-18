@@ -131,7 +131,7 @@ namespace ouzel::json
             std::is_same_v<T, Object> ||
             std::is_same_v<T, String>
         >* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<T>(value);
         }
@@ -140,7 +140,7 @@ namespace ouzel::json
             std::is_arithmetic_v<T> &&
             !std::is_same_v<T, bool>
         >* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<double>(value) ||
                 std::holds_alternative<std::int64_t>(value);
@@ -149,13 +149,13 @@ namespace ouzel::json
         template <typename T, typename std::enable_if_t<
             std::is_same_v<T, const char*>
         >* = nullptr>
-        bool is() const noexcept
+        [[nodiscard]] bool is() const noexcept
         {
             return std::holds_alternative<std::string>(value);
         }
 
         template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T>>* = nullptr>
-        T as() const
+        [[nodiscard]] T as() const
         {
             if (const auto d = std::get_if<double>(&value))
                 return static_cast<T>(*d);
@@ -172,7 +172,7 @@ namespace ouzel::json
             std::is_same_v<T, Object> ||
             std::is_same_v<T, String>
         >* = nullptr>
-        T& as()
+        [[nodiscard]] T& as()
         {
             if (const auto p = std::get_if<T>(&value))
                 return *p;
@@ -185,7 +185,7 @@ namespace ouzel::json
             std::is_same_v<T, Object> ||
             std::is_same_v<T, String>
         >* = nullptr>
-        const T& as() const
+        [[nodiscard]] const T& as() const
         {
             if (const auto p = std::get_if<T>(&value))
                 return *p;
@@ -194,7 +194,7 @@ namespace ouzel::json
         }
 
         template <typename T, typename std::enable_if_t<std::is_same_v<T, const char*>>* = nullptr>
-        T as() const
+        [[nodiscard]] T as() const
         {
             if (const auto p = std::get_if<String>(&value))
                 return p->c_str();
@@ -202,7 +202,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        auto begin()
+        [[nodiscard]] auto begin()
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->begin();
@@ -210,7 +210,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        auto end()
+        [[nodiscard]] auto end()
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->end();
@@ -218,7 +218,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        auto begin() const
+        [[nodiscard]] auto begin() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->begin();
@@ -226,7 +226,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        auto end() const
+        [[nodiscard]] auto end() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->end();
@@ -234,7 +234,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        bool hasMember(std::string_view member) const
+        [[nodiscard]] bool hasMember(std::string_view member) const
         {
             if (const auto p = std::get_if<Object>(&value))
                 return p->find(member) != p->end();
@@ -242,7 +242,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        Value& operator[](std::string_view member) &
+        [[nodiscard]] Value& operator[](std::string_view member) &
         {
             if (const auto p = std::get_if<Object>(&value))
             {
@@ -259,7 +259,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        const Value& operator[](std::string_view member) const&
+        [[nodiscard]] const Value& operator[](std::string_view member) const&
         {
             if (const auto p = std::get_if<Object>(&value))
             {
@@ -272,7 +272,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        Value& operator[](std::size_t index) &
+        [[nodiscard]] Value& operator[](std::size_t index) &
         {
             if (const auto p = std::get_if<Array>(&value))
             {
@@ -283,7 +283,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        const Value& operator[](std::size_t index) const&
+        [[nodiscard]] const Value& operator[](std::size_t index) const&
         {
             if (const auto p = std::get_if<Array>(&value))
             {
@@ -296,7 +296,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        bool isEmpty() const
+        [[nodiscard]] bool isEmpty() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->empty();
@@ -304,7 +304,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        std::size_t getSize() const
+        [[nodiscard]] std::size_t getSize() const
         {
             if (const auto p = std::get_if<Array>(&value))
                 return p->size();
@@ -328,7 +328,7 @@ namespace ouzel::json
                 throw TypeError{"Wrong type"};
         }
 
-        auto& getValue() const noexcept { return value; }
+        [[nodiscard]] auto& getValue() const noexcept { return value; }
 
     private:
         std::variant<
@@ -357,6 +357,7 @@ namespace ouzel::json
         class Parser final
         {
         public:
+            [[nodiscard]]
             static Value parse(const Iterator begin, const Iterator end)
             {
                 const auto startIterator = hasByteOrderMark(begin, end) ? begin + 3 : begin;
@@ -368,6 +369,7 @@ namespace ouzel::json
             }
 
         private:
+            [[nodiscard]]
             static bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
             {
                 auto i = begin;
@@ -377,11 +379,13 @@ namespace ouzel::json
                 return true;
             }
 
+            [[nodiscard]]
             static constexpr bool isWhiteSpace(const char c) noexcept
             {
                 return c == ' ' || c == '\t' || c == '\r' || c == '\n';
             }
 
+            [[nodiscard]]
             static Iterator skipWhiteSpaces(const Iterator begin, const Iterator end)
             {
                 for (auto i = begin; i != end; ++i)
@@ -389,6 +393,7 @@ namespace ouzel::json
                 return end;
             }
 
+            [[nodiscard]]
             static std::pair<bool, Iterator> isSame(const Iterator begin, const Iterator end,
                                                     const char* expectedBegin,
                                                     const char* expectedEnd)
@@ -407,6 +412,7 @@ namespace ouzel::json
                 return std::pair{true, iterator};
             }
 
+            [[nodiscard]]
             static std::pair<Value, Iterator> parseValue(const Iterator begin, const Iterator end)
             {
                 Iterator iterator = skipWhiteSpaces(begin, end);
@@ -602,6 +608,7 @@ namespace ouzel::json
                 }
             }
 
+            [[nodiscard]]
             static std::pair<std::string, Iterator> parseString(const Iterator begin, const Iterator end)
             {
                 std::string result;
@@ -699,7 +706,7 @@ namespace ouzel::json
         return Parser::parse(begin, end);
     }
 
-    inline Value parse(const char* data)
+    [[nodiscard]] inline Value parse(const char* data)
     {
         auto end = data;
         while (*end) ++end;
@@ -707,12 +714,13 @@ namespace ouzel::json
     }
 
     template <class Data>
-    Value parse(const Data& data)
+    [[nodiscard]] Value parse(const Data& data)
     {
         using std::begin, std::end; // add std::begin and std::end to lookup
         return parse(begin(data), end(data));
     }
 
+    [[nodiscard]]
     inline std::string encode(const Value& value,
                               const bool whiteSpaces = false,
                               const bool byteOrderMark = false)
@@ -720,6 +728,7 @@ namespace ouzel::json
         class Encoder final
         {
         public:
+            [[nodiscard]]
             static std::string encode(const Value& value,
                                       const bool whiteSpaces,
                                       const bool byteOrderMark)
