@@ -81,7 +81,7 @@ namespace ouzel::xml
         }
 
         [[nodiscard]] Type getType() const noexcept { return type; }
-        [[nodiscard]] void setType(const Type newType) noexcept { type = newType; }
+        void setType(const Type newType) noexcept { type = newType; }
 
         auto begin() noexcept
         {
@@ -124,19 +124,19 @@ namespace ouzel::xml
         }
 
         [[nodiscard]] const auto& getChildren() const noexcept { return children; }
-        [[nodiscard]] void pushBack(const Node& node) { children.push_back(node); }
+        void pushBack(const Node& node) { children.push_back(node); }
 
         [[nodiscard]] const auto& getName() const noexcept { return name; }
-        [[nodiscard]] void setName(const std::string_view newName) { name = newName; }
+        void setName(const std::string_view newName) { name = newName; }
 
         [[nodiscard]] const auto& getExternalIdType() const noexcept { return externalIdType; }
-        [[nodiscard]] void setExternalIdType(const ExternalIdType newExternalIdType) { externalIdType = newExternalIdType; }
+        void setExternalIdType(const ExternalIdType newExternalIdType) { externalIdType = newExternalIdType; }
 
         [[nodiscard]] const auto& getValue() const noexcept { return value; }
-        [[nodiscard]] void setValue(const std::string_view newValue) { value = newValue; }
+        void setValue(const std::string_view newValue) { value = newValue; }
 
         [[nodiscard]] const auto& getAttributes() const noexcept { return attributes; }
-        [[nodiscard]] void setAttributes(const Attributes& newAttributes) { attributes = newAttributes; }
+        void setAttributes(const Attributes& newAttributes) { attributes = newAttributes; }
 
     private:
         Type type = Type::tag;
