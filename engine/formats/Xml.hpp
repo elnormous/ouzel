@@ -83,7 +83,7 @@ namespace ouzel::xml
         [[nodiscard]] Type getType() const noexcept { return type; }
         void setType(const Type newType) noexcept { type = newType; }
 
-        auto begin() noexcept
+        [[nodiscard]] auto begin() noexcept
         {
             return children.begin();
         }
@@ -577,6 +577,7 @@ namespace ouzel::xml
                 return result;
             }
 
+            [[nodiscard]]
             static Node parseDtdElement(std::u32string::const_iterator& iterator,
                                         const std::u32string::const_iterator end)
             {
