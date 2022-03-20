@@ -26,6 +26,47 @@ namespace ouzel::ini
         using std::range_error::range_error;
     };
 
+    inline namespace detail
+    {
+        constexpr std::array<std::uint8_t, 3> utf8ByteOrderMark = {0xEF, 0xBB, 0xBF};
+
+        template <class Iterator>
+        [[nodiscard]]
+        bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
+        {
+            auto i = begin;
+            for (const auto b : utf8ByteOrderMark)
+                if (i == end || static_cast<std::uint8_t>(*i++) != b)
+                    return false;
+            return true;
+        }
+
+        [[nodiscard]]
+        constexpr bool isWhiteSpace(const char c) noexcept
+        {
+            return c == ' ' || c == '\t';
+        }
+
+        inline std::string& leftTrim(std::string& s)
+        {
+            s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+                                            [](char c) noexcept {return !isWhiteSpace(c);}));
+            return s;
+        }
+
+        inline std::string& rightTrim(std::string& s)
+        {
+            s.erase(std::find_if(s.rbegin(), s.rend(),
+                                 [](char c) noexcept {return !isWhiteSpace(c);}).base(), s.end());
+            return s;
+        }
+
+        inline std::string& trim(std::string& s)
+        {
+            return leftTrim(rightTrim(s));
+        }
+    }
+
     using Values = std::map<std::string, std::string, std::less<>>;
 
     class Section final
@@ -181,11 +222,6 @@ namespace ouzel::ini
         Sections sections;
     };
 
-    inline namespace detail
-    {
-        constexpr std::array<std::uint8_t, 3> utf8ByteOrderMark = {0xEF, 0xBB, 0xBF};
-    }
-
     template <class Iterator>
     Data parse(Iterator begin, Iterator end)
     {
@@ -336,40 +372,6 @@ namespace ouzel::ini
                 }
 
                 return result;
-            }
-
-        private:
-            static bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
-            {
-                auto i = begin;
-                for (const auto b : utf8ByteOrderMark)
-                    if (i == end || static_cast<std::uint8_t>(*i++) != b)
-                        return false;
-                return true;
-            }
-
-            static constexpr bool isWhiteSpace(const char c) noexcept
-            {
-                return c == ' ' || c == '\t';
-            }
-
-            static std::string& leftTrim(std::string& s)
-            {
-                s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                                                [](char c) noexcept {return !isWhiteSpace(c);}));
-                return s;
-            }
-
-            static std::string& rightTrim(std::string& s)
-            {
-                s.erase(std::find_if(s.rbegin(), s.rend(),
-                                     [](char c) noexcept {return !isWhiteSpace(c);}).base(), s.end());
-                return s;
-            }
-
-            static std::string& trim(std::string& s)
-            {
-                return leftTrim(rightTrim(s));
             }
         };
 
