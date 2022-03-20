@@ -185,6 +185,7 @@ namespace ouzel::xml
     }
 
     template <class Iterator>
+    [[nodiscard]]
     Data parse(const Iterator begin, const Iterator end,
                const bool preserveWhiteSpaces = false,
                const bool preserveComments = false,
