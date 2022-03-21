@@ -36,6 +36,57 @@ namespace ouzel::json
         using std::range_error::range_error;
     };
 
+    inline namespace detail
+    {
+        constexpr std::array<std::uint8_t, 3> utf8ByteOrderMark{0xEF, 0xBB, 0xBF};
+
+        template <class Iterator>
+        [[nodiscard]]
+        bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
+        {
+            auto i = begin;
+            for (const auto b : utf8ByteOrderMark)
+                if (begin == end || static_cast<std::uint8_t>(*i++) != b)
+                    return false;
+            return true;
+        }
+
+        [[nodiscard]]
+        constexpr bool isWhiteSpace(const char c) noexcept
+        {
+            return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+        }
+
+        template <class Iterator>
+        [[nodiscard]]
+        Iterator skipWhiteSpaces(Iterator begin, Iterator end)
+        {
+            for (auto i = begin; i != end; ++i)
+                if (!isWhiteSpace(static_cast<char>(*i))) return i;
+            return end;
+        }
+
+        template <class Iterator>
+        [[nodiscard]]
+        std::pair<bool, Iterator> isSame(const Iterator begin, const Iterator end,
+                                         const char* expectedBegin,
+                                         const char* expectedEnd)
+        {
+            auto iterator = begin;
+
+            while (iterator != end && expectedBegin != expectedEnd)
+            {
+                if (static_cast<char>(*iterator) != *expectedBegin)
+                    return std::pair(false, iterator);
+
+                ++iterator;
+                ++expectedBegin;
+            }
+
+            return std::pair{true, iterator};
+        }
+    }
+
     class Value final
     {
         using Array = std::vector<Value>;
@@ -346,11 +397,6 @@ namespace ouzel::json
     using Object = std::map<std::string, Value, std::less<>>;
     using String = std::string;
 
-    inline namespace detail
-    {
-        constexpr std::array<std::uint8_t, 3> utf8ByteOrderMark{0xEF, 0xBB, 0xBF};
-    }
-
     template <class Iterator>
     Value parse(Iterator begin, Iterator end)
     {
@@ -369,49 +415,6 @@ namespace ouzel::json
             }
 
         private:
-            [[nodiscard]]
-            static bool hasByteOrderMark(const Iterator begin, const Iterator end) noexcept
-            {
-                auto i = begin;
-                for (const auto b : utf8ByteOrderMark)
-                    if (i == end || static_cast<std::uint8_t>(*i++) != b)
-                        return false;
-                return true;
-            }
-
-            [[nodiscard]]
-            static constexpr bool isWhiteSpace(const char c) noexcept
-            {
-                return c == ' ' || c == '\t' || c == '\r' || c == '\n';
-            }
-
-            [[nodiscard]]
-            static Iterator skipWhiteSpaces(const Iterator begin, const Iterator end)
-            {
-                for (auto i = begin; i != end; ++i)
-                    if (!isWhiteSpace(static_cast<char>(*i))) return i;
-                return end;
-            }
-
-            [[nodiscard]]
-            static std::pair<bool, Iterator> isSame(const Iterator begin, const Iterator end,
-                                                    const char* expectedBegin,
-                                                    const char* expectedEnd)
-            {
-                auto iterator = begin;
-
-                while (iterator != end && expectedBegin != expectedEnd)
-                {
-                    if (static_cast<char>(*iterator) != *expectedBegin)
-                        return std::pair{false, iterator};
-
-                    ++iterator;
-                    ++expectedBegin;
-                }
-
-                return std::pair{true, iterator};
-            }
-
             [[nodiscard]]
             static std::pair<Value, Iterator> parseValue(const Iterator begin, const Iterator end)
             {
