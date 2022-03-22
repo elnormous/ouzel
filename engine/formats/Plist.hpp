@@ -513,6 +513,46 @@ namespace ouzel::plist
                     else result.push_back(c);
             }
 
+            static void encode(const std::vector<std::byte>& data, std::string& result)
+            {
+                constexpr char chars[] = {
+                    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
+                };
+                std::size_t c = 0;
+                std::uint8_t charArray[3];
+                for (const auto b : data)
+                {
+                    charArray[c++] = static_cast<std::uint8_t>(b);
+                    if (c == 3)
+                    {
+                        result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
+                        result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
+                        result += chars[static_cast<std::uint8_t>(((charArray[1] & 0x0F) << 2) + ((charArray[2] & 0xC0) >> 6))];
+                        result += chars[static_cast<std::uint8_t>(charArray[2] & 0x3f)];
+                        c = 0;
+                    }
+                }
+
+                if (c)
+                {
+                    result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
+
+                    if (c == 1)
+                        result += chars[static_cast<std::uint8_t>((charArray[0] & 0x03) << 4)];
+                    else // c == 2
+                    {
+                        result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
+                        result += chars[static_cast<std::uint8_t>((charArray[1] & 0x0F) << 2)];
+                    }
+
+                    while (++c < 4) result += '=';
+                }
+            }
+
             static void encode(const Value& value, std::string& result,
                                const bool whiteSpaces,
                                const std::size_t level = 0)
@@ -573,42 +613,7 @@ namespace ouzel::plist
                 else if (auto data = std::get_if<Data>(&value.getValue()))
                 {
                     result += "<data>";
-                    constexpr char chars[] = {
-                        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-                        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
-                    };
-                    std::size_t c = 0;
-                    std::uint8_t charArray[3];
-                    for (const auto b : *data)
-                    {
-                        charArray[c++] = static_cast<std::uint8_t>(b);
-                        if (c == 3)
-                        {
-                            result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
-                            result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
-                            result += chars[static_cast<std::uint8_t>(((charArray[1] & 0x0F) << 2) + ((charArray[2] & 0xC0) >> 6))];
-                            result += chars[static_cast<std::uint8_t>(charArray[2] & 0x3f)];
-                            c = 0;
-                        }
-                    }
-
-                    if (c)
-                    {
-                        result += chars[static_cast<std::uint8_t>((charArray[0] & 0xFC) >> 2)];
-
-                        if (c == 1)
-                            result += chars[static_cast<std::uint8_t>((charArray[0] & 0x03) << 4)];
-                        else // c == 2
-                        {
-                            result += chars[static_cast<std::uint8_t>(((charArray[0] & 0x03) << 4) + ((charArray[1] & 0xF0) >> 4))];
-                            result += chars[static_cast<std::uint8_t>((charArray[1] & 0x0F) << 2)];
-                        }
-
-                        while (++c < 4) result += '=';
-                    }
+                    encode(*data, result);
                     result += "</data>";
                 }
                 else if (auto date = std::get_if<Date>(&value.getValue()))
