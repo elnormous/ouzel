@@ -31,64 +31,64 @@ namespace ouzel::plist
         using String = std::string;
         using Date = std::chrono::system_clock::time_point;
     public:
-        Value() noexcept = default;
-        Value(const Dictionary& v) noexcept:value{v} {}
-        Value(const Array& v) noexcept:value(v) {}
-        Value(bool v) noexcept:value{v} {}
+        Value() = default;
+        Value(const Dictionary& v) noexcept(false):value{v} {}
+        Value(const Array& v) noexcept(false):value(v) {}
+        Value(bool v) noexcept(false):value{v} {}
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
-        Value(T v) noexcept:value{static_cast<double>(v)} {}
+        Value(T v) noexcept(false):value{static_cast<double>(v)} {}
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value(T v) noexcept:value{static_cast<std::int64_t>(v)} {}
-        Value(const String& v) noexcept:value{v} {}
-        Value(const char* v) noexcept:value{String{v}} {}
-        Value(const Data& v) noexcept:value{v} {}
-        Value(const Date& v) noexcept:value{v} {}
+        Value(T v) noexcept(false):value{static_cast<std::int64_t>(v)} {}
+        Value(const String& v) noexcept(false):value{v} {}
+        Value(const char* v) noexcept(false):value{String{v}} {}
+        Value(const Data& v) noexcept(false):value{v} {}
+        Value(const Date& v) noexcept(false):value{v} {}
 
-        Value& operator=(const Dictionary& v)
+        Value& operator=(const Dictionary& v) noexcept(false)
         {
             value = v;
             return *this;
         }
 
-        Value& operator=(const Array& v)
+        Value& operator=(const Array& v) noexcept(false)
         {
             value = v;
             return *this;
         }
 
-        Value& operator=(const bool v)
+        Value& operator=(const bool v) noexcept(false)
         {
             value = v;
             return *this;
         }
 
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
-        Value& operator=(const T v)
+        Value& operator=(const T v) noexcept(false)
         {
             value = static_cast<double>(v);
             return *this;
         }
 
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value& operator=(const T v)
+        Value& operator=(const T v) noexcept(false)
         {
             value = static_cast<std::int64_t>(v);
             return *this;
         }
 
-        Value& operator=(const String& v)
+        Value& operator=(const String& v) noexcept(false)
         {
             value = v;
             return *this;
         }
 
-        Value& operator=(const char* v)
+        Value& operator=(const char* v) noexcept(false)
         {
             value = String{v};
             return *this;
         }
 
-        Value& operator=(const Data& v)
+        Value& operator=(const Data& v) noexcept(false)
         {
             value = v;
             return *this;
