@@ -33,6 +33,34 @@ namespace ouzel::obf
         using std::range_error::range_error;
     };
 
+    enum class Marker: std::uint8_t
+    {
+        int8 = 1,
+        int16 = 2,
+        int32 = 3,
+        int64 = 4,
+        floatingPoint = 5,
+        doublePrecision = 6,
+        string = 7,
+        longString = 8,
+        byteArray = 9,
+        object = 10,
+        array = 11,
+        dictionary = 12
+    };
+
+    enum class Type
+    {
+        integer,
+        floatingPoint,
+        doublePrecision,
+        string,
+        byteArray,
+        object,
+        array,
+        dictionary
+    };
+
     class Value final
     {
     public:
@@ -40,34 +68,6 @@ namespace ouzel::obf
         using Object = std::map<std::uint32_t, Value>;
         using Array = std::vector<Value>;
         using Dictionary = std::map<std::string, Value>;
-
-        enum class Marker: std::uint8_t
-        {
-            int8 = 1,
-            int16 = 2,
-            int32 = 3,
-            int64 = 4,
-            floatingPoint = 5,
-            doublePrecision = 6,
-            string = 7,
-            longString = 8,
-            byteArray = 9,
-            object = 10,
-            array = 11,
-            dictionary = 12
-        };
-
-        enum class Type
-        {
-            integer,
-            floatingPoint,
-            doublePrecision,
-            string,
-            byteArray,
-            object,
-            array,
-            dictionary
-        };
 
         Value() = default;
         Value(Type initType): type{initType} {}
