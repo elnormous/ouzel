@@ -409,72 +409,75 @@ namespace ouzel::plist
                     result += "\"\"";
             }
 
+            static void encode(const Dictionary& dictionary, const bool whiteSpaces,
+                               std::size_t level, std::string& result)
+            {
+                result.push_back('{');
+                for (const auto& [key, entryValue] : dictionary)
+                {
+                    if (whiteSpaces) result.push_back('\n');
+                    if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                    encode(key, result);
+                    if (whiteSpaces) result.push_back(' ');
+                    result.push_back('=');
+                    if (whiteSpaces) result.push_back(' ');
+                    encode(entryValue, result, whiteSpaces, level + 1);
+                    result.push_back(';'); // trailing semicolon is mandatory
+                }
+                if (whiteSpaces) result.push_back('\n');
+                if (whiteSpaces) result.insert(result.end(), level, '\t');
+                result += "}";
+            }
+
+            static void encode(const Array& array, const bool whiteSpaces,
+                               std::size_t level, std::string& result)
+            {
+                result.push_back('(');
+                std::size_t count = 0;
+                for (const auto& child : array)
+                {
+                    if (count++) result.push_back(','); // trailing comma is optional
+                    if (whiteSpaces) result.push_back('\n');
+                    if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                    encode(child, result, whiteSpaces, level + 1);
+                }
+                if (whiteSpaces) result.push_back('\n');
+                if (whiteSpaces) result.insert(result.end(), level, '\t');
+                result += ')';
+            }
+
+            static void encode(const Data& data, const bool whiteSpaces, std::string& result)
+            {
+                result += '<';
+                std::size_t count = 0;
+                for (const auto b : data)
+                {
+                    if (whiteSpaces && count++) result.push_back(' ');
+                    constexpr char digits[] = "0123456789ABCDEF";
+                    result += digits[(static_cast<std::size_t>(b) >> 4) & 0x0F];
+                    result += digits[static_cast<std::size_t>(b) & 0x0F];
+                }
+                result += '>';
+            }
+
             static void encode(const Value& value, std::string& result,
                                const bool whiteSpaces,
                                const std::size_t level = 0)
             {
                 if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
-                {
-                    result.push_back('{');
-                    for (const auto& [key, entryValue] : *dictionary)
-                    {
-                        if (whiteSpaces) result.push_back('\n');
-                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
-                        encode(key, result);
-                        if (whiteSpaces) result.push_back(' ');
-                        result.push_back('=');
-                        if (whiteSpaces) result.push_back(' ');
-                        encode(entryValue, result, whiteSpaces, level + 1);
-                        result.push_back(';'); // trailing semicolon is mandatory
-                    }
-                    if (whiteSpaces) result.push_back('\n');
-                    if (whiteSpaces) result.insert(result.end(), level, '\t');
-                    result += "}";
-                }
+                    encode(*dictionary, whiteSpaces, level, result);
                 else if (auto array = std::get_if<Array>(&value.getValue()))
-                {
-                    result.push_back('(');
-                    std::size_t count = 0;
-                    for (const auto& child : *array)
-                    {
-                        if (count++) result.push_back(','); // trailing comma is optional
-                        if (whiteSpaces) result.push_back('\n');
-                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
-                        encode(child, result, whiteSpaces, level + 1);
-                    }
-                    if (whiteSpaces) result.push_back('\n');
-                    if (whiteSpaces) result.insert(result.end(), level, '\t');
-                    result += ')';
-                }
+                    encode(*array, whiteSpaces, level, result);
                 else if (auto string = std::get_if<String>(&value.getValue()))
-                {
                     encode(*string, result);
-                }
                 else if (auto real = std::get_if<double>(&value.getValue()))
-                {
                     result += std::to_string(*real);
-                }
                 else if (auto integer = std::get_if<std::int64_t>(&value.getValue()))
-                {
                     result += std::to_string(*integer);
-                }
                 else if (auto boolean = std::get_if<bool>(&value.getValue()))
-                {
                     result += *boolean ? "YES" : "NO";
-                }
                 else if (auto data = std::get_if<Data>(&value.getValue()))
-                {
-                    result += '<';
-                    std::size_t count = 0;
-                    for (const auto b : *data)
-                    {
-                        if (whiteSpaces && count++) result.push_back(' ');
-                        constexpr char digits[] = "0123456789ABCDEF";
-                        result += digits[(static_cast<std::size_t>(b) >> 4) & 0x0F];
-                        result += digits[static_cast<std::size_t>(b) & 0x0F];
-                    }
-                    result += '>';
-                }
+                    encode(*data, whiteSpaces, result);
                 else if (auto date = std::get_if<Date>(&value.getValue()))
                 {
                     (void)date;
