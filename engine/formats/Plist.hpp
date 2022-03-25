@@ -507,7 +507,7 @@ namespace ouzel::plist
             }
 
         private:
-            static void encode(const std::string& s, std::string& result)
+            static void encodeString(const std::string& s, std::string& result)
             {
                 for (const auto c : s)
                     if (c == '<') result += "&lt;";
@@ -516,8 +516,16 @@ namespace ouzel::plist
                     else result.push_back(c);
             }
 
+            static void encode(const std::string& s, std::string& result)
+            {
+                result += "<string>";
+                encodeString(s, result);
+                result += "</string>";
+            }
+
             static void encode(const std::vector<std::byte>& data, std::string& result)
             {
+                result += "<data>";
                 constexpr char chars[] = {
                     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                     'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -554,6 +562,42 @@ namespace ouzel::plist
 
                     while (++c < 4) result += '=';
                 }
+                result += "</data>";
+            }
+
+            static void encode(const Dictionary& dictionary, const bool whiteSpaces,
+                               std::size_t level, std::string& result)
+            {
+                result += "<dict>";
+                if (whiteSpaces) result.push_back('\n');
+                for (const auto& [key, entryValue] : dictionary)
+                {
+                    if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                    result += "<key>";
+                    encodeString(key, result);
+                    result += "</key>";
+                    if (whiteSpaces) result += '\n';
+                    if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                    encode(entryValue, result, whiteSpaces, level + 1);
+                    if (whiteSpaces) result += '\n';
+                }
+                result.insert(result.end(), level, '\t');
+                result += "</dict>";
+            }
+
+            static void encode(const Array& array, const bool whiteSpaces,
+                               std::size_t level, std::string& result)
+            {
+                result += "<array>";
+                if (whiteSpaces) result.push_back('\n');
+                for (const auto& child : array)
+                {
+                    if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
+                    encode(child, result, whiteSpaces, level + 1);
+                    if (whiteSpaces) result.push_back('\n');
+                }
+                if (whiteSpaces) result.insert(result.end(), level, '\t');
+                result += "</array>";
             }
 
             static void encode(const Value& value, std::string& result,
@@ -561,64 +605,19 @@ namespace ouzel::plist
                                const std::size_t level = 0)
             {
                 if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
-                {
-                    result += "<dict>";
-                    if (whiteSpaces) result.push_back('\n');
-                    for (const auto& [key, entryValue] : *dictionary)
-                    {
-                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
-                        result += "<key>";
-                        encode(key, result);
-                        result += "</key>";
-                        if (whiteSpaces) result += '\n';
-                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
-                        encode(entryValue, result, whiteSpaces, level + 1);
-                        if (whiteSpaces) result += '\n';
-                    }
-                    result.insert(result.end(), level, '\t');
-                    result += "</dict>";
-                }
+                    encode(*dictionary, whiteSpaces, level, result);
                 else if (auto array = std::get_if<Array>(&value.getValue()))
-                {
-                    result += "<array>";
-                    if (whiteSpaces) result.push_back('\n');
-                    for (const auto& child : *array)
-                    {
-                        if (whiteSpaces) result.insert(result.end(), level + 1, '\t');
-                        encode(child, result, whiteSpaces, level + 1);
-                        if (whiteSpaces) result.push_back('\n');
-                    }
-                    if (whiteSpaces) result.insert(result.end(), level, '\t');
-                    result += "</array>";
-                }
+                    encode(*array, whiteSpaces, level, result);
                 else if (auto string = std::get_if<String>(&value.getValue()))
-                {
-                    result += "<string>";
                     encode(*string, result);
-                    result += "</string>";
-                }
                 else if (auto real = std::get_if<double>(&value.getValue()))
-                {
-                    result += "<real>";
-                    result += std::to_string(*real);
-                    result += "</real>";
-                }
+                    result += "<real>" + std::to_string(*real) + "</real>";
                 else if (auto integer = std::get_if<std::int64_t>(&value.getValue()))
-                {
-                    result += "<integer>";
-                    result += std::to_string(*integer);
-                    result += "</integer>";
-                }
+                    result += "<integer>" + std::to_string(*integer) + "</integer>";
                 else if (auto boolean = std::get_if<bool>(&value.getValue()))
-                {
                     result += *boolean ? "<true/>" : "<false/>";
-                }
                 else if (auto data = std::get_if<Data>(&value.getValue()))
-                {
-                    result += "<data>";
                     encode(*data, result);
-                    result += "</data>";
-                }
                 else if (auto date = std::get_if<Date>(&value.getValue()))
                 {
                     (void)date;
