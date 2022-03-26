@@ -604,25 +604,22 @@ namespace ouzel::plist
                                const bool whiteSpaces,
                                const std::size_t level = 0)
             {
-                if (auto dictionary = std::get_if<Dictionary>(&value.getValue()))
+                if (const auto dictionary = std::get_if<Dictionary>(&value.getValue()))
                     encode(*dictionary, whiteSpaces, level, result);
-                else if (auto array = std::get_if<Array>(&value.getValue()))
+                else if (const auto array = std::get_if<Array>(&value.getValue()))
                     encode(*array, whiteSpaces, level, result);
-                else if (auto string = std::get_if<String>(&value.getValue()))
+                else if (const auto string = std::get_if<String>(&value.getValue()))
                     encode(*string, result);
-                else if (auto real = std::get_if<double>(&value.getValue()))
+                else if (const auto real = std::get_if<double>(&value.getValue()))
                     result += "<real>" + std::to_string(*real) + "</real>";
-                else if (auto integer = std::get_if<std::int64_t>(&value.getValue()))
+                else if (const auto integer = std::get_if<std::int64_t>(&value.getValue()))
                     result += "<integer>" + std::to_string(*integer) + "</integer>";
-                else if (auto boolean = std::get_if<bool>(&value.getValue()))
+                else if (const auto boolean = std::get_if<bool>(&value.getValue()))
                     result += *boolean ? "<true/>" : "<false/>";
-                else if (auto data = std::get_if<Data>(&value.getValue()))
+                else if (const auto data = std::get_if<Data>(&value.getValue()))
                     encode(*data, result);
-                else if (auto date = std::get_if<Date>(&value.getValue()))
-                {
-                    (void)date;
+                else if (std::get_if<Date>(&value.getValue()))
                     throw std::runtime_error{"Date fields are not supported"};
-                }
                 else
                     throw std::runtime_error{"Unsupported format"};
             }
