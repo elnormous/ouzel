@@ -43,7 +43,7 @@ namespace ouzel::plist
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
         Value(T v) noexcept(false):value{static_cast<std::int64_t>(v)} {}
         Value(const String& v) noexcept(false):value{v} {}
-        Value(const char* v) noexcept(false):value{String{v}} {}
+        Value(const char* v) noexcept(false):value{std::in_place_type_t<std::string>{}, v} {}
         Value(const Data& v) noexcept(false):value{v} {}
         Value(const Date& v) noexcept(false):value{v} {}
 
