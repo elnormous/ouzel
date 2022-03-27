@@ -3,11 +3,14 @@
 #ifndef OUZEL_FORMATS_PLIST_HPP
 #define OUZEL_FORMATS_PLIST_HPP
 
+#include <chrono>
 #include <map>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <variant>
 #include <vector>
+#include <utility>
 
 namespace ouzel::plist
 {
