@@ -74,11 +74,16 @@ namespace ouzel::storage
             throw std::runtime_error{"Failed to get resource directory"};
 
         const platform::corefoundation::Pointer absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
+        if (!absolutePath)
+            throw std::runtime_error{"Failed to copy absolute URL"};
+
         const platform::corefoundation::Pointer path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
+        if (!path)
+            throw std::runtime_error{"Failed to copy file system path"};
 
         const auto maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
-        auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));
-        if (const auto result = CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize); !result)
+        const auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));
+        if (!CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize))
             throw std::runtime_error{"Failed to get resource directory"};
 
         appPath = Path{resourceDirectory.get(), Path::Format::native};

@@ -55,15 +55,9 @@ namespace ouzel::platform::corefoundation
             return *this;
         }
 
-        auto get() const noexcept
-        {
-            return p;
-        }
-
-        operator T() const noexcept
-        {
-            return p;
-        }
+        auto get() const noexcept { return p; }
+        operator T() const noexcept { return p; }
+        bool operator!() const noexcept { return p == nullptr; }
 
         bool operator==(const Pointer& other) const noexcept
         {
