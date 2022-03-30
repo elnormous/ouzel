@@ -247,6 +247,9 @@ namespace ouzel::storage
             throw std::runtime_error{"Failed to get application support directory"};
 
         CFBundleRef bundle = CFBundleGetMainBundle();
+        if (!bundle)
+            throw std::runtime_error{"Failed to get main bundle"};
+
         CFStringRef identifier = CFBundleGetIdentifier(bundle);
         if (!identifier)
             identifier = CFSTR(OUZEL_DEVELOPER_NAME "." OUZEL_APPLICATION_NAME);
