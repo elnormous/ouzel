@@ -95,7 +95,7 @@ namespace ouzel::storage
 #elif defined(__linux__)
         char executableDirectory[PATH_MAX];
 
-        const ssize_t length = readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory) - 1);
+        const auto length = readlink("/proc/self/exe", executableDirectory, sizeof(executableDirectory) - 1);
         if (length == -1)
             throw std::system_error{errno, std::system_category(), "Failed to get current directory"};
 
@@ -226,7 +226,7 @@ namespace ouzel::storage
         constexpr NSUInteger NSUserDomainMask = 1U;
         constexpr NSUInteger NSLocalDomainMask = 2U;
 
-        const id documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
+        const auto documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
         if (!documentDirectory)
             throw std::runtime_error{"Failed to get document directory"};
