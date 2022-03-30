@@ -327,7 +327,10 @@ namespace ouzel::storage
         {
             auto& engineAndroid = static_cast<core::android::Engine&>(engine);
 
-            auto asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
+            const std::unique_ptr<AAsset, decltype(&AAsset_close)> asset{
+                AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING),
+                AAsset_close
+            };
 
             if (!asset)
                 throw std::runtime_error{"Failed to open file " + std::string(filename)};
@@ -337,7 +340,7 @@ namespace ouzel::storage
 
             for (;;)
             {
-                const auto bytesRead = AAsset_read(asset, buffer, sizeof(buffer));
+                const auto bytesRead = AAsset_read(asset.get(), buffer, sizeof(buffer));
 
                 if (bytesRead < 0)
                     throw std::runtime_error{"Failed to read from file"};
@@ -346,8 +349,6 @@ namespace ouzel::storage
 
                 data.insert(data.end(), buffer, buffer + bytesRead);
             }
-
-            AAsset_close(asset);
 
             return data;
         }
