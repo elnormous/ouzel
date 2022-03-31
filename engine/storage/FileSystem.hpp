@@ -229,7 +229,7 @@ namespace ouzel::storage
 
             return Path{buffer, Path::Format::native};
 #elif defined(__linux__) || defined(__APPLE__)
-            char const* path = std::getenv("TMPDIR");
+            auto path = std::getenv("TMPDIR");
             if (!path) path = std::getenv("TMP");
             if (!path) path = std::getenv("TEMP");
             if (!path) path = std::getenv("TEMPDIR");

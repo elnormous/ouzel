@@ -265,7 +265,7 @@ namespace ouzel::storage
 #elif defined(__linux__)
         Path path;
 
-        if (const char* homeDirectory = std::getenv("XDG_DATA_HOME"))
+        if (const auto homeDirectory = std::getenv("XDG_DATA_HOME"))
             path = Path{homeDirectory, Path::Format::native};
         else
         {
