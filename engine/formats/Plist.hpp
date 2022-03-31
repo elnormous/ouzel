@@ -35,17 +35,17 @@ namespace ouzel::plist
         using Date = std::chrono::system_clock::time_point;
     public:
         Value() noexcept(false) = default;
-        Value(const Dictionary& v) noexcept(false):value{v} {}
-        Value(const Array& v) noexcept(false):value(v) {}
-        Value(bool v) noexcept:value{v} {}
+        Value(const Dictionary& v) noexcept(false): value{v} {}
+        Value(const Array& v) noexcept(false): value(v) {}
+        Value(bool v) noexcept: value{v} {}
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
-        Value(T v) noexcept:value{static_cast<double>(v)} {}
+        Value(T v) noexcept: value{static_cast<double>(v)} {}
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value(T v) noexcept:value{static_cast<std::int64_t>(v)} {}
-        Value(const String& v) noexcept(false):value{v} {}
-        Value(const char* v) noexcept(false):value{std::in_place_type_t<std::string>{}, v} {}
-        Value(const Data& v) noexcept(false):value{v} {}
-        Value(const Date& v) noexcept(false):value{v} {}
+        Value(T v) noexcept: value{static_cast<std::int64_t>(v)} {}
+        Value(const String& v) noexcept(false): value{v} {}
+        Value(const char* v) noexcept(false): value{std::in_place_type_t<std::string>{}, v} {}
+        Value(const Data& v) noexcept(false): value{v} {}
+        Value(const Date& v) noexcept(false): value{v} {}
 
         Value& operator=(const Dictionary& v) noexcept(false)
         {
