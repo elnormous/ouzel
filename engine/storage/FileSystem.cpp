@@ -421,13 +421,12 @@ namespace ouzel::storage
 #ifdef __ANDROID__
         auto& engineAndroid = static_cast<core::android::Engine&>(engine);
 
-        auto asset = AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING);
+        const std::unique_ptr<AAsset, decltype(&AAsset_close)> asset{
+            AAssetManager_open(engineAndroid.getAssetManager(), filename.getNative().c_str(), AASSET_MODE_STREAMING),
+            AAsset_close
+        };
 
-        if (asset)
-        {
-            AAsset_close(asset);
-            return true;
-        }
+        if (asset) return true;
 #endif
         return getFileType(filename) == FileType::regular;
     }
