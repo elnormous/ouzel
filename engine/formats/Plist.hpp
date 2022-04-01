@@ -37,11 +37,11 @@ namespace ouzel::plist
         Value() noexcept(false) = default;
         Value(const Dictionary& v) noexcept(false): value{v} {}
         Value(const Array& v) noexcept(false): value(v) {}
-        Value(bool v) noexcept: value{v} {}
+        Value(const bool v) noexcept: value{v} {}
         template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
-        Value(T v) noexcept: value{static_cast<double>(v)} {}
+        Value(const T v) noexcept: value{static_cast<double>(v)} {}
         template <typename T, typename std::enable_if_t<std::is_integral_v<T> && !std::is_same_v<T, bool>>* = nullptr>
-        Value(T v) noexcept: value{static_cast<std::int64_t>(v)} {}
+        Value(const T v) noexcept: value{static_cast<std::int64_t>(v)} {}
         Value(const String& v) noexcept(false): value{v} {}
         Value(const char* v) noexcept(false): value{std::in_place_type_t<std::string>{}, v} {}
         Value(const Data& v) noexcept(false): value{v} {}
@@ -481,11 +481,8 @@ namespace ouzel::plist
                     result += *boolean ? "YES" : "NO";
                 else if (auto data = std::get_if<Data>(&value.getValue()))
                     encode(*data, whiteSpaces, result);
-                else if (auto date = std::get_if<Date>(&value.getValue()))
-                {
-                    (void)date;
+                else if (std::get_if<Date>(&value.getValue()))
                     throw std::runtime_error{"Date fields are not supported"};
-                }
                 else
                     throw std::runtime_error{"Unsupported format"};
             }
