@@ -137,6 +137,7 @@ namespace ouzel::core::macos
 
         [window setReleasedWhenClosed:NO];
 
+        window.tabbingMode = NSWindowTabbingModeDisallowed;
         window.acceptsMouseMovedEvents = YES;
         windowDelegate = [[WindowDelegate alloc] initWithWindow:this];
         window.delegate = windowDelegate;
