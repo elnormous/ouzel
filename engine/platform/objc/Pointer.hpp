@@ -3,6 +3,7 @@
 #ifndef OUZEL_PLATFORM_OBJC_POINTER_HPP
 #define OUZEL_PLATFORM_OBJC_POINTER_HPP
 
+#include <type_traits>
 #include <objc/message.h>
 #include <objc/objc.h>
 
@@ -11,7 +12,7 @@ namespace ouzel::platform::objc
     inline const auto retainSel = sel_registerName("retain");
     inline const auto releaseSel = sel_registerName("release");
 
-    template <class T = id>
+    template <class T = id, typename std::enable_if_t<std::is_pointer_v<T>>* = nullptr>
     class Pointer final
     {
     public:
