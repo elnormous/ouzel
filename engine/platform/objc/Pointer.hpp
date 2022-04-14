@@ -59,15 +59,9 @@ namespace ouzel::platform::objc
             if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
         }
 
-        T get() const noexcept
-        {
-            return p;
-        }
-
-        operator T() const noexcept
-        {
-            return p;
-        }
+        T get() const noexcept { return p; }
+        operator T() const noexcept { return p; }
+        bool operator !() const noexcept { return p == nil; }
 
         bool operator==(const Pointer& other) const noexcept
         {
