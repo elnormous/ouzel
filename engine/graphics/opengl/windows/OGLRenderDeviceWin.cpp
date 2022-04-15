@@ -175,9 +175,9 @@ namespace ouzel::graphics::opengl::windows
 
         const TempContext tempContext;
 
-        const auto& window = window.getNativeWindow();
+        const auto& nativeWindow = window.getNativeWindow();
 
-        deviceContext = GetDC(window.getNativeWindow());
+        deviceContext = GetDC(nativeWindow.getNativeWindow());
         if (!deviceContext)
             throw std::runtime_error{"Failed to get window's device context"};
 
@@ -324,8 +324,8 @@ namespace ouzel::graphics::opengl::windows
 
         if (deviceContext)
         {
-            const auto& window = window.getNativeWindow();
-            ReleaseDC(window.getNativeWindow(), deviceContext);
+            const auto& nativeWindow = window.getNativeWindow();
+            ReleaseDC(nativeWindow.getNativeWindow(), deviceContext);
         }
     }
     

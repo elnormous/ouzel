@@ -84,7 +84,7 @@ namespace ouzel::graphics::opengl::android
         const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
         log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
-        const auto& window = window.getNativeWindow();
+        const auto& nativeWindow = window.getNativeWindow();
 
         if (std::find(eglExtensions.begin(), eglExtensions.end(), "EGL_KHR_create_context") != eglExtensions.end())
         {
@@ -99,9 +99,9 @@ namespace ouzel::graphics::opengl::android
                 if (!eglGetConfigAttrib(display, configs[0], EGL_NATIVE_VISUAL_ID, &format))
                     throw std::system_error{eglGetError(), eglErrorCategory, "Failed to get config attribute"};
 
-                ANativeWindow_setBuffersGeometry(window.getNativeWindow(), 0, 0, format);
+                ANativeWindow_setBuffersGeometry(nativeWindow.getNativeWindow(), 0, 0, format);
 
-                surface = eglCreateWindowSurface(display, configs[0], window.getNativeWindow(), nullptr);
+                surface = eglCreateWindowSurface(display, configs[0], nativeWindow.getNativeWindow(), nullptr);
                 if (surface == EGL_NO_SURFACE)
                     throw std::system_error{eglGetError(), eglErrorCategory, "Failed to create EGL window surface"};
 
@@ -134,11 +134,11 @@ namespace ouzel::graphics::opengl::android
             if (!eglGetConfigAttrib(display, configs[0], EGL_NATIVE_VISUAL_ID, &format))
                 throw std::system_error{eglGetError(), eglErrorCategory, "Failed to get config attribute"};
 
-            const auto& window = window.getNativeWindow();
+            const auto& nativeWindow = window.getNativeWindow();
 
-            ANativeWindow_setBuffersGeometry(window.getNativeWindow(), 0, 0, format);
+            ANativeWindow_setBuffersGeometry(nativeWindow.getNativeWindow(), 0, 0, format);
 
-            surface = eglCreateWindowSurface(display, configs[0], window.getNativeWindow(), nullptr);
+            surface = eglCreateWindowSurface(display, configs[0], nativeWindow.getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
                 throw std::system_error{eglGetError(), eglErrorCategory, "Failed to create EGL window surface"};
 
@@ -220,7 +220,7 @@ namespace ouzel::graphics::opengl::android
         const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
         log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
-        const auto& window = window.getNativeWindow();
+        const auto& nativeWindow = window.getNativeWindow();
 
         if (std::find(eglExtensions.begin(), eglExtensions.end(), "EGL_KHR_create_context") != eglExtensions.end())
         {
@@ -235,9 +235,9 @@ namespace ouzel::graphics::opengl::android
                 if (!eglGetConfigAttrib(display, configs[0], EGL_NATIVE_VISUAL_ID, &format))
                     throw std::system_error{eglGetError(), eglErrorCategory, "Failed to get config attribute"};
 
-                ANativeWindow_setBuffersGeometry(window.getNativeWindow(), 0, 0, format);
+                ANativeWindow_setBuffersGeometry(nativeWindow.getNativeWindow(), 0, 0, format);
 
-                surface = eglCreateWindowSurface(display, configs[0], window.getNativeWindow(), nullptr);
+                surface = eglCreateWindowSurface(display, configs[0], nativeWindow.getNativeWindow(), nullptr);
                 if (surface == EGL_NO_SURFACE)
                     throw std::system_error{eglGetError(), eglErrorCategory, "Failed to create EGL window surface"};
 
@@ -273,11 +273,11 @@ namespace ouzel::graphics::opengl::android
             if (!eglGetConfigAttrib(display, configs[0], EGL_NATIVE_VISUAL_ID, &format))
                 throw std::system_error{eglGetError(), eglErrorCategory, "Failed to get config attribute"};
 
-            const auto& window = window.getNativeWindow();
+            const auto& nativeWindow = window.getNativeWindow();
 
-            ANativeWindow_setBuffersGeometry(window.getNativeWindow(), 0, 0, format);
+            ANativeWindow_setBuffersGeometry(nativeWindow.getNativeWindow(), 0, 0, format);
 
-            surface = eglCreateWindowSurface(display, configs[0], window.getNativeWindow(), nullptr);
+            surface = eglCreateWindowSurface(display, configs[0], nativeWindow.getNativeWindow(), nullptr);
             if (surface == EGL_NO_SURFACE)
                 throw std::system_error{eglGetError(), eglErrorCategory, "Failed to create EGL window surface"};
 
