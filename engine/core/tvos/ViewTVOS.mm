@@ -48,8 +48,8 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemTVOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto keyboardDevice = inputSystemTVOS.getKeyboardDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto keyboardDevice = inputSystem.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         auto f = keyboardDevice->handleKeyPress(convertKeyCode(press.type));
@@ -65,8 +65,8 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemTVOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto keyboardDevice = inputSystemTVOS.getKeyboardDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto keyboardDevice = inputSystem.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         auto f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
@@ -82,8 +82,8 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemTVOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto keyboardDevice = inputSystemTVOS.getKeyboardDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto keyboardDevice = inputSystem.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         auto f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));

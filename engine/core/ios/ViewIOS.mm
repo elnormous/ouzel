@@ -12,8 +12,8 @@
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
-    auto& inputSystemIOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto touchpadDevice = inputSystem.getTouchpadDevice();
     for (UITouch* touch in touches)
     {
         const CGPoint location = [touch locationInView:self];
@@ -34,8 +34,8 @@
 
 - (void)touchesMoved:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
-    auto& inputSystemIOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto touchpadDevice = inputSystem.getTouchpadDevice();
     for (UITouch* touch in touches)
     {
         const CGPoint location = [touch locationInView:self];
@@ -56,8 +56,8 @@
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
-    auto& inputSystemIOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto touchpadDevice = inputSystem.getTouchpadDevice();
     for (UITouch* touch in touches)
     {
         const CGPoint location = [touch locationInView:self];
@@ -78,8 +78,8 @@
 
 - (void)touchesCancelled:(NSSet*)touches withEvent:(__unused UIEvent*)event
 {
-    auto& inputSystemIOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto touchpadDevice = inputSystemIOS.getTouchpadDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto touchpadDevice = inputSystem.getTouchpadDevice();
     for (UITouch* touch in touches)
     {
         const CGPoint location = [touch locationInView:self];
@@ -120,8 +120,8 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemIOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto keyboardDevice = inputSystem.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         auto f = keyboardDevice->handleKeyPress(convertKeyCode(press.type));
@@ -137,8 +137,8 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemIOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto keyboardDevice = inputSystem.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         auto f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));
@@ -154,8 +154,8 @@ namespace
 {
     bool forward = false;
 
-    auto& inputSystemIOS = ouzel::engine->getInputManager().getInputSystem();
-    const auto keyboardDevice = inputSystemIOS.getKeyboardDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto keyboardDevice = inputSystem.getKeyboardDevice();
     for (UIPress* press in presses)
     {
         auto f = keyboardDevice->handleKeyRelease(convertKeyCode(press.type));

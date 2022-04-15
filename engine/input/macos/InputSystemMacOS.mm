@@ -48,14 +48,14 @@ namespace ouzel::input::macos
     {
         void deviceAdded(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
         {
-            const auto inputSystemMacOS = static_cast<InputSystem*>(ctx);
-            inputSystemMacOS->handleGamepadConnected(device);
+            const auto inputSystem = static_cast<InputSystem*>(ctx);
+            inputSystem->handleGamepadConnected(device);
         }
 
         void deviceRemoved(void* ctx, IOReturn, void*, IOHIDDeviceRef device)
         {
-            const auto inputSystemMacOS = static_cast<InputSystem*>(ctx);
-            inputSystemMacOS->handleGamepadDisconnected(device);
+            const auto inputSystem = static_cast<InputSystem*>(ctx);
+            inputSystem->handleGamepadDisconnected(device);
         }
     }
 
