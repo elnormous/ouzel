@@ -261,18 +261,18 @@ namespace
         auto userData = GetWindowLongPtr(window, GWLP_USERDATA);
         if (!userData) return DefWindowProcW(window, message, wParam, lParam);
 
-        const auto window = ouzel::bitCast<ouzel::core::windows::NativeWindow*>(userData);
+        const auto nativeWindow = ouzel::bitCast<ouzel::core::windows::NativeWindow*>(userData);
 
         switch (message)
         {
             case WM_ACTIVATEAPP:
-                window->handleActivate(wParam);
+                nativeWindow->handleActivate(wParam);
                 break;
             case WM_KEYDOWN:
             case WM_KEYUP:
             case WM_SYSKEYDOWN:
             case WM_SYSKEYUP:
-                window->handleKey(message, wParam, lParam);
+                nativeWindow->handleKey(message, wParam, lParam);
                 break;
             case WM_LBUTTONDOWN:
             case WM_LBUTTONUP:
@@ -288,7 +288,7 @@ namespace
                 // don't handle mouse event that came from pen or touch
                 if ((extraInfo & SIGNATURE_MASK) != MI_WP_SIGNATURE)
                 {
-                    window->handleMouseButton(message, wParam, lParam);
+                    nativeWindow->handleMouseButton(message, wParam, lParam);
 
                     // must return TRUE if WM_XBUTTONDOWN or WM_XBUTTONUP is handled
                     if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)
@@ -305,17 +305,17 @@ namespace
                 // don't handle mouse event that came from pen or touch
                 if ((extraInfo & SIGNATURE_MASK) != MI_WP_SIGNATURE)
                 {
-                    window->handleMouseMove(lParam);
+                    nativeWindow->handleMouseMove(lParam);
                     return 0;
                 }
                 break;
             }
             case WM_MOUSEWHEEL:
             case WM_MOUSEHWHEEL:
-                window->handleMouseWheel(message, wParam, lParam);
+                nativeWindow->handleMouseWheel(message, wParam, lParam);
                 return 0;
             case WM_TOUCH:
-                window->handleTouch(wParam, lParam);
+                nativeWindow->handleTouch(wParam, lParam);
                 return 0;
             case WM_SETCURSOR:
             {
@@ -329,7 +329,7 @@ namespace
             }
             case WM_SHOWWINDOW:
             {
-                window->handleShowWindow(wParam ? TRUE : FALSE);
+                nativeWindow->handleShowWindow(wParam ? TRUE : FALSE);
                 break;
             }
             case WM_SIZE:
@@ -337,27 +337,27 @@ namespace
                 switch (wParam)
                 {
                     case SIZE_MINIMIZED:
-                        window->handleMinimize();
+                        nativeWindow->handleMinimize();
                         break;
                     case SIZE_RESTORED:
-                        window->handleResize(ouzel::math::Size<std::uint32_t, 2>{
+                        nativeWindow->handleResize(ouzel::math::Size<std::uint32_t, 2>{
                             static_cast<std::uint32_t>(LOWORD(lParam)),
                             static_cast<std::uint32_t>(HIWORD(lParam))
                         });
-                        window->handleRestore();
+                        nativeWindow->handleRestore();
                         break;
                     case SIZE_MAXIMIZED:
-                        window->handleResize(ouzel::math::Size<std::uint32_t, 2>{
+                        nativeWindow->handleResize(ouzel::math::Size<std::uint32_t, 2>{
                             static_cast<std::uint32_t>(LOWORD(lParam)),
                             static_cast<std::uint32_t>(HIWORD(lParam))
                         });
-                        window->handleMaximize();
+                        nativeWindow->handleMaximize();
                         break;
                 }
                 return 0;
             }
             case WM_MOVE:
-                window->handleMove();
+                nativeWindow->handleMove();
                 break;
             case WM_ERASEBKGND:
             {
