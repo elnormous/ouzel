@@ -21,8 +21,7 @@ jobs:
     displayName: 'Install the Windows 8.1 SDK'
     inputs:
       targetType: 'inline'
-      script: |
-      choco install windows-sdk-8.1
+      script: 'choco install windows-sdk-8.1'
   - task: MSBuild@1
     inputs:
       solution: samples/samples.vcxproj
