@@ -200,8 +200,8 @@ namespace ouzel::input::macos
                 if (mouseDevice->getCursor() == cursor)
                 {
                     mouseDevice->setCursor(nullptr);
-                    const auto& windowMacOs = engine->getWindow().getNativeWindow();
-                    [windowMacOs.getNativeWindow() invalidateCursorRectsForView:windowMacOs.getNativeView()];
+                    const auto& nativeWindow = engine->getWindow().getNativeWindow();
+                    [nativeWindow.getNativeWindow() invalidateCursorRectsForView:nativeWindow.getNativeView()];
                 }
 
                 cursors[command.cursorResource - 1].reset();
@@ -218,8 +218,8 @@ namespace ouzel::input::macos
                         else
                             mouseDevice->setCursor(nullptr);
 
-                        const auto& windowMacOs = engine->getWindow().getNativeWindow();
-                        [windowMacOs.getNativeWindow() invalidateCursorRectsForView:windowMacOs.getNativeView()];
+                        const auto& nativeWindow = engine->getWindow().getNativeWindow();
+                        [nativeWindow.getNativeWindow() invalidateCursorRectsForView:nativeWindow.getNativeView()];
                     }
                 }
                 break;

@@ -49,8 +49,8 @@ namespace ouzel::graphics::metal::macos
         metal::RenderDevice{settings, initWindow},
         displayLink{window.getNativeWindow().getDisplayId()}
     {
-        const auto& windowMacOs = window.getNativeWindow();
-        MetalView* view = (MetalView*)windowMacOs.getNativeView();
+        const auto& nativeWindow = window.getNativeWindow();
+        MetalView* view = (MetalView*)nativeWindow.getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;
         metalLayer.device = device.get();

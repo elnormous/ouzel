@@ -100,8 +100,8 @@ namespace ouzel::graphics::opengl::macos
         context = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
         [context makeCurrentContext];
 
-        const auto& windowMacOs = window.getNativeWindow();
-        OpenGLView* openGlView = (OpenGLView*)windowMacOs.getNativeView();
+        const auto& nativeWindow = window.getNativeWindow();
+        OpenGLView* openGlView = (OpenGLView*)nativeWindow.getNativeView();
 
         [openGlView setOpenGLContext:context];
         [context setView:openGlView];
