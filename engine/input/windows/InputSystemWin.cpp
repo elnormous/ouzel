@@ -30,8 +30,8 @@ namespace ouzel::input::windows
     {
         BOOL CALLBACK enumDevicesCallback(const DIDEVICEINSTANCEW* didInstance, VOID* context)
         {
-            const auto inputSystemWin = static_cast<InputSystem*>(context);
-            inputSystemWin->handleDeviceConnect(didInstance);
+            const auto inputSystem = static_cast<InputSystem*>(context);
+            inputSystem->handleDeviceConnect(didInstance);
 
             return DIENUM_CONTINUE;
         }

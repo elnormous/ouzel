@@ -54,7 +54,7 @@ namespace ouzel::core::windows
     {
         start();
 
-        auto& inputSystemWin = inputManager.getInputSystem();
+        auto& inputSystem = inputManager.getInputSystem();
         const auto& windowWin = window.getNativeWindow();
 
         while (isActive())
@@ -90,7 +90,7 @@ namespace ouzel::core::windows
                                      message);
             }
 
-            inputSystemWin.update();
+            inputSystem.update();
         }
 
         exit();

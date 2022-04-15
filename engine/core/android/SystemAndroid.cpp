@@ -248,8 +248,8 @@ extern "C" JNIEXPORT void JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onLowMemory(
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)
 {
-    auto& inputSystemAndroid = ouzel::engine->getInputManager().getInputSystem();
-    const auto keyboardDevice = inputSystemAndroid.getKeyboardDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto keyboardDevice = inputSystem.getKeyboardDevice();
     auto f = keyboardDevice->handleKeyPress(convertKeyCode(keyCode));
 
     if (keyCode == AKEYCODE_BACK)
@@ -260,8 +260,8 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyDow
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyUp(JNIEnv*, jclass, jint keyCode)
 {
-    auto& inputSystemAndroid = ouzel::engine->getInputManager().getInputSystem();
-    const auto keyboardDevice = inputSystemAndroid.getKeyboardDevice();
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    const auto keyboardDevice = inputSystem.getKeyboardDevice();
     auto f = keyboardDevice->handleKeyRelease(convertKeyCode(keyCode));
 
     if (keyCode == AKEYCODE_BACK)
@@ -272,14 +272,14 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onKeyUp(
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onTouchEvent(JNIEnv*, jclass, jobject event)
 {
-    auto& inputSystemAndroid = ouzel::engine->getInputManager().getInputSystem();
-    return inputSystemAndroid.handleTouchEvent(event);
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    return inputSystem.handleTouchEvent(event);
 }
 
 extern "C" JNIEXPORT jboolean JNICALL Java_org_ouzel_OuzelLibJNIWrapper_onGenericMotionEvent(JNIEnv*, jclass, jobject event)
 {
-    auto& inputSystemAndroid = ouzel::engine->getInputManager().getInputSystem();
-    return inputSystemAndroid.handleGenericMotionEvent(event);
+    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+    return inputSystem.handleGenericMotionEvent(event);
 }
 
 namespace ouzel::core::android
