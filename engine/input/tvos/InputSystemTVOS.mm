@@ -159,15 +159,15 @@ namespace ouzel::input::tvos
 
     void InputSystem::showVirtualKeyboard()
     {
-        const auto& windowTvos = engine->getWindow().getNativeWindow();
-        auto textField = windowTvos.getTextField();
+        const auto& nativeWindow = engine->getWindow().getNativeWindow();
+        auto textField = nativeWindow.getTextField();
         [textField becomeFirstResponder];
     }
 
     void InputSystem::hideVirtualKeyboard()
     {
-        const auto& windowTvos = engine->getWindow().getNativeWindow();
-        auto textField = windowTvos.getTextField();
+        const auto& nativeWindow = engine->getWindow().getNativeWindow();
+        auto textField = nativeWindow.getTextField();
         [textField resignFirstResponder];
     }
 }

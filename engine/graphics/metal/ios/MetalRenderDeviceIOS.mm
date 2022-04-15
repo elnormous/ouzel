@@ -23,8 +23,8 @@ namespace ouzel::graphics::metal::ios
         metal::RenderDevice{settings, initWindow},
         displayLink{std::bind(&RenderDevice::renderCallback, this)}
     {
-        const auto& windowIos = window.getNativeWindow();
-        MetalView* view = (MetalView*)windowIos.getNativeView();
+        const auto& nativeWindow = window.getNativeWindow();
+        MetalView* view = (MetalView*)nativeWindow.getNativeView();
 
         metalLayer = (CAMetalLayer*)view.layer;
         metalLayer.device = device.get();
