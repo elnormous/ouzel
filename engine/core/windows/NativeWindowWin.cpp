@@ -261,18 +261,18 @@ namespace
         auto userData = GetWindowLongPtr(window, GWLP_USERDATA);
         if (!userData) return DefWindowProcW(window, message, wParam, lParam);
 
-        const auto windowWin = ouzel::bitCast<ouzel::core::windows::NativeWindow*>(userData);
+        const auto window = ouzel::bitCast<ouzel::core::windows::NativeWindow*>(userData);
 
         switch (message)
         {
             case WM_ACTIVATEAPP:
-                windowWin->handleActivate(wParam);
+                window->handleActivate(wParam);
                 break;
             case WM_KEYDOWN:
             case WM_KEYUP:
             case WM_SYSKEYDOWN:
             case WM_SYSKEYUP:
-                windowWin->handleKey(message, wParam, lParam);
+                window->handleKey(message, wParam, lParam);
                 break;
             case WM_LBUTTONDOWN:
             case WM_LBUTTONUP:
@@ -288,7 +288,7 @@ namespace
                 // don't handle mouse event that came from pen or touch
                 if ((extraInfo & SIGNATURE_MASK) != MI_WP_SIGNATURE)
                 {
-                    windowWin->handleMouseButton(message, wParam, lParam);
+                    window->handleMouseButton(message, wParam, lParam);
 
                     // must return TRUE if WM_XBUTTONDOWN or WM_XBUTTONUP is handled
                     if (message == WM_XBUTTONDOWN || message == WM_XBUTTONUP)
@@ -305,31 +305,31 @@ namespace
                 // don't handle mouse event that came from pen or touch
                 if ((extraInfo & SIGNATURE_MASK) != MI_WP_SIGNATURE)
                 {
-                    windowWin->handleMouseMove(lParam);
+                    window->handleMouseMove(lParam);
                     return 0;
                 }
                 break;
             }
             case WM_MOUSEWHEEL:
             case WM_MOUSEHWHEEL:
-                windowWin->handleMouseWheel(message, wParam, lParam);
+                window->handleMouseWheel(message, wParam, lParam);
                 return 0;
             case WM_TOUCH:
-                windowWin->handleTouch(wParam, lParam);
+                window->handleTouch(wParam, lParam);
                 return 0;
             case WM_SETCURSOR:
             {
                 if (LOWORD(lParam) == HTCLIENT)
                 {
-                    auto& inputSystemWin = ouzel::engine->getInputManager().getInputSystem();
-                    inputSystemWin.updateCursor();
+                    auto& inputSystem = ouzel::engine->getInputManager().getInputSystem();
+                    inputSystem.updateCursor();
                     return TRUE;
                 }
                 break;
             }
             case WM_SHOWWINDOW:
             {
-                windowWin->handleShowWindow(wParam ? TRUE : FALSE);
+                window->handleShowWindow(wParam ? TRUE : FALSE);
                 break;
             }
             case WM_SIZE:
@@ -337,27 +337,27 @@ namespace
                 switch (wParam)
                 {
                     case SIZE_MINIMIZED:
-                        windowWin->handleMinimize();
+                        window->handleMinimize();
                         break;
                     case SIZE_RESTORED:
-                        windowWin->handleResize(ouzel::math::Size<std::uint32_t, 2>{
+                        window->handleResize(ouzel::math::Size<std::uint32_t, 2>{
                             static_cast<std::uint32_t>(LOWORD(lParam)),
                             static_cast<std::uint32_t>(HIWORD(lParam))
                         });
-                        windowWin->handleRestore();
+                        window->handleRestore();
                         break;
                     case SIZE_MAXIMIZED:
-                        windowWin->handleResize(ouzel::math::Size<std::uint32_t, 2>{
+                        window->handleResize(ouzel::math::Size<std::uint32_t, 2>{
                             static_cast<std::uint32_t>(LOWORD(lParam)),
                             static_cast<std::uint32_t>(HIWORD(lParam))
                         });
-                        windowWin->handleMaximize();
+                        window->handleMaximize();
                         break;
                 }
                 return 0;
             }
             case WM_MOVE:
-                windowWin->handleMove();
+                window->handleMove();
                 break;
             case WM_ERASEBKGND:
             {
@@ -764,8 +764,8 @@ namespace ouzel::core::windows
 
         if (wParam)
         {
-                auto& inputSystemWin = engine->getInputManager().getInputSystem();
-                const auto mouseDevice = inputSystemWin.getMouseDevice();
+                auto& inputSystem = engine->getInputManager().getInputSystem();
+                const auto mouseDevice = inputSystem.getMouseDevice();
 
                 POINT cursorPos;
                 if (!GetCursorPos(&cursorPos))
@@ -805,8 +805,8 @@ namespace ouzel::core::windows
         focusChangeEvent.focus = true;
         sendEvent(focusChangeEvent);
 
-        auto& inputSystemWin = engine->getInputManager().getInputSystem();
-        const auto mouseDevice = inputSystemWin.getMouseDevice();
+        auto& inputSystem = engine->getInputManager().getInputSystem();
+        const auto mouseDevice = inputSystem.getMouseDevice();
 
         POINT cursorPos;
         if (!GetCursorPos(&cursorPos))
@@ -824,8 +824,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleKey(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager().getInputSystem();
-        const auto keyboardDevice = inputSystemWin.getKeyboardDevice();
+        auto& inputSystem = engine->getInputManager().getInputSystem();
+        const auto keyboardDevice = inputSystem.getKeyboardDevice();
 
         if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN)
             keyboardDevice->handleKeyPress(convertKeyCode(lParam, wParam));
@@ -835,8 +835,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleMouseMove(LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager().getInputSystem();
-        const auto mouseDevice = inputSystemWin.getMouseDevice();
+        auto& inputSystem = engine->getInputManager().getInputSystem();
+        const auto mouseDevice = inputSystem.getMouseDevice();
 
         const math::Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
@@ -848,8 +848,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleMouseButton(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager().getInputSystem();
-        const auto mouseDevice = inputSystemWin.getMouseDevice();
+        auto& inputSystem = engine->getInputManager().getInputSystem();
+        const auto mouseDevice = inputSystem.getMouseDevice();
 
         const math::Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
@@ -866,8 +866,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleMouseWheel(UINT message, WPARAM wParam, LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager().getInputSystem();
-        const auto mouseDevice = inputSystemWin.getMouseDevice();
+        auto& inputSystem = engine->getInputManager().getInputSystem();
+        const auto mouseDevice = inputSystem.getMouseDevice();
 
         const math::Vector<float, 2> position{
             static_cast<float>(GET_X_LPARAM(lParam)),
@@ -890,8 +890,8 @@ namespace ouzel::core::windows
 
     void NativeWindow::handleTouch(WPARAM wParam, LPARAM lParam)
     {
-        auto& inputSystemWin = engine->getInputManager().getInputSystem();
-        const auto touchpadDevice = inputSystemWin.getTouchpadDevice();
+        auto& inputSystem = engine->getInputManager().getInputSystem();
+        const auto touchpadDevice = inputSystem.getTouchpadDevice();
 
         const UINT inputCount = LOWORD(wParam);
         std::vector<TOUCHINPUT> touches(inputCount);
