@@ -115,7 +115,7 @@ namespace ouzel::ini
                 return iterator->second;
             else
             {
-                const auto& [newIterator, success] = values.insert(std::make_pair(key, std::string{}));
+                const auto& [newIterator, success] = values.insert(std::make_pair(std::string{key}, std::string{}));
                 (void)success;
                 return newIterator->second;
             }
@@ -193,7 +193,7 @@ namespace ouzel::ini
                 return sectionIterator->second;
             else
             {
-                const auto& [newIterator, success] = sections.insert(std::make_pair(name, Section{}));
+                const auto& [newIterator, success] = sections.insert(std::make_pair(std::string{name}, Section{}));
                 (void)success;
                 return newIterator->second;
             }
