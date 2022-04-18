@@ -115,7 +115,7 @@ namespace ouzel::ini
                 return iterator->second;
             else
             {
-                const auto& [newIterator, success] = values.try_emplace(std::string{key}, std::string{});
+                const auto& [newIterator, success] = values.try_emplace(std::string{key});
                 (void)success;
                 return newIterator->second;
             }
@@ -193,7 +193,7 @@ namespace ouzel::ini
                 return sectionIterator->second;
             else
             {
-                const auto& [newIterator, success] = sections.try_emplace(std::string{name}, Section{});
+                const auto& [newIterator, success] = sections.try_emplace(std::string{name});
                 (void)success;
                 return newIterator->second;
             }
