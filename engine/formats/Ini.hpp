@@ -100,7 +100,7 @@ namespace ouzel::ini
         }
 
         const std::string& getName() const noexcept { return name; }
-        void setName(const std::string& newName) { name = newName; }
+        void setName(const std::string_view newName) { name = newName; }
 
         const Values& getValues() const noexcept { return values; }
 
@@ -115,7 +115,7 @@ namespace ouzel::ini
                 return iterator->second;
             else
             {
-                const auto& [newIterator, success] = values.insert(std::make_pair(std::string{key}, std::string{}));
+                const auto& [newIterator, success] = values.try_emplace(std::string{key}, std::string{});
                 (void)success;
                 return newIterator->second;
             }
@@ -193,7 +193,7 @@ namespace ouzel::ini
                 return sectionIterator->second;
             else
             {
-                const auto& [newIterator, success] = sections.insert(std::make_pair(std::string{name}, Section{}));
+                const auto& [newIterator, success] = sections.try_emplace(std::string{name}, Section{});
                 (void)success;
                 return newIterator->second;
             }
