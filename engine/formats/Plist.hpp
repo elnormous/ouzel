@@ -264,7 +264,7 @@ namespace ouzel::plist
                     return iterator->second;
                 else
                 {
-                    const auto [newIterator, success] = p->insert({std::string{member}, Value{}});
+                    const auto [newIterator, success] = p->try_emplace({std::string{member}});
                     (void)success;
                     return newIterator->second;
                 }
