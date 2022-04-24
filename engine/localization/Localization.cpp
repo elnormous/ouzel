@@ -111,7 +111,7 @@ namespace ouzel
                 translations[i].translationLength
             };
 
-            strings[str] = translation;
+            strings.try_emplace(str, translation);
         }
     }
 
