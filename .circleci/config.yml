@@ -1,0 +1,30 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: gcc:8.2
+    steps:
+      - checkout
+      - run: git submodule update --init
+      - run:
+          name: Download SonarCloud
+          command: |
+            mkdir -p $HOME/.sonar
+            wget https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip -P $HOME/.sonar
+            unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
+      - run:
+          name: Build and run
+          command: |
+            export PATH=$HOME/.sonar/build-wrapper-linux-x86:$PATH
+            build-wrapper-linux-x86-64 --out-dir bw-output make -j2 -C samples/
+      - sonarcloud/scan
+
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.3
+
+workflows:
+  main:
+    jobs:
+      - test:
+          context: SonarCloud
