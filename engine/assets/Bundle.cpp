@@ -68,7 +68,7 @@ namespace ouzel::assets
     {
         const auto i = textures.find(name);
         if (i == textures.end())
-            textures.insert(std::make_pair(name, texture));
+            textures.try_emplace(std::string(name), texture);
         else
             i->second = texture;
     }
@@ -90,7 +90,7 @@ namespace ouzel::assets
     {
         const auto i = shaders.find(name);
         if (i == shaders.end())
-            shaders.insert(std::make_pair(name, std::move(shader)));
+            shaders.try_emplace(std::string(name), std::move(shader));
         else
             i->second = std::move(shader);
     }
@@ -112,7 +112,7 @@ namespace ouzel::assets
     {
         const auto i = blendStates.find(name);
         if (i == blendStates.end())
-            blendStates.insert(std::make_pair(name, std::move(blendState)));
+            blendStates.try_emplace(std::string(name), std::move(blendState));
         else
             i->second = std::move(blendState);
     }
@@ -134,7 +134,7 @@ namespace ouzel::assets
     {
         const auto i = depthStencilStates.find(name);
         if (i == depthStencilStates.end())
-            depthStencilStates.insert(std::make_pair(name, std::move(depthStencilState)));
+            depthStencilStates.try_emplace(std::string(name), std::move(depthStencilState));
         else
             i->second = std::move(depthStencilState);
     }
@@ -156,7 +156,7 @@ namespace ouzel::assets
     {
         const auto i = spriteData.find(name);
         if (i == spriteData.end())
-            spriteData.insert(std::make_pair(name, newSpriteData));
+            spriteData.try_emplace(std::string(name), newSpriteData);
         else
             i->second = newSpriteData;
     }
@@ -178,7 +178,7 @@ namespace ouzel::assets
     {
         const auto i = particleSystemData.find(name);
         if (i == particleSystemData.end())
-            particleSystemData.insert(std::make_pair(name, newParticleSystemData));
+            particleSystemData.try_emplace(std::string(name), newParticleSystemData);
         else
             i->second = newParticleSystemData;
     }
@@ -200,7 +200,7 @@ namespace ouzel::assets
     {
         const auto i = fonts.find(name);
         if (i == fonts.end())
-            fonts.insert(std::make_pair(name, std::move(font)));
+            fonts.try_emplace(std::string(name), std::move(font));
         else
             i->second = std::move(font);
     }
@@ -222,7 +222,7 @@ namespace ouzel::assets
     {
         const auto i = cues.find(name);
         if (i == cues.end())
-            cues.insert(std::make_pair(name, std::move(cue)));
+            cues.try_emplace(std::string(name), std::move(cue));
         else
             i->second = std::move(cue);
     }
@@ -244,7 +244,7 @@ namespace ouzel::assets
     {
         const auto i = sounds.find(name);
         if (i == sounds.end())
-            sounds.insert(std::make_pair(name, std::move(sound)));
+            sounds.try_emplace(std::string(name), std::move(sound));
         else
             i->second = std::move(sound);
     }
@@ -266,7 +266,7 @@ namespace ouzel::assets
     {
         const auto i = materials.find(name);
         if (i == materials.end())
-            materials.insert(std::make_pair(name, std::move(material)));
+            materials.try_emplace(std::string(name), std::move(material));
         else
             i->second = std::move(material);
     }
@@ -288,7 +288,7 @@ namespace ouzel::assets
     {
         const auto i = skinnedMeshData.find(name);
         if (i == skinnedMeshData.end())
-            skinnedMeshData.insert(std::make_pair(name, std::move(newSkinnedMeshData)));
+            skinnedMeshData.try_emplace(std::string(name), std::move(newSkinnedMeshData));
         else
             i->second = std::move(newSkinnedMeshData);
     }
@@ -310,7 +310,7 @@ namespace ouzel::assets
     {
         const auto i = staticMeshData.find(name);
         if (i == staticMeshData.end())
-            staticMeshData.insert(std::make_pair(name, std::move(newStaticMeshData)));
+            staticMeshData.try_emplace(std::string(name), std::move(newStaticMeshData));
         else
             i->second = std::move(newStaticMeshData);
     }
