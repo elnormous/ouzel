@@ -10,6 +10,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            sudo apt update
             apt-get install -y libgl1-mesa-dev libgles2-mesa-dev libopenal-dev libasound2-dev libxi-dev libxcursor-dev libxrandr-dev libxss-dev
       - run:
           name: Download SonarCloud
