@@ -8,6 +8,10 @@ jobs:
       - checkout
       - run: git submodule update --init
       - run:
+          name: Install dependencies
+          command: |
+            sudo apt-get install -y libgl1-mesa-dev libgles2-mesa-dev libopenal-dev libasound2-dev libxi-dev libxcursor-dev libxrandr-dev libxss-dev
+      - run:
           name: Download SonarCloud
           command: |
             mkdir -p $HOME/.sonar
