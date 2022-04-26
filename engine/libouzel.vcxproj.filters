@@ -765,6 +765,9 @@
     <ClInclude Include="assets\Asset.hpp">
       <Filter>engine\assets</Filter>
     </ClInclude>
+    <ClInclude Include="assets\AssetError.hpp">
+      <Filter>engine\assets</Filter>
+    </ClInclude>
     <ClInclude Include="assets\Bundle.hpp">
       <Filter>engine\assets</Filter>
     </ClInclude>
