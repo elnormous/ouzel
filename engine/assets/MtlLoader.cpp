@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <string>
 #include "MtlLoader.hpp"
+#include "AssetError.hpp"
 #include "Cache.hpp"
 #include "../core/Engine.hpp"
 
@@ -58,7 +59,7 @@ namespace ouzel::assets
             }
 
             if (length == 0)
-                throw std::runtime_error{"Invalid string"};
+                throw AssetError{"Invalid string"};
         }
 
         [[nodiscard]] std::string parseString(std::vector<std::byte>::const_iterator& iterator,
@@ -73,7 +74,7 @@ namespace ouzel::assets
             }
 
             if (result.empty())
-                throw std::runtime_error{"Invalid string"};
+                throw AssetError{"Invalid string"};
 
             return result;
         }
@@ -125,7 +126,7 @@ namespace ouzel::assets
             {
                 value.push_back(static_cast<char>(*iterator));
                 if (++iterator == end)
-                    throw std::runtime_error{"Invalid exponent"};
+                    throw AssetError{"Invalid exponent"};
 
                 if (static_cast<char>(*iterator) == '+' ||
                     static_cast<char>(*iterator) == '-')
@@ -134,7 +135,7 @@ namespace ouzel::assets
                 if (iterator == end ||
                     static_cast<char>(*iterator) < '0' ||
                     static_cast<char>(*iterator) > '9')
-                    throw std::runtime_error{"Invalid exponent"};
+                    throw AssetError{"Invalid exponent"};
 
                 while (iterator != end &&
                        static_cast<char>(*iterator) >= '0' &&

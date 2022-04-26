@@ -3,6 +3,7 @@
 #ifndef OUZEL_ASSETS_COLLADALOADER_HPP
 #define OUZEL_ASSETS_COLLADALOADER_HPP
 
+#include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "../scene/SkinnedMeshRenderer.hpp"
 #include "../formats/Xml.hpp"
@@ -18,12 +19,12 @@ namespace ouzel::assets
         const auto colladaData = xml::parse(data);
 
         if (colladaData.getChildren().empty())
-            throw std::runtime_error{"Invalid Collada file"};
+            throw AssetError{"Invalid Collada file"};
 
         const auto rootNode = colladaData.getChildren().front();
 
         if (rootNode.getValue() != "COLLADA")
-            throw std::runtime_error{"Invalid Collada file"};
+            throw AssetError{"Invalid Collada file"};
 
         scene::SkinnedMeshData meshData;
 

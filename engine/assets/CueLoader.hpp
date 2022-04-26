@@ -3,6 +3,7 @@
 #ifndef OUZEL_ASSETS_CUELOADER_HPP
 #define OUZEL_ASSETS_CUELOADER_HPP
 
+#include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "../audio/Cue.hpp"
 #include "../formats/Json.hpp"
@@ -19,7 +20,7 @@ namespace ouzel::assets
             else if (valueType == "Oscillator") return audio::SourceDefinition::Type::oscillator;
             else if (valueType == "Silence") return audio::SourceDefinition::Type::silence;
             else if (valueType == "WavePlayer") return audio::SourceDefinition::Type::wavePlayer;
-            else throw std::runtime_error{"Invalid source type " + valueType};
+            else throw AssetError{"Invalid source type " + valueType};
         }
 
         inline auto getOscillatorType(const std::string& oscillatorType)
@@ -28,7 +29,7 @@ namespace ouzel::assets
             else if (oscillatorType == "Square") return audio::Oscillator::Type::square;
             else if (oscillatorType == "Sawtooth") return audio::Oscillator::Type::sawtooth;
             else if (oscillatorType == "Triangle") return audio::Oscillator::Type::triangle;
-            else throw std::runtime_error{"Invalid oscillator type " + oscillatorType};
+            else throw AssetError{"Invalid oscillator type " + oscillatorType};
         }
 
         inline auto getEffectType(const std::string& effectType)
@@ -41,7 +42,7 @@ namespace ouzel::assets
             else if (effectType == "LowPass") return audio::EffectDefinition::Type::lowPass;
             else if (effectType == "HighPass") return audio::EffectDefinition::Type::highPass;
             else
-                throw std::runtime_error{"Invalid effect type " + effectType};
+                throw AssetError{"Invalid effect type " + effectType};
         }
 
         inline audio::SourceDefinition parseSourceDefinition(const json::Value& value, Bundle& bundle)

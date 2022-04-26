@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <stdexcept>
+#include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "../formats/Json.hpp"
@@ -32,7 +33,7 @@ namespace ouzel::assets
                 i->second(cache, *this, name, data, options))
                 return;
 
-        throw std::runtime_error{"Failed to load asset " + filename};
+        throw AssetError{"Failed to load asset " + filename};
     }
 
     void Bundle::loadAssets(const std::string& filename)

@@ -3,6 +3,7 @@
 #include <memory>
 #include <stdexcept>
 #include "ImageLoader.hpp"
+#include "AssetError.hpp"
 #include "../core/Engine.hpp"
 #include "../graphics/Image.hpp"
 #include "../graphics/Texture.hpp"
@@ -63,7 +64,7 @@ namespace ouzel::assets
         };
 
         if (!tempData)
-            throw std::runtime_error{"Failed to load texture, reason: " + std::string(stbi_failure_reason())};
+            throw AssetError{"Failed to load texture, reason: " + std::string(stbi_failure_reason())};
 
         graphics::PixelFormat pixelFormat;
         std::vector<std::uint8_t> imageData;
@@ -132,7 +133,7 @@ namespace ouzel::assets
                 break;
             }
             default:
-                throw std::runtime_error{"Unsupported pixel format"};
+                throw AssetError{"Unsupported pixel format"};
         }
 
         const graphics::Image image{

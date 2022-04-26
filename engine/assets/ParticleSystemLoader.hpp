@@ -3,6 +3,7 @@
 #ifndef OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
 #define OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
 
+#include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "../scene/ParticleSystem.hpp"
 #include "../formats/Json.hpp"
@@ -34,7 +35,7 @@ namespace ouzel::assets
             {
                 case 0: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::gravity; break;
                 case 1: particleSystemData.emitterType = scene::ParticleSystemData::EmitterType::radius; break;
-                default: throw std::runtime_error{"Unsupported emitter type"};
+                default: throw AssetError{"Unsupported emitter type"};
             }
         }
 
