@@ -441,6 +441,9 @@
     <ClInclude Include="localization\Localization.hpp">
       <Filter>engine\localization</Filter>
     </ClInclude>
+    <ClInclude Include="localization\LocalizationError.hpp">
+      <Filter>engine\localization</Filter>
+    </ClInclude>
     <ClInclude Include="utils\Log.hpp">
       <Filter>engine\utils</Filter>
     </ClInclude>

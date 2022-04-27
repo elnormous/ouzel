@@ -308,6 +308,7 @@
     <ClInclude Include="input\windows\KeyboardDeviceWin.hpp" />
     <ClInclude Include="input\windows\MouseDeviceWin.hpp" />
     <ClInclude Include="localization\Localization.hpp" />
+    <ClInclude Include="localization\LocalizationError.hpp" />
     <ClInclude Include="math\Box.hpp" />
     <ClInclude Include="math\Color.hpp" />
     <ClInclude Include="math\Constants.hpp" />
