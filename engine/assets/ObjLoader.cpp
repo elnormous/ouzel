@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <map>
-#include <stdexcept>
 #include <tuple>
 #include "ObjLoader.hpp"
 #include "AssetError.hpp"

@@ -1,7 +1,6 @@
 // Ouzel by Elviss Strazdins
 
 #include <memory>
-#include <stdexcept>
 #include "ImageLoader.hpp"
 #include "AssetError.hpp"
 #include "../core/Engine.hpp"

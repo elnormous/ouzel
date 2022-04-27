@@ -1,7 +1,6 @@
 // Ouzel by Elviss Strazdins
 
 #include <iterator>
-#include <stdexcept>
 #include <string>
 #include "MtlLoader.hpp"
 #include "AssetError.hpp"

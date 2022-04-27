@@ -1,7 +1,6 @@
 // Ouzel by Elviss Strazdins
 
 #include <cctype>
-#include <stdexcept>
 #include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
