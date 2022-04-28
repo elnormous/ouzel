@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <cstdint>
 #include <memory>
-#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <vector>
@@ -32,6 +31,7 @@
 #endif
 #include "Archive.hpp"
 #include "Path.hpp"
+#include "StorageError.hpp"
 
 namespace ouzel::core
 {
@@ -278,7 +278,7 @@ namespace ouzel::storage
                     }
             }
 
-            throw std::runtime_error{"Could not get path for " + std::string(filename)};
+            throw Error{"Could not get path for " + std::string(filename)};
         }
 
         void addResourcePath(const Path& path)

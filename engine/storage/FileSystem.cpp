@@ -67,24 +67,24 @@ namespace ouzel::storage
 #elif defined(__APPLE__)
         CFBundleRef bundle = CFBundleGetMainBundle();
         if (!bundle)
-            throw std::runtime_error{"Failed to get main bundle"};
+            throw Error{"Failed to get main bundle"};
 
         const platform::corefoundation::Pointer relativePath = CFBundleCopyResourcesDirectoryURL(bundle);
         if (!relativePath)
-            throw std::runtime_error{"Failed to get resource directory"};
+            throw Error{"Failed to get resource directory"};
 
         const platform::corefoundation::Pointer absolutePath = CFURLCopyAbsoluteURL(relativePath.get());
         if (!absolutePath)
-            throw std::runtime_error{"Failed to copy absolute URL"};
+            throw Error{"Failed to copy absolute URL"};
 
         const platform::corefoundation::Pointer path = CFURLCopyFileSystemPath(absolutePath.get(), kCFURLPOSIXPathStyle);
         if (!path)
-            throw std::runtime_error{"Failed to copy file system path"};
+            throw Error{"Failed to copy file system path"};
 
         const auto maximumSize = CFStringGetMaximumSizeOfFileSystemRepresentation(path.get());
         const auto resourceDirectory = std::make_unique<char[]>(static_cast<std::size_t>(maximumSize));
         if (!CFStringGetFileSystemRepresentation(path.get(), resourceDirectory.get(), maximumSize))
-            throw std::runtime_error{"Failed to get resource directory"};
+            throw Error{"Failed to get resource directory"};
 
         appPath = Path{resourceDirectory.get(), Path::Format::native};
         log(Log::Level::info) << "Application directory: " << appPath;
@@ -229,7 +229,7 @@ namespace ouzel::storage
         const auto documentDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSDocumentDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
         if (!documentDirectory)
-            throw std::runtime_error{"Failed to get document directory"};
+            throw Error{"Failed to get document directory"};
 
         const auto documentDirectoryString = reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(documentDirectory, sel_getUid("path"));
         const auto pathUtf8String = reinterpret_cast<const char* (*)(id, SEL)>(&objc_msgSend)(documentDirectoryString, sel_getUid("UTF8String"));
@@ -244,11 +244,11 @@ namespace ouzel::storage
         const auto applicationSupportDirectory = reinterpret_cast<id (*)(id, SEL, NSUInteger, NSUInteger, id, BOOL, id*)>(&objc_msgSend)(fileManager, sel_getUid("URLForDirectory:inDomain:appropriateForURL:create:error:"), NSApplicationSupportDirectory, user ? NSUserDomainMask : NSLocalDomainMask, nil, YES, nil);
 
         if (!applicationSupportDirectory)
-            throw std::runtime_error{"Failed to get application support directory"};
+            throw Error{"Failed to get application support directory"};
 
         CFBundleRef bundle = CFBundleGetMainBundle();
         if (!bundle)
-            throw std::runtime_error{"Failed to get main bundle"};
+            throw Error{"Failed to get main bundle"};
 
         CFStringRef identifier = CFBundleGetIdentifier(bundle);
         if (!identifier)
@@ -333,7 +333,7 @@ namespace ouzel::storage
             };
 
             if (!asset)
-                throw std::runtime_error{"Failed to open file " + std::string(filename)};
+                throw Error{"Failed to open file " + std::string(filename)};
 
             std::vector<std::byte> data;
             std::byte buffer[1024];
@@ -343,7 +343,7 @@ namespace ouzel::storage
                 const auto bytesRead = AAsset_read(asset.get(), buffer, sizeof(buffer));
 
                 if (bytesRead < 0)
-                    throw std::runtime_error{"Failed to read from file"};
+                    throw Error{"Failed to read from file"};
                 else if (bytesRead == 0)
                     break;
 
@@ -358,11 +358,11 @@ namespace ouzel::storage
 
         // file does not exist
         if (path.isEmpty())
-            throw std::runtime_error{"Failed to find file " + std::string(filename)};
+            throw Error{"Failed to find file " + std::string(filename)};
 
         std::ifstream file{path, std::ios::binary};
         if (!file)
-            throw std::runtime_error{"Failed to open file " + std::string(filename)};
+            throw Error{"Failed to open file " + std::string(filename)};
 
         std::vector<std::byte> data;
         std::byte buffer[1024];

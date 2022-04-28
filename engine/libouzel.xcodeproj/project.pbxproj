@@ -1058,6 +1058,7 @@
 		30BA5FB72198E43A0032AC23 /* Channel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Channel.hpp; sourceTree = "<group>"; };
 		30BB632D281845D300AE8E1F /* AssetError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AssetError.hpp; sourceTree = "<group>"; };
 		30BB632E2818E26500AE8E1F /* LocalizationError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LocalizationError.hpp; sourceTree = "<group>"; };
+		30BB6333281A252600AE8E1F /* StorageError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StorageError.hpp; sourceTree = "<group>"; };
 		30BB848B20843FBE00C145A2 /* Controller.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		30BB848C20843FCD00C145A2 /* Mouse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mouse.hpp; sourceTree = "<group>"; };
 		30BB848D20843FDB00C145A2 /* Keyboard.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Keyboard.hpp; sourceTree = "<group>"; };
@@ -1425,6 +1426,7 @@
 				303B74FE1C28208800FEDE92 /* FileSystem.cpp */,
 				303B74FF1C28208800FEDE92 /* FileSystem.hpp */,
 				30E266192411CFAE0098C124 /* Path.hpp */,
+				30BB6333281A252600AE8E1F /* StorageError.hpp */,
 			);
 			path = storage;
 			sourceTree = "<group>";

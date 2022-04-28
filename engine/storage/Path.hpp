@@ -5,9 +5,9 @@
 
 #include <chrono>
 #include <cstdint>
-#include <stdexcept>
 #include <string>
 #include <vector>
+#include "StorageError.hpp"
 
 namespace ouzel::storage
 {
@@ -481,33 +481,33 @@ namespace ouzel::storage
                 else if ((cp >> 5) == 0x6) // length = 2
                 {
                     if (++i == p.end())
-                        throw std::runtime_error{"Invalid UTF-8 string"};
+                        throw Error{"Invalid UTF-8 string"};
                     cp = ((cp << 6) & 0x7FF) + (*i & 0x3F);
                 }
                 else if ((cp >> 4) == 0xE) // length = 3
                 {
                     if (++i == p.end())
-                        throw std::runtime_error{"Invalid UTF-8 string"};
+                        throw Error{"Invalid UTF-8 string"};
                     cp = ((cp << 12) & 0xFFFF) + (((*i & 0xFF) << 6) & 0x0FFF);
                     if (++i == p.end())
-                        throw std::runtime_error{"Invalid UTF-8 string"};
+                        throw Error{"Invalid UTF-8 string"};
                     cp += *i & 0x3F;
                 }
                 else if ((cp >> 3) == 0x1E) // length = 4
                 {
                     if (++i == p.end())
-                        throw std::runtime_error{"Invalid UTF-8 string"};
+                        throw Error{"Invalid UTF-8 string"};
                     cp = ((cp << 18) & 0x1FFFFF) + (((*i & 0xFF) << 12) & 0x3FFFF);
                     if (++i == p.end())
-                        throw std::runtime_error{"Invalid UTF-8 string"};
+                        throw Error{"Invalid UTF-8 string"};
                     cp += ((*i & 0xFF) << 6) & 0x0FFF;
                     if (++i == p.end())
-                        throw std::runtime_error{"Invalid UTF-8 string"};
+                        throw Error{"Invalid UTF-8 string"};
                     cp += (*i) & 0x3F;
                 }
 
                 if (cp > WCHAR_MAX)
-                    throw std::runtime_error{"Unsupported UTF-8 character"};
+                    throw Error{"Unsupported UTF-8 character"};
 
                 s.push_back(static_cast<wchar_t>(cp));
             }

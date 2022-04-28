@@ -227,6 +227,7 @@
     <ClInclude Include="storage\Archive.hpp" />
     <ClInclude Include="storage\FileSystem.hpp" />
     <ClInclude Include="storage\Path.hpp" />
+    <ClInclude Include="storage\StorageError.hpp" />
     <ClInclude Include="graphics\BlendState.hpp" />
     <ClInclude Include="graphics\Buffer.hpp" />
     <ClInclude Include="graphics\BufferType.hpp" />

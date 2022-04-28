@@ -6,11 +6,11 @@
 #include <cstdint>
 #include <fstream>
 #include <map>
-#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <vector>
 #include "Path.hpp"
+#include "StorageError.hpp"
 #include "../utils/Utils.hpp"
 
 namespace ouzel::storage
@@ -35,7 +35,7 @@ namespace ouzel::storage
                     break;
 
                 if (decodeLittleEndian<std::uint32_t>(signatureData) != headerSignature)
-                    throw std::runtime_error{"Bad signature"};
+                    throw Error{"Bad signature"};
 
                 file.seekg(2, std::ios::cur); // skip version
                 file.seekg(2, std::ios::cur); // skip flags
@@ -44,7 +44,7 @@ namespace ouzel::storage
                 file.read(reinterpret_cast<char*>(&compressionData), sizeof(compressionData));
 
                 if (decodeLittleEndian<std::uint16_t>(compressionData) != 0x00)
-                    throw std::runtime_error{"Unsupported compression"};
+                    throw Error{"Unsupported compression"};
 
                 file.seekg(2, std::ios::cur); // skip modification time
                 file.seekg(2, std::ios::cur); // skip modification date
@@ -91,7 +91,7 @@ namespace ouzel::storage
                 return data;
             }
             else
-                throw std::runtime_error{"File " + std::string{filename} + " does not exist"};
+                throw Error{"File " + std::string{filename} + " does not exist"};
         }
 
         bool fileExists(std::string_view filename) const noexcept(false)

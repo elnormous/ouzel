@@ -423,6 +423,9 @@
     <ClInclude Include="storage\Path.hpp">
       <Filter>engine\storage</Filter>
     </ClInclude>
+    <ClInclude Include="storage\StorageError.hpp">
+      <Filter>engine\storage</Filter>
+    </ClInclude>
     <ClInclude Include="gui\Font.hpp">
       <Filter>engine\gui</Filter>
     </ClInclude>
