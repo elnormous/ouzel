@@ -132,7 +132,7 @@ namespace ouzel::core
         graphics::Graphics graphics;
         audio::Audio audio;
         input::InputManager inputManager;
-        Localization localization;
+        l10n::Localization localization;
         assets::Cache cache;
         assets::Bundle assetBundle;
         scene::SceneManager sceneManager;

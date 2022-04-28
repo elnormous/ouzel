@@ -5,9 +5,9 @@
 
 #include <stdexcept>
 
-namespace ouzel
+namespace ouzel::l10n
 {
-    class LocalizationError final: public std::runtime_error
+    class Error final: public std::runtime_error
     {
     public:
         using std::runtime_error::runtime_error;

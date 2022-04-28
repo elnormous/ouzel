@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace ouzel
+namespace ouzel::l10n
 {
     class Language final
     {
