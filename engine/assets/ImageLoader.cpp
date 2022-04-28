@@ -63,7 +63,7 @@ namespace ouzel::assets
         };
 
         if (!tempData)
-            throw AssetError{"Failed to load texture, reason: " + std::string(stbi_failure_reason())};
+            throw Error{"Failed to load texture, reason: " + std::string(stbi_failure_reason())};
 
         graphics::PixelFormat pixelFormat;
         std::vector<std::uint8_t> imageData;
@@ -132,7 +132,7 @@ namespace ouzel::assets
                 break;
             }
             default:
-                throw AssetError{"Unsupported pixel format"};
+                throw Error{"Unsupported pixel format"};
         }
 
         const graphics::Image image{

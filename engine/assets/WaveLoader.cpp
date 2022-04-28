@@ -41,13 +41,13 @@ namespace ouzel::assets
             const std::size_t formatOffset = 0U;
 
             if (data.size() < 12) // RIFF + size + WAVE
-                throw AssetError{"Failed to load sound file, file too small"};
+                throw Error{"Failed to load sound file, file too small"};
 
             if (static_cast<char>(data[formatOffset + 0]) != 'R' ||
                 static_cast<char>(data[formatOffset + 1]) != 'I' ||
                 static_cast<char>(data[formatOffset + 2]) != 'F' ||
                 static_cast<char>(data[formatOffset + 3]) != 'F')
-                throw AssetError{"Failed to load sound file, not a RIFF format"};
+                throw Error{"Failed to load sound file, not a RIFF format"};
 
             const std::size_t lengthOffset = formatOffset + 4;
 
@@ -59,14 +59,14 @@ namespace ouzel::assets
             const std::size_t typeOffset = lengthOffset + 4;
 
             if (data.size() < typeOffset + length)
-                throw AssetError{"Failed to load sound file, size mismatch"};
+                throw Error{"Failed to load sound file, size mismatch"};
 
             if (length < 4 ||
                 static_cast<char>(data[typeOffset + 0]) != 'W' ||
                 static_cast<char>(data[typeOffset + 1]) != 'A' ||
                 static_cast<char>(data[typeOffset + 2]) != 'V' ||
                 static_cast<char>(data[typeOffset + 3]) != 'E')
-                throw AssetError{"Failed to load sound file, not a WAVE file"};
+                throw Error{"Failed to load sound file, not a WAVE file"};
 
             std::uint16_t bitsPerSample = 0U;
             std::uint16_t formatTag = 0U;
@@ -75,7 +75,7 @@ namespace ouzel::assets
             for (std::size_t offset = typeOffset + 4; offset < data.size();)
             {
                 if (data.size() < offset + 8)
-                    throw AssetError{"Failed to load sound file, not enough data to read chunk"};
+                    throw Error{"Failed to load sound file, not enough data to read chunk"};
 
                 const std::array<std::byte, 4> chunkHeader = {
                     data[offset + 0],
@@ -94,7 +94,7 @@ namespace ouzel::assets
                 offset += 4;
 
                 if (data.size() < offset + chunkSize)
-                    throw AssetError{"Failed to load sound file, not enough data to read chunk"};
+                    throw Error{"Failed to load sound file, not enough data to read chunk"};
 
                 if (static_cast<char>(chunkHeader[0]) == 'f' &&
                     static_cast<char>(chunkHeader[1]) == 'm' &&
@@ -102,7 +102,7 @@ namespace ouzel::assets
                     static_cast<char>(chunkHeader[3]) == ' ')
                 {
                     if (chunkSize < 16)
-                        throw AssetError{"Failed to load sound file, not enough data to read chunk"};
+                        throw Error{"Failed to load sound file, not enough data to read chunk"};
 
                     const std::size_t formatTagOffset = offset;
 
@@ -110,14 +110,14 @@ namespace ouzel::assets
                                                            (static_cast<std::uint32_t>(data[formatTagOffset + 1]) << 8));
 
                     if (formatTag != WAVE_FORMAT_PCM && formatTag != WAVE_FORMAT_IEEE_FLOAT)
-                        throw AssetError{"Failed to load sound file, unsupported format"};
+                        throw Error{"Failed to load sound file, unsupported format"};
 
                     const std::size_t channelsOffset = formatTagOffset + 2;
                     channels = static_cast<std::uint32_t>(data[channelsOffset + 0]) |
                         (static_cast<std::uint32_t>(data[channelsOffset + 1]) << 8);
 
                     if (!channels)
-                        throw AssetError{"Failed to load sound file, invalid channel count"};
+                        throw Error{"Failed to load sound file, invalid channel count"};
 
                     const std::size_t sampleRateOffset = channelsOffset + 2;
                     sampleRate = static_cast<std::uint32_t>(data[sampleRateOffset + 0]) |
@@ -126,7 +126,7 @@ namespace ouzel::assets
                         (static_cast<std::uint32_t>(data[sampleRateOffset + 3]) << 24);
 
                     if (!sampleRate)
-                        throw AssetError{"Failed to load sound file, invalid sample rate"};
+                        throw Error{"Failed to load sound file, invalid sample rate"};
 
                     const std::size_t byteRateOffset = sampleRateOffset + 4;
                     const std::size_t blockAlignOffset = byteRateOffset + 4;
@@ -136,7 +136,7 @@ namespace ouzel::assets
 
                     if (bitsPerSample != 8 && bitsPerSample != 16 &&
                         bitsPerSample != 24 && bitsPerSample != 32)
-                        throw AssetError{"Failed to load sound file, unsupported bit depth"};
+                        throw Error{"Failed to load sound file, unsupported bit depth"};
 
                     if (formatTag != WAVE_FORMAT_PCM && formatTag != WAVE_FORMAT_IEEE_FLOAT)
                     {
@@ -160,10 +160,10 @@ namespace ouzel::assets
             }
 
             if (!formatTag)
-                throw AssetError{"Failed to load sound file, failed to find a format chunk"};
+                throw Error{"Failed to load sound file, failed to find a format chunk"};
 
             if (data.empty())
-                throw AssetError{"Failed to load sound file, failed to find a data chunk"};
+                throw Error{"Failed to load sound file, failed to find a data chunk"};
 
             const auto sampleCount = static_cast<std::uint32_t>(soundData.size() / (bitsPerSample / 8));
             const auto frames = sampleCount / channels;
@@ -239,7 +239,7 @@ namespace ouzel::assets
                         break;
                     }
                     default:
-                        throw AssetError{"Failed to load sound file, unsupported bit depth"};
+                        throw Error{"Failed to load sound file, unsupported bit depth"};
                 }
             }
             else if (formatTag == WAVE_FORMAT_IEEE_FLOAT)
@@ -258,7 +258,7 @@ namespace ouzel::assets
                     }
                 }
                 else
-                    throw AssetError{"Failed to load sound file, unsupported bit depth"};
+                    throw Error{"Failed to load sound file, unsupported bit depth"};
             }
 
             auto sound = std::make_unique<audio::PcmClip>(engine->getAudio(), channels, sampleRate, samples);

@@ -32,7 +32,7 @@ namespace ouzel::assets
                 i->second(cache, *this, name, data, options))
                 return;
 
-        throw AssetError{"Failed to load asset " + filename};
+        throw Error{"Failed to load asset " + filename};
     }
 
     void Bundle::loadAssets(const std::string& filename)

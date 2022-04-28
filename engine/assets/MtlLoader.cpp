@@ -58,7 +58,7 @@ namespace ouzel::assets
             }
 
             if (length == 0)
-                throw AssetError{"Invalid string"};
+                throw Error{"Invalid string"};
         }
 
         [[nodiscard]] std::string parseString(std::vector<std::byte>::const_iterator& iterator,
@@ -73,7 +73,7 @@ namespace ouzel::assets
             }
 
             if (result.empty())
-                throw AssetError{"Invalid string"};
+                throw Error{"Invalid string"};
 
             return result;
         }
@@ -125,7 +125,7 @@ namespace ouzel::assets
             {
                 value.push_back(static_cast<char>(*iterator));
                 if (++iterator == end)
-                    throw AssetError{"Invalid exponent"};
+                    throw Error{"Invalid exponent"};
 
                 if (static_cast<char>(*iterator) == '+' ||
                     static_cast<char>(*iterator) == '-')
@@ -134,7 +134,7 @@ namespace ouzel::assets
                 if (iterator == end ||
                     static_cast<char>(*iterator) < '0' ||
                     static_cast<char>(*iterator) > '9')
-                    throw AssetError{"Invalid exponent"};
+                    throw Error{"Invalid exponent"};
 
                 while (iterator != end &&
                        static_cast<char>(*iterator) >= '0' &&
