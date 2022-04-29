@@ -1,6 +1,5 @@
 // Ouzel by Elviss Strazdins
 
-#include <stdexcept>
 #include "VorbisClip.hpp"
 #include "Audio.hpp"
 #include "AudioError.hpp"

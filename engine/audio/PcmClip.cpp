@@ -1,7 +1,6 @@
 // Ouzel by Elviss Strazdins
 
 #include <iterator>
-#include <stdexcept>
 #include "PcmClip.hpp"
 #include "Audio.hpp"
 #include "mixer/Data.hpp"
