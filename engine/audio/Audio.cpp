@@ -4,6 +4,7 @@
 #include "../core/Setup.h"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
+#include "AudioError.hpp"
 #include "Listener.hpp"
 #include "alsa/ALSAAudioDevice.hpp"
 #include "coreaudio/CAAudioDevice.hpp"
@@ -84,7 +85,7 @@ namespace ouzel::audio
         else if (driver == "wasapi")
             return Driver::wasapi;
         else
-            throw std::runtime_error{"Invalid audio driver"};
+            throw Error{"Invalid audio driver"};
     }
 
     namespace

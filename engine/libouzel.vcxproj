@@ -152,6 +152,7 @@
     <ClInclude Include="assets\WaveLoader.hpp" />
     <ClInclude Include="audio\Audio.hpp" />
     <ClInclude Include="audio\AudioDevice.hpp" />
+    <ClInclude Include="audio\AudioError.hpp" />
     <ClInclude Include="audio\Channel.hpp" />
     <ClInclude Include="audio\Cue.hpp" />
     <ClInclude Include="audio\Driver.hpp" />

@@ -1003,6 +1003,7 @@
 		30861B1724E4B029007E48E4 /* OGLErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLErrorCategory.hpp; sourceTree = "<group>"; };
 		30861B1824E629F4007E48E4 /* ALCErrorCategory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ALCErrorCategory.hpp; sourceTree = "<group>"; };
 		30861B1C24E7585D007E48E4 /* ErrorCategory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ErrorCategory.hpp; sourceTree = "<group>"; };
+		308733A6281C40B10049C712 /* AudioError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioError.hpp; sourceTree = "<group>"; };
 		30898FE222EFA380001C13F2 /* CueLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CueLoader.hpp; sourceTree = "<group>"; };
 		3089C32224586F93004CDF16 /* Pointer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Pointer.hpp; sourceTree = "<group>"; };
 		308E37FF2648102B00CD49B8 /* Data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
@@ -1551,6 +1552,7 @@
 				30419DE01D162BCF00A63759 /* Audio.hpp */,
 				30C758AB1F4A0196008499DC /* AudioDevice.cpp */,
 				30C758AC1F4A0196008499DC /* AudioDevice.hpp */,
+				308733A6281C40B10049C712 /* AudioError.hpp */,
 				30BA5FB72198E43A0032AC23 /* Channel.hpp */,
 				305B11362250413900EDA4F5 /* Containers.cpp */,
 				305B11372250413900EDA4F5 /* Containers.hpp */,
