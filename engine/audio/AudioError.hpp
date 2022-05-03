@@ -1,7 +1,7 @@
 // Ouzel by Elviss Strazdins
 
-#ifndef OUZEL_STORAGE_AUDIOERROR_HPP
-#define OUZEL_STORAGE_AUDIOERROR_HPP
+#ifndef OUZEL_AUDIO_AUDIOERROR_HPP
+#define OUZEL_AUDIO_AUDIOERROR_HPP
 
 #include <stdexcept>
 
@@ -14,4 +14,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_STORAGE_AUDIOERROR_HPP
+#endif // OUZEL_AUDIO_AUDIOERROR_HPP
