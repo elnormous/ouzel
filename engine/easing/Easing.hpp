@@ -28,28 +28,28 @@ namespace ouzel::easing
         bounce
     };
 
-    template <typename T> constexpr T tau = T(6.28318530717958647692);
+    template <typename T> constexpr auto tau = T(6.28318530717958647692);
 
     template <typename T>
-    T sineIn(const T t) noexcept
+    auto sineIn(const T t) noexcept
     {
         return T(1) - std::cos(t * tau<T> / T(4));
     }
 
     template <typename T>
-    T sineOut(const T t) noexcept
+    auto sineOut(const T t) noexcept
     {
         return std::sin(t * tau<T> / T(4));
     }
 
     template <typename T>
-    T sineInOut(const T t) noexcept
+    auto sineInOut(const T t) noexcept
     {
         return -T(0.5) * (std::cos(t * tau<T> / T(2)) - T(1));
     }
 
     template <typename T>
-    constexpr T quadIn(const T t) noexcept
+    constexpr auto quadIn(const T t) noexcept
     {
         return t * t;
     }
