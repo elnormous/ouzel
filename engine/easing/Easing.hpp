@@ -55,13 +55,13 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    constexpr T quadOut(const T t) noexcept
+    constexpr auto quadOut(const T t) noexcept
     {
         return t * (T(2) - t);
     }
 
     template <typename T>
-    constexpr T quadInOut(const T t) noexcept
+    constexpr auto quadInOut(const T t) noexcept
     {
         return (t < T(0.5)) ?
             T(2) * t * t :
@@ -69,19 +69,19 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    constexpr T cubicIn(const T t) noexcept
+    constexpr auto cubicIn(const T t) noexcept
     {
         return t * t * t;
     }
 
     template <typename T>
-    constexpr T cubicOut(const T t) noexcept
+    constexpr auto cubicOut(const T t) noexcept
     {
         return (t - T(1)) * (t - T(1)) * (t - T(1)) + T(1);
     }
 
     template <typename T>
-    constexpr T cubicInOut(const T t) noexcept
+    constexpr auto cubicInOut(const T t) noexcept
     {
         return (t < T(0.5)) ?
             T(4) * t * t * t :
@@ -89,19 +89,19 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    constexpr T quartIn(const T t) noexcept
+    constexpr auto quartIn(const T t) noexcept
     {
         return t * t * t * t;
     }
 
     template <typename T>
-    constexpr T quartOut(const T t) noexcept
+    constexpr auto quartOut(const T t) noexcept
     {
         return T(1) - (t - T(1)) * (t - T(1)) * (t - T(1));
     }
 
     template <typename T>
-    constexpr T quartInOut(const T t) noexcept
+    constexpr auto quartInOut(const T t) noexcept
     {
         return (t < T(0.5)) ?
             T(8) * t * t * t * t :
@@ -109,19 +109,19 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    constexpr T quintIn(const T t) noexcept
+    constexpr auto quintIn(const T t) noexcept
     {
         return t * t * t * t * t;
     }
 
     template <typename T>
-    constexpr T quintOut(const T t) noexcept
+    constexpr auto quintOut(const T t) noexcept
     {
         return T(1) + (t - T(1)) * (t - T(1)) * (t - T(1)) * (t - T(1)) * (t - T(1));
     }
 
     template <typename T>
-    constexpr T quintInOut(const T t) noexcept
+    constexpr auto quintInOut(const T t) noexcept
     {
         return (t < T(0.5)) ?
             T(16) * t * t * t * t * t :
@@ -129,19 +129,19 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    T expoIn(const T t) noexcept
+    auto expoIn(const T t) noexcept
     {
         return std::pow(T(2), T(10) * (t - T(1)));
     }
 
     template <typename T>
-    T expoOut(const T t) noexcept
+    auto expoOut(const T t) noexcept
     {
         return T(1) - std::pow(T(2), -T(10) * t);
     }
 
     template <typename T>
-    T expoInOut(const T t) noexcept
+    auto expoInOut(const T t) noexcept
     {
         return (t < T(0.5)) ?
             T(0.5) * std::pow(T(2), T(10) * (T(2) * t - T(1))) :
@@ -149,19 +149,19 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    T circIn(const T t) noexcept
+    auto circIn(const T t) noexcept
     {
         return T(1) - std::sqrt(T(1) - t * t);
     }
 
     template <typename T>
-    T circOut(const T t) noexcept
+    auto circOut(const T t) noexcept
     {
         return std::sqrt(T(1) - (t - T(1)) * (t - T(1)));
     }
 
     template <typename T>
-    T circInOut(const T t) noexcept
+    auto circInOut(const T t) noexcept
     {
         return (t < T(0.5)) ?
             T(0.5) * (-std::sqrt(T(1) - (t * T(2)) * (t * T(2))) + T(1)) :
@@ -169,21 +169,21 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    constexpr T backIn(const T t) noexcept
+    constexpr auto backIn(const T t) noexcept
     {
         constexpr T s = T(1.70158);
         return t * t * ((s + T(1)) * t - s);
     }
 
     template <typename T>
-    constexpr T backOut(const T t) noexcept
+    constexpr auto backOut(const T t) noexcept
     {
         constexpr T s = T(1.70158);
         return (t - T(1)) * (t - T(1)) * ((s + T(1)) * (t - T(1)) + s) + T(1);
     }
 
     template <typename T>
-    constexpr T backInOut(const T t) noexcept
+    constexpr auto backInOut(const T t) noexcept
     {
         constexpr T s = T(1.70158) * T(1.525);
         return (t < T(0.5)) ?
@@ -192,7 +192,7 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    T elasticIn(const T t) noexcept
+    auto elasticIn(const T t) noexcept
     {
         if (t == T(0)) return T(0);
         if (t == T(1)) return T(1);
@@ -203,7 +203,7 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    T elasticOut(const T t) noexcept
+    auto elasticOut(const T t) noexcept
     {
         if (t == T(0)) return T(0);
         if (t == T(1)) return T(1);
@@ -214,7 +214,7 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    T elasticInOut(const T t) noexcept
+    auto elasticInOut(const T t) noexcept
     {
         if (t == T(0)) return T(0);
         if (t == T(1)) return T(1);
@@ -227,7 +227,7 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    constexpr T bounceOut(const T t) noexcept
+    constexpr auto bounceOut(const T t) noexcept
     {
         return (t < T(1) / T(2.75)) ? T(7.5625) * t * t :
             (t < T(2) / T(2.75)) ? T(7.5625) * (t - T(1.5) / T(2.75)) * (t - T(1.5) / T(2.75)) + T(0.75) :
@@ -236,13 +236,13 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    constexpr T bounceIn(const T t) noexcept
+    constexpr auto bounceIn(const T t) noexcept
     {
         return T(1) - bounceOut(T(1) - t);
     }
 
     template <typename T>
-    constexpr T bounceInOut(const T t) noexcept
+    constexpr auto bounceInOut(const T t) noexcept
     {
         return (t < T(0.5)) ?
             bounceOut(t * T(2)) * T(0.5) :
@@ -250,7 +250,7 @@ namespace ouzel::easing
     }
 
     template <typename T>
-    T ease(const Func func, const Mode mode, const T t) noexcept
+    auto ease(const Func func, const Mode mode, const T t) noexcept
     {
         switch (mode)
         {
