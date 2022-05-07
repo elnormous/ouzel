@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-namespace ouzel::grapchics
+namespace ouzel::graphics
 {
     class Error final: public std::runtime_error
     {
