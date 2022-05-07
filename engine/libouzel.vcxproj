@@ -271,6 +271,7 @@
     <ClInclude Include="graphics\RenderDevice.hpp" />
     <ClInclude Include="graphics\RenderPass.hpp" />
     <ClInclude Include="graphics\Graphics.hpp" />
+    <ClInclude Include="graphics\GraphicsError.hpp" />
     <ClInclude Include="graphics\RenderResource.hpp" />
     <ClInclude Include="graphics\SamplerAddressMode.hpp" />
     <ClInclude Include="graphics\SamplerFilter.hpp" />

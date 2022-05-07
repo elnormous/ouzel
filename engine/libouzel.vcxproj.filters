@@ -555,6 +555,9 @@
     <ClInclude Include="graphics\Graphics.hpp">
       <Filter>engine\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="graphics\GraphicsError.hpp">
+      <Filter>engine\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="scene\SceneManager.hpp">
       <Filter>engine\scene</Filter>
     </ClInclude>

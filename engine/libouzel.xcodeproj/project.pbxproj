@@ -1026,6 +1026,7 @@
 		30A3821E21B4C5E90043568A /* Processor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Processor.hpp; sourceTree = "<group>"; };
 		30A3821F21B5E7B90043568A /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
 		30A395CA2436A60B00D8E28E /* Plist.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Plist.hpp; sourceTree = "<group>"; };
+		30A4B42728264609005E84C0 /* GraphicsError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GraphicsError.hpp; sourceTree = "<group>"; };
 		30A4C1C7270FA4D500419C99 /* MatrixNeon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MatrixNeon.hpp; sourceTree = "<group>"; };
 		30A4C1C8270FA4D500419C99 /* MatrixSse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MatrixSse.hpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
@@ -1371,6 +1372,7 @@
 				30CB946D22B465BA0025C927 /* Flags.hpp */,
 				304A8E3E1C237C70008B1151 /* Graphics.cpp */,
 				304A8E3F1C237C70008B1151 /* Graphics.hpp */,
+				30A4B42728264609005E84C0 /* GraphicsError.hpp */,
 				303B74E21C277A7500FEDE92 /* Image.hpp */,
 				30216B721ED464730073E3D5 /* Material.hpp */,
 				30547E351CB3D6570055EE79 /* metal */,
