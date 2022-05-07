@@ -1,8 +1,8 @@
 // Ouzel by Elviss Strazdins
 
-#include <stdexcept>
 #include "Texture.hpp"
 #include "Graphics.hpp"
+#include "GraphicsError.hpp"
 
 namespace ouzel::graphics
 {
@@ -465,7 +465,7 @@ namespace ouzel::graphics
                     break;
 
                 default:
-                    throw std::runtime_error{"Invalid pixel format"};
+                    throw Error{"Invalid pixel format"};
             }
         }
 
@@ -532,7 +532,7 @@ namespace ouzel::graphics
                     break;
 
                 default:
-                    throw std::runtime_error{"Invalid pixel format"};
+                    throw Error{"Invalid pixel format"};
             }
         }
 
@@ -619,7 +619,7 @@ namespace ouzel::graphics
                         break;
 
                     default:
-                        throw std::runtime_error{"Invalid pixel format"};
+                        throw Error{"Invalid pixel format"};
                 }
 
                 encode(mipMapSize, newData, pixelFormat, encodedData);
@@ -676,7 +676,7 @@ namespace ouzel::graphics
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw std::runtime_error{"Invalid mip map count"};
+            throw Error{"Invalid mip map count"};
 
         if (!initGraphics.getDevice()->isNpotTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
@@ -711,7 +711,7 @@ namespace ouzel::graphics
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw std::runtime_error{"Invalid mip map count"};
+            throw Error{"Invalid mip map count"};
 
         if (!initGraphics.getDevice()->isNpotTexturesSupported() && !isPowerOfTwo(size))
             mipmaps = 1;
@@ -745,7 +745,7 @@ namespace ouzel::graphics
     {
         if ((flags & Flags::bindRenderTarget) == Flags::bindRenderTarget &&
             (mipmaps == 0 || mipmaps > 1))
-            throw std::runtime_error{"Invalid mip map count"};
+            throw Error{"Invalid mip map count"};
 
         auto levels = initLevels;
 
@@ -769,7 +769,7 @@ namespace ouzel::graphics
     {
         if ((flags & Flags::dynamic) != Flags::dynamic ||
             (flags & Flags::bindRenderTarget) == Flags::bindRenderTarget)
-            throw std::runtime_error{"Texture is not dynamic"};
+            throw Error{"Texture is not dynamic"};
 
         const auto levels = calculateSizes(size, newData, mipmaps, pixelFormat);
 

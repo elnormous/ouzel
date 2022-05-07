@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "RenderDevice.hpp"
+#include "GraphicsError.hpp"
 #include "stb_image_write.h"
 
 namespace ouzel::graphics
@@ -116,6 +117,6 @@ namespace ouzel::graphics
                             static_cast<int>(pixelSize),
                             data,
                             static_cast<int>(stride)))
-            throw std::runtime_error{"Failed to save image to file"};
+            throw Error{"Failed to save image to file"};
     }
 }

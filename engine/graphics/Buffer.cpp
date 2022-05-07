@@ -1,8 +1,8 @@
 // Ouzel by Elviss Strazdins
 
-#include <stdexcept>
 #include "Buffer.hpp"
 #include "Graphics.hpp"
+#include "GraphicsError.hpp"
 
 namespace ouzel::graphics
 {
@@ -60,7 +60,7 @@ namespace ouzel::graphics
         size{initSize}
     {
         if (!initData.empty() && initSize != initData.size())
-            throw std::runtime_error{"Invalid buffer data"};
+            throw Error{"Invalid buffer data"};
 
         initGraphics.addCommand(std::make_unique<InitBufferCommand>(resource,
                                                                     initType,
@@ -80,10 +80,10 @@ namespace ouzel::graphics
     void Buffer::setData(const std::vector<std::uint8_t>& newData)
     {
         if ((flags & Flags::dynamic) != Flags::dynamic)
-            throw std::runtime_error{"Buffer is not dynamic"};
+            throw Error{"Buffer is not dynamic"};
 
         if (newData.empty())
-            throw std::runtime_error{"Invalid buffer data"};
+            throw Error{"Invalid buffer data"};
 
         if (newData.size() > size) size = static_cast<std::uint32_t>(newData.size());
 

@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include "../core/Setup.h"
 #include "Graphics.hpp"
+#include "GraphicsError.hpp"
 #include "Commands.hpp"
 #include "RenderDevice.hpp"
 #include "../events/EventHandler.hpp"
@@ -87,7 +88,7 @@ namespace ouzel::graphics
         else if (driver == "metal")
             return Driver::metal;
         else
-            throw std::runtime_error{"Invalid graphics driver"};
+            throw Error{"Invalid graphics driver"};
     }
 
     namespace
@@ -226,7 +227,7 @@ namespace ouzel::graphics
                         std::uint32_t startIndex)
     {
         if (!indexBuffer || !vertexBuffer)
-            throw std::runtime_error{"Invalid mesh buffer passed to render queue"};
+            throw Error{"Invalid mesh buffer passed to render queue"};
 
         addCommand(std::make_unique<DrawCommand>(indexBuffer,
                                                  indexCount,
