@@ -46,11 +46,11 @@ namespace ouzel::scene
         virtual void calculateProjection();
 
         std::pair<Actor*, math::Vector<float, 3>> pickActor(const math::Vector<float, 2>& position,
-                                                            bool renderTargets = false) const;
+                                                            const bool renderTargets = false) const;
         std::vector<std::pair<Actor*, math::Vector<float, 3>>> pickActors(const math::Vector<float, 2>& position,
-                                                                          bool renderTargets = false) const;
+                                                                          const bool renderTargets = false) const;
         std::vector<Actor*> pickActors(const std::vector<math::Vector<float, 2>>& edges,
-                                       bool renderTargets = false) const;
+                                       const bool renderTargets = false) const;
 
     protected:
         virtual void enter();

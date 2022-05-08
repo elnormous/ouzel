@@ -125,7 +125,7 @@ namespace ouzel::scene
     }
 
     std::pair<Actor*, math::Vector<float, 3>> Scene::pickActor(const math::Vector<float, 2>& position,
-                                                               bool renderTargets) const
+                                                               const bool renderTargets) const
     {
         for (auto i = layers.rbegin(); i != layers.rend(); ++i)
         {
@@ -138,7 +138,7 @@ namespace ouzel::scene
     }
 
     std::vector<std::pair<Actor*, math::Vector<float, 3>>> Scene::pickActors(const math::Vector<float, 2>& position,
-                                                                             bool renderTargets) const
+                                                                             const bool renderTargets) const
     {
         std::vector<std::pair<Actor*, math::Vector<float, 3>>> result;
 
@@ -152,7 +152,7 @@ namespace ouzel::scene
     }
 
     std::vector<Actor*> Scene::pickActors(const std::vector<math::Vector<float, 2>>& edges,
-                                          bool renderTargets) const
+                                          const bool renderTargets) const
     {
         std::vector<Actor*> result;
 
