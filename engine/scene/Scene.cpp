@@ -22,7 +22,7 @@ namespace ouzel::scene
     {
         if (sceneManger) sceneManger->removeScene(*this);
 
-        for (auto layer : layers)
+        for (const auto layer : layers)
         {
             if (entered) layer->leave();
             layer->scene = nullptr;
@@ -106,10 +106,8 @@ namespace ouzel::scene
     void Scene::removeAllLayers()
     {
         if (entered)
-        {
-            for (auto layer : layers)
+            for (const auto layer : layers)
                 layer->leave();
-        }
 
         layers.clear();
         ownedLayers.clear();
@@ -122,7 +120,7 @@ namespace ouzel::scene
 
     void Scene::calculateProjection()
     {
-        for (auto layer : layers)
+        for (const auto layer : layers)
             layer->calculateProjection();
     }
 
@@ -174,7 +172,7 @@ namespace ouzel::scene
         calculateProjection();
         engine->getEventDispatcher().addEventHandler(eventHandler);
 
-        for (auto layer : layers)
+        for (const auto layer : layers)
             layer->enter();
     }
 
@@ -184,7 +182,7 @@ namespace ouzel::scene
 
         eventHandler.remove();
 
-        for (auto layer : layers)
+        for (const auto layer : layers)
             layer->leave();
     }
 
