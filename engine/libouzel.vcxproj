@@ -166,6 +166,7 @@
     <ClInclude Include="audio\mixer\Emitter.hpp" />
     <ClInclude Include="audio\mixer\Mix.hpp" />
     <ClInclude Include="audio\mixer\Mixer.hpp" />
+    <ClInclude Include="audio\mixer\MixerError.hpp" />
     <ClInclude Include="audio\mixer\Object.hpp" />
     <ClInclude Include="audio\mixer\Processor.hpp" />
     <ClInclude Include="audio\mixer\Source.hpp" />

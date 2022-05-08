@@ -1027,6 +1027,7 @@
 		30A3821F21B5E7B90043568A /* Commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Commands.hpp; sourceTree = "<group>"; };
 		30A395CA2436A60B00D8E28E /* Plist.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Plist.hpp; sourceTree = "<group>"; };
 		30A4B42728264609005E84C0 /* GraphicsError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GraphicsError.hpp; sourceTree = "<group>"; };
+		30A4B42D28275B72005E84C0 /* MixerError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MixerError.hpp; sourceTree = "<group>"; };
 		30A4C1C7270FA4D500419C99 /* MatrixNeon.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MatrixNeon.hpp; sourceTree = "<group>"; };
 		30A4C1C8270FA4D500419C99 /* MatrixSse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MatrixSse.hpp; sourceTree = "<group>"; };
 		30A883631E7432DA004A033F /* Archive.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Archive.hpp; sourceTree = "<group>"; };
@@ -1932,6 +1933,7 @@
 				302F5A4A230A1136001200F9 /* Mix.hpp */,
 				30A381FC21B382A20043568A /* Mixer.cpp */,
 				30A381FD21B382A20043568A /* Mixer.hpp */,
+				30A4B42D28275B72005E84C0 /* MixerError.hpp */,
 				30C3F290219D0DD9003FE9ED /* Object.hpp */,
 				30A3821E21B4C5E90043568A /* Processor.hpp */,
 				30C6623E230792EB0082C8E8 /* Source.hpp */,

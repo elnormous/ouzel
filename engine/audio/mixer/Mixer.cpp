@@ -4,6 +4,7 @@
 #include "Mixer.hpp"
 #include "Bus.hpp"
 #include "Data.hpp"
+#include "MixerError.hpp"
 #include "Stream.hpp"
 #include "../../math/Scalar.hpp"
 
@@ -199,7 +200,7 @@ namespace ouzel::audio::mixer
                         break;
                     }
                     default:
-                        throw std::runtime_error{"Invalid command"};
+                        throw Error{"Invalid command"};
                 }
             }
         }

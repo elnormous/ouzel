@@ -909,6 +909,9 @@
     <ClInclude Include="audio\mixer\Mixer.hpp">
       <Filter>engine\audio\mixer</Filter>
     </ClInclude>
+    <ClInclude Include="audio\mixer\MixerError.hpp">
+      <Filter>engine\audio\mixer</Filter>
+    </ClInclude>
     <ClInclude Include="audio\Oscillator.hpp">
       <Filter>engine\audio</Filter>
     </ClInclude>
