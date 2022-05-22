@@ -380,9 +380,7 @@ namespace ouzel::ini
 
     inline Data parse(const char* data)
     {
-        auto end = data;
-        while (*end) ++end;
-        return parse(data, end);
+        return parse(data, data + std::strlen(data));
     }
 
     template <class T>
