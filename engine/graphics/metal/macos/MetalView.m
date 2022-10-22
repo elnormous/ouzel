@@ -4,7 +4,6 @@
 
 #if OUZEL_COMPILE_METAL
 
-#import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
 #import "MetalView.h"
 
