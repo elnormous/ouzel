@@ -175,6 +175,15 @@ namespace ouzel::core::macos
         windowsItem.submenu = windowsMenu;
         NSApp.windowsMenu = windowsMenu;
 
+        // Help menu
+        NSMenuItem* helpItem = [mainMenu addItemWithTitle:NSLocalizedString(@"Help", nil)
+                                                   action:nil
+                                            keyEquivalent:@""];
+
+        NSMenu* helpMenu = [[[NSMenu alloc] initWithTitle:NSLocalizedString(@"Help", nil)] autorelease];
+        helpItem.submenu = helpMenu;
+        NSApp.helpMenu = helpMenu;
+
         NSApp.mainMenu = mainMenu;
 
         [NSApp run];
