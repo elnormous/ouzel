@@ -141,6 +141,7 @@ namespace ouzel::core::macos
         window.acceptsMouseMovedEvents = YES;
         windowDelegate = [[WindowDelegate alloc] initWithWindow:this];
         window.delegate = windowDelegate;
+        window.releasedWhenClosed = NO;
 
         [window setCollectionBehavior:exclusiveFullscreen ? NSWindowCollectionBehaviorFullScreenAuxiliary : NSWindowCollectionBehaviorFullScreenPrimary];
 
