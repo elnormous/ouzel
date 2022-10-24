@@ -115,10 +115,9 @@ namespace ouzel::core::macos
         if (!bundleName)
             bundleName = NSBundle.mainBundle.infoDictionary[@"CFBundleName"];
 
-        NSMenuItem* aboutItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"About", nil), bundleName]
-                                                           action:@selector(orderFrontStandardAboutPanel:)
-                                                    keyEquivalent:@""];
-        aboutItem.target = NSApp;
+        [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"About", nil), bundleName]
+                                   action:@selector(orderFrontStandardAboutPanel:)
+                            keyEquivalent:@""];
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
@@ -132,28 +131,24 @@ namespace ouzel::core::macos
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
-        NSMenuItem* hideItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Hide", nil), bundleName]
-                                                          action:@selector(hide:)
-                                                   keyEquivalent:@"h"];
-        hideItem.target = NSApp;
+        [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Hide", nil), bundleName]
+                                   action:@selector(hide:)
+                            keyEquivalent:@"h"];
 
         NSMenuItem* hideOthersItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Hide Others", nil)
                                                                 action:@selector(hideOtherApplications:)
                                                          keyEquivalent:@"h"];
         hideOthersItem.keyEquivalentModifierMask = NSEventModifierFlagOption | NSEventModifierFlagCommand;
-        hideOthersItem.target = NSApp;
 
-        NSMenuItem* showAllItem = [applicationMenu addItemWithTitle:NSLocalizedString(@"Show All", nil)
-                                                             action:@selector(unhideAllApplications:)
-                                                      keyEquivalent:@""];
-        showAllItem.target = NSApp;
+        [applicationMenu addItemWithTitle:NSLocalizedString(@"Show All", nil)
+                                   action:@selector(unhideAllApplications:)
+                            keyEquivalent:@""];
 
         [applicationMenu addItem:[NSMenuItem separatorItem]];
 
-        NSMenuItem* quitItem = [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Quit", nil), bundleName]
-                                                          action:@selector(terminate:)
-                                                   keyEquivalent:@"q"];
-        quitItem.target = NSApp;
+        [applicationMenu addItemWithTitle:[NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Quit", nil), bundleName]
+                                   action:@selector(terminate:)
+                            keyEquivalent:@"q"];
 
         // View menu
         NSMenuItem* viewItem = [mainMenu addItemWithTitle:NSLocalizedString(@"View", nil)
