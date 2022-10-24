@@ -130,8 +130,7 @@ namespace ouzel::core::macos
         
         [window setFrameAutosaveName:@"Main Window"];
 
-        const NSRect realFrame = [NSWindow contentRectForFrameRect:window.frame
-                                                         styleMask:window.styleMask];
+        const NSRect realFrame = [window contentRectForFrameRect:window.frame];
         windowSize.width = static_cast<std::uint32_t>(realFrame.size.width);
         windowSize.height = static_cast<std::uint32_t>(realFrame.size.height);
 
@@ -177,8 +176,7 @@ namespace ouzel::core::macos
             [invocation invoke];
         }
 
-        const NSRect windowFrame = [NSWindow contentRectForFrameRect:[window frame]
-                                                           styleMask:[window styleMask]];
+        const NSRect windowFrame = [window contentRectForFrameRect:[window frame]];
 
         switch (graphicsDriver)
         {
@@ -411,8 +409,7 @@ namespace ouzel::core::macos
 
     void NativeWindow::handleResize()
     {
-        const NSRect frame = [NSWindow contentRectForFrameRect:window.frame
-                                                     styleMask:window.styleMask];
+        const NSRect frame = [window contentRectForFrameRect:window.frame];
 
         size = math::Size<std::uint32_t, 2>{
             static_cast<std::uint32_t>(frame.size.width),
