@@ -101,10 +101,10 @@ namespace ouzel::core::macos
         [NSApp activateIgnoringOtherApps:YES];
         NSApp.delegate = [[[AppDelegate alloc] init] autorelease];
 
-        NSMenu* mainMenu = [[[NSMenu alloc] initWithTitle:@"Main Menu"] autorelease];
+        NSMenu* mainMenu = [[[NSMenu alloc] init] autorelease];
 
         // Apple menu
-        NSMenuItem* mainMenuItem = [mainMenu addItemWithTitle:@"Apple"
+        NSMenuItem* mainMenuItem = [mainMenu addItemWithTitle:@""
                                                        action:nil
                                                 keyEquivalent:@""];
 
