@@ -169,9 +169,9 @@ namespace ouzel::core::macos
                                                keyEquivalent:@""];
 
         NSMenu* windowsMenu = [[[NSMenu alloc] initWithTitle:NSLocalizedString(@"Window", nil)] autorelease];
-        [windowsMenu addItemWithTitle:@"Minimize" action:@selector(performMiniaturize:) keyEquivalent:@"m"];
-        [windowsMenu addItemWithTitle:@"Zoom" action:@selector(performZoom:) keyEquivalent:@""];
-        
+        [windowsMenu addItemWithTitle:NSLocalizedString(@"Minimize", nil) action:@selector(performMiniaturize:) keyEquivalent:@"m"];
+        [windowsMenu addItemWithTitle:NSLocalizedString(@"Zoom", nil) action:@selector(performZoom:) keyEquivalent:@""];
+
         windowsItem.submenu = windowsMenu;
         NSApp.windowsMenu = windowsMenu;
 
