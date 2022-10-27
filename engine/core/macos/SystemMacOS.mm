@@ -15,6 +15,13 @@ ouzel::core::macos::System* systemPointer;
 
 - (void)applicationWillFinishLaunching:(__unused NSNotification*)notification
 {
+    NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSNumber numberWithBool:NO], @"AppleMomentumScrollSupported",
+                              [NSNumber numberWithBool:NO], @"ApplePressAndHoldEnabled",
+                              [NSNumber numberWithBool:YES], @"ApplePersistenceIgnoreState",
+                              nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+
     if (systemPointer) systemPointer->start();
 }
 
