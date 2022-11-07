@@ -108,9 +108,8 @@ namespace ouzel::core::macos
         [NSApp activateIgnoringOtherApps:YES];
         NSApp.delegate = [[[AppDelegate alloc] init] autorelease];
 
-        NSString* mainNibFile = [NSBundle.mainBundle.infoDictionary valueForKey:@"NSMainNibFile"];
-
-        if (!mainNibFile ||
+        if (NSString* mainNibFile = [NSBundle.mainBundle.infoDictionary valueForKey:@"NSMainNibFile"];
+            !mainNibFile ||
             ![[NSBundle mainBundle] loadNibNamed:mainNibFile
                                            owner:NSApp
                                  topLevelObjects:nil])
