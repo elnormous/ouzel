@@ -31,9 +31,9 @@ namespace ouzel::graphics::d3d11
         Pointer& operator=(const Pointer& other) noexcept
         {
             if (&other == this) return *this;
+            if (other.p) other.p->AddRef();
             if (p) p->Release();
             p = other.p;
-            if (p) p->AddRef();
         }
 
         Pointer(Pointer&& other) noexcept: p{other.p}
