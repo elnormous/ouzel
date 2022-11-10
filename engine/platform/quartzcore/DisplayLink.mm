@@ -74,7 +74,7 @@ namespace ouzel::platform::quartzcore
         return *this;
     }
 
-    void DisplayLink::setFrameInterval(std::uint32_t frameInterval)
+    void DisplayLink::setFrameInterval(const std::uint32_t frameInterval)
     {
         [displayLink setFrameInterval:frameInterval];
     }

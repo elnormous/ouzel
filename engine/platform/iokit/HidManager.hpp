@@ -12,7 +12,7 @@ namespace ouzel::platform::iokit
     class HidManager final
     {
     public:
-        explicit HidManager(IOOptionBits options = kIOHIDOptionsTypeNone):
+        explicit HidManager(const IOOptionBits options = kIOHIDOptionsTypeNone):
             hidManager{IOHIDManagerCreate(kCFAllocatorDefault, options)}
         {
             if (!hidManager)
@@ -77,13 +77,13 @@ namespace ouzel::platform::iokit
             return hidManager != nullptr;
         }
 
-        void open(IOOptionBits options = kIOHIDOptionsTypeNone)
+        void open(const IOOptionBits options = kIOHIDOptionsTypeNone)
         {
             if (const auto result = IOHIDManagerOpen(hidManager, options); result != kIOReturnSuccess)
                 throw std::system_error{result, platform::iokit::errorCategory, "Failed to open HID manager"};
         }
 
-        void close(IOOptionBits options = kIOHIDOptionsTypeNone)
+        void close(const IOOptionBits options = kIOHIDOptionsTypeNone)
         {
             if (const auto result = IOHIDManagerClose(hidManager, options); result != kIOReturnSuccess)
                 throw std::system_error{result, platform::iokit::errorCategory, "Failed to close HID manager"};

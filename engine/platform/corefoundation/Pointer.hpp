@@ -19,8 +19,8 @@ namespace ouzel::platform::corefoundation
             if (p) CFRelease(p);
         }
 
-        Pointer(T a) noexcept: p{a} {}
-        Pointer& operator=(T a) noexcept
+        Pointer(const T a) noexcept: p{a} {}
+        Pointer& operator=(const T a) noexcept
         {
             if (p) CFRelease(p);
             p = a;

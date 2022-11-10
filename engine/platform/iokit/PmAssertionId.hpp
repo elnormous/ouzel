@@ -52,9 +52,9 @@ namespace ouzel::platform::iokit
             return *this;
         }
 
-        PmAssertionId(CFStringRef          assertionType,
-                    IOPMAssertionLevel   assertionLevel,
-                    CFStringRef          assertionName)
+        PmAssertionId(const CFStringRef          assertionType,
+                      const IOPMAssertionLevel   assertionLevel,
+                      const CFStringRef          assertionName)
         {
             if (const auto error = IOPMAssertionCreateWithName(assertionType,
                                                                assertionLevel,

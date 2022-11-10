@@ -12,7 +12,7 @@ namespace ouzel::platform::corevideo
     class DisplayLink final
     {
     public:
-        explicit DisplayLink(CGDirectDisplayID displayId)
+        explicit DisplayLink(const CGDirectDisplayID displayId)
         {
             if (const auto result = CVDisplayLinkCreateWithCGDisplay(displayId, &displayLink); result != kCVReturnSuccess)
                 throw std::system_error{result, errorCategory, "Failed to create display link"};
@@ -53,7 +53,7 @@ namespace ouzel::platform::corevideo
             return *this;
         }
 
-        void setCallback(CVDisplayLinkOutputCallback callback, void* userInfo)
+        void setCallback(const CVDisplayLinkOutputCallback callback, void* userInfo)
         {
             if (const auto result = CVDisplayLinkSetOutputCallback(displayLink, callback, userInfo); result != kCVReturnSuccess)
                 throw std::system_error{result, errorCategory, "Failed to set output callback for the display link"};

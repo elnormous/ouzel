@@ -11,7 +11,7 @@ namespace ouzel::platform::dispatch
     class Semaphore final
     {
     public:
-        explicit Semaphore(intptr_t value):
+        explicit Semaphore(const intptr_t value):
             semaphore{dispatch_semaphore_create(value)}
         {
             if (!semaphore)
@@ -53,7 +53,7 @@ namespace ouzel::platform::dispatch
             return *this;
         }
 
-        void wait(dispatch_time_t timeout) noexcept
+        void wait(const dispatch_time_t timeout) noexcept
         {
             if (semaphore) dispatch_semaphore_wait(semaphore, timeout);
         }
