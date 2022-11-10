@@ -529,9 +529,6 @@
 		307934D722C58CFE005A6804 /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Cue.hpp */; };
 		307934D822C58CFE005A6804 /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Cue.hpp */; };
 		307934D922C58CFE005A6804 /* Cue.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307934D322C58CFE005A6804 /* Cue.hpp */; };
-		307F4C2324E20D2A00994B7A /* AutoreleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */; };
-		307F4C2424E20D2A00994B7A /* AutoreleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */; };
-		307F4C2524E20D2A00994B7A /* AutoreleasePool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */; };
 		307F4C2624E20D2A00994B7A /* AutoreleasePool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */; };
 		307F4C2724E20D2A00994B7A /* AutoreleasePool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */; };
 		307F4C2824E20D2A00994B7A /* AutoreleasePool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */; };
@@ -987,7 +984,6 @@
 		307726CE2187F2880050F94C /* SystemCursor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SystemCursor.hpp; sourceTree = "<group>"; };
 		307934D222C58CFE005A6804 /* Cue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cue.cpp; sourceTree = "<group>"; };
 		307934D322C58CFE005A6804 /* Cue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cue.hpp; sourceTree = "<group>"; };
-		307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AutoreleasePool.mm; sourceTree = "<group>"; };
 		307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AutoreleasePool.hpp; sourceTree = "<group>"; };
 		307F4C2C24E3590500994B7A /* OGLError.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OGLError.hpp; sourceTree = "<group>"; };
 		307F9FFC1F1E9CA000BA73CB /* GamepadDeviceGC.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GamepadDeviceGC.hpp; sourceTree = "<group>"; };
@@ -1915,7 +1911,6 @@
 			isa = PBXGroup;
 			children = (
 				307F4C2224E20D2A00994B7A /* AutoreleasePool.hpp */,
-				307F4C2124E20D2A00994B7A /* AutoreleasePool.mm */,
 				30859C59274F0EB9009AD9EB /* RunLoop.hpp */,
 				30859C5A274F0EB9009AD9EB /* RunLoop.mm */,
 			);
@@ -2527,7 +2522,6 @@
 				30519CD01F9B53CB00AF3DC4 /* ImageLoader.cpp in Sources */,
 				30AEFA2C20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				C61B49F12174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
-				307F4C2324E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				3038206D1D816C7700677CAB /* NativeWindowIOS.mm in Sources */,
 				30EEADC321618DD800D2F525 /* MouseDevice.cpp in Sources */,
 				303B75671C2A3CBF00FEDE92 /* SpriteRenderer.cpp in Sources */,
@@ -2637,7 +2631,6 @@
 				303B76381C355A3B00FEDE92 /* InputManager.cpp in Sources */,
 				30AEFA2E20C0FD6000CDFD33 /* OGLRenderTarget.cpp in Sources */,
 				C61B49F32174B83900B818F1 /* SkinnedMeshRenderer.cpp in Sources */,
-				307F4C2524E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				303B76391C355A3B00FEDE92 /* SpriteRenderer.cpp in Sources */,
 				30673DD51F7A694F00EAFAB0 /* NativeWindow.cpp in Sources */,
 				303696C61E32DD8F007F4211 /* Texture.cpp in Sources */,
@@ -2802,7 +2795,6 @@
 				30519CB91F9B53AB00AF3DC4 /* WaveLoader.cpp in Sources */,
 				303B04BC1E207B6D00011CBE /* OpenGLView.m in Sources */,
 				30309A482669A4B200C320AF /* RenderPass.cpp in Sources */,
-				307F4C2424E20D2A00994B7A /* AutoreleasePool.mm in Sources */,
 				30FF4D5321C48DB600153FFF /* Effects.cpp in Sources */,
 				30ADCBB61E9A9479000DC9AC /* MetalRenderDeviceMacOS.mm in Sources */,
 				303820011D80A40700677CAB /* MetalRenderDevice.mm in Sources */,
