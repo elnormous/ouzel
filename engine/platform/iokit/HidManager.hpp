@@ -32,9 +32,9 @@ namespace ouzel::platform::iokit
         HidManager& operator=(const HidManager& other) noexcept
         {
             if (&other == this) return *this;
+            if (other.hidManager) CFRetain(other.hidManager);
             if (hidManager) CFRelease(hidManager);
             hidManager = other.hidManager;
-            if (hidManager) CFRetain(hidManager);
             return *this;
         }
 

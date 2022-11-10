@@ -28,8 +28,9 @@ namespace ouzel::platform::foundation
     AutoreleasePool& AutoreleasePool::operator=(const AutoreleasePool& other) noexcept
     {
         if (&other == this) return *this;
+        [other.pool retain];
         [pool release];
-        pool = [other.pool retain];
+        pool = other.pool;
         return *this;
     }
 

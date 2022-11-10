@@ -34,9 +34,9 @@ namespace ouzel::platform::objc
         Pointer& operator=(const Pointer& other) noexcept
         {
             if (&other == this) return *this;
+            if (other.p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(other.p, retainSel);
             if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
             p = other.p;
-            if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, retainSel);
             return *this;
         }
 

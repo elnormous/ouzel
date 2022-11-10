@@ -47,9 +47,9 @@ namespace ouzel::platform::corevideo
         DisplayLink& operator=(const DisplayLink& other) noexcept
         {
             if (&other == this) return *this;
+            if (other.displayLink) CVDisplayLinkRetain(other.displayLink);
             if (displayLink) CVDisplayLinkRelease(displayLink);
             displayLink = other.displayLink;
-            if (displayLink) CVDisplayLinkRetain(displayLink);
             return *this;
         }
 

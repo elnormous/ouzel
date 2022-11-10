@@ -50,9 +50,9 @@ namespace ouzel::platform::dispatch
         Data& operator=(const Data& other) noexcept
         {
             if (&other == this) return *this;
+            if (other.data) dispatch_retain(other.data);
             if (data) dispatch_release(data);
             data = other.data;
-            if (data) dispatch_retain(data);
             return *this;
         }
 

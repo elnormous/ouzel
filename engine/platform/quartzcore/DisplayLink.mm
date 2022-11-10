@@ -45,6 +45,35 @@ namespace ouzel::platform::quartzcore
         }
     }
 
+    DisplayLink::DisplayLink(const DisplayLink& other) noexcept:
+        displayLink{[other.displayLink retain]}
+    {
+    }
+
+    DisplayLink::DisplayLink(DisplayLink&& other) noexcept:
+        displayLink{other.displayLink}
+    {
+        other.displayLink = nil;
+    }
+
+    DisplayLink& DisplayLink::operator=(const DisplayLink& other) noexcept
+    {
+        if (&other == this) return *this;
+        [other.displayLink retain];
+        [displayLink release];
+        displayLink = other.displayLink;
+        return *this;
+    }
+
+    DisplayLink& DisplayLink::operator=(DisplayLink&& other) noexcept
+    {
+        if (&other == this) return *this;
+        [displayLink release];
+        displayLink = other.displayLink;
+        other.displayLink = nil;
+        return *this;
+    }
+
     void DisplayLink::setFrameInterval(std::uint32_t frameInterval)
     {
         [displayLink setFrameInterval:frameInterval];

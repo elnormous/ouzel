@@ -24,9 +24,9 @@ namespace ouzel::platform::cocoa
     Window& Window::operator=(const Window& other) noexcept
     {
         if (&other == this) return *this;
+        [other.window retain];
         [window release];
         window = other.window;
-        [window retain];
         return *this;
     }
 

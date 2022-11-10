@@ -35,9 +35,9 @@ namespace ouzel::platform::corefoundation
         Pointer& operator=(const Pointer& other) noexcept
         {
             if (&other == this) return *this;
+            if (other.p) CFRetain(other.p);
             if (p) CFRelease(p);
             p = other.p;
-            if (p) CFRetain(p);
             return *this;
         }
 

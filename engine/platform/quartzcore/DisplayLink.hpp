@@ -29,10 +29,10 @@ namespace ouzel::platform::quartzcore
         DisplayLink(std::function<void()> callback);
         ~DisplayLink();
 
-        DisplayLink(const DisplayLink&) = delete;
-        DisplayLink& operator=(const DisplayLink&) = delete;
-        DisplayLink(DisplayLink&&) = delete;
-        DisplayLink& operator=(DisplayLink&&) = delete;
+        DisplayLink(const DisplayLink& other) noexcept;
+        DisplayLink& operator=(const DisplayLink& other) noexcept;
+        DisplayLink(DisplayLink&& other) noexcept;
+        DisplayLink& operator=(DisplayLink&& other) noexcept;
 
         void setFrameInterval(std::uint32_t frameInterval);
         void addToRunLoop(const foundation::RunLoop& runLoop) const noexcept;

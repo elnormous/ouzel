@@ -28,9 +28,9 @@ namespace ouzel::platform::iokit
         {
             if (&other == this) return *this;
 
+            if (other.assertionId) IOPMAssertionRetain(other.assertionId);
             if (assertionId) IOPMAssertionRelease(assertionId);
             assertionId = other.assertionId;
-            if (assertionId) IOPMAssertionRetain(assertionId);
 
             return *this;
         }

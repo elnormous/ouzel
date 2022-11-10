@@ -28,8 +28,9 @@ namespace ouzel::platform::foundation
     RunLoop& RunLoop::operator=(const RunLoop& other) noexcept
     {
         if (&other == this) return *this;
+        [other.runLoop retain];
         [runLoop release];
-        runLoop = [other.runLoop retain];
+        runLoop = other.runLoop;
         return *this;
     }
 
