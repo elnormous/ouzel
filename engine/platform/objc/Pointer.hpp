@@ -9,12 +9,12 @@
 
 namespace ouzel::platform::objc
 {
-    inline const auto retainSel = sel_registerName("retain");
-    inline const auto releaseSel = sel_registerName("release");
-
     template <class T = id, typename std::enable_if_t<std::is_pointer_v<T>>* = nullptr>
     class Pointer final
     {
+        inline static const auto retainSel = sel_registerName("retain");
+        inline static const auto releaseSel = sel_registerName("release");
+
     public:
         Pointer() noexcept = default;
 

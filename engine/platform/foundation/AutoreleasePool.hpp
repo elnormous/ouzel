@@ -8,16 +8,16 @@
 
 namespace ouzel::platform::foundation
 {
-    inline const auto cls = objc_lookUpClass("NSAutoreleasePool");
-
-    inline const auto allocSel = sel_registerName("alloc");
-    inline const auto initSel = sel_registerName("init");
-    inline const auto retainSel = sel_registerName("retain");
-    inline const auto releaseSel = sel_registerName("release");
-    inline const auto drainSel = sel_registerName("drain");
-    
     class AutoreleasePool final
     {
+        inline static const auto cls = objc_lookUpClass("NSAutoreleasePool");
+
+        inline static const auto allocSel = sel_registerName("alloc");
+        inline static const auto initSel = sel_registerName("init");
+        inline static const auto retainSel = sel_registerName("retain");
+        inline static const auto releaseSel = sel_registerName("release");
+        inline static const auto drainSel = sel_registerName("drain");
+
     public:
         AutoreleasePool() noexcept:
             pool{reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(reinterpret_cast<id (*)(Class, SEL)>(&objc_msgSend)(cls, allocSel), initSel)}
