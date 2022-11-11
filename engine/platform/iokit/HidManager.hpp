@@ -12,11 +12,9 @@ namespace ouzel::platform::iokit
     class HidManager final
     {
     public:
-        explicit HidManager(const IOOptionBits options = kIOHIDOptionsTypeNone):
+        explicit HidManager(const IOOptionBits options = kIOHIDOptionsTypeNone) noexcept:
             hidManager{IOHIDManagerCreate(kCFAllocatorDefault, options)}
         {
-            if (!hidManager)
-                throw std::runtime_error{"Failed to create HID manager"};
         }
 
         ~HidManager()

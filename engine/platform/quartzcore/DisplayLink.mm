@@ -28,12 +28,10 @@
 
 namespace ouzel::platform::quartzcore
 {
-    DisplayLink::DisplayLink(std::function<void()> callback):
+    DisplayLink::DisplayLink(std::function<void()> callback) noexcept:
         displayLink{[CADisplayLink displayLinkWithTarget:[[[DisplayLinkHandler alloc] initWithCallback:std::move(callback)] autorelease]
                                                 selector:@selector(draw:)]}
     {
-        if (!displayLink)
-            throw DisplayLinkError{"Failed to create display link"};
     }
 
     DisplayLink::~DisplayLink()

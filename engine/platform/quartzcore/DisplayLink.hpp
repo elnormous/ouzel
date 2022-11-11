@@ -26,7 +26,7 @@ namespace ouzel::platform::quartzcore
     class DisplayLink final
     {
     public:
-        DisplayLink(std::function<void()> callback);
+        DisplayLink(std::function<void()> callback) noexcept;
         ~DisplayLink();
 
         DisplayLink(const DisplayLink& other) noexcept;

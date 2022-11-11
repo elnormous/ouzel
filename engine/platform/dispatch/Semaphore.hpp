@@ -11,11 +11,9 @@ namespace ouzel::platform::dispatch
     class Semaphore final
     {
     public:
-        explicit Semaphore(const intptr_t value):
+        explicit Semaphore(const intptr_t value) noexcept:
             semaphore{dispatch_semaphore_create(value)}
         {
-            if (!semaphore)
-                throw std::runtime_error{"Failed to create dispatch semaphore"};
         }
 
         ~Semaphore()
