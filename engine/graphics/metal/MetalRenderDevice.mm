@@ -240,9 +240,8 @@ namespace ouzel::graphics::metal
         if (!currentCommandBuffer)
             throw Error{"Failed to create Metal command buffer"};
 
-        __block auto& renderer = *this;
         [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>) {
-            renderer.inflightSemaphore.signal();
+            inflightSemaphore.signal();
          }];
 
         MTLRenderPassDescriptorPtr currentRenderPassDescriptor = nil;
