@@ -100,6 +100,7 @@ namespace ouzel::graphics::metal
     RenderDevice::RenderDevice(const Settings& settings,
                                core::Window& newWindow):
         graphics::RenderDevice{Driver::metal, settings, newWindow},
+        device{MTLCreateSystemDefaultDevice()},
         colorFormat{MTLPixelFormatInvalid},
         depthFormat{MTLPixelFormatInvalid},
         stencilFormat{MTLPixelFormatInvalid}
@@ -111,8 +112,6 @@ namespace ouzel::graphics::metal
         renderTargetsSupported = true;
         multisamplingSupported = true;
         uintIndicesSupported = true;
-
-        device = MTLCreateSystemDefaultDevice();
 
         if (!device)
             throw Error{"Failed to create Metal device"};
