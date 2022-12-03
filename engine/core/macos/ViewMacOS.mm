@@ -16,11 +16,6 @@
     return YES;
 }
 
-- (BOOL)mouseDownCanMoveWindow
-{
-    return YES;
-}
-
 - (BOOL)isFlipped
 {
     return YES;
