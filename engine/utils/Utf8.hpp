@@ -11,7 +11,7 @@ namespace ouzel::utf8
     class ParseError final: public std::logic_error
     {
     public:
-        using std::logic_error::logic_error;
+        using logic_error::logic_error;
     };
 
     template <class Iterator>
