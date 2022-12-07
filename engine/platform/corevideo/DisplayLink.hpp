@@ -20,7 +20,7 @@ namespace ouzel::platform::corevideo
 
         ~DisplayLink()
         {
-            if (displayLink) CVDisplayLinkRelease(displayLink);
+            CVDisplayLinkRelease(displayLink);
         }
 
         DisplayLink(DisplayLink&& other) noexcept:
@@ -32,13 +32,13 @@ namespace ouzel::platform::corevideo
         DisplayLink(const DisplayLink& other) noexcept:
             displayLink{other.displayLink}
         {
-            if (displayLink) CVDisplayLinkRetain(displayLink);
+            CVDisplayLinkRetain(displayLink);
         }
 
         DisplayLink& operator=(DisplayLink&& other) noexcept
         {
             if (&other == this) return *this;
-            if (displayLink) CVDisplayLinkRelease(displayLink);
+            CVDisplayLinkRelease(displayLink);
             displayLink = other.displayLink;
             other.displayLink = nullptr;
             return *this;
@@ -47,8 +47,8 @@ namespace ouzel::platform::corevideo
         DisplayLink& operator=(const DisplayLink& other) noexcept
         {
             if (&other == this) return *this;
-            if (other.displayLink) CVDisplayLinkRetain(other.displayLink);
-            if (displayLink) CVDisplayLinkRelease(displayLink);
+            CVDisplayLinkRetain(other.displayLink);
+            CVDisplayLinkRelease(displayLink);
             displayLink = other.displayLink;
             return *this;
         }
