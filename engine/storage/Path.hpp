@@ -73,29 +73,29 @@ namespace ouzel::storage
             return *this;
         }
 
-        operator std::string() const
+        [[nodiscard]] operator std::string() const
         {
             return convertToUtf8(path);
         }
 
-        bool operator==(const Path& p) const noexcept
+        [[nodiscard]] bool operator==(const Path& p) const noexcept
         {
             return path == p.path;
         }
 
         template <class Source>
-        bool operator==(const Source& p) const
+        [[nodiscard]] bool operator==(const Source& p) const
         {
             return path == convertToNative(p);
         }
 
-        bool operator!=(const Path& p) const noexcept
+        [[nodiscard]] bool operator!=(const Path& p) const noexcept
         {
             return path != p.path;
         }
 
         template <class Source>
-        bool operator!=(const Source& p) const
+        [[nodiscard]] bool operator!=(const Source& p) const
         {
             return path != convertToNative(p);
         }
@@ -130,7 +130,7 @@ namespace ouzel::storage
             return *this;
         }
 
-        Path operator+(const Path& p) const
+        [[nodiscard]] Path operator+(const Path& p) const
         {
             Path result = *this;
             result.path += p.path;
@@ -138,14 +138,14 @@ namespace ouzel::storage
         }
 
         template <class Source>
-        Path operator+(const Source& p) const
+        [[nodiscard]] Path operator+(const Source& p) const
         {
             Path result = *this;
             result.path += convertToNative(p);
             return result;
         }
 
-        Path operator/(const Path& p) const
+        [[nodiscard]] Path operator/(const Path& p) const
         {
             Path result = *this;
             if (!result.path.empty() && !isDirectorySeparator(result.path.back()))
@@ -155,7 +155,7 @@ namespace ouzel::storage
         }
 
         template <class Source>
-        Path operator/(const Source& p) const
+        [[nodiscard]] Path operator/(const Source& p) const
         {
             Path result = *this;
             if (!result.path.empty() && !isDirectorySeparator(result.path.back()))
@@ -164,22 +164,22 @@ namespace ouzel::storage
             return result;
         }
 
-        bool isEmpty() const noexcept
+        [[nodiscard]] bool isEmpty() const noexcept
         {
             return path.empty();
         }
 
-        const String& getNative() const noexcept
+        [[nodiscard]] const String& getNative() const noexcept
         {
             return path;
         }
 
-        std::string getGeneric() const
+        [[nodiscard]] std::string getGeneric() const
         {
             return convertToGeneric(path);
         }
 
-        Path getExtension() const
+        [[nodiscard]] Path getExtension() const
         {
             if (const std::size_t position = path.rfind(Char('.')); position != std::string::npos)
                 return Path{path.substr(position + 1)};
@@ -188,7 +188,7 @@ namespace ouzel::storage
         }
 
         template <class Source>
-        Path& replaceExtension(const Source& extension)
+        [[nodiscard]] Path& replaceExtension(const Source& extension)
         {
             if (const std::size_t position = path.rfind(Char('.')); position != std::string::npos)
                 path.resize(position + 1);
@@ -196,14 +196,14 @@ namespace ouzel::storage
             return *this;
         }
 
-        Path& removeExtension()
+        [[nodiscard]] Path& removeExtension()
         {
             if (const std::size_t position = path.rfind(Char('.')); position != std::string::npos)
                 path.resize(position);
             return *this;
         }
 
-        Path getFilename() const
+        [[nodiscard]] Path getFilename() const
         {
             if (const std::size_t position = findLastDirectorySeparator(path); position != String::npos)
                 return Path{path.substr(position + 1)};
@@ -231,7 +231,7 @@ namespace ouzel::storage
             return *this;
         }
 
-        Path getStem() const
+        [[nodiscard]] Path getStem() const
         {
             const std::size_t directoryPosition = findLastDirectorySeparator(path);
             const std::size_t startPosition = directoryPosition == String::npos ? 0 : directoryPosition + 1;
@@ -243,7 +243,7 @@ namespace ouzel::storage
             return result;
         }
 
-        Path getDirectory() const
+        [[nodiscard]] Path getDirectory() const
         {
             if (const std::size_t position = findLastDirectorySeparator(path); position != String::npos)
                 return Path{path.substr(0, position)};
@@ -251,7 +251,7 @@ namespace ouzel::storage
                 return Path{};
         }
 
-        Path getRoot() const
+        [[nodiscard]] Path getRoot() const
         {
             Path result;
 #ifdef _WIN32
@@ -337,14 +337,14 @@ namespace ouzel::storage
             path = newPath;
         }
 
-        Path getNormal() const
+        [[nodiscard]] Path getNormal() const
         {
             Path result = *this;
             result.normalize();
             return result;
         }
 
-        bool isAbsolute() const noexcept
+        [[nodiscard]] bool isAbsolute() const noexcept
         {
 #ifdef _WIN32
             return path.size() >= 2 &&
@@ -357,7 +357,7 @@ namespace ouzel::storage
 #endif
         }
 
-        bool isRelative() const noexcept
+        [[nodiscard]] bool isRelative() const noexcept
         {
             return !isAbsolute();
         }

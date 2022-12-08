@@ -11,7 +11,7 @@ namespace ouzel::input
     {
         std::size_t value = 0;
 
-        constexpr bool operator==(DeviceId other) const noexcept
+        [[nodiscard]] constexpr bool operator==(DeviceId other) const noexcept
         {
             return value == other.value;
         }
@@ -22,7 +22,7 @@ namespace std
 {
     template <> struct hash<ouzel::input::DeviceId>
     {
-        size_t operator()(const ouzel::input::DeviceId& deviceId) const noexcept
+        [[nodiscard]] size_t operator()(const ouzel::input::DeviceId& deviceId) const noexcept
         {
             return hash<size_t>()(deviceId.value);
         }

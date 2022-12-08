@@ -50,27 +50,27 @@ namespace ouzel::platform::iokit
             return *this;
         }
 
-        operator IOHIDManagerRef() const noexcept
+        [[nodiscard]] operator IOHIDManagerRef() const noexcept
         {
             return hidManager;
         }
 
-        bool operator==(const HidManager& other) const noexcept
+        [[nodiscard]] bool operator==(const HidManager& other) const noexcept
         {
             return hidManager == other.hidManager;
         }
 
-        bool operator!=(const HidManager& other) const noexcept
+        [[nodiscard]] bool operator!=(const HidManager& other) const noexcept
         {
             return hidManager != other.hidManager;
         }
 
-        bool operator==(std::nullptr_t) const noexcept
+        [[nodiscard]] bool operator==(std::nullptr_t) const noexcept
         {
             return hidManager == nullptr;
         }
 
-        bool operator!=(std::nullptr_t) const noexcept
+        [[nodiscard]] bool operator!=(std::nullptr_t) const noexcept
         {
             return hidManager != nullptr;
         }

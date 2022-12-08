@@ -55,26 +55,26 @@ namespace ouzel::platform::corefoundation
             return *this;
         }
 
-        auto get() const noexcept { return p; }
-        operator T() const noexcept { return p; }
-        bool operator!() const noexcept { return p == nullptr; }
+        [[nodiscard]] auto get() const noexcept { return p; }
+        [[nodiscard]] operator T() const noexcept { return p; }
+        [[nodiscard]] bool operator!() const noexcept { return p == nullptr; }
 
-        bool operator==(const Pointer& other) const noexcept
+        [[nodiscard]] bool operator==(const Pointer& other) const noexcept
         {
             return p == other.p;
         }
 
-        bool operator!=(const Pointer& other) const noexcept
+        [[nodiscard]] bool operator!=(const Pointer& other) const noexcept
         {
             return p != other.p;
         }
 
-        bool operator==(std::nullptr_t) const noexcept
+        [[nodiscard]] bool operator==(std::nullptr_t) const noexcept
         {
             return p == nullptr;
         }
 
-        bool operator!=(std::nullptr_t) const noexcept
+        [[nodiscard]] bool operator!=(std::nullptr_t) const noexcept
         {
             return p != nullptr;
         }

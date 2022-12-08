@@ -58,19 +58,20 @@ namespace ouzel::platform::foundation
             return *this;
         }
 
-        bool operator==(const AutoreleasePool& other) const noexcept
+        [[nodiscard]] bool operator==(const AutoreleasePool& other) const noexcept
         {
             return pool == other.pool;
         }
 
-        bool operator!=(const AutoreleasePool& other) const noexcept
+        [[nodiscard]] bool operator!=(const AutoreleasePool& other) const noexcept
         {
             return pool != other.pool;
         }
 
-        void drain() const noexcept
+        void drain() noexcept
         {
             reinterpret_cast<void (*)(id, SEL)>(&objc_msgSend)(pool, drainSel);
+            pool = nil;
         }
 
     private:

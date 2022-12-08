@@ -14,19 +14,19 @@ namespace ouzel::graphics
         bindShaderMsaa = 0x08
     };
 
-    inline constexpr Flags operator&(const Flags a, const Flags b) noexcept
+    [[nodiscard]] inline constexpr Flags operator&(const Flags a, const Flags b) noexcept
     {
         return static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) & static_cast<std::underlying_type_t<Flags>>(b));
     }
-    inline constexpr Flags operator|(const Flags a, const Flags b) noexcept
+    [[nodiscard]] inline constexpr Flags operator|(const Flags a, const Flags b) noexcept
     {
         return static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) | static_cast<std::underlying_type_t<Flags>>(b));
     }
-    inline constexpr Flags operator^(const Flags a, const Flags b) noexcept
+    [[nodiscard]] inline constexpr Flags operator^(const Flags a, const Flags b) noexcept
     {
         return static_cast<Flags>(static_cast<std::underlying_type_t<Flags>>(a) ^ static_cast<std::underlying_type_t<Flags>>(b));
     }
-    inline constexpr Flags operator~(const Flags a) noexcept
+    [[nodiscard]] inline constexpr Flags operator~(const Flags a) noexcept
     {
         return static_cast<Flags>(~static_cast<std::underlying_type_t<Flags>>(a));
     }

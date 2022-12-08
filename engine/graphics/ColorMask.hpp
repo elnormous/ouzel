@@ -17,19 +17,19 @@ namespace ouzel::graphics
         all = red | green | blue | alpha
     };
 
-    inline constexpr ColorMask operator&(const ColorMask a, const ColorMask b) noexcept
+    [[nodiscard]] inline constexpr ColorMask operator&(const ColorMask a, const ColorMask b) noexcept
     {
         return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) & static_cast<std::underlying_type_t<ColorMask>>(b));
     }
-    inline constexpr ColorMask operator|(const ColorMask a, const ColorMask b) noexcept
+    [[nodiscard]] inline constexpr ColorMask operator|(const ColorMask a, const ColorMask b) noexcept
     {
         return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) | static_cast<std::underlying_type_t<ColorMask>>(b));
     }
-    inline constexpr ColorMask operator^(const ColorMask a, const ColorMask b) noexcept
+    [[nodiscard]] inline constexpr ColorMask operator^(const ColorMask a, const ColorMask b) noexcept
     {
         return static_cast<ColorMask>(static_cast<std::underlying_type_t<ColorMask>>(a) ^ static_cast<std::underlying_type_t<ColorMask>>(b));
     }
-    inline constexpr ColorMask operator~(const ColorMask a) noexcept
+    [[nodiscard]] inline constexpr ColorMask operator~(const ColorMask a) noexcept
     {
         return static_cast<ColorMask>(~static_cast<std::underlying_type_t<ColorMask>>(a));
     }

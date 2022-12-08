@@ -63,10 +63,10 @@ namespace ouzel::platform::iokit
                 throw std::system_error{error, errorCategory, "Failed to disable screen saver"};
         }
 
-        operator IOPMAssertionID() const noexcept { return assertionId; }
+        [[nodiscard]] operator IOPMAssertionID() const noexcept { return assertionId; }
 
-        bool operator==(const PmAssertionId& other) const noexcept { return assertionId == other.assertionId; }
-        bool operator!=(const PmAssertionId& other) const noexcept { return assertionId != other.assertionId; }
+        [[nodiscard]] bool operator==(const PmAssertionId& other) const noexcept { return assertionId == other.assertionId; }
+        [[nodiscard]] bool operator!=(const PmAssertionId& other) const noexcept { return assertionId != other.assertionId; }
 
         void release()
         {

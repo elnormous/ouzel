@@ -59,26 +59,26 @@ namespace ouzel::platform::objc
             if (p) reinterpret_cast<id (*)(id, SEL)>(&objc_msgSend)(p, releaseSel);
         }
 
-        T get() const noexcept { return p; }
-        operator T() const noexcept { return p; }
-        bool operator !() const noexcept { return p == nil; }
+        [[nodiscard]] T get() const noexcept { return p; }
+        [[nodiscard]] operator T() const noexcept { return p; }
+        [[nodiscard]] bool operator !() const noexcept { return p == nil; }
 
-        bool operator==(const Pointer& other) const noexcept
+        [[nodiscard]] bool operator==(const Pointer& other) const noexcept
         {
             return p == other.p;
         }
 
-        bool operator!=(const Pointer& other) const noexcept
+        [[nodiscard]] bool operator!=(const Pointer& other) const noexcept
         {
             return p != other.p;
         }
 
-        bool operator==(std::nullptr_t) const noexcept
+        [[nodiscard]] bool operator==(std::nullptr_t) const noexcept
         {
             return p == nil;
         }
 
-        bool operator!=(std::nullptr_t) const noexcept
+        [[nodiscard]] bool operator!=(std::nullptr_t) const noexcept
         {
             return p != nil;
         }

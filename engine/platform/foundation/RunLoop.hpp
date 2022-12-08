@@ -25,29 +25,29 @@ namespace ouzel::platform::foundation
         RunLoop& operator=(const RunLoop& other) noexcept;
         RunLoop& operator=(RunLoop&& other) noexcept;
 
-        bool operator==(const RunLoop& other) const noexcept
+        [[nodiscard]] bool operator==(const RunLoop& other) const noexcept
         {
             return runLoop == other.runLoop;
         }
 
-        bool operator!=(const RunLoop& other) const noexcept
+        [[nodiscard]] bool operator!=(const RunLoop& other) const noexcept
         {
             return runLoop != other.runLoop;
         }
 
-        operator NSRunLoopPtr() const noexcept { return runLoop; }
+        [[nodiscard]] operator NSRunLoopPtr() const noexcept { return runLoop; }
 
         void run() const noexcept;
         void stop() const noexcept;
-        bool isRunning() const noexcept;
+        [[nodiscard]] bool isRunning() const noexcept;
         void performFunction(std::function<void()> function) const noexcept;
 
     private:
         NSRunLoopPtr runLoop = nil;
     };
 
-    RunLoop mainRunLoop() noexcept;
-    RunLoop currentRunLoop() noexcept;
+    [[nodiscard]] RunLoop mainRunLoop() noexcept;
+    [[nodiscard]] RunLoop currentRunLoop() noexcept;
 }
 
 #endif // OUZEL_PLATFORM_FOUNDATION_RUNLOOP_HPP

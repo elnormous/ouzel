@@ -71,19 +71,19 @@ namespace ouzel::storage
         all = 0777
     };
 
-    inline constexpr Permissions operator&(const Permissions a, const Permissions b) noexcept
+    [[nodiscard]] inline constexpr Permissions operator&(const Permissions a, const Permissions b) noexcept
     {
         return static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) & static_cast<std::underlying_type_t<Permissions>>(b));
     }
-    inline constexpr Permissions operator|(const Permissions a, const Permissions b) noexcept
+    [[nodiscard]] inline constexpr Permissions operator|(const Permissions a, const Permissions b) noexcept
     {
         return static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) | static_cast<std::underlying_type_t<Permissions>>(b));
     }
-    inline constexpr Permissions operator^(const Permissions a, const Permissions b) noexcept
+    [[nodiscard]] inline constexpr Permissions operator^(const Permissions a, const Permissions b) noexcept
     {
         return static_cast<Permissions>(static_cast<std::underlying_type_t<Permissions>>(a) ^ static_cast<std::underlying_type_t<Permissions>>(b));
     }
-    inline constexpr Permissions operator~(const Permissions a) noexcept
+    [[nodiscard]] inline constexpr Permissions operator~(const Permissions a) noexcept
     {
         return static_cast<Permissions>(~static_cast<std::underlying_type_t<Permissions>>(a));
     }
@@ -115,7 +115,7 @@ namespace ouzel::storage
 
         operator Type() const noexcept { return time; }
 
-        operator std::chrono::system_clock::time_point() const noexcept
+        [[nodiscard]] operator std::chrono::system_clock::time_point() const noexcept
         {
 #ifdef _WIN32
             using hundrednanoseconds = std::chrono::duration<std::int64_t, std::ratio_multiply<std::hecto, std::nano>>;
@@ -136,7 +136,7 @@ namespace ouzel::storage
 #endif
         }
 
-        bool operator==(const FileTime& other) const noexcept
+        [[nodiscard]] bool operator==(const FileTime& other) const noexcept
         {
 #ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime &&
@@ -149,7 +149,7 @@ namespace ouzel::storage
 #endif
         }
 
-        bool operator>(const FileTime& other) const noexcept
+        [[nodiscard]] bool operator>(const FileTime& other) const noexcept
         {
 #ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime ?
@@ -164,7 +164,7 @@ namespace ouzel::storage
 #endif
         }
 
-        bool operator<(const FileTime& other) const noexcept
+        [[nodiscard]] bool operator<(const FileTime& other) const noexcept
         {
 #ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime ?
@@ -179,7 +179,7 @@ namespace ouzel::storage
 #endif
         }
 
-        bool operator>=(const FileTime& other) const noexcept
+        [[nodiscard]] bool operator>=(const FileTime& other) const noexcept
         {
 #ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime ?
@@ -194,7 +194,7 @@ namespace ouzel::storage
 #endif
         }
 
-        bool operator<=(const FileTime& other) const noexcept
+        [[nodiscard]] bool operator<=(const FileTime& other) const noexcept
         {
 #ifdef _WIN32
             return time.dwHighDateTime == other.time.dwHighDateTime ?
@@ -220,7 +220,7 @@ namespace ouzel::storage
 
         Path getStorageDirectory(const bool user = true) const;
 
-        static Path getTempPath()
+        [[nodiscard]] static Path getTempPath()
         {
 #ifdef _WIN32
             WCHAR buffer[MAX_PATH + 1];
@@ -247,11 +247,11 @@ namespace ouzel::storage
 #endif
         }
 
-        std::vector<std::byte> readFile(const Path& filename, const bool searchResources = true);
+        [[nodiscard]] std::vector<std::byte> readFile(const Path& filename, const bool searchResources = true);
 
         bool resourceFileExists(const Path& filename) const;
 
-        Path getPath(const Path& filename, const bool searchResources = true) const
+        [[nodiscard]] Path getPath(const Path& filename, const bool searchResources = true) const
         {
             if (filename.isAbsolute())
             {
@@ -307,10 +307,10 @@ namespace ouzel::storage
                     ++i;
         }
 
-        bool directoryExists(const Path& dirname) const;
-        bool fileExists(const Path& filename) const;
+        [[nodiscard]] bool directoryExists(const Path& dirname) const;
+        [[nodiscard]] bool fileExists(const Path& filename) const;
 
-        static Path getCurrentPath()
+        [[nodiscard]] static Path getCurrentPath()
         {
 #ifdef _WIN32
             const auto pathLength = GetCurrentDirectoryW(0, 0);
@@ -476,7 +476,7 @@ namespace ouzel::storage
 #endif
         }
 
-        static FileType getFileType(const Path& path) noexcept
+        [[nodiscard]] static FileType getFileType(const Path& path) noexcept
         {
 #ifdef _WIN32
             const auto attributes = GetFileAttributesW(path.getNative().c_str());
@@ -515,7 +515,7 @@ namespace ouzel::storage
 #endif
         }
 
-        static std::size_t getFileSize(const Path& path)
+        [[nodiscard]] static std::size_t getFileSize(const Path& path)
         {
 #ifdef _WIN32
             WIN32_FILE_ATTRIBUTE_DATA attributes;
@@ -533,7 +533,7 @@ namespace ouzel::storage
 #endif
         }
 
-        static Permissions getPermissions(const Path& path)
+        [[nodiscard]] static Permissions getPermissions(const Path& path)
         {
 #ifdef _WIN32
             const auto attributes = GetFileAttributesW(path.getNative().c_str());
@@ -571,7 +571,7 @@ namespace ouzel::storage
 #endif
         }
 
-        static FileTime getAccessTime(const Path& path)
+        [[nodiscard]] static FileTime getAccessTime(const Path& path)
         {
 #ifdef _WIN32
             HANDLE file = CreateFileW(path.getNative().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -600,7 +600,7 @@ namespace ouzel::storage
 #endif
         }
 
-        static FileTime getModifyTime(const Path& path)
+        [[nodiscard]] static FileTime getModifyTime(const Path& path)
         {
 #ifdef _WIN32
             HANDLE file = CreateFileW(path.getNative().c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);

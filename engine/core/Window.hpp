@@ -138,19 +138,19 @@ namespace ouzel::core
         std::string title;
     };
 
-    inline constexpr Window::Flags operator&(const Window::Flags a, const Window::Flags b) noexcept
+    [[nodiscard]] inline constexpr Window::Flags operator&(const Window::Flags a, const Window::Flags b) noexcept
     {
         return static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) & static_cast<std::underlying_type_t<Window::Flags>>(b));
     }
-    inline constexpr Window::Flags operator|(const Window::Flags a, const Window::Flags b) noexcept
+    [[nodiscard]] inline constexpr Window::Flags operator|(const Window::Flags a, const Window::Flags b) noexcept
     {
         return static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) | static_cast<std::underlying_type_t<Window::Flags>>(b));
     }
-    inline constexpr Window::Flags operator^(const Window::Flags a, const Window::Flags b) noexcept
+    [[nodiscard]] inline constexpr Window::Flags operator^(const Window::Flags a, const Window::Flags b) noexcept
     {
         return static_cast<Window::Flags>(static_cast<std::underlying_type_t<Window::Flags>>(a) ^ static_cast<std::underlying_type_t<Window::Flags>>(b));
     }
-    inline constexpr Window::Flags operator~(const Window::Flags a) noexcept
+    [[nodiscard]] inline constexpr Window::Flags operator~(const Window::Flags a) noexcept
     {
         return static_cast<Window::Flags>(~static_cast<std::underlying_type_t<Window::Flags>>(a));
     }
