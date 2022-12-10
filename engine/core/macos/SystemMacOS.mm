@@ -98,15 +98,22 @@ namespace ouzel::core::macos
     {
     }
 
+    System::~System()
+    {
+        [appDelegate release];
+    }
+
     void System::run()
     {
         ouzel::platform::foundation::AutoreleasePool autoreleasePool;
+
+        appDelegate = [[AppDelegate alloc] init];
 
         [NSApplication sharedApplication];
         NSApp.activationPolicy = NSApplicationActivationPolicyRegular;
 
         [NSApp activateIgnoringOtherApps:YES];
-        NSApp.delegate = [[[AppDelegate alloc] init] autorelease];
+        NSApp.delegate = appDelegate;
 
         if (NSString* mainNibFile = [NSBundle.mainBundle.infoDictionary valueForKey:@"NSMainNibFile"];
             !mainNibFile ||

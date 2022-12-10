@@ -224,16 +224,11 @@ namespace ouzel::core::macos
         if (exclusiveFullscreen && fullscreen)
             CGDisplayRelease(displayId);
 
-        if (view) [view release];
-
-        if (window)
-        {
-            window.delegate = nil;
-            [window close];
-            [window release];
-        }
-
-        if (windowDelegate) [windowDelegate release];
+        [view release];
+        window.delegate = nil;
+        [window close];
+        [window release];
+        [windowDelegate release];
     }
 
     void NativeWindow::executeCommand(const Command& command)
