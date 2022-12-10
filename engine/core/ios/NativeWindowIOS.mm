@@ -120,10 +120,10 @@ namespace ouzel::core::ios
 
     NativeWindow::~NativeWindow()
     {
-        if (textField) [textField release];
-        if (viewController) [viewController release];
-        if (view) [view release];
-        if (window) [window release];
+        [textField release];
+        [viewController release];
+        [view release];
+        [window release];
     }
 
     void NativeWindow::executeCommand(const Command& command)

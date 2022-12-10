@@ -35,7 +35,7 @@ namespace ouzel::core::ios
 
     Engine::~Engine()
     {
-        if (executeHanlder) [executeHanlder release];
+        [executeHanlder release];
     }
 
     void Engine::runOnMainThread(const std::function<void()>& func)
