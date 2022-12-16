@@ -188,7 +188,7 @@ namespace ouzel::storage
         }
 
         template <class Source>
-        [[nodiscard]] Path& replaceExtension(const Source& extension)
+        Path& replaceExtension(const Source& extension)
         {
             if (const std::size_t position = path.rfind(Char('.')); position != std::string::npos)
                 path.resize(position + 1);
@@ -196,7 +196,7 @@ namespace ouzel::storage
             return *this;
         }
 
-        [[nodiscard]] Path& removeExtension()
+        Path& removeExtension()
         {
             if (const std::size_t position = path.rfind(Char('.')); position != std::string::npos)
                 path.resize(position);
