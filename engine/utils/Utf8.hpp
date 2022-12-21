@@ -18,10 +18,9 @@ namespace ouzel::utf8
     std::u32string toUtf32(Iterator begin, Iterator end)
     {
         std::u32string result;
-
-        for (auto i = begin; i != end; ++i)
+        for (auto i = begin; i != end;)
         {
-            char32_t cp = static_cast<char32_t>(*i) & 0xFF;
+            char32_t cp = *i++ & 0xFF;
 
             if (cp <= 0x7F) // length = 1
             {
@@ -29,30 +28,30 @@ namespace ouzel::utf8
             }
             else if ((cp >> 5) == 0x6) // length = 2
             {
-                if (++i == end)
-                    throw ParseError{"Invalid UTF-8 string"};
-                cp = ((cp << 6) & 0x7FF) + (static_cast<char32_t>(*i) & 0x3F);
+                if (i == end)
+                    throw ParseError("Invalid UTF-8 string");
+                cp = ((cp << 6) & 0x7FF) + (*i++ & 0x3F);
             }
             else if ((cp >> 4) == 0xE) // length = 3
             {
-                if (++i == end)
-                    throw ParseError{"Invalid UTF-8 string"};
-                cp = ((cp << 12) & 0xFFFF) + (((static_cast<char32_t>(*i) & 0xFF) << 6) & 0x0FFF);
-                if (++i == end)
-                    throw ParseError{"Invalid UTF-8 string"};
-                cp += static_cast<char32_t>(*i) & 0x3F;
+                if (i == end)
+                    throw ParseError("Invalid UTF-8 string");
+                cp = ((cp << 12) & 0xFFFF) + (((*i++ & 0xFF) << 6) & 0x0FFF);
+                if (i == end)
+                    throw ParseError("Invalid UTF-8 string");
+                cp += *i++ & 0x3F;
             }
             else if ((cp >> 3) == 0x1E) // length = 4
             {
-                if (++i == end)
-                    throw ParseError{"Invalid UTF-8 string"};
-                cp = ((cp << 18) & 0x1FFFFF) + (((static_cast<char32_t>(*i) & 0xFF) << 12) & 0x3FFFF);
-                if (++i == end)
-                    throw ParseError{"Invalid UTF-8 string"};
-                cp += ((static_cast<char32_t>(*i) & 0xFF) << 6) & 0x0FFF;
-                if (++i == end)
-                    throw ParseError{"Invalid UTF-8 string"};
-                cp += static_cast<char32_t>(*i) & 0x3F;
+                if (i == end)
+                    throw ParseError("Invalid UTF-8 string");
+                cp = ((cp << 18) & 0x1FFFFF) + (((*i++ & 0xFF) << 12) & 0x3FFFF);
+                if (i == end)
+                    throw ParseError("Invalid UTF-8 string");
+                cp += ((*i++ & 0xFF) << 6) & 0x0FFF;
+                if (i == end)
+                    throw ParseError("Invalid UTF-8 string");
+                cp += *i++ & 0x3F;
             }
 
             result.push_back(cp);
