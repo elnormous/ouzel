@@ -412,8 +412,8 @@ namespace ouzel::graphics
                     std::vector<float>& decodedData)
         {
             const std::uint32_t channelCount = getChannelCount(pixelFormat);
-            const std::uint32_t pitch = size.width() * channelCount;
-            decodedData.resize(size.width() * size.height() * channelCount);
+            const std::uint32_t pitch = size.v[0] * channelCount;
+            decodedData.resize(size.v[0] * size.v[1] * channelCount);
             const std::uint8_t* src = encodedData.data();
             auto* dst = decodedData.data();
 
@@ -421,10 +421,10 @@ namespace ouzel::graphics
             {
                 case PixelFormat::rgba8UnsignedNorm:
                 case PixelFormat::rgba8UnsignedNormSRGB:
-                    for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    for (std::uint32_t y = 0; y < size.v[1]; ++y, src += pitch)
                     {
                         const std::uint8_t* pixel = src;
-                        for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
+                        for (std::uint32_t x = 0; x < size.v[0]; ++x, pixel += 4, dst += 4)
                         {
                             dst[0] = gammaDecode(pixel[0]); // red
                             dst[1] = gammaDecode(pixel[1]); // green
@@ -435,10 +435,10 @@ namespace ouzel::graphics
                     break;
 
                 case PixelFormat::rg8UnsignedNorm:
-                    for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    for (std::uint32_t y = 0; y < size.v[1]; ++y, src += pitch)
                     {
                         const std::uint8_t* pixel = src;
-                        for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
+                        for (std::uint32_t x = 0; x < size.v[0]; ++x, pixel += 2, dst += 2)
                         {
                             dst[0] = gammaDecode(pixel[0]); // red
                             dst[1] = gammaDecode(pixel[1]); // green
@@ -447,10 +447,10 @@ namespace ouzel::graphics
                     break;
 
                 case PixelFormat::r8UnsignedNorm:
-                    for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    for (std::uint32_t y = 0; y < size.v[1]; ++y, src += pitch)
                     {
                         const std::uint8_t* pixel = src;
-                        for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 1)
+                        for (std::uint32_t x = 0; x < size.v[0]; ++x, pixel += 4, dst += 1)
                         {
                             dst[0] = gammaDecode(pixel[0]); // red
                         }
@@ -458,10 +458,10 @@ namespace ouzel::graphics
                     break;
 
                 case PixelFormat::a8UnsignedNorm:
-                    for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    for (std::uint32_t y = 0; y < size.v[1]; ++y, src += pitch)
                     {
                         const std::uint8_t* pixel = src;
-                        for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                        for (std::uint32_t x = 0; x < size.v[0]; ++x, pixel += 1, dst += 1)
                         {
                             dst[0] = pixel[0] / 255.0F; // alpha
                         }
@@ -479,8 +479,8 @@ namespace ouzel::graphics
                     std::vector<std::uint8_t>& encodedData)
         {
             const std::uint32_t pixelSize = getPixelSize(pixelFormat);
-            const std::uint32_t pitch = size.width() * pixelSize;
-            encodedData.resize(size.width() * size.height() * pixelSize);
+            const std::uint32_t pitch = size.v[0] * pixelSize;
+            encodedData.resize(size.v[0] * size.v[1] * pixelSize);
             const auto* src = decodedData.data();
             auto* dst = encodedData.data();
 
@@ -488,10 +488,10 @@ namespace ouzel::graphics
             {
                 case PixelFormat::rgba8UnsignedNorm:
                 case PixelFormat::rgba8UnsignedNormSRGB:
-                    for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    for (std::uint32_t y = 0; y < size.v[1]; ++y, src += pitch)
                     {
                         const auto* pixel = src;
-                        for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 4, dst += 4)
+                        for (std::uint32_t x = 0; x < size.v[0]; ++x, pixel += 4, dst += 4)
                         {
                             dst[0] = gammaEncode(pixel[0]); // red
                             dst[1] = gammaEncode(pixel[1]); // green
@@ -502,10 +502,10 @@ namespace ouzel::graphics
                     break;
 
                 case PixelFormat::rg8UnsignedNorm:
-                    for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    for (std::uint32_t y = 0; y < size.v[1]; ++y, src += pitch)
                     {
                         const auto* pixel = src;
-                        for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 2, dst += 2)
+                        for (std::uint32_t x = 0; x < size.v[0]; ++x, pixel += 2, dst += 2)
                         {
                             dst[0] = gammaEncode(pixel[0]); // red
                             dst[1] = gammaEncode(pixel[1]); // green
@@ -514,10 +514,10 @@ namespace ouzel::graphics
                     break;
 
                 case PixelFormat::r8UnsignedNorm:
-                    for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    for (std::uint32_t y = 0; y < size.v[1]; ++y, src += pitch)
                     {
                         const auto* pixel = src;
-                        for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                        for (std::uint32_t x = 0; x < size.v[0]; ++x, pixel += 1, dst += 1)
                         {
                             dst[0] = gammaEncode(pixel[0]); // red
                         }
@@ -525,10 +525,10 @@ namespace ouzel::graphics
                     break;
 
                 case PixelFormat::a8UnsignedNorm:
-                    for (std::uint32_t y = 0; y < size.height(); ++y, src += pitch)
+                    for (std::uint32_t y = 0; y < size.v[1]; ++y, src += pitch)
                     {
                         const auto* pixel = src;
-                        for (std::uint32_t x = 0; x < size.width(); ++x, pixel += 1, dst += 1)
+                        for (std::uint32_t x = 0; x < size.v[0]; ++x, pixel += 1, dst += 1)
                         {
                             dst[0] = static_cast<std::uint8_t>(std::round(pixel[0] * 255.0F)); // alpha
                         }
@@ -623,7 +623,6 @@ namespace ouzel::graphics
                 levels.emplace_back(newSize, encodedData);
 
                 previousData = newData;
-
                 previousSize = newSize;
             }
 
