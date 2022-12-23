@@ -39,15 +39,15 @@ namespace ouzel
         return result;
     }
 
-    template <typename T, std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
-    void encodeBigEndian(std::uint8_t* buffer, const T value) noexcept
+    template <typename T>
+    std::enable_if_t<std::is_unsigned_v<T>> encodeBigEndian(std::uint8_t* buffer, const T value) noexcept
     {
         for (std::size_t i = 0; i < sizeof(T); ++i)
             buffer[i] = static_cast<std::uint8_t>(value >> ((sizeof(T) - i - 1) * 8));
     }
 
-    template <typename T, std::enable_if_t<std::is_unsigned_v<T>>* = nullptr>
-    void encodeLittleEndian(std::uint8_t* buffer, const T value) noexcept
+    template <typename T>
+    std::enable_if_t<std::is_unsigned_v<T>> encodeLittleEndian(std::uint8_t* buffer, const T value) noexcept
     {
         for (std::size_t i = 0; i < sizeof(T); ++i)
             buffer[i] = static_cast<std::uint8_t>(value >> (i * 8));
