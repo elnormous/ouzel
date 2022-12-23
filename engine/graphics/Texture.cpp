@@ -44,13 +44,13 @@ namespace ouzel::graphics
             0.9406006932F, 0.9489649534F, 0.957369566F, 0.9658146501F, 0.9743002057F, 0.9828262329F, 0.9913928509F, 1.0F
         };
 
-        void downsample2x2A8(std::uint32_t width, std::uint32_t height,
+        void downsample2x2A8(const math::Size<std::uint32_t, 2>& size,
                              const std::vector<float>& original,
                              std::vector<float>& resized)
         {
-            const std::uint32_t dstWidth = width >> 1;
-            const std::uint32_t dstHeight = height >> 1;
-            const std::uint32_t pitch = width * 1;
+            const std::uint32_t dstWidth = size.v[0] >> 1;
+            const std::uint32_t dstHeight = size.v[1] >> 1;
+            const std::uint32_t pitch = size.v[0] * 1;
             resized.resize(dstWidth * dstHeight * 1);
             const auto* src = original.data();
             auto* dst = resized.data();
@@ -95,15 +95,15 @@ namespace ouzel::graphics
             }
         }
 
-        void downsample2x2R8(std::uint32_t width, std::uint32_t height,
+        void downsample2x2R8(const math::Size<std::uint32_t, 2>& size,
                              const std::vector<float>& original,
                              std::vector<float>& resized)
         {
-            std::vector<float> normalized(width * height * 1);
+            std::vector<float> normalized(size.v[0] * size.v[1] * 1);
 
-            const std::uint32_t dstWidth = width >> 1;
-            const std::uint32_t dstHeight = height >> 1;
-            const std::uint32_t pitch = width * 1;
+            const std::uint32_t dstWidth = size.v[0] >> 1;
+            const std::uint32_t dstHeight = size.v[1] >> 1;
+            const std::uint32_t pitch = size.v[0] * 1;
             resized.resize(dstWidth * dstHeight * 1);
             const auto* src = original.data();
             auto* dst = resized.data();
@@ -148,15 +148,15 @@ namespace ouzel::graphics
             }
         }
 
-        void downsample2x2Rg8(std::uint32_t width, std::uint32_t height,
+        void downsample2x2Rg8(const math::Size<std::uint32_t, 2>& size,
                               const std::vector<float>& original,
                               std::vector<float>& resized)
         {
-            std::vector<float> normalized(width * height * 2);
+            std::vector<float> normalized(size.v[0] * size.v[1] * 2);
 
-            const std::uint32_t dstWidth = width >> 1;
-            const std::uint32_t dstHeight = height >> 1;
-            const std::uint32_t pitch = width * 2;
+            const std::uint32_t dstWidth = size.v[0] >> 1;
+            const std::uint32_t dstHeight = size.v[1] >> 1;
+            const std::uint32_t pitch = size.v[0] * 2;
             resized.resize(dstWidth * dstHeight * 2);
             const auto* src = original.data();
             auto* dst = resized.data();
@@ -226,13 +226,13 @@ namespace ouzel::graphics
             }
         }
 
-        void downsample2x2Rgba8(std::uint32_t width, std::uint32_t height,
+        void downsample2x2Rgba8(const math::Size<std::uint32_t, 2>& size,
                                 const std::vector<float>& original,
                                 std::vector<float>& resized)
         {
-            const std::uint32_t dstWidth = width >> 1;
-            const std::uint32_t dstHeight = height >> 1;
-            const std::uint32_t pitch = width * 4;
+            const std::uint32_t dstWidth = size.v[0] >> 1;
+            const std::uint32_t dstHeight = size.v[1] >> 1;
+            const std::uint32_t pitch = size.v[0] * 4;
             resized.resize(dstWidth * dstHeight * 4);
             const auto* src = original.data();
             auto* dst = resized.data();
@@ -546,26 +546,24 @@ namespace ouzel::graphics
         {
             std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
 
-            std::uint32_t newWidth = size.v[0];
-            std::uint32_t newHeight = size.v[1];
+            auto newSize = size;
 
             const std::uint32_t pixelSize = getPixelSize(pixelFormat);
-            std::uint32_t bufferSize = newWidth * newHeight * pixelSize;
+            std::uint32_t bufferSize = newSize.v[0] * newSize.v[1] * pixelSize;
             levels.emplace_back(size, std::vector<std::uint8_t>(bufferSize));
 
-            while ((newWidth > 1 || newHeight > 1) &&
+            while ((newSize.v[0] > 1 || newSize.v[1] > 1) &&
                 (mipmaps == 0 || levels.size() < mipmaps))
             {
-                newWidth >>= 1;
-                newHeight >>= 1;
+                newSize.v[0] >>= 1;
+                newSize.v[1] >>= 1;
 
-                if (newWidth < 1) newWidth = 1;
-                if (newHeight < 1) newHeight = 1;
+                if (newSize.v[0] < 1) newSize.v[0] = 1;
+                if (newSize.v[1] < 1) newSize.v[1] = 1;
 
-                const math::Size<std::uint32_t, 2> mipMapSize{newWidth, newHeight};
-                bufferSize = newWidth * newHeight * pixelSize;
+                bufferSize = newSize.v[0] * newSize.v[1] * pixelSize;
 
-                levels.emplace_back(mipMapSize, std::vector<std::uint8_t>(bufferSize));
+                levels.emplace_back(newSize, std::vector<std::uint8_t>(bufferSize));
             }
 
             return levels;
@@ -578,13 +576,10 @@ namespace ouzel::graphics
         {
             std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
 
-            std::uint32_t newWidth = size.v[0];
-            std::uint32_t newHeight = size.v[1];
-
             levels.emplace_back(size, data);
 
-            std::uint32_t previousWidth = newWidth;
-            std::uint32_t previousHeight = newHeight;
+            auto newSize = size;
+            auto previousSize = size;
             std::vector<float> previousData;
 
             decode(size, data, pixelFormat, previousData);
@@ -592,47 +587,44 @@ namespace ouzel::graphics
             std::vector<float> newData;
             std::vector<std::uint8_t> encodedData;
 
-            while ((newWidth > 1 || newHeight > 1) &&
+            while ((newSize.v[0] > 1 || newSize.v[1] > 1) &&
                 (mipmaps == 0 || levels.size() < mipmaps))
             {
-                newWidth >>= 1;
-                newHeight >>= 1;
+                newSize.v[0] >>= 1;
+                newSize.v[1] >>= 1;
 
-                if (newWidth < 1) newWidth = 1;
-                if (newHeight < 1) newHeight = 1;
-
-                const math::Size<std::uint32_t, 2> mipMapSize{newWidth, newHeight};
+                if (newSize.v[0] < 1) newSize.v[0] = 1;
+                if (newSize.v[1] < 1) newSize.v[1] = 1;
 
                 switch (pixelFormat)
                 {
                     case PixelFormat::rgba8UnsignedNorm:
                     case PixelFormat::rgba8UnsignedNormSRGB:
-                        downsample2x2Rgba8(previousWidth, previousHeight, previousData, newData);
+                        downsample2x2Rgba8(previousSize, previousData, newData);
                         break;
 
                     case PixelFormat::rg8UnsignedNorm:
-                        downsample2x2Rg8(previousWidth, previousHeight, previousData, newData);
+                        downsample2x2Rg8(previousSize, previousData, newData);
                         break;
 
                     case PixelFormat::r8UnsignedNorm:
-                        downsample2x2R8(previousWidth, previousHeight, previousData, newData);
+                        downsample2x2R8(previousSize, previousData, newData);
                         break;
 
                     case PixelFormat::a8UnsignedNorm:
-                        downsample2x2A8(previousWidth, previousHeight, previousData, newData);
+                        downsample2x2A8(previousSize, previousData, newData);
                         break;
 
                     default:
                         throw Error{"Invalid pixel format"};
                 }
 
-                encode(mipMapSize, newData, pixelFormat, encodedData);
-                levels.emplace_back(mipMapSize, encodedData);
+                encode(newSize, newData, pixelFormat, encodedData);
+                levels.emplace_back(newSize, encodedData);
 
                 previousData = newData;
 
-                previousWidth = newWidth;
-                previousHeight = newHeight;
+                previousSize = newSize;
             }
 
             return levels;
