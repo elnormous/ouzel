@@ -45,7 +45,8 @@ namespace ouzel::graphics
         };
 
         void downsample2x2A8(std::uint32_t width, std::uint32_t height,
-                             const std::vector<float>& original, std::vector<float>& resized)
+                             const std::vector<float>& original,
+                             std::vector<float>& resized)
         {
             const std::uint32_t dstWidth = width >> 1;
             const std::uint32_t dstHeight = height >> 1;
@@ -95,7 +96,8 @@ namespace ouzel::graphics
         }
 
         void downsample2x2R8(std::uint32_t width, std::uint32_t height,
-                             const std::vector<float>& original, std::vector<float>& resized)
+                             const std::vector<float>& original,
+                             std::vector<float>& resized)
         {
             std::vector<float> normalized(width * height * 1);
 
@@ -147,7 +149,8 @@ namespace ouzel::graphics
         }
 
         void downsample2x2Rg8(std::uint32_t width, std::uint32_t height,
-                              const std::vector<float>& original, std::vector<float>& resized)
+                              const std::vector<float>& original,
+                              std::vector<float>& resized)
         {
             std::vector<float> normalized(width * height * 2);
 
@@ -224,7 +227,8 @@ namespace ouzel::graphics
         }
 
         void downsample2x2Rgba8(std::uint32_t width, std::uint32_t height,
-                                const std::vector<float>& original, std::vector<float>& resized)
+                                const std::vector<float>& original,
+                                std::vector<float>& resized)
         {
             const std::uint32_t dstWidth = width >> 1;
             const std::uint32_t dstHeight = height >> 1;
@@ -404,7 +408,7 @@ namespace ouzel::graphics
 
         void decode(const math::Size<std::uint32_t, 2>& size,
                     const std::vector<std::uint8_t>& encodedData,
-                    PixelFormat pixelFormat,
+                    const PixelFormat pixelFormat,
                     std::vector<float>& decodedData)
         {
             const std::uint32_t channelCount = getChannelCount(pixelFormat);
@@ -471,7 +475,7 @@ namespace ouzel::graphics
 
         void encode(const math::Size<std::uint32_t, 2>& size,
                     const std::vector<float>& decodedData,
-                    PixelFormat pixelFormat,
+                    const PixelFormat pixelFormat,
                     std::vector<std::uint8_t>& encodedData)
         {
             const std::uint32_t pixelSize = getPixelSize(pixelFormat);
@@ -537,8 +541,8 @@ namespace ouzel::graphics
         }
 
         std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> calculateSizes(const math::Size<std::uint32_t, 2>& size,
-                                                                                                       std::uint32_t mipmaps,
-                                                                                                       PixelFormat pixelFormat)
+                                                                                                       const std::uint32_t mipmaps,
+                                                                                                       const PixelFormat pixelFormat)
         {
             std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
 
@@ -569,8 +573,8 @@ namespace ouzel::graphics
 
         std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> calculateSizes(const math::Size<std::uint32_t, 2>& size,
                                                                                                        const std::vector<std::uint8_t>& data,
-                                                                                                       std::uint32_t mipmaps,
-                                                                                                       PixelFormat pixelFormat)
+                                                                                                       const std::uint32_t mipmaps,
+                                                                                                       const PixelFormat pixelFormat)
         {
             std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>> levels;
 
@@ -660,10 +664,10 @@ namespace ouzel::graphics
 
     Texture::Texture(Graphics& initGraphics,
                      const math::Size<std::uint32_t, 2>& initSize,
-                     Flags initFlags,
-                     std::uint32_t initMipmaps,
-                     std::uint32_t initSampleCount,
-                     PixelFormat initPixelFormat):
+                     const Flags initFlags,
+                     const std::uint32_t initMipmaps,
+                     const std::uint32_t initSampleCount,
+                     const PixelFormat initPixelFormat):
         graphics{&initGraphics},
         resource{*initGraphics.getDevice()},
         size{initSize},
@@ -696,9 +700,9 @@ namespace ouzel::graphics
     Texture::Texture(Graphics& initGraphics,
                      const std::vector<std::uint8_t>& initData,
                      const math::Size<std::uint32_t, 2>& initSize,
-                     Flags initFlags,
-                     std::uint32_t initMipmaps,
-                     PixelFormat initPixelFormat):
+                     const Flags initFlags,
+                     const std::uint32_t initMipmaps,
+                     const PixelFormat initPixelFormat):
         graphics{&initGraphics},
         resource{*initGraphics.getDevice()},
         size{initSize},
@@ -731,8 +735,8 @@ namespace ouzel::graphics
     Texture::Texture(Graphics& initGraphics,
                      const std::vector<std::pair<math::Size<std::uint32_t, 2>, std::vector<std::uint8_t>>>& initLevels,
                      const math::Size<std::uint32_t, 2>& initSize,
-                     Flags initFlags,
-                     PixelFormat initPixelFormat):
+                     const Flags initFlags,
+                     const PixelFormat initPixelFormat):
         graphics{&initGraphics},
         resource{*initGraphics.getDevice()},
         size{initSize},
