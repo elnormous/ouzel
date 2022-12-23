@@ -319,7 +319,7 @@ namespace ouzel::math
             }
     }
 
-    template <typename T, std::size_t size, std::enable_if<(size <= 4)>* = nullptr>
+    template <typename T, std::size_t size, std::enable_if_t<(size <= 4)>* = nullptr>
     [[nodiscard]] constexpr auto determinant(const Matrix<T, size, size>& matrix) noexcept
     {
         if constexpr (size == 0)
