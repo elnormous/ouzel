@@ -396,12 +396,12 @@ namespace ouzel::graphics
             }
         }
 
-        float gammaDecode(std::uint8_t value) noexcept
+        [[nodiscard]] float gammaDecode(std::uint8_t value) noexcept
         {
             return gammaLookup[value]; // std::pow(value / 255.0F, gamma);
         }
 
-        std::uint8_t gammaEncode(float value) noexcept
+        [[nodiscard]] std::uint8_t gammaEncode(float value) noexcept
         {
             return static_cast<std::uint8_t>(std::round(std::pow(value, 1.0F / gamma) * 255.0F));
         }
