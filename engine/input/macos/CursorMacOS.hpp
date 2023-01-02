@@ -7,7 +7,7 @@
 #include <vector>
 
 #ifdef __OBJC__
-#  import <AppKit/AppKit.h>
+#  import <AppKit/NSCursor.h>
 using NSCursorPtr = NSCursor*;
 #else
 #  include <objc/objc.h>
