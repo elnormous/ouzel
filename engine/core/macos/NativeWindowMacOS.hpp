@@ -3,7 +3,6 @@
 #ifndef OUZEL_CORE_NATIVEWINDOWMACOS_HPP
 #define OUZEL_CORE_NATIVEWINDOWMACOS_HPP
 
-#include <CoreGraphics/CGGeometry.h>
 #include <CoreGraphics/CoreGraphics.h>
 
 #ifdef __OBJC__
