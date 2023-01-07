@@ -66,6 +66,11 @@ namespace ouzel::platform::dispatch
             return data;
         }
 
+        auto getSize() const noexcept
+        {
+            return dispatch_data_get_size(data);
+        }
+
     private:
         dispatch_data_t data = nullptr;
     };
