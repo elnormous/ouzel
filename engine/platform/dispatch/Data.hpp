@@ -61,12 +61,12 @@ namespace ouzel::platform::dispatch
             return data;
         }
 
-        auto get() const noexcept
+        [[nodiscard]] auto get() const noexcept
         {
             return data;
         }
 
-        auto getSize() const noexcept
+        [[nodiscard]] auto getSize() const noexcept
         {
             return dispatch_data_get_size(data);
         }

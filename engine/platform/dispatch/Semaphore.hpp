@@ -56,6 +56,11 @@ namespace ouzel::platform::dispatch
             return semaphore;
         }
 
+        [[nodiscard]] auto get() const noexcept
+        {
+            return semaphore;
+        }
+
         void wait(const dispatch_time_t timeout) noexcept
         {
             if (semaphore) dispatch_semaphore_wait(semaphore, timeout);
