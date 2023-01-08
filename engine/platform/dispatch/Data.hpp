@@ -3,7 +3,6 @@
 #ifndef OUZEL_PLATFORM_DISPATCH_DATA_HPP
 #define OUZEL_PLATFORM_DISPATCH_DATA_HPP
 
-#include <stdexcept>
 #include <dispatch/dispatch.h>
 
 namespace ouzel::platform::dispatch
@@ -17,8 +16,6 @@ namespace ouzel::platform::dispatch
                       const dispatch_block_t destructor):
             data{dispatch_data_create(buffer, size, queue, destructor)}
         {
-            if (!data)
-                throw std::runtime_error{"Failed to create dispatch data"};
         }
 
         ~Data()
