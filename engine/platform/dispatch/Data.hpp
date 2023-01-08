@@ -4,7 +4,7 @@
 #define OUZEL_PLATFORM_DISPATCH_DATA_HPP
 
 #include <stdexcept>
-#include <dispatch/data.h>
+#include <dispatch/dispatch.h>
 
 namespace ouzel::platform::dispatch
 {
