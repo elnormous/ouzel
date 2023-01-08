@@ -3,7 +3,6 @@
 #ifndef OUZEL_PLATFORM_DISPATCH_SEMAPHORE_HPP
 #define OUZEL_PLATFORM_DISPATCH_SEMAPHORE_HPP
 
-#include <stdexcept>
 #include <dispatch/dispatch.h>
 
 namespace ouzel::platform::dispatch
