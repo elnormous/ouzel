@@ -4,28 +4,28 @@
 
 using namespace metal;
 
-typedef struct
+struct Uniforms
 {
     float4x4 modelViewProj;
-} uniforms_t;
+};
 
-typedef struct
+struct VSInput
 {
     float3 position [[attribute(0)]];
     half4 color [[attribute(1)]];
     float2 texCoord [[attribute(2)]];
-} VSInput;
+};
 
-typedef struct
+struct VS2PS
 {
     float4 position [[position]];
     half4 color;
     float2 texCoord;
-} VS2PS;
+};
 
 // Vertex shader function
 vertex VS2PS mainVS(VSInput input [[stage_in]],
-                    constant uniforms_t& uniforms [[buffer(1)]])
+                    constant Uniforms& uniforms [[buffer(1)]])
 {
     VS2PS output;
     output.position = uniforms.modelViewProj * float4(input.position, 1.0);
