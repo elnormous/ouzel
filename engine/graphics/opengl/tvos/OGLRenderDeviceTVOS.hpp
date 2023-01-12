@@ -17,7 +17,7 @@
 #include "../../../platform/quartzcore/DisplayLink.hpp"
 
 #ifdef __OBJC__
-#  import <UIKit/UIKit.h>
+#  import <OpenGLES/EAGL.h>
 using EAGLSharegroupPtr = EAGLSharegroup*;
 using EAGLContextPtr = EAGLContext*;
 using CAEAGLLayerPtr = CAEAGLLayer*;
