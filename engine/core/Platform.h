@@ -17,7 +17,6 @@
 
 #elif defined(__APPLE__) // macOS, iOS, tvOS
 #  include <TargetConditionals.h>
-#  define OUZEL_SUPPORTS_OPENGL 1
 #  define OUZEL_SUPPORTS_OPENAL 1
 #  define OUZEL_SUPPORTS_COREAUDIO 1
 
@@ -25,16 +24,21 @@
 #    error "Apple Watch is not supported"
 #  elif TARGET_OS_IOS // iOS
 #    define OUZEL_PLATFORM_IOS 1
+#    if !TARGET_OS_MACCATALYST
+#      define OUZEL_SUPPORTS_OPENGL 1
+#    endif
 #    if !TARGET_OS_SIMULATOR
 #      define OUZEL_SUPPORTS_METAL 1
 #    endif
 #  elif TARGET_OS_TV // tvOS
 #    define OUZEL_PLATFORM_TVOS 1
+#    define OUZEL_SUPPORTS_OPENGL 1
 #    if !TARGET_OS_SIMULATOR
 #      define OUZEL_SUPPORTS_METAL 1
 #    endif
 #  elif TARGET_OS_MAC // any other Apple OS (check this last because it is defined for all Apple platforms)
 #    define OUZEL_PLATFORM_MACOS 1
+#    define OUZEL_SUPPORTS_OPENGL 1
 #    if !TARGET_OS_SIMULATOR
 #      define OUZEL_SUPPORTS_METAL 1
 #    endif
