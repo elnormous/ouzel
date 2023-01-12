@@ -4,6 +4,7 @@
 
 #if OUZEL_COMPILE_OPENGL
 
+#import <OpenGLES/EAGL.h>
 #include "OpenGLView.h"
 
 @implementation OpenGLView
