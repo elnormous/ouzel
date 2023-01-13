@@ -113,11 +113,11 @@ namespace ouzel::core::macos
         displayId = [[[screen deviceDescription] objectForKey:@"NSScreenNumber"] unsignedIntValue];
 
         CGSize windowSize = CGSizeMake(size.v[0], size.v[1]);
-        if (windowSize.width <= 0.0F) windowSize.width = std::round(screen.frame.size.width * 0.8);
-        if (windowSize.height <= 0.0F) windowSize.height = std::round(screen.frame.size.height * 0.8);
+        if (windowSize.width <= 0.0) windowSize.width = std::round(screen.frame.size.width * 0.8);
+        if (windowSize.height <= 0.0) windowSize.height = std::round(screen.frame.size.height * 0.8);
 
-        const NSRect frame = NSMakeRect(std::round(screen.frame.size.width / 2.0F - windowSize.width / 2.0F),
-                                        std::round(screen.frame.size.height / 2.0F - windowSize.height / 2.0F),
+        const NSRect frame = NSMakeRect(std::round(screen.frame.size.width / 2.0 - windowSize.width / 2.0),
+                                        std::round(screen.frame.size.height / 2.0 - windowSize.height / 2.0),
                                         windowSize.width, windowSize.height);
 
         window = [[NSWindow alloc] initWithContentRect:frame

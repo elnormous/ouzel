@@ -147,10 +147,10 @@ namespace ouzel::graphics::metal
             throw Error{"Failed to create Metal render pass descriptor"};
 
         renderPassDescriptor.get().colorAttachments[0].loadAction = MTLLoadActionClear;
-        renderPassDescriptor.get().colorAttachments[0].clearColor = MTLClearColorMake(0.0F, 0.0F, 0.0F, 0.0F);
+        renderPassDescriptor.get().colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
         renderPassDescriptor.get().colorAttachments[0].storeAction = MTLStoreActionStore;
         renderPassDescriptor.get().depthAttachment.loadAction = MTLLoadActionClear;
-        renderPassDescriptor.get().depthAttachment.clearDepth = 1.0F;
+        renderPassDescriptor.get().depthAttachment.clearDepth = 1.0;
         renderPassDescriptor.get().depthAttachment.storeAction = MTLStoreActionStore;
         renderPassDescriptor.get().stencilAttachment.loadAction = MTLLoadActionClear;
         renderPassDescriptor.get().stencilAttachment.clearStencil = 0;
@@ -438,8 +438,8 @@ namespace ouzel::graphics::metal
                         viewport.originY = static_cast<double>(setViewportCommand->viewport.position.v[1]);
                         viewport.width = static_cast<double>(setViewportCommand->viewport.size.v[0]);
                         viewport.height = static_cast<double>(setViewportCommand->viewport.size.v[1]);
-                        viewport.znear = 0.0f;
-                        viewport.zfar = 1.0f;
+                        viewport.znear = 0.0;
+                        viewport.zfar = 1.0;
 
                         [currentRenderCommandEncoder setViewport:viewport];
 

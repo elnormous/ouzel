@@ -62,7 +62,8 @@ namespace ouzel::input::macos
 
             [image addRepresentation:imageRep];
             cursor = [[NSCursor alloc] initWithImage:image
-                                             hotSpot:NSMakePoint(hotSpot.v[0], static_cast<float>(size.v[1]) - hotSpot.v[1] - 1.0F)];
+                                             hotSpot:NSMakePoint(static_cast<double>(hotSpot.v[0]),
+                                                                 static_cast<double>(size.v[1]) - static_cast<double>(hotSpot.v[1]) - 1.0)];
         }
     }
 
