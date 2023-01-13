@@ -179,6 +179,9 @@ namespace ouzel::graphics::metal
 
         if (sampleCount > 1)
         {
+            if (![device.get() supportsTextureSampleCount:sampleCount])
+                throw Error{"Chosen sample count is not supported"};
+
             if (!msaaTexture ||
                 frameBufferWidth != msaaTexture.get().width ||
                 frameBufferHeight != msaaTexture.get().height)
