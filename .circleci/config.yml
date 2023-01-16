@@ -24,7 +24,7 @@ jobs:
             export PATH=$HOME/.sonar/build-wrapper-linux-x86:$PATH
             build-wrapper-linux-x86-64 --out-dir bw-output make -j2 -C samples/
       - sonarcloud/scan
-        cache_version: 1
+        cache_version: 2
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.1
