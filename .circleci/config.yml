@@ -23,7 +23,7 @@ jobs:
           command: |
             export PATH=$HOME/.sonar/build-wrapper-linux-x86:$PATH
             build-wrapper-linux-x86-64 --out-dir bw-output make -j$(nproc) -C samples/
-      - sonarcloud/scan -X
+      - sonarcloud/scan
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.3
