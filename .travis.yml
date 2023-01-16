@@ -26,7 +26,7 @@ matrix:
         - export CXX=g++-7
       script:
         - build-wrapper-linux-x86-64 --out-dir bw-output make -j2 -C samples/
-        - sonar-scanner -D sonar.projectKey=Ouzel -D sonar.projectName="Ouzel Linux" -D sonar.cfamily.threads=2 || true
+        - sonar-scanner -D sonar.projectKey=Ouzel -D sonar.projectName="Ouzel Linux" || true
     - name: macOS
       compiler: clang
       os: osx
@@ -44,7 +44,7 @@ matrix:
         - export CXX=clang++
       script:
         - build-wrapper-macosx-x86 --out-dir bw-output make -j2 -C samples/
-        - sonar-scanner -D sonar.projectKey=OuzelMacOS -D sonar.projectName="Ouzel macOS" -D sonar.cfamily.threads=2 || true
+        - sonar-scanner -D sonar.projectKey=OuzelMacOS -D sonar.projectName="Ouzel macOS" || true
     - name: iOS
       compiler: clang
       os: osx
@@ -62,7 +62,7 @@ matrix:
         - export CXX=clang++
       script:
         - build-wrapper-macosx-x86 --out-dir bw-output make PLATFORM=ios -j2 -C samples/
-        - sonar-scanner -D sonar.projectKey=OuzelIOS -D sonar.projectName="Ouzel iOS" -D sonar.cfamily.threads=2 || true
+        - sonar-scanner -D sonar.projectKey=OuzelIOS -D sonar.projectName="Ouzel iOS" || true
     - name: tvOS
       compiler: clang
       os: osx
@@ -80,7 +80,7 @@ matrix:
         - export CXX=clang++
       script:
         - build-wrapper-macosx-x86 --out-dir bw-output make PLATFORM=tvos -j2 -C samples/
-        - sonar-scanner -D sonar.projectKey=OuzelTVOS -D sonar.projectName="Ouzel tvOS" -D sonar.cfamily.threads=2 || true
+        - sonar-scanner -D sonar.projectKey=OuzelTVOS -D sonar.projectName="Ouzel tvOS" || true
     - name: Android
       language: android
       android:
