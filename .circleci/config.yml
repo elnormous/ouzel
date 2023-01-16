@@ -22,7 +22,7 @@ jobs:
           name: Build and run
           command: |
             export PATH=$HOME/.sonar/build-wrapper-linux-x86:$PATH
-            build-wrapper-linux-x86-64 --out-dir bw-output make -j$(nproc) -C samples/
+            build-wrapper-linux-x86-64 --out-dir bw-output make -j4 -C samples/
       - sonarcloud/scan
 
 orbs:
