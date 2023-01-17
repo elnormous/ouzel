@@ -68,16 +68,14 @@ namespace ouzel::platform::corevideo
 
         void start()
         {
-            if (displayLink)
-                if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
-                    throw std::system_error{result, errorCategory, "Failed to start display link"};
+            if (const auto result = CVDisplayLinkStart(displayLink); result != kCVReturnSuccess)
+                throw std::system_error{result, errorCategory, "Failed to start display link"};
         }
 
         void stop()
         {
-            if (displayLink)
-                if (const auto result = CVDisplayLinkStop(displayLink); result != kCVReturnSuccess)
-                    throw std::system_error{result, errorCategory, "Failed to stop display link"};
+            if (const auto result = CVDisplayLinkStop(displayLink); result != kCVReturnSuccess)
+                throw std::system_error{result, errorCategory, "Failed to stop display link"};
         }
 
         bool isRunning() const noexcept
