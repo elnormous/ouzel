@@ -453,7 +453,7 @@ namespace ouzel::json
 
                         iterator = skipWhiteSpaces(iterator, end);
 
-                        const auto [value, valueIterator] = parseValue(iterator, end);
+                        auto [value, valueIterator] = parseValue(iterator, end);
                         iterator = valueIterator;
                         result[key] = std::move(value);
                     }
