@@ -18,8 +18,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
         };
 
         ouzel::core::windows::System system{argc, argv.get()};
-        system.run();
-        return EXIT_SUCCESS;
+        return system.run();
     }
     catch (const std::exception& e)
     {
@@ -59,8 +58,8 @@ namespace ouzel::core::windows
     {
     }
 
-    void System::run()
+    int System::run()
     {
-        engine.run();
+        return engine.run();
     }
 }

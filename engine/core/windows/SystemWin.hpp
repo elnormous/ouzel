@@ -14,7 +14,7 @@ namespace ouzel::core::windows
         System(int argc, LPWSTR* argv);
         ~System() override = default;
 
-        void run();
+        int run();
 
     private:
         Engine engine;

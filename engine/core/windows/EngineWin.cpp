@@ -50,7 +50,7 @@ namespace ouzel::core::windows
     {
     }
 
-    void Engine::run()
+    int Engine::run()
     {
         start();
 
@@ -70,7 +70,7 @@ namespace ouzel::core::windows
                     if (message.message == WM_QUIT)
                     {
                         exit();
-                        break;
+                        return static_cast<int>((message.wParam));
                     }
                 }
             }
@@ -82,7 +82,7 @@ namespace ouzel::core::windows
                 else if (ret == 0)
                 {
                     exit();
-                    break;
+                    return static_cast<int>((message.wParam));
                 }
                 else
                     translateMessage(nativeWindow.getNativeWindow(),
@@ -94,6 +94,8 @@ namespace ouzel::core::windows
         }
 
         exit();
+
+        return EXIT_SUCCESS;
     }
 
     void Engine::runOnMainThread(const std::function<void()>& func)

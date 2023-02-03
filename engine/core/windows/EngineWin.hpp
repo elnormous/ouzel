@@ -27,7 +27,7 @@ namespace ouzel::core::windows
     public:
         Engine(const std::vector<std::string>& args);
 
-        void run();
+        int run();
 
         void openUrl(const std::string& url) final;
 
