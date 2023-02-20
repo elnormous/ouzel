@@ -65,7 +65,7 @@ namespace ouzel::graphics::d3d11
             return p;
         }
 
-        explicit operator bool() const noexcept
+        [[nodiscard]] explicit operator bool() const noexcept
         {
             return p != nullptr;
         }

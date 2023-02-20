@@ -53,7 +53,7 @@ namespace ouzel::platform::dispatch
             return *this;
         }
 
-        operator dispatch_data_t() const noexcept
+        [[nodiscard]] operator dispatch_data_t() const noexcept
         {
             return data;
         }

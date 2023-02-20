@@ -88,7 +88,7 @@ namespace ouzel::thread
         ChannelIterator(const ChannelContainer<Type>& c, std::unique_ptr<Type> p) noexcept:
             container{c}, ptr{std::move(p)} {}
 
-        operator bool() const noexcept { return ptr != nullptr; }
+        [[nodiscard]] operator bool() const noexcept { return ptr != nullptr; }
 
         bool operator==(const ChannelIterator& other) const noexcept { return ptr == other.ptr; }
         bool operator!=(const ChannelIterator& other) const noexcept { return ptr != other.ptr; }

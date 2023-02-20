@@ -113,7 +113,7 @@ namespace ouzel::storage
         FileTime() noexcept = default;
         FileTime(const Type& t) noexcept: time{t} {}
 
-        operator Type() const noexcept { return time; }
+        [[nodiscard]] operator Type() const noexcept { return time; }
 
         [[nodiscard]] operator std::chrono::system_clock::time_point() const noexcept
         {

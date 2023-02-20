@@ -50,7 +50,7 @@ namespace ouzel::platform::dispatch
             return *this;
         }
 
-        operator dispatch_semaphore_t() const noexcept
+        [[nodiscard]] operator dispatch_semaphore_t() const noexcept
         {
             return semaphore;
         }
