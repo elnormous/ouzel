@@ -139,13 +139,13 @@ namespace ouzel::core
         network::Network network;
         WorkerPool workerPool;
 
+#ifndef __EMSCRIPTEN__
+        thread::Thread updateThread;
+#endif
     private:
         void handleEvents(std::queue<std::unique_ptr<Event>> windowEvents);
         std::vector<std::string> args;
 
-#ifndef __EMSCRIPTEN__
-        thread::Thread updateThread;
-#endif
         std::chrono::steady_clock::time_point previousUpdateTime;
 
         std::atomic_bool active{false};

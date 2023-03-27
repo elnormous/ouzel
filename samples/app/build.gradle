@@ -2,17 +2,17 @@ import org.apache.tools.ant.taskdefs.condition.Os
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "org.ouzel.samples"
-        minSdkVersion 14
-        targetSdkVersion 17
+        minSdkVersion 19
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
         ndk {
-            abiFilters 'armeabi-v7a', 'x86'
+            abiFilters "arm64-v8a"
         }
 
         externalNativeBuild {
@@ -26,7 +26,7 @@ android {
             debuggable false
             jniDebuggable false
             renderscriptDebuggable false
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             externalNativeBuild {
@@ -40,6 +40,7 @@ android {
             debuggable true
             jniDebuggable true
             renderscriptDebuggable true
+            minifyEnabled false
             externalNativeBuild {
                 ndkBuild {
                     arguments 'NDK_DEBUG=1'
@@ -55,6 +56,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'junit:junit:4.12'
 }

@@ -24,7 +24,7 @@ namespace ouzel::core
             (flags & Flags::highDpi) == Flags::highDpi
         },
 #elif defined(__ANDROID__)
-        nativeWindow{newTitle)},
+        nativeWindow{newTitle},
 #elif defined(__linux__)
         nativeWindow{
             newSize,

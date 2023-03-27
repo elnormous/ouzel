@@ -164,14 +164,11 @@ namespace ouzel::core::android
         {
             window.getNativeWindow().handleSurfaceChange(surface);
 
-            if (graphics)
+            graphics::RenderDevice* renderDevice = graphics.getDevice();
+            if (renderDevice->getDriver() == graphics::Driver::openGl)
             {
-                graphics::RenderDevice* renderDevice = graphics.getDevice();
-                if (renderDevice->getDriver() == graphics::Driver::openGl)
-                {
-                    const auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
-                    renderDeviceOGLAndroid->reload();
-                }
+                const auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
+                renderDeviceOGLAndroid->reload();
             }
         }
     }
@@ -232,14 +229,11 @@ namespace ouzel::core::android
         {
             window.getNativeWindow().handleSurfaceDestroy();
 
-            if (graphics)
+            graphics::RenderDevice* renderDevice = graphics.getDevice();
+            if (renderDevice->getDriver() == graphics::Driver::openGl)
             {
-                graphics::RenderDevice* renderDevice = graphics.getDevice();
-                if (renderDevice->getDriver() == graphics::Driver::openGl)
-                {
-                    const auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
-                    renderDeviceOGLAndroid->destroy();
-                }
+                const auto renderDeviceOGLAndroid = static_cast<graphics::opengl::android::RenderDevice*>(renderDevice);
+                renderDeviceOGLAndroid->destroy();
             }
         }
     }
