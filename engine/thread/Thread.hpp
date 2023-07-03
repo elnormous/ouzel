@@ -61,9 +61,9 @@ namespace ouzel::thread
             if (t.joinable()) t.join();
         }
 
-        auto isJoinable() const noexcept { return t.joinable(); }
-        auto getId() const noexcept { return t.get_id(); }
-        auto getNativeHandle() { return t.native_handle(); }
+        [[nodiscard]] auto isJoinable() const noexcept { return t.joinable(); }
+        [[nodiscard]] auto getId() const noexcept { return t.get_id(); }
+        [[nodiscard]] auto getNativeHandle() { return t.native_handle(); }
 
         void join()
         {
