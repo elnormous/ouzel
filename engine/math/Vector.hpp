@@ -290,6 +290,8 @@ namespace ouzel::math
         if (const auto l = length(vector); l > T(0))
             for (std::size_t i = 0; i < dims; ++i)
                 result.v[i] = vector.v[i] / l;
+        else
+            result = {};
         return result;
     }
 

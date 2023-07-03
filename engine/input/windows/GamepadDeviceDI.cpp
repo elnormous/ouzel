@@ -34,10 +34,10 @@ namespace ouzel::input::windows
         const std::int32_t vendorId = LOWORD(instance->guidProduct.Data1);
         const std::int32_t productId = HIWORD(instance->guidProduct.Data1);
 
-        if (const auto bufferSize = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr); bufferSize != 0)
+        if (const auto byteCount = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr); byteCount != 0)
         {
-            auto buffer = std::make_unique<char[]>(bufferSize);
-            if (WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, buffer.get(), bufferSize, nullptr, nullptr) != 0)
+            auto buffer = std::make_unique<char[]>(byteCount);
+            if (WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, buffer.get(), byteCount, nullptr, nullptr) != 0)
                 name = buffer.get();
         }
 
