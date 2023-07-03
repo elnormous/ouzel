@@ -97,7 +97,7 @@ int main(int argc, const char* argv[])
                 throw std::runtime_error{"No action selected"};
             case Action::generateProject:
             {
-                ouzel::Project project{projectPath};
+                const ouzel::Project project{projectPath};
 
                 for (const auto projectType : projectTypes)
                     switch (projectType)
@@ -116,7 +116,7 @@ int main(int argc, const char* argv[])
             }
             case Action::exportAssets:
             {
-                ouzel::Project project{projectPath};
+                const ouzel::Project project{projectPath};
                 project.exportAssets(targetName);
                 break;
             }

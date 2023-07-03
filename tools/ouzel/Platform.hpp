@@ -29,7 +29,7 @@ namespace ouzel
             case Platform::iOs: return "iOS";
             case Platform::tvOs: return "tvOS";
             case Platform::android: return "Android";
-            case Platform::emscripten: return "Emscriptem";
+            case Platform::emscripten: return "Emscripten";
         }
 
         throw std::runtime_error{"Unknown platform"};
