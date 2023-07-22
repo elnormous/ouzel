@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <vector>
 #include "../Gamepad.hpp"
+#include "../../core/Platform.h"
 
 namespace ouzel::input
 {
