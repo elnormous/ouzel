@@ -43,9 +43,9 @@ endif()
 if(MSVC)
       set(CMAKE_CXX_FLAGS "/EHc")
       set(CMAKE_OBJCXX_FLAGS "/EHc")
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-      set(CMAKE_CXX_FLAGS "-fcxx-exceptions")
-      set(CMAKE_OBJCXX_FLAGS "-fcxx-exceptions")
+else()
+      set(CMAKE_CXX_FLAGS "-fexceptions")
+      set(CMAKE_OBJCXX_FLAGS "-fexceptions")
 endif()
 
 set(EXTERNAL_LIB_INCLUDE_DIRS
