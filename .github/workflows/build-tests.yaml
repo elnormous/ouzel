@@ -50,7 +50,7 @@ jobs:
                     run: cd build && ninja
 
       windows: 
-            name: ${{matrix.os}}
+            name: ${{matrix.os}}-${{matrix.compiler}}
             runs-on: ${{matrix.os}}
             strategy:
                   matrix:
