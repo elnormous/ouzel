@@ -10,20 +10,35 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_OBJCXX_STANDARD 17)
 
 set(CMAKE_C_FLAGS
-      "-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual"
+      "-Wall"
 )
 
 set(CMAKE_CXX_FLAGS
-      "-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual -Wold-style-cast"
+      "-Wall"
 )
 
 set(CMAKE_OBJC_FLAGS
-      "-fno-objc-arc -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual"
+      "-Wall"
 )
 
 set(CMAKE_OBJCXX_FLAGS
-      "-fno-objc-arc -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual -Wold-style-cas"
+      "-Wall"
 )
+
+if(NOT MSVC)
+      set(CMAKE_C_FLAGS
+            "-Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual"
+      )
+      set(CMAKE_CXX_FLAGS
+            "-Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual -Wold-style-cast"
+      )
+      set(CMAKE_OBJC_FLAGS
+            "-fno-objc-arc -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual"
+      )
+      set(CMAKE_OBJCXX_FLAGS
+            "-fno-objc-arc -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual -Wold-style-cas"
+      )
+endif()
 
 set(EXTERNAL_LIB_INCLUDE_DIRS
       ${CMAKE_CURRENT_LIST_DIR}/external/khronos
