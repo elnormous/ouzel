@@ -122,7 +122,7 @@ namespace ouzel::graphics::opengl::windows
                 }
 
                 if (windowClass)
-                    UnregisterClassW(MAKEINTATOM(windowClass), GetModuleHandleW(nullptr));
+                    UnregisterClassW(reinterpret_cast<LPCWSTR>(MAKEINTATOM(windowClass)), GetModuleHandleW(nullptr));
             }
 
             TempContext(const TempContext&) = delete;
