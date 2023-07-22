@@ -1,0 +1,37 @@
+add_executable(ouzel-build
+      ouzel/main.cpp
+      ouzel/Asset.hpp
+      ouzel/Platform.hpp
+      ouzel/Project.hpp
+      ouzel/Target.hpp
+      ouzel/makefile/BuildSystem.hpp
+      ouzel/visualstudio/BuildSystem.hpp
+      ouzel/visualstudio/Solution.hpp
+      ouzel/visualstudio/VcxProject.hpp
+      ouzel/visualstudio/VcxProjectFilters.hpp
+      ouzel/xcode/BuildSystem.hpp
+      ouzel/xcode/PBXBuildFile.hpp
+      ouzel/xcode/PBXBuildPhase.hpp
+      ouzel/xcode/PBXContainerItemProxy.hpp
+      ouzel/xcode/PBXFileElement.hpp
+      ouzel/xcode/PBXFileReference.hpp
+      ouzel/xcode/PBXFileType.hpp
+      ouzel/xcode/PBXFrameworksBuildPhase.hpp
+      ouzel/xcode/PBXGroup.hpp
+      ouzel/xcode/PBXLegacyTarget.hpp
+      ouzel/xcode/PBXNativeTarget.hpp
+      ouzel/xcode/PBXObject.hpp
+      ouzel/xcode/PBXProject.hpp
+      ouzel/xcode/PBXReferenceProxy.hpp
+      ouzel/xcode/PBXResourcesBuildPhase.hpp
+      ouzel/xcode/PBXShellScriptBuildPhase.hpp
+      ouzel/xcode/PBXSourceTree.hpp
+      ouzel/xcode/PBXSourcesBuildPhase.hpp
+      ouzel/xcode/PBXTarget.hpp
+      ouzel/xcode/PBXTargetDependency.hpp
+      ouzel/xcode/XCBuildConfiguration.hpp
+      ouzel/xcode/XCConfigurationList.hpp
+      ouzel/xcode/XcodeProject.hpp
+)
+
+target_link_libraries(ouzel-build PRIVATE ouzel)
