@@ -14,9 +14,14 @@ jobs:
 
                   - name: Install dependencies
                     run: | 
-                        sudo apt update
+                        sudo apt-get update
                         sudo apt-get install -y libgl1-mesa-dev libgles2-mesa-dev libopenal-dev libasound2-dev libxi-dev libxcursor-dev libxrandr-dev libxss-dev
                         sudo apt-get install cmake ninja-build
+
+                  - name: Setup c++ compiler
+                    run: |
+                        export CC=$(command -v gcc)
+                        export C++=$(command -v g++)
 
                   - name: Generate ninja files
                     run: cmake . -Bbuild -GNinja
