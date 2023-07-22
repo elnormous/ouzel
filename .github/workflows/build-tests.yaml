@@ -55,22 +55,26 @@ jobs:
                               - os: windows-2019
                                 compiler: cl
                                 generator: Visual Studio 16 2019 
+                                toolchain: 
                               - os: windows-latest
                                 compiler: cl
                                 generator: Visual Studio 17 2022
+                                toolchain:
                               - os: windows-2019
                                 compiler: clang
-                                generator: Visual Studio 16 2019 -T ClangCL
+                                generator: Visual Studio 16 2019
+                                toolchain: ClangCL
                               - os: windows-latest
                                 compiler: clang
-                                generator: Visual Studio 17 2022 -T ClangCL
+                                generator: Visual Studio 17 2022 
+                                toolchain: ClangCL
 
             steps:
                   - name: Checkoout ouzel
                     uses: actions/checkout@v2
 
                   - name: Build
-                    run: cmake . -Bbuild -G ${{matrix.generator}}
+                    run: cmake . -Bbuild -G "${{matrix.generator}}" -T ${{matrix.toolchain}}
 
                   - name: Build
                     run: cd build && cmake --build
