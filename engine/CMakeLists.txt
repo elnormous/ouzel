@@ -114,7 +114,7 @@ if(WIN32)
             input/windows/MouseDeviceWin.cpp 
             input/windows/CursorWin.cpp
       )
-      target_compile_definitions(ouzel PRIVATE -DWINVER=0x0601 -D_WIN32_WINNT=0x0601)
+      target_compile_definitions(ouzel PRIVATE -DWINVER=0x0601 -D_WIN32_WINNT=0x0602)
 elseif(UNIX AND NOT APPLE) # linux
       target_sources(ouzel PRIVATE
             audio/alsa/ALSAAudioDevice.cpp 
