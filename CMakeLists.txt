@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ouzel LANGUAGES C CXX OBJC OBJCXX)
+if (APPLE)
+      project(ouzel LANGUAGES C CXX OBJC OBJCXX)
+else()
+      project(ouzel LANGUAGES C CXX)
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_OBJCXX_STANDARD 17)
