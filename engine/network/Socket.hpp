@@ -41,7 +41,9 @@ namespace ouzel::network
         }
 
 #ifdef _WIN32
-        constexpr auto closeSocket = closesocket;
+        inline int closeSocket(SOCKET s) {
+            return ::closesocket(s);
+        }
 #else
         constexpr auto closeSocket = ::close;
 #endif
