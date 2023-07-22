@@ -18,11 +18,6 @@ jobs:
                         sudo apt-get install -y libgl1-mesa-dev libgles2-mesa-dev libopenal-dev libasound2-dev libxi-dev libxcursor-dev libxrandr-dev libxss-dev
                         sudo apt-get install cmake ninja-build
 
-                  - name: Setup c++ compiler
-                    run: |
-                        export CC=$(command -v clang)
-                        export CXX=$(command -v clang++)
-
                   - name: Generate ninja files
                     run: cmake . -Bbuild -GNinja
 
