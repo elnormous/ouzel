@@ -57,7 +57,7 @@ jobs:
                     uses: actions/checkout@v2
 
                   - name: Install ninja
-                    uses: choco install ninja
+                    run: choco install ninja
 
                   - name: Generate ninja files
                     run: cmake . -Bbuild -GNinja
