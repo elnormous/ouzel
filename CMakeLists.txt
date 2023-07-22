@@ -41,8 +41,8 @@ if(NOT MSVC)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-      set(CMAKE_CXX_FLAGS "-fc++-exceptions")
-      set(CMAKE_OBJCXX_FLAGS "-fc++-exceptions")
+      set(CMAKE_CXX_FLAGS "-fcxx-exceptions")
+      set(CMAKE_OBJCXX_FLAGS "-fcxx-exceptions")
 endif()
 
 set(EXTERNAL_LIB_INCLUDE_DIRS
