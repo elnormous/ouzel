@@ -50,7 +50,7 @@ namespace ouzel::graphics::opengl::windows
                 if (!windowClass)
                     throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to register window class"};
 
-                window = CreateWindowW(MAKEINTATOM(windowClass), L"TempWindow", 0,
+                window = CreateWindowW(reinterpret_cast<LPCWSTR>(MAKEINTATOM(windowClass)), L"TempWindow", 0,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
                                        CW_USEDEFAULT, CW_USEDEFAULT,
                                        0, 0, instance, 0);

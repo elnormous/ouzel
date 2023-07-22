@@ -513,7 +513,8 @@ namespace ouzel::core::windows
         if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.get(), buferSize) == 0)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
-        window = CreateWindowExW(WS_EX_APPWINDOW, MAKEINTATOM(windowClass), titleBuffer.get(), windowStyle,
+        window = CreateWindowExW(WS_EX_APPWINDOW, reinterpret_cast<LPCWSTR>(MAKEINTATOM(windowClass)), 
+                                titleBuffer.get(), windowStyle,
                                  x, y, width, height, nullptr, nullptr, instance, nullptr);
 
         if (!window)
@@ -549,7 +550,7 @@ namespace ouzel::core::windows
             DestroyWindow(window);
 
         if (windowClass)
-            UnregisterClassW(MAKEINTATOM(windowClass), GetModuleHandleW(nullptr));
+            UnregisterClassW(reinterpret_cast<LPCWSTR>(MAKEINTATOM(windowClass)), GetModuleHandleW(nullptr));
     }
 
     void NativeWindow::executeCommand(const Command& command)
