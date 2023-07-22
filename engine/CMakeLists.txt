@@ -82,7 +82,11 @@ add_library(ouzel
       utils/Log.cpp
 )
 
-target_precompile_headers(ouzel PUBLIC Prefix.pch)
+if(WIN32)
+      target_precompile_headers(ouzel PUBLIC stdafx.pch)
+else()
+      target_precompile_headers(ouzel PUBLIC Prefix.pch)
+endif()
 target_include_directories(ouzel PUBLIC
       ${EXTERNAL_LIB_INCLUDE_DIRS}
       ${SHADER_DIRS}
