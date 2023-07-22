@@ -83,7 +83,7 @@ add_library(ouzel
 )
 
 if(WIN32)
-      target_precompile_headers(ouzel PUBLIC stdafx.pch)
+      target_precompile_headers(ouzel PUBLIC stdafx.h)
 else()
       target_precompile_headers(ouzel PUBLIC Prefix.pch)
 endif()
