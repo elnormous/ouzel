@@ -40,6 +40,11 @@ if(NOT MSVC)
       )
 endif()
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+      set(CMAKE_CXX_FLAGS "-fc++-exceptions")
+      set(CMAKE_OBJCXX_FLAGS "-fc++-exceptions")
+endif()
+
 set(EXTERNAL_LIB_INCLUDE_DIRS
       ${CMAKE_CURRENT_LIST_DIR}/external/khronos
       ${CMAKE_CURRENT_LIST_DIR}/external/smbPitchShift
