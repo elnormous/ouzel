@@ -115,6 +115,27 @@ if(WIN32)
             input/windows/CursorWin.cpp
       )
       target_compile_definitions(ouzel PRIVATE -DWINVER=0x0601 -D_WIN32_WINNT=0x0602)
+      target_link_libraries(ouzel PRIVATE 
+            kernel32.lib
+            user32.lib
+            gdi32.lib
+            winspool.lib
+            shell32.lib
+            ole32.lib
+            oleaut32.lib
+            uuid.lib
+            comdlg32.lib
+            advapi32.lib
+            winmm.lib
+            imm32.lib
+            version.lib
+            ws2_32.lib
+            dbghelp.lib
+            d3d11.lib
+            d3dcompiler.lib
+            dxgi.lib
+            dxguid.lib
+      )
 elseif(UNIX AND NOT APPLE) # linux
       target_sources(ouzel PRIVATE
             audio/alsa/ALSAAudioDevice.cpp 
