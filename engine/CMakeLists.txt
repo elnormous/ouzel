@@ -96,6 +96,8 @@ target_include_directories(ouzel PUBLIC
 if(WIN32)
       target_sources(ouzel
             PRIVATE
+            audio/xaudio2/XA2AudioDevice.cpp
+            audio/xaudio2/XAudio27.cpp
             core/windows/EngineWin.cpp 
             core/windows/NativeWindowWin.cpp 
             core/windows/SystemWin.cpp 
@@ -103,6 +105,7 @@ if(WIN32)
             graphics/direct3d11/D3D11Buffer.cpp 
             graphics/direct3d11/D3D11DepthStencilState.cpp 
             graphics/direct3d11/D3D11RenderDevice.cpp 
+            graphics/direct3d11/D3D11RenderTarget.cpp 
             graphics/direct3d11/D3D11Shader.cpp 
             graphics/direct3d11/D3D11Texture.cpp 
             graphics/opengl/windows/OGLRenderDeviceWin.cpp 
@@ -135,6 +138,9 @@ if(WIN32)
             d3dcompiler.lib
             dxgi.lib
             dxguid.lib
+            opengl32.lib
+            Xinput.lib
+            Xinput9_1_0.lib
       )
 elseif(UNIX AND NOT APPLE) # linux
       target_sources(ouzel PRIVATE

@@ -8,6 +8,7 @@
 #ifndef NOMINMAX
 #  define NOMINMAX
 #endif
+#include <InitGuid.h>
 #include <array>
 #include <Windows.h>
 #include <WbemIdl.h>
