@@ -1,0 +1,67 @@
+
+run-name: ouzel build test
+on: [push]
+jobs:
+      linux:
+            name: ${{matrix.os}}
+            runs-on: ${{matrix.os}}
+            strategy:
+                  matrix:
+                        os: [ubuntu-20.04, ubuntu-latest]
+            steps:
+                  - name: Checkoout ouzel
+                    uses: actions/checkout@v2
+
+                  - name: Install dependencies
+                    run: | 
+                        apt update
+                        apt-get install -y libgl1-mesa-dev libgles2-mesa-dev libopenal-dev libasound2-dev libxi-dev libxcursor-dev libxrandr-dev libxss-dev
+                        apt-get install cmake ninja
+
+                  - name: Generate ninja files
+                    run: cmake . -Bbuild -GNinja
+
+                  - name: Build
+                    run: cd build && ninja
+                  
+      mac:
+            name: ${{matrix.os}}
+            runs-on: ${{matrix.os}}
+            strategy:
+                  matrix:
+                        os: [macos-11, macos-latest]
+            
+            steps:
+                  - name: Checkoout ouzel
+                    uses: actions/checkout@v2
+
+                  - name: Install ninja
+                    run: brew install ninja
+
+                  - name: Generate ninja files
+                    run: cmake . -Bbuild -GNinja
+
+                  - name: Build
+                    run: cd build && ninja
+
+      windows: 
+            name: ${{matrix.os}}
+            runs-on: ${{matrix.os}}
+            strategy:
+                  matrix:
+                        os: [windows-2019, windows-latest]
+                        compiler: [cl, clang]
+
+            steps:
+                  - name: Checkoout ouzel
+                    uses: actions/checkout@v2
+
+                  - name: Install ninja
+                    uses: choco install ninja
+
+                  - name: Generate ninja files
+                    run: cmake . -Bbuild -GNinja
+
+                  - name: Build
+                    run: cd build && ninja
+            
