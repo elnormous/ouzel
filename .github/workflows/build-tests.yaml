@@ -20,8 +20,8 @@ jobs:
 
                   - name: Setup c++ compiler
                     run: |
-                        export CC=$(command -v gcc)
-                        export CXX=$(command -v g++)
+                        export CC=$(command -v clang)
+                        export CXX=$(command -v clang++)
 
                   - name: Generate ninja files
                     run: cmake . -Bbuild -GNinja
