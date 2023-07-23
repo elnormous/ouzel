@@ -71,7 +71,7 @@ if(WIN32)
             uuid 
             ws2_32 
       )
-      target_link_options(samples PRIVATE "-entry:WinMain")
+      target_link_options(samples PRIVATE "-subsystem:WINDOWS")
 elseif(UNIX AND NOT APPLE)
       if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm") # arm linux
             target_link_directories(samples PRIVATE /opt/vc/lib)
