@@ -98,6 +98,7 @@ if(WIN32)
             PRIVATE
             audio/xaudio2/XA2AudioDevice.cpp
             audio/xaudio2/XAudio27.cpp
+            audio/wasapi/WASAPIAudioDevice.cpp
             core/windows/EngineWin.cpp 
             core/windows/NativeWindowWin.cpp 
             core/windows/SystemWin.cpp 
@@ -119,28 +120,28 @@ if(WIN32)
       )
       target_compile_definitions(ouzel PRIVATE -DWINVER=0x0601 -D_WIN32_WINNT=0x0602)
       target_link_libraries(ouzel PRIVATE 
-            kernel32.lib
-            user32.lib
-            gdi32.lib
-            winspool.lib
-            shell32.lib
-            ole32.lib
-            oleaut32.lib
-            uuid.lib
-            comdlg32.lib
-            advapi32.lib
-            winmm.lib
-            imm32.lib
-            version.lib
-            ws2_32.lib
-            dbghelp.lib
-            d3d11.lib
-            d3dcompiler.lib
-            dxgi.lib
-            dxguid.lib
-            opengl32.lib
-            Xinput.lib
-            Xinput9_1_0.lib
+            kernel32
+            user32
+            gdi32
+            winspool
+            shell32
+            ole32
+            oleaut32
+            uuid
+            comdlg32
+            advapi32
+            winmm
+            imm32
+            version
+            ws2_32
+            dbghelp
+            d3d11
+            d3dcompiler
+            dxgi
+            dxguid
+            opengl32
+            Xinput
+            Xinput9_1_0
       )
 elseif(UNIX AND NOT APPLE) # linux
       target_sources(ouzel PRIVATE
