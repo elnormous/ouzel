@@ -31,10 +31,10 @@ namespace ouzel::audio::xaudio2
         {
             switch (condition)
             {
-                case ErrorCode::ErrorInvalidCall return "XAUDIO2_E_INVALID_CALL";
-                case ErrorCode::ErrorXmaDeviceError return "XAUDIO2_E_XMA_DECODER_ERROR";
-                case ErrorCode::ErrorXapoCreationFailed return "XAUDIO2_E_XAPO_CREATION_FAILED";
-                case ErrorCode::ErrorDeviceInvalidated return "XAUDIO2_E_DEVICE_INVALIDATED";
+                case ErrorCode::ErrorInvalidCall: return "XAUDIO2_E_INVALID_CALL";
+                case ErrorCode::ErrorXmaDeviceError: return "XAUDIO2_E_XMA_DECODER_ERROR";
+                case ErrorCode::ErrorXapoCreationFailed: return "XAUDIO2_E_XAPO_CREATION_FAILED";
+                case ErrorCode::ErrorDeviceInvalidated: return "XAUDIO2_E_DEVICE_INVALIDATED";
                 default: return "Unknown error (" + std::to_string(condition) + ")";
             }
         }
