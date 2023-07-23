@@ -40,7 +40,7 @@ namespace ouzel::audio::xaudio2
         }
     };
 
-    inline ErrorCode toErrorCode(HRESULT hr) {
+    inline constexpr ErrorCode toErrorCode(HRESULT hr) {
         switch (hr) {
             case XAUDIO2_E_INVALID_CALL:
                 return ErrorCode::ErrorInvalidCall;

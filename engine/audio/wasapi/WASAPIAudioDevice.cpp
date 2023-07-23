@@ -127,17 +127,17 @@ namespace ouzel::audio::wasapi
     {
         LPVOID enumeratorPointer;
         if (const auto hr = CoCreateInstance(CLSID_MMDeviceEnumerator, nullptr, CLSCTX_ALL, IID_IMMDeviceEnumerator, &enumeratorPointer); FAILED(hr))
-            throw std::system_error{hr, std::system_category(), "Failed to create device enumerator"};
+            throw std::system_error{toErrorCode(hr), std::system_category(), "Failed to create device enumerator"};
 
         enumerator = static_cast<IMMDeviceEnumerator*>(enumeratorPointer);
 
         IMMDevice* devicePointer;
         if (const auto hr = enumerator->GetDefaultAudioEndpoint(eRender, eConsole, &devicePointer); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get audio endpoint"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get audio endpoint"};
 
         IPropertyStore* propertyStorePointer;
         if (const auto hr = devicePointer->OpenPropertyStore(STGM_READ, &propertyStorePointer); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to open property store"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to open property store"};
 
         Pointer<IPropertyStore> propertyStore = propertyStorePointer;
 
@@ -159,18 +159,18 @@ namespace ouzel::audio::wasapi
         notificationClient = new NotificationClient();
 
         if (const auto hr = enumerator->RegisterEndpointNotificationCallback(notificationClient.get()); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get audio endpoint"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get audio endpoint"};
 
         void* audioClientPointer;
         if (const auto hr = device->Activate(IID_IAudioClient, CLSCTX_ALL, nullptr, &audioClientPointer); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to activate audio device"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to activate audio device"};
 
         audioClient = static_cast<IAudioClient*>(audioClientPointer);
 
         WAVEFORMATEX* audioClientWaveFormat;
 
         if (const auto hr = audioClient->GetMixFormat(&audioClientWaveFormat); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get audio mix format"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get audio mix format"};
 
         WAVEFORMATEX waveFormat;
         waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
@@ -228,7 +228,7 @@ namespace ouzel::audio::wasapi
 
         // init output device
         if (const auto hr = audioClient->GetBufferSize(&bufferFrameCount); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get audio buffer size"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get audio buffer size"};
         bufferSize = bufferFrameCount * channels;
 
         void* renderClientPointer;
@@ -242,7 +242,7 @@ namespace ouzel::audio::wasapi
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to create event"};
 
         if (const auto hr = audioClient->SetEventHandle(notifyEvent); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to set event handle"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to set event handle"};
     }
 
     AudioDevice::~AudioDevice()
@@ -260,7 +260,7 @@ namespace ouzel::audio::wasapi
     void AudioDevice::start()
     {
         if (const auto hr = audioClient->Start(); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to start audio"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to start audio"};
 
         started = true;
         running = true;
@@ -275,7 +275,7 @@ namespace ouzel::audio::wasapi
         if (started)
         {
             if (const auto hr = audioClient->Stop(); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to stop audio"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to stop audio"};
             
             started = false;
         }
@@ -295,21 +295,21 @@ namespace ouzel::audio::wasapi
 
                     UINT32 bufferPadding;
                     if (const auto hr = audioClient->GetCurrentPadding(&bufferPadding); FAILED(hr))
-                        throw std::system_error{hr, errorCategory, "Failed to get buffer padding"};
+                        throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get buffer padding"};
 
                     const UINT32 frameCount = bufferFrameCount - bufferPadding;
                     if (frameCount != 0)
                     {
                         BYTE* renderBuffer;
                         if (const auto hr = renderClient->GetBuffer(frameCount, &renderBuffer); FAILED(hr))
-                            throw std::system_error{hr, errorCategory, "Failed to get buffer"};
+                            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get buffer"};
 
                         getData(frameCount, data);
 
                         std::memcpy(renderBuffer, data.data(), data.size());
 
                         if (const auto hr = renderClient->ReleaseBuffer(frameCount, 0); FAILED(hr))
-                            throw std::system_error{hr, errorCategory, "Failed to release buffer"};
+                            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to release buffer"};
                     }
                 }
             }

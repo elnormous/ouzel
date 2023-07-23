@@ -53,7 +53,7 @@ namespace ouzel::input::windows
 
         void* directInputPointer;
         if (const auto result = DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8W, &directInputPointer, nullptr); FAILED(result))
-            throw std::system_error{result, errorCategory, "Failed to initialize DirectInput"};
+            throw std::system_error{toErrorCode(result), errorCategory, "Failed to initialize DirectInput"};
 
         directInput = static_cast<IDirectInput8W*>(directInputPointer);
 
@@ -69,7 +69,7 @@ namespace ouzel::input::windows
         }
 
         if (const auto result = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(result))
-            throw std::system_error{result, errorCategory, "Failed to enumerate devices"};
+            throw std::system_error{toErrorCode(result), errorCategory, "Failed to enumerate devices"};
     }
 
     InputSystem::~InputSystem()
@@ -222,7 +222,7 @@ namespace ouzel::input::windows
             }
 
             if (const auto result = directInput->EnumDevices(DI8DEVCLASS_GAMECTRL, enumDevicesCallback, this, DIEDFL_ATTACHEDONLY); FAILED(result))
-                throw std::system_error{result, errorCategory, "Failed to enumerate devices"};
+                throw std::system_error{toErrorCode(result), errorCategory, "Failed to enumerate devices"};
         }
     }
 
@@ -247,15 +247,15 @@ namespace ouzel::input::windows
             IWbemServices* wbemServices = nullptr;
             if (const auto result = wbemLocator->ConnectServer(namespaceStr.get(), nullptr, nullptr, 0L,
                                                                0L, nullptr, nullptr, &wbemServices); FAILED(result))
-                throw std::system_error{result, errorCategory, "Failed to create a connection to the WMI namespace"};
+                throw std::system_error{toErrorCode(result), errorCategory, "Failed to create a connection to the WMI namespace"};
 
             if (const auto result = CoSetProxyBlanket(wbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
                                                       RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE); FAILED(result))
-                throw std::system_error{result, errorCategory, "Failed to set authentication information"};
+                throw std::system_error{toErrorCode(result), errorCategory, "Failed to set authentication information"};
 
             IEnumWbemClassObject* enumDevices = nullptr;
             if (const auto result = wbemServices->CreateInstanceEnum(className.get(), 0, nullptr, &enumDevices); FAILED(result))
-                throw std::system_error{result, errorCategory, "Failed to create the device enumerator"};
+                throw std::system_error{toErrorCode(result), errorCategory, "Failed to create the device enumerator"};
 
             // Get 20 at a time
             ULONG deviceCount = 0;

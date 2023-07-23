@@ -97,7 +97,7 @@ namespace ouzel::graphics::d3d11
                                               &newDevice,
                                               &featureLevel,
                                               &newContext); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create the Direct3D 11 device"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create the Direct3D 11 device"};
 
         device = newDevice;
         context = newContext;
@@ -113,19 +113,19 @@ namespace ouzel::graphics::d3d11
 
         void* newAdapter;
         if (const auto hr = dxgiDevice->GetParent(IID_IDXGIAdapter, &newAdapter); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get the DXGI adapter"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get the DXGI adapter"};
 
         adapter = static_cast<IDXGIAdapter*>(newAdapter);
 
         void* factoryPtr;
         if (const auto hr = adapter->GetParent(IID_IDXGIFactory, &factoryPtr); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get the DXGI factory"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get the DXGI factory"};
 
         Pointer<IDXGIFactory> factory = static_cast<IDXGIFactory*>(factoryPtr);
 
         DXGI_ADAPTER_DESC adapterDesc;
         if (const auto hr = adapter->GetDesc(&adapterDesc); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get the DXGI adapter description"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get the DXGI adapter description"};
         else
         {
             if (const auto byteCount = WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, nullptr, 0, nullptr, nullptr); byteCount != 0)
@@ -146,7 +146,7 @@ namespace ouzel::graphics::d3d11
         for (supportedSampleCount = sampleCount; supportedSampleCount > 1; --supportedSampleCount)
         {
             if (const auto hr = device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, supportedSampleCount, &qualityLevels); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to check Direct3D 11 multisample quality levels"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to check Direct3D 11 multisample quality levels"};
             else if (qualityLevels)
                 break;
         }
@@ -179,7 +179,7 @@ namespace ouzel::graphics::d3d11
         IDXGISwapChain* newSwapCahin;
 
         if (const auto hr = factory->CreateSwapChain(device.get(), &swapChainDesc, &newSwapCahin); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create the Direct3D 11 swap chain"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create the Direct3D 11 swap chain"};
 
         swapChain = newSwapCahin;
 
@@ -188,13 +188,13 @@ namespace ouzel::graphics::d3d11
         // Backbuffer
         void* newBackBuffer;
         if (const auto hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, &newBackBuffer); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to retrieve Direct3D 11 backbuffer"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to retrieve Direct3D 11 backbuffer"};
 
         backBuffer = static_cast<ID3D11Texture2D*>(newBackBuffer);
 
         ID3D11RenderTargetView* newRenderTargetView;
         if (const auto hr = device->CreateRenderTargetView(backBuffer.get(), nullptr, &newRenderTargetView); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 render target view"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 render target view"};
 
         renderTargetView = newRenderTargetView;
 
@@ -223,7 +223,7 @@ namespace ouzel::graphics::d3d11
 
                     ID3D11RasterizerState* newRasterizerState;
                     if (const auto hr = device->CreateRasterizerState(&rasterStateDesc, &newRasterizerState); FAILED(hr))
-                        throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 rasterizer state"};
+                        throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 rasterizer state"};
 
                     rasterizerStates[rasterStateIndex] = newRasterizerState;
 
@@ -247,13 +247,13 @@ namespace ouzel::graphics::d3d11
 
             ID3D11Texture2D* newDepthStencilTexture;
             if (const auto hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &newDepthStencilTexture); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 depth stencil texture"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 depth stencil texture"};
 
             depthStencilTexture = newDepthStencilTexture;
 
             ID3D11DepthStencilView* newDepthStencilView;
             if (const auto hr = device->CreateDepthStencilView(depthStencilTexture.get(), nullptr, &newDepthStencilView); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 depth stencil view"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 depth stencil view"};
 
             depthStencilView = newDepthStencilView;
         }
@@ -276,7 +276,7 @@ namespace ouzel::graphics::d3d11
 
         ID3D11DepthStencilState* newDefaultDepthStencilState;
         if (const auto hr = device->CreateDepthStencilState(&depthStencilStateDesc, &newDefaultDepthStencilState); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 depth stencil state"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 depth stencil state"};
 
         defaultDepthStencilState = newDefaultDepthStencilState;
     }
@@ -295,7 +295,7 @@ namespace ouzel::graphics::d3d11
     {
         executeOnRenderThread([newFullscreen, this]() {
             if (const auto hr = swapChain->SetFullscreenState(newFullscreen ? TRUE : FALSE, nullptr); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to set fullscreen state"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to set fullscreen state"};
         });
     }
 
@@ -833,7 +833,7 @@ namespace ouzel::graphics::d3d11
         UINT numModes = 0U;
         DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
         if (const auto hr = output->GetDisplayModeList(format, 0, &numModes, nullptr); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get display mode list"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get display mode list"};
 
         if (numModes > 0U)
         {
@@ -864,7 +864,7 @@ namespace ouzel::graphics::d3d11
     {
         void* backBufferTexturePtr;
         if (const auto hr = backBuffer->QueryInterface(IID_ID3D11Texture2D, &backBufferTexturePtr); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to get Direct3D 11 back buffer texture"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to get Direct3D 11 back buffer texture"};
 
         Pointer<ID3D11Texture2D> backBufferTexture = static_cast<ID3D11Texture2D*>(backBufferTexturePtr);
 
@@ -886,7 +886,7 @@ namespace ouzel::graphics::d3d11
 
         ID3D11Texture2D* texturePtr;
         if (const auto hr = device->CreateTexture2D(&textureDesc, nullptr, &texturePtr); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 texture"};
+            throw std::system_error{toErrorCode(hr)hr, errorCategory, "Failed to create Direct3D 11 texture"};
 
         Pointer<ID3D11Texture2D> texture = texturePtr;
 
@@ -907,7 +907,7 @@ namespace ouzel::graphics::d3d11
 
             ID3D11Texture2D* resolveTexturePtr;
             if (const auto hr = device->CreateTexture2D(&resolveTextureDesc, nullptr, &resolveTexturePtr); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 texture"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 texture"};
 
             Pointer<ID3D11Texture2D> resolveTexture = resolveTexturePtr;
 
@@ -936,17 +936,17 @@ namespace ouzel::graphics::d3d11
             depthStencilView = nullptr;
             
             if (const auto hr = swapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to resize Direct3D 11 backbuffer"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to resize Direct3D 11 backbuffer"};
 
             void* newBackBuffer;
             if (const auto hr = swapChain->GetBuffer(0, IID_ID3D11Texture2D, &newBackBuffer); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to retrieve Direct3D 11 backbuffer"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to retrieve Direct3D 11 backbuffer"};
 
             backBuffer = static_cast<ID3D11Texture2D*>(newBackBuffer);
 
             ID3D11RenderTargetView* newRenderTargetView;
             if (const auto hr = device->CreateRenderTargetView(backBuffer.get(), nullptr, &newRenderTargetView); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 render target view"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 render target view"};
 
             renderTargetView = newRenderTargetView;
 
@@ -970,13 +970,13 @@ namespace ouzel::graphics::d3d11
 
                 ID3D11Texture2D* newDepthStencilTexture;
                 if (const auto hr = device->CreateTexture2D(&depthStencilDesc, nullptr, &newDepthStencilTexture); FAILED(hr))
-                    throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 depth stencil texture"};
+                    throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 depth stencil texture"};
 
                 depthStencilTexture = newDepthStencilTexture;
 
                 ID3D11DepthStencilView* newDepthStencilView;
                 if (const auto hr = device->CreateDepthStencilView(depthStencilTexture.get(), nullptr, &newDepthStencilView); FAILED(hr))
-                    throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 depth stencil view"};
+                    throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 depth stencil view"};
 
                 depthStencilView = newDepthStencilView;
             }
@@ -1041,7 +1041,7 @@ namespace ouzel::graphics::d3d11
 
             ID3D11SamplerState* samplerState;
             if (const auto hr = device->CreateSamplerState(&samplerStateDesc, &samplerState); FAILED(hr))
-                throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 sampler state"};
+                throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 sampler state"};
 
             samplerStates[desc] = samplerState;
 

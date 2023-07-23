@@ -115,13 +115,13 @@ namespace ouzel::graphics::d3d11
     {
         ID3D11PixelShader* newPixelShader;
         if (const auto hr = renderDevice.getDevice()->CreatePixelShader(fragmentShaderData.data(), fragmentShaderData.size(), nullptr, &newPixelShader); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create a Direct3D 11 pixel shader"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create a Direct3D 11 pixel shader"};
 
         fragmentShader = newPixelShader;
 
         ID3D11VertexShader* newVertexShader;
         if (const auto hr = renderDevice.getDevice()->CreateVertexShader(vertexShaderData.data(), vertexShaderData.size(), nullptr, &newVertexShader); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create a Direct3D 11 vertex shader"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create a Direct3D 11 vertex shader"};
 
         vertexShader = newVertexShader;
 
@@ -157,7 +157,7 @@ namespace ouzel::graphics::d3d11
                                                                         vertexShaderData.data(),
                                                                         vertexShaderData.size(),
                                                                         &newInputLayout); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 input layout for vertex shader"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 input layout for vertex shader"};
 
         inputLayout = newInputLayout;
 
@@ -186,7 +186,7 @@ namespace ouzel::graphics::d3d11
 
         if (const auto hr = renderDevice.getDevice()->CreateBuffer(&fragmentShaderConstantBufferDesc, nullptr,
                                                                     &newFragmentShaderConstantBuffer); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 constant buffer"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 constant buffer"};
 
         fragmentShaderConstantBuffer = newFragmentShaderConstantBuffer;
 
@@ -215,7 +215,7 @@ namespace ouzel::graphics::d3d11
 
         if (const auto hr = renderDevice.getDevice()->CreateBuffer(&vertexShaderConstantBufferDesc, nullptr,
                                                                     &newVertexShaderConstantBuffer); FAILED(hr))
-            throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 constant buffer"};
+            throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 constant buffer"};
 
         vertexShaderConstantBuffer = newVertexShaderConstantBuffer;
     }
