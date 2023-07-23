@@ -116,7 +116,7 @@ namespace ouzel::audio::wasapi
         }
     };
 
-    inline constexpr toErrorCode(HRESULT hr) {
+    inline constexpr ErrorCode toErrorCode(HRESULT hr) {
         switch (hr) {
             case REGDB_E_CLASSNOTREG:
                 return ErrorCode::ErrorClassNotReg;
