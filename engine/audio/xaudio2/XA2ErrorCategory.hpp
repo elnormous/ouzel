@@ -12,6 +12,13 @@
 
 namespace ouzel::audio::xaudio2
 {
+    enum ErrorCode {
+        ErrorInvalidCall,
+        ErrorXmaDeviceError,
+        ErrorXapoCreationFailed,
+        ErrorDeviceInvalidated
+    };
+
     class ErrorCategory final: public std::error_category
     {
     public:
@@ -24,14 +31,33 @@ namespace ouzel::audio::xaudio2
         {
             switch (condition)
             {
-                case XAUDIO2_E_INVALID_CALL: return "XAUDIO2_E_INVALID_CALL";
-                case XAUDIO2_E_XMA_DECODER_ERROR: return "XAUDIO2_E_XMA_DECODER_ERROR";
-                case XAUDIO2_E_XAPO_CREATION_FAILED: return "XAUDIO2_E_XAPO_CREATION_FAILED";
-                case XAUDIO2_E_DEVICE_INVALIDATED: return "XAUDIO2_E_DEVICE_INVALIDATED";
+                case ErrorCode::ErrorInvalidCall return "XAUDIO2_E_INVALID_CALL";
+                case ErrorCode::ErrorXmaDeviceError return "XAUDIO2_E_XMA_DECODER_ERROR";
+                case ErrorCode::ErrorXapoCreationFailed return "XAUDIO2_E_XAPO_CREATION_FAILED";
+                case ErrorCode::ErrorDeviceInvalidated return "XAUDIO2_E_DEVICE_INVALIDATED";
                 default: return "Unknown error (" + std::to_string(condition) + ")";
             }
         }
     };
+
+    inline ErrorCode toErrorCode(HRESULT hr) {
+        switch (hr) {
+            case XAUDIO2_E_INVALID_CALL:
+                return ErrorCode::ErrorInvalidCall;
+
+            case XAUDIO2_E_XMA_DECODER_ERROR:
+                return ErrorCode::ErrorXmaDeviceError;
+
+            case XAUDIO2_E_XAPO_CREATION_FAILED
+                return ErrorCode::ErrorXapoCreationFailed;
+            
+            case XAUDIO2_E_DEVICE_INVALIDATED:
+                return ErrorCode::ErrorDeviceInvalidated;
+            
+            default:
+                return static_cast<ErrorCode>(hr);
+        }
+    }
 
     inline const ErrorCategory errorCategory;
 }
