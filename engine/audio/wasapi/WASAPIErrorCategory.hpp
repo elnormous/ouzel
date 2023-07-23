@@ -8,6 +8,7 @@
 #if OUZEL_COMPILE_WASAPI
 
 #include <system_error>
+#include <stdint.h>
 #include <Audioclient.h>
 
 namespace ouzel::audio::wasapi
@@ -116,7 +117,7 @@ namespace ouzel::audio::wasapi
         }
     };
 
-    inline constexpr ErrorCode toErrorCode(HRESULT hr) {
+    inline constexpr ErrorCode toErrorCode(int64_t hr) {
         switch (hr) {
             case REGDB_E_CLASSNOTREG:
                 return ErrorCode::ErrorClassNotReg;

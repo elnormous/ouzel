@@ -8,6 +8,7 @@
 #if OUZEL_COMPILE_DIRECT3D11
 
 #include <system_error>
+#include <stdint.h>
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
 #ifndef WIN32_LEAN_AND_MEAN
@@ -66,7 +67,7 @@ namespace ouzel::graphics::d3d11
         }
     };
 
-    inline constexpr ErrorCode toErrorCode(HRESULT hr) {
+    inline constexpr ErrorCode toErrorCode(int64_t hr) {
         switch (hr) {
             case D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS:
                 return ErrorCode::ErrorFileNotFound;

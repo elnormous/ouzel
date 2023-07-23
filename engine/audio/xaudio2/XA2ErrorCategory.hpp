@@ -8,6 +8,7 @@
 #if OUZEL_COMPILE_XAUDIO2
 
 #include <system_error>
+#include <stdint.h>
 #include <xaudio2.h>
 
 namespace ouzel::audio::xaudio2
@@ -40,7 +41,7 @@ namespace ouzel::audio::xaudio2
         }
     };
 
-    inline constexpr ErrorCode toErrorCode(HRESULT hr) {
+    inline constexpr ErrorCode toErrorCode(int64_t hr) {
         switch (hr) {
             case XAUDIO2_E_INVALID_CALL:
                 return ErrorCode::ErrorInvalidCall;

@@ -4,6 +4,7 @@
 #define OUZEL_INPUT_DIERRORCATEGORY_HPP
 
 #include <system_error>
+#include <stdint.h>
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
@@ -102,7 +103,7 @@ namespace ouzel::input::windows
         }
     };
 
-    inline constexpr ErrorCode toErrorCode(HRESULT hr) {
+    inline constexpr ErrorCode toErrorCode(int64_t hr) {
         switch (hr) {
             case DIERR_ACQUIRED:
                 return ErrorCode::ErrorAcquired;
