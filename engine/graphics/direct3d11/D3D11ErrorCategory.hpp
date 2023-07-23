@@ -94,7 +94,7 @@ namespace ouzel::graphics::d3d11
                 return ErrorCode::ErrorNotImpl;
             
             default:
-                return static_cast<int>(hr);
+                return static_cast<ErrorCode>(hr);
         }
     }
 

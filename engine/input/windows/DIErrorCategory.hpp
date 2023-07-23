@@ -168,7 +168,7 @@ namespace ouzel::input::windows
                 return ErrorCode::ErrorPointer;
             
             default:
-                return static_cast<int>(hr);
+                return static_cast<ErrorCode>(hr);
         }
     }
 
