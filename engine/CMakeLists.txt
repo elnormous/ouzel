@@ -139,9 +139,11 @@ if(WIN32)
             d3dcompiler
             dxgi
             dxguid
+            Dinput8
             opengl32
             Xinput
             Xinput9_1_0
+            Xaudio2
       )
 elseif(UNIX AND NOT APPLE) # linux
       target_sources(ouzel PRIVATE
