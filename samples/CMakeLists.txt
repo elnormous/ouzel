@@ -56,22 +56,22 @@ endforeach()
 
 if(WIN32)
       target_link_libraries(samples PRIVATE
-            -ld3d11 
-            -lopengl32 
-            -ldxguid 
-            -lxinput9_1_0 
-            -lshlwapi 
-            -lversion 
-            -ldinput8 
-            -luser32 
-            -lgdi32 
-            -lshell32 
-            -lole32 
-            -loleaut32 
-            -luuid 
-            -lws2_32 
+            d3d11 
+            opengl32 
+            dxguid 
+            xinput9_1_0 
+            shlwapi 
+            version 
+            dinput8 
+            user32 
+            gdi32 
+            shell32 
+            ole32 
+            oleaut32 
+            uuid 
+            ws2_32 
       )
-      target_link_options(samples PRIVATE "-entry WinMain")
+      target_link_options(samples PRIVATE "-entry:WinMain")
 elseif(UNIX AND NOT APPLE)
       if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm") # arm linux
             target_link_directories(samples PRIVATE /opt/vc/lib)
