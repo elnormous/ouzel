@@ -48,7 +48,7 @@ namespace ouzel::audio::xaudio2
             case XAUDIO2_E_XMA_DECODER_ERROR:
                 return ErrorCode::ErrorXmaDeviceError;
 
-            case XAUDIO2_E_XAPO_CREATION_FAILED
+            case XAUDIO2_E_XAPO_CREATION_FAILED:
                 return ErrorCode::ErrorXapoCreationFailed;
             
             case XAUDIO2_E_DEVICE_INVALIDATED:
