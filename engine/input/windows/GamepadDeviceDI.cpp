@@ -36,7 +36,7 @@ namespace ouzel::input::windows
 
         if (const auto charCount = WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, nullptr, 0, nullptr, nullptr); charCount != 0)
         {
-            auto buffer = std::make_unique<char[]>(charCount);
+            auto buffer = std::make_unique<char[]>(static_cast<std::size_t>(charCount));
             if (WideCharToMultiByte(CP_UTF8, 0, instance->tszProductName, -1, buffer.get(), charCount, nullptr, nullptr) != 0)
                 name = buffer.get();
         }

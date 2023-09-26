@@ -509,7 +509,7 @@ namespace ouzel::core::windows
         if (charCount == 0)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
-        auto titleBuffer = std::make_unique<WCHAR[]>(charCount);
+        auto titleBuffer = std::make_unique<WCHAR[]>(static_cast<std::size_t>(charCount));
         if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.get(), charCount) == 0)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
@@ -634,7 +634,7 @@ namespace ouzel::core::windows
             if (charCount == 0)
                 throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
-            auto titleBuffer = std::make_unique<WCHAR[]>(charCount);
+            auto titleBuffer = std::make_unique<WCHAR[]>(static_cast<std::size_t>(charCount));
             if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer.get(), charCount) == 0)
                 throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 

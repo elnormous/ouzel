@@ -130,7 +130,7 @@ namespace ouzel::graphics::d3d11
         {
             if (const auto charCount = WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, nullptr, 0, nullptr, nullptr); charCount != 0)
             {
-                auto buffer = std::make_unique<char[]>(charCount);
+                auto buffer = std::make_unique<char[]>(static_cast<std::size_t>(charCount));
                 if (WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, buffer.get(), charCount, nullptr, nullptr) != 0)
                     log(Log::Level::info) << "Using " << buffer.get() << " for rendering";
             }

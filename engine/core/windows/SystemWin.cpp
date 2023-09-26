@@ -41,7 +41,7 @@ namespace ouzel::core::windows
                     if (charCount == 0)
                         throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert wide char to UTF-8"};
 
-                    auto buffer = std::make_unique<char[]>(charCount);
+                    auto buffer = std::make_unique<char[]>(static_cast<std::size_t>(charCount));
                     if (WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, buffer.get(), charCount, nullptr, nullptr) == 0)
                         throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert wide char to UTF-8"};
 

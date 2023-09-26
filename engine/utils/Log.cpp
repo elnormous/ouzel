@@ -128,11 +128,11 @@ namespace ouzel
         if (charCount == 0)
             return;
 
-        auto buffer = std::make_unique<WCHAR[]>(charCount + 1); // +1 for the newline
+        auto buffer = std::make_unique<WCHAR[]>(static_cast<std::size_t>(charCount) + 1); // +1 for the newline
         if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.get(), charCount) == 0)
             return;
 
-        if (FAILED(StringCchCatW(buffer.get(), static_cast<size_t>(charCount + 1), L"\n")))
+        if (FAILED(StringCchCatW(buffer.get(), charCount + 1, L"\n")))
             return;
 
         OutputDebugStringW(buffer.get());

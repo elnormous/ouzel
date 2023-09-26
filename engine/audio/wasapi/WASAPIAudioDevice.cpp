@@ -147,7 +147,7 @@ namespace ouzel::audio::wasapi
         if (const auto hr = propertyStore->GetValue(PKEY_Device_FriendlyName, &nameVariant); SUCCEEDED(hr))
             if (const auto charCount = WideCharToMultiByte(CP_UTF8, 0, nameVariant.pwszVal, -1, nullptr, 0, nullptr, nullptr); charCount != 0)
             {
-                auto name = std::make_unique<char[]>(charCount);
+                auto name = std::make_unique<char[]>(static_cast<std::size_t>(charCount));
                 if (WideCharToMultiByte(CP_UTF8, 0, nameVariant.pwszVal, -1, name.get(), charCount, nullptr, nullptr) != 0)
                     ouzel::log(ouzel::Log::Level::info) << "Using " << name.get() << " for audio";
             }
