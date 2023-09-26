@@ -505,12 +505,12 @@ namespace ouzel::core::windows
         const int width = (size.v[0] > 0.0F) ? windowRect.right - windowRect.left : CW_USEDEFAULT;
         const int height = (size.v[1] > 0.0F) ? windowRect.bottom - windowRect.top : CW_USEDEFAULT;
 
-        const auto bufferSize = MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, nullptr, 0);
-        if (bufferSize == 0)
+        const auto charCount = MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, nullptr, 0);
+        if (charCount == 0)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
-        auto titleBuffer = std::make_unique<WCHAR[]>(bufferSize);
-        if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.get(), bufferSize) == 0)
+        auto titleBuffer = std::make_unique<WCHAR[]>(charCount);
+        if (MultiByteToWideChar(CP_UTF8, 0, title.c_str(), -1, titleBuffer.get(), charCount) == 0)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
         window = CreateWindowExW(WS_EX_APPWINDOW, MAKEINTATOM(windowClass), titleBuffer.get(), windowStyle,
@@ -630,12 +630,12 @@ namespace ouzel::core::windows
     {
         if (title != newTitle)
         {
-            const auto bufferSize = MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, nullptr, 0);
-            if (bufferSize == 0)
+            const auto charCount = MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, nullptr, 0);
+            if (charCount == 0)
                 throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
-            auto titleBuffer = std::make_unique<WCHAR[]>(bufferSize);
-            if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer.get(), bufferSize) == 0)
+            auto titleBuffer = std::make_unique<WCHAR[]>(charCount);
+            if (MultiByteToWideChar(CP_UTF8, 0, newTitle.c_str(), -1, titleBuffer.get(), charCount) == 0)
                 throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
             if (!SetWindowTextW(window, titleBuffer.get()))

@@ -128,10 +128,10 @@ namespace ouzel::graphics::d3d11
             throw std::system_error{hr, errorCategory, "Failed to get the DXGI adapter description"};
         else
         {
-            if (const auto byteCount = WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, nullptr, 0, nullptr, nullptr); byteCount != 0)
+            if (const auto charCount = WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, nullptr, 0, nullptr, nullptr); charCount != 0)
             {
-                auto buffer = std::make_unique<char[]>(byteCount);
-                if (WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, buffer.get(), byteCount, nullptr, nullptr) != 0)
+                auto buffer = std::make_unique<char[]>(charCount);
+                if (WideCharToMultiByte(CP_UTF8, 0, adapterDesc.Description, -1, buffer.get(), charCount, nullptr, nullptr) != 0)
                     log(Log::Level::info) << "Using " << buffer.get() << " for rendering";
             }
         }

@@ -124,15 +124,15 @@ namespace ouzel
 #elif defined(__EMSCRIPTEN__)
         emscripten_log(getFlags(level), "%s", str.c_str());
 #elif defined(_WIN32)
-        const auto bufferSize = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
-        if (bufferSize == 0)
+        const auto charCount = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+        if (charCount == 0)
             return;
 
-        auto buffer = std::make_unique<WCHAR[]>(bufferSize + 1); // +1 for the newline
-        if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.get(), bufferSize) == 0)
+        auto buffer = std::make_unique<WCHAR[]>(charCount + 1); // +1 for the newline
+        if (MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, buffer.get(), charCount) == 0)
             return;
 
-        if (FAILED(StringCchCatW(buffer.get(), static_cast<size_t>(bufferSize + 1), L"\n")))
+        if (FAILED(StringCchCatW(buffer.get(), static_cast<size_t>(charCount + 1), L"\n")))
             return;
 
         OutputDebugStringW(buffer.get());

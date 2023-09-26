@@ -131,12 +131,12 @@ namespace ouzel::core::windows
 
     void Engine::openUrl(const std::string& url)
     {
-        const auto bufferSize = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
-        if (bufferSize == 0)
+        const auto charCount = MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, nullptr, 0);
+        if (charCount == 0)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
-        auto buffer = std::make_unique<WCHAR[]>(bufferSize);
-        if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, buffer.get(), bufferSize) == 0)
+        auto buffer = std::make_unique<WCHAR[]>(charCount);
+        if (MultiByteToWideChar(CP_UTF8, 0, url.c_str(), -1, buffer.get(), charCount) == 0)
             throw std::system_error{static_cast<int>(GetLastError()), std::system_category(), "Failed to convert UTF-8 to wide char"};
 
         // Result of the ShellExecuteW can be cast only to an int (https://docs.microsoft.com/en-us/windows/desktop/api/shellapi/nf-shellapi-shellexecutew)
