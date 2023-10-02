@@ -21,15 +21,17 @@ HRESULT IXAudio2CreateMasteringVoice(IXAudio2* pXAudio2,
                                      UINT32 InputChannels,
                                      UINT32 InputSampleRate,
                                      UINT32 Flags,
-                                     UINT32 DeviceIndex,
-                                     const XAUDIO2_EFFECT_CHAIN* pEffectChain)
+                                     LPCWSTR szDeviceId,
+                                     const XAUDIO2_EFFECT_CHAIN* pEffectChain,
+                                     AUDIO_STREAM_CATEGORY StreamCategory)
 {
     return pXAudio2->CreateMasteringVoice(ppMasteringVoice,
                                           InputChannels,
                                           InputSampleRate,
                                           Flags,
-                                          DeviceIndex,
-                                          pEffectChain);
+                                          szDeviceId,
+                                          pEffectChain,
+                                          StreamCategory);
 }
 
 HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,

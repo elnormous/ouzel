@@ -55,3 +55,7 @@ test/test.xcodeproj/xcuserdata
 test/test
 samples/app/src/main/libs
 samples/app/src/main/obj
+build/
+.cache/
+.DS_Store
+compile_commands.json

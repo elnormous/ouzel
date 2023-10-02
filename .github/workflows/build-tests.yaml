@@ -1,0 +1,81 @@
+
+run-name: ouzel build test
+on: [push]
+jobs:
+      linux:
+            name: ${{matrix.os}}
+            runs-on: ${{matrix.os}}
+            strategy:
+                  matrix:
+                        os: [ubuntu-20.04, ubuntu-latest]
+            steps:
+                  - name: Checkoout ouzel
+                    uses: actions/checkout@v2
+
+                  - name: Install dependencies
+                    run: | 
+                        sudo apt-get update
+                        sudo apt-get install -y libgl1-mesa-dev libgles2-mesa-dev libopenal-dev libasound2-dev libxi-dev libxcursor-dev libxrandr-dev libxss-dev libxxf86vm-dev
+                        sudo apt-get install cmake ninja-build
+
+                  - name: Generate ninja files
+                    run: cmake . -Bbuild -GNinja
+
+                  - name: Build
+                    run: cd build && ninja
+                  
+      mac:
+            name: ${{matrix.os}}
+            runs-on: ${{matrix.os}}
+            strategy:
+                  matrix:
+                        os: [macos-11, macos-latest]
+            
+            steps:
+                  - name: Checkoout ouzel
+                    uses: actions/checkout@v2
+
+                  - name: Install ninja
+                    run: brew install ninja
+
+                  - name: Generate ninja files
+                    run: cmake . -Bbuild -GNinja
+
+                  - name: Build
+                    run: cd build && ninja
+
+      windows: 
+            name: ${{matrix.os}}-${{matrix.compiler}}
+            runs-on: ${{matrix.os}}
+            strategy:
+                  matrix:
+                        os: [windows-2019, windows-latest]
+                        compiler: [cl, clang]
+                        include:
+                              - os: windows-2019
+                                compiler: cl
+                                generator: Visual Studio 16 2019 
+                                toolchain: 
+                              - os: windows-latest
+                                compiler: cl
+                                generator: Visual Studio 17 2022
+                                toolchain:
+                              - os: windows-2019
+                                compiler: clang
+                                generator: Visual Studio 16 2019
+                                toolchain: -T ClangCL
+                              - os: windows-latest
+                                compiler: clang
+                                generator: Visual Studio 17 2022 
+                                toolchain: -T ClangCL
+
+            steps:
+                  - name: Checkoout ouzel
+                    uses: actions/checkout@v2
+
+                  - name: Build
+                    run: cmake . -Bbuild -G "${{matrix.generator}}" ${{matrix.toolchain}}
+
+                  - name: Build
+                    run: cd build && cmake --build .
+            

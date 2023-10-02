@@ -90,7 +90,7 @@ namespace ouzel::graphics::d3d11
 
                 ID3D11Buffer* newBuffer;
                 if (const auto hr = renderDevice.getDevice()->CreateBuffer(&bufferDesc, &bufferResourceData, &newBuffer); FAILED(hr))
-                    throw std::system_error{hr, errorCategory, "Failed to create Direct3D 11 buffer"};
+                    throw std::system_error{toErrorCode(hr), errorCategory, "Failed to create Direct3D 11 buffer"};
 
                 buffer = newBuffer;
             }

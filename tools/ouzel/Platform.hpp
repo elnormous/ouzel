@@ -6,6 +6,9 @@
 #include <stdexcept>
 #include <string>
 
+// some compilers pre-defines macro 'linux', which clashes with some namespace and enum names
+#undef linux
+
 namespace ouzel
 {
     enum class Platform

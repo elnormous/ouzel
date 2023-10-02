@@ -16,8 +16,9 @@ HRESULT IXAudio2CreateMasteringVoice(IXAudio2* pXAudio2,
                                      UINT32 InputChannels = XAUDIO2_DEFAULT_CHANNELS,
                                      UINT32 InputSampleRate = XAUDIO2_DEFAULT_SAMPLERATE,
                                      UINT32 Flags = 0,
-                                     UINT32 DeviceIndex = 0,
-                                     const XAUDIO2_EFFECT_CHAIN* pEffectChain = nullptr);
+                                     LPCWSTR szDeviceId = nullptr,
+                                     const XAUDIO2_EFFECT_CHAIN* pEffectChain = nullptr,
+                                     AUDIO_STREAM_CATEGORY StreamCategory = AudioCategory_GameMedia);
 HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,
                                   IXAudio2SourceVoice** ppSourceVoice,
                                   const WAVEFORMATEX* pSourceFormat,

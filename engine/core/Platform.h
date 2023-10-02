@@ -60,6 +60,11 @@
 #  define OUZEL_SUPPORTS_OPENAL 1
 #  define OUZEL_SUPPORTS_ALSA 1
 
+// some compilers pre-defines macro 'linux', which clashes with some namespace and enum names
+#if defined (linux)
+#undef linux
+#endif
+
 #  if defined(__x86_64__) || defined(__i386__) // x86 Linux
 #    define OUZEL_SUPPORTS_X11 1
 #  elif defined(__arm64__) || defined(__aarch64__) || defined(__arm__) // ARM Linux
