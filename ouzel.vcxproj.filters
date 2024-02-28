@@ -35,4 +35,9 @@
       <Filter>src\system</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Engine.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
