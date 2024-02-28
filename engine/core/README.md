@@ -1,3 +1,0 @@
-# Engine core
-
-TODO

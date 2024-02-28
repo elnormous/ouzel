@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34601.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "ouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "demo", "demo.vcxproj", "{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ouzel", "..\ouzel.vcxproj", "{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,14 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Debug|x64.ActiveCfg = Debug|x64
+		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Debug|x64.Build.0 = Debug|x64
+		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Debug|x86.ActiveCfg = Debug|Win32
+		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Debug|x86.Build.0 = Debug|Win32
+		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Release|x64.ActiveCfg = Release|x64
+		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Release|x64.Build.0 = Release|x64
+		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Release|x86.ActiveCfg = Release|Win32
+		{B18B5A2F-6CC0-405A-AE82-448B37BCFEBF}.Release|x86.Build.0 = Release|Win32
 		{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}.Debug|x64.ActiveCfg = Debug|x64
 		{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}.Debug|x64.Build.0 = Debug|x64
 		{C60AB6A6-67FF-4704-BDCD-DE2F382FE251}.Debug|x86.ActiveCfg = Debug|Win32
@@ -26,6 +36,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7D961DE2-0358-485B-922F-5B33CFB77974}
+		SolutionGuid = {977751FD-F3C8-4A87-904D-2C885BBAFD13}
 	EndGlobalSection
 EndGlobal

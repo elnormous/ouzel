@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{7e114df9-dcdb-4fa5-ad30-518f77872f18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{193c7430-cc7b-4afb-8b91-16e7f173afab}</UniqueIdentifier>
+      <Extensions>cpp</Extensions>
+    </Filter>
+    <Filter Include="src\system">
+      <UniqueIdentifier>{3e90bb84-6efb-4432-8220-570e21ca5b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\system\windows">
+      <UniqueIdentifier>{aa4945c5-84e9-4c3f-8912-9d193789b948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\graphics">
+      <UniqueIdentifier>{f58d4ca5-919b-43ea-9c4d-0e9a990f2429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\graphics\d3d12">
+      <UniqueIdentifier>{7e23a79d-82c3-4664-9347-c478c1c43104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\graphics">
+      <UniqueIdentifier>{f679e32e-8b17-4430-8fce-fb06243e2bd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\graphics\d3d12">
+      <UniqueIdentifier>{39c2e08a-08f4-4c83-8ec2-6225778ae737}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\system\windows\main.cpp">
+      <Filter>src\system\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\Window.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,3 +1,0 @@
-# Graphics system
-
-TODO
