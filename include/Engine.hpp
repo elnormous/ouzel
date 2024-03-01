@@ -14,12 +14,16 @@ namespace ouzel
 	class Engine
 	{
 	public:
+		Engine(std::function<void()> handler): eventHandler{std::move(handler)} {}
+
 		void run();
 
 		void schedule(std::function<void()> task);
 
 	private:
 		void worker();
+
+		std::function<void()> eventHandler;
 
 		std::vector<std::jthread> workerThreads;
 

@@ -2,7 +2,9 @@
 
 void ouzelMain()
 {
-	ouzel::Engine engine;
+	ouzel::Engine engine{[] {
+		}
+	};
 
 	engine.schedule([] {
 	});
