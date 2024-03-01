@@ -34,6 +34,9 @@
     <ClCompile Include="src\system\Window.cpp">
       <Filter>src\system</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.hpp">
