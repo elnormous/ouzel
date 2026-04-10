@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_TEXTRENDERER_HPP
-#define OUZEL_SCENE_TEXTRENDERER_HPP
+﻿#ifndef FLUXION_SCENE_TEXTRENDERER_HPP
+#define FLUXION_SCENE_TEXTRENDERER_HPP
 
 #include <string>
 #include "Component.hpp"
@@ -12,7 +10,7 @@
 #include "../gui/BMFont.hpp"
 #include "../math/Color.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class TextRenderer: public Component
     {
@@ -89,4 +87,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_TEXTRENDERER_HPP
+#endif // FLUXION_SCENE_TEXTRENDERER_HPP

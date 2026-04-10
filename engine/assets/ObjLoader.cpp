@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <map>
 #include <tuple>
 #include "ObjLoader.hpp"
 #include "AssetError.hpp"
 #include "../graphics/Material.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     namespace
     {

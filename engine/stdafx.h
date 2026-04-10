@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef STDAFX_H
+﻿#ifndef STDAFX_H
 #define STDAFX_H
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")

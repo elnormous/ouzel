@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifdef __APPLE__
+﻿#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 #include <algorithm>
@@ -14,7 +12,7 @@
 #include "../scene/Layer.hpp"
 #include "../scene/Camera.hpp"
 
-namespace ouzel::gui
+namespace fluxion::gui
 {
     Button::Button():
         eventHandler{EventHandler::priorityMax + 1}

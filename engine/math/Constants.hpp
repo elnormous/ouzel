@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_MATH_CONSTANTS_HPP
+#define FLUXION_MATH_CONSTANTS_HPP
 
-#ifndef OUZEL_MATH_CONSTANTS_HPP
-#define OUZEL_MATH_CONSTANTS_HPP
-
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T> constexpr T tau = T(6.28318530717958647692);
     template <typename T> constexpr T pi = T(3.14159265358979323846);
 }
 
-#endif // OUZEL_MATH_CONSTANTS_HPP
+#endif // FLUXION_MATH_CONSTANTS_HPP

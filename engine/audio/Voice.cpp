@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "Voice.hpp"
+﻿#include "Voice.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Effects.hpp"
@@ -11,7 +9,7 @@
 #include "WavePlayer.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class VoiceSource: public mixer::Source
     {

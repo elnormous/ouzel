@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALVIEW_H
-#define OUZEL_GRAPHICS_METALVIEW_H
+﻿#ifndef FLUXION_GRAPHICS_METALVIEW_H
+#define FLUXION_GRAPHICS_METALVIEW_H
 
 #include "../../../core/Setup.h"
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
 
 #import "../../../core/tvos/ViewTVOS.h"
 
@@ -14,4 +12,4 @@
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALVIEW_H
+#endif // FLUXION_GRAPHICS_METALVIEW_H

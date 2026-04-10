@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_ALSA
+#if FLUXION_COMPILE_ALSA
 
 #include <system_error>
 #include "ALSAAudioDevice.hpp"
@@ -10,7 +8,7 @@
 #include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::audio::alsa
+namespace fluxion::audio::alsa
 {
     AudioDevice::AudioDevice(const Settings& settings,
                              const std::function<void(std::uint32_t frames,

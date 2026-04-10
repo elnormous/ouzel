@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
-#define OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
+﻿#ifndef FLUXION_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
+#define FLUXION_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
 
 #include <functional>
 #include <stdexcept>
@@ -15,7 +13,7 @@ using CADisplayLinkPtr = id;
 
 #include "../foundation/RunLoop.hpp"
 
-namespace ouzel::platform::quartzcore
+namespace fluxion::platform::quartzcore
 {
     class DisplayLinkError final: public std::runtime_error
     {
@@ -45,4 +43,4 @@ namespace ouzel::platform::quartzcore
     };
 }
 
-#endif // OUZEL_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP
+#endif // FLUXION_PLATFORM_QUARTZCORE_DISPLAYLINK_HPP

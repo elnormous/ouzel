@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_WINDOW_HPP
-#define OUZEL_CORE_WINDOW_HPP
+﻿#ifndef FLUXION_CORE_WINDOW_HPP
+#define FLUXION_CORE_WINDOW_HPP
 
 #include <cstdint>
 #include <memory>
@@ -29,7 +27,7 @@
 #include "../graphics/Driver.hpp"
 #include "../math/Size.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     class Window final
     {
@@ -168,4 +166,4 @@ namespace ouzel::core
     }
 }
 
-#endif // OUZEL_CORE_WINDOW_HPP
+#endif // FLUXION_CORE_WINDOW_HPP

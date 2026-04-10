@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include <stdexcept>
+﻿#include <stdexcept>
 #include "NativeWindowAndroid.hpp"
 #include "JniErrorCategory.hpp"
 #include "EngineAndroid.hpp"
 
-namespace ouzel::core::android
+namespace fluxion::core::android
 {
     NativeWindow::NativeWindow(const std::string& newTitle):
         core::NativeWindow{

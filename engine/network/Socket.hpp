@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_NETWORK_SOCKET_HPP
-#define OUZEL_NETWORK_SOCKET_HPP
+﻿#ifndef FLUXION_NETWORK_SOCKET_HPP
+#define FLUXION_NETWORK_SOCKET_HPP
 
 #include <stdexcept>
 #include <system_error>
@@ -27,7 +25,7 @@
 #  include <errno.h>
 #endif
 
-namespace ouzel::network
+namespace fluxion::network
 {
     inline namespace detail
     {
@@ -115,4 +113,4 @@ namespace ouzel::network
     };
 }
 
-#endif // OUZEL_NETWORK_SOCKET_HPP
+#endif // FLUXION_NETWORK_SOCKET_HPP

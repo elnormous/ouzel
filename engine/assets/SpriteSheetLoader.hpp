@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_SPRITESHEETLOADER_HPP
-#define OUZEL_ASSETS_SPRITESHEETLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_SPRITESHEETLOADER_HPP
+#define FLUXION_ASSETS_SPRITESHEETLOADER_HPP
 
 #include <string>
 #include <vector>
@@ -9,7 +7,7 @@
 #include "../scene/SpriteRenderer.hpp"
 #include "../formats/Json.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadSpriteSheet(Cache&,
                                 Bundle& bundle,
@@ -80,4 +78,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_SPRITESHEETLOADER_HPP
+#endif // FLUXION_ASSETS_SPRITESHEETLOADER_HPP

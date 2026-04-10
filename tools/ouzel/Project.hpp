@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_OUZELPROJECT_HPP
-#define OUZEL_OUZELPROJECT_HPP
+﻿#ifndef FLUXION_OUZELPROJECT_HPP
+#define FLUXION_OUZELPROJECT_HPP
 
 #include <fstream>
 #include "Asset.hpp"
@@ -9,7 +7,7 @@
 #include "storage/FileSystem.hpp"
 #include "formats/Json.hpp"
 
-namespace ouzel
+namespace fluxion
 {
     class ProjectError final: public std::logic_error
     {

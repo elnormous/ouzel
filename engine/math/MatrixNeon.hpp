@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_MATRIX_NEON_HPP
-#define OUZEL_MATH_MATRIX_NEON_HPP
+﻿#ifndef FLUXION_MATH_MATRIX_NEON_HPP
+#define FLUXION_MATH_MATRIX_NEON_HPP
 
 #include "Matrix.hpp"
 
 #ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix) noexcept
@@ -617,4 +615,4 @@ namespace ouzel::math
 
 #endif // __ARM_NEON__
 
-#endif // OUZEL_MATH_MATRIX_NEON_HPP
+#endif // FLUXION_MATH_MATRIX_NEON_HPP

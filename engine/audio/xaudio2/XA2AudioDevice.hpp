@@ -1,17 +1,15 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_XA2AUDIODEVICE_HPP
-#define OUZEL_AUDIO_XA2AUDIODEVICE_HPP
+﻿#ifndef FLUXION_AUDIO_XA2AUDIODEVICE_HPP
+#define FLUXION_AUDIO_XA2AUDIODEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_XAUDIO2
+#if FLUXION_COMPILE_XAUDIO2
 
 #include <vector>
 #include <xaudio2.h>
 #include "../AudioDevice.hpp"
 
-namespace ouzel::audio::xaudio2
+namespace fluxion::audio::xaudio2
 {
     class AudioDevice final: public audio::AudioDevice, public IXAudio2VoiceCallback
     {
@@ -49,4 +47,4 @@ namespace ouzel::audio::xaudio2
 }
 #endif
 
-#endif // OUZEL_AUDIO_XA2AUDIODEVICE_HPP
+#endif // FLUXION_AUDIO_XA2AUDIODEVICE_HPP

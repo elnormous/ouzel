@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXFILEREFERENCE_HPP
-#define OUZEL_XCODE_PBXFILEREFERENCE_HPP
+﻿#ifndef FLUXION_XCODE_PBXFILEREFERENCE_HPP
+#define FLUXION_XCODE_PBXFILEREFERENCE_HPP
 
 #include "PBXFileElement.hpp"
 #include "PBXFileType.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXFileReference: public PBXFileElement
     {
@@ -27,4 +25,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXFILEREFERENCE_HPP
+#endif // FLUXION_XCODE_PBXFILEREFERENCE_HPP

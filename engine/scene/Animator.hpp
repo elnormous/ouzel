@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_ANIMATOR_HPP
-#define OUZEL_SCENE_ANIMATOR_HPP
+﻿#ifndef FLUXION_SCENE_ANIMATOR_HPP
+#define FLUXION_SCENE_ANIMATOR_HPP
 
 #include <memory>
 #include <vector>
 #include "Component.hpp"
 #include "../events/EventHandler.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Animator: public Component
     {
@@ -64,4 +62,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_ANIMATOR_HPP
+#endif // FLUXION_SCENE_ANIMATOR_HPP

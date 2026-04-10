@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include <limits>
+﻿#include <limits>
 #include "StaticMeshRenderer.hpp"
 #include "../core/Engine.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     StaticMeshData::StaticMeshData(const math::Box<float, 3>& initBoundingBox,
                                    const std::vector<std::uint32_t> indices,

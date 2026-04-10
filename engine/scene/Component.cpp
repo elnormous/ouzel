@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "Component.hpp"
+﻿#include "Component.hpp"
 #include "Actor.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Component::~Component()
     {

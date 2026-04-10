@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_DISPATCH_DATA_HPP
-#define OUZEL_PLATFORM_DISPATCH_DATA_HPP
+﻿#ifndef FLUXION_PLATFORM_DISPATCH_DATA_HPP
+#define FLUXION_PLATFORM_DISPATCH_DATA_HPP
 
 #include <dispatch/dispatch.h>
 
-namespace ouzel::platform::dispatch
+namespace fluxion::platform::dispatch
 {
     class Data final
     {
@@ -73,4 +71,4 @@ namespace ouzel::platform::dispatch
     };
 }
 
-#endif // OUZEL_PLATFORM_DISPATCH_DATA_HPP
+#endif // FLUXION_PLATFORM_DISPATCH_DATA_HPP

@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_D3D11POINTER_HPP
-#define OUZEL_GRAPHICS_D3D11POINTER_HPP
+﻿#ifndef FLUXION_GRAPHICS_D3D11POINTER_HPP
+#define FLUXION_GRAPHICS_D3D11POINTER_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 
-namespace ouzel::graphics::d3d11
+namespace fluxion::graphics::d3d11
 {
     template <class T>
     class Pointer final
@@ -76,4 +74,4 @@ namespace ouzel::graphics::d3d11
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_D3D11POINTER_HPP
+#endif // FLUXION_GRAPHICS_D3D11POINTER_HPP

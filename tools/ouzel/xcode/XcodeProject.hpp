@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_XCODEPROJECT_HPP
-#define OUZEL_XCODE_XCODEPROJECT_HPP
+﻿#ifndef FLUXION_XCODE_XCODEPROJECT_HPP
+#define FLUXION_XCODE_XCODEPROJECT_HPP
 
 #include <fstream>
 #include <memory>
@@ -26,12 +24,12 @@
 #include "storage/FileSystem.hpp"
 #include "formats/Plist.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class Project final
     {
     public:
-        Project(const ouzel::Project& project)
+        Project(const fluxion::Project& project)
         {
             const auto projectFilename = project.getPath().getFilename();
             const auto projectDirectory = project.getPath().getDirectory();
@@ -67,10 +65,10 @@ namespace ouzel::xcode
             libouzelIosProxy->containerPortal = engineProjectFileRef;
             libouzelIosProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
             libouzelIosProxy->remoteGlobal = &libouzelIos;
-            libouzelIosProxy->remoteInfo = "libouzel_ios";
+            libouzelIosProxy->remoteInfo = "libFLUXION_ios";
 
             auto libouzelIosReferenceProxy = alloc<PBXReferenceProxy>();
-            libouzelIosReferenceProxy->path = "libouzel_ios.a";
+            libouzelIosReferenceProxy->path = "libFLUXION_ios.a";
             libouzelIosReferenceProxy->fileType = PBXFileType::archiveAr;
             libouzelIosReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
             libouzelIosReferenceProxy->remoteRef = libouzelIosProxy;
@@ -82,10 +80,10 @@ namespace ouzel::xcode
             libouzelMacOsProxy->containerPortal = engineProjectFileRef;
             libouzelMacOsProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
             libouzelMacOsProxy->remoteGlobal = &libouzelMacOs;
-            libouzelMacOsProxy->remoteInfo = "libouzel_macos";
+            libouzelMacOsProxy->remoteInfo = "libFLUXION_macos";
 
             auto libouzelMacOsReferenceProxy = alloc<PBXReferenceProxy>();
-            libouzelMacOsReferenceProxy->path = "libouzel_macos.a";
+            libouzelMacOsReferenceProxy->path = "libFLUXION_macos.a";
             libouzelMacOsReferenceProxy->fileType = PBXFileType::archiveAr;
             libouzelMacOsReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
             libouzelMacOsReferenceProxy->remoteRef = libouzelMacOsProxy;
@@ -97,10 +95,10 @@ namespace ouzel::xcode
             libouzelTvosProxy->containerPortal = engineProjectFileRef;
             libouzelTvosProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
             libouzelTvosProxy->remoteGlobal = &libouzelTvos;
-            libouzelTvosProxy->remoteInfo = "libouzel_tvos";
+            libouzelTvosProxy->remoteInfo = "libFLUXION_tvos";
 
             auto libouzelTvosReferenceProxy = alloc<PBXReferenceProxy>();
-            libouzelTvosReferenceProxy->path = "libouzel_tvos.a";
+            libouzelTvosReferenceProxy->path = "libFLUXION_tvos.a";
             libouzelTvosReferenceProxy->fileType = PBXFileType::archiveAr;
             libouzelTvosReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
             libouzelTvosReferenceProxy->remoteRef = libouzelTvosProxy;
@@ -655,4 +653,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_XCODEPROJECT_HPP
+#endif // FLUXION_XCODE_XCODEPROJECT_HPP

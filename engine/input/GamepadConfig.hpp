@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADCONFIG_HPP
-#define OUZEL_INPUT_GAMEPADCONFIG_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADCONFIG_HPP
+#define FLUXION_INPUT_GAMEPADCONFIG_HPP
 
 #include <array>
 #include "Gamepad.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     struct GamepadConfig final
     {
@@ -334,4 +332,4 @@ namespace ouzel::input
     }
 }
 
-#endif // OUZEL_INPUT_GAMEPADCONFIG_HPP
+#endif // FLUXION_INPUT_GAMEPADCONFIG_HPP

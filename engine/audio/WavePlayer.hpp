@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_WAVEPLAYER_HPP
-#define OUZEL_AUDIO_WAVEPLAYER_HPP
+﻿#ifndef FLUXION_AUDIO_WAVEPLAYER_HPP
+#define FLUXION_AUDIO_WAVEPLAYER_HPP
 
 #include "Source.hpp"
 #include "Sound.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class VorbisData;
 
@@ -25,4 +23,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_WAVEPLAYER_HPP
+#endif // FLUXION_AUDIO_WAVEPLAYER_HPP

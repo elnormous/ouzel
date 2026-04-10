@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_LIGHT_HPP
-#define OUZEL_SCENE_LIGHT_HPP
+﻿#ifndef FLUXION_SCENE_LIGHT_HPP
+#define FLUXION_SCENE_LIGHT_HPP
 
 #include "Component.hpp"
 #include "../math/Color.hpp"
 #include "../math/Quaternion.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Light: public Component
     {
@@ -53,4 +51,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_LIGHT_HPP
+#endif // FLUXION_SCENE_LIGHT_HPP

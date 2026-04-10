@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_THREAD_SEMAPHORE_HPP
-#define OUZEL_THREAD_SEMAPHORE_HPP
+﻿#ifndef FLUXION_THREAD_SEMAPHORE_HPP
+#define FLUXION_THREAD_SEMAPHORE_HPP
 
 #include <system_error>
 #ifdef _WIN32
@@ -22,7 +20,7 @@
 #  include <semaphore.h>
 #endif
 
-namespace ouzel::thread
+namespace fluxion::thread
 {
     class Semaphore final
     {
@@ -105,4 +103,4 @@ namespace ouzel::thread
     };
 }
 
-#endif // OUZEL_THREAD_SEMAPHORE_HPP
+#endif // FLUXION_THREAD_SEMAPHORE_HPP

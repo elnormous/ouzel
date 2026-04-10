@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_VISUALSTUDIO_BUILDSYSTEM_HPP
-#define OUZEL_VISUALSTUDIO_BUILDSYSTEM_HPP
+﻿#ifndef FLUXION_VISUALSTUDIO_BUILDSYSTEM_HPP
+#define FLUXION_VISUALSTUDIO_BUILDSYSTEM_HPP
 
 #include "Solution.hpp"
 #include "VcxProject.hpp"
 #include "VcxProjectFilters.hpp"
 #include "storage/Path.hpp"
 
-namespace ouzel::visualstudio
+namespace fluxion::visualstudio
 {
     inline void generateBuildFiles(const Project& project)
     {
@@ -64,4 +62,4 @@ namespace ouzel::visualstudio
     }
 }
 
-#endif // OUZEL_VISUALSTUDIO_BUILDSYSTEM_HPP
+#endif // FLUXION_VISUALSTUDIO_BUILDSYSTEM_HPP

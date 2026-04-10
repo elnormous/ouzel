@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_D3D11BLENDSTATE_HPP
-#define OUZEL_GRAPHICS_D3D11BLENDSTATE_HPP
+﻿#ifndef FLUXION_GRAPHICS_D3D11BLENDSTATE_HPP
+#define FLUXION_GRAPHICS_D3D11BLENDSTATE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
@@ -25,7 +23,7 @@
 #include "../BlendOperation.hpp"
 #include "../ColorMask.hpp"
 
-namespace ouzel::graphics::d3d11
+namespace fluxion::graphics::d3d11
 {
     class RenderDevice;
 
@@ -50,4 +48,4 @@ namespace ouzel::graphics::d3d11
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_D3D11BLENDSTATE_HPP
+#endif // FLUXION_GRAPHICS_D3D11BLENDSTATE_HPP

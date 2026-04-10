@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_INPUTSYSTEM_HPP
-#define OUZEL_INPUT_INPUTSYSTEM_HPP
+﻿#ifndef FLUXION_INPUT_INPUTSYSTEM_HPP
+#define FLUXION_INPUT_INPUTSYSTEM_HPP
 
 #include <cstdint>
 #include <future>
@@ -19,7 +17,7 @@
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class InputSystem
     {
@@ -173,4 +171,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_INPUTSYSTEM_HPP
+#endif // FLUXION_INPUT_INPUTSYSTEM_HPP

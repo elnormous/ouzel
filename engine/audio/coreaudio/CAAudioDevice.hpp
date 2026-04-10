@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_CAAUDIODEVICE_HPP
-#define OUZEL_AUDIO_CAAUDIODEVICE_HPP
+﻿#ifndef FLUXION_AUDIO_CAAUDIODEVICE_HPP
+#define FLUXION_AUDIO_CAAUDIODEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_COREAUDIO
+#if FLUXION_COMPILE_COREAUDIO
 
 #ifdef __APPLE__
 #  include <TargetConditionals.h>
@@ -24,7 +22,7 @@
 #include "../AudioDevice.hpp"
 #include "../../platform/objc/Pointer.hpp"
 
-namespace ouzel::audio::coreaudio
+namespace fluxion::audio::coreaudio
 {
     class AudioDevice final: public audio::AudioDevice
     {
@@ -56,4 +54,4 @@ namespace ouzel::audio::coreaudio
 }
 #endif
 
-#endif // OUZEL_AUDIO_CAAUDIODEVICE_HPP
+#endif // FLUXION_AUDIO_CAAUDIODEVICE_HPP

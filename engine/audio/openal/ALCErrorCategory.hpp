@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_ALCERRORCATEGORY_HPP
-#define OUZEL_AUDIO_ALCERRORCATEGORY_HPP
+﻿#ifndef FLUXION_AUDIO_ALCERRORCATEGORY_HPP
+#define FLUXION_AUDIO_ALCERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENAL
+#if FLUXION_COMPILE_OPENAL
 
 #include <system_error>
 #ifdef __APPLE__
@@ -14,7 +12,7 @@
 #  include <AL/alc.h>
 #endif
 
-namespace ouzel::audio::alc
+namespace fluxion::audio::alc
 {
     class ErrorCategory final: public std::error_category
     {
@@ -42,4 +40,4 @@ namespace ouzel::audio::alc
 }
 #endif
 
-#endif // OUZEL_AUDIO_ALCERRORCATEGORY_HPP
+#endif // FLUXION_AUDIO_ALCERRORCATEGORY_HPP

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADDEVICEGC_HPP
-#define OUZEL_INPUT_GAMEPADDEVICEGC_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADDEVICEGC_HPP
+#define FLUXION_INPUT_GAMEPADDEVICEGC_HPP
 
 #ifdef __OBJC__
 #  include <GameController/GameController.h>
@@ -14,7 +12,7 @@ using GCControllerPtr = id;
 #include "GamepadDeviceMacOS.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input::macos
+namespace fluxion::input::macos
 {
     class GamepadDeviceGC final: public GamepadDevice
     {
@@ -40,4 +38,4 @@ namespace ouzel::input::macos
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPADDEVICEGC_HPP
+#endif // FLUXION_INPUT_GAMEPADDEVICEGC_HPP

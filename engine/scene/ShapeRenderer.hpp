@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_SHAPERENDERER_HPP
-#define OUZEL_SCENE_SHAPERENDERER_HPP
+﻿#ifndef FLUXION_SCENE_SHAPERENDERER_HPP
+#define FLUXION_SCENE_SHAPERENDERER_HPP
 
 #include <vector>
 #include "Component.hpp"
@@ -11,7 +9,7 @@
 #include "../graphics/Shader.hpp"
 #include "../math/Color.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class ShapeRenderer: public Component
     {
@@ -85,4 +83,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_SHAPERENDERER_HPP
+#endif // FLUXION_SCENE_SHAPERENDERER_HPP

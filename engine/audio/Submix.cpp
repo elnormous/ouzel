@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "Submix.hpp"
+﻿#include "Submix.hpp"
 #include "Audio.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     Submix::Submix(Audio& initAudio):
         Mix{initAudio}

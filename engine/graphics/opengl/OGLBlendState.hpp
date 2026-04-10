@@ -1,15 +1,13 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLBLENDSTATE_HPP
-#define OUZEL_GRAPHICS_OGLBLENDSTATE_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLBLENDSTATE_HPP
+#define FLUXION_GRAPHICS_OGLBLENDSTATE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include "OGL.h"
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
@@ -24,7 +22,7 @@
 #include "../BlendOperation.hpp"
 #include "../ColorMask.hpp"
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     class RenderDevice;
 
@@ -75,4 +73,4 @@ namespace ouzel::graphics::opengl
 
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLBLENDSTATE_HPP
+#endif // FLUXION_GRAPHICS_OGLBLENDSTATE_HPP

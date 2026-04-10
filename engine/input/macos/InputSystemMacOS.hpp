@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_INPUTSYSTEMMACOS_HPP
-#define OUZEL_INPUT_INPUTSYSTEMMACOS_HPP
+﻿#ifndef FLUXION_INPUT_INPUTSYSTEMMACOS_HPP
+#define FLUXION_INPUT_INPUTSYSTEMMACOS_HPP
 
 #include <memory>
 #include <unordered_map>
@@ -25,7 +23,7 @@ using GCControllerPtr = id;
 #include "MouseDeviceMacOS.hpp"
 #include "../../platform/iokit/HidManager.hpp"
 
-namespace ouzel::input::macos
+namespace fluxion::input::macos
 {
     class Cursor;
 
@@ -78,4 +76,4 @@ namespace ouzel::input::macos
     };
 }
 
-#endif // OUZEL_INPUT_INPUTSYSTEMMACOS_HPP
+#endif // FLUXION_INPUT_INPUTSYSTEMMACOS_HPP

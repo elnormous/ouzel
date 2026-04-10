@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP
-#define OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLRENDERRESOURCE_HPP
+#define FLUXION_GRAPHICS_OGLRENDERRESOURCE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     class RenderDevice;
 
@@ -46,4 +44,4 @@ namespace ouzel::graphics::opengl
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLRENDERRESOURCE_HPP
+#endif // FLUXION_GRAPHICS_OGLRENDERRESOURCE_HPP

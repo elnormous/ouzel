@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include "OGLBuffer.hpp"
 #include "OGLError.hpp"
 #include "OGLRenderDevice.hpp"
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     Buffer::Buffer(RenderDevice& initRenderDevice,
                    BufferType initType,

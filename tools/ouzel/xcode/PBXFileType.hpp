@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXFILETYPE_HPP
-#define OUZEL_XCODE_PBXFILETYPE_HPP
+﻿#ifndef FLUXION_XCODE_PBXFILETYPE_HPP
+#define FLUXION_XCODE_PBXFILETYPE_HPP
 
 #include <string>
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     enum class PBXFileType
     {
@@ -229,4 +227,4 @@ namespace ouzel::xcode
     }
 }
 
-#endif // OUZEL_XCODE_PBXFILETYPE_HPP
+#endif // FLUXION_XCODE_PBXFILETYPE_HPP

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <cassert>
 #include "Actor.hpp"
 #include "SceneManager.hpp"
@@ -9,7 +7,7 @@
 #include "Component.hpp"
 #include "../math/Scalar.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     ActorContainer::~ActorContainer()
     {

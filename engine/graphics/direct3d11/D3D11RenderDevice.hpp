@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP
-#define OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP
+﻿#ifndef FLUXION_GRAPHICS_D3D11RENDERDEVICE_HPP
+#define FLUXION_GRAPHICS_D3D11RENDERDEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 
 #include <array>
 #include <atomic>
@@ -32,7 +30,7 @@
 #include "D3D11Texture.hpp"
 #include "../../thread/Thread.hpp"
 
-namespace ouzel::graphics::d3d11
+namespace fluxion::graphics::d3d11
 {
     class RenderDevice final: public graphics::RenderDevice
     {
@@ -91,4 +89,4 @@ namespace ouzel::graphics::d3d11
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_D3D11RENDERDEVICE_HPP
+#endif // FLUXION_GRAPHICS_D3D11RENDERDEVICE_HPP

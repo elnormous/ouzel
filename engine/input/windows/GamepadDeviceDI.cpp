@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <array>
+﻿#include <array>
 #include "GamepadDeviceDI.hpp"
 #include "InputSystemWin.hpp"
 #include "DIErrorCategory.hpp"
@@ -8,7 +6,7 @@
 #include "../../core/windows/NativeWindowWin.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     namespace
     {

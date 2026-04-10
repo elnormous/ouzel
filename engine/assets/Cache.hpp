@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_CACHE_HPP
-#define OUZEL_ASSETS_CACHE_HPP
+﻿#ifndef FLUXION_ASSETS_CACHE_HPP
+#define FLUXION_ASSETS_CACHE_HPP
 
 #include <memory>
 #include <string_view>
@@ -10,7 +8,7 @@
 #include "Asset.hpp"
 #include "Bundle.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     class Bundle;
 
@@ -60,4 +58,4 @@ namespace ouzel::assets
     };
 }
 
-#endif // OUZEL_ASSETS_CACHE_HPP
+#endif // FLUXION_ASSETS_CACHE_HPP

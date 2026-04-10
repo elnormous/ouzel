@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_D3D11ERRORCATEGORY_HPP
-#define OUZEL_GRAPHICS_D3D11ERRORCATEGORY_HPP
+﻿#ifndef FLUXION_GRAPHICS_D3D11ERRORCATEGORY_HPP
+#define FLUXION_GRAPHICS_D3D11ERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 
 #include <system_error>
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
@@ -20,7 +18,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-namespace ouzel::graphics::d3d11
+namespace fluxion::graphics::d3d11
 {
     class ErrorCategory final: public std::error_category
     {
@@ -55,4 +53,4 @@ namespace ouzel::graphics::d3d11
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_D3D11ERRORCATEGORY_HPP
+#endif // FLUXION_GRAPHICS_D3D11ERRORCATEGORY_HPP

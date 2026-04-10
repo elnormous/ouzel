@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_LOCALIZATION_LOCALIZATION_HPP
-#define OUZEL_LOCALIZATION_LOCALIZATION_HPP
+﻿#ifndef FLUXION_LOCALIZATION_LOCALIZATION_HPP
+#define FLUXION_LOCALIZATION_LOCALIZATION_HPP
 
 #include <cstdint>
 #include <map>
 #include <string>
 #include <vector>
 
-namespace ouzel::l10n
+namespace fluxion::l10n
 {
     class Language final
     {
@@ -37,4 +35,4 @@ namespace ouzel::l10n
     };
 }
 
-#endif // OUZEL_LOCALIZATION_LOCALIZATION_HPP
+#endif // FLUXION_LOCALIZATION_LOCALIZATION_HPP

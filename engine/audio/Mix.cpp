@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include "Mix.hpp"
+﻿#include "Mix.hpp"
 #include "Audio.hpp"
 #include "Effect.hpp"
 #include "Listener.hpp"
 #include "Submix.hpp"
 #include "Voice.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     Mix::Mix(Audio& initAudio):
         audio{initAudio},

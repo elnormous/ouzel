@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADDEVICEWIN_HPP
-#define OUZEL_INPUT_GAMEPADDEVICEWIN_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADDEVICEWIN_HPP
+#define FLUXION_INPUT_GAMEPADDEVICEWIN_HPP
 
 #include <cstdint>
 #include "../GamepadDevice.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     class InputSystem;
 
@@ -18,4 +16,4 @@ namespace ouzel::input::windows
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPADDEVICEWIN_HPP
+#endif // FLUXION_INPUT_GAMEPADDEVICEWIN_HPP

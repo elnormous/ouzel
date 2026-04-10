@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_MOUSE_HPP
-#define OUZEL_INPUT_MOUSE_HPP
+﻿#ifndef FLUXION_INPUT_MOUSE_HPP
+#define FLUXION_INPUT_MOUSE_HPP
 
 #include <bitset>
 #include <cstdint>
 #include "Controller.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class Cursor;
 
@@ -58,4 +56,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_MOUSE_HPP
+#endif // FLUXION_INPUT_MOUSE_HPP

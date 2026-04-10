@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_QUATERNION_HPP
-#define OUZEL_MATH_QUATERNION_HPP
+﻿#ifndef FLUXION_MATH_QUATERNION_HPP
+#define FLUXION_MATH_QUATERNION_HPP
 
 #include <cmath>
 #include <cstddef>
 #include <limits>
 #include "Vector.hpp"
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T> class Quaternion final
     {
@@ -435,4 +433,4 @@ namespace ouzel::math
 #include "QuaternionNeon.hpp"
 #include "QuaternionSse.hpp"
 
-#endif // OUZEL_MATH_QUATERNION_HPP
+#endif // FLUXION_MATH_QUATERNION_HPP

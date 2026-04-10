@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIX_HPP
-#define OUZEL_AUDIO_MIX_HPP
+﻿#ifndef FLUXION_AUDIO_MIX_HPP
+#define FLUXION_AUDIO_MIX_HPP
 
 #include <cstdint>
 #include <vector>
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Audio;
     class Effect;
@@ -50,4 +48,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_MIX_HPP
+#endif // FLUXION_AUDIO_MIX_HPP

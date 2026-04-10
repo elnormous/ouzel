@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef SOUNDSAMPLE_HPP
+﻿#ifndef SOUNDSAMPLE_HPP
 #define SOUNDSAMPLE_HPP
 
 #include "audio/Effects.hpp"
@@ -13,49 +11,49 @@
 
 namespace samples
 {
-    class SoundSample: public ouzel::scene::Scene
+    class SoundSample: public fluxion::scene::Scene
     {
     public:
         SoundSample();
 
     private:
-        ouzel::audio::Submix submix;
-        ouzel::audio::Listener listener;
-        ouzel::audio::Gain soundGain;
+        fluxion::audio::Submix submix;
+        fluxion::audio::Listener listener;
+        fluxion::audio::Gain soundGain;
 
-        ouzel::audio::Submix test8BitSubmix;
-        ouzel::audio::Voice test8BitVoice;
-        ouzel::audio::PitchScale test8BitPitch;
+        fluxion::audio::Submix test8BitSubmix;
+        fluxion::audio::Voice test8BitVoice;
+        fluxion::audio::PitchScale test8BitPitch;
 
-        ouzel::audio::Submix test24BitSubmix;
-        ouzel::audio::Voice test24BitVoice;
-        ouzel::audio::PitchScale test24BitPitch;
+        fluxion::audio::Submix test24BitSubmix;
+        fluxion::audio::Voice test24BitVoice;
+        fluxion::audio::PitchScale test24BitPitch;
 
-        ouzel::audio::Submix jumpSubmix;
-        ouzel::audio::Voice jumpVoice;
-        ouzel::audio::Panner jumpPanner;
-        ouzel::audio::Reverb jumpReverb;
+        fluxion::audio::Submix jumpSubmix;
+        fluxion::audio::Voice jumpVoice;
+        fluxion::audio::Panner jumpPanner;
+        fluxion::audio::Reverb jumpReverb;
 
-        ouzel::audio::Voice ambientVoice;
-        ouzel::audio::Voice music;
-        ouzel::audio::Oscillator tone;
-        ouzel::audio::Voice toneVoice;
+        fluxion::audio::Voice ambientVoice;
+        fluxion::audio::Voice music;
+        fluxion::audio::Oscillator tone;
+        fluxion::audio::Voice toneVoice;
 
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
-        ouzel::gui::Menu menu;
-        ouzel::gui::Button backButton;
+        fluxion::scene::Layer layer;
+        fluxion::scene::Camera camera;
+        fluxion::scene::Actor cameraActor;
+        fluxion::gui::Menu menu;
+        fluxion::gui::Button backButton;
 
-        ouzel::scene::Actor soundActor;
-        ouzel::gui::Button test8BitButton;
-        ouzel::gui::Button test24BitButton;
-        ouzel::gui::Button jumpButton;
-        ouzel::gui::Button ambientButton;
-        ouzel::gui::Button musicButton;
-        ouzel::gui::Button toneButton;
+        fluxion::scene::Actor soundActor;
+        fluxion::gui::Button test8BitButton;
+        fluxion::gui::Button test24BitButton;
+        fluxion::gui::Button jumpButton;
+        fluxion::gui::Button ambientButton;
+        fluxion::gui::Button musicButton;
+        fluxion::gui::Button toneButton;
 
-        ouzel::EventHandler handler;
+        fluxion::EventHandler handler;
     };
 }
 

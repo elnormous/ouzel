@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_VISUALSTUDIO_SOLUTION_HPP
-#define OUZEL_VISUALSTUDIO_SOLUTION_HPP
+﻿#ifndef FLUXION_VISUALSTUDIO_SOLUTION_HPP
+#define FLUXION_VISUALSTUDIO_SOLUTION_HPP
 
 #include <string>
 #include <vector>
 #include "VcxProject.hpp"
 
-namespace ouzel::visualstudio
+namespace fluxion::visualstudio
 {
     class Solution final
     {
@@ -75,4 +73,4 @@ namespace ouzel::visualstudio
     };
 }
 
-#endif // OUZEL_VISUALSTUDIO_SOLUTION_HPP
+#endif // FLUXION_VISUALSTUDIO_SOLUTION_HPP

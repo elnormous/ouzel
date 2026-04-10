@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_GRAPHICS_BLENDFACTOR_HPP
+#define FLUXION_GRAPHICS_BLENDFACTOR_HPP
 
-#ifndef OUZEL_GRAPHICS_BLENDFACTOR_HPP
-#define OUZEL_GRAPHICS_BLENDFACTOR_HPP
-
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     enum class BlendFactor
     {
@@ -23,4 +21,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_BLENDFACTOR_HPP
+#endif // FLUXION_GRAPHICS_BLENDFACTOR_HPP

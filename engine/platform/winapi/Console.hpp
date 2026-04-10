@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_WINAPI_CONSOLE_HPP
-#define OUZEL_PLATFORM_WINAPI_CONSOLE_HPP
+﻿#ifndef FLUXION_PLATFORM_WINAPI_CONSOLE_HPP
+#define FLUXION_PLATFORM_WINAPI_CONSOLE_HPP
 
 #include <system_error>
 #include <ConsoleApi.h>
 
-namespace ouzel::platform::winapi
+namespace fluxion::platform::winapi
 {
     class Console final
     {
@@ -43,4 +41,4 @@ namespace ouzel::platform::winapi
     };
 }
 
-#endif // OUZEL_PLATFORM_WINAPI_CONSOLE_HPP
+#endif // FLUXION_PLATFORM_WINAPI_CONSOLE_HPP

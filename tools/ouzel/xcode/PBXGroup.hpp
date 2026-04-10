@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXGROUP_HPP
-#define OUZEL_XCODE_PBXGROUP_HPP
+﻿#ifndef FLUXION_XCODE_PBXGROUP_HPP
+#define FLUXION_XCODE_PBXGROUP_HPP
 
 #include <vector>
 #include "PBXFileElement.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXGroup final: public PBXFileElement
     {
@@ -29,4 +27,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXGROUP_HPP
+#endif // FLUXION_XCODE_PBXGROUP_HPP

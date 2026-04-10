@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "Client.hpp"
+﻿#include "Client.hpp"
 #include "Network.hpp"
 
-namespace ouzel::network
+namespace fluxion::network
 {
     Client::Client(Network& initNetwork):
         network{&initNetwork}

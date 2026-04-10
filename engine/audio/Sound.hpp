@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_SOUND_HPP
-#define OUZEL_AUDIO_SOUND_HPP
+﻿#ifndef FLUXION_AUDIO_SOUND_HPP
+#define FLUXION_AUDIO_SOUND_HPP
 
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Audio;
 
@@ -41,4 +39,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_SOUND_HPP
+#endif // FLUXION_AUDIO_SOUND_HPP

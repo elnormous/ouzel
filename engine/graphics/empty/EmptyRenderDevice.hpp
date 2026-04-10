@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_EMPTYRENDERDEVICE_HPP
-#define OUZEL_GRAPHICS_EMPTYRENDERDEVICE_HPP
+﻿#ifndef FLUXION_GRAPHICS_EMPTYRENDERDEVICE_HPP
+#define FLUXION_GRAPHICS_EMPTYRENDERDEVICE_HPP
 
 #include "../RenderDevice.hpp"
 
-namespace ouzel::graphics::empty
+namespace fluxion::graphics::empty
 {
     class RenderDevice final: public graphics::RenderDevice
     {
@@ -23,4 +21,4 @@ namespace ouzel::graphics::empty
     };
 }
 
-#endif // OUZEL_GRAPHICS_EMPTYRENDERDEVICE_HPP
+#endif // FLUXION_GRAPHICS_EMPTYRENDERDEVICE_HPP

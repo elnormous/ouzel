@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <emscripten.h>
 #include "EngineEm.hpp"
 #include "../../audio/AudioDevice.hpp"
@@ -9,7 +7,7 @@
 #include "../../input/emscripten/InputSystemEm.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::core::emscripten
+namespace fluxion::core::emscripten
 {
     namespace
     {

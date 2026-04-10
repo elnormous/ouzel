@@ -1,19 +1,17 @@
-// Ouzel by Elviss Strazdins
-
-#include <stdexcept>
+﻿#include <stdexcept>
 #include "../../core/Setup.h"
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
 #  include <X11/cursorfont.h>
 #  include <X11/Xcursor/Xcursor.h>
 #endif
 #include "CursorLinux.hpp"
 #include "../../core/linux/EngineLinux.hpp"
 
-namespace ouzel::input::linux
+namespace fluxion::input::linux
 {
     Cursor::Cursor(SystemCursor systemCursor)
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
@@ -46,7 +44,7 @@ namespace ouzel::input::linux
                    graphics::PixelFormat pixelFormat,
                    const math::Vector<float, 2>& hotSpot)
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
@@ -84,7 +82,7 @@ namespace ouzel::input::linux
 
     Cursor::~Cursor()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
         if (cursor != None) XFreeCursor(display, cursor);

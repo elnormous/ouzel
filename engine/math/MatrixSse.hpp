@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_MATRIX_SSE_HPP
-#define OUZEL_MATH_MATRIX_SSE_HPP
+﻿#ifndef FLUXION_MATH_MATRIX_SSE_HPP
+#define FLUXION_MATH_MATRIX_SSE_HPP
 
 #include "Matrix.hpp"
 
@@ -13,7 +11,7 @@
 #  include <emmintrin.h>
 #endif
 
-namespace ouzel::math
+namespace fluxion::math
 {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
 #  ifndef __AVX__
@@ -758,4 +756,4 @@ namespace ouzel::math
 #endif
 }
 
-#endif // OUZEL_MATH_MATRIX_SSE_HPP
+#endif // FLUXION_MATH_MATRIX_SSE_HPP

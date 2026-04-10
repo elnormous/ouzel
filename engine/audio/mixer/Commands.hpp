@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_COMMANDS_HPP
-#define OUZEL_AUDIO_MIXER_COMMANDS_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_COMMANDS_HPP
+#define FLUXION_AUDIO_MIXER_COMMANDS_HPP
 
 #include <cstdint>
 #include <functional>
@@ -12,7 +10,7 @@
 #include "Stream.hpp"
 #include "Data.hpp"
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     using ObjectId = std::size_t;
 
@@ -325,4 +323,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_COMMANDS_HPP
+#endif // FLUXION_AUDIO_MIXER_COMMANDS_HPP

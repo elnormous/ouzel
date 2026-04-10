@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <array>
+﻿#include <array>
 #include <cstring>
 #include "WaveLoader.hpp"
 #include "AssetError.hpp"
@@ -25,7 +23,7 @@ namespace
     }
 }
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     bool loadWave(Cache&,
                   Bundle& bundle,

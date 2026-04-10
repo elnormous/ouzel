@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_ALSAAUDIODEVICE_HPP
-#define OUZEL_AUDIO_ALSAAUDIODEVICE_HPP
+﻿#ifndef FLUXION_AUDIO_ALSAAUDIODEVICE_HPP
+#define FLUXION_AUDIO_ALSAAUDIODEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_ALSA
+#if FLUXION_COMPILE_ALSA
 
 #include <atomic>
 #include <thread>
@@ -14,7 +12,7 @@
 #include "../AudioDevice.hpp"
 #include "../../thread/Thread.hpp"
 
-namespace ouzel::audio::alsa
+namespace fluxion::audio::alsa
 {
     class AudioDevice final: public audio::AudioDevice
     {
@@ -45,4 +43,4 @@ namespace ouzel::audio::alsa
 }
 #endif
 
-#endif // OUZEL_AUDIO_ALSAAUDIODEVICE_HPP
+#endif // FLUXION_AUDIO_ALSAAUDIODEVICE_HPP

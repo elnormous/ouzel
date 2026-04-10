@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_ENGINE_HPP
-#define OUZEL_CORE_ENGINE_HPP
+﻿#ifndef FLUXION_CORE_ENGINE_HPP
+#define FLUXION_CORE_ENGINE_HPP
 
 #include <atomic>
 #include <chrono>
@@ -27,7 +25,7 @@
 #include "../utils/Log.hpp"
 #include "../thread/Thread.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     inline std::mt19937 randomEngine{std::random_device{}()};
 
@@ -157,7 +155,7 @@ namespace ouzel::core
     };
 }
 
-namespace ouzel
+namespace fluxion
 {
     const std::string shaderTexture = "shaderTexture";
     const std::string shaderColor = "shaderColor";
@@ -174,4 +172,4 @@ namespace ouzel
     inline core::Engine* engine = nullptr;
 }
 
-#endif // OUZEL_CORE_ENGINE_HPP
+#endif // FLUXION_CORE_ENGINE_HPP

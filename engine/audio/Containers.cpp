@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
+﻿#include "Containers.hpp"
 
-#include "Containers.hpp"
-
-namespace ouzel::audio
+namespace fluxion::audio
 {
 }

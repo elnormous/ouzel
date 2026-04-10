@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "Touchpad.hpp"
+﻿#include "Touchpad.hpp"
 #include "../core/Engine.hpp"
 #include "../events/EventDispatcher.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     Touchpad::Touchpad(InputManager& initInputManager, DeviceId initDeviceId, bool initScreen):
         Controller{initInputManager, Controller::Type::touchpad, initDeviceId},

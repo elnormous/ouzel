@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 
 #include "D3D11RenderTarget.hpp"
 #include "D3D11RenderDevice.hpp"
 #include "D3D11Texture.hpp"
 
-namespace ouzel::graphics::d3d11
+namespace fluxion::graphics::d3d11
 {
     RenderTarget::RenderTarget(RenderDevice& initRenderDevice,
                                const std::set<Texture*>& initColorTextures,

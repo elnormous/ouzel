@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include "core/Engine.hpp"
+﻿#include "core/Engine.hpp"
 #include "scene/Animators.hpp"
 #include "PerspectiveSample.hpp"
 #include "MainMenu.hpp"
 
-using namespace ouzel;
+using namespace fluxion;
 using namespace audio;
 using namespace graphics;
 using namespace input;
@@ -82,7 +80,7 @@ namespace samples
             return false;
         };
 
-        handler.mouseHandler = [this](const ouzel::MouseEvent& event) {
+        handler.mouseHandler = [this](const fluxion::MouseEvent& event) {
             if (event.type == Event::Type::mouseMove &&
                 event.mouse->isButtonDown(Mouse::Button::left))
             {
@@ -99,7 +97,7 @@ namespace samples
             return false;
         };
 
-        handler.touchHandler = [this](const ouzel::TouchEvent& event) {
+        handler.touchHandler = [this](const fluxion::TouchEvent& event) {
             if (event.touchpad->isScreen() &&
                 event.type == Event::Type::touchMove)
             {

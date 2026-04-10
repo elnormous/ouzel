@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "GamepadDevice.hpp"
+﻿#include "GamepadDevice.hpp"
 #include "InputSystem.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     GamepadDevice::GamepadDevice(InputSystem& initInputSystem, DeviceId initId):
         InputDevice{initInputSystem, initId, Controller::Type::gamepad}

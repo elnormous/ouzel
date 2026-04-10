@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_ENGINEWIN_HPP
-#define OUZEL_CORE_ENGINEWIN_HPP
+﻿#ifndef FLUXION_CORE_ENGINEWIN_HPP
+#define FLUXION_CORE_ENGINEWIN_HPP
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
@@ -20,7 +18,7 @@
 #ifdef DEBUG
 #  include "../../platform/winapi/Console.hpp"
 #endif
-namespace ouzel::core::windows
+namespace fluxion::core::windows
 {
     class Engine final: public core::Engine
     {
@@ -45,4 +43,4 @@ namespace ouzel::core::windows
     };
 }
 
-#endif // OUZEL_CORE_ENGINEWIN_HPP
+#endif // FLUXION_CORE_ENGINEWIN_HPP

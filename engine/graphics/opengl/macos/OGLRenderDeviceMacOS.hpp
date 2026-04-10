@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
-#define OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
+#define FLUXION_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
 
 #include "../../../core/Setup.h"
 
@@ -9,7 +7,7 @@
 #  include <TargetConditionals.h>
 #endif
 
-#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_OPENGL
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && FLUXION_COMPILE_OPENGL
 
 #ifdef __OBJC__
 #  import <AppKit/NSOpenGL.h>
@@ -25,7 +23,7 @@ using NSOpenGLPixelFormatPtr = id;
 #include "../../../events/EventHandler.hpp"
 #include "../../../platform/corevideo/DisplayLink.hpp"
 
-namespace ouzel::graphics::opengl::macos
+namespace fluxion::graphics::opengl::macos
 {
     class RenderDevice final: public opengl::RenderDevice
     {
@@ -58,4 +56,4 @@ namespace ouzel::graphics::opengl::macos
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLRENDERDEVICEMACOS_HPP
+#endif // FLUXION_GRAPHICS_OGLRENDERDEVICEMACOS_HPP

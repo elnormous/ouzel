@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADDEVICETVOS_HPP
-#define OUZEL_INPUT_GAMEPADDEVICETVOS_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADDEVICETVOS_HPP
+#define FLUXION_INPUT_GAMEPADDEVICETVOS_HPP
 
 #include <string>
 #ifdef __OBJC__
@@ -15,7 +13,7 @@ using GCControllerPtr = id;
 #include "../GamepadDevice.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input::tvos
+namespace fluxion::input::tvos
 {
     class InputSystem;
 
@@ -44,4 +42,4 @@ namespace ouzel::input::tvos
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPADDEVICETVOS_HPP
+#endif // FLUXION_INPUT_GAMEPADDEVICETVOS_HPP

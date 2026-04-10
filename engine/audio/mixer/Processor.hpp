@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_PROCESSOR_HPP
-#define OUZEL_AUDIO_MIXER_PROCESSOR_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_PROCESSOR_HPP
+#define FLUXION_AUDIO_MIXER_PROCESSOR_HPP
 
 #include "Object.hpp"
 #include "Bus.hpp"
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     class Processor: public Object
     {
@@ -36,4 +34,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_PROCESSOR_HPP
+#endif // FLUXION_AUDIO_MIXER_PROCESSOR_HPP

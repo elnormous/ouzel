@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_CORE_TIMER_HPP
+#define FLUXION_CORE_TIMER_HPP
 
-#ifndef OUZEL_CORE_TIMER_HPP
-#define OUZEL_CORE_TIMER_HPP
-
-namespace ouzel::core
+namespace fluxion::core
 {
     class Timer final
     {
@@ -25,4 +23,4 @@ namespace ouzel::core
     };
 }
 
-#endif // OUZEL_CORE_TIMER_HPP
+#endif // FLUXION_CORE_TIMER_HPP

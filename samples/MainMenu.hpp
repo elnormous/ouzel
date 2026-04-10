@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef MAINMENU_HPP
+﻿#ifndef MAINMENU_HPP
 #define MAINMENU_HPP
 
 #include "gui/Widgets.hpp"
@@ -10,27 +8,27 @@
 
 namespace samples
 {
-    class MainMenu: public ouzel::scene::Scene
+    class MainMenu: public fluxion::scene::Scene
     {
     public:
         MainMenu();
 
     private:
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
+        fluxion::scene::Layer layer;
+        fluxion::scene::Camera camera;
+        fluxion::scene::Actor cameraActor;
 
-        ouzel::gui::Menu menu;
+        fluxion::gui::Menu menu;
 
-        ouzel::EventHandler handler;
-        ouzel::gui::Button gitHubButton;
-        ouzel::gui::Button spritesButton;
-        ouzel::gui::Button guiButton;
-        ouzel::gui::Button renderTargetButton;
-        ouzel::gui::Button animationsButton;
-        ouzel::gui::Button inputButton;
-        ouzel::gui::Button soundButton;
-        ouzel::gui::Button perspectiveButton;
+        fluxion::EventHandler handler;
+        fluxion::gui::Button gitHubButton;
+        fluxion::gui::Button spritesButton;
+        fluxion::gui::Button guiButton;
+        fluxion::gui::Button renderTargetButton;
+        fluxion::gui::Button animationsButton;
+        fluxion::gui::Button inputButton;
+        fluxion::gui::Button soundButton;
+        fluxion::gui::Button perspectiveButton;
     };
 }
 

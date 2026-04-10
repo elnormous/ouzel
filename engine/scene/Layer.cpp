@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cassert>
+﻿#include <cassert>
 #include <algorithm>
 #include "Layer.hpp"
 #include "Scene.hpp"
@@ -9,7 +7,7 @@
 #include "../graphics/Graphics.hpp"
 #include "../math/Matrix.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Layer::Layer()
     {

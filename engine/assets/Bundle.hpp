@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_BUNDLE_HPP
-#define OUZEL_ASSETS_BUNDLE_HPP
+﻿#ifndef FLUXION_ASSETS_BUNDLE_HPP
+#define FLUXION_ASSETS_BUNDLE_HPP
 
 #include <functional>
 #include <map>
@@ -23,7 +21,7 @@
 #include "../scene/ParticleSystem.hpp"
 #include "../storage/FileSystem.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     class Cache;
 
@@ -112,4 +110,4 @@ namespace ouzel::assets
     };
 }
 
-#endif // OUZEL_ASSETS_BUNDLE_HPP
+#endif // FLUXION_ASSETS_BUNDLE_HPP

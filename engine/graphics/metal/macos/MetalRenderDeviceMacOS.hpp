@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALRENDERDEVICEMACOS_HPP
-#define OUZEL_GRAPHICS_METALRENDERDEVICEMACOS_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALRENDERDEVICEMACOS_HPP
+#define FLUXION_GRAPHICS_METALRENDERDEVICEMACOS_HPP
 
 #include "../../../core/Setup.h"
 
@@ -9,13 +7,13 @@
 #  include <TargetConditionals.h>
 #endif
 
-#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && OUZEL_COMPILE_METAL
+#if TARGET_OS_MAC && !TARGET_OS_IOS && !TARGET_OS_TV && FLUXION_COMPILE_METAL
 
 #include "../MetalRenderDevice.hpp"
 #include "../../../events/EventHandler.hpp"
 #include "../../../platform/corevideo/DisplayLink.hpp"
 
-namespace ouzel::graphics::metal::macos
+namespace fluxion::graphics::metal::macos
 {
     class RenderDevice final: public metal::RenderDevice
     {
@@ -40,4 +38,4 @@ namespace ouzel::graphics::metal::macos
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALRENDERDEVICEMACOS_HPP
+#endif // FLUXION_GRAPHICS_METALRENDERDEVICEMACOS_HPP

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cassert>
+﻿#include <cassert>
 #include <algorithm>
 #include "Scene.hpp"
 #include "Layer.hpp"
@@ -9,7 +7,7 @@
 #include "../core/Engine.hpp"
 #include "../events/EventDispatcher.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Scene::Scene():
         eventHandler{EventHandler::priorityMax + 1}

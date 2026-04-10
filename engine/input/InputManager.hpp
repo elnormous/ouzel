@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_INPUTMANAGER_HPP
-#define OUZEL_INPUT_INPUTMANAGER_HPP
+﻿#ifndef FLUXION_INPUT_INPUTMANAGER_HPP
+#define FLUXION_INPUT_INPUTMANAGER_HPP
 
 #ifdef __APPLE__
 #  include <TargetConditionals.h>
@@ -28,7 +26,7 @@
 #endif
 #include "../math/Vector.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class Controller;
     class Keyboard;
@@ -92,4 +90,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_INPUTMANAGER_HPP
+#endif // FLUXION_INPUT_INPUTMANAGER_HPP

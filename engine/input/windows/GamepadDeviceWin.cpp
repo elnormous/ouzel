@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "GamepadDeviceWin.hpp"
+﻿#include "GamepadDeviceWin.hpp"
 #include "InputSystemWin.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     GamepadDevice::GamepadDevice(InputSystem& initInputSystem,
                                  DeviceId initId):

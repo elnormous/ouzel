@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_DIERRORCATEGORY_HPP
-#define OUZEL_INPUT_DIERRORCATEGORY_HPP
+﻿#ifndef FLUXION_INPUT_DIERRORCATEGORY_HPP
+#define FLUXION_INPUT_DIERRORCATEGORY_HPP
 
 #include <system_error>
 
@@ -18,7 +16,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     class ErrorCategory final: public std::error_category
     {
@@ -71,4 +69,4 @@ namespace ouzel::input::windows
     inline const ErrorCategory errorCategory;
 }
 
-#endif // OUZEL_INPUT_DIERRORCATEGORY_HPP
+#endif // FLUXION_INPUT_DIERRORCATEGORY_HPP

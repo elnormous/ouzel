@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
-#define OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
+﻿#ifndef FLUXION_SCENE_SKINNEDMESHRENDERER_HPP
+#define FLUXION_SCENE_SKINNEDMESHRENDERER_HPP
 
 #include <memory>
 #include <vector>
 #include "Component.hpp"
 #include "../graphics/Material.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class SkinnedMeshData final
     {
@@ -53,4 +51,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
+#endif // FLUXION_SCENE_SKINNEDMESHRENDERER_HPP

@@ -1,16 +1,14 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_ALSAERRORCATEGORY_HPP
-#define OUZEL_AUDIO_ALSAERRORCATEGORY_HPP
+﻿#ifndef FLUXION_AUDIO_ALSAERRORCATEGORY_HPP
+#define FLUXION_AUDIO_ALSAERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_ALSA
+#if FLUXION_COMPILE_ALSA
 
 #include <system_error>
 #include <alsa/asoundlib.h>
 
-namespace ouzel::audio::alsa
+namespace fluxion::audio::alsa
 {
     class ErrorCategory final: public std::error_category
     {
@@ -30,4 +28,4 @@ namespace ouzel::audio::alsa
 }
 #endif
 
-#endif // OUZEL_AUDIO_ALSAERRORCATEGORY_HPP
+#endif // FLUXION_AUDIO_ALSAERRORCATEGORY_HPP

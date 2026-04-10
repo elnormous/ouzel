@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_NATIVEWINDOWTVOS_HPP
-#define OUZEL_CORE_NATIVEWINDOWTVOS_HPP
+﻿#ifndef FLUXION_CORE_NATIVEWINDOWTVOS_HPP
+#define FLUXION_CORE_NATIVEWINDOWTVOS_HPP
 
 #ifdef __OBJC__
 #  import <UIKit/UIKit.h>
@@ -22,7 +20,7 @@ using UITextFieldPtr = id;
 #include "../NativeWindow.hpp"
 #include "../../graphics/Graphics.hpp"
 
-namespace ouzel::core::tvos
+namespace fluxion::core::tvos
 {
     class NativeWindow final: public core::NativeWindow
     {
@@ -50,4 +48,4 @@ namespace ouzel::core::tvos
     };
 }
 
-#endif // OUZEL_CORE_NATIVEWINDOWTVOS_HPP
+#endif // FLUXION_CORE_NATIVEWINDOWTVOS_HPP

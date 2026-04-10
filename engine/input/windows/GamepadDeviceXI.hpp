@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADDEVICEXI_HPP
-#define OUZEL_INPUT_GAMEPADDEVICEXI_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADDEVICEXI_HPP
+#define FLUXION_INPUT_GAMEPADDEVICEXI_HPP
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
@@ -19,7 +17,7 @@
 #include "../Gamepad.hpp"
 #include "GamepadDeviceWin.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     class GamepadDeviceXI final: public GamepadDevice
     {
@@ -45,4 +43,4 @@ namespace ouzel::input::windows
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPADDEVICEXI_HPP
+#endif // FLUXION_INPUT_GAMEPADDEVICEXI_HPP

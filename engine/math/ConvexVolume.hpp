@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_CONVEXVOLUME_HPP
-#define OUZEL_MATH_CONVEXVOLUME_HPP
+﻿#ifndef FLUXION_MATH_CONVEXVOLUME_HPP
+#define FLUXION_MATH_CONVEXVOLUME_HPP
 
 #include <type_traits>
 #include <vector>
@@ -9,7 +7,7 @@
 #include "Plane.hpp"
 #include "Vector.hpp"
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T> class ConvexVolume final
     {
@@ -75,4 +73,4 @@ namespace ouzel::math
     }
 }
 
-#endif // OUZEL_MATH_CONVEXVOLUME_HPP
+#endif // FLUXION_MATH_CONVEXVOLUME_HPP

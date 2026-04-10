@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_AUDIODEVICE_HPP
-#define OUZEL_AUDIO_AUDIODEVICE_HPP
+﻿#ifndef FLUXION_AUDIO_AUDIODEVICE_HPP
+#define FLUXION_AUDIO_AUDIODEVICE_HPP
 
 #include <functional>
 #include <vector>
@@ -9,7 +7,7 @@
 #include "SampleFormat.hpp"
 #include "Settings.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class AudioDevice
     {
@@ -59,4 +57,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_AUDIODEVICE_HPP
+#endif // FLUXION_AUDIO_AUDIODEVICE_HPP

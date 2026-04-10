@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXTARGET_HPP
-#define OUZEL_XCODE_PBXTARGET_HPP
+﻿#ifndef FLUXION_XCODE_PBXTARGET_HPP
+#define FLUXION_XCODE_PBXTARGET_HPP
 
 #include <string>
 #include "PBXObject.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXTarget: public PBXObject
     {
@@ -17,4 +15,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXTARGET_HPP
+#endif // FLUXION_XCODE_PBXTARGET_HPP

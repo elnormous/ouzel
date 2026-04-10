@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef ANIMATIONSSAMPLE_HPP
+﻿#ifndef ANIMATIONSSAMPLE_HPP
 #define ANIMATIONSSAMPLE_HPP
 
 #include <memory>
@@ -14,46 +12,46 @@
 
 namespace samples
 {
-    class AnimationsSample: public ouzel::scene::Scene
+    class AnimationsSample: public fluxion::scene::Scene
     {
     public:
         AnimationsSample();
 
     private:
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
+        fluxion::scene::Layer layer;
+        fluxion::scene::Camera camera;
+        fluxion::scene::Actor cameraActor;
 
-        ouzel::scene::ShapeRenderer shapeDrawable;
-        ouzel::scene::Actor drawActor;
+        fluxion::scene::ShapeRenderer shapeDrawable;
+        fluxion::scene::Actor drawActor;
 
-        std::unique_ptr<ouzel::scene::Shake> shake;
+        std::unique_ptr<fluxion::scene::Shake> shake;
 
-        ouzel::scene::SpriteRenderer witchSprite;
-        ouzel::scene::Actor witch;
+        fluxion::scene::SpriteRenderer witchSprite;
+        fluxion::scene::Actor witch;
 
-        std::unique_ptr<ouzel::scene::Animator> witchScale;
-        std::unique_ptr<ouzel::scene::Animator> witchFade;
-        std::unique_ptr<ouzel::scene::Animator> witchRotate;
-        std::unique_ptr<ouzel::scene::Animator> witchRepeat;
-        std::unique_ptr<ouzel::scene::Animator> witchParallel;
-        std::unique_ptr<ouzel::scene::Animator> witchSequence;
+        std::unique_ptr<fluxion::scene::Animator> witchScale;
+        std::unique_ptr<fluxion::scene::Animator> witchFade;
+        std::unique_ptr<fluxion::scene::Animator> witchRotate;
+        std::unique_ptr<fluxion::scene::Animator> witchRepeat;
+        std::unique_ptr<fluxion::scene::Animator> witchParallel;
+        std::unique_ptr<fluxion::scene::Animator> witchSequence;
 
-        ouzel::scene::SpriteRenderer ballSprite;
-        ouzel::scene::Actor ball;
+        fluxion::scene::SpriteRenderer ballSprite;
+        fluxion::scene::Actor ball;
 
-        std::unique_ptr<ouzel::scene::Animator> ballDelay;
-        std::unique_ptr<ouzel::scene::Animator> ballEase;
-        std::unique_ptr<ouzel::scene::Animator> ballMove;
-        std::unique_ptr<ouzel::scene::Animator> ballSequence;
+        std::unique_ptr<fluxion::scene::Animator> ballDelay;
+        std::unique_ptr<fluxion::scene::Animator> ballEase;
+        std::unique_ptr<fluxion::scene::Animator> ballMove;
+        std::unique_ptr<fluxion::scene::Animator> ballSequence;
 
-        ouzel::EventHandler handler;
+        fluxion::EventHandler handler;
 
-        ouzel::scene::Layer guiLayer;
-        ouzel::scene::Camera guiCamera;
-        ouzel::scene::Actor guiCameraActor;
-        ouzel::gui::Menu menu;
-        ouzel::gui::Button backButton;
+        fluxion::scene::Layer guiLayer;
+        fluxion::scene::Camera guiCamera;
+        fluxion::scene::Actor guiCameraActor;
+        fluxion::gui::Menu menu;
+        fluxion::gui::Button backButton;
     };
 }
 

@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_TOUCHPAD_HPP
-#define OUZEL_INPUT_TOUCHPAD_HPP
+﻿#ifndef FLUXION_INPUT_TOUCHPAD_HPP
+#define FLUXION_INPUT_TOUCHPAD_HPP
 
 #include <cstdint>
 #include <unordered_map>
 #include "Controller.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class InputManager;
 
@@ -31,4 +29,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_TOUCHPAD_HPP
+#endif // FLUXION_INPUT_TOUCHPAD_HPP

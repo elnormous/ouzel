@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_SPRITELOADER_HPP
-#define OUZEL_ASSETS_SPRITELOADER_HPP
+﻿#ifndef FLUXION_ASSETS_SPRITELOADER_HPP
+#define FLUXION_ASSETS_SPRITELOADER_HPP
 
 #include <algorithm>
 #include "Bundle.hpp"
 #include "../scene/SpriteRenderer.hpp"
 #include "../formats/Json.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadSprite(Cache&,
                            Bundle& bundle,
@@ -137,4 +135,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_SPRITELOADER_HPP
+#endif // FLUXION_ASSETS_SPRITELOADER_HPP

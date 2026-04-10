@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_BLENDSTATE_HPP
-#define OUZEL_GRAPHICS_BLENDSTATE_HPP
+﻿#ifndef FLUXION_GRAPHICS_BLENDSTATE_HPP
+#define FLUXION_GRAPHICS_BLENDSTATE_HPP
 
 #include "RenderDevice.hpp"
 #include "BlendFactor.hpp"
 #include "BlendOperation.hpp"
 #include "ColorMask.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Graphics;
 
@@ -53,4 +51,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_BLENDSTATE_HPP
+#endif // FLUXION_GRAPHICS_BLENDSTATE_HPP

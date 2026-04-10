@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_GRAPHICS_DRAWMODE_HPP
+#define FLUXION_GRAPHICS_DRAWMODE_HPP
 
-#ifndef OUZEL_GRAPHICS_DRAWMODE_HPP
-#define OUZEL_GRAPHICS_DRAWMODE_HPP
-
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     enum class DrawMode
     {
@@ -15,4 +13,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_DRAWMODE_HPP
+#endif // FLUXION_GRAPHICS_DRAWMODE_HPP

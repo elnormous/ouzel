@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_RENDERDEVICE_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICE_HPP
+﻿#ifndef FLUXION_GRAPHICS_RENDERDEVICE_HPP
+#define FLUXION_GRAPHICS_RENDERDEVICE_HPP
 
 #include <array>
 #include <atomic>
@@ -19,12 +17,12 @@
 #include "../math/Size.hpp"
 #include "../utils/Log.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     class Window;
 }
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Graphics;
 
@@ -254,4 +252,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICE_HPP
+#endif // FLUXION_GRAPHICS_RENDERDEVICE_HPP

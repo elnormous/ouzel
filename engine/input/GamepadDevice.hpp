@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADDEVICE_HPP
-#define OUZEL_INPUT_GAMEPADDEVICE_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADDEVICE_HPP
+#define FLUXION_INPUT_GAMEPADDEVICE_HPP
 
 #include <future>
 #include "InputDevice.hpp"
 #include "Gamepad.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class GamepadDevice: public InputDevice
     {
@@ -19,4 +17,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPADDEVICE_HPP
+#endif // FLUXION_INPUT_GAMEPADDEVICE_HPP

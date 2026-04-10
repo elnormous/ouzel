@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_IMAGEDATA_HPP
-#define OUZEL_GRAPHICS_IMAGEDATA_HPP
+﻿#ifndef FLUXION_GRAPHICS_IMAGEDATA_HPP
+#define FLUXION_GRAPHICS_IMAGEDATA_HPP
 
 #include <cstdint>
 #include <vector>
 #include "PixelFormat.hpp"
 #include "../math/Size.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Image final
     {
@@ -33,4 +31,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_IMAGEDATA_HPP
+#endif // FLUXION_GRAPHICS_IMAGEDATA_HPP

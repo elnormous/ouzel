@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <shellapi.h>
 #include "SystemWin.hpp"
 #include "EngineWin.hpp"
@@ -17,17 +15,17 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
             &LocalFree
         };
 
-        ouzel::core::windows::System system{argc, argv.get()};
+        fluxion::core::windows::System system{argc, argv.get()};
         return system.run();
     }
     catch (const std::exception& e)
     {
-        ouzel::log(ouzel::Log::Level::error) << e.what();
+        fluxion::log(fluxion::Log::Level::error) << e.what();
         return EXIT_FAILURE;
     }
 }
 
-namespace ouzel::core::windows
+namespace fluxion::core::windows
 {
     namespace
     {

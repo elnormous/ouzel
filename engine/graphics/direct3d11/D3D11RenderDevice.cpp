@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 
 #include <cassert>
 #include <cstring>
@@ -21,7 +19,7 @@
 #include "../../utils/Log.hpp"
 #include "stb_image_write.h"
 
-namespace ouzel::graphics::d3d11
+namespace fluxion::graphics::d3d11
 {
     namespace
     {

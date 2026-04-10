@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "MouseDevice.hpp"
+﻿#include "MouseDevice.hpp"
 #include "InputSystem.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     MouseDevice::MouseDevice(InputSystem& initInputSystem, DeviceId initId):
         InputDevice{initInputSystem, initId, Controller::Type::mouse}

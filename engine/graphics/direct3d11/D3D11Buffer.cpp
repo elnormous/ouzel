@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 
 #include <cstring>
 #include "D3D11Buffer.hpp"
@@ -10,7 +8,7 @@
 #include "D3D11MappedSubresource.hpp"
 #include "D3D11RenderDevice.hpp"
 
-namespace ouzel::graphics::d3d11
+namespace fluxion::graphics::d3d11
 {
     Buffer::Buffer(RenderDevice& initRenderDevice,
                    BufferType initType,

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "core/Engine.hpp"
+﻿#include "core/Engine.hpp"
 #include "MainMenu.hpp"
 #include "SpritesSample.hpp"
 #include "GUISample.hpp"
@@ -10,7 +8,7 @@
 #include "SoundSample.hpp"
 #include "PerspectiveSample.hpp"
 
-using namespace ouzel;
+using namespace fluxion;
 using namespace input;
 using namespace math;
 

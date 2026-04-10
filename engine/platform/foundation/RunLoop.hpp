@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_FOUNDATION_RUNLOOP_HPP
-#define OUZEL_PLATFORM_FOUNDATION_RUNLOOP_HPP
+﻿#ifndef FLUXION_PLATFORM_FOUNDATION_RUNLOOP_HPP
+#define FLUXION_PLATFORM_FOUNDATION_RUNLOOP_HPP
 
 #include <functional>
 #ifdef __OBJC__
@@ -12,7 +10,7 @@ using NSRunLoopPtr = NSRunLoop*;
 using NSRunLoopPtr = id;
 #endif
 
-namespace ouzel::platform::foundation
+namespace fluxion::platform::foundation
 {
     class RunLoop final
     {
@@ -50,4 +48,4 @@ namespace ouzel::platform::foundation
     [[nodiscard]] RunLoop currentRunLoop() noexcept;
 }
 
-#endif // OUZEL_PLATFORM_FOUNDATION_RUNLOOP_HPP
+#endif // FLUXION_PLATFORM_FOUNDATION_RUNLOOP_HPP

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cstdlib>
+﻿#include <cstdlib>
 #include "SystemLinux.hpp"
 #include "EngineLinux.hpp"
 #include "../../utils/Log.hpp"
@@ -9,18 +7,18 @@ int main(int argc, char* argv[])
 {
     try
     {
-        ouzel::core::linux::System system{argc, argv};
+        fluxion::core::linux::System system{argc, argv};
         system.run();
         return EXIT_SUCCESS;
     }
     catch (const std::exception& e)
     {
-        ouzel::log(ouzel::Log::Level::error) << e.what();
+        fluxion::log(fluxion::Log::Level::error) << e.what();
         return EXIT_FAILURE;
     }
 }
 
-namespace ouzel::core::linux
+namespace fluxion::core::linux
 {
     namespace
     {

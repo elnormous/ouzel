@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GUI_FONT_HPP
-#define OUZEL_GUI_FONT_HPP
+﻿#ifndef FLUXION_GUI_FONT_HPP
+#define FLUXION_GUI_FONT_HPP
 
 #include <cstdint>
 #include <memory>
@@ -12,7 +10,7 @@
 #include "../graphics/Texture.hpp"
 #include "../graphics/Vertex.hpp"
 
-namespace ouzel::gui
+namespace fluxion::gui
 {
     class Font
     {
@@ -39,4 +37,4 @@ namespace ouzel::gui
     };
 }
 
-#endif // OUZEL_GUI_FONT_HPP
+#endif // FLUXION_GUI_FONT_HPP

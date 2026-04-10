@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_SYSTEMEM_HPP
-#define OUZEL_CORE_SYSTEMEM_HPP
+﻿#ifndef FLUXION_CORE_SYSTEMEM_HPP
+#define FLUXION_CORE_SYSTEMEM_HPP
 
 #include "../System.hpp"
 #include "EngineEm.hpp"
 
-namespace ouzel::core::emscripten
+namespace fluxion::core::emscripten
 {
     class System final: public core::System
     {
@@ -21,4 +19,4 @@ namespace ouzel::core::emscripten
     };
 }
 
-#endif // OUZEL_CORE_SYSTEMEM_HPP
+#endif // FLUXION_CORE_SYSTEMEM_HPP

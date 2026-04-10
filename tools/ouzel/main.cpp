@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <iostream>
 #include <set>
 #include <stdexcept>
@@ -29,7 +27,7 @@ int main(int argc, const char* argv[])
         };
 
         Action action = Action::none;
-        ouzel::storage::Path projectPath;
+        fluxion::storage::Path projectPath;
         std::set<ProjectType> projectTypes;
         std::string targetName;
 
@@ -51,7 +49,7 @@ int main(int argc, const char* argv[])
                 if (++i >= argc)
                     throw std::runtime_error{"Invalid command"};
 
-                projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::native};
+                projectPath = fluxion::storage::Path{argv[i], fluxion::storage::Path::Format::native};
             }
             else if (std::string(argv[i]) == "--project")
             {
@@ -80,7 +78,7 @@ int main(int argc, const char* argv[])
                 if (++i >= argc)
                     throw std::runtime_error{"Invalid command"};
 
-                projectPath = ouzel::storage::Path{argv[i], ouzel::storage::Path::Format::native};
+                projectPath = fluxion::storage::Path{argv[i], fluxion::storage::Path::Format::native};
             }
             else if (std::string(argv[i]) == "--target")
             {
@@ -97,26 +95,26 @@ int main(int argc, const char* argv[])
                 throw std::runtime_error{"No action selected"};
             case Action::generateProject:
             {
-                const ouzel::Project project{projectPath};
+                const fluxion::Project project{projectPath};
 
                 for (const auto projectType : projectTypes)
                     switch (projectType)
                     {
                         case ProjectType::makefile:
-                            ouzel::makefile::generateBuildFiles(project);
+                            fluxion::makefile::generateBuildFiles(project);
                             break;
                         case ProjectType::visualStudio:
-                            ouzel::visualstudio::generateBuildFiles(project);
+                            fluxion::visualstudio::generateBuildFiles(project);
                             break;
                         case ProjectType::xcode:
-                            ouzel::xcode::generateBuildFiles(project);
+                            fluxion::xcode::generateBuildFiles(project);
                             break;
                     }
                 break;
             }
             case Action::exportAssets:
             {
-                const ouzel::Project project{projectPath};
+                const fluxion::Project project{projectPath};
                 project.exportAssets(targetName);
                 break;
             }

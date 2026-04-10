@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef AUDIO_DRIVER_HPP
+﻿#ifndef AUDIO_DRIVER_HPP
 #define AUDIO_DRIVER_HPP
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     enum class Driver
     {

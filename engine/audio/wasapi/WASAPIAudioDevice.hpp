@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_WASAPIAUDIODEVICE_HPP
-#define OUZEL_AUDIO_WASAPIAUDIODEVICE_HPP
+﻿#ifndef FLUXION_AUDIO_WASAPIAUDIODEVICE_HPP
+#define FLUXION_AUDIO_WASAPIAUDIODEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_WASAPI
+#if FLUXION_COMPILE_WASAPI
 
 #include <atomic>
 #include <thread>
@@ -15,7 +13,7 @@
 #include "WASAPIPointer.hpp"
 #include "../../thread/Thread.hpp"
 
-namespace ouzel::audio::wasapi
+namespace fluxion::audio::wasapi
 {
     class AudioDevice final: public audio::AudioDevice
     {
@@ -51,4 +49,4 @@ namespace ouzel::audio::wasapi
 }
 #endif
 
-#endif // OUZEL_AUDIO_WASAPIAUDIODEVICE_HPP
+#endif // FLUXION_AUDIO_WASAPIAUDIODEVICE_HPP

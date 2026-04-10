@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <array>
+﻿#include <array>
 #include <stdexcept>
 #include <android/input.h>
 #include "InputSystemAndroid.hpp"
@@ -9,7 +7,7 @@
 #include "../../core/android/JniErrorCategory.hpp"
 #include "../../core/Window.hpp"
 
-namespace ouzel::input::android
+namespace fluxion::input::android
 {
     InputSystem::InputSystem():
         keyboardDevice{std::make_unique<KeyboardDevice>(*this, getNextDeviceId())},

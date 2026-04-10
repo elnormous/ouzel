@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_MIXERERROR_HPP
-#define OUZEL_AUDIO_MIXER_MIXERERROR_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_MIXERERROR_HPP
+#define FLUXION_AUDIO_MIXER_MIXERERROR_HPP
 
 #include <stdexcept>
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     class Error final: public std::runtime_error
     {
@@ -14,4 +12,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_MIXERERROR_HPP
+#endif // FLUXION_AUDIO_MIXER_MIXERERROR_HPP

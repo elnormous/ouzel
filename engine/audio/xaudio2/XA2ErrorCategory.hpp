@@ -1,16 +1,14 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_XA2ERRORCATEGORY_HPP
-#define OUZEL_AUDIO_XA2ERRORCATEGORY_HPP
+﻿#ifndef FLUXION_AUDIO_XA2ERRORCATEGORY_HPP
+#define FLUXION_AUDIO_XA2ERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_XAUDIO2
+#if FLUXION_COMPILE_XAUDIO2
 
 #include <system_error>
 #include <xaudio2.h>
 
-namespace ouzel::audio::xaudio2
+namespace fluxion::audio::xaudio2
 {
     class ErrorCategory final: public std::error_category
     {
@@ -37,4 +35,4 @@ namespace ouzel::audio::xaudio2
 }
 #endif
 
-#endif // OUZEL_AUDIO_XA2ERRORCATEGORY_HPP
+#endif // FLUXION_AUDIO_XA2ERRORCATEGORY_HPP

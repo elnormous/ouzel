@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include <iterator>
+﻿#include <iterator>
 #include "Gamepad.hpp"
 #include "../core/Engine.hpp"
 #include "../events/EventDispatcher.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     Gamepad::Gamepad(InputManager& initInputManager, DeviceId initDeviceId):
         Controller{initInputManager, Controller::Type::gamepad, initDeviceId}

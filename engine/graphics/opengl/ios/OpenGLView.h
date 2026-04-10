@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OPENGLVIEW_H
-#define OUZEL_GRAPHICS_OPENGLVIEW_H
+﻿#ifndef FLUXION_GRAPHICS_OPENGLVIEW_H
+#define FLUXION_GRAPHICS_OPENGLVIEW_H
 
 #include "../../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #import <QuartzCore/QuartzCore.h>
 #import "../../../core/ios/ViewIOS.h"
@@ -15,4 +13,4 @@
 
 #endif
 
-#endif // OUZEL_GRAPHICS_OPENGLVIEW_H
+#endif // FLUXION_GRAPHICS_OPENGLVIEW_H

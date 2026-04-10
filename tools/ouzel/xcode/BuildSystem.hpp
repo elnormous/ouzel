@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_BUILDSYSTEM_HPP
-#define OUZEL_XCODE_BUILDSYSTEM_HPP
+﻿#ifndef FLUXION_XCODE_BUILDSYSTEM_HPP
+#define FLUXION_XCODE_BUILDSYSTEM_HPP
 
 #include "XcodeProject.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
-    inline void generateBuildFiles(const ouzel::Project& project)
+    inline void generateBuildFiles(const fluxion::Project& project)
     {
         Project p{project};
         const auto projectDirectory = project.getPath().getDirectory();
@@ -15,4 +13,4 @@ namespace ouzel::xcode
     }
 }
 
-#endif // OUZEL_XCODE_BUILDSYSTEM_HPP
+#endif // FLUXION_XCODE_BUILDSYSTEM_HPP

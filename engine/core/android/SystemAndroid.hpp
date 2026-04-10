@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_SYSTEMANDROID_HPP
-#define OUZEL_CORE_SYSTEMANDROID_HPP
+﻿#ifndef FLUXION_CORE_SYSTEMANDROID_HPP
+#define FLUXION_CORE_SYSTEMANDROID_HPP
 
 #include "../System.hpp"
 
-namespace ouzel::core::android
+namespace fluxion::core::android
 {
     class System final: public core::System
     {
@@ -15,4 +13,4 @@ namespace ouzel::core::android
     };
 }
 
-#endif // OUZEL_CORE_SYSTEMANDROID_HPP
+#endif // FLUXION_CORE_SYSTEMANDROID_HPP

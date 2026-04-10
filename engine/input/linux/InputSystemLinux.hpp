@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_INPUTSYSTEMLINUX_HPP
-#define OUZEL_INPUT_INPUTSYSTEMLINUX_HPP
+﻿#ifndef FLUXION_INPUT_INPUTSYSTEMLINUX_HPP
+#define FLUXION_INPUT_INPUTSYSTEMLINUX_HPP
 
 #include <memory>
 #include <unordered_map>
 #include "../../core/Setup.h"
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
 #  include <X11/X.h>
 #endif
 #include "../InputSystem.hpp"
@@ -15,7 +13,7 @@
 #include "KeyboardDeviceLinux.hpp"
 #include "MouseDeviceLinux.hpp"
 
-namespace ouzel::input::linux
+namespace fluxion::input::linux
 {
     class Cursor;
 
@@ -40,7 +38,7 @@ namespace ouzel::input::linux
     private:
         void executeCommand(const Command& command) final;
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         void updateCursor() const;
 #endif
 
@@ -54,10 +52,10 @@ namespace ouzel::input::linux
         std::unordered_map<int, std::unique_ptr<EventDevice>> eventDevices;
         std::vector<std::unique_ptr<Cursor>> cursors;
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         ::Cursor emptyCursor = None;
 #endif
     };
 }
 
-#endif // OUZEL_INPUT_INPUTSYSTEMLINUX_HPP
+#endif // FLUXION_INPUT_INPUTSYSTEMLINUX_HPP

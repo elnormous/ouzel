@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_COMPONENT_HPP
-#define OUZEL_SCENE_COMPONENT_HPP
+﻿#ifndef FLUXION_SCENE_COMPONENT_HPP
+#define FLUXION_SCENE_COMPONENT_HPP
 
 #include <memory>
 #include <vector>
@@ -11,7 +9,7 @@
 #include "../math/Color.hpp"
 #include "../math/Rect.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Actor;
     class Layer;
@@ -62,4 +60,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_COMPONENT_HPP
+#endif // FLUXION_SCENE_COMPONENT_HPP

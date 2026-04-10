@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <vector>
+﻿#include <vector>
 #include "GamepadDeviceIOKit.hpp"
 #include "InputSystemMacOS.hpp"
 #include "../GamepadConfig.hpp"
@@ -8,7 +6,7 @@
 #include "../../platform/iokit/ErrorCategory.hpp"
 #include "../../utils/Bit.hpp"
 
-namespace ouzel::input::macos
+namespace fluxion::input::macos
 {
     namespace
     {

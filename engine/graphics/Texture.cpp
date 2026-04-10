@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "Texture.hpp"
+﻿#include "Texture.hpp"
 #include "Graphics.hpp"
 #include "GraphicsError.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     namespace
     {

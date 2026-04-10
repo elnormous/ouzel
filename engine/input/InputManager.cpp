@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifdef __APPLE__
+﻿#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 #include <algorithm>
@@ -14,7 +12,7 @@
 #include "../events/EventDispatcher.hpp"
 #include "../math/Scalar.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     void InputManager::update()
     {

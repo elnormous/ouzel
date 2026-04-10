@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <system_error>
+﻿#include <system_error>
 #include <unordered_map>
 #include <fcntl.h>
 #include <unistd.h>
@@ -31,195 +29,195 @@ namespace
         return (array[bit / bitsPerLong] & (1LL << (bit % bitsPerLong))) != 0;
     }
 
-    ouzel::input::Keyboard::Key convertKeyCode(std::uint16_t keyCode)
+    fluxion::input::Keyboard::Key convertKeyCode(std::uint16_t keyCode)
     {
         switch (keyCode)
         {
-            case KEY_ESC: return ouzel::input::Keyboard::Key::escape;
-            case KEY_1: return ouzel::input::Keyboard::Key::num1;
-            case KEY_2: return ouzel::input::Keyboard::Key::num2;
-            case KEY_3: return ouzel::input::Keyboard::Key::num3;
-            case KEY_4: return ouzel::input::Keyboard::Key::num4;
-            case KEY_5: return ouzel::input::Keyboard::Key::num5;
-            case KEY_6: return ouzel::input::Keyboard::Key::num6;
-            case KEY_7: return ouzel::input::Keyboard::Key::num7;
-            case KEY_8: return ouzel::input::Keyboard::Key::num8;
-            case KEY_9: return ouzel::input::Keyboard::Key::num9;
-            case KEY_0: return ouzel::input::Keyboard::Key::num0;
-            case KEY_MINUS: return ouzel::input::Keyboard::Key::minus;
-            case KEY_EQUAL: return ouzel::input::Keyboard::Key::equal;
-            case KEY_BACKSPACE: return ouzel::input::Keyboard::Key::backspace;
-            case KEY_TAB: return ouzel::input::Keyboard::Key::tab;
-            case KEY_Q: return ouzel::input::Keyboard::Key::q;
-            case KEY_W: return ouzel::input::Keyboard::Key::w;
-            case KEY_E: return ouzel::input::Keyboard::Key::e;
-            case KEY_R: return ouzel::input::Keyboard::Key::r;
-            case KEY_T: return ouzel::input::Keyboard::Key::t;
-            case KEY_Y: return ouzel::input::Keyboard::Key::y;
-            case KEY_U: return ouzel::input::Keyboard::Key::u;
-            case KEY_I: return ouzel::input::Keyboard::Key::i;
-            case KEY_O: return ouzel::input::Keyboard::Key::o;
-            case KEY_P: return ouzel::input::Keyboard::Key::p;
-            case KEY_LEFTBRACE: return ouzel::input::Keyboard::Key::leftBracket;
-            case KEY_RIGHTBRACE: return ouzel::input::Keyboard::Key::rightBracket;
-            case KEY_ENTER: return ouzel::input::Keyboard::Key::enter;
-            case KEY_LEFTCTRL: return ouzel::input::Keyboard::Key::leftControl;
-            case KEY_A: return ouzel::input::Keyboard::Key::a;
-            case KEY_S: return ouzel::input::Keyboard::Key::s;
-            case KEY_D: return ouzel::input::Keyboard::Key::d;
-            case KEY_F: return ouzel::input::Keyboard::Key::f;
-            case KEY_G: return ouzel::input::Keyboard::Key::g;
-            case KEY_H: return ouzel::input::Keyboard::Key::h;
-            case KEY_J: return ouzel::input::Keyboard::Key::j;
-            case KEY_K: return ouzel::input::Keyboard::Key::k;
-            case KEY_L: return ouzel::input::Keyboard::Key::l;
-            case KEY_SEMICOLON: return ouzel::input::Keyboard::Key::semicolon;
-            case KEY_APOSTROPHE: return ouzel::input::Keyboard::Key::quote;
-            case KEY_GRAVE: return ouzel::input::Keyboard::Key::grave;
-            case KEY_LEFTSHIFT: return ouzel::input::Keyboard::Key::leftShift;
-            case KEY_BACKSLASH: return ouzel::input::Keyboard::Key::backslash;
-            case KEY_Z: return ouzel::input::Keyboard::Key::z;
-            case KEY_X: return ouzel::input::Keyboard::Key::x;
-            case KEY_C: return ouzel::input::Keyboard::Key::c;
-            case KEY_V: return ouzel::input::Keyboard::Key::v;
-            case KEY_B: return ouzel::input::Keyboard::Key::b;
-            case KEY_N: return ouzel::input::Keyboard::Key::n;
-            case KEY_M: return ouzel::input::Keyboard::Key::m;
-            case KEY_COMMA: return ouzel::input::Keyboard::Key::comma;
-            case KEY_DOT: return ouzel::input::Keyboard::Key::period;
-            case KEY_SLASH: return ouzel::input::Keyboard::Key::slash;
-            case KEY_RIGHTSHIFT: return ouzel::input::Keyboard::Key::rightShift;
-            case KEY_KPASTERISK: return ouzel::input::Keyboard::Key::numpadMultiply;
-            case KEY_LEFTALT: return ouzel::input::Keyboard::Key::leftAlt;
-            case KEY_SPACE: return ouzel::input::Keyboard::Key::space;
-            case KEY_CAPSLOCK: return ouzel::input::Keyboard::Key::capsLock;
-            case KEY_F1: return ouzel::input::Keyboard::Key::f1;
-            case KEY_F2: return ouzel::input::Keyboard::Key::f2;
-            case KEY_F3: return ouzel::input::Keyboard::Key::f3;
-            case KEY_F4: return ouzel::input::Keyboard::Key::f4;
-            case KEY_F5: return ouzel::input::Keyboard::Key::f5;
-            case KEY_F6: return ouzel::input::Keyboard::Key::f6;
-            case KEY_F7: return ouzel::input::Keyboard::Key::f7;
-            case KEY_F8: return ouzel::input::Keyboard::Key::f8;
-            case KEY_F9: return ouzel::input::Keyboard::Key::f9;
-            case KEY_F10: return ouzel::input::Keyboard::Key::f10;
-            case KEY_NUMLOCK: return ouzel::input::Keyboard::Key::numLock;
-            case KEY_SCROLLLOCK: return ouzel::input::Keyboard::Key::scrollLock;
-            case KEY_KP7: return ouzel::input::Keyboard::Key::numpad7;
-            case KEY_KP8: return ouzel::input::Keyboard::Key::numpad8;
-            case KEY_KP9: return ouzel::input::Keyboard::Key::numpad9;
-            case KEY_KPMINUS: return ouzel::input::Keyboard::Key::numpadMinus;
-            case KEY_KP4: return ouzel::input::Keyboard::Key::numpad4;
-            case KEY_KP5: return ouzel::input::Keyboard::Key::numpad5;
-            case KEY_KP6: return ouzel::input::Keyboard::Key::numpad6;
-            case KEY_KPPLUS: return ouzel::input::Keyboard::Key::numpadPlus;
-            case KEY_KP1: return ouzel::input::Keyboard::Key::numpad1;
-            case KEY_KP2: return ouzel::input::Keyboard::Key::numpad2;
-            case KEY_KP3: return ouzel::input::Keyboard::Key::numpad3;
-            case KEY_KP0: return ouzel::input::Keyboard::Key::numpad0;
-            case KEY_KPDOT: return ouzel::input::Keyboard::Key::numpadDecimal;
+            case KEY_ESC: return fluxion::input::Keyboard::Key::escape;
+            case KEY_1: return fluxion::input::Keyboard::Key::num1;
+            case KEY_2: return fluxion::input::Keyboard::Key::num2;
+            case KEY_3: return fluxion::input::Keyboard::Key::num3;
+            case KEY_4: return fluxion::input::Keyboard::Key::num4;
+            case KEY_5: return fluxion::input::Keyboard::Key::num5;
+            case KEY_6: return fluxion::input::Keyboard::Key::num6;
+            case KEY_7: return fluxion::input::Keyboard::Key::num7;
+            case KEY_8: return fluxion::input::Keyboard::Key::num8;
+            case KEY_9: return fluxion::input::Keyboard::Key::num9;
+            case KEY_0: return fluxion::input::Keyboard::Key::num0;
+            case KEY_MINUS: return fluxion::input::Keyboard::Key::minus;
+            case KEY_EQUAL: return fluxion::input::Keyboard::Key::equal;
+            case KEY_BACKSPACE: return fluxion::input::Keyboard::Key::backspace;
+            case KEY_TAB: return fluxion::input::Keyboard::Key::tab;
+            case KEY_Q: return fluxion::input::Keyboard::Key::q;
+            case KEY_W: return fluxion::input::Keyboard::Key::w;
+            case KEY_E: return fluxion::input::Keyboard::Key::e;
+            case KEY_R: return fluxion::input::Keyboard::Key::r;
+            case KEY_T: return fluxion::input::Keyboard::Key::t;
+            case KEY_Y: return fluxion::input::Keyboard::Key::y;
+            case KEY_U: return fluxion::input::Keyboard::Key::u;
+            case KEY_I: return fluxion::input::Keyboard::Key::i;
+            case KEY_O: return fluxion::input::Keyboard::Key::o;
+            case KEY_P: return fluxion::input::Keyboard::Key::p;
+            case KEY_LEFTBRACE: return fluxion::input::Keyboard::Key::leftBracket;
+            case KEY_RIGHTBRACE: return fluxion::input::Keyboard::Key::rightBracket;
+            case KEY_ENTER: return fluxion::input::Keyboard::Key::enter;
+            case KEY_LEFTCTRL: return fluxion::input::Keyboard::Key::leftControl;
+            case KEY_A: return fluxion::input::Keyboard::Key::a;
+            case KEY_S: return fluxion::input::Keyboard::Key::s;
+            case KEY_D: return fluxion::input::Keyboard::Key::d;
+            case KEY_F: return fluxion::input::Keyboard::Key::f;
+            case KEY_G: return fluxion::input::Keyboard::Key::g;
+            case KEY_H: return fluxion::input::Keyboard::Key::h;
+            case KEY_J: return fluxion::input::Keyboard::Key::j;
+            case KEY_K: return fluxion::input::Keyboard::Key::k;
+            case KEY_L: return fluxion::input::Keyboard::Key::l;
+            case KEY_SEMICOLON: return fluxion::input::Keyboard::Key::semicolon;
+            case KEY_APOSTROPHE: return fluxion::input::Keyboard::Key::quote;
+            case KEY_GRAVE: return fluxion::input::Keyboard::Key::grave;
+            case KEY_LEFTSHIFT: return fluxion::input::Keyboard::Key::leftShift;
+            case KEY_BACKSLASH: return fluxion::input::Keyboard::Key::backslash;
+            case KEY_Z: return fluxion::input::Keyboard::Key::z;
+            case KEY_X: return fluxion::input::Keyboard::Key::x;
+            case KEY_C: return fluxion::input::Keyboard::Key::c;
+            case KEY_V: return fluxion::input::Keyboard::Key::v;
+            case KEY_B: return fluxion::input::Keyboard::Key::b;
+            case KEY_N: return fluxion::input::Keyboard::Key::n;
+            case KEY_M: return fluxion::input::Keyboard::Key::m;
+            case KEY_COMMA: return fluxion::input::Keyboard::Key::comma;
+            case KEY_DOT: return fluxion::input::Keyboard::Key::period;
+            case KEY_SLASH: return fluxion::input::Keyboard::Key::slash;
+            case KEY_RIGHTSHIFT: return fluxion::input::Keyboard::Key::rightShift;
+            case KEY_KPASTERISK: return fluxion::input::Keyboard::Key::numpadMultiply;
+            case KEY_LEFTALT: return fluxion::input::Keyboard::Key::leftAlt;
+            case KEY_SPACE: return fluxion::input::Keyboard::Key::space;
+            case KEY_CAPSLOCK: return fluxion::input::Keyboard::Key::capsLock;
+            case KEY_F1: return fluxion::input::Keyboard::Key::f1;
+            case KEY_F2: return fluxion::input::Keyboard::Key::f2;
+            case KEY_F3: return fluxion::input::Keyboard::Key::f3;
+            case KEY_F4: return fluxion::input::Keyboard::Key::f4;
+            case KEY_F5: return fluxion::input::Keyboard::Key::f5;
+            case KEY_F6: return fluxion::input::Keyboard::Key::f6;
+            case KEY_F7: return fluxion::input::Keyboard::Key::f7;
+            case KEY_F8: return fluxion::input::Keyboard::Key::f8;
+            case KEY_F9: return fluxion::input::Keyboard::Key::f9;
+            case KEY_F10: return fluxion::input::Keyboard::Key::f10;
+            case KEY_NUMLOCK: return fluxion::input::Keyboard::Key::numLock;
+            case KEY_SCROLLLOCK: return fluxion::input::Keyboard::Key::scrollLock;
+            case KEY_KP7: return fluxion::input::Keyboard::Key::numpad7;
+            case KEY_KP8: return fluxion::input::Keyboard::Key::numpad8;
+            case KEY_KP9: return fluxion::input::Keyboard::Key::numpad9;
+            case KEY_KPMINUS: return fluxion::input::Keyboard::Key::numpadMinus;
+            case KEY_KP4: return fluxion::input::Keyboard::Key::numpad4;
+            case KEY_KP5: return fluxion::input::Keyboard::Key::numpad5;
+            case KEY_KP6: return fluxion::input::Keyboard::Key::numpad6;
+            case KEY_KPPLUS: return fluxion::input::Keyboard::Key::numpadPlus;
+            case KEY_KP1: return fluxion::input::Keyboard::Key::numpad1;
+            case KEY_KP2: return fluxion::input::Keyboard::Key::numpad2;
+            case KEY_KP3: return fluxion::input::Keyboard::Key::numpad3;
+            case KEY_KP0: return fluxion::input::Keyboard::Key::numpad0;
+            case KEY_KPDOT: return fluxion::input::Keyboard::Key::numpadDecimal;
 
-            case KEY_ZENKAKUHANKAKU: return ouzel::input::Keyboard::Key::none; // ??
-            case KEY_102ND: return ouzel::input::Keyboard::Key::intlBackslash;
-            case KEY_F11: return ouzel::input::Keyboard::Key::f11;
-            case KEY_F12: return ouzel::input::Keyboard::Key::f12;
-            case KEY_RO: return ouzel::input::Keyboard::Key::ro;
-            case KEY_KATAKANA: return ouzel::input::Keyboard::Key::katakana;
-            case KEY_HIRAGANA: return ouzel::input::Keyboard::Key::hiragana;
-            case KEY_HENKAN: return ouzel::input::Keyboard::Key::henkan;
-            case KEY_KATAKANAHIRAGANA: return ouzel::input::Keyboard::Key::katakanaHiragana;
-            case KEY_MUHENKAN: return ouzel::input::Keyboard::Key::muhenkan;
-            case KEY_KPJPCOMMA: return ouzel::input::Keyboard::Key::numpadJpcomma;
-            case KEY_KPENTER: return ouzel::input::Keyboard::Key::numpadEnter;
-            case KEY_RIGHTCTRL: return ouzel::input::Keyboard::Key::rightControl;
-            case KEY_KPSLASH: return ouzel::input::Keyboard::Key::numpadDivide;
-            case KEY_SYSRQ: return ouzel::input::Keyboard::Key::printScreen;
-            case KEY_RIGHTALT: return ouzel::input::Keyboard::Key::rightAlt;
-            case KEY_LINEFEED: return ouzel::input::Keyboard::Key::none; // ??
-            case KEY_HOME: return ouzel::input::Keyboard::Key::home;
-            case KEY_UP: return ouzel::input::Keyboard::Key::up;
-            case KEY_PAGEUP: return ouzel::input::Keyboard::Key::pageUp;
-            case KEY_LEFT: return ouzel::input::Keyboard::Key::left;
-            case KEY_RIGHT: return ouzel::input::Keyboard::Key::right;
-            case KEY_END: return ouzel::input::Keyboard::Key::end;
-            case KEY_DOWN: return ouzel::input::Keyboard::Key::down;
-            case KEY_PAGEDOWN: return ouzel::input::Keyboard::Key::pageDown;
-            case KEY_INSERT: return ouzel::input::Keyboard::Key::insert;
-            case KEY_DELETE: return ouzel::input::Keyboard::Key::del;
-            case KEY_MACRO: return ouzel::input::Keyboard::Key::none; // ??
-            case KEY_MAIL: return ouzel::input::Keyboard::Key::mail;
-            case KEY_MUTE: return ouzel::input::Keyboard::Key::mute;
-            case KEY_VOLUMEDOWN: return ouzel::input::Keyboard::Key::volumeDown;
-            case KEY_VOLUMEUP: return ouzel::input::Keyboard::Key::volumeUp;
-            case KEY_NEXTSONG: return ouzel::input::Keyboard::Key::audioNext;
-            case KEY_PLAYPAUSE: return ouzel::input::Keyboard::Key::audioPlay;
-            case KEY_PREVIOUSSONG: return ouzel::input::Keyboard::Key::audioPrevious;
-            case KEY_STOPCD: return ouzel::input::Keyboard::Key::audioStop;
+            case KEY_ZENKAKUHANKAKU: return fluxion::input::Keyboard::Key::none; // ??
+            case KEY_102ND: return fluxion::input::Keyboard::Key::intlBackslash;
+            case KEY_F11: return fluxion::input::Keyboard::Key::f11;
+            case KEY_F12: return fluxion::input::Keyboard::Key::f12;
+            case KEY_RO: return fluxion::input::Keyboard::Key::ro;
+            case KEY_KATAKANA: return fluxion::input::Keyboard::Key::katakana;
+            case KEY_HIRAGANA: return fluxion::input::Keyboard::Key::hiragana;
+            case KEY_HENKAN: return fluxion::input::Keyboard::Key::henkan;
+            case KEY_KATAKANAHIRAGANA: return fluxion::input::Keyboard::Key::katakanaHiragana;
+            case KEY_MUHENKAN: return fluxion::input::Keyboard::Key::muhenkan;
+            case KEY_KPJPCOMMA: return fluxion::input::Keyboard::Key::numpadJpcomma;
+            case KEY_KPENTER: return fluxion::input::Keyboard::Key::numpadEnter;
+            case KEY_RIGHTCTRL: return fluxion::input::Keyboard::Key::rightControl;
+            case KEY_KPSLASH: return fluxion::input::Keyboard::Key::numpadDivide;
+            case KEY_SYSRQ: return fluxion::input::Keyboard::Key::printScreen;
+            case KEY_RIGHTALT: return fluxion::input::Keyboard::Key::rightAlt;
+            case KEY_LINEFEED: return fluxion::input::Keyboard::Key::none; // ??
+            case KEY_HOME: return fluxion::input::Keyboard::Key::home;
+            case KEY_UP: return fluxion::input::Keyboard::Key::up;
+            case KEY_PAGEUP: return fluxion::input::Keyboard::Key::pageUp;
+            case KEY_LEFT: return fluxion::input::Keyboard::Key::left;
+            case KEY_RIGHT: return fluxion::input::Keyboard::Key::right;
+            case KEY_END: return fluxion::input::Keyboard::Key::end;
+            case KEY_DOWN: return fluxion::input::Keyboard::Key::down;
+            case KEY_PAGEDOWN: return fluxion::input::Keyboard::Key::pageDown;
+            case KEY_INSERT: return fluxion::input::Keyboard::Key::insert;
+            case KEY_DELETE: return fluxion::input::Keyboard::Key::del;
+            case KEY_MACRO: return fluxion::input::Keyboard::Key::none; // ??
+            case KEY_MAIL: return fluxion::input::Keyboard::Key::mail;
+            case KEY_MUTE: return fluxion::input::Keyboard::Key::mute;
+            case KEY_VOLUMEDOWN: return fluxion::input::Keyboard::Key::volumeDown;
+            case KEY_VOLUMEUP: return fluxion::input::Keyboard::Key::volumeUp;
+            case KEY_NEXTSONG: return fluxion::input::Keyboard::Key::audioNext;
+            case KEY_PLAYPAUSE: return fluxion::input::Keyboard::Key::audioPlay;
+            case KEY_PREVIOUSSONG: return fluxion::input::Keyboard::Key::audioPrevious;
+            case KEY_STOPCD: return fluxion::input::Keyboard::Key::audioStop;
 
-            case KEY_POWER: return ouzel::input::Keyboard::Key::power;
-            case KEY_KPEQUAL: return ouzel::input::Keyboard::Key::numpadEqual;
-            case KEY_KPPLUSMINUS: return ouzel::input::Keyboard::Key::numpadPlusminus;
-            case KEY_PAUSE: return ouzel::input::Keyboard::Key::pause;
-            case KEY_SCALE: return ouzel::input::Keyboard::Key::none; //?
+            case KEY_POWER: return fluxion::input::Keyboard::Key::power;
+            case KEY_KPEQUAL: return fluxion::input::Keyboard::Key::numpadEqual;
+            case KEY_KPPLUSMINUS: return fluxion::input::Keyboard::Key::numpadPlusminus;
+            case KEY_PAUSE: return fluxion::input::Keyboard::Key::pause;
+            case KEY_SCALE: return fluxion::input::Keyboard::Key::none; //?
 
-            case KEY_KPCOMMA: return ouzel::input::Keyboard::Key::numpadSeparator;
-            case KEY_HANGEUL: return ouzel::input::Keyboard::Key::kana;
-            case KEY_HANJA: return ouzel::input::Keyboard::Key::hanja;
-            case KEY_YEN: return ouzel::input::Keyboard::Key::yen;
-            case KEY_LEFTMETA: return ouzel::input::Keyboard::Key::leftSuper;
-            case KEY_RIGHTMETA: return ouzel::input::Keyboard::Key::rightSuper;
-            case KEY_COMPOSE: return ouzel::input::Keyboard::Key::none; // ??
+            case KEY_KPCOMMA: return fluxion::input::Keyboard::Key::numpadSeparator;
+            case KEY_HANGEUL: return fluxion::input::Keyboard::Key::kana;
+            case KEY_HANJA: return fluxion::input::Keyboard::Key::hanja;
+            case KEY_YEN: return fluxion::input::Keyboard::Key::yen;
+            case KEY_LEFTMETA: return fluxion::input::Keyboard::Key::leftSuper;
+            case KEY_RIGHTMETA: return fluxion::input::Keyboard::Key::rightSuper;
+            case KEY_COMPOSE: return fluxion::input::Keyboard::Key::none; // ??
 
-            case KEY_F13: return ouzel::input::Keyboard::Key::f13;
-            case KEY_F14: return ouzel::input::Keyboard::Key::f14;
-            case KEY_F15: return ouzel::input::Keyboard::Key::f15;
-            case KEY_F16: return ouzel::input::Keyboard::Key::f16;
-            case KEY_F17: return ouzel::input::Keyboard::Key::f17;
-            case KEY_F18: return ouzel::input::Keyboard::Key::f18;
-            case KEY_F19: return ouzel::input::Keyboard::Key::f19;
-            case KEY_F20: return ouzel::input::Keyboard::Key::f20;
-            case KEY_F21: return ouzel::input::Keyboard::Key::f21;
-            case KEY_F22: return ouzel::input::Keyboard::Key::f22;
-            case KEY_F23: return ouzel::input::Keyboard::Key::f23;
-            case KEY_F24: return ouzel::input::Keyboard::Key::f24;
+            case KEY_F13: return fluxion::input::Keyboard::Key::f13;
+            case KEY_F14: return fluxion::input::Keyboard::Key::f14;
+            case KEY_F15: return fluxion::input::Keyboard::Key::f15;
+            case KEY_F16: return fluxion::input::Keyboard::Key::f16;
+            case KEY_F17: return fluxion::input::Keyboard::Key::f17;
+            case KEY_F18: return fluxion::input::Keyboard::Key::f18;
+            case KEY_F19: return fluxion::input::Keyboard::Key::f19;
+            case KEY_F20: return fluxion::input::Keyboard::Key::f20;
+            case KEY_F21: return fluxion::input::Keyboard::Key::f21;
+            case KEY_F22: return fluxion::input::Keyboard::Key::f22;
+            case KEY_F23: return fluxion::input::Keyboard::Key::f23;
+            case KEY_F24: return fluxion::input::Keyboard::Key::f24;
 
-            case KEY_MENU: return ouzel::input::Keyboard::Key::menu;
-            case KEY_CLEAR: return ouzel::input::Keyboard::Key::clear;
-            case KEY_SLEEP: return ouzel::input::Keyboard::Key::sleep;
-            case KEY_PROG1: return ouzel::input::Keyboard::Key::app1;
-            case KEY_PROG2: return ouzel::input::Keyboard::Key::app2;
-            case KEY_HELP: return ouzel::input::Keyboard::Key::help;
+            case KEY_MENU: return fluxion::input::Keyboard::Key::menu;
+            case KEY_CLEAR: return fluxion::input::Keyboard::Key::clear;
+            case KEY_SLEEP: return fluxion::input::Keyboard::Key::sleep;
+            case KEY_PROG1: return fluxion::input::Keyboard::Key::app1;
+            case KEY_PROG2: return fluxion::input::Keyboard::Key::app2;
+            case KEY_HELP: return fluxion::input::Keyboard::Key::help;
 
-            case KEY_BACK: return ouzel::input::Keyboard::Key::back;
-            case KEY_FORWARD: return ouzel::input::Keyboard::Key::forward;
-            case KEY_REFRESH: return ouzel::input::Keyboard::Key::refresh;
-            case KEY_STOP: return ouzel::input::Keyboard::Key::stop;
-            case KEY_FIND: return ouzel::input::Keyboard::Key::search;
-            case KEY_BOOKMARKS: return ouzel::input::Keyboard::Key::bookmarks;
-            case KEY_HOMEPAGE: return ouzel::input::Keyboard::Key::homepage;
-            case KEY_MODE: return ouzel::input::Keyboard::Key::modeChange;
-            default: return ouzel::input::Keyboard::Key::none;
+            case KEY_BACK: return fluxion::input::Keyboard::Key::back;
+            case KEY_FORWARD: return fluxion::input::Keyboard::Key::forward;
+            case KEY_REFRESH: return fluxion::input::Keyboard::Key::refresh;
+            case KEY_STOP: return fluxion::input::Keyboard::Key::stop;
+            case KEY_FIND: return fluxion::input::Keyboard::Key::search;
+            case KEY_BOOKMARKS: return fluxion::input::Keyboard::Key::bookmarks;
+            case KEY_HOMEPAGE: return fluxion::input::Keyboard::Key::homepage;
+            case KEY_MODE: return fluxion::input::Keyboard::Key::modeChange;
+            default: return fluxion::input::Keyboard::Key::none;
         }
     }
 
-    ouzel::input::Mouse::Button convertButtonCode(std::uint16_t buttonCode)
+    fluxion::input::Mouse::Button convertButtonCode(std::uint16_t buttonCode)
     {
         switch (buttonCode)
         {
-            case BTN_LEFT: return ouzel::input::Mouse::Button::left;
-            case BTN_RIGHT: return ouzel::input::Mouse::Button::right;
-            case BTN_MIDDLE: return ouzel::input::Mouse::Button::middle;
-            case BTN_SIDE: return ouzel::input::Mouse::Button::x1;
-            case BTN_EXTRA: return ouzel::input::Mouse::Button::x2;
-            case BTN_FORWARD: return ouzel::input::Mouse::Button::none; //?
-            case BTN_BACK: return ouzel::input::Mouse::Button::none; //?
-            case BTN_TASK: return ouzel::input::Mouse::Button::none; //?
-            default: return ouzel::input::Mouse::Button::none;
+            case BTN_LEFT: return fluxion::input::Mouse::Button::left;
+            case BTN_RIGHT: return fluxion::input::Mouse::Button::right;
+            case BTN_MIDDLE: return fluxion::input::Mouse::Button::middle;
+            case BTN_SIDE: return fluxion::input::Mouse::Button::x1;
+            case BTN_EXTRA: return fluxion::input::Mouse::Button::x2;
+            case BTN_FORWARD: return fluxion::input::Mouse::Button::none; //?
+            case BTN_BACK: return fluxion::input::Mouse::Button::none; //?
+            case BTN_TASK: return fluxion::input::Mouse::Button::none; //?
+            default: return fluxion::input::Mouse::Button::none;
         }
     }
 }
 
-namespace ouzel::input::linux
+namespace fluxion::input::linux
 {
     EventDevice::EventDevice(InputSystem& inputSystem, const std::string& initFilename):
         filename(initFilename)

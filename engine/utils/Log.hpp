@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_UTILS_LOG_HPP
-#define OUZEL_UTILS_LOG_HPP
+﻿#ifndef FLUXION_UTILS_LOG_HPP
+#define FLUXION_UTILS_LOG_HPP
 
 #include <atomic>
 #include <cstring>
@@ -15,7 +13,7 @@
 #include "../storage/Path.hpp"
 #include "Bit.hpp"
 
-namespace ouzel
+namespace fluxion
 {
     template<typename T, typename = void>
     struct IsContainer: std::false_type {};
@@ -282,4 +280,4 @@ namespace ouzel
     inline Logger log;
 }
 
-#endif // OUZEL_UTILS_LOG_HPP
+#endif // FLUXION_UTILS_LOG_HPP

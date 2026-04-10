@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_INPUTSYSTEMWIN_HPP
-#define OUZEL_INPUT_INPUTSYSTEMWIN_HPP
+﻿#ifndef FLUXION_INPUT_INPUTSYSTEMWIN_HPP
+#define FLUXION_INPUT_INPUTSYSTEMWIN_HPP
 
 #include <memory>
 #include <system_error>
@@ -25,7 +23,7 @@
 #include "KeyboardDeviceWin.hpp"
 #include "MouseDeviceWin.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     class GamepadDeviceDI;
     class GamepadDeviceXI;
@@ -74,4 +72,4 @@ namespace ouzel::input::windows
     };
 }
 
-#endif // OUZEL_INPUT_INPUTSYSTEMWIN_HPP
+#endif // FLUXION_INPUT_INPUTSYSTEMWIN_HPP

@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_VERTEX_HPP
-#define OUZEL_GRAPHICS_VERTEX_HPP
+﻿#ifndef FLUXION_GRAPHICS_VERTEX_HPP
+#define FLUXION_GRAPHICS_VERTEX_HPP
 
 #include <array>
 #include "DataType.hpp"
 #include "../math/Vector.hpp"
 #include "../math/Color.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Vertex final
     {
@@ -71,4 +69,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_VERTEX_HPP
+#endif // FLUXION_GRAPHICS_VERTEX_HPP

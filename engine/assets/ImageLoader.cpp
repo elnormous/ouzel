@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <memory>
+﻿#include <memory>
 #include "ImageLoader.hpp"
 #include "AssetError.hpp"
 #include "../core/Engine.hpp"
@@ -41,7 +39,7 @@
 #  pragma GCC diagnostic pop
 #endif
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     bool loadImage(Cache&,
                    Bundle& bundle,

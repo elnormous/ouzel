@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICE_HPP
-#define OUZEL_GRAPHICS_OGLRENDERDEVICE_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLRENDERDEVICE_HPP
+#define FLUXION_GRAPHICS_OGLRENDERDEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include <cstring>
 #include <array>
@@ -18,7 +16,7 @@
 
 #include "OGL.h"
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
@@ -35,7 +33,7 @@
 #include "OGLShader.hpp"
 #include "OGLStateCache.hpp"
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     class RenderDevice: public graphics::RenderDevice
     {
@@ -112,11 +110,11 @@ namespace ouzel::graphics::opengl
 
         PFNGLCOPYIMAGESUBDATAPROC glCopyImageSubDataProc = nullptr;
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
         PFNGLCLEARDEPTHFPROC glClearDepthfProc = nullptr;
         PFNGLMAPBUFFEROESPROC glMapBufferProc = nullptr;
         PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC glFramebufferTexture2DMultisampleProc = nullptr;
-#  if OUZEL_OPENGL_INTERFACE_EAGL
+#  if FLUXION_OPENGL_INTERFACE_EAGL
         PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXTProc = nullptr;
         PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC glResolveMultisampleFramebufferAPPLEProc = nullptr;
 #  endif
@@ -481,7 +479,7 @@ namespace ouzel::graphics::opengl
         {
             if (stateCache.clearDepth != clearDepthValue)
             {
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
                 glClearDepthfProc(clearDepthValue);
 #else
                 glClearDepthProc(static_cast<GLdouble>(clearDepthValue));
@@ -542,7 +540,7 @@ namespace ouzel::graphics::opengl
             glDeleteTexturesProc(1, &textureId);
         }
 
-#if !OUZEL_OPENGLES
+#if !FLUXION_OPENGLES
         void setPolygonFillMode(GLenum polygonFillMode)
         {
             if (stateCache.polygonFillMode != polygonFillMode)
@@ -590,4 +588,4 @@ namespace ouzel::graphics::opengl
 
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLRENDERDEVICE_HPP
+#endif // FLUXION_GRAPHICS_OGLRENDERDEVICE_HPP

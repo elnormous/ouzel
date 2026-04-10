@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <cassert>
 #include "Animator.hpp"
 #include "Actor.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Animator::Animator(float initLength):
         length{initLength}

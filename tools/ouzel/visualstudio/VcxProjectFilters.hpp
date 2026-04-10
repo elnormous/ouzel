@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_VISUALSTUDIO_VCXPROJECTFILTERS_HPP
-#define OUZEL_VISUALSTUDIO_VCXPROJECTFILTERS_HPP
+﻿#ifndef FLUXION_VISUALSTUDIO_VCXPROJECTFILTERS_HPP
+#define FLUXION_VISUALSTUDIO_VCXPROJECTFILTERS_HPP
 
 #include "VcxProject.hpp"
 
-namespace ouzel::visualstudio
+namespace fluxion::visualstudio
 {
     class VcxProjectFilters final
     {
@@ -29,4 +27,4 @@ namespace ouzel::visualstudio
     };
 }
 
-#endif // OUZEL_VISUALSTUDIO_VCXPROJECTFILTERS_HPP
+#endif // FLUXION_VISUALSTUDIO_VCXPROJECTFILTERS_HPP

@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#include <cctype>
+﻿#include <cctype>
 #include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "Cache.hpp"
 #include "../formats/Json.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     Bundle::Bundle(Cache& initCache, storage::FileSystem& initFileSystem):
         cache{initCache}, fileSystem{initFileSystem}

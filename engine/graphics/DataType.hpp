@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_DATATYPE_HPP
-#define OUZEL_GRAPHICS_DATATYPE_HPP
+﻿#ifndef FLUXION_GRAPHICS_DATATYPE_HPP
+#define FLUXION_GRAPHICS_DATATYPE_HPP
 
 #include <cstdint>
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     enum class DataType
     {
@@ -146,4 +144,4 @@ namespace ouzel::graphics
     }
 }
 
-#endif // OUZEL_GRAPHICS_DATATYPE_HPP
+#endif // FLUXION_GRAPHICS_DATATYPE_HPP

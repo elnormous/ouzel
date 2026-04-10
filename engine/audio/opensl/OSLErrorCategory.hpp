@@ -1,16 +1,14 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_OSLERRORCATEGORY_HPP
-#define OUZEL_AUDIO_OSLERRORCATEGORY_HPP
+﻿#ifndef FLUXION_AUDIO_OSLERRORCATEGORY_HPP
+#define FLUXION_AUDIO_OSLERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENSL
+#if FLUXION_COMPILE_OPENSL
 
 #include <system_error>
 #include <SLES/OpenSLES.h>
 
-namespace ouzel::audio::opensl
+namespace fluxion::audio::opensl
 {
     class ErrorCategory final: public std::error_category
     {
@@ -53,4 +51,4 @@ namespace ouzel::audio::opensl
 }
 #endif
 
-#endif // OUZEL_AUDIO_OSLERRORCATEGORY_HPP
+#endif // FLUXION_AUDIO_OSLERRORCATEGORY_HPP

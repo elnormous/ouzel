@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_XCCONFIGURATIONLIST_HPP
-#define OUZEL_XCODE_XCCONFIGURATIONLIST_HPP
+﻿#ifndef FLUXION_XCODE_XCCONFIGURATIONLIST_HPP
+#define FLUXION_XCODE_XCCONFIGURATIONLIST_HPP
 
 #include <string>
 #include <vector>
 #include "PBXObject.hpp"
 #include "XCBuildConfiguration.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class XCConfigurationList final: public PBXObject
     {
@@ -36,4 +34,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_XCCONFIGURATIONLIST_HPP
+#endif // FLUXION_XCODE_XCCONFIGURATIONLIST_HPP

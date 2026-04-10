@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_CAMERA_HPP
-#define OUZEL_SCENE_CAMERA_HPP
+﻿#ifndef FLUXION_SCENE_CAMERA_HPP
+#define FLUXION_SCENE_CAMERA_HPP
 
 #include <memory>
 #include "Component.hpp"
@@ -11,7 +9,7 @@
 #include "../graphics/DepthStencilState.hpp"
 #include "../graphics/RenderTarget.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Layer;
 
@@ -182,4 +180,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_CAMERA_HPP
+#endif // FLUXION_SCENE_CAMERA_HPP

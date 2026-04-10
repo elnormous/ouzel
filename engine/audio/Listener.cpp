@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include "Listener.hpp"
+﻿#include "Listener.hpp"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
 #include "Submix.hpp"
 #include "../scene/Actor.hpp"
 #include "../math/Scalar.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     Listener::Listener(Audio& initAudio) noexcept:
         audio{initAudio}

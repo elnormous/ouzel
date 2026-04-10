@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXSHELLSCRIPTBUILDPHASE_HPP
-#define OUZEL_XCODE_PBXSHELLSCRIPTBUILDPHASE_HPP
+﻿#ifndef FLUXION_XCODE_PBXSHELLSCRIPTBUILDPHASE_HPP
+#define FLUXION_XCODE_PBXSHELLSCRIPTBUILDPHASE_HPP
 
 #include <string>
 #include "PBXBuildPhase.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXShellScriptBuildPhase final: public PBXBuildPhase
     {
@@ -33,4 +31,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXSHELLSCRIPTBUILDPHASE_HPP
+#endif // FLUXION_XCODE_PBXSHELLSCRIPTBUILDPHASE_HPP

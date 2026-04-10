@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXPROJECT_HPP
-#define OUZEL_XCODE_PBXPROJECT_HPP
+﻿#ifndef FLUXION_XCODE_PBXPROJECT_HPP
+#define FLUXION_XCODE_PBXPROJECT_HPP
 
 #include <map>
 #include <string>
@@ -10,7 +8,7 @@
 #include "PBXGroup.hpp"
 #include "XCConfigurationList.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXProject final: public PBXObject
     {
@@ -69,4 +67,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXPROJECT_HPP
+#endif // FLUXION_XCODE_PBXPROJECT_HPP

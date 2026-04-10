@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_TOUCHPADDEVICE_HPP
-#define OUZEL_INPUT_TOUCHPADDEVICE_HPP
+﻿#ifndef FLUXION_INPUT_TOUCHPADDEVICE_HPP
+#define FLUXION_INPUT_TOUCHPADDEVICE_HPP
 
 #include <future>
 #include "InputDevice.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class TouchpadDevice: public InputDevice
     {
@@ -22,4 +20,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_TOUCHPADDEVICE_HPP
+#endif // FLUXION_INPUT_TOUCHPADDEVICE_HPP

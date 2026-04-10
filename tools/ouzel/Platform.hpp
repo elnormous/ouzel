@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_HPP
-#define OUZEL_PLATFORM_HPP
+﻿#ifndef FLUXION_PLATFORM_HPP
+#define FLUXION_PLATFORM_HPP
 
 #include <stdexcept>
 #include <string>
 
-namespace ouzel
+namespace fluxion
 {
     enum class Platform
     {
@@ -56,4 +54,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_PLATFORM_HPP
+#endif // FLUXION_PLATFORM_HPP

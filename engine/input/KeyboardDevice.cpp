@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "KeyboardDevice.hpp"
+﻿#include "KeyboardDevice.hpp"
 #include "InputSystem.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     KeyboardDevice::KeyboardDevice(InputSystem& initInputSystem, DeviceId initId):
         InputDevice{initInputSystem, initId, Controller::Type::keyboard}

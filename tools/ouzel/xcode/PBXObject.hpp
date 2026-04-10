@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXOBJECT_HPP
-#define OUZEL_XCODE_PBXOBJECT_HPP
+﻿#ifndef FLUXION_XCODE_PBXOBJECT_HPP
+#define FLUXION_XCODE_PBXOBJECT_HPP
 
 #include <array>
 #include <chrono>
@@ -9,7 +7,7 @@
 #include <string>
 #include "formats/Plist.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     using Id = std::array<std::uint8_t, 12>;
 
@@ -77,4 +75,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXOBJECT_HPP
+#endif // FLUXION_XCODE_PBXOBJECT_HPP

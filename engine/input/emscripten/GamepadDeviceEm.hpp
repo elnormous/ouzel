@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADDEVICEEM_HPP
-#define OUZEL_INPUT_GAMEPADDEVICEEM_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADDEVICEEM_HPP
+#define FLUXION_INPUT_GAMEPADDEVICEEM_HPP
 
 #include "../GamepadDevice.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input::emscripten
+namespace fluxion::input::emscripten
 {
     class InputSystem;
 
@@ -31,4 +29,4 @@ namespace ouzel::input::emscripten
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPADDEVICEEM_HPP
+#endif // FLUXION_INPUT_GAMEPADDEVICEEM_HPP

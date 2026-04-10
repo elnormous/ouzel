@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifdef __APPLE__
+﻿#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 
@@ -29,7 +27,7 @@
 
 #include "Log.hpp"
 
-namespace ouzel
+namespace fluxion
 {
 #ifdef __ANDROID__
     constexpr int getPriority(Log::Level level) noexcept

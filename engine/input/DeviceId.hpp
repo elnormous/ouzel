@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_DEVICEID_HPP
-#define OUZEL_INPUT_DEVICEID_HPP
+﻿#ifndef FLUXION_INPUT_DEVICEID_HPP
+#define FLUXION_INPUT_DEVICEID_HPP
 
 #include <typeindex> 
 
-namespace ouzel::input
+namespace fluxion::input
 {
     struct DeviceId final
     {
@@ -20,13 +18,13 @@ namespace ouzel::input
 
 namespace std
 {
-    template <> struct hash<ouzel::input::DeviceId>
+    template <> struct hash<fluxion::input::DeviceId>
     {
-        [[nodiscard]] size_t operator()(const ouzel::input::DeviceId& deviceId) const noexcept
+        [[nodiscard]] size_t operator()(const fluxion::input::DeviceId& deviceId) const noexcept
         {
             return hash<size_t>()(deviceId.value);
         }
     };
 }
 
-#endif // OUZEL_INPUT_DEVICEID_HPP
+#endif // FLUXION_INPUT_DEVICEID_HPP

@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXTARGETDEPENDENCY_HPP
-#define OUZEL_XCODE_PBXTARGETDEPENDENCY_HPP
+﻿#ifndef FLUXION_XCODE_PBXTARGETDEPENDENCY_HPP
+#define FLUXION_XCODE_PBXTARGETDEPENDENCY_HPP
 
 #include <string>
 #include "PBXObject.hpp"
 #include "PBXContainerItemProxy.hpp"
 #include "PBXTarget.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXTargetDependency: public PBXObject
     {
@@ -33,4 +31,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXTARGETDEPENDENCY_HPP
+#endif // FLUXION_XCODE_PBXTARGETDEPENDENCY_HPP

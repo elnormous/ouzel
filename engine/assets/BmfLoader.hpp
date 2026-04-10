@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_BMFLOADER_HPP
-#define OUZEL_ASSETS_BMFLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_BMFLOADER_HPP
+#define FLUXION_ASSETS_BMFLOADER_HPP
 
 #include "Bundle.hpp"
 #include "../gui/BMFont.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadBmf(Cache&,
                         Bundle& bundle,
@@ -29,4 +27,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_BMFLOADER_HPP
+#endif // FLUXION_ASSETS_BMFLOADER_HPP

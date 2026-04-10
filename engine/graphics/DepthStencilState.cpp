@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "DepthStencilState.hpp"
+﻿#include "DepthStencilState.hpp"
 #include "Graphics.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     DepthStencilState::DepthStencilState(Graphics& initGraphics):
         resource{*initGraphics.getDevice()}

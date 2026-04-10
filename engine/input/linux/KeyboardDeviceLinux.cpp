@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "../../core/Setup.h"
+﻿#include "../../core/Setup.h"
 #include "KeyboardDeviceLinux.hpp"
 #include "InputSystemLinux.hpp"
 
-namespace ouzel::input::linux
+namespace fluxion::input::linux
 {
     KeyboardDevice::KeyboardDevice(InputSystem& initInputSystem,
                                    DeviceId initId):

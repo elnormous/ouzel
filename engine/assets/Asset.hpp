@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_ASSET_HPP
-#define OUZEL_ASSETS_ASSET_HPP
+﻿#ifndef FLUXION_ASSETS_ASSET_HPP
+#define FLUXION_ASSETS_ASSET_HPP
 
 #include <string>
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     class Asset final
     {
@@ -47,4 +45,4 @@ namespace ouzel::assets
     };
 }
 
-#endif // OUZEL_ASSETS_ASSET_HPP
+#endif // FLUXION_ASSETS_ASSET_HPP

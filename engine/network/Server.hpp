@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_NETWORK_SERVER_HPP
-#define OUZEL_NETWORK_SERVER_HPP
+﻿#ifndef FLUXION_NETWORK_SERVER_HPP
+#define FLUXION_NETWORK_SERVER_HPP
 
 #include "Socket.hpp"
 #include "../thread/Thread.hpp"
 
-namespace ouzel::network
+namespace fluxion::network
 {
     class Network;
 
@@ -31,4 +29,4 @@ namespace ouzel::network
     };
 }
 
-#endif // OUZEL_NETWORK_SERVER_HPP
+#endif // FLUXION_NETWORK_SERVER_HPP

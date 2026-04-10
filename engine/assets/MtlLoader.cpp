@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include <iterator>
+﻿#include <iterator>
 #include <string>
 #include "MtlLoader.hpp"
 #include "AssetError.hpp"
 #include "Cache.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     namespace
     {

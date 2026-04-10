@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "MainMenu.hpp"
+﻿#include "MainMenu.hpp"
 #include "SpritesSample.hpp"
 #include "GUISample.hpp"
 #include "RTSample.hpp"
@@ -9,11 +7,11 @@
 #include "SoundSample.hpp"
 #include "PerspectiveSample.hpp"
 
-using namespace ouzel;
+using namespace fluxion;
 
 namespace samples
 {
-    class Samples: public ouzel::Application
+    class Samples: public fluxion::Application
     {
     public:
         explicit Samples(const std::vector<std::string>& args):
@@ -37,20 +35,20 @@ namespace samples
                     if (++arg != args.end())
                         sample = *arg;
                     else
-                        ouzel::log(ouzel::Log::Level::warning) << "No sample specified";
+                        fluxion::log(fluxion::Log::Level::warning) << "No sample specified";
                 }
                 else
-                    ouzel::log(ouzel::Log::Level::warning) << "Invalid argument \"" << *arg << "\"";
+                    fluxion::log(fluxion::Log::Level::warning) << "Invalid argument \"" << *arg << "\"";
             }
 
 #ifndef __ANDROID__
-            ouzel::storage::Archive archive{engine->getFileSystem().getPath("gui.zip")};
+            fluxion::storage::Archive archive{engine->getFileSystem().getPath("gui.zip")};
             engine->getFileSystem().addArchive("gui.zip", std::move(archive));
 #endif
 
             bundle.loadAssets("assets.json");
 
-            std::unique_ptr<ouzel::scene::Scene> currentScene;
+            std::unique_ptr<fluxion::scene::Scene> currentScene;
 
             if (!sample.empty())
             {
@@ -72,7 +70,7 @@ namespace samples
     };
 }
 
-std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
+std::unique_ptr<fluxion::Application> fluxion::main(const std::vector<std::string>& args)
 {
     return std::make_unique<samples::Samples>(args);
 }

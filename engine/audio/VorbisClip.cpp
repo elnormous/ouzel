@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "VorbisClip.hpp"
+﻿#include "VorbisClip.hpp"
 #include "Audio.hpp"
 #include "AudioError.hpp"
 #include "mixer/Data.hpp"
@@ -41,7 +39,7 @@
 #  pragma GCC diagnostic pop
 #endif
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class VorbisData;
 

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <system_error>
+﻿#include <system_error>
 #if defined(_WIN32)
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
 #  pragma push_macro("NOMINMAX")
@@ -26,7 +24,7 @@
 #include "Client.hpp"
 #include "../utils/Bit.hpp"
 
-namespace ouzel::network
+namespace fluxion::network
 {
     Network::Network()
     {

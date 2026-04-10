@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_VISUALSTUDIO_VCXPROJECT_HPP
-#define OUZEL_VISUALSTUDIO_VCXPROJECT_HPP
+﻿#ifndef FLUXION_VISUALSTUDIO_VCXPROJECT_HPP
+#define FLUXION_VISUALSTUDIO_VCXPROJECT_HPP
 
 #include <map>
 #include <string>
 #include <random>
 #include <vector>
 
-namespace ouzel::visualstudio
+namespace fluxion::visualstudio
 {
     struct Guid final
     {
@@ -217,4 +215,4 @@ namespace ouzel::visualstudio
     };
 }
 
-#endif // OUZEL_VISUALSTUDIO_VCXPROJECT_HPP
+#endif // FLUXION_VISUALSTUDIO_VCXPROJECT_HPP

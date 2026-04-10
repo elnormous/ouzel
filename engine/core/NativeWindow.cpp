@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "NativeWindow.hpp"
+﻿#include "NativeWindow.hpp"
 #include "Engine.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     NativeWindow::NativeWindow(const math::Size<std::uint32_t, 2>& newSize,
                                bool newResizable,

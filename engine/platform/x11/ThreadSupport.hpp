@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_X11_THREADSUPPORT_HPP
-#define OUZEL_PLATFORM_X11_THREADSUPPORT_HPP
+﻿#ifndef FLUXION_PLATFORM_X11_THREADSUPPORT_HPP
+#define FLUXION_PLATFORM_X11_THREADSUPPORT_HPP
 
 #include <stdexcept>
 #include <X11/Xlib.h>
 
-namespace ouzel::platform::x11
+namespace fluxion::platform::x11
 {
     class ThreadSupport final
     {
@@ -19,4 +17,4 @@ namespace ouzel::platform::x11
     };
 }
 
-#endif // OUZEL_PLATFORM_X11_THREADSUPPORT_HPP
+#endif // FLUXION_PLATFORM_X11_THREADSUPPORT_HPP

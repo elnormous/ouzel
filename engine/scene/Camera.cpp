@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cassert>
+﻿#include <cassert>
 #include <algorithm>
 #include "Camera.hpp"
 #include "Actor.hpp"
@@ -9,7 +7,7 @@
 #include "../graphics/Graphics.hpp"
 #include "../graphics/RenderDevice.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Camera::Camera(const math::Matrix<float, 4>& initProjection):
         projectionMode{ProjectionMode::custom}, projection{initProjection}

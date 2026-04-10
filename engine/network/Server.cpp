@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "Server.hpp"
+﻿#include "Server.hpp"
 #include "Network.hpp"
 
-namespace ouzel::network
+namespace fluxion::network
 {
     Server::Server(Network& initNetwork):
         network{&initNetwork}

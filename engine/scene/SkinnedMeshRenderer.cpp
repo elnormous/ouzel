@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "SkinnedMeshRenderer.hpp"
+﻿#include "SkinnedMeshRenderer.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     SkinnedMeshRenderer::SkinnedMeshRenderer()
     {

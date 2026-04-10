@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_EMITTER_HPP
-#define OUZEL_AUDIO_MIXER_EMITTER_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_EMITTER_HPP
+#define FLUXION_AUDIO_MIXER_EMITTER_HPP
 
 #include <cstdint>
 #include <vector>
 #include "Source.hpp"
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     class Emitter: public Source
     {
@@ -27,4 +25,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_EMITTER_HPP
+#endif // FLUXION_AUDIO_MIXER_EMITTER_HPP

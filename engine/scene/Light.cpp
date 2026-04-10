@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "Light.hpp"
+﻿#include "Light.hpp"
 #include "Camera.hpp"
 #include "Layer.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Light::Light(Type initType):
         type{initType}

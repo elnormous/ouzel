@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_OPENAL
+#if FLUXION_COMPILE_OPENAL
 
 #ifdef __APPLE__
 #  include <TargetConditionals.h>
@@ -27,7 +25,7 @@ extern "C" id const AVAudioSessionCategoryAmbient;
 #  define AL_FORMAT_STEREO_FLOAT32 0x10011
 #endif
 
-namespace ouzel::audio::openal
+namespace fluxion::audio::openal
 {
     AudioDevice::AudioDevice(const Settings& settings,
                              const std::function<void(std::uint32_t frames,
@@ -381,7 +379,7 @@ namespace ouzel::audio::openal
             }
             catch (const std::exception& e)
             {
-                ouzel::log(ouzel::Log::Level::error) << e.what();
+                fluxion::log(fluxion::Log::Level::error) << e.what();
             }
         }
 #endif

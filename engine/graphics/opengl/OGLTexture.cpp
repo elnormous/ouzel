@@ -1,21 +1,19 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include "OGLTexture.hpp"
 #include "OGLError.hpp"
 #include "OGLRenderDevice.hpp"
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     namespace
     {
         constexpr GLenum getOpenGlInternalPixelFormat(PixelFormat pixelFormat,
                                                       [[maybe_unused]] std::uint32_t openGlVersion)
         {
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
             if (openGlVersion >= 3)
             {
                 switch (pixelFormat)
@@ -225,7 +223,7 @@ namespace ouzel::graphics::opengl
         {
             switch (type)
             {
-#if !OUZEL_OPENGLES
+#if !FLUXION_OPENGLES
                 case TextureType::oneDimensional: return GL_TEXTURE_1D;
 #endif
                 case TextureType::twoDimensional: return GL_TEXTURE_2D;

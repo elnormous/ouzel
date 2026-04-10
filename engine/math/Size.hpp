@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_SIZE_HPP
-#define OUZEL_MATH_SIZE_HPP
+﻿#ifndef FLUXION_MATH_SIZE_HPP
+#define FLUXION_MATH_SIZE_HPP
 
 #include <algorithm>
 #include <array>
@@ -9,7 +7,7 @@
 #include <type_traits>
 #include "Vector.hpp"
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T, std::size_t dims> class Size final
     {
@@ -187,4 +185,4 @@ namespace ouzel::math
     }
 }
 
-#endif // OUZEL_MATH_SIZE_HPP
+#endif // FLUXION_MATH_SIZE_HPP

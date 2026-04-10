@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXSOURCETREE_HPP
-#define OUZEL_XCODE_PBXSOURCETREE_HPP
+﻿#ifndef FLUXION_XCODE_PBXSOURCETREE_HPP
+#define FLUXION_XCODE_PBXSOURCETREE_HPP
 
 #include <string>
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     enum class PBXSourceTree
     {
@@ -33,4 +31,4 @@ namespace ouzel::xcode
     }
 }
 
-#endif // OUZEL_XCODE_PBXSOURCETREE_HPP
+#endif // FLUXION_XCODE_PBXSOURCETREE_HPP

@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../../core/Setup.h"
 
-#include "../../../core/Setup.h"
-
-#if defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
+#if defined(__ANDROID__) && FLUXION_COMPILE_OPENGL
 
 #include <algorithm>
 #include "OGLRenderDeviceAndroid.hpp"
@@ -13,7 +11,7 @@
 #include "../../../utils/Log.hpp"
 #include "../../../utils/Utils.hpp"
 
-namespace ouzel::graphics::opengl::android
+namespace fluxion::graphics::opengl::android
 {
     namespace
     {
@@ -33,7 +31,7 @@ namespace ouzel::graphics::opengl::android
                 EGL_DEPTH_SIZE, depth ? 24 : 0,
                 EGL_STENCIL_SIZE, stencil ? 8 : 0,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
                 EGL_RENDERABLE_TYPE, (version >= 3) ? EGL_OPENGL_ES3_BIT :
                                      (version == 2) ? EGL_OPENGL_ES2_BIT :
                                      EGL_OPENGL_ES_BIT,

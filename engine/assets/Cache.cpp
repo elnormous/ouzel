@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include "Cache.hpp"
 #include "BmfLoader.hpp"
 #include "ColladaLoader.hpp"
@@ -19,7 +17,7 @@
 #include "../gui/BMFont.hpp"
 #include "../gui/TTFont.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     Cache::Cache()
     {

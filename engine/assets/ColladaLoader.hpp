@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_COLLADALOADER_HPP
-#define OUZEL_ASSETS_COLLADALOADER_HPP
+﻿#ifndef FLUXION_ASSETS_COLLADALOADER_HPP
+#define FLUXION_ASSETS_COLLADALOADER_HPP
 
 #include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "../scene/SkinnedMeshRenderer.hpp"
 #include "../formats/Xml.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadCollada(Cache&,
                             Bundle& bundle,
@@ -36,4 +34,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_COLLADALOADER_HPP
+#endif // FLUXION_ASSETS_COLLADALOADER_HPP

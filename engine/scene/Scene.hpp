@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_SCENE_HPP
-#define OUZEL_SCENE_SCENE_HPP
+﻿#ifndef FLUXION_SCENE_SCENE_HPP
+#define FLUXION_SCENE_SCENE_HPP
 
 #include <vector>
 #include <unordered_map>
@@ -9,7 +7,7 @@
 #include "../events/EventHandler.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class SceneManager;
     class Layer;
@@ -85,4 +83,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_SCENE_HPP
+#endif // FLUXION_SCENE_SCENE_HPP

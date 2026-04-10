@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_TTFLOADER_HPP
-#define OUZEL_ASSETS_TTFLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_TTFLOADER_HPP
+#define FLUXION_ASSETS_TTFLOADER_HPP
 
 #include "Bundle.hpp"
 #include "../gui/TTFont.hpp"
 #include "stb_truetype.h"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadTtf(Cache&,
                         Bundle& bundle,
@@ -30,4 +28,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_TTFLOADER_HPP
+#endif // FLUXION_ASSETS_TTFLOADER_HPP

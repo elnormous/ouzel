@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MAKEFILE_BUILDSYSTEM_HPP
-#define OUZEL_MAKEFILE_BUILDSYSTEM_HPP
+﻿#ifndef FLUXION_MAKEFILE_BUILDSYSTEM_HPP
+#define FLUXION_MAKEFILE_BUILDSYSTEM_HPP
 
 #include "../Project.hpp"
 
-namespace ouzel::makefile
+namespace fluxion::makefile
 {
     inline void generateBuildFiles(const Project& project)
     {
@@ -13,4 +11,4 @@ namespace ouzel::makefile
     }
 }
 
-#endif // OUZEL_MAKEFILE_BUILDSYSTEM_HPP
+#endif // FLUXION_MAKEFILE_BUILDSYSTEM_HPP

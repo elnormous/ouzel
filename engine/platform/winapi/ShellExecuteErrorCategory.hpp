@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP
-#define OUZEL_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP
+﻿#ifndef FLUXION_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP
+#define FLUXION_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP
 
 #include <system_error>
 
@@ -18,7 +16,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-namespace ouzel::platform::winapi
+namespace fluxion::platform::winapi
 {
     class ShellExecuteErrorCategory final: public std::error_category
     {
@@ -51,4 +49,4 @@ namespace ouzel::platform::winapi
     };
 }
 
-#endif // OUZEL_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP
+#endif // FLUXION_PLATFORM_WINAPI_SHELLEXECUTEERRORCATEGORY_HPP

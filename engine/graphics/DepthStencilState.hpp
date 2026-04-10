@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
-#define OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
+﻿#ifndef FLUXION_GRAPHICS_DEPTHSTENCILSTATE_HPP
+#define FLUXION_GRAPHICS_DEPTHSTENCILSTATE_HPP
 
 #include "RenderDevice.hpp"
 #include "CompareFunction.hpp"
 #include "StencilOperation.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Graphics;
 
@@ -55,4 +53,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_DEPTHSTENCILSTATE_HPP
+#endif // FLUXION_GRAPHICS_DEPTHSTENCILSTATE_HPP

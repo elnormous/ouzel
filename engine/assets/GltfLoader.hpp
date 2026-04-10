@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_GLTFLOADER_HPP
-#define OUZEL_ASSETS_GLTFLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_GLTFLOADER_HPP
+#define FLUXION_ASSETS_GLTFLOADER_HPP
 
 #include "Bundle.hpp"
 #include "../scene/SkinnedMeshRenderer.hpp"
 #include "../formats/Json.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadGltf(Cache&,
                          Bundle& bundle,
@@ -27,4 +25,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_GLTFLOADER_HPP
+#endif // FLUXION_ASSETS_GLTFLOADER_HPP

@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_RECT_HPP
-#define OUZEL_MATH_RECT_HPP
+﻿#ifndef FLUXION_MATH_RECT_HPP
+#define FLUXION_MATH_RECT_HPP
 
 #include "Size.hpp"
 #include "Vector.hpp"
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T> class Rect final
     {
@@ -221,4 +219,4 @@ namespace ouzel::math
     }
 }
 
-#endif // OUZEL_MATH_RECT_HPP
+#endif // FLUXION_MATH_RECT_HPP

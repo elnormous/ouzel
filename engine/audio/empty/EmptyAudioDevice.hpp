@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_EMPTYAUDIODEVICE_HPP
-#define OUZEL_AUDIO_EMPTYAUDIODEVICE_HPP
+﻿#ifndef FLUXION_AUDIO_EMPTYAUDIODEVICE_HPP
+#define FLUXION_AUDIO_EMPTYAUDIODEVICE_HPP
 
 #include "../AudioDevice.hpp"
 
-namespace ouzel::audio::empty
+namespace fluxion::audio::empty
 {
     class AudioDevice final: public audio::AudioDevice
     {
@@ -24,4 +22,4 @@ namespace ouzel::audio::empty
     };
 }
 
-#endif // OUZEL_AUDIO_EMPTYAUDIODEVICE_HPP
+#endif // FLUXION_AUDIO_EMPTYAUDIODEVICE_HPP

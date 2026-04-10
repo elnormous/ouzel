@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_OBJLOADER_HPP
-#define OUZEL_ASSETS_OBJLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_OBJLOADER_HPP
+#define FLUXION_ASSETS_OBJLOADER_HPP
 
 #include "Bundle.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     bool loadObj(Cache& cache,
                  Bundle& bundle,
@@ -14,4 +12,4 @@ namespace ouzel::assets
                  const Asset::Options& options);
 }
 
-#endif // OUZEL_ASSETS_OBJLOADER_HPP
+#endif // FLUXION_ASSETS_OBJLOADER_HPP

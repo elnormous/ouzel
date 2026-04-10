@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXCONTAINERITEMPROXY_HPP
-#define OUZEL_XCODE_PBXCONTAINERITEMPROXY_HPP
+﻿#ifndef FLUXION_XCODE_PBXCONTAINERITEMPROXY_HPP
+#define FLUXION_XCODE_PBXCONTAINERITEMPROXY_HPP
 
 #include "PBXObject.hpp"
 #include "PBXFileReference.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXContainerItemProxy final: public PBXObject
     {
@@ -38,4 +36,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXCONTAINERITEMPROXY_HPP
+#endif // FLUXION_XCODE_PBXCONTAINERITEMPROXY_HPP

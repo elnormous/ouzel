@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include <map>
+﻿#include <map>
 #include <emscripten.h>
 #include "InputSystemEm.hpp"
 #include "GamepadDeviceEm.hpp"
 #include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::input::emscripten
+namespace fluxion::input::emscripten
 {
     namespace
     {
@@ -187,7 +185,7 @@ namespace ouzel::input::emscripten
                     break;
             }
 
-            const ouzel::math::Vector<float, 2> position{
+            const fluxion::math::Vector<float, 2> position{
                 static_cast<float>(mouseEvent->canvasX),
                 static_cast<float>(mouseEvent->canvasY)
             };
@@ -196,14 +194,14 @@ namespace ouzel::input::emscripten
             {
                 case EMSCRIPTEN_EVENT_MOUSEDOWN:
                     mouseDevice->handleButtonPress(button,
-                                                   ouzel::engine->getWindow().convertWindowToNormalizedLocation(position));
+                                                   fluxion::engine->getWindow().convertWindowToNormalizedLocation(position));
                     return EM_TRUE;
                 case EMSCRIPTEN_EVENT_MOUSEUP:
                     mouseDevice->handleButtonRelease(button,
-                                                     ouzel::engine->getWindow().convertWindowToNormalizedLocation(position));
+                                                     fluxion::engine->getWindow().convertWindowToNormalizedLocation(position));
                     return EM_TRUE;
                 case EMSCRIPTEN_EVENT_MOUSEMOVE:
-                    mouseDevice->handleMove(ouzel::engine->getWindow().convertWindowToNormalizedLocation(position));
+                    mouseDevice->handleMove(fluxion::engine->getWindow().convertWindowToNormalizedLocation(position));
                     return EM_TRUE;
             }
 
@@ -216,13 +214,13 @@ namespace ouzel::input::emscripten
 
             if (eventType == EMSCRIPTEN_EVENT_WHEEL)
             {
-                const ouzel::math::Vector<float, 2> position{
+                const fluxion::math::Vector<float, 2> position{
                     static_cast<float>(wheelEvent->mouse.canvasX),
                     static_cast<float>(wheelEvent->mouse.canvasY)
                 };
 
-                mouseDevice->handleScroll(ouzel::math::Vector<float, 2>{static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)},
-                                          ouzel::engine->getWindow().convertWindowToNormalizedLocation(position));
+                mouseDevice->handleScroll(fluxion::math::Vector<float, 2>{static_cast<float>(wheelEvent->deltaX), static_cast<float>(wheelEvent->deltaY)},
+                                          fluxion::engine->getWindow().convertWindowToNormalizedLocation(position));
 
                 return EM_TRUE;
             }
@@ -269,7 +267,7 @@ namespace ouzel::input::emscripten
             {
                 if (touchEvent->touches[i].isChanged)
                 {
-                    const ouzel::math::Vector<float, 2> position{
+                    const fluxion::math::Vector<float, 2> position{
                         static_cast<float>(touchEvent->touches[i].canvasX),
                         static_cast<float>(touchEvent->touches[i].canvasY)
                     };
@@ -278,22 +276,22 @@ namespace ouzel::input::emscripten
                     {
                         case EMSCRIPTEN_EVENT_TOUCHSTART:
                             touchpadDevice->handleTouchBegin(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
-                                                             ouzel::engine->getWindow().convertWindowToNormalizedLocation(position),
+                                                             fluxion::engine->getWindow().convertWindowToNormalizedLocation(position),
                                                              1.0F);
                             break;
                         case EMSCRIPTEN_EVENT_TOUCHEND:
                             touchpadDevice->handleTouchEnd(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
-                                                           ouzel::engine->getWindow().convertWindowToNormalizedLocation(position),
+                                                           fluxion::engine->getWindow().convertWindowToNormalizedLocation(position),
                                                            1.0F);
                             break;
                         case EMSCRIPTEN_EVENT_TOUCHMOVE:
                             touchpadDevice->handleTouchMove(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
-                                                            ouzel::engine->getWindow().convertWindowToNormalizedLocation(position),
+                                                            fluxion::engine->getWindow().convertWindowToNormalizedLocation(position),
                                                             1.0F);
                             break;
                         case EMSCRIPTEN_EVENT_TOUCHCANCEL:
                             touchpadDevice->handleTouchCancel(static_cast<std::uint64_t>(touchEvent->touches[i].identifier),
-                                                              ouzel::engine->getWindow().convertWindowToNormalizedLocation(position),
+                                                              fluxion::engine->getWindow().convertWindowToNormalizedLocation(position),
                                                               1.0F);
                             break;
                     }

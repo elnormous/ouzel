@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef GUISAMPLE_HPP
+﻿#ifndef GUISAMPLE_HPP
 #define GUISAMPLE_HPP
 
 #include "gui/Widgets.hpp"
@@ -10,29 +8,29 @@
 
 namespace samples
 {
-    class GUISample: public ouzel::scene::Scene
+    class GUISample: public fluxion::scene::Scene
     {
     public:
         GUISample();
 
     private:
-        ouzel::EventHandler handler;
+        fluxion::EventHandler handler;
 
-        ouzel::gui::Button button;
-        ouzel::gui::Button fullscreenButton;
-        ouzel::gui::Button minimizeButton;
-        ouzel::gui::Button maximizeButton;
-        ouzel::gui::CheckBox checkBox;
+        fluxion::gui::Button button;
+        fluxion::gui::Button fullscreenButton;
+        fluxion::gui::Button minimizeButton;
+        fluxion::gui::Button maximizeButton;
+        fluxion::gui::CheckBox checkBox;
 
-        ouzel::gui::Label label1;
-        ouzel::gui::Label label2;
-        ouzel::gui::Label label3;
+        fluxion::gui::Label label1;
+        fluxion::gui::Label label2;
+        fluxion::gui::Label label3;
 
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
-        ouzel::gui::Menu menu;
-        ouzel::gui::Button backButton;
+        fluxion::scene::Layer layer;
+        fluxion::scene::Camera camera;
+        fluxion::scene::Actor cameraActor;
+        fluxion::gui::Menu menu;
+        fluxion::gui::Button backButton;
     };
 }
 

@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "RenderPass.hpp"
+﻿#include "RenderPass.hpp"
 #include "Graphics.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     RenderPass::RenderPass(Graphics& initGraphics,
                            const std::vector<RenderTarget*>& initRenderTargets):

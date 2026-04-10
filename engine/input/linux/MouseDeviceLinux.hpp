@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_MOUSEDEVICELINUX_HPP
-#define OUZEL_INPUT_MOUSEDEVICELINUX_HPP
+﻿#ifndef FLUXION_INPUT_MOUSEDEVICELINUX_HPP
+#define FLUXION_INPUT_MOUSEDEVICELINUX_HPP
 
 #include "../MouseDevice.hpp"
 
-namespace ouzel::input::linux
+namespace fluxion::input::linux
 {
     class InputSystem;
     class Cursor;
@@ -30,4 +28,4 @@ namespace ouzel::input::linux
     };
 }
 
-#endif // OUZEL_INPUT_MOUSEDEVICELINUX_HPP
+#endif // FLUXION_INPUT_MOUSEDEVICELINUX_HPP

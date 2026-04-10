@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALRENDERDEVICE_HPP
-#define OUZEL_GRAPHICS_METALRENDERDEVICE_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALRENDERDEVICE_HPP
+#define FLUXION_GRAPHICS_METALRENDERDEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
 
 #include <array>
 #include <map>
@@ -48,7 +46,7 @@ using MTLPixelFormat = NSUInteger;
 #include "../../platform/dispatch/Semaphore.hpp"
 #include "../../platform/objc/Pointer.hpp"
 
-namespace ouzel::graphics::metal
+namespace fluxion::graphics::metal
 {
     class BlendState;
     class Shader;
@@ -134,4 +132,4 @@ namespace ouzel::graphics::metal
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALRENDERDEVICE_HPP
+#endif // FLUXION_GRAPHICS_METALRENDERDEVICE_HPP

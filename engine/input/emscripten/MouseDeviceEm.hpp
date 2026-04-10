@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_MOUSEDEVICEEM_HPP
-#define OUZEL_INPUT_MOUSEDEVICEEM_HPP
+﻿#ifndef FLUXION_INPUT_MOUSEDEVICEEM_HPP
+#define FLUXION_INPUT_MOUSEDEVICEEM_HPP
 
 #include "../MouseDevice.hpp"
 
-namespace ouzel::input::emscripten
+namespace fluxion::input::emscripten
 {
     class InputSystem;
 
@@ -20,4 +18,4 @@ namespace ouzel::input::emscripten
     };
 }
 
-#endif // OUZEL_INPUT_MOUSEDEVICEEM_HPP
+#endif // FLUXION_INPUT_MOUSEDEVICEEM_HPP

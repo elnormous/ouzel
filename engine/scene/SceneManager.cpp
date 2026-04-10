@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#include <cassert>
+﻿#include <cassert>
 #include <algorithm>
 #include "SceneManager.hpp"
 #include "Scene.hpp"
 #include "Actor.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     SceneManager::~SceneManager()
     {

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "../../core/Setup.h"
+﻿#include "../../core/Setup.h"
 #include <cstdio>
 #include <cstring>
 #include <system_error>
@@ -9,7 +7,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/joystick.h>
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
 #  include <X11/cursorfont.h>
 #endif
 #include "InputSystemLinux.hpp"
@@ -17,9 +15,9 @@
 #include "../../core/linux/EngineLinux.hpp"
 #include "../../core/linux/NativeWindowLinux.hpp"
 
-namespace ouzel::input::linux
+namespace fluxion::input::linux
 {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
     InputSystem::InputSystem():
         keyboardDevice{std::make_unique<KeyboardDevice>(*this, getNextDeviceId())},
         mouseDevice{std::make_unique<MouseDevice>(*this, getNextDeviceId())},
@@ -28,7 +26,7 @@ namespace ouzel::input::linux
     InputSystem::InputSystem()
 #endif
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
@@ -69,7 +67,7 @@ namespace ouzel::input::linux
 
     InputSystem::~InputSystem()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         if (emptyCursor != None) XFreeCursor(engineLinux->getDisplay(), emptyCursor);
 #endif
@@ -122,7 +120,7 @@ namespace ouzel::input::linux
             }
             case Command::Type::destroyCursor:
             {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
                 Cursor* cursor = cursors[command.cursorResource - 1].get();
 
                 if (mouseDevice->getCursor() == cursor)
@@ -145,7 +143,7 @@ namespace ouzel::input::linux
                             mouseDevice->setCursor(cursors[command.cursorResource - 1].get());
                         else
                             mouseDevice->setCursor(nullptr);
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
                         updateCursor();
 #endif
                     }
@@ -243,7 +241,7 @@ namespace ouzel::input::linux
         }
     }
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
     void InputSystem::updateCursor() const
     {
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);

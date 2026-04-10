@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "RenderTarget.hpp"
+﻿#include "RenderTarget.hpp"
 #include "Graphics.hpp"
 #include "Texture.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     RenderTarget::RenderTarget(Graphics& initGraphics,
                                const std::vector<Texture*>& initColorTextures,

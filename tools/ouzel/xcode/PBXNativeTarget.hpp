@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXNATIVETARGET_HPP
-#define OUZEL_XCODE_PBXNATIVETARGET_HPP
+﻿#ifndef FLUXION_XCODE_PBXNATIVETARGET_HPP
+#define FLUXION_XCODE_PBXNATIVETARGET_HPP
 
 #include <string>
 #include <vector>
@@ -11,7 +9,7 @@
 #include "PBXTargetDependency.hpp"
 #include "XCConfigurationList.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXNativeTarget final: public PBXTarget
     {
@@ -51,4 +49,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXNATIVETARGET_HPP
+#endif // FLUXION_XCODE_PBXNATIVETARGET_HPP

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_STATICMESHRENDERER_HPP
-#define OUZEL_SCENE_STATICMESHRENDERER_HPP
+﻿#ifndef FLUXION_SCENE_STATICMESHRENDERER_HPP
+#define FLUXION_SCENE_STATICMESHRENDERER_HPP
 
 #include <vector>
 #include "Component.hpp"
@@ -9,7 +7,7 @@
 #include "../graphics/Material.hpp"
 #include "../graphics/Vertex.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class StaticMeshData final
     {
@@ -56,4 +54,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_STATICMESHRENDERER_HPP
+#endif // FLUXION_SCENE_STATICMESHRENDERER_HPP

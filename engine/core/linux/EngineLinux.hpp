@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_ENGINELINUX_HPP
-#define OUZEL_CORE_ENGINELINUX_HPP
+﻿#ifndef FLUXION_CORE_ENGINELINUX_HPP
+#define FLUXION_CORE_ENGINELINUX_HPP
 
 #include "../Setup.h"
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
 #  include <X11/Xlib.h>
 #  include "../../platform/x11/ThreadSupport.hpp"
 #else
@@ -12,9 +10,9 @@
 #endif
 #include "../Engine.hpp"
 
-namespace ouzel::core::linux
+namespace fluxion::core::linux
 {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
     int getLastError() noexcept;
 #endif
 
@@ -39,14 +37,14 @@ namespace ouzel::core::linux
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         platform::x11::ThreadSupport threadSupport;
         Display* display = nullptr;
         Atom executeAtom = None;
-#elif OUZEL_SUPPORTS_DISPMANX
+#elif FLUXION_SUPPORTS_DISPMANX
         DISPMANX_DISPLAY_HANDLE_T display = DISPMANX_NO_HANDLE;
 #endif
     };
 }
 
-#endif // OUZEL_CORE_ENGINELINUX_HPP
+#endif // FLUXION_CORE_ENGINELINUX_HPP

@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include <system_error>
+﻿#include <system_error>
 #include "GamepadDeviceXI.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     namespace
     {

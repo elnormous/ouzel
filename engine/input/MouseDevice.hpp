@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_MOUSEDEVICE_HPP
-#define OUZEL_INPUT_MOUSEDEVICE_HPP
+﻿#ifndef FLUXION_INPUT_MOUSEDEVICE_HPP
+#define FLUXION_INPUT_MOUSEDEVICE_HPP
 
 #include <future>
 #include "InputDevice.hpp"
 #include "Mouse.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class MouseDevice: public InputDevice
     {
@@ -24,4 +22,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_MOUSEDEVICE_HPP
+#endif // FLUXION_INPUT_MOUSEDEVICE_HPP

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_ENGINEIOS_HPP
-#define OUZEL_CORE_ENGINEIOS_HPP
+﻿#ifndef FLUXION_CORE_ENGINEIOS_HPP
+#define FLUXION_CORE_ENGINEIOS_HPP
 
 #ifdef __OBJC__
 @class ExecuteHandler;
@@ -13,7 +11,7 @@ using ExecuteHandlerPtr = id;
 
 #include "../Engine.hpp"
 
-namespace ouzel::core::ios
+namespace fluxion::core::ios
 {
     class Engine final: public core::Engine
     {
@@ -37,4 +35,4 @@ namespace ouzel::core::ios
     };
 }
 
-#endif // OUZEL_CORE_ENGINEIOS_HPP
+#endif // FLUXION_CORE_ENGINEIOS_HPP

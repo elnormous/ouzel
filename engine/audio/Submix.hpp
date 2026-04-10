@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_SUBMIX_HPP
-#define OUZEL_AUDIO_SUBMIX_HPP
+﻿#ifndef FLUXION_AUDIO_SUBMIX_HPP
+#define FLUXION_AUDIO_SUBMIX_HPP
 
 #include "Mix.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Submix final: public Mix
     {
@@ -26,4 +24,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_SUBMIX_HPP
+#endif // FLUXION_AUDIO_SUBMIX_HPP

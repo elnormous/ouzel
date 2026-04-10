@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_THREAD_THREAD_HPP
-#define OUZEL_THREAD_THREAD_HPP
+﻿#ifndef FLUXION_THREAD_THREAD_HPP
+#define FLUXION_THREAD_THREAD_HPP
 
 #include <system_error>
 #include <thread>
@@ -21,7 +19,7 @@
 #  include <pthread.h>
 #endif
 
-namespace ouzel::thread
+namespace fluxion::thread
 {
     class Thread final
     {
@@ -104,4 +102,4 @@ namespace ouzel::thread
     };
 }
 
-#endif // OUZEL_THREAD_THREAD_HPP
+#endif // FLUXION_THREAD_THREAD_HPP

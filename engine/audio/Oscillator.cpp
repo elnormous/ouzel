@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#include "Oscillator.hpp"
+﻿#include "Oscillator.hpp"
 #include "Audio.hpp"
 #include "mixer/Data.hpp"
 #include "mixer/Stream.hpp"
 #include "../math/Constants.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class OscillatorData;
 

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_COLOR_HPP
-#define OUZEL_MATH_COLOR_HPP
+﻿#ifndef FLUXION_MATH_COLOR_HPP
+#define FLUXION_MATH_COLOR_HPP
 
 #include <array>
 #include <cstddef>
@@ -11,7 +9,7 @@
 #include <type_traits>
 #include "Vector.hpp"
 
-namespace ouzel::math
+namespace fluxion::math
 {
     class Color final
     {
@@ -198,4 +196,4 @@ namespace ouzel::math
     inline constexpr auto grayColor = Color{128, 128, 128, 255};
 }
 
-#endif // OUZEL_MATH_COLOR_HPP
+#endif // FLUXION_MATH_COLOR_HPP

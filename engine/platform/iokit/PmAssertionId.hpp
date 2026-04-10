@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_IOKIT_PMASSERTIONID_HPP
-#define OUZEL_PLATFORM_IOKIT_PMASSERTIONID_HPP
+﻿#ifndef FLUXION_PLATFORM_IOKIT_PMASSERTIONID_HPP
+#define FLUXION_PLATFORM_IOKIT_PMASSERTIONID_HPP
 
 #include <system_error>
 #include <IOKit/pwr_mgt/IOPMLib.h>
 #include "ErrorCategory.hpp"
 
-namespace ouzel::platform::iokit
+namespace fluxion::platform::iokit
 {
     class PmAssertionId final
     {
@@ -80,4 +78,4 @@ namespace ouzel::platform::iokit
     };
 }
 
-#endif // OUZEL_PLATFORM_IOKIT_PMASSERTIONID_HPP
+#endif // FLUXION_PLATFORM_IOKIT_PMASSERTIONID_HPP

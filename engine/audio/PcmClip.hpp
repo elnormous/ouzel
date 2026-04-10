@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_PCMCLIP_HPP
-#define OUZEL_AUDIO_PCMCLIP_HPP
+﻿#ifndef FLUXION_AUDIO_PCMCLIP_HPP
+#define FLUXION_AUDIO_PCMCLIP_HPP
 
 #include <cstdint>
 #include <vector>
 #include "Sound.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class PcmData;
 
@@ -22,4 +20,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_PCMCLIP_HPP
+#endif // FLUXION_AUDIO_PCMCLIP_HPP

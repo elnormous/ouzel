@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#include <stdexcept>
+﻿#include <stdexcept>
 #include "Cursor.hpp"
 #include "InputManager.hpp"
 #include "../core/Engine.hpp"
 #include "stb_image.h"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     Cursor::Cursor(InputManager& initInputManager):
         inputManager{initInputManager}

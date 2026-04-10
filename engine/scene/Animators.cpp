@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cmath>
+﻿#include <cmath>
 #include <limits>
 #include "Animators.hpp"
 #include "Actor.hpp"
@@ -8,7 +6,7 @@
 #include "../hash/Fnv1.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Ease::Ease(Animator& animator, easing::Func initFunc, easing::Mode initMode):
         Animator{animator.getLength()}, func{initFunc}, mode{initMode}

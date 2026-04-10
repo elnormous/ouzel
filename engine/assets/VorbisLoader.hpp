@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_VORBISLOADER_HPP
-#define OUZEL_ASSETS_VORBISLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_VORBISLOADER_HPP
+#define FLUXION_ASSETS_VORBISLOADER_HPP
 
 #include "Bundle.hpp"
 #include "../audio/VorbisClip.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadVorbis(Cache&,
                            Bundle& bundle,
@@ -29,4 +27,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_VORBISLOADER_HPP
+#endif // FLUXION_ASSETS_VORBISLOADER_HPP

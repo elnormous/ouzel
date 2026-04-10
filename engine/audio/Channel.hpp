@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_AUDIO_CHANNEL_HPP
+#define FLUXION_AUDIO_CHANNEL_HPP
 
-#ifndef OUZEL_AUDIO_CHANNEL_HPP
-#define OUZEL_AUDIO_CHANNEL_HPP
-
-namespace ouzel::audio
+namespace fluxion::audio
 {
     enum class Channel
     {
@@ -24,4 +22,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_CHANNEL_HPP
+#endif // FLUXION_AUDIO_CHANNEL_HPP

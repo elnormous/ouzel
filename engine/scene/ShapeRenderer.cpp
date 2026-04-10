@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cassert>
+﻿#include <cassert>
 #include <cmath>
 #include "ShapeRenderer.hpp"
 #include "Camera.hpp"
@@ -8,7 +6,7 @@
 #include "../graphics/Graphics.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     ShapeRenderer::ShapeRenderer():
         shader{engine->getCache().getShader(shaderColor)},

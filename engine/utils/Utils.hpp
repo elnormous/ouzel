@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_UTILS_UTILS_HPP
-#define OUZEL_UTILS_UTILS_HPP
+﻿#ifndef FLUXION_UTILS_UTILS_HPP
+#define FLUXION_UTILS_UTILS_HPP
 
 #include <cstdint>
 #include <string>
@@ -9,7 +7,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace ouzel
+namespace fluxion
 {
     template <class T>
     auto getVectorSize(const T& vec) noexcept
@@ -67,4 +65,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_UTILS_UTILS_HPP
+#endif // FLUXION_UTILS_UTILS_HPP

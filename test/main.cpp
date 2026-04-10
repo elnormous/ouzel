@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "cstdlib"
+﻿#include "cstdlib"
 
 int main()
 {

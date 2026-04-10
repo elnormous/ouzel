@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_HASH_FNV1_HPP
-#define OUZEL_HASH_FNV1_HPP
+﻿#ifndef FLUXION_HASH_FNV1_HPP
+#define FLUXION_HASH_FNV1_HPP
 
 #include <cstdint>
 
-namespace ouzel::hash::fnv1
+namespace fluxion::hash::fnv1
 {
     inline namespace detail
     {
@@ -32,4 +30,4 @@ namespace ouzel::hash::fnv1
     }
 }
 
-#endif // OUZEL_HASH_FNV1_HPP
+#endif // FLUXION_HASH_FNV1_HPP

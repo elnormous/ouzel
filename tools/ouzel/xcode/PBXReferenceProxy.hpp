@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXREFERENCEPROXY_HPP
-#define OUZEL_XCODE_PBXREFERENCEPROXY_HPP
+﻿#ifndef FLUXION_XCODE_PBXREFERENCEPROXY_HPP
+#define FLUXION_XCODE_PBXREFERENCEPROXY_HPP
 
 #include <string>
 #include "PBXFileReference.hpp"
@@ -9,7 +7,7 @@
 #include "PBXSourceTree.hpp"
 #include "storage/Path.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXReferenceProxy final: public PBXFileReference
     {
@@ -29,4 +27,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXREFERENCEPROXY_HPP
+#endif // FLUXION_XCODE_PBXREFERENCEPROXY_HPP

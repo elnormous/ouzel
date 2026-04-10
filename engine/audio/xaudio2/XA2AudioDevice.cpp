@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_XAUDIO2
+#if FLUXION_COMPILE_XAUDIO2
 
 #include <system_error>
 #include "XA2AudioDevice.hpp"
@@ -15,7 +13,7 @@
 #  define XAUDIO2_DEBUG_ENGINE 0x0001 // Used in XAudio2Create on Windows only
 #endif
 
-namespace ouzel::audio::xaudio2
+namespace fluxion::audio::xaudio2
 {
     AudioDevice::AudioDevice(const Settings& settings,
                              const std::function<void(std::uint32_t frames,

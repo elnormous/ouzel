@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_NATIVEWINDOWANDROID_HPP
-#define OUZEL_CORE_NATIVEWINDOWANDROID_HPP
+﻿#ifndef FLUXION_CORE_NATIVEWINDOWANDROID_HPP
+#define FLUXION_CORE_NATIVEWINDOWANDROID_HPP
 
 #include <jni.h>
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
 #include "../NativeWindow.hpp"
 
-namespace ouzel::core::android
+namespace fluxion::core::android
 {
     class NativeWindow final: public core::NativeWindow
     {
@@ -29,4 +27,4 @@ namespace ouzel::core::android
     };
 }
 
-#endif // OUZEL_CORE_NATIVEWINDOWANDROID_HPP
+#endif // FLUXION_CORE_NATIVEWINDOWANDROID_HPP

@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_GRAPHICS_DRIVER_HPP
+#define FLUXION_GRAPHICS_DRIVER_HPP
 
-#ifndef OUZEL_GRAPHICS_DRIVER_HPP
-#define OUZEL_GRAPHICS_DRIVER_HPP
-
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     enum class Driver
     {
@@ -14,4 +12,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_DRIVER_HPP
+#endif // FLUXION_GRAPHICS_DRIVER_HPP

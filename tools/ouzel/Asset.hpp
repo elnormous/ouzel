@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSET_HPP
-#define OUZEL_ASSET_HPP
+﻿#ifndef FLUXION_ASSET_HPP
+#define FLUXION_ASSET_HPP
 
 #include "storage/Path.hpp"
 
-namespace ouzel
+namespace fluxion
 {
     class Asset final
     {
@@ -71,4 +69,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_ASSET_HPP
+#endif // FLUXION_ASSET_HPP

@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_JNIERRORCATEGORY_HPP
-#define OUZEL_CORE_JNIERRORCATEGORY_HPP
+﻿#ifndef FLUXION_CORE_JNIERRORCATEGORY_HPP
+#define FLUXION_CORE_JNIERRORCATEGORY_HPP
 
 #include <system_error>
 #include <jni.h>
 
-namespace ouzel::core::android
+namespace fluxion::core::android
 {
     class ErrorCategory final: public std::error_category
     {
@@ -34,4 +32,4 @@ namespace ouzel::core::android
     inline const ErrorCategory errorCategory;
 }
 
-#endif // OUZEL_CORE_JNIERRORCATEGORY_HPP
+#endif // FLUXION_CORE_JNIERRORCATEGORY_HPP

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_EVENTS_EVENT_HPP
-#define OUZEL_EVENTS_EVENT_HPP
+﻿#ifndef FLUXION_EVENTS_EVENT_HPP
+#define FLUXION_EVENTS_EVENT_HPP
 
 #include <cstdint>
 #include <vector>
@@ -14,7 +12,7 @@
 #include "../input/Mouse.hpp"
 #include "../input/Touchpad.hpp"
 
-namespace ouzel
+namespace fluxion
 {
     struct Event
     {
@@ -192,4 +190,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_EVENTS_EVENT_HPP
+#endif // FLUXION_EVENTS_EVENT_HPP

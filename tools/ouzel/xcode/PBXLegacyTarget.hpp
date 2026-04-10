@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_XCODE_PBXLEGACYTARGET_HPP
-#define OUZEL_XCODE_PBXLEGACYTARGET_HPP
+﻿#ifndef FLUXION_XCODE_PBXLEGACYTARGET_HPP
+#define FLUXION_XCODE_PBXLEGACYTARGET_HPP
 
 #include <string>
 #include <vector>
@@ -11,7 +9,7 @@
 #include "PBXTargetDependency.hpp"
 #include "XCConfigurationList.hpp"
 
-namespace ouzel::xcode
+namespace fluxion::xcode
 {
     class PBXLegacyTarget final: public PBXTarget
     {
@@ -53,4 +51,4 @@ namespace ouzel::xcode
     };
 }
 
-#endif // OUZEL_XCODE_PBXLEGACYTARGET_HPP
+#endif // FLUXION_XCODE_PBXLEGACYTARGET_HPP

@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #if defined(__unix__) || defined(__APPLE__)
 #  include <dlfcn.h>
@@ -13,7 +11,7 @@
 
 #include "OGL.h"
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
@@ -23,9 +21,9 @@
 #  include "GL/glext.h"
 #endif
 
-#if OUZEL_OPENGL_INTERFACE_EGL
+#if FLUXION_OPENGL_INTERFACE_EGL
 #  include "EGL/egl.h"
-#elif OUZEL_OPENGL_INTERFACE_WGL
+#elif FLUXION_OPENGL_INTERFACE_WGL
 #  include "GL/wglext.h"
 #endif
 
@@ -43,7 +41,7 @@
 #include "../../core/Window.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     namespace
     {
@@ -244,7 +242,7 @@ namespace ouzel::graphics::opengl
             }
         }
 
-#if !OUZEL_OPENGLES
+#if !FLUXION_OPENGLES
         constexpr GLenum getFillMode(FillMode fillMode)
         {
             switch (fillMode)
@@ -318,7 +316,7 @@ namespace ouzel::graphics::opengl
 
         log(Log::Level::info) << "Using " << rendererName << " by " << vendorName << " for rendering";
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
         npotTexturesSupported = apiVersion >= ApiVersion{3, 0} || getter.hasExtension("GL_OES_texture_npot");
         renderTargetsSupported = apiVersion >= ApiVersion{3, 0};
         clampToBorderSupported = apiVersion >= ApiVersion{3, 2} || getter.hasExtension("GL_EXT_texture_border_clamp");
@@ -452,7 +450,7 @@ namespace ouzel::graphics::opengl
         if (!glFramebufferTexture2DMultisampleProc)
             glFramebufferTexture2DMultisampleProc = getter.get<PFNGLFRAMEBUFFERTEXTURE2DMULTISAMPLEEXTPROC>("glFramebufferTexture2DMultisampleIMG", "GL_IMG_multisampled_render_to_texture");
 
-#  if OUZEL_OPENGL_INTERFACE_EAGL
+#  if FLUXION_OPENGL_INTERFACE_EAGL
         glDiscardFramebufferEXTProc = getter.get<PFNGLDISCARDFRAMEBUFFEREXTPROC>("glDiscardFramebufferEXT", ApiVersion{2, 0});
         glResolveMultisampleFramebufferAPPLEProc = getter.get<PFNGLRESOLVEMULTISAMPLEFRAMEBUFFERAPPLEPROC>("glResolveMultisampleFramebufferAPPLE", ApiVersion{2, 0});
 
@@ -464,7 +462,7 @@ namespace ouzel::graphics::opengl
         glMapBufferProc = getter.get<PFNGLMAPBUFFEROESPROC>("glMapBuffer", ApiVersion{3, 0},
                                                             {{"glMapBufferOES", "GL_OES_mapbuffer"}});
 #  endif
-#else // OUZEL_OPENGLES
+#else // FLUXION_OPENGLES
         clampToBorderSupported = apiVersion >= ApiVersion{1, 3} || getter.hasExtension("GL_EXT_texture_mirror_clamp");
         textureBaseLevelSupported = apiVersion >= ApiVersion{1, 3};
         textureMaxLevelSupported = apiVersion >= ApiVersion{1, 3};
@@ -632,7 +630,7 @@ namespace ouzel::graphics::opengl
         if (const auto error = glGetErrorProc(); error != GL_NO_ERROR)
             throw std::system_error{makeErrorCode(error), "Failed to set depth function"};
 
-#if !OUZEL_OPENGLES
+#if !FLUXION_OPENGLES
         if (srgb)
             glEnableProc(GL_FRAMEBUFFER_SRGB);
 
@@ -991,7 +989,7 @@ namespace ouzel::graphics::opengl
                         const auto cullFace = getCullFace(setPipelineStateCommand->cullMode);
                         setCullFace(cullFace != GL_NONE, cullFace);
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
                         if (setPipelineStateCommand->fillMode != FillMode::solid)
                             log(Log::Level::warning) << "Unsupported fill mode";
 #else

@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEWIN_HPP
-#define OUZEL_GRAPHICS_OGLRENDERDEVICEWIN_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLRENDERDEVICEWIN_HPP
+#define FLUXION_GRAPHICS_OGLRENDERDEVICEWIN_HPP
 
 #include "../../../core/Setup.h"
 
-#if defined(_WIN32) && OUZEL_COMPILE_OPENGL
+#if defined(_WIN32) && FLUXION_COMPILE_OPENGL
 
 #include <atomic>
 #include <thread>
@@ -24,7 +22,7 @@
 #include "../OGLRenderDevice.hpp"
 #include "../../../thread/Thread.hpp"
 
-namespace ouzel::graphics::opengl::windows
+namespace fluxion::graphics::opengl::windows
 {
     class RenderDevice final: public opengl::RenderDevice
     {
@@ -49,4 +47,4 @@ namespace ouzel::graphics::opengl::windows
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLRENDERDEVICEWIN_HPP
+#endif // FLUXION_GRAPHICS_OGLRENDERDEVICEWIN_HPP

@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "System.hpp"
 
-#include "System.hpp"
-
-namespace ouzel::core
+namespace fluxion::core
 {
     System::System(const std::vector<std::string>& initArgs):
         args{initArgs}

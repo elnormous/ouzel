@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include "EventDispatcher.hpp"
 #include "EventHandler.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel
+namespace fluxion
 {
     EventDispatcher::~EventDispatcher()
     {

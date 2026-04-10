@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_TARGET_HPP
-#define OUZEL_TARGET_HPP
+﻿#ifndef FLUXION_TARGET_HPP
+#define FLUXION_TARGET_HPP
 
 #include <string>
 #include "Platform.hpp"
 
-namespace ouzel
+namespace fluxion
 {
     class Target final
     {
@@ -20,4 +18,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_TARGET_HPP
+#endif // FLUXION_TARGET_HPP

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <cstdlib>
 #include <stdexcept>
 #include "ParticleSystem.hpp"
@@ -14,7 +12,7 @@
 #include "../storage/FileSystem.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     namespace
     {

@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_XAUDIO2
+#if FLUXION_COMPILE_XAUDIO2
 
 #include "XAudio2.h"
 

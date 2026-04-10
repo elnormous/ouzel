@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
-#define OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_PARTICLESYSTEMLOADER_HPP
+#define FLUXION_ASSETS_PARTICLESYSTEMLOADER_HPP
 
 #include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "../scene/ParticleSystem.hpp"
 #include "../formats/Json.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadParticleSystem(Cache&,
                                    Bundle& bundle,
@@ -124,4 +122,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
+#endif // FLUXION_ASSETS_PARTICLESYSTEMLOADER_HPP

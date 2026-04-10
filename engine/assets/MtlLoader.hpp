@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_MTLLOADER_HPP
-#define OUZEL_ASSETS_MTLLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_MTLLOADER_HPP
+#define FLUXION_ASSETS_MTLLOADER_HPP
 
 #include "Bundle.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     bool loadMtl(Cache& cache,
                  Bundle& bundle,
@@ -14,4 +12,4 @@ namespace ouzel::assets
                  const Asset::Options& options);
 }
 
-#endif // OUZEL_ASSETS_MTLLOADER_HPP
+#endif // FLUXION_ASSETS_MTLLOADER_HPP

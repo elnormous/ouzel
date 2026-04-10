@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "SpriteRenderer.hpp"
+﻿#include "SpriteRenderer.hpp"
 #include "Camera.hpp"
 #include "SceneManager.hpp"
 #include "Layer.hpp"
@@ -10,7 +8,7 @@
 #include "../storage/FileSystem.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     SpriteData::Frame::Frame(const std::string& frameName,
                              const math::Size<float, 2>& textureSize,

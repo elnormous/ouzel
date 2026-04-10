@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_ASSETERROR_HPP
-#define OUZEL_ASSETS_ASSETERROR_HPP
+﻿#ifndef FLUXION_ASSETS_ASSETERROR_HPP
+#define FLUXION_ASSETS_ASSETERROR_HPP
 
 #include <stdexcept>
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     class Error final: public std::runtime_error
     {
@@ -14,4 +12,4 @@ namespace ouzel::assets
     };
 }
 
-#endif // OUZEL_ASSETS_ASSETERROR_HPP
+#endif // FLUXION_ASSETS_ASSETERROR_HPP
