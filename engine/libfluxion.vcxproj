@@ -361,8 +361,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{c60ab6a6-67ff-4704-bdcd-de2f382fe251}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>libouzel</ProjectName>
-    <RootNamespace>ouzel</RootNamespace>
+    <ProjectName>libfluxion</ProjectName>
+    <RootNamespace>fluxion</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

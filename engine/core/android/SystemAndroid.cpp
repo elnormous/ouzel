@@ -187,12 +187,12 @@ extern "C" JNIEXPORT void JNIEXPORT JNI_OnUnload(JavaVM*, void*)
     engine.reset();
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onCreate(JNIEnv*, jclass, jobject mainActivity)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onCreate(JNIEnv*, jclass, jobject mainActivity)
 {
     engine->onCreate(mainActivity);
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass, jobject surface)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onSurfaceCreated(JNIEnv*, jclass, jobject surface)
 {
     try
     {
@@ -206,45 +206,45 @@ extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onSurfaceC
     }
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onSurfaceDestroyed(JNIEnv*, jclass)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onSurfaceDestroyed(JNIEnv*, jclass)
 {
     engine->onSurfaceDestroyed();
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject, jint width, jint height)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onSurfaceChanged(JNIEnv*, jclass, jobject, jint width, jint height)
 {
     const auto& window = engine->getWindow().getNativeWindow();
     window.handleResize(fluxion::math::Size<std::uint32_t, 2>{static_cast<std::uint32_t>(width), static_cast<std::uint32_t>(height)});
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onStart(JNIEnv*, jclass)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onStart(JNIEnv*, jclass)
 {
     // Do nothing
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onPause(JNIEnv*, jclass)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onPause(JNIEnv*, jclass)
 {
     engine->pause();
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onResume(JNIEnv*, jclass)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onResume(JNIEnv*, jclass)
 {
     engine->resume();
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onConfigurationChanged(JNIEnv*, jclass, jobject newConfig)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onConfigurationChanged(JNIEnv*, jclass, jobject newConfig)
 {
     engine->onConfigurationChanged(newConfig);
 }
 
-extern "C" JNIEXPORT void JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onLowMemory(JNIEnv*, jclass)
+extern "C" JNIEXPORT void JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onLowMemory(JNIEnv*, jclass)
 {
     auto event = std::make_unique<fluxion::SystemEvent>();
     event->type = fluxion::Event::Type::lowMemory;
     engine->getEventDispatcher().postEvent(std::move(event));
 }
 
-extern "C" JNIEXPORT jboolean JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)
+extern "C" JNIEXPORT jboolean JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onKeyDown(JNIEnv*, jclass, jint keyCode)
 {
     auto& inputSystem = fluxion::engine->getInputManager().getInputSystem();
     const auto keyboardDevice = inputSystem.getKeyboardDevice();
@@ -256,7 +256,7 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onKeyD
         return true;
 }
 
-extern "C" JNIEXPORT jboolean JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onKeyUp(JNIEnv*, jclass, jint keyCode)
+extern "C" JNIEXPORT jboolean JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onKeyUp(JNIEnv*, jclass, jint keyCode)
 {
     auto& inputSystem = fluxion::engine->getInputManager().getInputSystem();
     const auto keyboardDevice = inputSystem.getKeyboardDevice();
@@ -268,13 +268,13 @@ extern "C" JNIEXPORT jboolean JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onKeyU
         return true;
 }
 
-extern "C" JNIEXPORT jboolean JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onTouchEvent(JNIEnv*, jclass, jobject event)
+extern "C" JNIEXPORT jboolean JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onTouchEvent(JNIEnv*, jclass, jobject event)
 {
     auto& inputSystem = fluxion::engine->getInputManager().getInputSystem();
     return inputSystem.handleTouchEvent(event);
 }
 
-extern "C" JNIEXPORT jboolean JNICALL Java_org_FLUXION_OuzelLibJNIWrapper_onGenericMotionEvent(JNIEnv*, jclass, jobject event)
+extern "C" JNIEXPORT jboolean JNICALL Java_com_fluxion_FluxionLibJNIWrapper_onGenericMotionEvent(JNIEnv*, jclass, jobject event)
 {
     auto& inputSystem = fluxion::engine->getInputManager().getInputSystem();
     return inputSystem.handleGenericMotionEvent(event);

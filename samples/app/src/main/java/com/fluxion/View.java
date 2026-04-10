@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-package org.ouzel;
+package com.fluxion;
 
 import android.content.Context;
 import android.view.InputDevice;
@@ -59,39 +57,39 @@ public class View extends SurfaceView implements SurfaceHolder.Callback
 
     @Override public boolean onTouchEvent(MotionEvent event)
     {
-        return OuzelLibJNIWrapper.onTouchEvent(event);
+        return FluxionLibJNIWrapper.onTouchEvent(event);
     }
 
     @Override public boolean onGenericMotionEvent(MotionEvent event)
     {
-        return OuzelLibJNIWrapper.onGenericMotionEvent(event);
+        return FluxionLibJNIWrapper.onGenericMotionEvent(event);
     }
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         onInputEvent(event);
-        return OuzelLibJNIWrapper.onKeyDown(keyCode);
+        return FluxionLibJNIWrapper.onKeyDown(keyCode);
     }
 
     @Override public boolean onKeyUp(int keyCode, KeyEvent event)
     {
         onInputEvent(event);
-        return OuzelLibJNIWrapper.onKeyUp(keyCode);
+        return FluxionLibJNIWrapper.onKeyUp(keyCode);
     }
 
     @Override public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
-        OuzelLibJNIWrapper.onSurfaceChanged(holder.getSurface(), width, height);
+        FluxionLibJNIWrapper.onSurfaceChanged(holder.getSurface(), width, height);
     }
 
     @Override public void surfaceCreated(SurfaceHolder holder)
     {
-        OuzelLibJNIWrapper.onSurfaceCreated(holder.getSurface());
+        FluxionLibJNIWrapper.onSurfaceCreated(holder.getSurface());
     }
 
     @Override public void surfaceDestroyed(SurfaceHolder holder)
     {
-        OuzelLibJNIWrapper.onSurfaceDestroyed();
+        FluxionLibJNIWrapper.onSurfaceDestroyed();
     }
 
     public int[] getInputDeviceIds()

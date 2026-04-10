@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-package org.ouzel;
+package com.fluxion;
 
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.view.MotionEvent;
 import android.view.Surface;
 
-public class OuzelLibJNIWrapper
+public class FluxionLibJNIWrapper
 {
     static
     {

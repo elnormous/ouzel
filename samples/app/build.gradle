@@ -5,7 +5,7 @@ android {
     compileSdkVersion 23
 
     defaultConfig {
-        applicationId "org.ouzel.samples"
+        applicationId "com.fluxion.samples"
         minSdkVersion 14
         targetSdkVersion 17
         versionCode 1

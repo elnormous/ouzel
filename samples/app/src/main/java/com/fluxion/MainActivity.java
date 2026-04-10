@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-package org.ouzel;
+package com.fluxion;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -11,37 +9,37 @@ public class MainActivity extends Activity
     @Override public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        OuzelLibJNIWrapper.onCreate(this);
+        FluxionLibJNIWrapper.onCreate(this);
         setContentView(new View(this));
     }
 
     @Override public void onStart()
     {
         super.onStart();
-        OuzelLibJNIWrapper.onStart();
+        FluxionLibJNIWrapper.onStart();
     }
 
     @Override public void onPause()
     {
         super.onPause();
-        OuzelLibJNIWrapper.onPause();
+        FluxionLibJNIWrapper.onPause();
     }
 
     @Override public void onResume()
     {
         super.onResume();
-        OuzelLibJNIWrapper.onResume();
+        FluxionLibJNIWrapper.onResume();
     }
 
     @Override public void onConfigurationChanged(Configuration newConfig)
     {
         super.onConfigurationChanged(newConfig);
-        OuzelLibJNIWrapper.onConfigurationChanged(newConfig);
+        FluxionLibJNIWrapper.onConfigurationChanged(newConfig);
     }
 
     @Override public void onLowMemory()
     {
         super.onLowMemory();
-        OuzelLibJNIWrapper.onLowMemory();
+        FluxionLibJNIWrapper.onLowMemory();
     }
 }

@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := ouzel
+LOCAL_MODULE := fluxion
 LOCAL_ARM_MODE := arm
 LOCAL_CFLAGS := -Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion
 LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
