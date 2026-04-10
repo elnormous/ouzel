@@ -99,7 +99,7 @@ namespace fluxion
     void Logger::logString(const std::string& str, Log::Level level)
     {
 #ifdef __ANDROID__
-        __android_log_print(getPriority(level), "Ouzel", "%s", str.c_str());
+        __android_log_print(getPriority(level), "Fluxion", "%s", str.c_str());
 #elif TARGET_OS_IOS || TARGET_OS_TV
         syslog(getPriority(level), "%s", str.c_str());
 #elif TARGET_OS_MAC || defined(__linux__)

@@ -119,7 +119,7 @@ namespace samples
         engine->getLocalization().addLanguage("latvian", engine->getFileSystem().readFile("lv.mo"));
         engine->getLocalization().setLanguage("latvian");
 
-        label2.setText(engine->getLocalization().getString("Ouzel"));
+        label2.setText(engine->getLocalization().getString("Fluxion"));
 
         label2.setPosition(Vector<float, 2>{10.0F, 0.0F});
         layer.addChild(label2);

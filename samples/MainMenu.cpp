@@ -28,7 +28,7 @@ namespace samples
             if (event.type == Event::Type::actorClick)
             {
                 if (event.actor == &gitHubButton)
-                    engine->openUrl("https://github.com/elnormous/ouzel");
+                    engine->openUrl("https://github.com/elnormous/fluxion");
                 else if (event.actor == &spritesButton)
                     engine->getSceneManager().setScene(std::make_unique<SpritesSample>());
                 else if (event.actor == &guiButton)

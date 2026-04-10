@@ -159,7 +159,7 @@ namespace fluxion::visualstudio
             // globals
             result += "  <PropertyGroup Label=\"Globals\">\n";
             result += "    <ProjectGuid>{" + toString(guid) + "}</ProjectGuid>\n";
-            result += "    <RootNamespace>ouzel</RootNamespace>\n";
+            result += "    <RootNamespace>fluxion</RootNamespace>\n";
             result += "    <ProjectName>" + name + "</ProjectName>\n";
             result += "  </PropertyGroup>\n";
 

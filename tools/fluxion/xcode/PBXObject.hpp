@@ -54,7 +54,7 @@ namespace fluxion::xcode
             const std::uint32_t r = randomEngine();
 
             return {
-                0x10, // to avoid collisions with Ouzel targets
+                0x10, // to avoid collisions with Fluxion targets
                 static_cast<std::uint8_t>((s >> 16) & 0xFF),
                 static_cast<std::uint8_t>((s >> 8) & 0xFF),
                 static_cast<std::uint8_t>((s >> 0) & 0xFF),

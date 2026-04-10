@@ -43,8 +43,8 @@ namespace fluxion::xcode
             pbxProject->mainGroup = mainGroup;
 
             auto engineProjectFileRef = alloc<PBXFileReference>();
-            engineProjectFileRef->name = "libouzel.xcodeproj";
-            engineProjectFileRef->path = project.getOuzelPath() / "engine" / "libouzel.xcodeproj";
+            engineProjectFileRef->name = "libfluxion.xcodeproj";
+            engineProjectFileRef->path = project.getFluxionPath() / "engine" / "libfluxion.xcodeproj";
             engineProjectFileRef->fileType = PBXFileType::wrapperPBProject;
             engineProjectFileRef->sourceTree = PBXSourceTree::group;
             mainGroup->children.push_back(engineProjectFileRef);
@@ -59,20 +59,20 @@ namespace fluxion::xcode
                 {"ProductGroup", enginePoductRefGroup}
             });
 
-            PBXObject libouzelIos(Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92});
+            PBXObject libfluxionIos(Id{0x30, 0x3B, 0x75, 0x33, 0x1C, 0x2A, 0x3C, 0x58, 0x00, 0xFE, 0xDE, 0x92});
 
-            auto libouzelIosProxy = alloc<PBXContainerItemProxy>();
-            libouzelIosProxy->containerPortal = engineProjectFileRef;
-            libouzelIosProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
-            libouzelIosProxy->remoteGlobal = &libouzelIos;
-            libouzelIosProxy->remoteInfo = "libFLUXION_ios";
+            auto libfluxionIosProxy = alloc<PBXContainerItemProxy>();
+            libfluxionIosProxy->containerPortal = engineProjectFileRef;
+            libfluxionIosProxy->proxyType = PBXContainerItemProxy::ProxyType::reference;
+            libfluxionIosProxy->remoteGlobal = &libfluxionIos;
+            libfluxionIosProxy->remoteInfo = "libFLUXION_ios";
 
-            auto libouzelIosReferenceProxy = alloc<PBXReferenceProxy>();
-            libouzelIosReferenceProxy->path = "libFLUXION_ios.a";
-            libouzelIosReferenceProxy->fileType = PBXFileType::archiveAr;
-            libouzelIosReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
-            libouzelIosReferenceProxy->remoteRef = libouzelIosProxy;
-            enginePoductRefGroup->children.push_back(libouzelIosReferenceProxy);
+            auto libfluxionIosReferenceProxy = alloc<PBXReferenceProxy>();
+            libfluxionIosReferenceProxy->path = "libFLUXION_ios.a";
+            libfluxionIosReferenceProxy->fileType = PBXFileType::archiveAr;
+            libfluxionIosReferenceProxy->sourceTree = PBXSourceTree::buildProductsDir;
+            libfluxionIosReferenceProxy->remoteRef = libfluxionIosProxy;
+            enginePoductRefGroup->children.push_back(libfluxionIosReferenceProxy);
 
             PBXObject libouzelMacOs(Id{0x30, 0x4A, 0x8E, 0x25, 0x1C, 0x23, 0x7C, 0x30, 0x00, 0x8B, 0x11, 0x51});
 
@@ -106,7 +106,7 @@ namespace fluxion::xcode
 
             auto ouzelProjectFileRef = alloc<PBXFileReference>();
             ouzelProjectFileRef->name = "ouzel.xcodeproj";
-            ouzelProjectFileRef->path = project.getOuzelPath() / "tools" / "ouzel.xcodeproj";
+            ouzelProjectFileRef->path = project.getFluxionPath() / "tools" / "ouzel.xcodeproj";
             ouzelProjectFileRef->fileType = PBXFileType::wrapperPBProject;
             ouzelProjectFileRef->sourceTree = PBXSourceTree::group;
             mainGroup->children.push_back(ouzelProjectFileRef);
@@ -185,7 +185,7 @@ namespace fluxion::xcode
             auto projectConfigurationList = alloc<XCConfigurationList>();
             pbxProject->buildConfigurationList = projectConfigurationList;
 
-            const auto headerSearchPath = std::string(project.getOuzelPath() / "engine");
+            const auto headerSearchPath = std::string(project.getFluxionPath() / "engine");
             auto debugConfiguration = alloc<XCBuildConfiguration>();
             debugConfiguration->name = "Debug";
             debugConfiguration->buildSettings = {
@@ -389,9 +389,9 @@ namespace fluxion::xcode
                             };
                             sdkPath = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk";
                             frameworkSourceTree = PBXSourceTree::developerDir;
-                            auto libouzelIosBuildFile = alloc<PBXBuildFile>();
-                            libouzelIosBuildFile->fileRef = libouzelIosReferenceProxy;
-                            frameworksBuildPhase->files.push_back(libouzelIosBuildFile);
+                            auto libfluxionIosBuildFile = alloc<PBXBuildFile>();
+                            libfluxionIosBuildFile->fileRef = libfluxionIosReferenceProxy;
+                            frameworksBuildPhase->files.push_back(libfluxionIosBuildFile);
 
                             plist::Value infoPlist = plist::Dictionary{
                                 {"CFBundleDevelopmentRegion", "en"},

@@ -484,7 +484,7 @@ namespace fluxion::core::windows
         wc.hCursor = arrowCursor;
         wc.hbrBackground = nullptr;
         wc.lpszMenuName = nullptr;
-        wc.lpszClassName = L"OuzelWindow";
+        wc.lpszClassName = L"FluxionWindow";
         wc.hIconSm = nullptr;
 
         windowClass = RegisterClassExW(&wc);

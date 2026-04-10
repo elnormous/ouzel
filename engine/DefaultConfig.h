@@ -3,7 +3,7 @@
 
 #include "core/Platform.h"
 
-#define FLUXION_DEVELOPER_NAME "org.ouzel"
+#define FLUXION_DEVELOPER_NAME "com.fluxion"
 #define FLUXION_APPLICATION_NAME "sample"
 
 #define FLUXION_ENABLE_OPENGL 1

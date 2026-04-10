@@ -1,10 +1,10 @@
 <img src="https://github.com/elnormous/ouzel/blob/master/img/ouzel.png" alt="ouzel" width=128>
 
-# Ouzel v0.40
+# Fluxion v0.40
 
-[![Build Status](https://travis-ci.com/elnormous/ouzel.svg?branch=master)](https://travis-ci.com/github/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel) [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Ouzel&metric=alert_status)](https://sonarcloud.io/dashboard?id=Ouzel) [![Join the chat at https://gitter.im/ouzelengine/Lobby](https://badges.gitter.im/elnormous/ouzel.svg)](https://gitter.im/elnormous/ouzel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.com/elnormous/ouzel.svg?branch=master)](https://travis-ci.com/github/elnormous/ouzel) [![Build Status](https://ci.appveyor.com/api/projects/status/dp8av7iegdjs6xuj?svg=true)](https://ci.appveyor.com/project/elnormous/ouzel) [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Fluxion&metric=alert_status)](https://sonarcloud.io/dashboard?id=Fluxion) [![Join the chat at https://gitter.im/ouzelengine/Lobby](https://badges.gitter.im/elnormous/ouzel.svg)](https://gitter.im/elnormous/ouzel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Ouzel is a C++ game engine mainly targeted for development of 2D games.
+Fluxion is a C++ game engine mainly targeted for development of 2D games.
 
 Supported platforms:
 
@@ -14,7 +14,7 @@ Supported platforms:
 * iOS 8+
 * tvOS 9+
 * Android 3.0+
-* Emscripten ([sample](http://www.ouzel.org/samples/))
+* Emscripten ([sample](http://www.fluxion.org/samples/))
 
 Supported rendering backends:
 
@@ -60,14 +60,14 @@ The following code will open create a scene with a sprite in the center of it:
 #include "scene/Scene.hpp"
 #include "scene/SpriteRenderer.hpp"
 
-class Example: public ouzel::Application
+class Example: public fluxion::Application
 {
 public:
     Example():
-        assets{ouzel::engine->getCache(), ouzel::engine->getFileSystem()}
+        assets{fluxion::engine->getCache(), fluxion::engine->getFileSystem()}
     {
-        assets.loadAsset(ouzel::assets::Loader::Image, "player", "player.png");
-        ouzel::engine->getSceneManager().setScene(&scene);
+        assets.loadAsset(fluxion::assets::Loader::Image, "player", "player.png");
+        fluxion::engine->getSceneManager().setScene(&scene);
         scene.addLayer(&layer);
         cameraActor.addComponent(&camera);
         layer.addChild(&cameraActor);
@@ -77,16 +77,16 @@ public:
     }
 
 private:
-    ouzel::scene::Scene scene;
-    ouzel::scene::Layer layer;
-    ouzel::scene::Camera camera;
-    ouzel::scene::Actor cameraActor;
-    ouzel::scene::SpriteRenderer playerSprite;
-    ouzel::scene::Actor player;
-    ouzel::assets::Bundle assets;
+    fluxion::scene::Scene scene;
+    fluxion::scene::Layer layer;
+    fluxion::scene::Camera camera;
+    fluxion::scene::Actor cameraActor;
+    fluxion::scene::SpriteRenderer playerSprite;
+    fluxion::scene::Actor player;
+    fluxion::assets::Bundle assets;
 };
 
-std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
+std::unique_ptr<fluxion::Application> fluxion::main(const std::vector<std::string>& args)
 {
     return std::make_unique<Example>();
 }
@@ -94,7 +94,7 @@ std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& 
 
 ## Showcase
 
-2D platformer [Bearslayer](http://store.steampowered.com/app/460210) is being developed using Ouzel engine.
+2D platformer [Bearslayer](http://store.steampowered.com/app/460210) is being developed using Fluxion engine.
 
 [![Bearslayer](https://github.com/elnormous/ouzel/blob/master/img/bearslayer.gif "Bear Slayer")](https://www.youtube.com/watch?v=q-O8-hpvJ5A)
 
@@ -102,9 +102,9 @@ std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& 
 
 GNU makefile, Xcode project, and Visual Studio project files are located in the "build" directory. Makefile and project files for sample project are located in the "samples" directory.
 
-You will need to download OpenGL (e.g. Mesa), ALSA, and OpenAL drivers installed in order to build Ouzel on Linux. For x86 Linux also libx11, libxcursor, libxi, libxrandr, and libxss are required.
+You will need to download OpenGL (e.g. Mesa), ALSA, and OpenAL drivers installed in order to build Fluxion on Linux. For x86 Linux also libx11, libxcursor, libxi, libxrandr, and libxss are required.
 
-To build Ouzel with Emscripten, pass "PLATFORM=emscripten" to "make" command, but make sure that you have Emscripten SDK installed before doing so:
+To build Fluxion with Emscripten, pass "PLATFORM=emscripten" to "make" command, but make sure that you have Emscripten SDK installed before doing so:
 
 ```shell
 $ make PLATFORM=emscripten
@@ -115,10 +115,10 @@ You can build Android samples and run them on an Android device by executing the
 ```shell
 $ gradle assembleDebug
 $ gradle installDebug
-$ adb shell am start -n org.ouzel/org.ouzel.MainActivity
+$ adb shell am start -n com.fluxion/com.fluxion.MainActivity
 ```
 
-To build Ouzel on Raspberry Pi, you will have to install Raspberry Pi development library (`libraspberrypi-dev`) and kernel headers (`raspberrypi-kernel-headers`)
+To build Fluxion on Raspberry Pi, you will have to install Raspberry Pi development library (`libraspberrypi-dev`) and kernel headers (`raspberrypi-kernel-headers`)
 
 Because on Raspbian Stretch libEGL.so was renamed to libbrcmEGL.so and libGLESv2.so to libbrcmGLESv2.so you will have to run the following commands before building the samples on Raspbian 8 (Jessie) or older:
 
@@ -136,11 +136,11 @@ $ sudo ln -s /opt/vc/lib/libGLESv2.so /opt/vc/lib/libbrcmGLESv2.so
 
 You can ask question in the following locations:
 
-* Ouzel Twitter account: https://twitter.com/ouzelengine
-* Ouzel server on Discord: https://discord.gg/4sWuJE8
-* Author of the Ouzel engine: https://twitter.com/elnormous
+* Fluxion Twitter account: https://twitter.com/ouzelengine
+* Fluxion server on Discord: https://discord.gg/4sWuJE8
+* Author of the Fluxion engine: https://twitter.com/elnormous
 * Development roadmap: https://trello.com/b/5tRlUXKR/ouzel-roadmap
 
 ## License
 
-Ouzel codebase is released to the Public Domain
+Fluxion codebase is released to the Public Domain

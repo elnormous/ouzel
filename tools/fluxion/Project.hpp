@@ -31,7 +31,7 @@ namespace fluxion
             identifier = j["identifier"].as<std::string>();
             organization = j["organization"].as<std::string>();
 
-            ouzelPath = j["ouzelPath"].as<std::string>();
+            fluxionPath = j["fluxionPath"].as<std::string>();
 
             if (j.hasMember("targets"))
                 for (const auto& targetObject : j["targets"])
@@ -72,7 +72,7 @@ namespace fluxion
         const auto& getName() const noexcept { return name; }
         const auto& getIdentifier() const noexcept { return identifier; }
         const auto& getOrganization() const noexcept { return organization; }
-        const auto& getOuzelPath() const noexcept { return ouzelPath; }
+        const auto& getFluxionPath() const noexcept { return fluxionPath; }
         const auto& getSourcePath() const noexcept { return sourcePath; }
         const auto& getTargets() const noexcept { return targets; }
         const auto& getSourceFiles() const noexcept { return sourceFiles; }
@@ -108,7 +108,7 @@ namespace fluxion
         std::string name;
         std::string identifier;
         std::string organization;
-        storage::Path ouzelPath;
+        storage::Path fluxionPath;
         storage::Path sourcePath;
         std::vector<Target> targets;
         std::vector<storage::Path> sourceFiles;
