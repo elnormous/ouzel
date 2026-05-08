@@ -40,10 +40,13 @@ OBJCXXFLAGS=-std=c++17 \
 	-I"../external/imgui"
 
 SOURCES=main.cpp \
+	commands/ActorCommands.cpp \
+	CommandStack.cpp \
 	EditorApp.cpp \
 	EditorPicking.cpp \
 	Gizmo.cpp \
 	SceneIO.cpp \
+	SceneLookup.cpp \
 	SelectionContext.cpp \
 	panels/InfoPanel.cpp \
 	panels/InspectorPanel.cpp \

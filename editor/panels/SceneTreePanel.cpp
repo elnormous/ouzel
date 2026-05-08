@@ -3,7 +3,9 @@
 #include <cstdio>
 #include <memory>
 #include "imgui.h"
+#include "../CommandStack.hpp"
 #include "../SelectionContext.hpp"
+#include "../commands/ActorCommands.hpp"
 #include "../../engine/scene/Actor.hpp"
 #include "../../engine/scene/Component.hpp"
 #include "../../engine/scene/Layer.hpp"
@@ -26,11 +28,13 @@ namespace fluxion::editor
 
     SceneTreePanel::SceneTreePanel(scene::Scene* scene,
                                    SelectionContext* selection,
+                                   CommandStack* commandStack,
                                    const scene::Layer* excludeLayer,
                                    const scene::Actor* excludeActor):
         Panel{"Scene", true},
         scene_{scene},
         selection_{selection},
+        commandStack_{commandStack},
         excludeLayer_{excludeLayer},
         excludeActor_{excludeActor}
     {
@@ -174,6 +178,10 @@ namespace fluxion::editor
 
     void SceneTreePanel::applyPendingOps()
     {
+        // Routes deferred mutations through the command stack so the
+        // user can step them back with Ctrl+Z. When no stack is
+        // wired (legacy callers) we fall back to direct mutation —
+        // unused in the editor today but keeps the panel reusable.
         for (const auto& op : pendingOps_)
         {
             switch (op.kind)
@@ -181,29 +189,50 @@ namespace fluxion::editor
                 case PendingOp::Kind::AddChild:
                 {
                     auto child = std::make_unique<scene::Actor>();
-                    // Default name keeps the new row visible in the
-                    // tree even before the user opens the inspector
-                    // to rename it.
                     child->setName("Actor");
-                    if (op.parentLayer)
-                        op.parentLayer->addChild(std::move(child));
-                    else if (op.parentActor)
-                        op.parentActor->addChild(std::move(child));
+                    if (commandStack_)
+                    {
+                        if (op.parentLayer)
+                            commandStack_->execute(
+                                std::make_unique<commands::AddActorCommand>(
+                                    op.parentLayer, std::move(child),
+                                    selection_));
+                        else if (op.parentActor && op.parentActor->getLayer())
+                            commandStack_->execute(
+                                std::make_unique<commands::AddActorCommand>(
+                                    op.parentActor->getLayer(),
+                                    op.parentActor->getId(),
+                                    std::move(child),
+                                    selection_));
+                    }
+                    else
+                    {
+                        if (op.parentLayer) op.parentLayer->addChild(std::move(child));
+                        else if (op.parentActor) op.parentActor->addChild(std::move(child));
+                    }
                     break;
                 }
                 case PendingOp::Kind::Delete:
                 {
                     if (!op.deleteTarget) break;
-                    // Selection cleanup: the validateAgainst() call
-                    // at the end of draw() will clear the selection
-                    // if it pointed at the deleted actor; but doing
-                    // it eagerly here saves one frame of UI lag and
-                    // any panels that read selection between now and
-                    // then still see a coherent state.
-                    if (selection_ && selection_->getSelected() == op.deleteTarget)
-                        selection_->clear();
-                    if (auto* parent = op.deleteTarget->getParent())
-                        parent->removeChild(*op.deleteTarget);
+                    if (commandStack_)
+                    {
+                        // Walk up to find the user layer (parents
+                        // can be nested actors, but the topmost
+                        // ancestor is always a layer).
+                        auto* layer = op.deleteTarget->getLayer();
+                        if (layer)
+                            commandStack_->execute(
+                                std::make_unique<commands::DeleteActorCommand>(
+                                    layer, op.deleteTarget->getId(), selection_));
+                    }
+                    else
+                    {
+                        if (selection_ && selection_->getSelected() == op.deleteTarget)
+                            selection_->clear();
+                        if (auto* parent = op.deleteTarget->getParent())
+                            parent->removeChild(*op.deleteTarget);
+                    }
                     break;
                 }
             }

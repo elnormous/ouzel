@@ -148,11 +148,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="commands\ActorCommands.cpp" />
+    <ClCompile Include="CommandStack.cpp" />
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EditorPicking.cpp" />
     <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SceneIO.cpp" />
+    <ClCompile Include="SceneLookup.cpp" />
     <ClCompile Include="SelectionContext.cpp" />
     <ClCompile Include="panels\InfoPanel.cpp" />
     <ClCompile Include="panels\InspectorPanel.cpp" />
@@ -161,11 +164,15 @@
     <ClCompile Include="panels\ViewportPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="commands\ActorCommands.hpp" />
+    <ClInclude Include="commands\Command.hpp" />
+    <ClInclude Include="CommandStack.hpp" />
     <ClInclude Include="EditorApp.hpp" />
     <ClInclude Include="EditorPicking.hpp" />
     <ClInclude Include="Gizmo.hpp" />
     <ClInclude Include="Panel.hpp" />
     <ClInclude Include="SceneIO.hpp" />
+    <ClInclude Include="SceneLookup.hpp" />
     <ClInclude Include="SelectionContext.hpp" />
     <ClInclude Include="panels\InfoPanel.hpp" />
     <ClInclude Include="panels\InspectorPanel.hpp" />

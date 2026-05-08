@@ -14,6 +14,7 @@ namespace fluxion::scene
 
 namespace fluxion::editor
 {
+    class CommandStack;
     class SelectionContext;
 
     // Hierarchical view of the editor's working scene: layers as
@@ -37,6 +38,7 @@ namespace fluxion::editor
         // exists once the panel that owns it is built).
         SceneTreePanel(scene::Scene* scene,
                        SelectionContext* selection,
+                       CommandStack* commandStack = nullptr,
                        const scene::Layer* excludeLayer = nullptr,
                        const scene::Actor* excludeActor = nullptr);
 
@@ -73,6 +75,7 @@ namespace fluxion::editor
 
         scene::Scene* scene_;                  // not owned
         SelectionContext* selection_;          // not owned
+        CommandStack* commandStack_;           // not owned; nullptr OK
         const scene::Layer* excludeLayer_;     // not owned
         const scene::Actor* excludeActor_;     // not owned
     };

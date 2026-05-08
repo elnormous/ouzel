@@ -72,6 +72,7 @@ namespace fluxion::editor
         panels_.push_back(std::move(viewportPanel));
 
         panels_.push_back(std::make_unique<SceneTreePanel>(&workingScene_, &selection_,
+                                                           &commandStack_,
                                                            &editorLayer_,
                                                            viewportPanel_->getCameraActor()));
         panels_.push_back(std::make_unique<InspectorPanel>(&selection_));
@@ -79,6 +80,18 @@ namespace fluxion::editor
 
         imgui_.setDrawCallback([this]() {
             drawMainMenu();
+            // Top-level keyboard shortcuts: Ctrl+Z / Ctrl+Y / Ctrl+
+            // Shift+Z drive undo/redo regardless of which panel has
+            // focus, so the user can hit them after any mutation.
+            const ImGuiIO& io = ImGui::GetIO();
+            const bool ctrl = io.KeyCtrl;
+            const bool shift = io.KeyShift;
+            if (ctrl && !shift && ImGui::IsKeyPressed(ImGuiKey_Z, false))
+                commandStack_.undo();
+            if ((ctrl && shift && ImGui::IsKeyPressed(ImGuiKey_Z, false)) ||
+                (ctrl && !shift && ImGui::IsKeyPressed(ImGuiKey_Y, false)))
+                commandStack_.redo();
+
             for (const auto& p : panels_)
                 if (p && p->isVisible())
                     p->draw();
@@ -89,6 +102,29 @@ namespace fluxion::editor
         // the AABB outlines render on the panel's window draw list.
         // The back-buffer area outside any panel is just cleared by
         // editorCamera_ — no editor decoration there.
+    }
+
+    void EditorApp::drawEditMenu()
+    {
+        if (!ImGui::BeginMenu("Edit")) return;
+        const auto undoLabel = commandStack_.undoLabel();
+        const auto redoLabel = commandStack_.redoLabel();
+        char buf[160];
+        std::snprintf(buf, sizeof(buf), "Undo%s%s",
+                      undoLabel.empty() ? "" : " ",
+                      undoLabel.c_str());
+        if (ImGui::MenuItem(buf, "Ctrl+Z",
+                            /*selected*/ false,
+                            /*enabled*/ commandStack_.canUndo()))
+            commandStack_.undo();
+        std::snprintf(buf, sizeof(buf), "Redo%s%s",
+                      redoLabel.empty() ? "" : " ",
+                      redoLabel.c_str());
+        if (ImGui::MenuItem(buf, "Ctrl+Y",
+                            /*selected*/ false,
+                            /*enabled*/ commandStack_.canRedo()))
+            commandStack_.redo();
+        ImGui::EndMenu();
     }
 
     void EditorApp::drawMainMenu()
@@ -128,6 +164,8 @@ namespace fluxion::editor
             }
             ImGui::EndMenu();
         }
+
+        drawEditMenu();
 
         // Right-side info: current scene path + a transient status
         // message after save/load. Helps the user see at a glance
@@ -207,6 +245,9 @@ namespace fluxion::editor
         // editor infrastructure, not part of the user's scene.
         workingLayer_.removeAllChildren();
         selection_.clear();
+        // Undo history reflected the previous scene's mutations,
+        // which no longer match — drop it.
+        commandStack_.clear();
         currentScenePath_.clear();
         statusMessage_ = "New scene";
         statusFramesRemaining_ = 120;
@@ -241,6 +282,10 @@ namespace fluxion::editor
             // selected actor pointer (if any) becomes invalid after
             // layerFromJson clears the layer.
             selection_.clear();
+            // The command stack was capturing pre-load state (uuids
+            // and pointers that won't survive the wholesale layer
+            // replacement); drop it together with the old scene.
+            commandStack_.clear();
             sceneIO::loadUserScene(workingLayer_,
                                    storage::Path{currentScenePath_});
             statusMessage_ = "Loaded";

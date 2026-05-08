@@ -10,6 +10,7 @@
 #include "../engine/scene/Camera.hpp"
 #include "../engine/scene/Layer.hpp"
 #include "../engine/scene/Scene.hpp"
+#include "CommandStack.hpp"
 #include "Panel.hpp"
 #include "SelectionContext.hpp"
 
@@ -45,6 +46,9 @@ namespace fluxion::editor
         void doNewScene();
         void doSaveScene();
         void doOpenScene();
+
+        // Edit menu plumbing (phase 9).
+        void drawEditMenu();
 
         enum class FileDialogMode { None, Save, Open };
         FileDialogMode fileDialogMode_ = FileDialogMode::None;
@@ -91,6 +95,12 @@ namespace fluxion::editor
         // updates the selection the InspectorPanel sees it on the next
         // frame because both read the same instance.
         SelectionContext selection_;
+
+        // Undo/redo history for editor mutations. All destructive
+        // panel actions (add/delete actor, future component & field
+        // changes) push commands here instead of mutating directly,
+        // so Ctrl+Z / Ctrl+Y can step through them.
+        CommandStack commandStack_;
 
         std::vector<std::unique_ptr<Panel>> panels_;
 
