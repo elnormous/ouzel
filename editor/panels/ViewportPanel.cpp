@@ -144,7 +144,19 @@ namespace fluxion::editor
             return;
         }
 
+        // ImGui::Image is a *passive* widget — it draws but does not
+        // register as a clickable item. The window-move logic then
+        // sees clicks on the image area as "click on empty space" and
+        // happily drags the panel along when the user grabs a gizmo
+        // handle or clicks-to-pick. Stacking an InvisibleButton over
+        // the same rect makes ImGui treat the area as an interactive
+        // item, so window-drag is suppressed and IsItemClicked /
+        // IsItemHovered work as one would expect.
+        const ImVec2 cursorBeforeImage = ImGui::GetCursorScreenPos();
         ImGui::Image(static_cast<ImTextureID>(handle), avail);
+        ImGui::SetCursorScreenPos(cursorBeforeImage);
+        ImGui::InvisibleButton("##viewport_input", avail,
+                               ImGuiButtonFlags_MouseButtonLeft);
 
         // Image rect in absolute screen coords. Used both to convert
         // a click into normalized [0,1] viewport coords (for picking)
@@ -152,6 +164,8 @@ namespace fluxion::editor
         // overlay). Both must use exactly this rect — pulling it from
         // ImGui::GetItemRectMin/Max guarantees they line up with the
         // pixels the user actually sees, including DPI / zoom paths.
+        // Reads the InvisibleButton's rect, which matches the image
+        // (we set the cursor back before placing it).
         const ImVec2 imgMin = ImGui::GetItemRectMin();
         const ImVec2 imgMax = ImGui::GetItemRectMax();
         const float imgW = imgMax.x - imgMin.x;
@@ -159,11 +173,25 @@ namespace fluxion::editor
 
         if (imgW > 0.0F && imgH > 0.0F)
         {
-            // Click-to-pick: only fire when the user actually clicked
-            // inside the image. ImGui::IsItemClicked filters out
-            // clicks outside the item, scroll, drag-into events, and
-            // releases — exactly what we want.
-            if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+            const math::Vector<float, 2> rectMin{imgMin.x, imgMin.y};
+            const math::Vector<float, 2> rectMax{imgMax.x, imgMax.y};
+
+            // AABB outlines first so the gizmo sits on top of them.
+            drawAabbOverlay(workingScene_, camera_,
+                            selection_.getSelected(),
+                            rectMin, rectMax,
+                            excludeLayer_,
+                            &cameraActor_);
+
+            // Gizmo runs before pick: if it claims the mouse (start of
+            // a drag, or drag in progress), the click MUST NOT also
+            // re-pick the actor under the cursor. The return value
+            // gates the pick path.
+            const bool gizmoUsedMouse = gizmo_.update(
+                selection_.getSelected(), camera_, rectMin, rectMax);
+
+            if (!gizmoUsedMouse &&
+                ImGui::IsItemClicked(ImGuiMouseButton_Left))
             {
                 const ImVec2 mouse = ImGui::GetMousePos();
                 const math::Vector<float, 2> normalized{
@@ -176,17 +204,6 @@ namespace fluxion::editor
                                               &cameraActor_);
                 selection_.setSelected(hit);
             }
-
-            // AABB overlay drawn on top of the image so the user can
-            // see where actors are and which one is selected. The
-            // overlay uses the viewport camera's projection so it
-            // matches the image content one-to-one.
-            drawAabbOverlay(workingScene_, camera_,
-                            selection_.getSelected(),
-                            math::Vector<float, 2>{imgMin.x, imgMin.y},
-                            math::Vector<float, 2>{imgMax.x, imgMax.y},
-                            excludeLayer_,
-                            &cameraActor_);
         }
 
         ImGui::End();

@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EditorPicking.cpp" />
+    <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SelectionContext.cpp" />
     <ClCompile Include="panels\InfoPanel.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="EditorApp.hpp" />
     <ClInclude Include="EditorPicking.hpp" />
+    <ClInclude Include="Gizmo.hpp" />
     <ClInclude Include="Panel.hpp" />
     <ClInclude Include="SelectionContext.hpp" />
     <ClInclude Include="panels\InfoPanel.hpp" />

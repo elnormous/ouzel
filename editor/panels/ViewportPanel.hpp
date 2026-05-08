@@ -2,6 +2,7 @@
 #define FLUXION_EDITOR_VIEWPORTPANEL_HPP
 
 #include <memory>
+#include "../Gizmo.hpp"
 #include "../Panel.hpp"
 #include "../../engine/graphics/RenderTarget.hpp"
 #include "../../engine/graphics/Texture.hpp"
@@ -91,6 +92,10 @@ namespace fluxion::editor
         std::unique_ptr<graphics::Texture> colorTexture_;
         std::unique_ptr<graphics::Texture> depthTexture_;
         std::unique_ptr<graphics::RenderTarget> renderTarget_;
+
+        // Translate gizmo for the currently-selected actor. Held by
+        // value because its drag state lives across frames.
+        Gizmo gizmo_;
 
         math::Size<std::uint32_t, 2> currentSize_{0U, 0U};
     };
