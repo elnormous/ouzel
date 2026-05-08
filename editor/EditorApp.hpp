@@ -11,6 +11,7 @@
 #include "../engine/scene/Layer.hpp"
 #include "../engine/scene/Scene.hpp"
 #include "Panel.hpp"
+#include "SelectionContext.hpp"
 
 namespace fluxion::editor
 {
@@ -54,6 +55,12 @@ namespace fluxion::editor
         // Play/Stop snapshots without rebuilding.
         scene::Camera editorCamera_;
         scene::Actor editorCameraActor_;
+
+        // Shared selection state. Each panel that needs the current
+        // selection takes a pointer to this; when the SceneTreePanel
+        // updates the selection the InspectorPanel sees it on the next
+        // frame because both read the same instance.
+        SelectionContext selection_;
 
         std::vector<std::unique_ptr<Panel>> panels_;
     };

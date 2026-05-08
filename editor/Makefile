@@ -41,9 +41,11 @@ OBJCXXFLAGS=-std=c++17 \
 
 SOURCES=main.cpp \
 	EditorApp.cpp \
+	SelectionContext.cpp \
 	panels/InfoPanel.cpp \
+	panels/InspectorPanel.cpp \
 	panels/PlayControlPanel.cpp \
-	panels/ReflectionPanel.cpp
+	panels/SceneTreePanel.cpp
 
 ifeq ($(PLATFORM),linux)
 LDFLAGS=-L"../engine" -louzel \

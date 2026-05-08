@@ -150,16 +150,20 @@
   <ItemGroup>
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SelectionContext.cpp" />
     <ClCompile Include="panels\InfoPanel.cpp" />
+    <ClCompile Include="panels\InspectorPanel.cpp" />
     <ClCompile Include="panels\PlayControlPanel.cpp" />
-    <ClCompile Include="panels\ReflectionPanel.cpp" />
+    <ClCompile Include="panels\SceneTreePanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.hpp" />
     <ClInclude Include="Panel.hpp" />
+    <ClInclude Include="SelectionContext.hpp" />
     <ClInclude Include="panels\InfoPanel.hpp" />
+    <ClInclude Include="panels\InspectorPanel.hpp" />
     <ClInclude Include="panels\PlayControlPanel.hpp" />
-    <ClInclude Include="panels\ReflectionPanel.hpp" />
+    <ClInclude Include="panels\SceneTreePanel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="windows\editor.rc" />

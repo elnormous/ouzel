@@ -14,8 +14,9 @@
 #include "../engine/scene/SceneManager.hpp"
 #include "../engine/scene/SceneSerializer.hpp"
 #include "panels/InfoPanel.hpp"
+#include "panels/InspectorPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
-#include "panels/ReflectionPanel.hpp"
+#include "panels/SceneTreePanel.hpp"
 
 namespace fluxion::editor
 {
@@ -51,7 +52,8 @@ namespace fluxion::editor
         panels_.push_back(std::make_unique<InfoPanel>(driverName,
                                                        reflectionResult + " | play=" + playResult,
                                                        sceneResult));
-        panels_.push_back(std::make_unique<ReflectionPanel>());
+        panels_.push_back(std::make_unique<SceneTreePanel>(&workingScene_, &selection_));
+        panels_.push_back(std::make_unique<InspectorPanel>(&selection_));
         panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
 
         imgui_.setDrawCallback([this]() {
