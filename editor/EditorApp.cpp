@@ -20,6 +20,7 @@
 #include "panels/InspectorPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
 #include "panels/SceneTreePanel.hpp"
+#include "panels/ViewportPanel.hpp"
 
 namespace fluxion::editor
 {
@@ -55,7 +56,18 @@ namespace fluxion::editor
         panels_.push_back(std::make_unique<InfoPanel>(driverName,
                                                        reflectionResult + " | play=" + playResult,
                                                        sceneResult));
-        panels_.push_back(std::make_unique<SceneTreePanel>(&workingScene_, &selection_, &editorLayer_));
+
+        // Viewport panel owns its render target + camera. Built first
+        // so the SceneTreePanel can be told which camera-actor to hide
+        // from the hierarchy. Stored as a non-owning raw pointer for
+        // later access — lifetime is tied to panels_.
+        auto viewportPanel = std::make_unique<ViewportPanel>(*engine, imgui_, workingLayer_);
+        viewportPanel_ = viewportPanel.get();
+        panels_.push_back(std::move(viewportPanel));
+
+        panels_.push_back(std::make_unique<SceneTreePanel>(&workingScene_, &selection_,
+                                                           &editorLayer_,
+                                                           viewportPanel_->getCameraActor()));
         panels_.push_back(std::make_unique<InspectorPanel>(&selection_));
         panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
 
@@ -68,9 +80,12 @@ namespace fluxion::editor
             // via the ImGui foreground draw list, so it follows the same
             // viewport conventions as the panel windows. The editor's
             // own helper layer is excluded so the camera actor doesn't
-            // get a visible AABB.
+            // get a visible AABB; the viewport camera actor lives on the
+            // user layer so we filter it out by pointer.
             drawAabbOverlay(workingScene_, editorCamera_,
-                            selection_.getSelected(), &editorLayer_);
+                            selection_.getSelected(),
+                            &editorLayer_,
+                            viewportPanel_ ? viewportPanel_->getCameraActor() : nullptr);
         });
 
         // Click-to-select on the back buffer: when ImGui doesn't want
@@ -85,7 +100,8 @@ namespace fluxion::editor
             if (event.button != input::Mouse::Button::left) return false;
             if (imgui_.wantsMouse()) return false;
             scene::Actor* hit = pickActor(workingScene_, editorCamera_,
-                                           event.position, &editorLayer_);
+                                           event.position, &editorLayer_,
+                                           viewportPanel_ ? viewportPanel_->getCameraActor() : nullptr);
             selection_.setSelected(hit);
             return hit != nullptr;
         };

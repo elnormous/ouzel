@@ -46,7 +46,8 @@ SOURCES=main.cpp \
 	panels/InfoPanel.cpp \
 	panels/InspectorPanel.cpp \
 	panels/PlayControlPanel.cpp \
-	panels/SceneTreePanel.cpp
+	panels/SceneTreePanel.cpp \
+	panels/ViewportPanel.cpp
 
 ifeq ($(PLATFORM),linux)
 LDFLAGS=-L"../engine" -louzel \

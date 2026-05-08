@@ -25,11 +25,13 @@ namespace fluxion::editor
 
     SceneTreePanel::SceneTreePanel(scene::Scene* scene,
                                    SelectionContext* selection,
-                                   const scene::Layer* excludeLayer):
+                                   const scene::Layer* excludeLayer,
+                                   const scene::Actor* excludeActor):
         Panel{"Scene", true},
         scene_{scene},
         selection_{selection},
-        excludeLayer_{excludeLayer}
+        excludeLayer_{excludeLayer},
+        excludeActor_{excludeActor}
     {
     }
 
@@ -80,7 +82,7 @@ namespace fluxion::editor
     {
         const auto& kids = container.getChildren();
         for (auto* a : kids)
-            if (a) drawActor(*a);
+            if (a && a != excludeActor_) drawActor(*a);
     }
 
     void SceneTreePanel::drawActor(scene::Actor& actor)

@@ -112,7 +112,8 @@ namespace fluxion::editor
     scene::Actor* pickActor(scene::Scene& scene,
                             scene::Camera& camera,
                             const math::Vector<float, 2>& normalizedPos,
-                            const scene::Layer* excludeLayer)
+                            const scene::Layer* excludeLayer,
+                            const scene::Actor* excludeActor)
     {
         scene::Actor* topmost = nullptr;
         // Iterate front-to-back is hard in a tree without depth info;
@@ -123,7 +124,7 @@ namespace fluxion::editor
         {
             if (!layer || layer == excludeLayer) continue;
             walkActors(*layer, [&](scene::Actor& actor) {
-                if (actor.isHidden()) return;
+                if (actor.isHidden() || &actor == excludeActor) return;
                 const auto box = editorBox(actor);
                 const auto projected = projectCorners(
                     box, actor.getTransform(), camera);
@@ -137,7 +138,8 @@ namespace fluxion::editor
     void drawAabbOverlay(scene::Scene& scene,
                          scene::Camera& camera,
                          scene::Actor* selectedActor,
-                         const scene::Layer* excludeLayer)
+                         const scene::Layer* excludeLayer,
+                         const scene::Actor* excludeActor)
     {
         const auto displaySize = ImGui::GetIO().DisplaySize;
         if (displaySize.x <= 0.0F || displaySize.y <= 0.0F)
@@ -160,7 +162,7 @@ namespace fluxion::editor
         {
             if (!layer || layer == excludeLayer) continue;
             walkActors(*layer, [&](scene::Actor& actor) {
-                if (actor.isHidden()) return;
+                if (actor.isHidden() || &actor == excludeActor) return;
                 const auto box = editorBox(actor);
                 const auto projected = projectCorners(
                     box, actor.getTransform(), camera);

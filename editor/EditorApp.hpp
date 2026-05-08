@@ -83,6 +83,12 @@ namespace fluxion::editor
         EventHandler pickHandler_;
 
         std::vector<std::unique_ptr<Panel>> panels_;
+
+        // Non-owning back-pointer to the viewport panel inside
+        // `panels_`. Lets the editor query the viewport camera-actor
+        // when threading "exclude this from picking / tree / overlay"
+        // through editor surfaces. Lifetime is governed by panels_.
+        class ViewportPanel* viewportPanel_ = nullptr;
     };
 }
 

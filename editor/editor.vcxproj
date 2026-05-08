@@ -156,6 +156,7 @@
     <ClCompile Include="panels\InspectorPanel.cpp" />
     <ClCompile Include="panels\PlayControlPanel.cpp" />
     <ClCompile Include="panels\SceneTreePanel.cpp" />
+    <ClCompile Include="panels\ViewportPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.hpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="panels\InspectorPanel.hpp" />
     <ClInclude Include="panels\PlayControlPanel.hpp" />
     <ClInclude Include="panels\SceneTreePanel.hpp" />
+    <ClInclude Include="panels\ViewportPanel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="windows\editor.rc" />

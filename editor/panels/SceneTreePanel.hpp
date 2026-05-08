@@ -27,13 +27,22 @@ namespace fluxion::editor
     class SceneTreePanel final : public Panel
     {
     public:
-        // `excludeLayer`, if non-null, is filtered out of the
-        // hierarchy view — used by the editor to hide its own
-        // internal helper layer (camera + future gizmos) so the tree
-        // shows only user-authored content.
+        // `excludeLayer`/`excludeActor`, if non-null, are filtered
+        // out of the hierarchy view — used by the editor to hide its
+        // own internal helpers (back-buffer-clear camera, viewport
+        // camera, future gizmos) so the tree shows only user-authored
+        // content. `setExcludeActor` lets the caller swap the actor
+        // pointer after construction (the viewport camera actor only
+        // exists once the panel that owns it is built).
         SceneTreePanel(scene::Scene* scene,
                        SelectionContext* selection,
-                       const scene::Layer* excludeLayer = nullptr);
+                       const scene::Layer* excludeLayer = nullptr,
+                       const scene::Actor* excludeActor = nullptr);
+
+        void setExcludeActor(const scene::Actor* a) noexcept
+        {
+            excludeActor_ = a;
+        }
 
         void draw() override;
 
@@ -47,6 +56,7 @@ namespace fluxion::editor
         scene::Scene* scene_;                  // not owned
         SelectionContext* selection_;          // not owned
         const scene::Layer* excludeLayer_;     // not owned
+        const scene::Actor* excludeActor_;     // not owned
     };
 }
 

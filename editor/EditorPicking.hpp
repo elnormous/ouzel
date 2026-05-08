@@ -42,10 +42,14 @@ namespace fluxion::editor
     // `excludeLayer`, if non-null, is skipped during traversal — used
     // by the editor to keep its internal helper layer (camera, future
     // gizmos) out of user-facing picking results.
+    // `excludeActor` is similar but works at actor granularity, for
+    // editor-internal helpers that have to live on a user layer (e.g.
+    // a viewport camera that must see user content).
     scene::Actor* pickActor(scene::Scene& scene,
                             scene::Camera& camera,
                             const math::Vector<float, 2>& normalizedPos,
-                            const scene::Layer* excludeLayer = nullptr);
+                            const scene::Layer* excludeLayer = nullptr,
+                            const scene::Actor* excludeActor = nullptr);
 
     // Draws the AABB outlines for every actor in the scene as an
     // ImGui foreground overlay. The selected actor (if any) is drawn
@@ -55,12 +59,13 @@ namespace fluxion::editor
     // ImGui::GetIO().DisplaySize, so the caller doesn't have to thread
     // it through.
     //
-    // `excludeLayer` follows the same convention as pickActor: actors
-    // on that layer are not decorated.
+    // `excludeLayer` and `excludeActor` follow the same conventions
+    // as pickActor: matching layers/actors are not decorated.
     void drawAabbOverlay(scene::Scene& scene,
                          scene::Camera& camera,
                          scene::Actor* selectedActor,
-                         const scene::Layer* excludeLayer = nullptr);
+                         const scene::Layer* excludeLayer = nullptr,
+                         const scene::Actor* excludeActor = nullptr);
 }
 
 #endif // FLUXION_EDITOR_EDITORPICKING_HPP
