@@ -26,7 +26,7 @@ namespace fluxion::editor
     class Gizmo
     {
     public:
-        enum class Mode { Translate, Rotate };
+        enum class Mode { Translate, Rotate, Scale };
         enum class Axis { None, X, Y, Z };
 
         void setMode(Mode m) noexcept { mode_ = m; cancelDrag(); }
@@ -55,6 +55,11 @@ namespace fluxion::editor
                           const math::Vector<float, 2>& imgMin,
                           const math::Vector<float, 2>& imgMax);
 
+        bool updateScale(scene::Actor& actor,
+                         scene::Camera& camera,
+                         const math::Vector<float, 2>& imgMin,
+                         const math::Vector<float, 2>& imgMax);
+
         // Resets drag state so a mode change or a null actor doesn't
         // leave a half-finished drag in flight.
         void cancelDrag() noexcept
@@ -68,6 +73,12 @@ namespace fluxion::editor
         // Translate drag snapshot.
         math::Vector<float, 3> dragStartPosition_{};
         math::Vector<float, 2> dragStartMouse_{};
+
+        // Scale drag snapshot. Captures the actor's scale and the
+        // mouse-projection-along-axis at click time so the live drag
+        // can compute a stable ratio against it.
+        math::Vector<float, 3> dragStartScale_{};
+        float dragStartAxisProjection_ = 0.0F;
 
         // Rotate drag snapshot. `prevAngle_` + `accumulatedAngle_`
         // together let drag track the cursor across the +/-pi atan2

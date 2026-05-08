@@ -190,6 +190,8 @@ namespace fluxion::editor
                 return updateTranslate(*selectedActor, camera, imgMin, imgMax);
             case Mode::Rotate:
                 return updateRotate(*selectedActor, camera, imgMin, imgMax);
+            case Mode::Scale:
+                return updateScale(*selectedActor, camera, imgMin, imgMax);
         }
         return false;
     }
@@ -479,6 +481,169 @@ namespace fluxion::editor
 
             drawList->AddCircleFilled(ImVec2{sPos.v[0], sPos.v[1]},
                                       4.0F,
+                                      IM_COL32(255, 255, 255, 220));
+            drawList->PopClipRect();
+        }
+
+        return claimedMouse;
+    }
+
+    bool Gizmo::updateScale(scene::Actor& actor,
+                           scene::Camera& camera,
+                           const math::Vector<float, 2>& imgMin,
+                           const math::Vector<float, 2>& imgMax)
+    {
+        const auto pos = actor.getPosition();
+        const auto sPos = projectToImageRect(camera, pos, imgMin, imgMax);
+        const auto axisX = projectAxis(camera,
+            math::Vector<float, 3>{pos.v[0] + kAxisLengthWorld, pos.v[1], pos.v[2]},
+            sPos, imgMin, imgMax);
+        const auto axisY = projectAxis(camera,
+            math::Vector<float, 3>{pos.v[0], pos.v[1] + kAxisLengthWorld, pos.v[2]},
+            sPos, imgMin, imgMax);
+        const auto axisZ = projectAxis(camera,
+            math::Vector<float, 3>{pos.v[0], pos.v[1], pos.v[2] + kAxisLengthWorld},
+            sPos, imgMin, imgMax);
+
+        const ImVec2 mouse = ImGui::GetMousePos();
+        const math::Vector<float, 2> mousePos{mouse.x, mouse.y};
+        const bool mouseInImg =
+            mouse.x >= imgMin.v[0] && mouse.x <= imgMax.v[0] &&
+            mouse.y >= imgMin.v[1] && mouse.y <= imgMax.v[1];
+
+        // Same hit test as translate — the scale gizmo's hot region is
+        // the axis line, just terminated with a square box rather than
+        // an arrow.
+        Axis hovered = Axis::None;
+        if (dragAxis_ == Axis::None && mouseInImg)
+        {
+            float best = kHitThreshold;
+            if (axisX.visible)
+            {
+                const float d = distancePointToSegment(mousePos, sPos, axisX.end);
+                if (d < best) { best = d; hovered = Axis::X; }
+            }
+            if (axisY.visible)
+            {
+                const float d = distancePointToSegment(mousePos, sPos, axisY.end);
+                if (d < best) { best = d; hovered = Axis::Y; }
+            }
+            if (axisZ.visible)
+            {
+                const float d = distancePointToSegment(mousePos, sPos, axisZ.end);
+                if (d < best) { best = d; hovered = Axis::Z; }
+            }
+        }
+
+        // Project a screen-pixel point onto the chosen axis's screen
+        // direction, returning the signed distance from `sPos` along
+        // it. Used at click-time to anchor the drag, and per-frame to
+        // compute the scale ratio against that anchor.
+        auto projectOnAxisScreen = [&](Axis a, const math::Vector<float, 2>& p) -> float {
+            math::Vector<float, 2> axisVec{};
+            switch (a)
+            {
+                case Axis::X: axisVec = math::Vector<float, 2>{
+                    axisX.end.v[0] - sPos.v[0],
+                    axisX.end.v[1] - sPos.v[1]}; break;
+                case Axis::Y: axisVec = math::Vector<float, 2>{
+                    axisY.end.v[0] - sPos.v[0],
+                    axisY.end.v[1] - sPos.v[1]}; break;
+                case Axis::Z: axisVec = math::Vector<float, 2>{
+                    axisZ.end.v[0] - sPos.v[0],
+                    axisZ.end.v[1] - sPos.v[1]}; break;
+                case Axis::None: break;
+            }
+            const float len2 =
+                axisVec.v[0] * axisVec.v[0] + axisVec.v[1] * axisVec.v[1];
+            if (len2 <= 1e-6F) return 0.0F;
+            const float dx = p.v[0] - sPos.v[0];
+            const float dy = p.v[1] - sPos.v[1];
+            // Dot product / length — signed distance in pixels.
+            return (dx * axisVec.v[0] + dy * axisVec.v[1]) / std::sqrt(len2);
+        };
+
+        bool claimedMouse = false;
+        if (dragAxis_ == Axis::None)
+        {
+            if (hovered != Axis::None &&
+                ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+            {
+                dragAxis_ = hovered;
+                dragStartScale_ = actor.getScale();
+                dragStartAxisProjection_ =
+                    projectOnAxisScreen(dragAxis_, mousePos);
+                claimedMouse = true;
+            }
+        }
+        else
+        {
+            if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+            {
+                dragAxis_ = Axis::None;
+            }
+            else
+            {
+                // Ratio = current axis-projection / start projection.
+                // When the cursor is at the same point the user clicked
+                // (ratio == 1), scale is unchanged. Pulling away from
+                // the pivot (greater projection) grows; pushing through
+                // the pivot to the other side flips the sign — useful
+                // for mirroring and intentionally allowed.
+                const float now = projectOnAxisScreen(dragAxis_, mousePos);
+                if (std::fabs(dragStartAxisProjection_) > 1e-3F)
+                {
+                    const float ratio = now / dragStartAxisProjection_;
+                    auto newScale = dragStartScale_;
+                    switch (dragAxis_)
+                    {
+                        case Axis::X: newScale.v[0] *= ratio; break;
+                        case Axis::Y: newScale.v[1] *= ratio; break;
+                        case Axis::Z: newScale.v[2] *= ratio; break;
+                        case Axis::None: break;
+                    }
+                    actor.setScale(newScale);
+                }
+                claimedMouse = true;
+            }
+        }
+
+        auto* drawList = ImGui::GetWindowDrawList();
+        if (drawList)
+        {
+            drawList->PushClipRect(
+                ImVec2{imgMin.v[0], imgMin.v[1]},
+                ImVec2{imgMax.v[0], imgMax.v[1]}, true);
+            const ImU32 colX = IM_COL32(220, 60, 60, 230);
+            const ImU32 colY = IM_COL32(60, 220, 60, 230);
+            const ImU32 colZ = IM_COL32(80, 120, 240, 230);
+            const ImU32 colHi = IM_COL32(255, 220, 80, 255);
+            auto pickColor = [&](Axis a, ImU32 base) {
+                return (a == hovered || a == dragAxis_) ? colHi : base;
+            };
+            const float thickness = 3.0F;
+            const ImVec2 origin{sPos.v[0], sPos.v[1]};
+
+            // Square handle at the end of each axis — the visual cue
+            // that this is scale (vs. translate's arrow). 5 pixel half-
+            // size so it's a clear click target without dominating.
+            constexpr float kBoxHalf = 5.0F;
+            auto drawAxis = [&](const AxisProjection& a, Axis which, ImU32 base) {
+                if (!a.visible) return;
+                const ImU32 c = pickColor(which, base);
+                drawList->AddLine(origin,
+                                  ImVec2{a.end.v[0], a.end.v[1]},
+                                  c, thickness);
+                drawList->AddRectFilled(
+                    ImVec2{a.end.v[0] - kBoxHalf, a.end.v[1] - kBoxHalf},
+                    ImVec2{a.end.v[0] + kBoxHalf, a.end.v[1] + kBoxHalf},
+                    c);
+            };
+            drawAxis(axisX, Axis::X, colX);
+            drawAxis(axisY, Axis::Y, colY);
+            drawAxis(axisZ, Axis::Z, colZ);
+
+            drawList->AddCircleFilled(origin, 4.0F,
                                       IM_COL32(255, 255, 255, 220));
             drawList->PopClipRect();
         }

@@ -103,18 +103,22 @@ namespace fluxion::editor
         ImGui::Begin(displayName_.c_str());
 
         // Tiny header strip above the image showing the active gizmo
-        // mode. Q = translate, W = rotate (Unity-style). 5c-4 will
-        // turn this into a proper toolbar with clickable buttons.
+        // mode. Q = translate, W = rotate, E = scale (Unity-style).
+        // 5c-4 will turn this into a proper toolbar with clickable
+        // buttons + a local/world-space toggle.
         if (ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows))
         {
             if (ImGui::IsKeyPressed(ImGuiKey_Q, /*repeat*/ false))
                 gizmo_.setMode(Gizmo::Mode::Translate);
             if (ImGui::IsKeyPressed(ImGuiKey_W, /*repeat*/ false))
                 gizmo_.setMode(Gizmo::Mode::Rotate);
+            if (ImGui::IsKeyPressed(ImGuiKey_E, /*repeat*/ false))
+                gizmo_.setMode(Gizmo::Mode::Scale);
         }
         const char* modeLabel =
             gizmo_.getMode() == Gizmo::Mode::Translate ? "Translate (Q)"
-            : "Rotate (W)";
+            : gizmo_.getMode() == Gizmo::Mode::Rotate ? "Rotate (W)"
+            : "Scale (E)";
         ImGui::TextDisabled("Gizmo: %s", modeLabel);
 
         const ImVec2 avail = ImGui::GetContentRegionAvail();
