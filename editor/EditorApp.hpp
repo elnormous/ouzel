@@ -6,6 +6,8 @@
 #include <vector>
 #include "../engine/core/Application.hpp"
 #include "../engine/gui/imgui/ImGuiContext.hpp"
+#include "../engine/scene/Layer.hpp"
+#include "../engine/scene/Scene.hpp"
 #include "Panel.hpp"
 
 namespace fluxion::editor
@@ -29,10 +31,20 @@ namespace fluxion::editor
 
     private:
         void registerPanels();
+        void buildTestScene();
         std::string runReflectionSelfTest();
         std::string runSceneRoundTripSelfTest();
+        std::string runPlayControlSelfTest();
 
         gui::imgui::Context imgui_;
+
+        // The editor's working scene. Lives in the editor application
+        // rather than going through SceneManager (which is for the game
+        // runtime); phase 5+ will introduce a viewport panel that renders
+        // this scene via Camera into a render target for embedded display.
+        scene::Scene workingScene_;
+        scene::Layer workingLayer_;
+
         std::vector<std::unique_ptr<Panel>> panels_;
     };
 }

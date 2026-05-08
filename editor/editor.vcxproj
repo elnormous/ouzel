@@ -151,12 +151,14 @@
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="panels\InfoPanel.cpp" />
+    <ClCompile Include="panels\PlayControlPanel.cpp" />
     <ClCompile Include="panels\ReflectionPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.hpp" />
     <ClInclude Include="Panel.hpp" />
     <ClInclude Include="panels\InfoPanel.hpp" />
+    <ClInclude Include="panels\PlayControlPanel.hpp" />
     <ClInclude Include="panels\ReflectionPanel.hpp" />
   </ItemGroup>
   <ItemGroup>

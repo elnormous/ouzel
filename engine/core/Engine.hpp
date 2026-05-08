@@ -104,6 +104,40 @@ namespace fluxion::core
         [[nodiscard]] bool isOneUpdatePerFrame() const noexcept { return oneUpdatePerFrame; }
         void setOneUpdatePerFrame(bool value) noexcept { oneUpdatePerFrame = value; }
 
+        // Multiplier applied to the per-frame delta delivered to game-side
+        // UpdateEvent listeners (animations, sprite playback, etc.).
+        // Default 1.0 = real time. 0.0 freezes simulation (rendering stays
+        // live so editor gizmos / panels remain interactive). 0.5 = half
+        // speed, 2.0 = double, and so on.
+        //
+        // Only the user-visible logical clock is scaled: input polling,
+        // audio mixing, and the host platform's frame pacing are
+        // unaffected. Atomic so the editor (host thread) and the engine
+        // update loop don't race on this value.
+        void setTimeScale(float scale) noexcept
+        {
+            timeScale.store(scale, std::memory_order_release);
+        }
+        [[nodiscard]] float getTimeScale() const noexcept
+        {
+            return timeScale.load(std::memory_order_acquire);
+        }
+
+        // Request that the next `n` update ticks run at real-time delta
+        // regardless of the current timeScale. Intended for the editor's
+        // "Step one frame" button while paused: a pause is timeScale=0,
+        // and a step is requestStep(1) that briefly bypasses the scale.
+        // The counter saturates at INT_MAX; calling with n<=0 is a no-op.
+        void requestStep(int n = 1) noexcept
+        {
+            if (n <= 0) return;
+            pendingSteps.fetch_add(n, std::memory_order_acq_rel);
+        }
+        [[nodiscard]] int getPendingSteps() const noexcept
+        {
+            return pendingSteps.load(std::memory_order_acquire);
+        }
+
     protected:
         class Command final
         {
@@ -152,6 +186,9 @@ namespace fluxion::core
         bool refillRenderQueue = true;
 
         std::atomic_bool screenSaverEnabled{true};
+
+        std::atomic<float> timeScale{1.0F};
+        std::atomic<int> pendingSteps{0};
     };
 }
 

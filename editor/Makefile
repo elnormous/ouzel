@@ -42,6 +42,7 @@ OBJCXXFLAGS=-std=c++17 \
 SOURCES=main.cpp \
 	EditorApp.cpp \
 	panels/InfoPanel.cpp \
+	panels/PlayControlPanel.cpp \
 	panels/ReflectionPanel.cpp
 
 ifeq ($(PLATFORM),linux)
