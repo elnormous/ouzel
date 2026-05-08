@@ -88,6 +88,40 @@
     <ClCompile Include="gui\BMFont.cpp" />
     <ClCompile Include="gui\TTFont.cpp" />
     <ClCompile Include="gui\Widgets.cpp" />
+    <ClCompile Include="gui\imgui\ImGuiContext.cpp" />
+    <ClCompile Include="gui\imgui\ImGuiBackendFactory.cpp" />
+    <ClCompile Include="gui\imgui\ImGuiBackendD3D11.cpp" />
+    <ClCompile Include="gui\imgui\ImGuiBackendOGL.cpp" />
+    <ClCompile Include="gui\imgui\ImGuiInputBridge.cpp" />
+    <ClCompile Include="gui\imgui\ImGuiKeyMap.cpp" />
+    <ClCompile Include="..\external\imgui\imgui.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles />
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_demo.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles />
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_draw.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles />
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_tables.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles />
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\imgui_widgets.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles />
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\backends\imgui_impl_dx11.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles />
+    </ClCompile>
+    <ClCompile Include="..\external\imgui\backends\imgui_impl_opengl3.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles />
+    </ClCompile>
     <ClCompile Include="input\Cursor.cpp" />
     <ClCompile Include="input\GamepadDevice.cpp" />
     <ClCompile Include="input\Keyboard.cpp" />
@@ -286,6 +320,10 @@
     <ClInclude Include="gui\TTFont.hpp" />
     <ClInclude Include="gui\Widget.hpp" />
     <ClInclude Include="gui\Widgets.hpp" />
+    <ClInclude Include="gui\imgui\ImGuiBackend.hpp" />
+    <ClInclude Include="gui\imgui\ImGuiContext.hpp" />
+    <ClInclude Include="gui\imgui\ImGuiInputBridge.hpp" />
+    <ClInclude Include="gui\imgui\ImGuiKeyMap.hpp" />
     <ClInclude Include="hash\Fnv1.hpp" />
     <ClInclude Include="input\Cursor.hpp" />
     <ClInclude Include="input\DeviceId.hpp" />
@@ -437,6 +475,7 @@
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>..\external\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -457,6 +496,7 @@
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>..\external\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -477,6 +517,7 @@
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>..\external\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -497,6 +538,7 @@
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>..\external\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

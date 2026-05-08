@@ -29,6 +29,7 @@ namespace samples
         fluxion::gui::Button inputButton;
         fluxion::gui::Button soundButton;
         fluxion::gui::Button perspectiveButton;
+        fluxion::gui::Button imguiButton;
     };
 }
 

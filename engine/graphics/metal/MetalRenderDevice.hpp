@@ -62,6 +62,12 @@ namespace fluxion::graphics::metal
 
         auto& getDevice() const noexcept { return device; }
 
+        // Set inside process() at the start of each frame, cleared at frame end.
+        // Used by the ImGui Metal integration via preSwapHook to attach an
+        // overlay encoder to the current frame's command buffer.
+        void* getCurrentCommandBuffer() const noexcept { return currentFrameCommandBuffer; }
+        void* getCurrentDrawableTexture() const noexcept;
+
         MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
         template <class T>
@@ -100,6 +106,10 @@ namespace fluxion::graphics::metal
         platform::objc::Pointer<MTLCommandQueuePtr> metalCommandQueue;
         CAMetalLayerPtr metalLayer = nil;
         platform::objc::Pointer<MTLTexturePtr> currentMetalTexture;
+        // Raw weak references valid only during a frame's process() iteration.
+        // Used by the ImGui integration; not retained.
+        void* currentFrameCommandBuffer = nullptr;
+        void* currentFrameDrawable = nullptr;
 
         struct ShaderConstantBuffer final
         {

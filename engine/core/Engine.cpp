@@ -150,11 +150,38 @@ namespace fluxion::core
             return settings;
         }
 
-        auto getSettings(storage::FileSystem& fileSystem)
+        auto getSettings(storage::FileSystem& fileSystem,
+                         const std::vector<std::string>& args)
         {
             const auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
-            return parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
-                                                fileSystem.fileExists(settingsPath) ? ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{});
+            auto settings = parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
+                                          fileSystem.fileExists(settingsPath) ? ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{});
+
+            // Command-line override of the graphics driver. Recognized form:
+            //   --graphics <name>   or   -graphics <name>
+            // where <name> is a token accepted by graphics::getDriver
+            // ("opengl", "direct3d11", "metal", "empty", "default").
+            for (auto it = args.begin(); it != args.end(); ++it)
+            {
+                if (*it == "-graphics" || *it == "--graphics")
+                {
+                    if (++it == args.end())
+                    {
+                        log(Log::Level::warning) << "Missing value for " << *(it - 1) << " argument";
+                        break;
+                    }
+                    try
+                    {
+                        settings.graphicsDriver = graphics::getDriver(*it);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        log(Log::Level::warning) << "Ignoring " << *(it - 1) << ' ' << *it << ": " << e.what();
+                    }
+                }
+            }
+
+            return settings;
         }
 
         auto getWindowFlags(const Settings& settings) noexcept
@@ -168,7 +195,7 @@ namespace fluxion::core
 
     Engine::Engine(const std::vector<std::string>& initArgs):
         fileSystem{*this},
-        settings{getSettings(fileSystem)},
+        settings{getSettings(fileSystem, initArgs)},
         window{settings.size, getWindowFlags(settings), FLUXION_APPLICATION_NAME, settings.graphicsDriver},
         graphics{settings.graphicsDriver, window, settings.graphicsSettings},
         audio{settings.audioDriver, settings.audioSettings},

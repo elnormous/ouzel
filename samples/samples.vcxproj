@@ -69,20 +69,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\engine;$(IncludePath)</IncludePath>
+    <IncludePath>..\engine;..\external\imgui;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\engine;$(IncludePath)</IncludePath>
+    <IncludePath>..\engine;..\external\imgui;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\engine;$(IncludePath)</IncludePath>
+    <IncludePath>..\engine;..\external\imgui;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\engine;$(IncludePath)</IncludePath>
+    <IncludePath>..\engine;..\external\imgui;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -163,6 +163,7 @@
     <ClCompile Include="AnimationsSample.cpp" />
     <ClCompile Include="GameSample.cpp" />
     <ClCompile Include="GUISample.cpp" />
+    <ClCompile Include="ImGuiSample.cpp" />
     <ClCompile Include="InputSample.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -175,6 +176,8 @@
     <ClInclude Include="AnimationsSample.hpp" />
     <ClInclude Include="GameSample.hpp" />
     <ClInclude Include="GUISample.hpp" />
+    <ClInclude Include="ImGuiHost.hpp" />
+    <ClInclude Include="ImGuiSample.hpp" />
     <ClInclude Include="InputSample.hpp" />
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="PerspectiveSample.hpp" />

@@ -343,6 +343,24 @@ namespace fluxion::graphics::d3d11
                         if (currentRenderTarget)
                             currentRenderTarget->resolve();
 
+                        if (hasPreSwapHook())
+                        {
+                            ID3D11RenderTargetView* const rtvs[] = {renderTargetView.get()};
+                            context->OMSetRenderTargets(1, rtvs, nullptr);
+                            const D3D11_VIEWPORT vp{0.0F, 0.0F,
+                                                    static_cast<FLOAT>(frameBufferWidth),
+                                                    static_cast<FLOAT>(frameBufferHeight),
+                                                    0.0F, 1.0F};
+                            context->RSSetViewports(1, &vp);
+                            runPreSwapHook();
+                            // The hook may have rebound device state. Mirror in our trackers
+                            // so the next frame re-issues the bindings it needs.
+                            currentRenderTarget = nullptr;
+                            currentShader = nullptr;
+                            currentResourceViews.clear();
+                            currentSamplerStates.clear();
+                        }
+
                         swapChain->Present(swapInterval, 0);
                         break;
                     }

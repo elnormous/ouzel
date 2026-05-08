@@ -750,6 +750,12 @@ namespace fluxion::graphics::opengl
 
                     case Command::Type::present:
                     {
+                        if (hasPreSwapHook())
+                        {
+                            bindFrameBuffer(frameBufferId);
+                            setViewport(0, 0, frameBufferWidth, frameBufferHeight);
+                            runPreSwapHook();
+                        }
                         present();
                         break;
                     }

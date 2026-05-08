@@ -89,6 +89,18 @@ namespace fluxion::graphics
             throw Error{"Invalid graphics driver"};
     }
 
+    std::string_view getDriverName(Driver driver) noexcept
+    {
+        switch (driver)
+        {
+            case Driver::empty:      return "empty";
+            case Driver::openGl:     return "opengl";
+            case Driver::direct3D11: return "direct3d11";
+            case Driver::metal:      return "metal";
+        }
+        return "unknown";
+    }
+
     namespace
     {
         std::unique_ptr<RenderDevice> createRenderDevice(Driver driver,

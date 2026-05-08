@@ -7,6 +7,7 @@
 #include "InputSample.hpp"
 #include "SoundSample.hpp"
 #include "PerspectiveSample.hpp"
+#include "ImGuiSample.hpp"
 
 using namespace fluxion;
 using namespace input;
@@ -22,7 +23,8 @@ namespace samples
         animationsButton{"button.png", "button_selected.png", "button_down.png", "", "Animations", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
         inputButton{"button.png", "button_selected.png", "button_down.png", "", "Input", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
         soundButton{"button.png", "button_selected.png", "button_down.png", "", "Sound", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
-        perspectiveButton{"button.png", "button_selected.png", "button_down.png", "", "Perspective", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor}
+        perspectiveButton{"button.png", "button_selected.png", "button_down.png", "", "Perspective", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
+        imguiButton{"button.png", "button_selected.png", "button_down.png", "", "ImGui", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor}
     {
         handler.uiHandler = [this](const UIEvent& event) {
             if (event.type == Event::Type::actorClick)
@@ -43,6 +45,8 @@ namespace samples
                     engine->getSceneManager().setScene(std::make_unique<SoundSample>());
                 else if (event.actor == &perspectiveButton)
                     engine->getSceneManager().setScene(std::make_unique<PerspectiveSample>());
+                else if (event.actor == &imguiButton)
+                    engine->getSceneManager().setScene(std::make_unique<ImGuiSample>());
             }
 
             return false;
@@ -115,5 +119,8 @@ namespace samples
 
         perspectiveButton.setPosition(Vector<float, 2>{0.0F, -160.0F});
         menu.addWidget(perspectiveButton);
+
+        imguiButton.setPosition(Vector<float, 2>{0.0F, -200.0F});
+        menu.addWidget(imguiButton);
     }
 }
