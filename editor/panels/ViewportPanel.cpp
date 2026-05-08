@@ -158,10 +158,19 @@ namespace fluxion::editor
             return;
         }
 
-        // (No render-target resize on size change. The fixed RT is
-        // allocated once in the constructor and stretched by ImGui::
-        // Image to whatever the user makes the panel. See the
-        // commentary on kRenderTargetDimension.)
+        // Match the camera's content aspect to the panel's aspect.
+        // ImGui::Image stretches the square render-target uniformly
+        // to the panel rect, so without this step a non-square panel
+        // would produce a non-uniformly stretched image. With the
+        // content aspect tracking the panel, showAll renders into
+        // the square RT with letterbox bars whose sizes exactly
+        // match the stretch ratios — the bars are clear-color (dark
+        // grey) and visually blend with the surrounding editor.
+        // contentHeight_ is the user-controlled "zoom" parameter;
+        // the wheel modifies that, the width follows from aspect.
+        const float panelAspect = avail.x / avail.y;
+        camera_.setTargetContentSize(math::Size<float, 2>{
+            contentHeight_ * panelAspect, contentHeight_});
 
         // Skip the Image draw the very first frame after creation —
         // the engine's render loop hasn't filled the texture yet, so
@@ -278,20 +287,14 @@ namespace fluxion::editor
                 }
             }
 
-            // Zoom: wheel adjusts the orthographic targetContentSize
-            // by a fixed multiplier per scroll notch. Only when the
-            // cursor is over the image, so scrolling another panel
-            // (Inspector, Scene tree) doesn't accidentally re-zoom.
+            // Zoom: wheel scales contentHeight_ by 1.1× per notch.
+            // The actual targetContentSize is recomputed at the top
+            // of the next frame from contentHeight_ * panelAspect, so
+            // the aspect-fit logic stays in one place.
             const float wheel = ImGui::GetIO().MouseWheel;
             if (itemHovered && wheel != 0.0F)
-            {
-                const auto cur = camera_.getTargetContentSize();
-                const float factor = std::pow(1.1F, -wheel);
-                camera_.setTargetContentSize(math::Size<float, 2>{
-                    std::max(1.0F, cur.v[0] * factor),
-                    std::max(1.0F, cur.v[1] * factor)
-                });
-            }
+                contentHeight_ = std::max(
+                    1.0F, contentHeight_ * std::pow(1.1F, -wheel));
 
             // AABB outlines first so the gizmo sits on top of them.
             drawAabbOverlay(workingScene_, camera_,

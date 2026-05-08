@@ -108,6 +108,13 @@ namespace fluxion::editor
         math::Vector<float, 3> panWorldPerNormX_{};
         math::Vector<float, 3> panWorldPerNormY_{};
 
+        // "Zoom" parameter: vertical extent of the camera's content in
+        // world units. The horizontal extent is derived per-frame by
+        // multiplying by the panel's aspect ratio, so showAll fits the
+        // content into the square RT exactly with the right shape and
+        // ImGui::Image's stretch to panel size doesn't distort.
+        float contentHeight_ = 60.0F;
+
         math::Size<std::uint32_t, 2> currentSize_{0U, 0U};
     };
 }
