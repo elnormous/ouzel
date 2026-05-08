@@ -3,7 +3,9 @@
 #include "imgui.h"
 #include "../engine/core/Engine.hpp"
 #include "../engine/core/Window.hpp"
+#include "../engine/events/EventDispatcher.hpp"
 #include "../engine/graphics/Graphics.hpp"
+#include "../engine/input/Mouse.hpp"
 #include "../engine/reflection/JsonInspector.hpp"
 #include "../engine/reflection/TypeRegistry.hpp"
 #include "../engine/scene/Actor.hpp"
@@ -13,6 +15,7 @@
 #include "../engine/scene/Scene.hpp"
 #include "../engine/scene/SceneManager.hpp"
 #include "../engine/scene/SceneSerializer.hpp"
+#include "EditorPicking.hpp"
 #include "panels/InfoPanel.hpp"
 #include "panels/InspectorPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
@@ -52,7 +55,7 @@ namespace fluxion::editor
         panels_.push_back(std::make_unique<InfoPanel>(driverName,
                                                        reflectionResult + " | play=" + playResult,
                                                        sceneResult));
-        panels_.push_back(std::make_unique<SceneTreePanel>(&workingScene_, &selection_));
+        panels_.push_back(std::make_unique<SceneTreePanel>(&workingScene_, &selection_, &editorLayer_));
         panels_.push_back(std::make_unique<InspectorPanel>(&selection_));
         panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
 
@@ -60,7 +63,33 @@ namespace fluxion::editor
             for (const auto& p : panels_)
                 if (p && p->isVisible())
                     p->draw();
+            // Overlay AABBs after panels so the highlight sits on top
+            // of any panel-overlapping geometry the engine renders. Drawn
+            // via the ImGui foreground draw list, so it follows the same
+            // viewport conventions as the panel windows. The editor's
+            // own helper layer is excluded so the camera actor doesn't
+            // get a visible AABB.
+            drawAabbOverlay(workingScene_, editorCamera_,
+                            selection_.getSelected(), &editorLayer_);
         });
+
+        // Click-to-select on the back buffer: when ImGui doesn't want
+        // the mouse (i.e., the click landed outside any panel) we
+        // run the editor picker against the working scene and update
+        // the shared SelectionContext. ImGui's wantsMouse flag is
+        // updated on the render thread by the InputBridge; reading
+        // it from the event-dispatch thread is safe because it's a
+        // simple atomic load.
+        pickHandler_.mouseHandler = [this](const MouseEvent& event) -> bool {
+            if (event.type != Event::Type::mousePress) return false;
+            if (event.button != input::Mouse::Button::left) return false;
+            if (imgui_.wantsMouse()) return false;
+            scene::Actor* hit = pickActor(workingScene_, editorCamera_,
+                                           event.position, &editorLayer_);
+            selection_.setSelected(hit);
+            return hit != nullptr;
+        };
+        engine->getEventDispatcher().addEventHandler(pickHandler_);
     }
 
     void EditorApp::buildTestScene()
@@ -82,16 +111,27 @@ namespace fluxion::editor
         a2->setPosition(math::Vector<float, 3>{10.0F, 0.0F, 0.0F});
         workingLayer_.addChild(std::move(a2));
 
-        // Editor camera: clears the back buffer to a dark grey every
-        // frame so ImGui draws on top of a stable background. Without
-        // this the colour buffer is never cleared and previous frames
-        // smear visibly under the panels. Added last so the existing
-        // play-control self-test (which addresses kids[0] as Player)
-        // keeps its indexing.
+        // Editor camera lives on a separate layer that the editor's
+        // panels and picking explicitly filter out. The engine still
+        // traverses both layers for rendering (so the camera clears the
+        // back buffer and the user content draws on top), but the
+        // SceneTreePanel never lists this layer and the AABB overlay
+        // never decorates its actors.
+        //
+        // The orthographic content-size + showAll scale mode give the
+        // editor a stable [-30..+30] x [-30..+30] world-space view
+        // regardless of window aspect, so the picking AABB overlay
+        // (drawn against this camera's projection) lines up with what
+        // the user sees on screen and the test actors at world (0,0,0)
+        // and (10,0,0) project into the visible region.
         editorCamera_.setClearColorBuffer(true);
         editorCamera_.setClearColor(math::Color{32, 32, 40, 255});
+        editorCamera_.setScaleMode(scene::Camera::ScaleMode::showAll);
+        editorCamera_.setTargetContentSize(math::Size<float, 2>{60.0F, 60.0F});
+        editorCameraActor_.setName("Editor Camera");
         editorCameraActor_.addComponent(editorCamera_);
-        workingLayer_.addChild(editorCameraActor_);
+        editorLayer_.addChild(editorCameraActor_);
+        workingScene_.addLayer(editorLayer_);
     }
 
     EditorApp::~EditorApp() = default;

@@ -7,6 +7,7 @@ namespace fluxion::scene
 {
     class Actor;
     class ActorContainer;
+    class Layer;
     class Scene;
 }
 
@@ -26,7 +27,13 @@ namespace fluxion::editor
     class SceneTreePanel final : public Panel
     {
     public:
-        SceneTreePanel(scene::Scene* scene, SelectionContext* selection);
+        // `excludeLayer`, if non-null, is filtered out of the
+        // hierarchy view — used by the editor to hide its own
+        // internal helper layer (camera + future gizmos) so the tree
+        // shows only user-authored content.
+        SceneTreePanel(scene::Scene* scene,
+                       SelectionContext* selection,
+                       const scene::Layer* excludeLayer = nullptr);
 
         void draw() override;
 
@@ -37,8 +44,9 @@ namespace fluxion::editor
         void drawActor(scene::Actor& actor);
         void drawContainerChildren(scene::ActorContainer& container);
 
-        scene::Scene* scene_;          // not owned
-        SelectionContext* selection_;  // not owned
+        scene::Scene* scene_;                  // not owned
+        SelectionContext* selection_;          // not owned
+        const scene::Layer* excludeLayer_;     // not owned
     };
 }
 

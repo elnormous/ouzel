@@ -23,10 +23,13 @@ namespace fluxion::editor
         }
     }
 
-    SceneTreePanel::SceneTreePanel(scene::Scene* scene, SelectionContext* selection):
+    SceneTreePanel::SceneTreePanel(scene::Scene* scene,
+                                   SelectionContext* selection,
+                                   const scene::Layer* excludeLayer):
         Panel{"Scene", true},
         scene_{scene},
-        selection_{selection}
+        selection_{selection},
+        excludeLayer_{excludeLayer}
     {
     }
 
@@ -58,7 +61,7 @@ namespace fluxion::editor
         for (std::size_t i = 0; i < layers.size(); ++i)
         {
             auto* layer = layers[i];
-            if (!layer) continue;
+            if (!layer || layer == excludeLayer_) continue;
 
             char header[64];
             std::snprintf(header, sizeof(header), "Layer %zu (order %d)##layer%zu",

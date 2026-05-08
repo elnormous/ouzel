@@ -41,6 +41,7 @@ OBJCXXFLAGS=-std=c++17 \
 
 SOURCES=main.cpp \
 	EditorApp.cpp \
+	EditorPicking.cpp \
 	SelectionContext.cpp \
 	panels/InfoPanel.cpp \
 	panels/InspectorPanel.cpp \
