@@ -3,9 +3,7 @@
 #include "imgui.h"
 #include "../engine/core/Engine.hpp"
 #include "../engine/core/Window.hpp"
-#include "../engine/events/EventDispatcher.hpp"
 #include "../engine/graphics/Graphics.hpp"
-#include "../engine/input/Mouse.hpp"
 #include "../engine/reflection/JsonInspector.hpp"
 #include "../engine/reflection/TypeRegistry.hpp"
 #include "../engine/scene/Actor.hpp"
@@ -15,7 +13,6 @@
 #include "../engine/scene/Scene.hpp"
 #include "../engine/scene/SceneManager.hpp"
 #include "../engine/scene/SceneSerializer.hpp"
-#include "EditorPicking.hpp"
 #include "panels/InfoPanel.hpp"
 #include "panels/InspectorPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
@@ -61,7 +58,13 @@ namespace fluxion::editor
         // so the SceneTreePanel can be told which camera-actor to hide
         // from the hierarchy. Stored as a non-owning raw pointer for
         // later access — lifetime is tied to panels_.
-        auto viewportPanel = std::make_unique<ViewportPanel>(*engine, imgui_, workingLayer_);
+        // The panel takes refs to the working scene + selection so it
+        // can run picking and update selection from inside its own
+        // ImGui::Image rect; editorLayer_ is passed as the exclude
+        // filter so the back-buffer-clear camera never appears.
+        auto viewportPanel = std::make_unique<ViewportPanel>(
+            *engine, imgui_, workingLayer_,
+            workingScene_, selection_, &editorLayer_);
         viewportPanel_ = viewportPanel.get();
         panels_.push_back(std::move(viewportPanel));
 
@@ -75,37 +78,12 @@ namespace fluxion::editor
             for (const auto& p : panels_)
                 if (p && p->isVisible())
                     p->draw();
-            // Overlay AABBs after panels so the highlight sits on top
-            // of any panel-overlapping geometry the engine renders. Drawn
-            // via the ImGui foreground draw list, so it follows the same
-            // viewport conventions as the panel windows. The editor's
-            // own helper layer is excluded so the camera actor doesn't
-            // get a visible AABB; the viewport camera actor lives on the
-            // user layer so we filter it out by pointer.
-            drawAabbOverlay(workingScene_, editorCamera_,
-                            selection_.getSelected(),
-                            &editorLayer_,
-                            viewportPanel_ ? viewportPanel_->getCameraActor() : nullptr);
         });
-
-        // Click-to-select on the back buffer: when ImGui doesn't want
-        // the mouse (i.e., the click landed outside any panel) we
-        // run the editor picker against the working scene and update
-        // the shared SelectionContext. ImGui's wantsMouse flag is
-        // updated on the render thread by the InputBridge; reading
-        // it from the event-dispatch thread is safe because it's a
-        // simple atomic load.
-        pickHandler_.mouseHandler = [this](const MouseEvent& event) -> bool {
-            if (event.type != Event::Type::mousePress) return false;
-            if (event.button != input::Mouse::Button::left) return false;
-            if (imgui_.wantsMouse()) return false;
-            scene::Actor* hit = pickActor(workingScene_, editorCamera_,
-                                           event.position, &editorLayer_,
-                                           viewportPanel_ ? viewportPanel_->getCameraActor() : nullptr);
-            selection_.setSelected(hit);
-            return hit != nullptr;
-        };
-        engine->getEventDispatcher().addEventHandler(pickHandler_);
+        // Picking + AABB overlay live entirely inside ViewportPanel
+        // now: clicks come from ImGui::IsItemClicked on the image,
+        // the AABB outlines render on the panel's window draw list.
+        // The back-buffer area outside any panel is just cleared by
+        // editorCamera_ — no editor decoration there.
     }
 
     void EditorApp::buildTestScene()

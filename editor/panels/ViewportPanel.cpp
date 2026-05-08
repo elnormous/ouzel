@@ -8,6 +8,9 @@
 #include "../../engine/graphics/PixelFormat.hpp"
 #include "../../engine/gui/imgui/ImGuiContext.hpp"
 #include "../../engine/scene/Layer.hpp"
+#include "../../engine/scene/Scene.hpp"
+#include "../EditorPicking.hpp"
+#include "../SelectionContext.hpp"
 
 namespace fluxion::editor
 {
@@ -27,10 +30,16 @@ namespace fluxion::editor
 
     ViewportPanel::ViewportPanel(core::Engine& eng,
                                  gui::imgui::Context& imgui,
-                                 scene::Layer& hostLayer):
+                                 scene::Layer& hostLayer,
+                                 scene::Scene& workingScene,
+                                 SelectionContext& selection,
+                                 const scene::Layer* excludeLayer):
         Panel{"Viewport", true},
         engine_{eng},
-        imgui_{imgui}
+        imgui_{imgui},
+        workingScene_{workingScene},
+        selection_{selection},
+        excludeLayer_{excludeLayer}
     {
         // Order matters: set up the render target FIRST, then the
         // camera, then add the camera to its host layer. RTSample
@@ -136,6 +145,49 @@ namespace fluxion::editor
         }
 
         ImGui::Image(static_cast<ImTextureID>(handle), avail);
+
+        // Image rect in absolute screen coords. Used both to convert
+        // a click into normalized [0,1] viewport coords (for picking)
+        // and to project actor AABBs into ImGui pixel space (for the
+        // overlay). Both must use exactly this rect — pulling it from
+        // ImGui::GetItemRectMin/Max guarantees they line up with the
+        // pixels the user actually sees, including DPI / zoom paths.
+        const ImVec2 imgMin = ImGui::GetItemRectMin();
+        const ImVec2 imgMax = ImGui::GetItemRectMax();
+        const float imgW = imgMax.x - imgMin.x;
+        const float imgH = imgMax.y - imgMin.y;
+
+        if (imgW > 0.0F && imgH > 0.0F)
+        {
+            // Click-to-pick: only fire when the user actually clicked
+            // inside the image. ImGui::IsItemClicked filters out
+            // clicks outside the item, scroll, drag-into events, and
+            // releases — exactly what we want.
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+            {
+                const ImVec2 mouse = ImGui::GetMousePos();
+                const math::Vector<float, 2> normalized{
+                    (mouse.x - imgMin.x) / imgW,
+                    (mouse.y - imgMin.y) / imgH
+                };
+                scene::Actor* hit = pickActor(workingScene_, camera_,
+                                              normalized,
+                                              excludeLayer_,
+                                              &cameraActor_);
+                selection_.setSelected(hit);
+            }
+
+            // AABB overlay drawn on top of the image so the user can
+            // see where actors are and which one is selected. The
+            // overlay uses the viewport camera's projection so it
+            // matches the image content one-to-one.
+            drawAabbOverlay(workingScene_, camera_,
+                            selection_.getSelected(),
+                            math::Vector<float, 2>{imgMin.x, imgMin.y},
+                            math::Vector<float, 2>{imgMax.x, imgMax.y},
+                            excludeLayer_,
+                            &cameraActor_);
+        }
 
         ImGui::End();
     }

@@ -22,10 +22,13 @@ namespace fluxion::gui::imgui
 namespace fluxion::scene
 {
     class Layer;
+    class Scene;
 }
 
 namespace fluxion::editor
 {
+    class SelectionContext;
+
     // ImGui-hosted scene viewport.
     //
     // Owns its own camera + render target + color/depth textures so the
@@ -52,7 +55,10 @@ namespace fluxion::editor
     public:
         ViewportPanel(core::Engine& eng,
                       gui::imgui::Context& imgui,
-                      scene::Layer& hostLayer);
+                      scene::Layer& hostLayer,
+                      scene::Scene& workingScene,
+                      SelectionContext& selection,
+                      const scene::Layer* excludeLayer);
         ~ViewportPanel() override;
 
         ViewportPanel(const ViewportPanel&) = delete;
@@ -75,6 +81,9 @@ namespace fluxion::editor
 
         core::Engine& engine_;
         gui::imgui::Context& imgui_;
+        scene::Scene& workingScene_;
+        SelectionContext& selection_;
+        const scene::Layer* excludeLayer_;
 
         scene::Camera camera_;
         scene::Actor cameraActor_;

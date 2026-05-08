@@ -138,22 +138,26 @@ namespace fluxion::editor
     void drawAabbOverlay(scene::Scene& scene,
                          scene::Camera& camera,
                          scene::Actor* selectedActor,
+                         const math::Vector<float, 2>& rectMin,
+                         const math::Vector<float, 2>& rectMax,
                          const scene::Layer* excludeLayer,
                          const scene::Actor* excludeActor)
     {
-        const auto displaySize = ImGui::GetIO().DisplaySize;
-        if (displaySize.x <= 0.0F || displaySize.y <= 0.0F)
-            return;
-        const math::Vector<float, 2> windowSizePixels{
-            displaySize.x, displaySize.y
-        };
+        const float rectW = rectMax.v[0] - rectMin.v[0];
+        const float rectH = rectMax.v[1] - rectMin.v[1];
+        if (rectW <= 0.0F || rectH <= 0.0F) return;
 
-        // Background draw list renders BEHIND all ImGui windows, but
-        // still in front of the engine's back buffer — exactly the
-        // visual layer we want for actor decorations: panels stay
-        // readable, the editor's overlay stays anchored to the world.
-        auto* drawList = ImGui::GetBackgroundDrawList();
+        // Window draw list = the ImGui::Begin'd panel we're currently
+        // inside, so the lines compose with the panel and ImGui's own
+        // clipping handles spillover at the edges.
+        auto* drawList = ImGui::GetWindowDrawList();
         if (!drawList) return;
+
+        // Tighter clip to the image rect (the panel may have title-
+        // bar / borders we don't want to draw onto).
+        drawList->PushClipRect(ImVec2{rectMin.v[0], rectMin.v[1]},
+                               ImVec2{rectMax.v[0], rectMax.v[1]},
+                               /*intersect_with_current_clip_rect*/ true);
 
         const ImU32 dimColor = IM_COL32(140, 140, 160, 110);
         const ImU32 selColor = IM_COL32(255, 180, 60, 230);
@@ -170,16 +174,16 @@ namespace fluxion::editor
                 const ImU32 color = (&actor == selectedActor) ? selColor : dimColor;
                 const float thickness = (&actor == selectedActor) ? 2.5F : 1.0F;
 
-                // Convert the 8 normalized corners to ImGui screen pixels
-                // once, then draw the 12 box edges using indices.
+                // Map normalized [0,1] -> screen pixels inside the
+                // image rect once, then draw the 12 box edges by index.
                 std::array<ImVec2, 8> screen{};
                 float minX = std::numeric_limits<float>::max();
                 float minY = std::numeric_limits<float>::max();
                 for (std::size_t i = 0; i < 8; ++i)
                 {
                     screen[i] = ImVec2{
-                        projected[i].v[0] * windowSizePixels.v[0],
-                        projected[i].v[1] * windowSizePixels.v[1]
+                        rectMin.v[0] + projected[i].v[0] * rectW,
+                        rectMin.v[1] + projected[i].v[1] * rectH
                     };
                     minX = std::min(minX, screen[i].x);
                     minY = std::min(minY, screen[i].y);
@@ -198,5 +202,7 @@ namespace fluxion::editor
                                   color, label.c_str());
             });
         }
+
+        drawList->PopClipRect();
     }
 }

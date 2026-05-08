@@ -51,19 +51,22 @@ namespace fluxion::editor
                             const scene::Layer* excludeLayer = nullptr,
                             const scene::Actor* excludeActor = nullptr);
 
-    // Draws the AABB outlines for every actor in the scene as an
-    // ImGui foreground overlay. The selected actor (if any) is drawn
-    // in a brighter highlight colour; the rest are dim. Must be called
-    // from the ImGui draw callback (render thread, between NewFrame
-    // and Render). The display size used for projection comes from
-    // ImGui::GetIO().DisplaySize, so the caller doesn't have to thread
-    // it through.
+    // Draws AABB outlines for every actor in the scene into a screen-
+    // pixel rectangle, projecting through `camera`. Designed to be
+    // called from inside an ImGui::Begin/End pair so the panel's
+    // current window draw list receives the lines and they clip to
+    // the panel's bounds.
     //
-    // `excludeLayer` and `excludeActor` follow the same conventions
-    // as pickActor: matching layers/actors are not decorated.
+    // `rectMin`/`rectMax` are absolute ImGui screen coordinates
+    // (typically `ImGui::GetItemRectMin/Max()` immediately after the
+    // ImGui::Image call that hosts the viewport). The selected actor
+    // is drawn brighter; the rest are dim. `excludeLayer` and
+    // `excludeActor` mirror pickActor's filters.
     void drawAabbOverlay(scene::Scene& scene,
                          scene::Camera& camera,
                          scene::Actor* selectedActor,
+                         const math::Vector<float, 2>& rectMin,
+                         const math::Vector<float, 2>& rectMax,
                          const scene::Layer* excludeLayer = nullptr,
                          const scene::Actor* excludeActor = nullptr);
 }

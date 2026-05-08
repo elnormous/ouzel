@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include "../engine/core/Application.hpp"
-#include "../engine/events/EventHandler.hpp"
 #include "../engine/gui/imgui/ImGuiContext.hpp"
 #include "../engine/scene/Actor.hpp"
 #include "../engine/scene/Camera.hpp"
@@ -72,15 +71,6 @@ namespace fluxion::editor
         // updates the selection the InspectorPanel sees it on the next
         // frame because both read the same instance.
         SelectionContext selection_;
-
-        // Held EventHandler that listens for left-mouse-press to
-        // implement click-to-pick on the back buffer. Picking is
-        // skipped when ImGui has captured the mouse (the click is
-        // over a panel), so panels and the viewport coexist cleanly.
-        // EventHandler is a member rather than a local in the
-        // constructor because addEventHandler stores a non-owning
-        // reference that must outlive the addEventHandler call.
-        EventHandler pickHandler_;
 
         std::vector<std::unique_ptr<Panel>> panels_;
 
