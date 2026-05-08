@@ -29,9 +29,6 @@ namespace samples
         demoButton{"button.png", "button_selected.png", "button_down.png", "",
                    buttonLabel("Demo window", imguiHost().showDemo.load()),
                    "Arial", 1.0F, buttonText, blackColor, blackColor},
-        reflectionButton{"button.png", "button_selected.png", "button_down.png", "",
-                         buttonLabel("Reflection", imguiHost().showReflection.load()),
-                         "Arial", 1.0F, buttonText, blackColor, blackColor},
         enableImGuiButton{"button.png", "button_selected.png", "button_down.png", "",
                           (imguiHost().context && imguiHost().context->isEnabled())
                               ? "Disable ImGui" : "Enable ImGui",
@@ -62,12 +59,6 @@ namespace samples
             {
                 const bool next = !host.showDemo.load();
                 host.showDemo.store(next);
-                refreshLabels();
-            }
-            else if (event.actor == &reflectionButton)
-            {
-                const bool next = !host.showReflection.load();
-                host.showReflection.store(next);
                 refreshLabels();
             }
             else if (event.actor == &enableImGuiButton)
@@ -130,19 +121,16 @@ namespace samples
         statusLabel.setPosition(Vector<float, 2>{0.0F, 220.0F});
         layer.addChild(statusLabel);
 
-        smokeTestButton.setPosition(Vector<float, 2>{0.0F, 160.0F});
+        smokeTestButton.setPosition(Vector<float, 2>{0.0F, 140.0F});
         menu.addWidget(smokeTestButton);
 
-        textRefButton.setPosition(Vector<float, 2>{0.0F, 110.0F});
+        textRefButton.setPosition(Vector<float, 2>{0.0F, 90.0F});
         menu.addWidget(textRefButton);
 
-        demoButton.setPosition(Vector<float, 2>{0.0F, 60.0F});
+        demoButton.setPosition(Vector<float, 2>{0.0F, 40.0F});
         menu.addWidget(demoButton);
 
-        reflectionButton.setPosition(Vector<float, 2>{0.0F, 10.0F});
-        menu.addWidget(reflectionButton);
-
-        enableImGuiButton.setPosition(Vector<float, 2>{0.0F, -60.0F});
+        enableImGuiButton.setPosition(Vector<float, 2>{0.0F, -30.0F});
         menu.addWidget(enableImGuiButton);
 
         backButton.setPosition(Vector<float, 2>{0.0F, -200.0F});
@@ -155,7 +143,6 @@ namespace samples
         smokeTestButton.getLabelDrawable()->setText(buttonLabel("Smoke test", host.showSmokeTest.load()));
         textRefButton.getLabelDrawable()->setText(buttonLabel("Text reference", host.showTextRef.load()));
         demoButton.getLabelDrawable()->setText(buttonLabel("Demo window", host.showDemo.load()));
-        reflectionButton.getLabelDrawable()->setText(buttonLabel("Reflection", host.showReflection.load()));
         if (host.context)
             enableImGuiButton.getLabelDrawable()->setText(host.context->isEnabled()
                                                             ? "Disable ImGui"
