@@ -40,7 +40,8 @@ namespace fluxion::editor
                                  scene::Layer& hostLayer,
                                  scene::Scene& workingScene,
                                  SelectionContext& selection,
-                                 const scene::Layer* excludeLayer):
+                                 const scene::Layer* excludeLayer,
+                                 CommandStack* commandStack):
         Panel{"Viewport", true},
         engine_{eng},
         imgui_{imgui},
@@ -48,6 +49,10 @@ namespace fluxion::editor
         selection_{selection},
         excludeLayer_{excludeLayer}
     {
+        // Tell the gizmo where to push transform commands when it
+        // sees a drag complete. The host layer is also where the
+        // commands look up the actor by uuid for redo/undo.
+        gizmo_.setCommandTarget(commandStack, &hostLayer);
         // Order matters: set up the render target FIRST, then the
         // camera, then add the camera to its host layer. RTSample
         // follows the same recipe — never let the engine see a camera

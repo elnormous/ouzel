@@ -67,7 +67,8 @@ namespace fluxion::editor
         // filter so the back-buffer-clear camera never appears.
         auto viewportPanel = std::make_unique<ViewportPanel>(
             *engine, imgui_, workingLayer_,
-            workingScene_, selection_, &editorLayer_);
+            workingScene_, selection_, &editorLayer_,
+            &commandStack_);
         viewportPanel_ = viewportPanel.get();
         panels_.push_back(std::move(viewportPanel));
 
@@ -75,7 +76,8 @@ namespace fluxion::editor
                                                            &commandStack_,
                                                            &editorLayer_,
                                                            viewportPanel_->getCameraActor()));
-        panels_.push_back(std::make_unique<InspectorPanel>(&selection_));
+        panels_.push_back(std::make_unique<InspectorPanel>(
+            &selection_, &workingLayer_, &commandStack_));
         panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
 
         imgui_.setDrawCallback([this]() {

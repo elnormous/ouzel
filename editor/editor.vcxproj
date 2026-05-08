@@ -149,6 +149,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="commands\ActorCommands.cpp" />
+    <ClCompile Include="commands\ComponentCommands.cpp" />
+    <ClCompile Include="commands\TransformCommands.cpp" />
     <ClCompile Include="CommandStack.cpp" />
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EditorPicking.cpp" />
@@ -166,6 +168,8 @@
   <ItemGroup>
     <ClInclude Include="commands\ActorCommands.hpp" />
     <ClInclude Include="commands\Command.hpp" />
+    <ClInclude Include="commands\ComponentCommands.hpp" />
+    <ClInclude Include="commands\TransformCommands.hpp" />
     <ClInclude Include="CommandStack.hpp" />
     <ClInclude Include="EditorApp.hpp" />
     <ClInclude Include="EditorPicking.hpp" />

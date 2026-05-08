@@ -5,7 +5,10 @@
 #include <cstring>
 #include <string>
 #include "imgui.h"
+#include "../CommandStack.hpp"
 #include "../SelectionContext.hpp"
+#include "../commands/ComponentCommands.hpp"
+#include "../commands/TransformCommands.hpp"
 #include "../../engine/gui/imgui/ImGuiInspector.hpp"
 #include "../../engine/math/Constants.hpp"
 #include "../../engine/math/Quaternion.hpp"
@@ -35,9 +38,13 @@ namespace fluxion::editor
         }
     }
 
-    InspectorPanel::InspectorPanel(SelectionContext* selection):
+    InspectorPanel::InspectorPanel(SelectionContext* selection,
+                                   scene::Layer* userLayer,
+                                   CommandStack* commandStack):
         Panel{"Inspector", true},
-        selection_{selection}
+        selection_{selection},
+        userLayer_{userLayer},
+        commandStack_{commandStack}
     {
     }
 
@@ -82,12 +89,35 @@ namespace fluxion::editor
         const auto copyLen = std::min(current.size(), kNameBufferSize - 1);
         std::memcpy(nameBuf, current.data(), copyLen);
         nameBuf[copyLen] = '\0';
-        if (ImGui::InputText("Name", nameBuf, kNameBufferSize))
+
+        // Live edit during the InputText session: apply each
+        // keystroke straight to the actor so the user sees the new
+        // name everywhere immediately. The undo entry is captured
+        // ONCE per session — when the field becomes active we
+        // snapshot the value, when it deactivates with edits we
+        // push a SetNameCommand carrying the (snapshot, final) pair.
+        ImGui::InputText("Name", nameBuf, kNameBufferSize);
+        if (ImGui::IsItemActivated())
         {
-            // Only call setName when the buffer actually differs to
-            // avoid an allocation per frame on a stable name.
-            if (std::strcmp(nameBuf, current.c_str()) != 0)
-                actor.setName(std::string{nameBuf});
+            nameEditOldValue_ = current;
+            nameEditCapturing_ = true;
+        }
+        if (std::strcmp(nameBuf, current.c_str()) != 0)
+            actor.setName(std::string{nameBuf});
+        if (ImGui::IsItemDeactivatedAfterEdit() && nameEditCapturing_)
+        {
+            nameEditCapturing_ = false;
+            if (commandStack_ && userLayer_ &&
+                nameEditOldValue_ != actor.getName())
+                commandStack_->push(std::make_unique<commands::SetNameCommand>(
+                    userLayer_, actor.getId(),
+                    nameEditOldValue_, actor.getName()));
+        }
+        else if (ImGui::IsItemDeactivated())
+        {
+            // Cancelled / lost focus without an edit; drop the
+            // capture so the next session starts fresh.
+            nameEditCapturing_ = false;
         }
     }
 
@@ -232,16 +262,28 @@ namespace fluxion::editor
             ImGui::EndPopup();
         }
 
-        // Apply deferred ops. Order matters only insofar as both can
-        // happen in the same frame from independent UI paths — the
-        // engine's addComponent/removeComponent are independent calls
-        // and either order is safe.
+        // Apply deferred ops. Routed through the command stack when
+        // wired so the user can undo / redo each component change;
+        // direct mutation otherwise (legacy / test path).
         if (removeTarget)
-            actor.removeComponent(*removeTarget);
+        {
+            if (commandStack_ && userLayer_)
+                commandStack_->execute(
+                    std::make_unique<commands::RemoveComponentCommand>(
+                        userLayer_, actor.getId(), removeTarget));
+            else
+                actor.removeComponent(*removeTarget);
+        }
         if (!addTypeName.empty())
         {
             auto comp = reflection::TypeRegistry::instance().create(addTypeName);
-            if (comp) actor.addComponent(std::move(comp));
+            if (!comp) return;
+            if (commandStack_ && userLayer_)
+                commandStack_->execute(
+                    std::make_unique<commands::AddComponentCommand>(
+                        userLayer_, actor.getId(), std::move(comp)));
+            else
+                actor.addComponent(std::move(comp));
         }
     }
 }

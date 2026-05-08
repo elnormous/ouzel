@@ -521,6 +521,31 @@ namespace fluxion::scene
         return result;
     }
 
+    std::unique_ptr<Component> Actor::releaseComponent(const Component& component)
+    {
+        // Locate the owning unique_ptr first; if the caller passed a
+        // by-reference-only component (not in ownedComponents) we
+        // can't release it without copying / cloning, which would
+        // change semantics. In that case return nullptr and leave
+        // the component attached.
+        const auto ownedIt = std::find_if(ownedComponents.begin(), ownedComponents.end(),
+            [&component](const auto& uptr) noexcept {
+                return uptr.get() == &component;
+            });
+        if (ownedIt == ownedComponents.end()) return nullptr;
+
+        auto rescued = std::move(*ownedIt);
+        ownedComponents.erase(ownedIt);
+
+        // Mirror the housekeeping removeComponent does for the raw
+        // pointer list and the back-reference on the component.
+        const auto rawIt = std::find(components.begin(), components.end(), &component);
+        if (rawIt != components.end()) components.erase(rawIt);
+        rescued->setActor(nullptr);
+
+        return rescued;
+    }
+
     void Actor::removeAllComponents()
     {
         for (const auto component : components)

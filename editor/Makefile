@@ -41,6 +41,8 @@ OBJCXXFLAGS=-std=c++17 \
 
 SOURCES=main.cpp \
 	commands/ActorCommands.cpp \
+	commands/ComponentCommands.cpp \
+	commands/TransformCommands.cpp \
 	CommandStack.cpp \
 	EditorApp.cpp \
 	EditorPicking.cpp \

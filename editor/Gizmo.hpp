@@ -8,10 +8,12 @@ namespace fluxion::scene
 {
     class Actor;
     class Camera;
+    class Layer;
 }
 
 namespace fluxion::editor
 {
+    class CommandStack;
     // Transform manipulator drawn around the selected actor inside
     // the viewport panel. Supports a mode-switch between translate
     // (axis arrows) and rotate (axis rings); scale will join in 5c-3.
@@ -44,6 +46,21 @@ namespace fluxion::editor
 
         void setSpace(Space s) noexcept { space_ = s; cancelDrag(); }
         [[nodiscard]] Space getSpace() const noexcept { return space_; }
+
+        // Wires the gizmo into the editor's undo/redo system. When
+        // both pointers are non-null, the end of every translate /
+        // rotate / scale drag pushes a single command capturing the
+        // start and final values; the actor moves live during the
+        // drag (not undoable mid-drag) and the user gets one
+        // Ctrl+Z step per gesture. Passing null (the default)
+        // disables the push path — for unit tests or read-only
+        // viewports.
+        void setCommandTarget(CommandStack* stack,
+                              scene::Layer* userLayer) noexcept
+        {
+            commandStack_ = stack;
+            commandLayer_ = userLayer;
+        }
 
         // Per-frame call. Must run inside the viewport panel's
         // ImGui::Begin/End so GetWindowDrawList() resolves to the
@@ -101,6 +118,11 @@ namespace fluxion::editor
         math::Quaternion<float> dragStartRotation_{};
         float prevAngle_ = 0.0F;
         float accumulatedAngle_ = 0.0F;
+
+        // Undo target. nullptr when the editor is not wiring undo
+        // through the gizmo (test harnesses, future read-only views).
+        CommandStack* commandStack_ = nullptr;
+        scene::Layer* commandLayer_ = nullptr;
     };
 }
 

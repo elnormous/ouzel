@@ -1,15 +1,18 @@
 #ifndef FLUXION_EDITOR_INSPECTORPANEL_HPP
 #define FLUXION_EDITOR_INSPECTORPANEL_HPP
 
+#include <string>
 #include "../Panel.hpp"
 
 namespace fluxion::scene
 {
     class Actor;
+    class Layer;
 }
 
 namespace fluxion::editor
 {
+    class CommandStack;
     class SelectionContext;
 
     // Live inspector for the currently-selected Actor.
@@ -29,7 +32,13 @@ namespace fluxion::editor
     class InspectorPanel final : public Panel
     {
     public:
-        explicit InspectorPanel(SelectionContext* selection);
+        // userLayer + commandStack are optional. When both are
+        // provided, name edits and component add / remove route
+        // through the undo/redo system. Without them the panel
+        // mutates the actor directly (legacy / test path).
+        explicit InspectorPanel(SelectionContext* selection,
+                                scene::Layer* userLayer = nullptr,
+                                CommandStack* commandStack = nullptr);
 
         void draw() override;
 
@@ -39,7 +48,16 @@ namespace fluxion::editor
         void drawDisplayFlags(scene::Actor& actor);
         void drawComponents(scene::Actor& actor);
 
-        SelectionContext* selection_;  // not owned
+        SelectionContext* selection_;       // not owned
+        scene::Layer* userLayer_;           // not owned; nullptr OK
+        CommandStack* commandStack_;        // not owned; nullptr OK
+
+        // Captured-on-activate value for the name InputText. Used
+        // to push a SetNameCommand on commit (IsItemDeactivatedAfterEdit)
+        // so a single rename session is one undo step regardless of
+        // how many keystrokes happen during it.
+        std::string nameEditOldValue_;
+        bool nameEditCapturing_ = false;
     };
 }
 

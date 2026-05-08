@@ -28,6 +28,7 @@ namespace fluxion::scene
 
 namespace fluxion::editor
 {
+    class CommandStack;
     class SelectionContext;
 
     // ImGui-hosted scene viewport.
@@ -59,7 +60,8 @@ namespace fluxion::editor
                       scene::Layer& hostLayer,
                       scene::Scene& workingScene,
                       SelectionContext& selection,
-                      const scene::Layer* excludeLayer);
+                      const scene::Layer* excludeLayer,
+                      CommandStack* commandStack = nullptr);
         ~ViewportPanel() override;
 
         ViewportPanel(const ViewportPanel&) = delete;

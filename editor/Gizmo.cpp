@@ -3,7 +3,10 @@
 #include <array>
 #include <cmath>
 #include <limits>
+#include <memory>
 #include "imgui.h"
+#include "CommandStack.hpp"
+#include "commands/TransformCommands.hpp"
 #include "../engine/math/Constants.hpp"
 #include "../engine/scene/Actor.hpp"
 #include "../engine/scene/Camera.hpp"
@@ -289,6 +292,19 @@ namespace fluxion::editor
         {
             if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
             {
+                // End of drag: push one undoable command that
+                // captures the move from drag-start to current
+                // actor position. The mid-drag mutations are NOT
+                // separately undoable — that would spam the stack
+                // with a frame's worth of micro-deltas; one entry
+                // per gesture is the right granularity.
+                if (commandStack_ && commandLayer_ &&
+                    (actor.getPosition().v[0] != dragStartPosition_.v[0] ||
+                     actor.getPosition().v[1] != dragStartPosition_.v[1] ||
+                     actor.getPosition().v[2] != dragStartPosition_.v[2]))
+                    commandStack_->push(std::make_unique<commands::SetPositionCommand>(
+                        commandLayer_, actor.getId(),
+                        dragStartPosition_, actor.getPosition()));
                 dragAxis_ = Axis::None;
             }
             else
@@ -445,6 +461,18 @@ namespace fluxion::editor
         {
             if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
             {
+                if (commandStack_ && commandLayer_)
+                {
+                    const auto& a = actor.getRotation();
+                    const auto& b = dragStartRotation_;
+                    const bool changed =
+                        a.v[0] != b.v[0] || a.v[1] != b.v[1] ||
+                        a.v[2] != b.v[2] || a.v[3] != b.v[3];
+                    if (changed)
+                        commandStack_->push(std::make_unique<commands::SetRotationCommand>(
+                            commandLayer_, actor.getId(),
+                            dragStartRotation_, actor.getRotation()));
+                }
                 dragAxis_ = Axis::None;
             }
             else
@@ -643,6 +671,13 @@ namespace fluxion::editor
         {
             if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
             {
+                if (commandStack_ && commandLayer_ &&
+                    (actor.getScale().v[0] != dragStartScale_.v[0] ||
+                     actor.getScale().v[1] != dragStartScale_.v[1] ||
+                     actor.getScale().v[2] != dragStartScale_.v[2]))
+                    commandStack_->push(std::make_unique<commands::SetScaleCommand>(
+                        commandLayer_, actor.getId(),
+                        dragStartScale_, actor.getScale()));
                 dragAxis_ = Axis::None;
             }
             else

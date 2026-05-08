@@ -177,6 +177,15 @@ namespace fluxion::scene
         void addComponent(Component& component);
         bool removeComponent(Component& component);
 
+        // Detaches an OWNED component and returns its unique_ptr.
+        // Symmetric counterpart to addComponent(unique_ptr): mirrors
+        // releaseChild for actors. Returns nullptr if the component
+        // is attached but not owned (added by reference) or if it
+        // isn't on this actor at all. Used by editor undo / redo so
+        // a removed component can be re-attached with its tweaked
+        // state intact.
+        std::unique_ptr<Component> releaseComponent(const Component& component);
+
         void removeAllComponents();
         auto& getComponents() const noexcept { return components; }
 
