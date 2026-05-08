@@ -1,12 +1,19 @@
 ﻿#include "SpriteRenderer.hpp"
+#include <cstdio>
 #include "Camera.hpp"
 #include "SceneManager.hpp"
 #include "Layer.hpp"
 #include "../assets/Cache.hpp"
 #include "../core/Engine.hpp"
 #include "../graphics/Graphics.hpp"
+#include "../reflection/Inspector.hpp"
 #include "../storage/FileSystem.hpp"
 #include "../utils/Utils.hpp"
+
+namespace fluxion::scene
+{
+    FLUXION_COMPONENT_REGISTER(SpriteRenderer)
+}
 
 namespace fluxion::scene
 {
@@ -535,5 +542,32 @@ namespace fluxion::scene
         }
         else
             math::reset(boundingBox);
+    }
+
+    void SpriteRenderer::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        auto offsetCopy = offset;
+        inspector.vector2Field("Offset", offsetCopy);
+        if (offsetCopy.v[0] != offset.v[0] || offsetCopy.v[1] != offset.v[1])
+            setOffset(offsetCopy);
+
+        bool playingCopy = playing;
+        inspector.boolField("Playing", playingCopy);
+        if (playingCopy != playing)
+        {
+            if (playingCopy) play();
+            else stop(false);
+        }
+
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%.3f s", currentTime);
+        inspector.readOnlyText("Animation time", buf);
+
+        std::snprintf(buf, sizeof(buf), "%zu animation(s)", animations.size());
+        inspector.readOnlyText("Loaded", buf);
     }
 }

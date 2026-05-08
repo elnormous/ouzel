@@ -93,7 +93,9 @@
     <ClCompile Include="gui\imgui\ImGuiBackendD3D11.cpp" />
     <ClCompile Include="gui\imgui\ImGuiBackendOGL.cpp" />
     <ClCompile Include="gui\imgui\ImGuiInputBridge.cpp" />
+    <ClCompile Include="gui\imgui\ImGuiInspector.cpp" />
     <ClCompile Include="gui\imgui\ImGuiKeyMap.cpp" />
+    <ClCompile Include="reflection\TypeRegistry.cpp" />
     <ClCompile Include="..\external\imgui\imgui.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <ForcedIncludeFiles />
@@ -323,7 +325,11 @@
     <ClInclude Include="gui\imgui\ImGuiBackend.hpp" />
     <ClInclude Include="gui\imgui\ImGuiContext.hpp" />
     <ClInclude Include="gui\imgui\ImGuiInputBridge.hpp" />
+    <ClInclude Include="gui\imgui\ImGuiInspector.hpp" />
     <ClInclude Include="gui\imgui\ImGuiKeyMap.hpp" />
+    <ClInclude Include="reflection\Inspector.hpp" />
+    <ClInclude Include="reflection\Macros.hpp" />
+    <ClInclude Include="reflection\TypeRegistry.hpp" />
     <ClInclude Include="hash\Fnv1.hpp" />
     <ClInclude Include="input\Cursor.hpp" />
     <ClInclude Include="input\DeviceId.hpp" />

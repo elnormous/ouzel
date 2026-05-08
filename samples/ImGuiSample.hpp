@@ -33,6 +33,7 @@ namespace samples
         fluxion::gui::Button smokeTestButton;
         fluxion::gui::Button textRefButton;
         fluxion::gui::Button demoButton;
+        fluxion::gui::Button reflectionButton;
         fluxion::gui::Button enableImGuiButton;
         fluxion::gui::Button backButton;
 

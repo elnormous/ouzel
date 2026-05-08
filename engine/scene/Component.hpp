@@ -2,12 +2,18 @@
 #define FLUXION_SCENE_COMPONENT_HPP
 
 #include <memory>
+#include <string_view>
 #include <vector>
 #include "../graphics/Texture.hpp"
 #include "../math/Box.hpp"
 #include "../math/Matrix.hpp"
 #include "../math/Color.hpp"
 #include "../math/Rect.hpp"
+
+namespace fluxion::reflection
+{
+    class Inspector;
+}
 
 namespace fluxion::scene
 {
@@ -31,6 +37,19 @@ namespace fluxion::scene
                           float opacity,
                           const math::Matrix<float, 4>& renderViewProjection,
                           bool wireframe);
+
+        // Reflection: stable, user-facing type identifier (e.g. "scene.SpriteRenderer").
+        // Subclasses normally provide this via the FLUXION_COMPONENT_DECL macro
+        // along with a factory entry in the global TypeRegistry. The default
+        // implementation returns an empty view, which keeps non-reflective
+        // components compilable without any source change.
+        [[nodiscard]] virtual std::string_view typeName() const noexcept { return {}; }
+
+        // Reflection: report this component's editable properties to the
+        // given inspector. Default is a no-op so existing components keep
+        // working; reflection-aware ones override this to call inspector's
+        // typed-field methods in the order the editor should show them.
+        virtual void inspect(reflection::Inspector& inspector) { (void)inspector; }
 
         [[nodiscard]] const auto& getBoundingBox() const noexcept { return boundingBox; }
         void setBoundingBox(const math::Box<float, 3>& newBoundingBox) noexcept

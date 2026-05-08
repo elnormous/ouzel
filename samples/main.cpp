@@ -8,6 +8,9 @@
 #include "PerspectiveSample.hpp"
 #include "ImGuiSample.hpp"
 #include "ImGuiHost.hpp"
+#include "../engine/gui/imgui/ImGuiInspector.hpp"
+#include "../engine/reflection/TypeRegistry.hpp"
+#include "../engine/scene/Component.hpp"
 #include "imgui.h"
 
 using namespace fluxion;
@@ -50,6 +53,60 @@ namespace samples
             }
             ImGui::Dummy(ImVec2(0, 26));
             ImGui::Text("(grayscale ramp: black -> white)");
+            ImGui::End();
+        }
+
+        void drawReflectionWindow()
+        {
+            ImGui::SetNextWindowPos(ImVec2(20, 510), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowSize(ImVec2(420, 320), ImGuiCond_FirstUseEver);
+            ImGui::Begin("Reflection demo");
+
+            const auto types = reflection::TypeRegistry::instance().listTypes();
+            ImGui::Text("TypeRegistry has %zu component type(s):", types.size());
+            ImGui::Indent();
+            for (const auto& t : types) ImGui::BulletText("%s", t.c_str());
+            ImGui::Unindent();
+            ImGui::Separator();
+
+            // Live editor for one component instance per registered type.
+            // Uses TypeRegistry::create for the factory side (proves the
+            // registration works) and Component::inspect for the metadata
+            // side (drives the ImGui-based Inspector).
+            static std::string selectedType = types.empty() ? std::string{} : types.front();
+            if (ImGui::BeginCombo("##type", selectedType.c_str()))
+            {
+                for (const auto& t : types)
+                {
+                    const bool sel = (t == selectedType);
+                    if (ImGui::Selectable(t.c_str(), sel)) selectedType = t;
+                    if (sel) ImGui::SetItemDefaultFocus();
+                }
+                ImGui::EndCombo();
+            }
+
+            static std::string instantiatedType;
+            static std::unique_ptr<scene::Component> instance;
+            if (instantiatedType != selectedType)
+            {
+                instance = reflection::TypeRegistry::instance().create(selectedType);
+                instantiatedType = selectedType;
+            }
+
+            if (instance)
+            {
+                ImGui::TextDisabled("Editing a temporary instance of %s",
+                                    selectedType.c_str());
+                ImGui::Separator();
+                gui::imgui::Inspector inspector;
+                instance->inspect(inspector);
+            }
+            else
+            {
+                ImGui::TextColored(ImVec4(1, 0.4F, 0.4F, 1),
+                                   "TypeRegistry::create returned null");
+            }
+
             ImGui::End();
         }
 
@@ -98,6 +155,8 @@ namespace samples
                     drawSmokeTestWindow(driverName);
                 if (host.showTextRef.load(std::memory_order_acquire))
                     drawTextRefWindow();
+                if (host.showReflection.load(std::memory_order_acquire))
+                    drawReflectionWindow();
                 if (host.showDemo.load(std::memory_order_acquire))
                 {
                     ImGui::ShowDemoWindow();

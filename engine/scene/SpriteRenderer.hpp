@@ -17,6 +17,7 @@
 #include "../math/Rect.hpp"
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
+#include "../reflection/Macros.hpp"
 
 namespace fluxion::scene
 {
@@ -77,6 +78,8 @@ namespace fluxion::scene
     class SpriteRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(SpriteRenderer, "scene.SpriteRenderer")
+
         SpriteRenderer();
         explicit SpriteRenderer(const SpriteData& spriteData);
         explicit SpriteRenderer(const std::string& filename);
@@ -91,6 +94,8 @@ namespace fluxion::scene
                   const math::Vector<float, 2>& pivot = math::Vector<float, 2>{0.5F, 0.5F});
 
         void update(float delta);
+
+        void inspect(reflection::Inspector& inspector) override;
 
         void draw(const math::Matrix<float, 4>& transformMatrix,
                   float opacity,

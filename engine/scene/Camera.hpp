@@ -8,6 +8,7 @@
 #include "../math/Rect.hpp"
 #include "../graphics/DepthStencilState.hpp"
 #include "../graphics/RenderTarget.hpp"
+#include "../reflection/Macros.hpp"
 
 namespace fluxion::scene
 {
@@ -17,6 +18,8 @@ namespace fluxion::scene
     {
         friend Layer;
     public:
+        FLUXION_COMPONENT_DECL(Camera, "scene.Camera")
+
         enum class ProjectionMode
         {
             custom,
@@ -131,6 +134,8 @@ namespace fluxion::scene
 
         [[nodiscard]] auto getClearStencil() const noexcept { return clearStencil; }
         void setClearDepth(std::uint32_t stencil) { clearStencil = stencil; }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void setActor(Actor* newActor) override;
