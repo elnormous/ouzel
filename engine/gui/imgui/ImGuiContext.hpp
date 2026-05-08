@@ -1,12 +1,18 @@
 #ifndef FLUXION_GUI_IMGUI_IMGUICONTEXT_HPP
 #define FLUXION_GUI_IMGUI_IMGUICONTEXT_HPP
 
+#include <cstdint>
 #include <functional>
 #include <memory>
 
 namespace fluxion::core
 {
     class Engine;
+}
+
+namespace fluxion::graphics
+{
+    class Texture;
 }
 
 namespace fluxion::gui::imgui
@@ -42,6 +48,12 @@ namespace fluxion::gui::imgui
         // Useful for samples to suppress in-game input while a UI element is focused.
         bool wantsKeyboard() const noexcept;
         bool wantsMouse() const noexcept;
+
+        // Returns a handle suitable for ImGui::Image's ImTextureID.
+        // See ImGuiBackend::textureNativeHandle for the per-backend
+        // shape and the "0 means not yet ready" convention.
+        std::uint64_t textureNativeHandle(
+            const graphics::Texture& texture) const noexcept;
 
     private:
         std::unique_ptr<Backend> backend;

@@ -13,7 +13,9 @@
 #include "ImGuiInputBridge.hpp"
 #include "../../core/Engine.hpp"
 #include "../../graphics/Graphics.hpp"
+#include "../../graphics/Texture.hpp"
 #include "../../graphics/metal/MetalRenderDevice.hpp"
+#include "../../graphics/metal/MetalTexture.hpp"
 #include "imgui.h"
 #include "backends/imgui_impl_metal.h"
 
@@ -89,6 +91,21 @@ namespace fluxion::gui::imgui
 
             bool wantsKeyboard() const noexcept override { return inputBridge.wantsKeyboard(); }
             bool wantsMouse() const noexcept override { return inputBridge.wantsMouse(); }
+
+            std::uint64_t textureNativeHandle(
+                const graphics::Texture& texture) const noexcept override
+            {
+                if (!deviceRef) return 0;
+                const std::size_t id = static_cast<std::size_t>(texture.getResource());
+                if (!id) return 0;
+                auto* metalTex = deviceRef->getResource<graphics::metal::Texture>(id);
+                if (!metalTex) return 0;
+                // MetalTexture stores the MTLTexture as a void* under the
+                // hood (see MetalRenderTarget for the matching __bridge
+                // cast on the consumer side). ImGui's Metal backend will
+                // __bridge-cast this back to id<MTLTexture> when sampling.
+                return reinterpret_cast<std::uint64_t>(metalTex->getTexture().get());
+            }
 
         private:
             using Clock = std::chrono::steady_clock;

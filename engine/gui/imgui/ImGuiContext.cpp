@@ -37,4 +37,10 @@ namespace fluxion::gui::imgui
     {
         return backend ? backend->wantsMouse() : false;
     }
+
+    std::uint64_t Context::textureNativeHandle(
+        const graphics::Texture& texture) const noexcept
+    {
+        return backend ? backend->textureNativeHandle(texture) : 0;
+    }
 }
