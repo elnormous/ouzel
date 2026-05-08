@@ -17,16 +17,22 @@ namespace fluxion::editor
 {
     namespace
     {
-        // Initial fallback target size. ImGui doesn't tell us the panel
-        // dimensions until after the first Begin/End pair has been
-        // submitted, so we allocate a reasonable default and re-create
-        // when the panel reports its real size on the second frame.
-        constexpr std::uint32_t kInitialDimension = 512U;
-
-        // Don't churn on tiny resize jitter (ImGui fudges sub-pixel
-        // values); only recreate when the request differs by at least
-        // this many pixels in either axis.
-        constexpr std::uint32_t kResizeHysteresis = 4U;
+        // Fixed render-target dimension. Picked large enough that
+        // typical editor panel sizes don't visibly suffer from the
+        // bilinear stretch ImGui::Image performs to fit the panel,
+        // and small enough to keep memory + per-frame fill cost cheap.
+        //
+        // We DELIBERATELY do not recreate the texture when the panel
+        // changes size: that path would queue InitTexture commands
+        // from the render thread (the imgui draw callback) into
+        // Graphics::commandBuffer, which the main thread is also
+        // writing — a textbook data race that produced freed-SRV
+        // crashes inside ImGui_ImplDX11_RenderDrawData when the user
+        // dragged the panel border. Pan / zoom work via camera
+        // settings (independent of the RT size) so a fixed RT loses
+        // nothing functional, just a small amount of crispness when
+        // the panel is much larger than this dimension.
+        constexpr std::uint32_t kRenderTargetDimension = 1024U;
     }
 
     ViewportPanel::ViewportPanel(core::Engine& eng,
@@ -47,7 +53,7 @@ namespace fluxion::editor
         // follows the same recipe — never let the engine see a camera
         // attached to a populated layer with a stale (or null) RT.
         recreateTargets(math::Size<std::uint32_t, 2>{
-            kInitialDimension, kInitialDimension});
+            kRenderTargetDimension, kRenderTargetDimension});
 
         // Mirror the back-buffer-clear camera so the embedded view
         // matches what the user expects. The user can override these
@@ -152,20 +158,10 @@ namespace fluxion::editor
             return;
         }
 
-        // Resize the render target if ImGui's content area changed
-        // meaningfully. Hysteresis avoids re-creating on sub-pixel jitter.
-        const auto requested = math::Size<std::uint32_t, 2>{
-            static_cast<std::uint32_t>(avail.x),
-            static_cast<std::uint32_t>(avail.y)
-        };
-        const auto deltaW = (requested.v[0] > currentSize_.v[0])
-            ? requested.v[0] - currentSize_.v[0]
-            : currentSize_.v[0] - requested.v[0];
-        const auto deltaH = (requested.v[1] > currentSize_.v[1])
-            ? requested.v[1] - currentSize_.v[1]
-            : currentSize_.v[1] - requested.v[1];
-        if (deltaW >= kResizeHysteresis || deltaH >= kResizeHysteresis)
-            recreateTargets(requested);
+        // (No render-target resize on size change. The fixed RT is
+        // allocated once in the constructor and stretched by ImGui::
+        // Image to whatever the user makes the panel. See the
+        // commentary on kRenderTargetDimension.)
 
         // Skip the Image draw the very first frame after creation —
         // the engine's render loop hasn't filled the texture yet, so
