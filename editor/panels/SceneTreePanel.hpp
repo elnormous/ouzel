@@ -1,6 +1,7 @@
 #ifndef FLUXION_EDITOR_SCENETREEPANEL_HPP
 #define FLUXION_EDITOR_SCENETREEPANEL_HPP
 
+#include <vector>
 #include "../Panel.hpp"
 
 namespace fluxion::scene
@@ -52,6 +53,23 @@ namespace fluxion::editor
         // header light.
         void drawActor(scene::Actor& actor);
         void drawContainerChildren(scene::ActorContainer& container);
+
+        // Mutating an actor / layer's children vector mid-iteration
+        // (which is what ImGui's drawActor does, recursively) would
+        // invalidate the iterators ImGui already captured. Instead the
+        // context menus push pending ops onto a queue and the panel
+        // applies them once the draw walk is complete.
+        struct PendingOp
+        {
+            enum class Kind { AddChild, Delete };
+            Kind kind = Kind::AddChild;
+            scene::Layer* parentLayer = nullptr;   // AddChild on a layer
+            scene::Actor* parentActor = nullptr;   // AddChild on an actor
+            scene::Actor* deleteTarget = nullptr;  // Delete this actor
+        };
+        std::vector<PendingOp> pendingOps_;
+
+        void applyPendingOps();
 
         scene::Scene* scene_;                  // not owned
         SelectionContext* selection_;          // not owned

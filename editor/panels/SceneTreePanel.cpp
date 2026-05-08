@@ -1,6 +1,7 @@
 #include "SceneTreePanel.hpp"
 
 #include <cstdio>
+#include <memory>
 #include "imgui.h"
 #include "../SelectionContext.hpp"
 #include "../../engine/scene/Actor.hpp"
@@ -71,11 +72,28 @@ namespace fluxion::editor
 
             ImGui::PushID(layer);
             const bool open = ImGui::CollapsingHeader(header, ImGuiTreeNodeFlags_DefaultOpen);
+            // Right-click on the layer header opens an "Add Actor"
+            // shortcut. Mutations are deferred so the tree iteration
+            // below is unaffected.
+            if (ImGui::BeginPopupContextItem("##layer_ctx"))
+            {
+                if (ImGui::MenuItem("Add Actor"))
+                    pendingOps_.push_back(PendingOp{
+                        PendingOp::Kind::AddChild, layer, nullptr, nullptr});
+                ImGui::EndPopup();
+            }
             if (open) drawContainerChildren(*layer);
             ImGui::PopID();
         }
 
         ImGui::End();
+
+        // Mutations apply once the panel's draw walk is complete.
+        // Triggers SelectionContext re-validation so the inspector
+        // panel (drawn next in the same frame) doesn't inherit a
+        // dangling pointer when the user just deleted an actor.
+        applyPendingOps();
+        if (selection_) selection_->validateAgainst(*scene_);
     }
 
     void SceneTreePanel::drawContainerChildren(scene::ActorContainer& container)
@@ -106,16 +124,43 @@ namespace fluxion::editor
 
         const bool open = ImGui::TreeNodeEx("##node", flags, "%s", label.c_str());
 
-        // Component badges to the right of the label, e.g. "[2c]" if
-        // the actor has components attached. Cheap visual cue without
-        // dumping the full component list into the tree row.
+        // Capture the click + toggle state for the TreeNode RIGHT
+        // HERE, before any further widgets get submitted. Subsequent
+        // ImGui calls (BeginPopupContextItem, the [Nc] badge below)
+        // would shift the "last submitted item" away from the tree
+        // node — IsItemClicked() at the end of the function would
+        // then read the badge's state and miss real row clicks for
+        // actors that own any component.
+        const bool nodeClicked = ImGui::IsItemClicked();
+        const bool nodeToggled = ImGui::IsItemToggledOpen();
+
+        // Right-click context menu: spawn a child or delete this
+        // actor. BeginPopupContextItem reads the last item too, but
+        // we're still right after TreeNodeEx so it correctly anchors
+        // to the row. Mutations are deferred — the queue is drained
+        // after the whole tree walk is complete.
+        if (ImGui::BeginPopupContextItem("##actor_ctx"))
+        {
+            if (ImGui::MenuItem("Add Child Actor"))
+                pendingOps_.push_back(PendingOp{
+                    PendingOp::Kind::AddChild, nullptr, &actor, nullptr});
+            ImGui::Separator();
+            if (ImGui::MenuItem("Delete"))
+                pendingOps_.push_back(PendingOp{
+                    PendingOp::Kind::Delete, nullptr, nullptr, &actor});
+            ImGui::EndPopup();
+        }
+
+        // Component badge: shifts the "last item" pointer; we already
+        // captured the row's click state above, so this is purely
+        // decorative.
         if (const auto compCount = actor.getComponents().size(); compCount > 0)
         {
             ImGui::SameLine();
             ImGui::TextDisabled("[%zuc]", compCount);
         }
 
-        if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
+        if (nodeClicked && !nodeToggled)
             if (selection_) selection_->setSelected(&actor);
 
         if (open && !isLeaf)
@@ -125,5 +170,44 @@ namespace fluxion::editor
         }
 
         ImGui::PopID();
+    }
+
+    void SceneTreePanel::applyPendingOps()
+    {
+        for (const auto& op : pendingOps_)
+        {
+            switch (op.kind)
+            {
+                case PendingOp::Kind::AddChild:
+                {
+                    auto child = std::make_unique<scene::Actor>();
+                    // Default name keeps the new row visible in the
+                    // tree even before the user opens the inspector
+                    // to rename it.
+                    child->setName("Actor");
+                    if (op.parentLayer)
+                        op.parentLayer->addChild(std::move(child));
+                    else if (op.parentActor)
+                        op.parentActor->addChild(std::move(child));
+                    break;
+                }
+                case PendingOp::Kind::Delete:
+                {
+                    if (!op.deleteTarget) break;
+                    // Selection cleanup: the validateAgainst() call
+                    // at the end of draw() will clear the selection
+                    // if it pointed at the deleted actor; but doing
+                    // it eagerly here saves one frame of UI lag and
+                    // any panels that read selection between now and
+                    // then still see a coherent state.
+                    if (selection_ && selection_->getSelected() == op.deleteTarget)
+                        selection_->clear();
+                    if (auto* parent = op.deleteTarget->getParent())
+                        parent->removeChild(*op.deleteTarget);
+                    break;
+                }
+            }
+        }
+        pendingOps_.clear();
     }
 }

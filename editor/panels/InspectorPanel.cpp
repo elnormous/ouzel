@@ -9,6 +9,7 @@
 #include "../../engine/gui/imgui/ImGuiInspector.hpp"
 #include "../../engine/math/Constants.hpp"
 #include "../../engine/math/Quaternion.hpp"
+#include "../../engine/reflection/TypeRegistry.hpp"
 #include "../../engine/scene/Actor.hpp"
 #include "../../engine/scene/Component.hpp"
 
@@ -161,37 +162,86 @@ namespace fluxion::editor
     void InspectorPanel::drawComponents(scene::Actor& actor)
     {
         const auto& components = actor.getComponents();
+
+        // Defer all add/remove ops until after the iteration finishes
+        // so we never mutate the components vector mid-loop. Each is
+        // applied below before drawComponents returns.
+        scene::Component* removeTarget = nullptr;
+        std::string addTypeName;
+
         if (components.empty())
         {
             ImGui::TextDisabled("(no components)");
-            return;
+        }
+        else
+        {
+            gui::imgui::Inspector inspector;
+            for (std::size_t i = 0; i < components.size(); ++i)
+            {
+                auto* comp = components[i];
+                if (!comp) continue;
+
+                const auto type = comp->typeName();
+                const std::string label = !type.empty()
+                    ? std::string{type}
+                    : std::string{"<unregistered component>"};
+
+                ImGui::PushID(static_cast<int>(i));
+                char header[160];
+                std::snprintf(header, sizeof(header), "%s##%zu",
+                              label.c_str(), i);
+
+                const bool open = ImGui::CollapsingHeader(
+                    header, ImGuiTreeNodeFlags_DefaultOpen);
+
+                // Per-component remove on the same row as the header,
+                // visually separated to the right edge of the panel.
+                ImGui::SameLine(ImGui::GetContentRegionAvail().x +
+                                ImGui::GetCursorPosX() - 24.0F);
+                if (ImGui::SmallButton("X"))
+                    removeTarget = comp;
+                if (ImGui::IsItemHovered())
+                    ImGui::SetTooltip("Remove component");
+
+                if (open)
+                {
+                    ImGui::Indent();
+                    comp->inspect(inspector);
+                    ImGui::Unindent();
+                }
+                ImGui::PopID();
+            }
         }
 
-        gui::imgui::Inspector inspector;
-        for (std::size_t i = 0; i < components.size(); ++i)
+        // Add Component button + popup. The popup lists every type
+        // currently registered with the engine's TypeRegistry, so
+        // anything someone adds via FLUXION_COMPONENT_REGISTER shows
+        // up here automatically without editor-side wiring.
+        ImGui::Separator();
+        if (ImGui::Button("Add Component"))
+            ImGui::OpenPopup("##add_component_popup");
+        if (ImGui::BeginPopup("##add_component_popup"))
         {
-            auto* comp = components[i];
-            if (!comp) continue;
+            const auto types = reflection::TypeRegistry::instance().listTypes();
+            if (types.empty())
+                ImGui::TextDisabled("(no registered component types)");
+            else
+                for (const auto& t : types)
+                    if (ImGui::MenuItem(t.c_str()))
+                        addTypeName = t;
+            ImGui::EndPopup();
+        }
 
-            const auto type = comp->typeName();
-            const std::string label = !type.empty()
-                ? std::string{type}
-                : std::string{"<unregistered component>"};
-
-            ImGui::PushID(static_cast<int>(i));
-            // ImGui treats "##" as the id separator; appending the
-            // index disambiguates two components of the same type on
-            // the same actor.
-            char header[160];
-            std::snprintf(header, sizeof(header), "%s##%zu", label.c_str(), i);
-
-            if (ImGui::CollapsingHeader(header, ImGuiTreeNodeFlags_DefaultOpen))
-            {
-                ImGui::Indent();
-                comp->inspect(inspector);
-                ImGui::Unindent();
-            }
-            ImGui::PopID();
+        // Apply deferred ops. Order matters only insofar as both can
+        // happen in the same frame from independent UI paths — the
+        // engine's addComponent/removeComponent are independent calls
+        // and either order is safe.
+        if (removeTarget)
+            actor.removeComponent(*removeTarget);
+        if (!addTypeName.empty())
+        {
+            auto comp = reflection::TypeRegistry::instance().create(addTypeName);
+            if (comp) actor.addComponent(std::move(comp));
         }
     }
 }
