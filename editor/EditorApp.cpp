@@ -79,6 +79,17 @@ namespace fluxion::editor
         a2->setName("Enemy");
         a2->setPosition(math::Vector<float, 3>{10.0F, 0.0F, 0.0F});
         workingLayer_.addChild(std::move(a2));
+
+        // Editor camera: clears the back buffer to a dark grey every
+        // frame so ImGui draws on top of a stable background. Without
+        // this the colour buffer is never cleared and previous frames
+        // smear visibly under the panels. Added last so the existing
+        // play-control self-test (which addresses kids[0] as Player)
+        // keeps its indexing.
+        editorCamera_.setClearColorBuffer(true);
+        editorCamera_.setClearColor(math::Color{32, 32, 40, 255});
+        editorCameraActor_.addComponent(editorCamera_);
+        workingLayer_.addChild(editorCameraActor_);
     }
 
     EditorApp::~EditorApp() = default;

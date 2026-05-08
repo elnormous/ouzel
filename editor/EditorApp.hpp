@@ -6,6 +6,8 @@
 #include <vector>
 #include "../engine/core/Application.hpp"
 #include "../engine/gui/imgui/ImGuiContext.hpp"
+#include "../engine/scene/Actor.hpp"
+#include "../engine/scene/Camera.hpp"
 #include "../engine/scene/Layer.hpp"
 #include "../engine/scene/Scene.hpp"
 #include "Panel.hpp"
@@ -44,6 +46,14 @@ namespace fluxion::editor
         // this scene via Camera into a render target for embedded display.
         scene::Scene workingScene_;
         scene::Layer workingLayer_;
+
+        // Editor camera. Owns the per-frame back-buffer clear so the
+        // ImGui pass on top renders against a stable background instead
+        // of accumulating previous frames. Held by value so the editor
+        // controls its lifetime and can keep the same camera across
+        // Play/Stop snapshots without rebuilding.
+        scene::Camera editorCamera_;
+        scene::Actor editorCameraActor_;
 
         std::vector<std::unique_ptr<Panel>> panels_;
     };
