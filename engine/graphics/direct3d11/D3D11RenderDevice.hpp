@@ -52,7 +52,19 @@ namespace fluxion::graphics::d3d11
         template <class T>
         auto getResource(std::size_t id) const
         {
-            return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
+            // Bounds check the id against the current resources vector.
+            // The render thread is the only writer of `resources`, so
+            // when this is called from the render thread (process loop,
+            // preSwapHook, etc.) the size we read is current. Cross-
+            // thread callers (e.g., the ImGui texture-handle accessor
+            // invoked during the per-frame draw callback) may legally
+            // hold an id whose Init command has not yet been processed
+            // — in that case we return null instead of indexing past
+            // the end. Internal users that expect the resource to
+            // already exist still see exactly the same behaviour.
+            return (id && id <= resources.size())
+                ? static_cast<T*>(resources[id - 1].get())
+                : nullptr;
         }
 
     private:

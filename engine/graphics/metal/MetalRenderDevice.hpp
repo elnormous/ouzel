@@ -73,7 +73,13 @@ namespace fluxion::graphics::metal
         template <class T>
         auto getResource(std::size_t id) const
         {
-            return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
+            // Bounds check matches D3D11RenderDevice::getResource:
+            // returns null when the id was allocated on the host but
+            // its Init command has not yet been processed by the
+            // render thread. See the D3D11 sibling for the rationale.
+            return (id && id <= resources.size())
+                ? static_cast<T*>(resources[id - 1].get())
+                : nullptr;
         }
 
     protected:
