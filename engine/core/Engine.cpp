@@ -691,11 +691,28 @@ namespace fluxion::core
                 diff = std::chrono::milliseconds(1000 / 20); // limit the update rate to a minimum 20 FPS
 
             previousUpdateTime = currentTime;
-            const auto delta = static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(diff).count()) / 1000000.0F;
+            const auto rawDelta = static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(diff).count()) / 1000000.0F;
+
+            // Editor "Step one frame" path: when pendingSteps > 0 we
+            // deliver real-time delta regardless of timeScale, then
+            // decrement the counter so the next frame returns to the
+            // scaled clock. Otherwise apply timeScale (may be 0 = pause).
+            float effectiveDelta;
+            int expected = pendingSteps.load(std::memory_order_acquire);
+            if (expected > 0 &&
+                pendingSteps.compare_exchange_strong(expected, expected - 1,
+                                                     std::memory_order_acq_rel))
+            {
+                effectiveDelta = rawDelta;
+            }
+            else
+            {
+                effectiveDelta = rawDelta * timeScale.load(std::memory_order_acquire);
+            }
 
             auto updateEvent = std::make_unique<UpdateEvent>();
             updateEvent->type = Event::Type::update;
-            updateEvent->delta = delta;
+            updateEvent->delta = effectiveDelta;
             eventDispatcher.dispatchEvent(std::move(updateEvent));
         }
 

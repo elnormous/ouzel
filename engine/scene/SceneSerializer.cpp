@@ -204,6 +204,13 @@ namespace fluxion::scene::serialization
     void layerFromJson(Layer& layer, const json::Value& obj)
     {
         if (!has<json::Array>(obj, "actors")) return;
+        // Replace, don't append: the snapshot represents the entire
+        // actor set the layer should have after load. Without this the
+        // editor's Play -> Stop cycle would double the actor count
+        // every round (the original actors would coexist with the
+        // restored copies), and a deserialize-into-an-already-populated
+        // scene would silently merge instead of replacing.
+        layer.removeAllChildren();
         const auto& arr = obj["actors"].as<json::Array>();
         for (const auto& a : arr)
         {

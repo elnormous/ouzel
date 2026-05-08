@@ -10,7 +10,9 @@
 #include "ImGuiInputBridge.hpp"
 #include "../../core/Engine.hpp"
 #include "../../graphics/Graphics.hpp"
+#include "../../graphics/Texture.hpp"
 #include "../../graphics/direct3d11/D3D11RenderDevice.hpp"
+#include "../../graphics/direct3d11/D3D11Texture.hpp"
 #include "imgui.h"
 #include "backends/imgui_impl_dx11.h"
 
@@ -94,6 +96,20 @@ namespace fluxion::gui::imgui
 
             bool wantsKeyboard() const noexcept override { return inputBridge.wantsKeyboard(); }
             bool wantsMouse() const noexcept override { return inputBridge.wantsMouse(); }
+
+            std::uint64_t textureNativeHandle(
+                const graphics::Texture& texture) const noexcept override
+            {
+                if (!deviceRef) return 0;
+                const std::size_t id = static_cast<std::size_t>(texture.getResource());
+                if (!id) return 0;
+                auto* d3dTex = deviceRef->getResource<graphics::d3d11::Texture>(id);
+                if (!d3dTex) return 0;
+                auto* srv = d3dTex->getResourceView().get();
+                // ImGui's D3D11 backend treats ImTextureID as the SRV
+                // pointer cast to a 64-bit integer.
+                return reinterpret_cast<std::uint64_t>(srv);
+            }
 
         private:
             using Clock = std::chrono::steady_clock;

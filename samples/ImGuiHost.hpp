@@ -18,7 +18,6 @@ namespace samples
         std::atomic<bool> showSmokeTest{true};
         std::atomic<bool> showTextRef{true};
         std::atomic<bool> showDemo{true};
-        std::atomic<bool> showReflection{true};
 
         // The Context's master switch is mirrored here only for convenience
         // (so the sample can toggle the button label between "Disable ImGui"

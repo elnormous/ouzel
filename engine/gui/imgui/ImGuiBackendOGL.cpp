@@ -10,7 +10,9 @@
 #include "ImGuiInputBridge.hpp"
 #include "../../core/Engine.hpp"
 #include "../../graphics/Graphics.hpp"
+#include "../../graphics/Texture.hpp"
 #include "../../graphics/opengl/OGLRenderDevice.hpp"
+#include "../../graphics/opengl/OGLTexture.hpp"
 #include "imgui.h"
 #include "backends/imgui_impl_opengl3.h"
 
@@ -76,6 +78,19 @@ namespace fluxion::gui::imgui
 
             bool wantsKeyboard() const noexcept override { return inputBridge.wantsKeyboard(); }
             bool wantsMouse() const noexcept override { return inputBridge.wantsMouse(); }
+
+            std::uint64_t textureNativeHandle(
+                const graphics::Texture& texture) const noexcept override
+            {
+                if (!deviceRef) return 0;
+                const std::size_t id = static_cast<std::size_t>(texture.getResource());
+                if (!id) return 0;
+                auto* oglTex = deviceRef->getResource<graphics::opengl::Texture>(id);
+                if (!oglTex) return 0;
+                // ImGui's OpenGL3 backend treats ImTextureID as the
+                // GLuint texture name zero-extended into 64 bits.
+                return static_cast<std::uint64_t>(oglTex->getTextureId());
+            }
 
         private:
             using Clock = std::chrono::steady_clock;

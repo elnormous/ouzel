@@ -1,12 +1,18 @@
 #ifndef FLUXION_GUI_IMGUI_IMGUIBACKEND_HPP
 #define FLUXION_GUI_IMGUI_IMGUIBACKEND_HPP
 
+#include <cstdint>
 #include <functional>
 #include <memory>
 
 namespace fluxion::core
 {
     class Engine;
+}
+
+namespace fluxion::graphics
+{
+    class Texture;
 }
 
 namespace fluxion::gui::imgui
@@ -29,6 +35,20 @@ namespace fluxion::gui::imgui
 
         virtual bool wantsKeyboard() const noexcept = 0;
         virtual bool wantsMouse() const noexcept = 0;
+
+        // Returns the renderer-native handle for `texture` packed into a
+        // 64-bit value, suitable for passing to ImGui::Image as
+        // ImTextureID. The exact contents differ per backend:
+        //   * Direct3D 11 — ID3D11ShaderResourceView* (cast from pointer)
+        //   * OpenGL      — GLuint texture name (zero-extended)
+        //   * Metal       — id<MTLTexture> (__bridge cast from pointer)
+        // Returns 0 when the GPU resource has not been created yet
+        // (e.g., the engine has not rendered a frame), or when the
+        // texture lacks the bindShader flag. Callers must skip
+        // ImGui::Image when the handle is 0 to avoid undefined ImGui
+        // behaviour.
+        virtual std::uint64_t textureNativeHandle(
+            const graphics::Texture& texture) const noexcept = 0;
     };
 
     // Factory: picks the appropriate backend based on the engine's active
