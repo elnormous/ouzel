@@ -131,16 +131,3 @@ $ sudo ln -s /opt/vc/lib/libGLESv2.so /opt/vc/lib/libbrcmGLESv2.so
 * Windows 7+ with Visual Studio 2017 or newer
 * macOS 10.10+ with Xcode 10+
 * Any reasonable new Linux distro (x86 and ARM are supported) with gcc 7+ or clang 5+
-
-## Getting help
-
-You can ask question in the following locations:
-
-* Fluxion Twitter account: https://twitter.com/ouzelengine
-* Fluxion server on Discord: https://discord.gg/4sWuJE8
-* Author of the Fluxion engine: https://twitter.com/elnormous
-* Development roadmap: https://trello.com/b/5tRlUXKR/ouzel-roadmap
-
-## License
-
-Fluxion codebase is released to the Public Domain
