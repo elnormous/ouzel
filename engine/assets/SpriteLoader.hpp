@@ -10,6 +10,7 @@ namespace fluxion::assets
 {
     inline bool loadSprite(Cache&,
                            Bundle& bundle,
+                           const Uuid& uuid,
                            const std::string& name,
                            const std::vector<std::byte>& data,
                            const Asset::Options& options)
@@ -129,7 +130,7 @@ namespace fluxion::assets
 
         spriteData.animations[""] = std::move(animation);
 
-        bundle.setSpriteData(name, spriteData);
+        bundle.setSpriteData(name, spriteData, uuid);
 
         return true;
     }

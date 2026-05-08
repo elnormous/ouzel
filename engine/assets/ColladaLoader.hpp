@@ -10,6 +10,7 @@ namespace fluxion::assets
 {
     inline bool loadCollada(Cache&,
                             Bundle& bundle,
+                            const Uuid& uuid,
                             const std::string& name,
                             const std::vector<std::byte>& data,
                             const Asset::Options&)
@@ -28,7 +29,7 @@ namespace fluxion::assets
 
         // TODO: load the model
 
-        bundle.setSkinnedMeshData(name, std::move(meshData));
+        bundle.setSkinnedMeshData(name, std::move(meshData), uuid);
 
         return true;
     }

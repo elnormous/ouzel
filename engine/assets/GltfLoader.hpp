@@ -9,6 +9,7 @@ namespace fluxion::assets
 {
     inline bool loadGltf(Cache&,
                          Bundle& bundle,
+                         const Uuid& uuid,
                          const std::string& name,
                          const std::vector<std::byte>& data,
                          const Asset::Options&)
@@ -19,7 +20,7 @@ namespace fluxion::assets
         [[maybe_unused]] const auto& meshesValue = d["meshes"];
 
         scene::SkinnedMeshData skinnedMeshData;
-        bundle.setSkinnedMeshData(name, std::move(skinnedMeshData));
+        bundle.setSkinnedMeshData(name, std::move(skinnedMeshData), uuid);
 
         return true;
     }

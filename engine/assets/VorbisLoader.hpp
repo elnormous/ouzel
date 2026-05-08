@@ -9,6 +9,7 @@ namespace fluxion::assets
 {
     inline bool loadVorbis(Cache&,
                            Bundle& bundle,
+                           const Uuid& uuid,
                            const std::string& name,
                            const std::vector<std::byte>& data,
                            const Asset::Options&)
@@ -16,7 +17,7 @@ namespace fluxion::assets
         try
         {
             auto sound = std::make_unique<audio::VorbisClip>(engine->getAudio(), data);
-            bundle.setSound(name, std::move(sound));
+            bundle.setSound(name, std::move(sound), uuid);
         }
         catch (const std::exception&)
         {

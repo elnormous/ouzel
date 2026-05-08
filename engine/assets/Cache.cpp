@@ -71,6 +71,15 @@ namespace fluxion::assets
         return nullptr;
     }
 
+    std::shared_ptr<graphics::Texture> Cache::getTexture(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto texture = bundle->getTexture(uuid))
+                return texture;
+
+        return nullptr;
+    }
+
     const graphics::Shader* Cache::getShader(std::string_view name) const
     {
         for (const auto bundle : bundles)
@@ -107,10 +116,28 @@ namespace fluxion::assets
         return nullptr;
     }
 
+    const scene::SpriteData* Cache::getSpriteData(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto spriteData = bundle->getSpriteData(uuid))
+                return spriteData;
+
+        return nullptr;
+    }
+
     const scene::ParticleSystemData* Cache::getParticleSystemData(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto particleSystemData = bundle->getParticleSystemData(name))
+                return particleSystemData;
+
+        return nullptr;
+    }
+
+    const scene::ParticleSystemData* Cache::getParticleSystemData(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto particleSystemData = bundle->getParticleSystemData(uuid))
                 return particleSystemData;
 
         return nullptr;
@@ -125,10 +152,28 @@ namespace fluxion::assets
         return nullptr;
     }
 
+    const gui::Font* Cache::getFont(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto font = bundle->getFont(uuid))
+                return font;
+
+        return nullptr;
+    }
+
     const audio::Cue* Cache::getCue(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto cue = bundle->getCue(name))
+                return cue;
+
+        return nullptr;
+    }
+
+    const audio::Cue* Cache::getCue(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto cue = bundle->getCue(uuid))
                 return cue;
 
         return nullptr;
@@ -143,10 +188,28 @@ namespace fluxion::assets
         return nullptr;
     }
 
+    const audio::Sound* Cache::getSound(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto sound = bundle->getSound(uuid))
+                return sound;
+
+        return nullptr;
+    }
+
     const graphics::Material* Cache::getMaterial(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto material = bundle->getMaterial(name))
+                return material;
+
+        return nullptr;
+    }
+
+    const graphics::Material* Cache::getMaterial(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto material = bundle->getMaterial(uuid))
                 return material;
 
         return nullptr;
@@ -161,10 +224,28 @@ namespace fluxion::assets
         return nullptr;
     }
 
+    const scene::SkinnedMeshData* Cache::getSkinnedMeshData(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto meshData = bundle->getSkinnedMeshData(uuid))
+                return meshData;
+
+        return nullptr;
+    }
+
     const scene::StaticMeshData* Cache::getStaticMeshData(std::string_view name) const
     {
         for (const auto bundle : bundles)
             if (const auto meshData = bundle->getStaticMeshData(name))
+                return meshData;
+
+        return nullptr;
+    }
+
+    const scene::StaticMeshData* Cache::getStaticMeshData(const Uuid& uuid) const
+    {
+        for (const auto bundle : bundles)
+            if (const auto meshData = bundle->getStaticMeshData(uuid))
                 return meshData;
 
         return nullptr;

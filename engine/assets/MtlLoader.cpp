@@ -209,6 +209,7 @@ namespace fluxion::assets
 
     bool loadMtl(Cache& cache,
                  Bundle& bundle,
+                 const Uuid& uuid,
                  const std::string& name,
                  const std::vector<std::byte>& data,
                  const Asset::Options& options)
@@ -251,7 +252,7 @@ namespace fluxion::assets
                         material->opacity = opacity;
                         material->cullMode = graphics::CullMode::back;
 
-                        bundle.setMaterial(materialName, std::move(material));
+                        bundle.setMaterial(materialName, std::move(material), uuid);
                     }
 
                     skipWhiteSpaces(iterator, data.end());
@@ -375,7 +376,7 @@ namespace fluxion::assets
             material->opacity = opacity;
             material->cullMode = graphics::CullMode::back;
 
-            bundle.setMaterial(materialName, std::move(material));
+            bundle.setMaterial(materialName, std::move(material), uuid);
         }
 
         return true;

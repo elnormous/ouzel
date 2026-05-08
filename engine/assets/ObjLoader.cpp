@@ -176,6 +176,7 @@ namespace fluxion::assets
 
     bool loadObj(Cache&,
                  Bundle& bundle,
+                 const Uuid& uuid,
                  const std::string& name,
                  const std::vector<std::byte>& data,
                  const Asset::Options& options)
@@ -233,7 +234,7 @@ namespace fluxion::assets
                     if (objectCount)
                     {
                         scene::StaticMeshData meshData(boundingBox, indices, vertices, material);
-                        bundle.setStaticMeshData(objectName, std::move(meshData));
+                        bundle.setStaticMeshData(objectName, std::move(meshData), uuid);
                     }
 
                     skipWhiteSpaces(iterator, data.end());
@@ -389,7 +390,7 @@ namespace fluxion::assets
         if (objectCount)
         {
             scene::StaticMeshData meshData(boundingBox, indices, vertices, material);
-            bundle.setStaticMeshData(objectName, std::move(meshData));
+            bundle.setStaticMeshData(objectName, std::move(meshData), uuid);
         }
 
         return true;

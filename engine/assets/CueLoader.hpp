@@ -98,6 +98,7 @@ namespace fluxion::assets
 
     inline bool loadCue(Cache&,
                         Bundle& bundle,
+                        const Uuid& uuid,
                         const std::string& name,
                         const std::vector<std::byte>& data,
                         const Asset::Options&)
@@ -110,7 +111,7 @@ namespace fluxion::assets
 
         auto cue = std::make_unique<audio::Cue>(sourceDefinition);
 
-        bundle.setCue(name, std::move(cue));
+        bundle.setCue(name, std::move(cue), uuid);
 
         return true;
     }

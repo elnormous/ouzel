@@ -27,6 +27,7 @@ namespace fluxion::assets
 {
     bool loadWave(Cache&,
                   Bundle& bundle,
+                  const Uuid& uuid,
                   const std::string& name,
                   const std::vector<std::byte>& data,
                   const Asset::Options&)
@@ -260,7 +261,7 @@ namespace fluxion::assets
             }
 
             auto sound = std::make_unique<audio::PcmClip>(engine->getAudio(), channels, sampleRate, samples);
-            bundle.setSound(name, std::move(sound));
+            bundle.setSound(name, std::move(sound), uuid);
         }
         catch (const std::exception&)
         {

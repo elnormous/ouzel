@@ -9,6 +9,7 @@ namespace fluxion::assets
 {
     inline bool loadTtf(Cache&,
                         Bundle& bundle,
+                        const Uuid& uuid,
                         const std::string& name,
                         const std::vector<std::byte>& data,
                         const Asset::Options& options)
@@ -17,7 +18,7 @@ namespace fluxion::assets
         {
             // TODO: move the loader here
             auto font = std::make_unique<gui::TTFont>(data, options.mipmaps);
-            bundle.setFont(name, std::move(font));
+            bundle.setFont(name, std::move(font), uuid);
         }
         catch (const std::exception&)
         {

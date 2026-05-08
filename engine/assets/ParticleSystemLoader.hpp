@@ -10,6 +10,7 @@ namespace fluxion::assets
 {
     inline bool loadParticleSystem(Cache&,
                                    Bundle& bundle,
+                                   const Uuid& uuid,
                                    const std::string& name,
                                    const std::vector<std::byte>& data,
                                    const Asset::Options& options)
@@ -116,7 +117,7 @@ namespace fluxion::assets
 
         particleSystemData.emissionRate = static_cast<float>(particleSystemData.maxParticles) / particleSystemData.particleLifespan;
 
-        bundle.setParticleSystemData(name, particleSystemData);
+        bundle.setParticleSystemData(name, particleSystemData, uuid);
 
         return true;
     }
