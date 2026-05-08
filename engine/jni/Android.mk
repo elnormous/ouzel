@@ -12,7 +12,8 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/.. \
     $(LOCAL_PATH)/../../shaders \
     $(LOCAL_PATH)/../../external/khronos \
     $(LOCAL_PATH)/../../external/smbPitchShift \
-    $(LOCAL_PATH)/../../external/stb
+    $(LOCAL_PATH)/../../external/stb \
+    $(LOCAL_PATH)/../../external/imgui
 
 LOCAL_SRC_FILES := ../assets/Bundle.cpp \
     ../assets/Cache.cpp \
@@ -66,6 +67,22 @@ LOCAL_SRC_FILES := ../assets/Bundle.cpp \
     ../gui/BMFont.cpp \
     ../gui/TTFont.cpp \
     ../gui/Widgets.cpp \
+    ../gui/imgui/ImGuiBackendD3D11.cpp \
+    ../gui/imgui/ImGuiBackendFactory.cpp \
+    ../gui/imgui/ImGuiBackendOGL.cpp \
+    ../gui/imgui/ImGuiContext.cpp \
+    ../gui/imgui/ImGuiInputBridge.cpp \
+    ../gui/imgui/ImGuiInspector.cpp \
+    ../gui/imgui/ImGuiKeyMap.cpp \
+    ../reflection/JsonInspector.cpp \
+    ../reflection/TypeRegistry.cpp \
+    ../utils/Uuid.cpp \
+    ../../external/imgui/imgui.cpp \
+    ../../external/imgui/imgui_demo.cpp \
+    ../../external/imgui/imgui_draw.cpp \
+    ../../external/imgui/imgui_tables.cpp \
+    ../../external/imgui/imgui_widgets.cpp \
+    ../../external/imgui/backends/imgui_impl_opengl3.cpp \
     ../input/android/GamepadDeviceAndroid.cpp \
     ../input/android/InputSystemAndroid.cpp \
     ../input/Cursor.cpp \

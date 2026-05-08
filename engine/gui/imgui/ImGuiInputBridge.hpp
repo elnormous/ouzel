@@ -3,6 +3,7 @@
 
 #include <atomic>
 #include <mutex>
+#include <optional>
 #include <vector>
 #include "imgui.h"
 #include "../../events/EventHandler.hpp"
@@ -54,7 +55,8 @@ namespace fluxion::gui::imgui
         {
             enum class Kind : std::uint8_t { mouseMove, mouseButton, mouseScroll, key, focus };
             Kind kind;
-            // mouseMove: normalized [0..1] window position, Fluxion Y-up
+            // mouseMove: normalized [0..1] window position (Y-down per
+            // Window::convertWindowToNormalizedLocation)
             float nx = 0.0F, ny = 0.0F;
             // mouseButton: ImGui index (0..4); down flag in `pressed`
             // mouseScroll: dx, dy in `nx`, `ny`
@@ -65,6 +67,19 @@ namespace fluxion::gui::imgui
 
         bool handleMouse(const MouseEvent& event);
         bool handleKeyboard(const KeyboardEvent& event);
+        // Touch events on iOS/Android/Emscripten are mapped to ImGui's
+        // virtual mouse so a touchscreen user can drive the editor UI
+        // without a dedicated touch path. Only the primary touch (the
+        // first finger down) is forwarded as a left-mouse drag; secondary
+        // fingers are ignored — multi-touch gestures are out of scope
+        // for this iteration.
+        bool handleTouch(const TouchEvent& event);
+
+        // Identifier of the touch we are currently treating as the primary
+        // pointer; std::nullopt means no touch is active. Tracked so that
+        // releasing a non-primary finger (e.g. a second tap) does not lift
+        // the simulated mouse button.
+        std::optional<std::uint64_t> primaryTouchId_;
 
         EventDispatcher& dispatcher_;
         EventHandler handler_;

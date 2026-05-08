@@ -55,11 +55,17 @@ használja** a deszerializáláshoz, ezért az nem editor-only.
 Minden új source-fájl bekerül **mindhárom** build-rendszerbe:
 - `engine/libfluxion.vcxproj` (+ `.filters`) — Visual Studio
 - `engine/libouzel.xcodeproj/project.pbxproj` — Xcode (macOS/iOS/tvOS)
-- `engine/Makefile` — GNU make (Linux/Emscripten)
-- Android Gradle: a `samples/android/app/build.gradle` glob mintát használ,
-  általában automatikus
+- `engine/Makefile` — GNU make (Linux/macOS CLI/Emscripten)
+- `engine/jni/Android.mk` — Android NDK ndkBuild
 
 Minden fázis végén `git grep` a fájlnévre mind a négy helyen.
+
+**Xcode pbxproj megjegyzés**: a `.pbxproj` fájl belső UUID-azonosítókkal hivatkozik
+fájlokra, és a kézi szerkesztés könnyen korrupt projektet eredményez. A Xcode-os
+verziófrissítések során a hozzáadás Xcode UI-on keresztül történjen
+(File → Add Files to "libouzel"…), vagy a [`xcodeproj` Ruby gem](https://github.com/CocoaPods/Xcodeproj)
+parancssoros API-jával. A Makefile build viszont működik macOS-en is (CLI buildhez),
+így a Xcode-frissítés kihagyható ha nincs Xcode-szintű igény.
 
 ---
 
