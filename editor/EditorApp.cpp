@@ -2,6 +2,7 @@
 
 #include "imgui.h"
 #include "../engine/core/Engine.hpp"
+#include "../engine/core/Window.hpp"
 #include "../engine/graphics/Graphics.hpp"
 #include "../engine/reflection/JsonInspector.hpp"
 #include "../engine/reflection/TypeRegistry.hpp"
@@ -10,6 +11,7 @@
 #include "../engine/scene/Component.hpp"
 #include "../engine/scene/Layer.hpp"
 #include "../engine/scene/Scene.hpp"
+#include "../engine/scene/SceneManager.hpp"
 #include "../engine/scene/SceneSerializer.hpp"
 #include "panels/InfoPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
@@ -20,8 +22,18 @@ namespace fluxion::editor
     EditorApp::EditorApp(): imgui_{*engine}
     {
         engine->setScreenSaverEnabled(false);
+        // Override the engine-baked FLUXION_APPLICATION_NAME ("sample") at
+        // runtime; we share a single libfluxion with the samples binary.
+        engine->getWindow().setTitle("Fluxion Editor");
 
         buildTestScene();
+
+        // Hand the working scene to the SceneManager so the engine's
+        // render loop runs. Without an active scene Scene::draw isn't
+        // called, Graphics::present is never queued, and the render
+        // device's preSwapHook (where ImGui draws) never fires —
+        // which is what produced the all-white window.
+        engine->getSceneManager().setScene(workingScene_);
 
         // Self-tests run once at startup. Their results are passed to
         // the InfoPanel so the user sees them on first frame; failures
@@ -160,8 +172,9 @@ namespace fluxion::editor
         //   4. assert the position is back to the original
         const auto& kids = workingLayer_.getChildren();
         if (kids.size() < 2) return "FAIL: test scene not built";
-
+        const std::size_t originalCount = kids.size();
         const auto originalPos = kids[0]->getPosition();
+
         json::Value snapshot;
         try { snapshot = scene::serialization::sceneToJson(workingScene_); }
         catch (const std::exception& e) { return std::string{"FAIL snapshot: "} + e.what(); }
@@ -171,25 +184,18 @@ namespace fluxion::editor
         try { scene::serialization::sceneFromJson(workingScene_, snapshot); }
         catch (const std::exception& e) { return std::string{"FAIL restore: "} + e.what(); }
 
-        // Re-fetch children after restore: deserialization reuses the
-        // existing Layer (per phase 3.5 design) and adds the loaded
-        // actors as new children, so the post-restore vector has 4
-        // entries (originals + restored copies). The first two retain
-        // mutation state; the last two carry the original positions.
+        // After the phase 4 fix: layerFromJson clears existing children
+        // before populating, so the actor count returns to its pre-
+        // snapshot value (no doubling). The restored Player at index 0
+        // carries the original position.
         const auto& after = workingLayer_.getChildren();
-        if (after.size() < 4) return "FAIL: actor count after restore";
-        const auto& restoredPos = after[2]->getPosition();
+        if (after.size() != originalCount)
+            return "FAIL: actor count drifted across restore";
+        const auto& restoredPos = after[0]->getPosition();
         if (restoredPos.v[0] != originalPos.v[0] ||
             restoredPos.v[1] != originalPos.v[1] ||
             restoredPos.v[2] != originalPos.v[2])
             return "FAIL: restored position does not match original";
-
-        // Clean up the test artefacts so the panel sees the original
-        // two-actor scene. We remove the mutated original and the
-        // surplus restored copy of Enemy, keeping the restored Player
-        // and the original Enemy at index 1.
-        workingLayer_.removeChild(*after[0]);   // mutated Player
-        workingLayer_.removeChild(*after[3]);   // restored Enemy duplicate
 
         return "PASS (snapshot/restore round-trip)";
     }
