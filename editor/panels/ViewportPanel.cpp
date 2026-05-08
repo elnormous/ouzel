@@ -102,10 +102,11 @@ namespace fluxion::editor
         ImGui::SetNextWindowSize(ImVec2(640, 480), ImGuiCond_FirstUseEver);
         ImGui::Begin(displayName_.c_str());
 
-        // Tiny header strip above the image showing the active gizmo
-        // mode. Q = translate, W = rotate, E = scale (Unity-style).
-        // 5c-4 will turn this into a proper toolbar with clickable
-        // buttons + a local/world-space toggle.
+        // Toolbar above the image: mode buttons (T/R/S) + a Local/
+        // World space toggle. Keyboard shortcuts (Q/W/E) still work
+        // when the viewport window has focus, mirroring Unity's
+        // bindings. The active mode button gets a tinted background
+        // so the user can see at a glance which manipulator is on.
         if (ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows))
         {
             if (ImGui::IsKeyPressed(ImGuiKey_Q, /*repeat*/ false))
@@ -115,11 +116,33 @@ namespace fluxion::editor
             if (ImGui::IsKeyPressed(ImGuiKey_E, /*repeat*/ false))
                 gizmo_.setMode(Gizmo::Mode::Scale);
         }
-        const char* modeLabel =
-            gizmo_.getMode() == Gizmo::Mode::Translate ? "Translate (Q)"
-            : gizmo_.getMode() == Gizmo::Mode::Rotate ? "Rotate (W)"
-            : "Scale (E)";
-        ImGui::TextDisabled("Gizmo: %s", modeLabel);
+
+        auto modeButton = [&](const char* label, Gizmo::Mode mode) {
+            const bool active = gizmo_.getMode() == mode;
+            if (active)
+                ImGui::PushStyleColor(ImGuiCol_Button,
+                                      ImVec4(0.30F, 0.55F, 0.85F, 1.0F));
+            if (ImGui::Button(label))
+                gizmo_.setMode(mode);
+            if (active)
+                ImGui::PopStyleColor();
+            ImGui::SameLine();
+        };
+        modeButton("Translate", Gizmo::Mode::Translate);
+        modeButton("Rotate",    Gizmo::Mode::Rotate);
+        modeButton("Scale",     Gizmo::Mode::Scale);
+
+        ImGui::Dummy(ImVec2(12.0F, 0.0F));
+        ImGui::SameLine();
+
+        const bool localSpace = gizmo_.getSpace() == Gizmo::Space::Local;
+        if (ImGui::Button(localSpace ? "Local" : "World"))
+            gizmo_.setSpace(localSpace ? Gizmo::Space::World
+                                       : Gizmo::Space::Local);
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip(
+                "Reference frame for translate / rotate handles.\n"
+                "Scale always edits the actor's local components.");
 
         const ImVec2 avail = ImGui::GetContentRegionAvail();
         if (avail.x < 1.0F || avail.y < 1.0F)

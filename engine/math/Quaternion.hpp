@@ -340,7 +340,12 @@ namespace fluxion::math
     [[nodiscard]] auto rotatedVector(const math::Vector<T, 3>& vec,
                                      const Quaternion<T>& quat) noexcept
     {
-        constexpr math::Vector<T, 3> q{quat.v[0], quat.v[1], quat.v[2]};
+        // The xyz part of the quaternion is the rotation axis times
+        // sin(angle/2). Pulling it out into a Vector lets the rest of
+        // the formula read like the standard Rodrigues-style identity.
+        // (Was `constexpr` previously, but `quat.v[0]` is a runtime
+        // value — instantiating this template tripped C2131.)
+        const math::Vector<T, 3> q{quat.v[0], quat.v[1], quat.v[2]};
         const auto t = T(2) * cross(q, vec);
         return vec + (quat.v[3] * t) + cross(q, t);
     }
@@ -349,25 +354,25 @@ namespace fluxion::math
     [[nodiscard]] auto operator*(const Quaternion<T>& quat,
                                  const math::Vector<T, 3>& vec) noexcept
     {
-        return rotateVector(vec, quat);
+        return rotatedVector(vec, quat);
     }
 
     template <typename T>
     [[nodiscard]] auto getRightVector(const Quaternion<T>& quat) noexcept
     {
-        return rotateVector(math::Vector<T, 3>{T(1), T(0), T(0)}, quat);
+        return rotatedVector(math::Vector<T, 3>{T(1), T(0), T(0)}, quat);
     }
 
     template <typename T>
     [[nodiscard]] auto getUpVector(const Quaternion<T>& quat) noexcept
     {
-        return rotateVector(math::Vector<T, 3>{T(0), T(1), T(0)}, quat);
+        return rotatedVector(math::Vector<T, 3>{T(0), T(1), T(0)}, quat);
     }
 
     template <typename T>
     [[nodiscard]] auto getForwardVector(const Quaternion<T>& quat) noexcept
     {
-        return rotateVector(math::Vector<T, 3>{T(0), T(0), T(1)}, quat);
+        return rotatedVector(math::Vector<T, 3>{T(0), T(0), T(1)}, quat);
     }
 
     template <typename T>

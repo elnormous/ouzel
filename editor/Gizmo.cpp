@@ -171,6 +171,28 @@ namespace fluxion::editor
             while (a <= -math::pi<float>) a += twoPi;
             return a;
         }
+
+        // Three basis vectors used for axis directions in the gizmo.
+        // World mode = identity basis. Local mode = the actor's
+        // rotated basis, so handles follow the actor's orientation.
+        struct AxisBasis
+        {
+            math::Vector<float, 3> x, y, z;
+        };
+
+        AxisBasis computeBasis(bool useLocal,
+                               const math::Quaternion<float>& rotation)
+        {
+            if (useLocal)
+                return AxisBasis{
+                    math::getRightVector(rotation),
+                    math::getUpVector(rotation),
+                    math::getForwardVector(rotation)};
+            return AxisBasis{
+                math::Vector<float, 3>{1.0F, 0.0F, 0.0F},
+                math::Vector<float, 3>{0.0F, 1.0F, 0.0F},
+                math::Vector<float, 3>{0.0F, 0.0F, 1.0F}};
+        }
     }
 
     bool Gizmo::update(scene::Actor* selectedActor,
@@ -202,15 +224,26 @@ namespace fluxion::editor
                                const math::Vector<float, 2>& imgMax)
     {
         const auto pos = actor.getPosition();
+        const auto basis = computeBasis(space_ == Space::Local,
+                                        actor.getRotation());
         const auto sPos = projectToImageRect(camera, pos, imgMin, imgMax);
         const auto axisX = projectAxis(camera,
-            math::Vector<float, 3>{pos.v[0] + kAxisLengthWorld, pos.v[1], pos.v[2]},
+            math::Vector<float, 3>{
+                pos.v[0] + basis.x.v[0] * kAxisLengthWorld,
+                pos.v[1] + basis.x.v[1] * kAxisLengthWorld,
+                pos.v[2] + basis.x.v[2] * kAxisLengthWorld},
             sPos, imgMin, imgMax);
         const auto axisY = projectAxis(camera,
-            math::Vector<float, 3>{pos.v[0], pos.v[1] + kAxisLengthWorld, pos.v[2]},
+            math::Vector<float, 3>{
+                pos.v[0] + basis.y.v[0] * kAxisLengthWorld,
+                pos.v[1] + basis.y.v[1] * kAxisLengthWorld,
+                pos.v[2] + basis.y.v[2] * kAxisLengthWorld},
             sPos, imgMin, imgMax);
         const auto axisZ = projectAxis(camera,
-            math::Vector<float, 3>{pos.v[0], pos.v[1], pos.v[2] + kAxisLengthWorld},
+            math::Vector<float, 3>{
+                pos.v[0] + basis.z.v[0] * kAxisLengthWorld,
+                pos.v[1] + basis.z.v[1] * kAxisLengthWorld,
+                pos.v[2] + basis.z.v[2] * kAxisLengthWorld},
             sPos, imgMin, imgMax);
 
         const ImVec2 mouse = ImGui::GetMousePos();
@@ -265,19 +298,19 @@ namespace fluxion::editor
                 switch (dragAxis_)
                 {
                     case Axis::X:
-                        axisWorld = math::Vector<float, 3>{1.0F, 0.0F, 0.0F};
+                        axisWorld = basis.x;
                         axisScreen = math::Vector<float, 2>{
                             axisX.end.v[0] - sPos.v[0],
                             axisX.end.v[1] - sPos.v[1]};
                         break;
                     case Axis::Y:
-                        axisWorld = math::Vector<float, 3>{0.0F, 1.0F, 0.0F};
+                        axisWorld = basis.y;
                         axisScreen = math::Vector<float, 2>{
                             axisY.end.v[0] - sPos.v[0],
                             axisY.end.v[1] - sPos.v[1]};
                         break;
                     case Axis::Z:
-                        axisWorld = math::Vector<float, 3>{0.0F, 0.0F, 1.0F};
+                        axisWorld = basis.z;
                         axisScreen = math::Vector<float, 2>{
                             axisZ.end.v[0] - sPos.v[0],
                             axisZ.end.v[1] - sPos.v[1]};
@@ -346,23 +379,19 @@ namespace fluxion::editor
                             const math::Vector<float, 2>& imgMax)
     {
         const auto pos = actor.getPosition();
+        const auto basis = computeBasis(space_ == Space::Local,
+                                        actor.getRotation());
         const auto sPos = projectToImageRect(camera, pos, imgMin, imgMax);
 
-        // World-axis rings: each spans the plane perpendicular to its
-        // axis. (We keep WORLD orientation for now; local-space rings
-        // are a 5c-4 follow-up alongside the mode-switch UI.)
+        // Each ring spans the plane perpendicular to its axis. World
+        // mode = world-aligned rings; Local mode = rings tilted with
+        // the actor so they line up with the actor's own axes.
         const auto ringX = projectRing(camera, pos,
-            math::Vector<float, 3>{0.0F, 1.0F, 0.0F},
-            math::Vector<float, 3>{0.0F, 0.0F, 1.0F},
-            imgMin, imgMax);
+            basis.y, basis.z, imgMin, imgMax);
         const auto ringY = projectRing(camera, pos,
-            math::Vector<float, 3>{1.0F, 0.0F, 0.0F},
-            math::Vector<float, 3>{0.0F, 0.0F, 1.0F},
-            imgMin, imgMax);
+            basis.x, basis.z, imgMin, imgMax);
         const auto ringZ = projectRing(camera, pos,
-            math::Vector<float, 3>{1.0F, 0.0F, 0.0F},
-            math::Vector<float, 3>{0.0F, 1.0F, 0.0F},
-            imgMin, imgMax);
+            basis.x, basis.y, imgMin, imgMax);
 
         const ImVec2 mouse = ImGui::GetMousePos();
         const math::Vector<float, 2> mousePos{mouse.x, mouse.y};
@@ -423,26 +452,34 @@ namespace fluxion::editor
                 accumulatedAngle_ += wrapToPi(angleNow - prevAngle_);
                 prevAngle_ = angleNow;
 
-                math::Vector<float, 3> axisWorld{};
+                math::Vector<float, 3> axisDir{};
                 switch (dragAxis_)
                 {
                     case Axis::X:
-                        axisWorld = math::Vector<float, 3>{1.0F, 0.0F, 0.0F};
+                        axisDir = math::Vector<float, 3>{1.0F, 0.0F, 0.0F};
                         break;
                     case Axis::Y:
-                        axisWorld = math::Vector<float, 3>{0.0F, 1.0F, 0.0F};
+                        axisDir = math::Vector<float, 3>{0.0F, 1.0F, 0.0F};
                         break;
                     case Axis::Z:
-                        axisWorld = math::Vector<float, 3>{0.0F, 0.0F, 1.0F};
+                        axisDir = math::Vector<float, 3>{0.0F, 0.0F, 1.0F};
                         break;
                     case Axis::None: break;
                 }
 
                 math::Quaternion<float> deltaQuat;
-                math::setRotation(deltaQuat, accumulatedAngle_, axisWorld);
-                // Pre-multiply: world-space rotation around the axis,
-                // applied on top of the actor's start orientation.
-                actor.setRotation(deltaQuat * dragStartRotation_);
+                math::setRotation(deltaQuat, accumulatedAngle_, axisDir);
+                // World mode = pre-multiply: rotate around the world
+                // axis on top of the actor's start orientation.
+                // Local mode = post-multiply: the rotation happens in
+                // the LOCAL frame established by startRotation, so
+                // axis (1,0,0) is the actor's local X regardless of
+                // its current orientation. Both are textbook quaternion
+                // composition rules.
+                if (space_ == Space::Local)
+                    actor.setRotation(dragStartRotation_ * deltaQuat);
+                else
+                    actor.setRotation(deltaQuat * dragStartRotation_);
                 claimedMouse = true;
             }
         }
@@ -494,15 +531,31 @@ namespace fluxion::editor
                            const math::Vector<float, 2>& imgMax)
     {
         const auto pos = actor.getPosition();
+        // Scale is per-component on the actor's own scale vector, so
+        // the handles always live on the actor's local axes — even
+        // when the gizmo Space is set to World for the other modes.
+        // Visually showing world-aligned handles for scale while the
+        // numbers modify local components would mismatch and confuse.
+        const auto basis = computeBasis(/*useLocal*/ true,
+                                        actor.getRotation());
         const auto sPos = projectToImageRect(camera, pos, imgMin, imgMax);
         const auto axisX = projectAxis(camera,
-            math::Vector<float, 3>{pos.v[0] + kAxisLengthWorld, pos.v[1], pos.v[2]},
+            math::Vector<float, 3>{
+                pos.v[0] + basis.x.v[0] * kAxisLengthWorld,
+                pos.v[1] + basis.x.v[1] * kAxisLengthWorld,
+                pos.v[2] + basis.x.v[2] * kAxisLengthWorld},
             sPos, imgMin, imgMax);
         const auto axisY = projectAxis(camera,
-            math::Vector<float, 3>{pos.v[0], pos.v[1] + kAxisLengthWorld, pos.v[2]},
+            math::Vector<float, 3>{
+                pos.v[0] + basis.y.v[0] * kAxisLengthWorld,
+                pos.v[1] + basis.y.v[1] * kAxisLengthWorld,
+                pos.v[2] + basis.y.v[2] * kAxisLengthWorld},
             sPos, imgMin, imgMax);
         const auto axisZ = projectAxis(camera,
-            math::Vector<float, 3>{pos.v[0], pos.v[1], pos.v[2] + kAxisLengthWorld},
+            math::Vector<float, 3>{
+                pos.v[0] + basis.z.v[0] * kAxisLengthWorld,
+                pos.v[1] + basis.z.v[1] * kAxisLengthWorld,
+                pos.v[2] + basis.z.v[2] * kAxisLengthWorld},
             sPos, imgMin, imgMax);
 
         const ImVec2 mouse = ImGui::GetMousePos();

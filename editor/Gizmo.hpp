@@ -29,8 +29,21 @@ namespace fluxion::editor
         enum class Mode { Translate, Rotate, Scale };
         enum class Axis { None, X, Y, Z };
 
+        // Reference frame for the gizmo handles:
+        //   * World — handles align with world XYZ. Translate moves
+        //     along world axes; rotate spins around world axes.
+        //   * Local — handles align with the actor's rotated basis.
+        //     Translate moves along the actor's local axes; rotate
+        //     spins around them. Scale always uses the actor's local
+        //     basis because scale itself is component-wise on the
+        //     actor's own axes.
+        enum class Space { World, Local };
+
         void setMode(Mode m) noexcept { mode_ = m; cancelDrag(); }
         [[nodiscard]] Mode getMode() const noexcept { return mode_; }
+
+        void setSpace(Space s) noexcept { space_ = s; cancelDrag(); }
+        [[nodiscard]] Space getSpace() const noexcept { return space_; }
 
         // Per-frame call. Must run inside the viewport panel's
         // ImGui::Begin/End so GetWindowDrawList() resolves to the
@@ -68,6 +81,7 @@ namespace fluxion::editor
         }
 
         Mode mode_ = Mode::Translate;
+        Space space_ = Space::World;
         Axis dragAxis_ = Axis::None;
 
         // Translate drag snapshot.
