@@ -9,8 +9,12 @@
 #include "ImGuiSample.hpp"
 #include "ImGuiHost.hpp"
 #include "../engine/gui/imgui/ImGuiInspector.hpp"
+#include "../engine/reflection/JsonInspector.hpp"
 #include "../engine/reflection/TypeRegistry.hpp"
+#include "../engine/scene/Camera.hpp"
 #include "../engine/scene/Component.hpp"
+#include "../engine/utils/Log.hpp"
+#include "../engine/utils/Uuid.hpp"
 #include "imgui.h"
 
 using namespace fluxion;
@@ -21,6 +25,65 @@ namespace samples
     {
         static ImGuiHost instance;
         return instance;
+    }
+
+    namespace
+    {
+        // Result of the startup self-test, surfaced in the smoke-test panel.
+        std::string& selfTestResult()
+        {
+            static std::string r{"not run"};
+            return r;
+        }
+
+        // In-process self-test: round-trips one component through JsonWriter
+        // and JsonReader and asserts the inspectable state survives. Logs
+        // pass/fail at info/error level on engine startup so a regression
+        // is visible immediately, without needing a unit-test harness.
+        void runReflectionSelfTest()
+        {
+            auto cam = reflection::TypeRegistry::instance().create("scene.Camera");
+            if (!cam)
+            {
+                selfTestResult() = "FAIL: scene.Camera not registered";
+                fluxion::log(Log::Level::error) << "Reflection self-test: scene.Camera not registered";
+                return;
+            }
+            auto* camera = static_cast<scene::Camera*>(cam.get());
+
+            const float testFov = 0.7F;
+            const float testNear = 12.5F;
+            const float testFar = 250.0F;
+            camera->setFov(testFov);
+            camera->setNearPlane(testNear);
+            camera->setFarPlane(testFar);
+            camera->setClearColor(math::Color{255, 64, 128, 200});
+
+            json::Value out;
+            reflection::serializeComponent(*camera, out);
+
+            auto cam2 = reflection::TypeRegistry::instance().create("scene.Camera");
+            auto* camera2 = static_cast<scene::Camera*>(cam2.get());
+            reflection::deserializeComponent(*camera2, out);
+
+            const bool ok = (camera2->getFov() == testFov)
+                         && (camera2->getNearPlane() == testNear)
+                         && (camera2->getFarPlane() == testFar)
+                         && (camera2->getClearColor().v == camera->getClearColor().v);
+            if (ok)
+            {
+                selfTestResult() = "PASS (scene.Camera round-trip)";
+                fluxion::log(Log::Level::info) << "Reflection self-test: scene.Camera round-trip OK";
+            }
+            else
+            {
+                selfTestResult() = "FAIL (round-trip mismatch)";
+                fluxion::log(Log::Level::error) << "Reflection self-test: scene.Camera round-trip MISMATCH"
+                                                << " fov=" << camera2->getFov() << "/" << testFov
+                                                << " near=" << camera2->getNearPlane() << "/" << testNear
+                                                << " far=" << camera2->getFarPlane() << "/" << testFar;
+            }
+        }
     }
 
     namespace
@@ -58,9 +121,9 @@ namespace samples
 
         void drawReflectionWindow()
         {
-            ImGui::SetNextWindowPos(ImVec2(20, 510), ImGuiCond_FirstUseEver);
-            ImGui::SetNextWindowSize(ImVec2(420, 320), ImGuiCond_FirstUseEver);
-            ImGui::Begin("Reflection demo");
+            ImGui::SetNextWindowPos(ImVec2(20, 470), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowSize(ImVec2(560, 460), ImGuiCond_FirstUseEver);
+            ImGui::Begin("Reflection + serialization");
 
             const auto types = reflection::TypeRegistry::instance().listTypes();
             ImGui::Text("TypeRegistry has %zu component type(s):", types.size());
@@ -100,6 +163,62 @@ namespace samples
                 ImGui::Separator();
                 gui::imgui::Inspector inspector;
                 instance->inspect(inspector);
+
+                ImGui::Separator();
+                ImGui::TextDisabled("Serialization round-trip (phase 3)");
+
+                // Persistent buffer for the JSON text area. We capture the
+                // current state on demand and the user can edit it freely
+                // before clicking Load to push it back into the instance.
+                static std::string jsonBuffer{"(click 'Serialize' to populate)"};
+                static std::string lastStatus;
+                static Uuid demoId;
+
+                if (ImGui::Button("Generate UUID"))
+                    demoId = Uuid::generate();
+                ImGui::SameLine();
+                ImGui::Text("uuid: %s", demoId.toString().c_str());
+
+                if (ImGui::Button("Serialize"))
+                {
+                    json::Value out;
+                    reflection::serializeComponent(*instance, out);
+                    jsonBuffer = json::encode(out, /*whiteSpaces*/ true);
+                    lastStatus = "Serialized.";
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Load"))
+                {
+                    try
+                    {
+                        const auto parsed = json::parse(jsonBuffer);
+                        reflection::deserializeComponent(*instance, parsed);
+                        lastStatus = "Loaded.";
+                    }
+                    catch (const std::exception& e)
+                    {
+                        lastStatus = std::string{"Parse error: "} + e.what();
+                    }
+                }
+                ImGui::SameLine();
+                ImGui::TextDisabled("%s", lastStatus.c_str());
+
+                struct Cb {
+                    static int resize(ImGuiInputTextCallbackData* data) {
+                        if (data->EventFlag == ImGuiInputTextFlags_CallbackResize) {
+                            auto* s = static_cast<std::string*>(data->UserData);
+                            s->resize(static_cast<std::size_t>(data->BufTextLen));
+                            data->Buf = s->data();
+                        }
+                        return 0;
+                    }
+                };
+                if (jsonBuffer.capacity() < 1024) jsonBuffer.reserve(1024);
+                ImGui::InputTextMultiline("##json",
+                                          jsonBuffer.data(), jsonBuffer.capacity() + 1,
+                                          ImVec2(-1, 120),
+                                          ImGuiInputTextFlags_CallbackResize,
+                                          Cb::resize, &jsonBuffer);
             }
             else
             {
@@ -132,6 +251,8 @@ namespace samples
                         io.WantCaptureKeyboard ? 1 : 0,
                         io.WantCaptureMouse ? 1 : 0);
             ImGui::TextWrapped("Open the \"ImGui\" sample to toggle these windows from native Fluxion buttons.");
+            ImGui::Separator();
+            ImGui::Text("Reflection self-test: %s", selfTestResult().c_str());
             ImGui::End();
         }
     }
@@ -147,6 +268,11 @@ namespace samples
             // ImGuiHost. Toggle flags drive what the per-frame draw callback
             // emits; the master switch is on the Context itself.
             imguiHost().context = &imgui;
+
+            // Run the reflection round-trip self-test once at startup so a
+            // regression in serialization shows up in the log even if the
+            // user never opens the Reflection panel.
+            runReflectionSelfTest();
 
             const auto driverName = std::string{graphics::getDriverName(engine->getGraphics().getDevice()->getDriver())};
             imgui.setDrawCallback([driverName]() {
