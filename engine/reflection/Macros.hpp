@@ -43,12 +43,18 @@
         return std::make_unique<ClassName>();                                \
     }
 
+// Naming the registrar at namespace scope (rather than the
+// previous anonymous-namespace placement) gives it external linkage,
+// which is what callers like the editor's force-link table need to
+// reference to keep the linker from dropping the .obj from a static
+// libfluxion archive. The volatile bool sibling is the actual
+// reference handle: a 1-byte symbol the editor's force-link table
+// can read without colliding with the AutoRegistrar's typed name.
 #define FLUXION_COMPONENT_REGISTER(ClassName)                                \
-    namespace                                                                \
-    {                                                                        \
-        const ::fluxion::reflection::AutoRegistrar                           \
-            ClassName##AutoRegistrar{ClassName::staticTypeName(),            \
-                                     &ClassName::reflectionCreate};          \
-    }
+    const ::fluxion::reflection::AutoRegistrar                               \
+        ClassName##AutoRegistrar{ClassName::staticTypeName(),                \
+                                 &ClassName::reflectionCreate};              \
+    extern const volatile bool ClassName##ForceLink;                         \
+    const volatile bool ClassName##ForceLink = false;
 
 #endif // FLUXION_REFLECTION_MACROS_HPP

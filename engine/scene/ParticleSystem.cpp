@@ -1,4 +1,5 @@
 ﻿#include <algorithm>
+#include <cstdio>
 #include <cstdlib>
 #include <stdexcept>
 #include "ParticleSystem.hpp"
@@ -9,11 +10,14 @@
 #include "../assets/Cache.hpp"
 #include "../core/Engine.hpp"
 #include "../math/Scalar.hpp"
+#include "../reflection/Inspector.hpp"
 #include "../storage/FileSystem.hpp"
 #include "../utils/Utils.hpp"
 
 namespace fluxion::scene
 {
+    FLUXION_COMPONENT_REGISTER(ParticleSystem)
+
     namespace
     {
         constexpr float updateStep = 1.0F / 60.0F;
@@ -462,5 +466,42 @@ namespace fluxion::scene
 
             particleCount += remainingCount;
         }
+    }
+
+    void ParticleSystem::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        // Read-only runtime status. Lifespan / emission tuning lives
+        // in ParticleSystemData (loaded from JSON via init()) — for
+        // phase 10 the editor surfaces just the bits a user needs to
+        // see at a glance; full data editing is a follow-up phase.
+        inspector.readOnlyText("State", running ? "running"
+                                                 : (active ? "active" : "stopped"));
+
+        char buf[80];
+        std::snprintf(buf, sizeof(buf), "%zu / %u",
+                      particleCount, particleSystemData.maxParticles);
+        inspector.readOnlyText("Particles", buf);
+
+        static const char* positionTypes[] = {"free", "parent", "grouped"};
+        int posIdx = static_cast<int>(particleSystemData.positionType);
+        inspector.enumField("Position type", posIdx, positionTypes,
+                            sizeof(positionTypes) / sizeof(positionTypes[0]));
+        if (posIdx != static_cast<int>(particleSystemData.positionType))
+            particleSystemData.positionType =
+                static_cast<ParticleSystemData::PositionType>(posIdx);
+
+        float lifespanCopy = particleSystemData.particleLifespan;
+        inspector.floatField("Particle lifespan", lifespanCopy);
+        if (lifespanCopy != particleSystemData.particleLifespan)
+            particleSystemData.particleLifespan = lifespanCopy;
+
+        float emissionCopy = particleSystemData.emissionRate;
+        inspector.floatField("Emission rate", emissionCopy);
+        if (emissionCopy != particleSystemData.emissionRate)
+            particleSystemData.emissionRate = emissionCopy;
     }
 }

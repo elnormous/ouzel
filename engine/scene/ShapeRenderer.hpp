@@ -8,12 +8,15 @@
 #include "../graphics/Buffer.hpp"
 #include "../graphics/Shader.hpp"
 #include "../math/Color.hpp"
+#include "../reflection/Macros.hpp"
 
 namespace fluxion::scene
 {
     class ShapeRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(ShapeRenderer, "scene.ShapeRenderer")
+
         ShapeRenderer();
 
         void draw(const math::Matrix<float, 4>& transformMatrix,
@@ -61,6 +64,8 @@ namespace fluxion::scene
         {
             blendState = newBlendState;
         }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         struct DrawCommand final

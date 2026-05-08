@@ -11,9 +11,16 @@
 #include "../engine/scene/Camera.hpp"
 #include "../engine/scene/Component.hpp"
 #include "../engine/scene/Layer.hpp"
+#include "../engine/scene/Light.hpp"
+#include "../engine/scene/ParticleSystem.hpp"
 #include "../engine/scene/Scene.hpp"
 #include "../engine/scene/SceneManager.hpp"
 #include "../engine/scene/SceneSerializer.hpp"
+#include "../engine/scene/ShapeRenderer.hpp"
+#include "../engine/scene/SkinnedMeshRenderer.hpp"
+#include "../engine/scene/SpriteRenderer.hpp"
+#include "../engine/scene/StaticMeshRenderer.hpp"
+#include "../engine/scene/TextRenderer.hpp"
 #include "../engine/storage/Path.hpp"
 #include "SceneIO.hpp"
 #include "panels/InfoPanel.hpp"
@@ -22,10 +29,71 @@
 #include "panels/SceneTreePanel.hpp"
 #include "panels/ViewportPanel.hpp"
 
+// Forward declarations of the per-component ForceLink symbols
+// emitted by FLUXION_COMPONENT_REGISTER. Declaring them here lets
+// the editor's force-link table reference them without each
+// component header having to add a separate extern declaration —
+// the macro already provides one inside the matching .cpp via
+// `extern const volatile bool ...; const volatile bool ... = false;`.
+namespace fluxion::scene
+{
+    extern const volatile bool CameraForceLink;
+    extern const volatile bool LightForceLink;
+    extern const volatile bool ParticleSystemForceLink;
+    extern const volatile bool ShapeRendererForceLink;
+    extern const volatile bool SkinnedMeshRendererForceLink;
+    extern const volatile bool SpriteRendererForceLink;
+    extern const volatile bool StaticMeshRendererForceLink;
+    extern const volatile bool TextRendererForceLink;
+}
+
 namespace fluxion::editor
 {
+    namespace
+    {
+        // Force-link reference table for component classes that
+        // self-register via FLUXION_COMPONENT_REGISTER. The editor
+        // links libfluxion.lib statically, and the MSVC / ld linker
+        // drops any .obj from a static archive whose symbols are not
+        // directly referenced by the binary — including the .obj
+        // that owns a component's AutoRegistrar global. We have to
+        // reference an OUT-OF-LINE symbol from each component's
+        // .cpp to actually pull the .obj in; staticTypeName is
+        // inline-defined in the header so its address tells the
+        // linker nothing about which .obj to load. inspect() lives
+        // in the matching .cpp for every reflection-aware component,
+        // so taking its address forces the .obj — and with it the
+        // anonymous-namespace AutoRegistrar that registers the type.
+        //
+        // Adding a new FLUXION_COMPONENT_REGISTER anywhere in the
+        // engine? Add a line to this table.
+        void forceLinkRegisteredComponents() noexcept
+        {
+            // Each FLUXION_COMPONENT_REGISTER emits a named
+            // namespace-scope `<ClassName>ForceLink` bool with
+            // external linkage. Reading it in this function makes
+            // the linker resolve the symbol against the matching
+            // component .cpp — which pulls the entire .obj into
+            // the editor binary, so the AutoRegistrar in that .obj
+            // runs at static init and registers the type. Adding
+            // a new FLUXION_COMPONENT_REGISTER anywhere in the
+            // engine? Add an extern + a sink line here.
+            volatile bool sink = false;
+            sink ^= scene::CameraForceLink;
+            sink ^= scene::LightForceLink;
+            sink ^= scene::ParticleSystemForceLink;
+            sink ^= scene::ShapeRendererForceLink;
+            sink ^= scene::SkinnedMeshRendererForceLink;
+            sink ^= scene::SpriteRendererForceLink;
+            sink ^= scene::StaticMeshRendererForceLink;
+            sink ^= scene::TextRendererForceLink;
+            (void)sink;
+        }
+    }
+
     EditorApp::EditorApp(): imgui_{*engine}
     {
+        forceLinkRegisteredComponents();
         engine->setScreenSaverEnabled(false);
         // Override the engine-baked FLUXION_APPLICATION_NAME ("sample") at
         // runtime; we share a single libfluxion with the samples binary.

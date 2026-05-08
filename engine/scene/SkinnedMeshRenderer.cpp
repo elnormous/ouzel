@@ -1,8 +1,11 @@
 ﻿#include "SkinnedMeshRenderer.hpp"
 #include "../core/Engine.hpp"
+#include "../reflection/Inspector.hpp"
 
 namespace fluxion::scene
 {
+    FLUXION_COMPONENT_REGISTER(SkinnedMeshRenderer)
+
     SkinnedMeshRenderer::SkinnedMeshRenderer()
     {
     }
@@ -27,5 +30,18 @@ namespace fluxion::scene
                         opacity,
                         renderViewProjection,
                         wireframe);
+    }
+
+    void SkinnedMeshRenderer::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        // Material is a shared_ptr; once the asset browser lands
+        // (phase 11) this becomes an asset-reference field. For now
+        // the inspector just shows the load status.
+        inspector.readOnlyText("Material",
+                               material ? "<assigned>" : "(none)");
     }
 }

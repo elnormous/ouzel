@@ -3,10 +3,34 @@
 #include "../core/Engine.hpp"
 #include "../graphics/Graphics.hpp"
 #include "../assets/Cache.hpp"
+#include "../reflection/Inspector.hpp"
 #include "../utils/Utils.hpp"
 
 namespace fluxion::scene
 {
+    FLUXION_COMPONENT_REGISTER(TextRenderer)
+
+    TextRenderer::TextRenderer():
+        shader{engine->getCache().getShader(shaderTexture)},
+        blendState{engine->getCache().getBlendState(blendAlpha)},
+        indexBuffer{engine->getGraphics(),
+                    graphics::BufferType::index,
+                    graphics::Flags::dynamic},
+        vertexBuffer{engine->getGraphics(),
+                     graphics::BufferType::vertex,
+                     graphics::Flags::dynamic},
+        whitePixelTexture{engine->getCache().getTexture(textureWhitePixel)},
+        font{nullptr},
+        text{},
+        fontSize{1.0F},
+        textAnchor{math::Vector<float, 2>{0.5F, 0.5F}},
+        color{math::whiteColor}
+    {
+        // Skip updateText: with no font there's nothing to lay out;
+        // updateText would also reset() the bounding box and clear
+        // buffers, which is the state we already initialised to.
+    }
+
     TextRenderer::TextRenderer(const std::string& fontFile,
                                float initFontSize,
                                const std::string& initText,
@@ -146,5 +170,37 @@ namespace fluxion::scene
             vertices.clear();
             texture.reset();
         }
+    }
+
+    void TextRenderer::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        std::string textCopy = text;
+        inspector.stringField("Text", textCopy);
+        if (textCopy != text) setText(textCopy);
+
+        float sizeCopy = fontSize;
+        inspector.floatField("Font size", sizeCopy);
+        if (sizeCopy != fontSize) setFontSize(sizeCopy);
+
+        math::Vector<float, 2> anchorCopy = textAnchor;
+        inspector.vector2Field("Anchor", anchorCopy);
+        if (anchorCopy.v[0] != textAnchor.v[0] ||
+            anchorCopy.v[1] != textAnchor.v[1])
+            setTextAnchor(anchorCopy);
+
+        math::Color colorCopy = color;
+        inspector.colorField("Color", colorCopy);
+        if (colorCopy.v != color.v) color = colorCopy;
+
+        // Font is loaded by Cache by name; once the asset browser
+        // (phase 11) lands, this becomes an asset-reference field
+        // pointing at a font asset by GUID. For now the inspector
+        // surfaces the current font's load status so the user can
+        // see whether setFont(...) succeeded.
+        inspector.readOnlyText("Font", font ? "<loaded>" : "(none)");
     }
 }

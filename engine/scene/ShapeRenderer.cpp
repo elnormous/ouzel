@@ -1,13 +1,17 @@
 ﻿#include <cassert>
 #include <cmath>
+#include <cstdio>
 #include "ShapeRenderer.hpp"
 #include "Camera.hpp"
 #include "../core/Engine.hpp"
 #include "../graphics/Graphics.hpp"
+#include "../reflection/Inspector.hpp"
 #include "../utils/Utils.hpp"
 
 namespace fluxion::scene
 {
+    FLUXION_COMPONENT_REGISTER(ShapeRenderer)
+
     ShapeRenderer::ShapeRenderer():
         shader{engine->getCache().getShader(shaderColor)},
         blendState{engine->getCache().getBlendState(blendAlpha)},
@@ -603,5 +607,22 @@ namespace fluxion::scene
         drawCommands.push_back(command);
 
         dirty = true;
+    }
+
+    void ShapeRenderer::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        // ShapeRenderer is an immediate-mode draw target — its
+        // contents are pushed by user code each frame via line() /
+        // circle() / etc. The editor doesn't have a meaningful
+        // "edit shapes" UI, so we surface a status summary. Code
+        // that wires shapes from a scene file is a future phase.
+        char buf[80];
+        std::snprintf(buf, sizeof(buf), "%zu draw command(s), %zu vertices",
+                      drawCommands.size(), vertices.size());
+        inspector.readOnlyText("State", buf);
     }
 }

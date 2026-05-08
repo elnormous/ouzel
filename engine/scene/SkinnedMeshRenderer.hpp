@@ -5,6 +5,7 @@
 #include <vector>
 #include "Component.hpp"
 #include "../graphics/Material.hpp"
+#include "../reflection/Macros.hpp"
 
 namespace fluxion::scene
 {
@@ -33,6 +34,8 @@ namespace fluxion::scene
     class SkinnedMeshRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(SkinnedMeshRenderer, "scene.SkinnedMeshRenderer")
+
         SkinnedMeshRenderer();
         explicit SkinnedMeshRenderer(const SkinnedMeshData& meshData);
 
@@ -45,6 +48,8 @@ namespace fluxion::scene
 
         auto& getMaterial() const noexcept { return material; }
         void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         std::shared_ptr<graphics::Material> material;

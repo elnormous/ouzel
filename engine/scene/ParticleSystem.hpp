@@ -13,6 +13,7 @@
 #include "../graphics/Texture.hpp"
 #include "../math/Color.hpp"
 #include "../math/Vector.hpp"
+#include "../reflection/Macros.hpp"
 
 namespace fluxion::scene
 {
@@ -114,6 +115,8 @@ namespace fluxion::scene
     class ParticleSystem final: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(ParticleSystem, "scene.ParticleSystem")
+
         ParticleSystem();
         explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
 
@@ -140,6 +143,8 @@ namespace fluxion::scene
         {
             particleSystemData.positionType = newPositionType;
         }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void update(const float delta);

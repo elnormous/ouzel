@@ -4,12 +4,15 @@
 #include "Component.hpp"
 #include "../math/Color.hpp"
 #include "../math/Quaternion.hpp"
+#include "../reflection/Macros.hpp"
 
 namespace fluxion::scene
 {
     class Light: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(Light, "scene.Light")
+
         enum class Type
         {
             point,
@@ -38,6 +41,8 @@ namespace fluxion::scene
 
         auto getIntensity() const noexcept { return intensity; }
         void setIntensity(float newIntensity) { intensity = newIntensity; }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void setLayer(Layer* newLayer) override;

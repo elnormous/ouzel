@@ -6,6 +6,7 @@
 #include "../graphics/Buffer.hpp"
 #include "../graphics/Material.hpp"
 #include "../graphics/Vertex.hpp"
+#include "../reflection/Macros.hpp"
 
 namespace fluxion::scene
 {
@@ -29,6 +30,8 @@ namespace fluxion::scene
     class StaticMeshRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(StaticMeshRenderer, "scene.StaticMeshRenderer")
+
         StaticMeshRenderer() = default;
         explicit StaticMeshRenderer(const StaticMeshData& meshData);
 
@@ -44,6 +47,8 @@ namespace fluxion::scene
         {
             material = newMaterial;
         }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         const graphics::Material* material = nullptr;
