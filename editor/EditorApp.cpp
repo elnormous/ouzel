@@ -1,5 +1,6 @@
 #include "EditorApp.hpp"
 
+#include <cstring>
 #include "imgui.h"
 #include "../engine/core/Engine.hpp"
 #include "../engine/core/Window.hpp"
@@ -13,6 +14,8 @@
 #include "../engine/scene/Scene.hpp"
 #include "../engine/scene/SceneManager.hpp"
 #include "../engine/scene/SceneSerializer.hpp"
+#include "../engine/storage/Path.hpp"
+#include "SceneIO.hpp"
 #include "panels/InfoPanel.hpp"
 #include "panels/InspectorPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
@@ -75,15 +78,182 @@ namespace fluxion::editor
         panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
 
         imgui_.setDrawCallback([this]() {
+            drawMainMenu();
             for (const auto& p : panels_)
                 if (p && p->isVisible())
                     p->draw();
+            drawFileDialog();
         });
         // Picking + AABB overlay live entirely inside ViewportPanel
         // now: clicks come from ImGui::IsItemClicked on the image,
         // the AABB outlines render on the panel's window draw list.
         // The back-buffer area outside any panel is just cleared by
         // editorCamera_ — no editor decoration there.
+    }
+
+    void EditorApp::drawMainMenu()
+    {
+        if (!ImGui::BeginMainMenuBar()) return;
+
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("New Scene"))
+                doNewScene();
+
+            if (ImGui::MenuItem("Open Scene..."))
+            {
+                fileDialogMode_ = FileDialogMode::Open;
+                std::memset(fileDialogBuf_, 0, sizeof(fileDialogBuf_));
+                if (!currentScenePath_.empty())
+                    std::snprintf(fileDialogBuf_, sizeof(fileDialogBuf_),
+                                  "%s", currentScenePath_.c_str());
+            }
+
+            // "Save" only enabled once we know where the scene came
+            // from — otherwise we route through Save As to ask the
+            // user where to write it.
+            const bool haveSavePath = !currentScenePath_.empty();
+            if (ImGui::MenuItem("Save Scene", "Ctrl+S",
+                                /*selected*/ false,
+                                /*enabled*/ haveSavePath))
+                doSaveScene();
+
+            if (ImGui::MenuItem("Save Scene As..."))
+            {
+                fileDialogMode_ = FileDialogMode::Save;
+                std::memset(fileDialogBuf_, 0, sizeof(fileDialogBuf_));
+                if (!currentScenePath_.empty())
+                    std::snprintf(fileDialogBuf_, sizeof(fileDialogBuf_),
+                                  "%s", currentScenePath_.c_str());
+            }
+            ImGui::EndMenu();
+        }
+
+        // Right-side info: current scene path + a transient status
+        // message after save/load. Helps the user see at a glance
+        // which file they're editing without having to dig into the
+        // file dialog.
+        ImGui::SameLine(ImGui::GetWindowWidth() - 480.0F);
+        if (!currentScenePath_.empty())
+            ImGui::TextDisabled("[%s]", currentScenePath_.c_str());
+        else
+            ImGui::TextDisabled("[unsaved]");
+        if (statusFramesRemaining_ > 0)
+        {
+            ImGui::SameLine();
+            ImGui::TextColored(ImVec4(0.6F, 0.9F, 0.6F, 1.0F),
+                               "%s", statusMessage_.c_str());
+            --statusFramesRemaining_;
+        }
+
+        ImGui::EndMainMenuBar();
+    }
+
+    void EditorApp::drawFileDialog()
+    {
+        if (fileDialogMode_ == FileDialogMode::None) return;
+
+        const char* popupId = fileDialogMode_ == FileDialogMode::Save
+            ? "Save Scene As##editor_file_dialog"
+            : "Open Scene##editor_file_dialog";
+
+        // Open the popup the very first frame we entered Save / Open
+        // mode. IsPopupOpen filters subsequent frames so we don't
+        // re-open every tick (which would steal focus from inputs).
+        if (!ImGui::IsPopupOpen(popupId))
+            ImGui::OpenPopup(popupId);
+
+        if (ImGui::BeginPopupModal(popupId, nullptr,
+                                   ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            const bool isSave = fileDialogMode_ == FileDialogMode::Save;
+            ImGui::Text(isSave ? "Path to save the scene to:"
+                               : "Path to load the scene from:");
+
+            ImGui::SetNextItemWidth(380.0F);
+            const bool entered = ImGui::InputText(
+                "##editor_path",
+                fileDialogBuf_, sizeof(fileDialogBuf_),
+                ImGuiInputTextFlags_EnterReturnsTrue);
+
+            const bool confirm = entered ||
+                ImGui::Button(isSave ? "Save" : "Open");
+            ImGui::SameLine();
+            const bool cancel = ImGui::Button("Cancel");
+
+            if (confirm && fileDialogBuf_[0] != '\0')
+            {
+                currentScenePath_ = fileDialogBuf_;
+                if (isSave) doSaveScene();
+                else        doOpenScene();
+                fileDialogMode_ = FileDialogMode::None;
+                ImGui::CloseCurrentPopup();
+            }
+            else if (cancel)
+            {
+                fileDialogMode_ = FileDialogMode::None;
+                ImGui::CloseCurrentPopup();
+            }
+
+            ImGui::EndPopup();
+        }
+    }
+
+    void EditorApp::doNewScene()
+    {
+        // Drop user-layer content; selection clears via validateAgainst
+        // on the next SceneTreePanel draw. The editor layer (camera /
+        // future gizmos) is intentionally untouched — those are
+        // editor infrastructure, not part of the user's scene.
+        workingLayer_.removeAllChildren();
+        selection_.clear();
+        currentScenePath_.clear();
+        statusMessage_ = "New scene";
+        statusFramesRemaining_ = 120;
+    }
+
+    void EditorApp::doSaveScene()
+    {
+        if (currentScenePath_.empty()) return;
+        try
+        {
+            sceneIO::saveUserScene(workingLayer_,
+                                   storage::Path{currentScenePath_});
+            statusMessage_ = "Saved";
+            log(Log::Level::info)
+                << "Editor: saved scene to " << currentScenePath_;
+        }
+        catch (const std::exception& e)
+        {
+            statusMessage_ = std::string{"Save failed: "} + e.what();
+            log(Log::Level::error)
+                << "Editor: save failed: " << e.what();
+        }
+        statusFramesRemaining_ = 180;
+    }
+
+    void EditorApp::doOpenScene()
+    {
+        if (currentScenePath_.empty()) return;
+        try
+        {
+            // Drop the current selection BEFORE the load runs — the
+            // selected actor pointer (if any) becomes invalid after
+            // layerFromJson clears the layer.
+            selection_.clear();
+            sceneIO::loadUserScene(workingLayer_,
+                                   storage::Path{currentScenePath_});
+            statusMessage_ = "Loaded";
+            log(Log::Level::info)
+                << "Editor: loaded scene from " << currentScenePath_;
+        }
+        catch (const std::exception& e)
+        {
+            statusMessage_ = std::string{"Load failed: "} + e.what();
+            log(Log::Level::error)
+                << "Editor: load failed: " << e.what();
+        }
+        statusFramesRemaining_ = 180;
     }
 
     void EditorApp::buildTestScene()

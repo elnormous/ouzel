@@ -152,6 +152,7 @@
     <ClCompile Include="EditorPicking.cpp" />
     <ClCompile Include="Gizmo.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SceneIO.cpp" />
     <ClCompile Include="SelectionContext.cpp" />
     <ClCompile Include="panels\InfoPanel.cpp" />
     <ClCompile Include="panels\InspectorPanel.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="EditorPicking.hpp" />
     <ClInclude Include="Gizmo.hpp" />
     <ClInclude Include="Panel.hpp" />
+    <ClInclude Include="SceneIO.hpp" />
     <ClInclude Include="SelectionContext.hpp" />
     <ClInclude Include="panels\InfoPanel.hpp" />
     <ClInclude Include="panels\InspectorPanel.hpp" />

@@ -43,6 +43,7 @@ SOURCES=main.cpp \
 	EditorApp.cpp \
 	EditorPicking.cpp \
 	Gizmo.cpp \
+	SceneIO.cpp \
 	SelectionContext.cpp \
 	panels/InfoPanel.cpp \
 	panels/InspectorPanel.cpp \

@@ -39,6 +39,26 @@ namespace fluxion::editor
         std::string runSceneRoundTripSelfTest();
         std::string runPlayControlSelfTest();
 
+        // Main menu + file dialog plumbing (phase 7).
+        void drawMainMenu();
+        void drawFileDialog();
+        void doNewScene();
+        void doSaveScene();
+        void doOpenScene();
+
+        enum class FileDialogMode { None, Save, Open };
+        FileDialogMode fileDialogMode_ = FileDialogMode::None;
+        // Fixed-size path buffer is enough for the editor's purposes
+        // (the engine's storage::Path itself takes a string-view-ish
+        // input); MAX_PATH on Windows is 260 and POSIX is typically
+        // 4 KiB, but real scene paths are far smaller.
+        char fileDialogBuf_[512] = {};
+        std::string currentScenePath_;
+        std::string statusMessage_;
+        // Render-thread display lifetime for the status line. Decremented
+        // each frame so save/load confirmations fade after a few seconds.
+        int statusFramesRemaining_ = 0;
+
         gui::imgui::Context imgui_;
 
         // The editor's working scene. Lives in the editor application
