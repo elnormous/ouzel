@@ -467,8 +467,18 @@ namespace fluxion::editor
                     case Axis::None: break;
                 }
 
+                // Sign convention: ImGui screen-Y grows downward, so a
+                // visually-clockwise drag yields a positive atan2
+                // delta. The engine's editor camera looks down +Z (so
+                // +Z points INTO the screen from the viewer), which
+                // means a right-handed positive rotation around the
+                // axis is mathematically counterclockwise viewed from
+                // +axis — but the viewer sits at -Z, so they see the
+                // OPPOSITE handedness. Negating the accumulated angle
+                // here keeps the cursor direction aligned with the
+                // visible rotation direction for every axis.
                 math::Quaternion<float> deltaQuat;
-                math::setRotation(deltaQuat, accumulatedAngle_, axisDir);
+                math::setRotation(deltaQuat, -accumulatedAngle_, axisDir);
                 // World mode = pre-multiply: rotate around the world
                 // axis on top of the actor's start orientation.
                 // Local mode = post-multiply: the rotation happens in
