@@ -97,6 +97,17 @@ namespace fluxion::editor
         // value because its drag state lives across frames.
         Gizmo gizmo_;
 
+        // Pan / zoom state. When the user middle-mouse-drags inside
+        // the viewport the camera shifts so the world point under the
+        // cursor stays under the cursor; the pre-drag world deltas
+        // are captured once at drag-start so accumulating per-frame
+        // rounding can't drift the anchor.
+        bool panning_ = false;
+        math::Vector<float, 3> panStartCameraPos_{};
+        math::Vector<float, 2> panStartNorm_{};
+        math::Vector<float, 3> panWorldPerNormX_{};
+        math::Vector<float, 3> panWorldPerNormY_{};
+
         math::Size<std::uint32_t, 2> currentSize_{0U, 0U};
     };
 }

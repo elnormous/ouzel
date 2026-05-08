@@ -1,6 +1,7 @@
 #include "ViewportPanel.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include "imgui.h"
 #include "../../engine/core/Engine.hpp"
 #include "../../engine/graphics/Flags.hpp"
@@ -218,6 +219,84 @@ namespace fluxion::editor
             const math::Vector<float, 2> rectMin{imgMin.x, imgMin.y};
             const math::Vector<float, 2> rectMax{imgMax.x, imgMax.y};
 
+            // Camera navigation: middle-mouse drag pans, wheel zooms.
+            // Both run before the gizmo / pick path so they can claim
+            // the mouse if needed.
+            const ImVec2 mouse = ImGui::GetMousePos();
+            const math::Vector<float, 2> mouseNorm{
+                (mouse.x - imgMin.x) / imgW,
+                (mouse.y - imgMin.y) / imgH
+            };
+            const bool itemHovered = ImGui::IsItemHovered();
+
+            // Pan: capture per-normalized world deltas at drag-start
+            // so the cursor's world anchor stays put even if multiple
+            // frames pass with mouse held but no movement.
+            if (!panning_ &&
+                itemHovered &&
+                ImGui::IsMouseClicked(ImGuiMouseButton_Middle))
+            {
+                panning_ = true;
+                panStartCameraPos_ = cameraActor_.getPosition();
+                panStartNorm_ = mouseNorm;
+                const auto worldA = camera_.convertNormalizedToWorld(
+                    math::Vector<float, 2>{0.0F, 0.0F});
+                const auto worldB = camera_.convertNormalizedToWorld(
+                    math::Vector<float, 2>{1.0F, 0.0F});
+                const auto worldC = camera_.convertNormalizedToWorld(
+                    math::Vector<float, 2>{0.0F, 1.0F});
+                panWorldPerNormX_ = math::Vector<float, 3>{
+                    worldB.v[0] - worldA.v[0],
+                    worldB.v[1] - worldA.v[1],
+                    worldB.v[2] - worldA.v[2]};
+                panWorldPerNormY_ = math::Vector<float, 3>{
+                    worldC.v[0] - worldA.v[0],
+                    worldC.v[1] - worldA.v[1],
+                    worldC.v[2] - worldA.v[2]};
+            }
+            if (panning_)
+            {
+                if (!ImGui::IsMouseDown(ImGuiMouseButton_Middle))
+                {
+                    panning_ = false;
+                }
+                else
+                {
+                    const float dnx = mouseNorm.v[0] - panStartNorm_.v[0];
+                    const float dny = mouseNorm.v[1] - panStartNorm_.v[1];
+                    // Camera moves OPPOSITE to the cursor's world
+                    // displacement so the world point under the
+                    // start-of-drag cursor stays under the current
+                    // cursor.
+                    cameraActor_.setPosition(math::Vector<float, 3>{
+                        panStartCameraPos_.v[0] -
+                            (panWorldPerNormX_.v[0] * dnx +
+                             panWorldPerNormY_.v[0] * dny),
+                        panStartCameraPos_.v[1] -
+                            (panWorldPerNormX_.v[1] * dnx +
+                             panWorldPerNormY_.v[1] * dny),
+                        panStartCameraPos_.v[2] -
+                            (panWorldPerNormX_.v[2] * dnx +
+                             panWorldPerNormY_.v[2] * dny)
+                    });
+                }
+            }
+
+            // Zoom: wheel adjusts the orthographic targetContentSize
+            // by a fixed multiplier per scroll notch. Only when the
+            // cursor is over the image, so scrolling another panel
+            // (Inspector, Scene tree) doesn't accidentally re-zoom.
+            const float wheel = ImGui::GetIO().MouseWheel;
+            if (itemHovered && wheel != 0.0F)
+            {
+                const auto cur = camera_.getTargetContentSize();
+                const float factor = std::pow(1.1F, -wheel);
+                camera_.setTargetContentSize(math::Size<float, 2>{
+                    std::max(1.0F, cur.v[0] * factor),
+                    std::max(1.0F, cur.v[1] * factor)
+                });
+            }
+
             // AABB outlines first so the gizmo sits on top of them.
             drawAabbOverlay(workingScene_, camera_,
                             selection_.getSelected(),
@@ -235,13 +314,11 @@ namespace fluxion::editor
             if (!gizmoUsedMouse &&
                 ImGui::IsItemClicked(ImGuiMouseButton_Left))
             {
-                const ImVec2 mouse = ImGui::GetMousePos();
-                const math::Vector<float, 2> normalized{
-                    (mouse.x - imgMin.x) / imgW,
-                    (mouse.y - imgMin.y) / imgH
-                };
+                // Reuses mouseNorm computed at the start of the
+                // input section; the click test fires when the mouse
+                // is on the image, so the normalized form is valid.
                 scene::Actor* hit = pickActor(workingScene_, camera_,
-                                              normalized,
+                                              mouseNorm,
                                               excludeLayer_,
                                               &cameraActor_);
                 selection_.setSelected(hit);
