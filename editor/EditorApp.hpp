@@ -4,12 +4,14 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "../engine/assets/Bundle.hpp"
 #include "../engine/core/Application.hpp"
 #include "../engine/gui/imgui/ImGuiContext.hpp"
 #include "../engine/scene/Actor.hpp"
 #include "../engine/scene/Camera.hpp"
 #include "../engine/scene/Layer.hpp"
 #include "../engine/scene/Scene.hpp"
+#include "asset/AssetDatabase.hpp"
 #include "CommandStack.hpp"
 #include "Panel.hpp"
 #include "SelectionContext.hpp"
@@ -39,6 +41,7 @@ namespace fluxion::editor
         std::string runReflectionSelfTest();
         std::string runSceneRoundTripSelfTest();
         std::string runPlayControlSelfTest();
+        std::string runAssetDatabaseSelfTest();
 
         // Main menu + file dialog plumbing (phase 7).
         void drawMainMenu();
@@ -64,6 +67,17 @@ namespace fluxion::editor
         int statusFramesRemaining_ = 0;
 
         gui::imgui::Context imgui_;
+
+        // Editor-owned bundle for project assets. Distinct from any
+        // bundle the engine already created (e.g. samples), so the
+        // editor can release its imports independently when the
+        // project root changes. Cache is shared (engine-global), so
+        // imports show up under cache.getX(name|id).
+        assets::Bundle projectBundle_;
+
+        // Editor-side asset metadata + .meta sidecar driver. Owns the
+        // Uuid <-> path mapping for files inside the project root.
+        AssetDatabase assetDatabase_;
 
         // The editor's working scene. Lives in the editor application
         // rather than going through SceneManager (which is for the game

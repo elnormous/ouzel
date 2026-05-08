@@ -1,6 +1,8 @@
 #include "EditorApp.hpp"
 
+#include <array>
 #include <cstring>
+#include <filesystem>
 #include "imgui.h"
 #include "../engine/core/Engine.hpp"
 #include "../engine/core/Window.hpp"
@@ -22,6 +24,7 @@
 #include "../engine/scene/StaticMeshRenderer.hpp"
 #include "../engine/scene/TextRenderer.hpp"
 #include "../engine/storage/Path.hpp"
+#include "asset/AssetImportPipeline.hpp"
 #include "SceneIO.hpp"
 #include "panels/InfoPanel.hpp"
 #include "panels/InspectorPanel.hpp"
@@ -99,7 +102,9 @@ namespace fluxion::editor
         }
     }
 
-    EditorApp::EditorApp(): imgui_{*engine}
+    EditorApp::EditorApp():
+        imgui_{*engine},
+        projectBundle_{engine->getCache(), engine->getFileSystem()}
     {
         forceLinkRegisteredComponents();
         engine->setScreenSaverEnabled(false);
@@ -122,16 +127,18 @@ namespace fluxion::editor
         const auto reflectionResult = runReflectionSelfTest();
         const auto sceneResult = runSceneRoundTripSelfTest();
         const auto playResult = runPlayControlSelfTest();
+        const auto assetResult = runAssetDatabaseSelfTest();
         log(Log::Level::info) << "Editor reflection self-test: " << reflectionResult;
         log(Log::Level::info) << "Editor scene round-trip self-test: " << sceneResult;
         log(Log::Level::info) << "Editor play-control self-test: " << playResult;
+        log(Log::Level::info) << "Editor asset DB self-test: " << assetResult;
 
         const auto driverName =
             std::string{graphics::getDriverName(engine->getGraphics().getDevice()->getDriver())};
 
         panels_.push_back(std::make_unique<InfoPanel>(driverName,
                                                        reflectionResult + " | play=" + playResult,
-                                                       sceneResult));
+                                                       sceneResult + " | " + assetResult));
 
         // Viewport panel owns its render target + camera. Built first
         // so the SceneTreePanel can be told which camera-actor to hide
@@ -538,5 +545,52 @@ namespace fluxion::editor
             return "FAIL: restored position does not match original";
 
         return "PASS (snapshot/restore round-trip)";
+    }
+
+    std::string EditorApp::runAssetDatabaseSelfTest()
+    {
+        // Phase 11b verification: walk samples/Resources, mint a
+        // .meta sidecar for every asset that doesn't have one, and
+        // hand the project root to the engine's FileSystem so the
+        // import pipeline can resolve relative paths.
+        //
+        // Project root resolution: we don't know which directory the
+        // editor was launched from (cwd is the binary dir under MSVC,
+        // the project root under VS Code's launch), so try the three
+        // most common candidate paths and pick the first that exists.
+        // Mobile/web targets aren't editor targets — desktop only.
+        const std::array<const char*, 3> candidates = {
+            "samples/Resources",
+            "../samples/Resources",
+            "../../samples/Resources"
+        };
+        std::string root;
+        for (const auto* c : candidates)
+        {
+            std::error_code ec;
+            if (std::filesystem::is_directory(c, ec)) { root = c; break; }
+        }
+
+        if (root.empty()) return "SKIP (no samples/Resources nearby)";
+
+        if (!assetDatabase_.setProjectRoot(root))
+            return "FAIL setProjectRoot";
+
+        const auto scan = assetDatabase_.rescan();
+
+        // Make the project root part of the engine's resource search
+        // path so Bundle::loadAsset(name, relativePath) can find the
+        // file by relative path. addResourcePath is idempotent — a
+        // future "switch project" call would removeResourcePath the
+        // old root before adding the new one.
+        engine->getFileSystem().addResourcePath(
+            storage::Path{assetDatabase_.getProjectRoot()});
+
+        std::string out = "PASS scanned=" + std::to_string(scan.scanned)
+            + " loaded=" + std::to_string(scan.metaLoaded)
+            + " created=" + std::to_string(scan.metaCreated);
+        if (scan.metaInvalid > 0)
+            out += " (" + std::to_string(scan.metaInvalid) + " invalid)";
+        return out;
     }
 }

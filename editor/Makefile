@@ -40,6 +40,8 @@ OBJCXXFLAGS=-std=c++17 \
 	-I"../external/imgui"
 
 SOURCES=main.cpp \
+	asset/AssetDatabase.cpp \
+	asset/AssetImportPipeline.cpp \
 	commands/ActorCommands.cpp \
 	commands/ComponentCommands.cpp \
 	commands/TransformCommands.cpp \

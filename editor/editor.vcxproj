@@ -148,6 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="asset\AssetDatabase.cpp" />
+    <ClCompile Include="asset\AssetImportPipeline.cpp" />
     <ClCompile Include="commands\ActorCommands.cpp" />
     <ClCompile Include="commands\ComponentCommands.cpp" />
     <ClCompile Include="commands\TransformCommands.cpp" />
@@ -166,6 +168,8 @@
     <ClCompile Include="panels\ViewportPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="asset\AssetDatabase.hpp" />
+    <ClInclude Include="asset\AssetImportPipeline.hpp" />
     <ClInclude Include="commands\ActorCommands.hpp" />
     <ClInclude Include="commands\Command.hpp" />
     <ClInclude Include="commands\ComponentCommands.hpp" />
