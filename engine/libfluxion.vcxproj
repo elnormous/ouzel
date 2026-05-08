@@ -97,6 +97,8 @@
     <ClCompile Include="gui\imgui\ImGuiKeyMap.cpp" />
     <ClCompile Include="reflection\JsonInspector.cpp" />
     <ClCompile Include="reflection\TypeRegistry.cpp" />
+    <ClCompile Include="scene\SceneSerializer.cpp" />
+    <ClCompile Include="storage\AtomicFile.cpp" />
     <ClCompile Include="utils\Uuid.cpp" />
     <ClCompile Include="..\external\imgui\imgui.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -333,6 +335,8 @@
     <ClInclude Include="reflection\JsonInspector.hpp" />
     <ClInclude Include="reflection\Macros.hpp" />
     <ClInclude Include="reflection\TypeRegistry.hpp" />
+    <ClInclude Include="scene\SceneSerializer.hpp" />
+    <ClInclude Include="storage\AtomicFile.hpp" />
     <ClInclude Include="utils\Uuid.hpp" />
     <ClInclude Include="hash\Fnv1.hpp" />
     <ClInclude Include="input\Cursor.hpp" />

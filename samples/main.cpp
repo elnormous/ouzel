@@ -11,8 +11,13 @@
 #include "../engine/gui/imgui/ImGuiInspector.hpp"
 #include "../engine/reflection/JsonInspector.hpp"
 #include "../engine/reflection/TypeRegistry.hpp"
+#include "../engine/scene/Actor.hpp"
 #include "../engine/scene/Camera.hpp"
 #include "../engine/scene/Component.hpp"
+#include "../engine/scene/Layer.hpp"
+#include "../engine/scene/Scene.hpp"
+#include "../engine/scene/SceneSerializer.hpp"
+#include "../engine/storage/Path.hpp"
 #include "../engine/utils/Log.hpp"
 #include "../engine/utils/Uuid.hpp"
 #include "imgui.h"
@@ -29,11 +34,69 @@ namespace samples
 
     namespace
     {
-        // Result of the startup self-test, surfaced in the smoke-test panel.
+        // Result of the startup self-tests, surfaced in the smoke-test panel.
         std::string& selfTestResult()
         {
             static std::string r{"not run"};
             return r;
+        }
+        std::string& sceneSelfTestResult()
+        {
+            static std::string r{"not run"};
+            return r;
+        }
+
+        // Phase 3.5 self-test: build a tiny scene with two layers / four
+        // actors / nested children, serialize to JSON, parse it back into a
+        // fresh Scene, and check that the actor count, IDs, names and a
+        // sample transform survived. Same UI surface as the phase 3 test.
+        std::string runSceneRoundTrip()
+        {
+            scene::Scene src;
+            scene::Layer srcLayer;
+            src.addLayer(srcLayer);
+
+            auto a1 = std::make_unique<scene::Actor>();
+            a1->setName("Hero");
+            a1->setPosition(math::Vector<float, 3>{1.0F, 2.0F, 3.0F});
+            const auto heroId = a1->getId();
+            srcLayer.addChild(std::move(a1));
+
+            auto a2 = std::make_unique<scene::Actor>();
+            a2->setName("Sidekick");
+            a2->setOpacity(0.5F);
+            auto child = std::make_unique<scene::Actor>();
+            child->setName("Pet");
+            const auto petId = child->getId();
+            a2->addChild(std::move(child));
+            srcLayer.addChild(std::move(a2));
+
+            const auto json = scene::serialization::sceneToJson(src);
+
+            scene::Scene dst;
+            scene::Layer dstLayer;
+            dst.addLayer(dstLayer);
+
+            try { scene::serialization::sceneFromJson(dst, json); }
+            catch (const std::exception& e)
+            {
+                return std::string{"FAIL parse: "} + e.what();
+            }
+
+            const auto& dstChildren = dstLayer.getChildren();
+            if (dstChildren.size() != 2) return "FAIL actor count != 2";
+            if (dstChildren[0]->getName() != "Hero") return "FAIL name(0)";
+            if (dstChildren[0]->getId() != heroId) return "FAIL id(Hero)";
+            if (dstChildren[1]->getName() != "Sidekick") return "FAIL name(1)";
+            if (dstChildren[1]->getChildren().size() != 1) return "FAIL pet missing";
+            if (dstChildren[1]->getChildren()[0]->getId() != petId) return "FAIL id(Pet)";
+
+            const auto& heroPos = dstChildren[0]->getPosition();
+            if (heroPos.v[0] != 1.0F || heroPos.v[1] != 2.0F || heroPos.v[2] != 3.0F)
+                return "FAIL position";
+            if (dstChildren[1]->getOpacity() != 0.5F) return "FAIL opacity";
+
+            return "PASS (2 actors + 1 nested, ids preserved)";
         }
 
         // In-process self-test: round-trips one component through JsonWriter
@@ -219,6 +282,64 @@ namespace samples
                                           ImVec2(-1, 120),
                                           ImGuiInputTextFlags_CallbackResize,
                                           Cb::resize, &jsonBuffer);
+
+                // Phase 3.5: scene-level save/load via storage::AtomicFile.
+                // Builds a small in-memory scene, saves it next to the .exe,
+                // reads it back, and reports the actor count from disk.
+                ImGui::Separator();
+                ImGui::TextDisabled("Scene save / load (phase 3.5, atomic file write)");
+                static std::string sceneStatus{"(idle)"};
+                static const storage::Path scenePath{"demo_scene.flux"};
+                if (ImGui::Button("Save test scene"))
+                {
+                    try
+                    {
+                        scene::Scene s;
+                        scene::Layer layer;
+                        s.addLayer(layer);
+                        auto a = std::make_unique<scene::Actor>();
+                        a->setName("DemoActor");
+                        a->setPosition(math::Vector<float, 3>{42.0F, -7.5F, 0.0F});
+                        layer.addChild(std::move(a));
+                        scene::serialization::saveToFile(s, scenePath);
+                        sceneStatus = std::string{"Saved to "} + std::string{scenePath};
+                    }
+                    catch (const std::exception& e)
+                    {
+                        sceneStatus = std::string{"Save failed: "} + e.what();
+                    }
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Load test scene"))
+                {
+                    try
+                    {
+                        scene::Scene s;
+                        scene::Layer layer;
+                        s.addLayer(layer);
+                        scene::serialization::loadFromFile(s, scenePath);
+                        const auto& kids = layer.getChildren();
+                        if (kids.empty())
+                            sceneStatus = "Loaded but layer is empty";
+                        else
+                        {
+                            const auto& p = kids.front()->getPosition();
+                            char buf[160];
+                            std::snprintf(buf, sizeof(buf),
+                                          "Loaded %zu actor(s); first = '%s' at (%.1f, %.1f, %.1f)",
+                                          kids.size(),
+                                          kids.front()->getName().c_str(),
+                                          p.v[0], p.v[1], p.v[2]);
+                            sceneStatus = buf;
+                        }
+                    }
+                    catch (const std::exception& e)
+                    {
+                        sceneStatus = std::string{"Load failed: "} + e.what();
+                    }
+                }
+                ImGui::SameLine();
+                ImGui::TextDisabled("%s", sceneStatus.c_str());
             }
             else
             {
@@ -253,6 +374,7 @@ namespace samples
             ImGui::TextWrapped("Open the \"ImGui\" sample to toggle these windows from native Fluxion buttons.");
             ImGui::Separator();
             ImGui::Text("Reflection self-test: %s", selfTestResult().c_str());
+            ImGui::Text("Scene round-trip self-test: %s", sceneSelfTestResult().c_str());
             ImGui::End();
         }
     }
@@ -273,6 +395,9 @@ namespace samples
             // regression in serialization shows up in the log even if the
             // user never opens the Reflection panel.
             runReflectionSelfTest();
+            sceneSelfTestResult() = runSceneRoundTrip();
+            fluxion::log(Log::Level::info)
+                << "Scene round-trip self-test: " << sceneSelfTestResult();
 
             const auto driverName = std::string{graphics::getDriverName(engine->getGraphics().getDevice()->getDriver())};
             imgui.setDrawCallback([driverName]() {

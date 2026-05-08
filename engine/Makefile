@@ -106,6 +106,8 @@ SOURCES=assets/Bundle.cpp \
 	gui/imgui/ImGuiKeyMap.cpp \
 	reflection/JsonInspector.cpp \
 	reflection/TypeRegistry.cpp \
+	scene/SceneSerializer.cpp \
+	storage/AtomicFile.cpp \
 	utils/Uuid.cpp \
 	../external/imgui/imgui.cpp \
 	../external/imgui/imgui_demo.cpp \

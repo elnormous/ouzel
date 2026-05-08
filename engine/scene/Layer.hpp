@@ -25,6 +25,10 @@ namespace fluxion::scene
 
         virtual void draw();
 
+        // Bring the unique_ptr-taking overload from ActorContainer into
+        // scope; the reference-taking override below would otherwise
+        // hide it via name lookup.
+        using ActorContainer::addChild;
         void addChild(Actor& actor) override;
 
         auto& getCameras() const noexcept { return cameras; }
