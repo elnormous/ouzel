@@ -12,6 +12,14 @@ namespace fluxion::scene
     {
         friend Actor;
     public:
+        // Default-construct an empty animator (length=0). Useful as
+        // the chained-from base for default-constructible subclasses
+        // (Move / Rotate / etc.) that the editor's TypeRegistry
+        // creates when the user clicks "Add Component". The named
+        // constructor that takes a length stays the primary entry
+        // point for code that knows the duration up front.
+        Animator() = default;
+
         explicit Animator(float initLength);
         ~Animator() override;
 
@@ -28,6 +36,12 @@ namespace fluxion::scene
         auto isDone() const noexcept { return done; }
 
         auto getLength() const noexcept { return length; }
+        // Editor-friendly setter so the Inspector can tweak duration
+        // without forcing callers to rebuild the animator instance.
+        // Has no effect on a currently-running playback until the
+        // next play() call.
+        void setLength(float newLength) noexcept { length = newLength; }
+
         auto getCurrentTime() const noexcept { return currentTime; }
 
         auto getProgress() const noexcept { return progress; }

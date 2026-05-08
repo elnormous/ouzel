@@ -1,13 +1,20 @@
 ﻿#include <cmath>
+#include <cstdio>
 #include <limits>
 #include "Animators.hpp"
 #include "Actor.hpp"
 #include "../core/Engine.hpp"
 #include "../hash/Fnv1.hpp"
+#include "../reflection/Inspector.hpp"
 #include "../utils/Utils.hpp"
 
 namespace fluxion::scene
 {
+    FLUXION_COMPONENT_REGISTER(Move)
+    FLUXION_COMPONENT_REGISTER(Rotate)
+    FLUXION_COMPONENT_REGISTER(Scale)
+    FLUXION_COMPONENT_REGISTER(Fade)
+
     Ease::Ease(Animator& animator, easing::Func initFunc, easing::Mode initMode):
         Animator{animator.getLength()}, func{initFunc}, mode{initMode}
     {
@@ -25,9 +32,43 @@ namespace fluxion::scene
         animators.front()->setProgress(progress);
     }
 
+    // Default-constructed fade: 1-second tween to fully opaque. The
+    // editor's Add Component path uses this; the user adjusts target
+    // and duration through the Inspector.
+    Fade::Fade():
+        Animator{1.0F}, opacity{1.0F}, relative{false}
+    {
+    }
+
     Fade::Fade(float initLength, float initOpacity, bool initRelative):
         Animator{initLength}, opacity{initOpacity}, relative{initRelative}
     {
+    }
+
+    void Fade::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        float lenCopy = getLength();
+        inspector.floatField("Length", lenCopy);
+        if (lenCopy != getLength()) setLength(lenCopy);
+
+        float targetCopy = opacity;
+        inspector.floatRangeField("Target opacity", targetCopy, 0.0F, 1.0F);
+        if (targetCopy != opacity) opacity = targetCopy;
+
+        bool relCopy = relative;
+        inspector.boolField("Relative", relCopy);
+        if (relCopy != relative) relative = relCopy;
+
+        char status[64];
+        std::snprintf(status, sizeof(status),
+                      "%s, t=%.2f / %.2f",
+                      isRunning() ? "running" : (isDone() ? "done" : "idle"),
+                      getCurrentTime(), getLength());
+        inspector.readOnlyText("State", status);
     }
 
     void Fade::play()
@@ -51,9 +92,43 @@ namespace fluxion::scene
             targetActor->setOpacity(startOpacity + (diff * progress));
     }
 
+    Move::Move():
+        Animator{1.0F}, position{}, relative{false}
+    {
+    }
+
     Move::Move(float initLength, const math::Vector<float, 3>& initPosition, bool initRelative):
         Animator{initLength}, position{initPosition}, relative{initRelative}
     {
+    }
+
+    void Move::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        float lenCopy = getLength();
+        inspector.floatField("Length", lenCopy);
+        if (lenCopy != getLength()) setLength(lenCopy);
+
+        math::Vector<float, 3> posCopy = position;
+        inspector.vector3Field("Target position", posCopy);
+        if (posCopy.v[0] != position.v[0] ||
+            posCopy.v[1] != position.v[1] ||
+            posCopy.v[2] != position.v[2])
+            position = posCopy;
+
+        bool relCopy = relative;
+        inspector.boolField("Relative", relCopy);
+        if (relCopy != relative) relative = relCopy;
+
+        char status[64];
+        std::snprintf(status, sizeof(status),
+                      "%s, t=%.2f / %.2f",
+                      isRunning() ? "running" : (isDone() ? "done" : "idle"),
+                      getCurrentTime(), getLength());
+        inspector.readOnlyText("State", status);
     }
 
     void Move::play()
@@ -169,9 +244,47 @@ namespace fluxion::scene
         }
     }
 
+    Rotate::Rotate():
+        Animator{1.0F}, rotation{}, relative{false}
+    {
+    }
+
     Rotate::Rotate(float initLength, const math::Vector<float, 3>& initRotation, bool initRelative):
         Animator{initLength}, rotation{initRotation}, relative{initRelative}
     {
+    }
+
+    void Rotate::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        float lenCopy = getLength();
+        inspector.floatField("Length", lenCopy);
+        if (lenCopy != getLength()) setLength(lenCopy);
+
+        // Target rotation is stored as an Euler-angle vector (radians);
+        // setRotation(Vector3) on Actor reads it the same way. The
+        // Inspector exposes raw radians for now — a future Inspector
+        // upgrade can present this as Euler-degrees.
+        math::Vector<float, 3> rotCopy = rotation;
+        inspector.vector3Field("Target rotation (rad)", rotCopy);
+        if (rotCopy.v[0] != rotation.v[0] ||
+            rotCopy.v[1] != rotation.v[1] ||
+            rotCopy.v[2] != rotation.v[2])
+            rotation = rotCopy;
+
+        bool relCopy = relative;
+        inspector.boolField("Relative", relCopy);
+        if (relCopy != relative) relative = relCopy;
+
+        char status[64];
+        std::snprintf(status, sizeof(status),
+                      "%s, t=%.2f / %.2f",
+                      isRunning() ? "running" : (isDone() ? "done" : "idle"),
+                      getCurrentTime(), getLength());
+        inspector.readOnlyText("State", status);
     }
 
     void Rotate::play()
@@ -196,9 +309,45 @@ namespace fluxion::scene
             targetActor->setRotation(startRotation + diff * progress);
     }
 
+    Scale::Scale():
+        Animator{1.0F},
+        scale{math::Vector<float, 3>{1.0F, 1.0F, 1.0F}},
+        relative{false}
+    {
+    }
+
     Scale::Scale(float initLength, const math::Vector<float, 3>& initScale, bool initRelative):
         Animator{initLength}, scale{initScale}, relative{initRelative}
     {
+    }
+
+    void Scale::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        float lenCopy = getLength();
+        inspector.floatField("Length", lenCopy);
+        if (lenCopy != getLength()) setLength(lenCopy);
+
+        math::Vector<float, 3> scaleCopy = scale;
+        inspector.vector3Field("Target scale", scaleCopy);
+        if (scaleCopy.v[0] != scale.v[0] ||
+            scaleCopy.v[1] != scale.v[1] ||
+            scaleCopy.v[2] != scale.v[2])
+            scale = scaleCopy;
+
+        bool relCopy = relative;
+        inspector.boolField("Relative", relCopy);
+        if (relCopy != relative) relative = relCopy;
+
+        char status[64];
+        std::snprintf(status, sizeof(status),
+                      "%s, t=%.2f / %.2f",
+                      isRunning() ? "running" : (isDone() ? "done" : "idle"),
+                      getCurrentTime(), getLength());
+        inspector.readOnlyText("State", status);
     }
 
     void Scale::play()

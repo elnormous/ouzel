@@ -11,6 +11,7 @@
 #include "../events/EventHandler.hpp"
 #include "../math/Quaternion.hpp"
 #include "../math/Vector.hpp"
+#include "../reflection/Macros.hpp"
 
 namespace fluxion::scene
 {
@@ -29,9 +30,23 @@ namespace fluxion::scene
     class Fade final: public Animator
     {
     public:
+        FLUXION_COMPONENT_DECL(Fade, "scene.Fade")
+
+        // Default-construct a 1-second fade-to-fully-opaque so the
+        // editor's TypeRegistry can spawn a usable instance from
+        // "Add Component". Inspector exposes targetOpacity and
+        // duration so the user can dial it in.
+        Fade();
         Fade(float initLength, float initOpacity, bool initRelative = false);
 
         void play() override;
+
+        auto getTargetOpacity() const noexcept { return opacity; }
+        void setTargetOpacity(float newOpacity) noexcept { opacity = newOpacity; }
+        auto isRelative() const noexcept { return relative; }
+        void setRelative(bool newRelative) noexcept { relative = newRelative; }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
@@ -46,9 +61,19 @@ namespace fluxion::scene
     class Move final: public Animator
     {
     public:
+        FLUXION_COMPONENT_DECL(Move, "scene.Move")
+
+        Move();
         Move(float initLength, const math::Vector<float, 3>& initPosition, bool initRelative = false);
 
         void play() override;
+
+        auto& getTargetPosition() const noexcept { return position; }
+        void setTargetPosition(const math::Vector<float, 3>& newPosition) noexcept { position = newPosition; }
+        auto isRelative() const noexcept { return relative; }
+        void setRelative(bool newRelative) noexcept { relative = newRelative; }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
@@ -87,9 +112,19 @@ namespace fluxion::scene
     class Rotate final: public Animator
     {
     public:
+        FLUXION_COMPONENT_DECL(Rotate, "scene.Rotate")
+
+        Rotate();
         Rotate(float initLength, const math::Vector<float, 3>& initRotation, bool initRelative = false);
 
         void play() override;
+
+        auto& getTargetRotation() const noexcept { return rotation; }
+        void setTargetRotation(const math::Vector<float, 3>& newRotation) noexcept { rotation = newRotation; }
+        auto isRelative() const noexcept { return relative; }
+        void setRelative(bool newRelative) noexcept { relative = newRelative; }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
@@ -104,9 +139,19 @@ namespace fluxion::scene
     class Scale final: public Animator
     {
     public:
+        FLUXION_COMPONENT_DECL(Scale, "scene.Scale")
+
+        Scale();
         Scale(float initLength, const math::Vector<float, 3>& initScale, bool initRelative = false);
 
         void play() override;
+
+        auto& getTargetScale() const noexcept { return scale; }
+        void setTargetScale(const math::Vector<float, 3>& newScale) noexcept { scale = newScale; }
+        auto isRelative() const noexcept { return relative; }
+        void setRelative(bool newRelative) noexcept { relative = newRelative; }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
