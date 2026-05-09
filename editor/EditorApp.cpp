@@ -32,6 +32,7 @@
 #include "panels/InspectorPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
 #include "panels/SceneTreePanel.hpp"
+#include "panels/SpriteEditorPanel.hpp"
 #include "panels/ViewportPanel.hpp"
 
 // Forward declarations of the per-component ForceLink symbols
@@ -179,8 +180,20 @@ namespace fluxion::editor
             &selection_, &workingLayer_, &commandStack_, &assetDatabase_,
             &engine->getCache(), &imgui_));
         panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
+
+        // Sprite editor (for slicing image assets) is built BEFORE the
+        // AssetBrowser so the browser's context-menu can hold a back
+        // pointer to it. Both share the AssetDatabase + the project
+        // bundle so save+reimport happens through the same paths the
+        // editor uses everywhere else.
+        auto spriteEditor = std::make_unique<SpriteEditorPanel>(
+            &assetDatabase_, &projectBundle_, &engine->getCache(), &imgui_);
+        SpriteEditorPanel* spriteEditorPtr = spriteEditor.get();
+        panels_.push_back(std::move(spriteEditor));
+
         panels_.push_back(std::make_unique<AssetBrowserPanel>(
-            &assetDatabase_, &engine->getCache(), &imgui_, &selection_));
+            &assetDatabase_, &engine->getCache(), &imgui_,
+            &selection_, spriteEditorPtr));
 
         imgui_.setDrawCallback([this]() {
             // Fullscreen dockspace host that covers the main viewport.

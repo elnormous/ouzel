@@ -12,6 +12,7 @@ namespace fluxion::editor
 {
     class AssetDatabase;
     class SelectionContext;
+    class SpriteEditorPanel;
 
     // Two-pane folder browser for the project's AssetDatabase.
     //
@@ -33,7 +34,8 @@ namespace fluxion::editor
         AssetBrowserPanel(AssetDatabase* database,
                           assets::Cache* cache,
                           gui::imgui::Context* imgui,
-                          SelectionContext* selection = nullptr) noexcept;
+                          SelectionContext* selection = nullptr,
+                          SpriteEditorPanel* spriteEditor = nullptr) noexcept;
 
         void draw() override;
 
@@ -51,6 +53,7 @@ namespace fluxion::editor
         assets::Cache* cache_;        // not owned, may be nullptr
         gui::imgui::Context* imgui_;  // not owned, may be nullptr
         SelectionContext* selection_; // not owned, may be nullptr
+        SpriteEditorPanel* spriteEditor_; // not owned, may be nullptr
 
         // Currently-selected folder, relative to project root.
         // Empty string == project root itself.

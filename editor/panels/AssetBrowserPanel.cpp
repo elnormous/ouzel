@@ -11,6 +11,7 @@
 #include "../../engine/assets/Cache.hpp"
 #include "../../engine/graphics/Texture.hpp"
 #include "../../engine/gui/imgui/ImGuiContext.hpp"
+#include "SpriteEditorPanel.hpp"
 
 namespace fluxion::editor
 {
@@ -95,12 +96,14 @@ namespace fluxion::editor
     AssetBrowserPanel::AssetBrowserPanel(AssetDatabase* database,
                                           assets::Cache* cache,
                                           gui::imgui::Context* imgui,
-                                          SelectionContext* selection) noexcept:
+                                          SelectionContext* selection,
+                                          SpriteEditorPanel* spriteEditor) noexcept:
         Panel{"Asset Browser", true},
         database_{database},
         cache_{cache},
         imgui_{imgui},
-        selection_{selection}
+        selection_{selection},
+        spriteEditor_{spriteEditor}
     {
     }
 
@@ -246,6 +249,40 @@ namespace fluxion::editor
                         }
                     }
                 }
+                else if (!entry.parentId.isNull() && cache_ && imgui_)
+                {
+                    // Sub-slice tile: sample a UV sub-rect of the
+                    // parent's texture so the thumbnail shows just
+                    // this slice, not the whole sheet. AssetEntry
+                    // already carries the slice rect in pixels;
+                    // convert to UV using the parent texture size.
+                    if (const auto parentTex = cache_->getTexture(entry.parentId))
+                    {
+                        const auto handle = imgui_->textureNativeHandle(*parentTex);
+                        if (handle)
+                        {
+                            const auto sz = parentTex->getSize();
+                            const float texW = static_cast<float>(sz.v[0]);
+                            const float texH = static_cast<float>(sz.v[1]);
+                            if (texW > 0.0F && texH > 0.0F)
+                            {
+                                const ImVec2 uv0{
+                                    entry.sliceRectPx.position.v[0] / texW,
+                                    entry.sliceRectPx.position.v[1] / texH
+                                };
+                                const ImVec2 uv1{
+                                    (entry.sliceRectPx.position.v[0] +
+                                     entry.sliceRectPx.size.v[0]) / texW,
+                                    (entry.sliceRectPx.position.v[1] +
+                                     entry.sliceRectPx.size.v[1]) / texH
+                                };
+                                dl->AddImage(static_cast<ImTextureID>(handle),
+                                             cursor, tileEnd, uv0, uv1);
+                                drewThumbnail = true;
+                            }
+                        }
+                    }
+                }
                 if (!drewThumbnail)
                 {
                     const ImVec2 textSize = ImGui::CalcTextSize(typeGlyph(entry.type));
@@ -304,6 +341,20 @@ namespace fluxion::editor
                     ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
                     selection_)
                     selection_->setSelectedAsset(entry.id);
+
+                // Right-click context menu. Single-image parents
+                // get "Open in Sprite Editor"; sub-slices and
+                // non-image entries skip the menu altogether. The
+                // popup id is per-tile (we're inside a PushID).
+                if (entry.type == assets::Asset::Type::image &&
+                    entry.parentId.isNull() &&
+                    spriteEditor_ &&
+                    ImGui::BeginPopupContextItem("##tile_ctx"))
+                {
+                    if (ImGui::MenuItem("Open in Sprite Editor"))
+                        spriteEditor_->setTarget(entry.id);
+                    ImGui::EndPopup();
+                }
 
                 // Caption underneath the tile, clipped to the tile
                 // width so long names don't overflow into the next

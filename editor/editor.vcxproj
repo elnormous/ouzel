@@ -168,6 +168,7 @@
     <ClCompile Include="panels\InspectorPanel.cpp" />
     <ClCompile Include="panels\PlayControlPanel.cpp" />
     <ClCompile Include="panels\SceneTreePanel.cpp" />
+    <ClCompile Include="panels\SpriteEditorPanel.cpp" />
     <ClCompile Include="panels\ViewportPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +193,7 @@
     <ClInclude Include="panels\InspectorPanel.hpp" />
     <ClInclude Include="panels\PlayControlPanel.hpp" />
     <ClInclude Include="panels\SceneTreePanel.hpp" />
+    <ClInclude Include="panels\SpriteEditorPanel.hpp" />
     <ClInclude Include="panels\ViewportPanel.hpp" />
   </ItemGroup>
   <ItemGroup>

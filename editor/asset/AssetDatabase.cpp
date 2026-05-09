@@ -100,7 +100,32 @@ namespace fluxion::editor
             Uuid id;
             std::optional<assets::Asset::Type> type;
             assets::Asset::Options options;
+            SpriteSliceSet sliceSet;     // mode=single by default
         };
+
+        // Read 4-element JSON array [x, y, w, h] into a Rect. Returns
+        // a zero rect when the array is missing or wrong-shaped.
+        math::Rect<float> parseRect(const json::Value& v)
+        {
+            math::Rect<float> r{};
+            if (!v.is<json::Array>() || v.getSize() != 4) return r;
+            r.position.v[0] = v[0].as<float>();
+            r.position.v[1] = v[1].as<float>();
+            r.size.v[0] = v[2].as<float>();
+            r.size.v[1] = v[3].as<float>();
+            return r;
+        }
+
+        json::Value rectToJson(const math::Rect<float>& r)
+        {
+            json::Value arr;
+            arr = json::Array{};
+            arr.pushBack(json::Value{static_cast<double>(r.position.v[0])});
+            arr.pushBack(json::Value{static_cast<double>(r.position.v[1])});
+            arr.pushBack(json::Value{static_cast<double>(r.size.v[0])});
+            arr.pushBack(json::Value{static_cast<double>(r.size.v[1])});
+            return arr;
+        }
 
         std::optional<ParsedMeta> parseMetaJson(const std::filesystem::path& metaPath)
         {
@@ -126,6 +151,40 @@ namespace fluxion::editor
                     const auto& opts = root["options"];
                     if (opts.hasMember("mipmaps"))
                         out.options.mipmaps = opts["mipmaps"].as<bool>();
+                }
+
+                // Sprite-mode + slices (phase 12c). All optional —
+                // older .meta sidecars from before 12c just skip them
+                // and stay as mode=single, which preserves their
+                // pre-12c behaviour.
+                if (root.hasMember("sprite_mode") && root["sprite_mode"].is<std::string>())
+                {
+                    const auto modeStr = root["sprite_mode"].as<std::string>();
+                    if (modeStr == "sliced") out.sliceSet.mode = SpriteMode::sliced;
+                    else                     out.sliceSet.mode = SpriteMode::single;
+                }
+                if (root.hasMember("grid") && root["grid"].is<json::Object>())
+                {
+                    const auto& g = root["grid"];
+                    if (g.hasMember("columns")) out.sliceSet.columns = g["columns"].as<int>();
+                    if (g.hasMember("rows"))    out.sliceSet.rows    = g["rows"].as<int>();
+                }
+                if (root.hasMember("slices") && root["slices"].is<json::Array>())
+                {
+                    for (const auto& s : root["slices"])
+                    {
+                        if (!s.is<json::Object>()) continue;
+                        SpriteSlice slice;
+                        if (s.hasMember("id"))
+                            if (auto sid = Uuid::parse(s["id"].as<std::string>()))
+                                slice.id = *sid;
+                        if (s.hasMember("name"))
+                            slice.name = s["name"].as<std::string>();
+                        if (s.hasMember("rect"))
+                            slice.rectPx = parseRect(s["rect"]);
+                        if (slice.id.isNull()) continue;  // bad entry; skip
+                        out.sliceSet.slices.push_back(std::move(slice));
+                    }
                 }
                 return out;
             }
@@ -165,6 +224,7 @@ namespace fluxion::editor
         entries_.clear();
         byId_.clear();
         byPath_.clear();
+        sliceSets_.clear();
 
         const std::filesystem::path rootPath{projectRoot_};
         std::error_code walkEc;
@@ -216,6 +276,7 @@ namespace fluxion::editor
             assets::Asset::Options options;
             assets::Asset::Type type = effectiveType;
             Uuid id;
+            SpriteSliceSet sliceSet;       // mode=single by default
 
             if (std::filesystem::exists(metaPath, walkEc))
             {
@@ -225,6 +286,7 @@ namespace fluxion::editor
                     id = parsed->id;
                     if (parsed->type) type = *parsed->type;
                     options = parsed->options;
+                    sliceSet = std::move(parsed->sliceSet);
                     ++result.metaLoaded;
                 }
                 else
@@ -279,6 +341,37 @@ namespace fluxion::editor
             entries_.push_back(std::move(entry));
             byId_.emplace(id, index);
             byPath_.emplace(relGeneric, index);
+
+            // Emit a sub-entry for every saved slice on this parent.
+            // Each slice keeps the parent's options + relativePath
+            // suffixed with #<sliceName> so the AssetBrowser can
+            // tell them apart visually. The slice's own Uuid is what
+            // the SpriteRenderer's AssetReference will resolve to —
+            // each slice ends up in cache.getSpriteData() through
+            // AssetImportPipeline.
+            if (sliceSet.mode == SpriteMode::sliced && !sliceSet.slices.empty())
+            {
+                for (const auto& slice : sliceSet.slices)
+                {
+                    if (byId_.find(slice.id) != byId_.end()) continue;
+                    AssetEntry sub;
+                    sub.id = slice.id;
+                    sub.type = assets::Asset::Type::sprite;
+                    sub.relativePath = relGeneric + "#" + slice.name;
+                    sub.name = slice.name;
+                    sub.extension = ext;
+                    sub.importable = true;
+                    sub.options = options;
+                    sub.parentId = id;
+                    sub.sliceRectPx = slice.rectPx;
+
+                    const auto subIndex = entries_.size();
+                    entries_.push_back(std::move(sub));
+                    byId_.emplace(slice.id, subIndex);
+                    byPath_.emplace(entries_.back().relativePath, subIndex);
+                }
+                sliceSets_.emplace(id, std::move(sliceSet));
+            }
         }
 
         return result;
@@ -299,6 +392,92 @@ namespace fluxion::editor
     std::string AssetDatabase::absolutePath(const AssetEntry& entry) const
     {
         if (projectRoot_.empty()) return entry.relativePath;
-        return projectRoot_ + "/" + entry.relativePath;
+        // Sub-slice entries carry "<parent>#<sliceName>" as the
+        // relativePath; the actual file on disk is the parent only.
+        // Strip the "#..." suffix here so callers (preview readers,
+        // SpriteEditor) get a path that opens.
+        const auto hashPos = entry.relativePath.find('#');
+        const auto onDisk = (hashPos == std::string::npos)
+            ? entry.relativePath
+            : entry.relativePath.substr(0, hashPos);
+        return projectRoot_ + "/" + onDisk;
+    }
+
+    SpriteSliceSet AssetDatabase::getSliceSet(const Uuid& parentId) const
+    {
+        if (const auto i = sliceSets_.find(parentId); i != sliceSets_.end())
+            return i->second;
+        return SpriteSliceSet{};
+    }
+
+    bool AssetDatabase::saveSliceSet(const Uuid& parentId,
+                                     const SpriteSliceSet& set)
+    {
+        // Find the parent entry to locate its .meta on disk.
+        const auto* parent = findById(parentId);
+        if (!parent || !parent->parentId.isNull()) return false;
+
+        // Strip the "#..." suffix (parents never carry it, but the
+        // helper in absolutePath handles it harmlessly).
+        const auto metaPath = std::filesystem::path{absolutePath(*parent)
+                                                    + std::string{kMetaExtension}};
+
+        // Parse the existing meta, preserving fields we don't touch.
+        json::Value root;
+        try
+        {
+            const auto text = storage::readTextFile(storage::Path{metaPath.string()});
+            root = json::parse(text);
+            if (!root.is<json::Object>()) root = json::Object{};
+        }
+        catch (...)
+        {
+            root = json::Object{};
+        }
+
+        // Mode + grid.
+        root["sprite_mode"] = std::string{
+            set.mode == SpriteMode::sliced ? "sliced" : "single"};
+        json::Value grid;
+        grid = json::Object{};
+        grid["columns"] = static_cast<std::int64_t>(set.columns);
+        grid["rows"]    = static_cast<std::int64_t>(set.rows);
+        root["grid"] = grid;
+
+        // Slices array. Each slice keeps its existing Uuid; the
+        // editor matches them by index when re-applying a grid.
+        json::Value slices;
+        slices = json::Array{};
+        for (const auto& s : set.slices)
+        {
+            json::Value entry;
+            entry = json::Object{};
+            entry["id"] = s.id.toString();
+            entry["name"] = s.name;
+            entry["rect"] = rectToJson(s.rectPx);
+            slices.pushBack(entry);
+        }
+        root["slices"] = slices;
+
+        // Atomic write — same I/O policy as fresh-meta creation.
+        try
+        {
+            storage::atomicWriteFile(storage::Path{metaPath.string()},
+                                     json::encode(root, /*whitespace*/ true));
+        }
+        catch (const std::exception& e)
+        {
+            log(Log::Level::warning)
+                << "AssetDatabase: failed to save slice set for "
+                << parent->relativePath << ": " << e.what();
+            return false;
+        }
+
+        // Rescan to refresh entries_ and sliceSets_ in one shot.
+        // Cheaper paths (in-place patch) are possible but the rescan
+        // also picks up renames / new files the user may have made
+        // in the meantime, so this is the safer default.
+        rescan();
+        return true;
     }
 }

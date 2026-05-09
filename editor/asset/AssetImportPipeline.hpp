@@ -2,6 +2,7 @@
 #define FLUXION_EDITOR_ASSETIMPORTPIPELINE_HPP
 
 #include <cstddef>
+#include "../../engine/utils/Uuid.hpp"
 
 namespace fluxion::assets { class Bundle; }
 
@@ -33,6 +34,16 @@ namespace fluxion::editor
     // abort the rest of the import — partial success is the common
     // case (one corrupt asset shouldn't blank out the project).
     ImportSummary importAll(assets::Bundle& bundle, const AssetDatabase& database);
+
+    // Re-register every sub-slice that belongs to `parentId` in the
+    // bundle. Used by the SpriteEditor after the user saves a new
+    // grid: the AssetDatabase rescan rebuilt the entry list, but
+    // the Cache's SpriteData entries for the new slices need to be
+    // emitted explicitly. Cheaper than importAll because it skips
+    // every other asset.
+    ImportSummary importSlicesFor(assets::Bundle& bundle,
+                                   const AssetDatabase& database,
+                                   const Uuid& parentId);
 }
 
 #endif // FLUXION_EDITOR_ASSETIMPORTPIPELINE_HPP
