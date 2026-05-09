@@ -45,11 +45,27 @@ namespace fluxion::editor
 
         [[nodiscard]] State state() const noexcept { return state_; }
 
-    private:
+        // Public state-machine entry points. The detailed Time
+        // panel (this class' own draw) and the editor's top
+        // toolbar (EditorApp::drawMainMenu) both drive the same
+        // transitions through these — keeping the behaviour
+        // identical no matter which control surface the user
+        // touches. Each method is a no-op when called from a
+        // state where the transition wouldn't make sense (e.g.,
+        // Play while already Playing), so callers don't need to
+        // gate their UI buttons themselves.
         void enterPlay();
         void enterPause();
-        void enterEditing();
+        void enterResume();
+        void enterStop();
         void stepOne();
+
+    private:
+        // Sync the engine window title to the current state so the
+        // user sees a [PLAYING] / [PAUSED] / (empty) prefix even
+        // without looking at any panel. Called from every state
+        // transition.
+        void updateWindowTitle();
 
         scene::Scene* scene_;     // not owned
         State state_ = State::Editing;

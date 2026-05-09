@@ -29,6 +29,7 @@ namespace fluxion::scene
 namespace fluxion::editor
 {
     class CommandStack;
+    class PlayControlPanel;
     class SelectionContext;
 
     // ImGui-hosted scene viewport.
@@ -75,6 +76,14 @@ namespace fluxion::editor
         const scene::Actor* getCameraActor() const noexcept { return &cameraActor_; }
         scene::Camera& getCamera() noexcept { return camera_; }
 
+        // Optional back-pointer to the editor's play-control panel.
+        // When set, draw() paints a 2-pixel-thick border around the
+        // viewport image whose colour reflects the current play
+        // state (gray = Editing, yellow = Paused, green = Playing).
+        // Wiring this up is the editor's job — EditorApp assigns
+        // after both panels are constructed.
+        void setPlayControl(const PlayControlPanel* pc) noexcept { playControl_ = pc; }
+
     private:
         // Allocates color + depth textures and a render target at
         // `size`, points the camera at the new RT, and stores the
@@ -92,6 +101,7 @@ namespace fluxion::editor
                                           // hostLayer in the ctor — kept
                                           // separately for clarity.
         CommandStack* commandStack_;     // not owned; nullptr -> direct add
+        const PlayControlPanel* playControl_ = nullptr; // border tint state
 
         scene::Camera camera_;
         scene::Actor cameraActor_;

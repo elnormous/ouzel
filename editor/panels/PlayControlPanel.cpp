@@ -2,6 +2,7 @@
 
 #include "imgui.h"
 #include "../../engine/core/Engine.hpp"
+#include "../../engine/core/Window.hpp"
 #include "../../engine/scene/Scene.hpp"
 #include "../../engine/scene/SceneSerializer.hpp"
 
@@ -16,6 +17,23 @@ namespace fluxion::editor
         // Engine global is guaranteed live by the time any panel is
         // constructed (EditorApp's ImGui Context ctor depends on it).
         engine->setTimeScale(0.0F);
+        updateWindowTitle();
+    }
+
+    void PlayControlPanel::updateWindowTitle()
+    {
+        // Title prefix tells the user at a glance which mode they're
+        // in even when the Time panel is hidden — handy when the
+        // editor window is alt-tabbed in or screenshotted. Format
+        // matches what Unity does for parity.
+        const char* prefix = "";
+        switch (state_)
+        {
+            case State::Editing: prefix = "";          break;
+            case State::Playing: prefix = "[PLAYING] "; break;
+            case State::Paused:  prefix = "[PAUSED] ";  break;
+        }
+        engine->getWindow().setTitle(std::string{prefix} + "Fluxion Editor");
     }
 
     void PlayControlPanel::draw()
@@ -56,12 +74,7 @@ namespace fluxion::editor
         ImGui::SameLine();
 
         ImGui::BeginDisabled(state_ != State::Paused);
-        if (ImGui::Button("Resume"))
-        {
-            state_ = State::Playing;
-            engine->setTimeScale(playbackSpeed_);
-            statusMessage_ = "Resumed.";
-        }
+        if (ImGui::Button("Resume")) enterResume();
         ImGui::EndDisabled();
         ImGui::SameLine();
 
@@ -71,7 +84,7 @@ namespace fluxion::editor
         ImGui::SameLine();
 
         ImGui::BeginDisabled(state_ == State::Editing);
-        if (ImGui::Button("Stop")) enterEditing();
+        if (ImGui::Button("Stop")) enterStop();
         ImGui::EndDisabled();
 
         ImGui::Separator();
@@ -95,6 +108,7 @@ namespace fluxion::editor
 
     void PlayControlPanel::enterPlay()
     {
+        if (state_ != State::Editing) return;       // no-op from Playing/Paused
         if (!scene_)
         {
             statusMessage_ = "No scene attached; nothing to play.";
@@ -116,17 +130,30 @@ namespace fluxion::editor
         state_ = State::Playing;
         engine->setTimeScale(playbackSpeed_);
         statusMessage_ = "Play started; scene snapshotted.";
+        updateWindowTitle();
     }
 
     void PlayControlPanel::enterPause()
     {
+        if (state_ != State::Playing) return;       // no-op from Editing/Paused
         state_ = State::Paused;
         engine->setTimeScale(0.0F);
         statusMessage_ = "Paused. Use Step to advance one frame, Resume to continue.";
+        updateWindowTitle();
+    }
+
+    void PlayControlPanel::enterResume()
+    {
+        if (state_ != State::Paused) return;        // no-op from Editing/Playing
+        state_ = State::Playing;
+        engine->setTimeScale(playbackSpeed_);
+        statusMessage_ = "Resumed.";
+        updateWindowTitle();
     }
 
     void PlayControlPanel::stepOne()
     {
+        if (state_ != State::Paused) return;        // step only in Paused
         // requestStep() bypasses timeScale for exactly one update tick,
         // delivering real-time delta. The state stays Paused so the
         // simulation freezes again on the next tick.
@@ -134,8 +161,9 @@ namespace fluxion::editor
         statusMessage_ = "Step requested (one update tick at real-time delta).";
     }
 
-    void PlayControlPanel::enterEditing()
+    void PlayControlPanel::enterStop()
     {
+        if (state_ == State::Editing) return;       // already stopped
         if (hasSnapshot_ && scene_)
         {
             try
@@ -154,5 +182,6 @@ namespace fluxion::editor
         }
         state_ = State::Editing;
         engine->setTimeScale(0.0F);
+        updateWindowTitle();
     }
 }

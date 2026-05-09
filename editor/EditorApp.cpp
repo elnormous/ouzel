@@ -180,7 +180,16 @@ namespace fluxion::editor
         panels_.push_back(std::make_unique<InspectorPanel>(
             &selection_, &workingLayer_, &commandStack_, &assetDatabase_,
             &engine->getCache(), &imgui_));
-        panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
+
+        auto playControlPanel = std::make_unique<PlayControlPanel>(&workingScene_);
+        playControl_ = playControlPanel.get();
+        panels_.push_back(std::move(playControlPanel));
+        // Wire the viewport's border tint to the play state now
+        // that both panels are constructed. The viewport is built
+        // earlier in this ctor (before PlayControlPanel) because
+        // SceneTreePanel needs its camera-actor pointer; pushing
+        // the back-pointer through a setter avoids reordering.
+        if (viewportPanel_) viewportPanel_->setPlayControl(playControl_);
 
         // Sprite editor (for slicing image assets) is built BEFORE the
         // AssetBrowser so the browser's context-menu can hold a back
@@ -296,6 +305,51 @@ namespace fluxion::editor
         }
 
         drawEditMenu();
+
+        // Top-toolbar play controls. Drives the same state machine
+        // the PlayControlPanel exposes — the panel stays around as
+        // a "Time" details surface (timeScale slider, status
+        // string), but the user can hit Play / Pause / Stop without
+        // hunting for the panel.
+        if (playControl_)
+        {
+            using S = PlayControlPanel::State;
+            const auto state = playControl_->state();
+            ImGui::Separator();
+
+            // Tinted Play button when in Editing so the eye finds
+            // it immediately; greyed-out when already running.
+            const bool playEnabled = (state == S::Editing);
+            ImGui::BeginDisabled(!playEnabled);
+            if (state == S::Playing)
+                ImGui::PushStyleColor(ImGuiCol_Button,
+                                      ImVec4(0.20F, 0.65F, 0.30F, 1.0F));
+            if (ImGui::Button("\xE2\x96\xB6 Play"))    // u25B6 ▶
+                playControl_->enterPlay();
+            if (state == S::Playing)
+                ImGui::PopStyleColor();
+            ImGui::EndDisabled();
+
+            ImGui::BeginDisabled(state != S::Playing);
+            if (ImGui::Button("\xE2\x9D\x9A Pause"))   // u275A ❚
+                playControl_->enterPause();
+            ImGui::EndDisabled();
+
+            ImGui::BeginDisabled(state != S::Paused);
+            if (ImGui::Button("\xE2\x96\xB6\xE2\x96\xB6 Resume"))
+                playControl_->enterResume();
+            ImGui::EndDisabled();
+
+            ImGui::BeginDisabled(state != S::Paused);
+            if (ImGui::Button("Step"))
+                playControl_->stepOne();
+            ImGui::EndDisabled();
+
+            ImGui::BeginDisabled(state == S::Editing);
+            if (ImGui::Button("\xE2\x96\xA0 Stop"))    // u25A0 ■
+                playControl_->enterStop();
+            ImGui::EndDisabled();
+        }
 
         // Right-side info: current scene path + a transient status
         // message after save/load. Helps the user see at a glance

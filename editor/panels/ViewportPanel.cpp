@@ -17,6 +17,7 @@
 #include "../EditorPicking.hpp"
 #include "../SelectionContext.hpp"
 #include "../commands/AssetCommands.hpp"
+#include "PlayControlPanel.hpp"
 
 namespace fluxion::editor
 {
@@ -400,6 +401,32 @@ namespace fluxion::editor
                                               &cameraActor_);
                 selection_.setSelected(hit);
             }
+        }
+
+        // Play-mode border tint — drawn last so it sits on top of
+        // every overlay (AABB outlines, gizmo handles). Two-pixel
+        // outline using the foreground draw list of THIS window so
+        // it's clipped to the viewport rect even when the viewport
+        // is docked inside another panel. Editing stays grey
+        // (subtle but visible against the dark ImGui background)
+        // so the user can tell at a glance which mode they're in.
+        if (playControl_)
+        {
+            using S = PlayControlPanel::State;
+            ImU32 borderColor = IM_COL32(120, 120, 120, 255);  // Editing
+            switch (playControl_->state())
+            {
+                case S::Editing:
+                    borderColor = IM_COL32(120, 120, 120, 255); break;
+                case S::Playing:
+                    borderColor = IM_COL32( 80, 200,  80, 255); break;
+                case S::Paused:
+                    borderColor = IM_COL32(220, 200,  60, 255); break;
+            }
+            ImGui::GetWindowDrawList()->AddRect(
+                ImVec2(cursorBeforeImage.x,           cursorBeforeImage.y),
+                ImVec2(cursorBeforeImage.x + avail.x, cursorBeforeImage.y + avail.y),
+                borderColor, 0.0F, 0, 2.0F);
         }
 
         ImGui::End();

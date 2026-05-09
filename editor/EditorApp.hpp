@@ -124,6 +124,12 @@ namespace fluxion::editor
         // when threading "exclude this from picking / tree / overlay"
         // through editor surfaces. Lifetime is governed by panels_.
         class ViewportPanel* viewportPanel_ = nullptr;
+
+        // Non-owning back-pointer to the play-control panel so the
+        // top toolbar (drawMainMenu) can drive the same Play /
+        // Pause / Stop transitions the panel exposes. Lifetime is
+        // governed by panels_.
+        class PlayControlPanel* playControl_ = nullptr;
     };
 }
 
