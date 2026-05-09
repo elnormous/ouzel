@@ -69,7 +69,16 @@ namespace fluxion::editor
         // in the AssetBrowser switches the inspector to a read-only
         // .meta view. SelectionContext guarantees at-most-one of the
         // two selection kinds is set at any time.
-        if (selection_ && selection_->hasAssetSelection())
+        //
+        // Exception: while ImGui has an active drag-drop in flight
+        // (GetDragDropPayload returns non-null only between drag
+        // start and drop), we keep showing the actor view so the
+        // SpriteRenderer (or other component) drop receptor stays
+        // on screen. The press that begins a drag also selects the
+        // source asset, which would normally swap the panel to
+        // .meta view — overridden during drag.
+        const bool dragInFlight = ImGui::GetDragDropPayload() != nullptr;
+        if (selection_ && selection_->hasAssetSelection() && !dragInFlight)
         {
             drawAssetInspector();
             ImGui::End();
