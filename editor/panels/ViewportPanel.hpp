@@ -87,6 +87,11 @@ namespace fluxion::editor
         scene::Scene& workingScene_;
         SelectionContext& selection_;
         const scene::Layer* excludeLayer_;
+        scene::Layer* userLayer_;        // not owned; where drop-to-create
+                                          // adds new actors. Same layer as
+                                          // hostLayer in the ctor — kept
+                                          // separately for clarity.
+        CommandStack* commandStack_;     // not owned; nullptr -> direct add
 
         scene::Camera camera_;
         scene::Actor cameraActor_;

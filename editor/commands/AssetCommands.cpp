@@ -1,11 +1,14 @@
 #include "AssetCommands.hpp"
 
 #include <cstring>
+#include <utility>
 #include "../../engine/reflection/Inspector.hpp"
 #include "../../engine/scene/Actor.hpp"
 #include "../../engine/scene/Component.hpp"
 #include "../../engine/scene/Layer.hpp"
+#include "../../engine/scene/SpriteRenderer.hpp"
 #include "../SceneLookup.hpp"
+#include "../SelectionContext.hpp"
 
 namespace fluxion::editor::commands
 {
@@ -93,5 +96,63 @@ namespace fluxion::editor::commands
     std::string SetAssetCommand::label() const
     {
         return "Set " + fieldLabel_;
+    }
+
+    // ---- CreateActorWithSpriteCommand -------------------------------
+
+    CreateActorWithSpriteCommand::CreateActorWithSpriteCommand(
+        scene::Layer* layer,
+        const assets::AssetReference& assetRef,
+        const math::Vector<float, 3>& worldPosition,
+        std::string actorName,
+        SelectionContext* selection):
+        layer_{layer},
+        selection_{selection}
+    {
+        // Build the actor up-front. The ctor runs once when the user
+        // drops; redo() then alternates between handing it to the
+        // layer and reclaiming it on undo, mirroring AddActorCommand.
+        stored_ = std::make_unique<scene::Actor>();
+        stored_->setName(std::move(actorName));
+        stored_->setPosition(worldPosition);
+
+        auto renderer = std::make_unique<scene::SpriteRenderer>();
+        renderer->setSpriteReference(assetRef);
+        stored_->addComponent(std::move(renderer));
+
+        actorId_ = stored_->getId();
+    }
+
+    CreateActorWithSpriteCommand::~CreateActorWithSpriteCommand() = default;
+
+    void CreateActorWithSpriteCommand::redo()
+    {
+        if (!stored_) return;        // already in scene
+        if (!layer_) return;
+        layer_->addChild(std::move(stored_));
+        if (selection_)
+        {
+            // Land the new actor as the user's selection so the
+            // Inspector immediately exposes its SpriteRenderer for
+            // tweaks (sorting layer, offset, ...).
+            if (auto* a = findActorById(*layer_, actorId_))
+                selection_->setSelected(a);
+        }
+    }
+
+    void CreateActorWithSpriteCommand::undo()
+    {
+        if (stored_) return;          // already detached
+        if (!layer_) return;
+        auto* victim = findActorById(*layer_, actorId_);
+        if (!victim) return;
+        if (selection_ && selection_->getSelected() == victim)
+            selection_->clear();
+        stored_ = layer_->releaseChild(*victim);
+    }
+
+    std::string CreateActorWithSpriteCommand::label() const
+    {
+        return "Create Sprite Actor";
     }
 }

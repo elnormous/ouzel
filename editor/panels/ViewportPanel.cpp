@@ -2,7 +2,10 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
+#include <memory>
 #include "imgui.h"
+#include "../../engine/assets/Asset.hpp"
 #include "../../engine/core/Engine.hpp"
 #include "../../engine/graphics/Flags.hpp"
 #include "../../engine/graphics/Graphics.hpp"
@@ -10,8 +13,10 @@
 #include "../../engine/gui/imgui/ImGuiContext.hpp"
 #include "../../engine/scene/Layer.hpp"
 #include "../../engine/scene/Scene.hpp"
+#include "../CommandStack.hpp"
 #include "../EditorPicking.hpp"
 #include "../SelectionContext.hpp"
+#include "../commands/AssetCommands.hpp"
 
 namespace fluxion::editor
 {
@@ -47,7 +52,9 @@ namespace fluxion::editor
         imgui_{imgui},
         workingScene_{workingScene},
         selection_{selection},
-        excludeLayer_{excludeLayer}
+        excludeLayer_{excludeLayer},
+        userLayer_{&hostLayer},
+        commandStack_{commandStack}
     {
         // Tell the gizmo where to push transform commands when it
         // sees a drag complete. The host layer is also where the
@@ -210,6 +217,59 @@ namespace fluxion::editor
         ImGui::SetCursorScreenPos(cursorBeforeImage);
         ImGui::InvisibleButton("##viewport_input", avail,
                                ImGuiButtonFlags_MouseButtonLeft);
+
+        // Drop-to-create: dragging an asset from the AssetBrowser onto
+        // the viewport area spawns a new actor at the cursor's world
+        // position. The drop is undoable via CommandStack (single
+        // CreateActorWithSpriteCommand step, mirrors the gizmo's
+        // pattern). Only sprite + image types produce a renderable
+        // result with a SpriteRenderer; other types (sound, font,
+        // mesh) are accepted silently as no-ops for now — phase 13/14
+        // can wire them up if needed.
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const auto* payload =
+                    ImGui::AcceptDragDropPayload("FLUXION_ASSET_REF"))
+            {
+                if (payload->DataSize == static_cast<int>(sizeof(assets::AssetReference)))
+                {
+                    assets::AssetReference incoming;
+                    std::memcpy(&incoming, payload->Data,
+                                sizeof(assets::AssetReference));
+
+                    const bool isSpriteish =
+                        incoming.type == assets::Asset::Type::sprite ||
+                        incoming.type == assets::Asset::Type::image;
+
+                    if (isSpriteish && userLayer_ && commandStack_)
+                    {
+                        // Convert the drop position from screen-space
+                        // to the camera's world space. Cursor coords
+                        // come from ImGui::GetMousePos because the
+                        // payload is delivered on release; the
+                        // panel's own mouseNorm computed below would
+                        // have raced.
+                        const ImVec2 dropPos = ImGui::GetMousePos();
+                        // imgMin/imgW/imgH are computed below — use the
+                        // already-known cursor + avail here so we don't
+                        // need to forward-reference them.
+                        const math::Vector<float, 2> dropNorm{
+                            (dropPos.x - cursorBeforeImage.x) / avail.x,
+                            (dropPos.y - cursorBeforeImage.y) / avail.y
+                        };
+                        const auto world = camera_.convertNormalizedToWorld(dropNorm);
+
+                        commandStack_->execute(
+                            std::make_unique<commands::CreateActorWithSpriteCommand>(
+                                userLayer_, incoming,
+                                math::Vector<float, 3>{world},
+                                std::string{"SpriteActor"},
+                                &selection_));
+                    }
+                }
+            }
+            ImGui::EndDragDropTarget();
+        }
 
         // Image rect in absolute screen coords. Used both to convert
         // a click into normalized [0,1] viewport coords (for picking)
