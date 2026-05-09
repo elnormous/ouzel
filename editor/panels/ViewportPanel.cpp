@@ -75,15 +75,19 @@ namespace fluxion::editor
         camera_.setClearColorBuffer(true);
         camera_.setClearDepthBuffer(true);
         camera_.setClearColor(math::Color{32, 32, 40, 255});
-        // exactFit (NOT showAll): stretches the world rectangle to
-        // fill the SQUARE render target anisotropically. ImGui::Image
-        // then stretches the square RT to the (typically rectangular)
-        // panel, exactly cancelling out the per-axis distortion when
-        // we set targetContentSize aspect = panel aspect every frame
-        // (see draw()). With showAll the camera kept the world aspect
-        // intact inside the square RT, but the RT-to-panel stretch
-        // re-broke it — hence sprites coming out wide on a wide panel.
-        camera_.setScaleMode(scene::Camera::ScaleMode::exactFit);
+        // noScale: the orthographic projection covers world rect of
+        // exactly targetContentSize (no letterbox, no rt-fit clamp).
+        // With targetContentSize set to (panelAspect * H, H) every
+        // frame, the projection is anisotropic in the same ratio as
+        // the panel — and the subsequent RT-to-panel stretch
+        // (ImGui::Image of the square 1024x1024 RT into the rectangular
+        // panel) exactly cancels it out. World 1:1 sprites land 1:1
+        // on the panel, AND the zoom (changing H) actually changes
+        // the projection extent, unlike exactFit which clamps
+        // contentScale to (1,1) and ignores targetContentSize.
+        // showAll had the opposite bug: it preserved world aspect on
+        // the RT but the RT-to-panel stretch then re-broke it.
+        camera_.setScaleMode(scene::Camera::ScaleMode::noScale);
         camera_.setTargetContentSize(math::Size<float, 2>{60.0F, 60.0F});
 
         cameraActor_.setName("<viewport camera>");
