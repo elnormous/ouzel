@@ -148,9 +148,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="asset\AssetAwareInspector.cpp" />
     <ClCompile Include="asset\AssetDatabase.cpp" />
     <ClCompile Include="asset\AssetImportPipeline.cpp" />
     <ClCompile Include="commands\ActorCommands.cpp" />
+    <ClCompile Include="commands\AssetCommands.cpp" />
     <ClCompile Include="commands\ComponentCommands.cpp" />
     <ClCompile Include="commands\TransformCommands.cpp" />
     <ClCompile Include="CommandStack.cpp" />
@@ -161,6 +163,7 @@
     <ClCompile Include="SceneIO.cpp" />
     <ClCompile Include="SceneLookup.cpp" />
     <ClCompile Include="SelectionContext.cpp" />
+    <ClCompile Include="panels\AssetBrowserPanel.cpp" />
     <ClCompile Include="panels\InfoPanel.cpp" />
     <ClCompile Include="panels\InspectorPanel.cpp" />
     <ClCompile Include="panels\PlayControlPanel.cpp" />
@@ -168,9 +171,11 @@
     <ClCompile Include="panels\ViewportPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="asset\AssetAwareInspector.hpp" />
     <ClInclude Include="asset\AssetDatabase.hpp" />
     <ClInclude Include="asset\AssetImportPipeline.hpp" />
     <ClInclude Include="commands\ActorCommands.hpp" />
+    <ClInclude Include="commands\AssetCommands.hpp" />
     <ClInclude Include="commands\Command.hpp" />
     <ClInclude Include="commands\ComponentCommands.hpp" />
     <ClInclude Include="commands\TransformCommands.hpp" />
@@ -182,6 +187,7 @@
     <ClInclude Include="SceneIO.hpp" />
     <ClInclude Include="SceneLookup.hpp" />
     <ClInclude Include="SelectionContext.hpp" />
+    <ClInclude Include="panels\AssetBrowserPanel.hpp" />
     <ClInclude Include="panels\InfoPanel.hpp" />
     <ClInclude Include="panels\InspectorPanel.hpp" />
     <ClInclude Include="panels\PlayControlPanel.hpp" />

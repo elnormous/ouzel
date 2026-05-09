@@ -7,9 +7,10 @@
 #include "imgui.h"
 #include "../CommandStack.hpp"
 #include "../SelectionContext.hpp"
+#include "../asset/AssetAwareInspector.hpp"
+#include "../commands/AssetCommands.hpp"
 #include "../commands/ComponentCommands.hpp"
 #include "../commands/TransformCommands.hpp"
-#include "../../engine/gui/imgui/ImGuiInspector.hpp"
 #include "../../engine/math/Constants.hpp"
 #include "../../engine/math/Quaternion.hpp"
 #include "../../engine/reflection/TypeRegistry.hpp"
@@ -40,11 +41,13 @@ namespace fluxion::editor
 
     InspectorPanel::InspectorPanel(SelectionContext* selection,
                                    scene::Layer* userLayer,
-                                   CommandStack* commandStack):
+                                   CommandStack* commandStack,
+                                   const AssetDatabase* assetDatabase):
         Panel{"Inspector", true},
         selection_{selection},
         userLayer_{userLayer},
-        commandStack_{commandStack}
+        commandStack_{commandStack},
+        assetDatabase_{assetDatabase}
     {
     }
 
@@ -205,7 +208,7 @@ namespace fluxion::editor
         }
         else
         {
-            gui::imgui::Inspector inspector;
+            AssetAwareInspector inspector{assetDatabase_};
             for (std::size_t i = 0; i < components.size(); ++i)
             {
                 auto* comp = components[i];
@@ -236,7 +239,22 @@ namespace fluxion::editor
                 if (open)
                 {
                     ImGui::Indent();
+                    inspector.clearPendingDrop();
                     comp->inspect(inspector);
+                    // Asset drag-drop fired during this component's
+                    // inspect()? Convert it to an undoable command.
+                    // The inspector already mutated the field live;
+                    // push() (not execute()) records without re-
+                    // applying.
+                    if (auto pending = inspector.takePendingDrop())
+                    {
+                        if (commandStack_ && userLayer_)
+                            commandStack_->push(
+                                std::make_unique<commands::SetAssetCommand>(
+                                    userLayer_, actor.getId(), i,
+                                    pending->label,
+                                    pending->oldValue, pending->newValue));
+                    }
                     ImGui::Unindent();
                 }
                 ImGui::PopID();

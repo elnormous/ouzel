@@ -12,6 +12,7 @@ namespace fluxion::scene
 
 namespace fluxion::editor
 {
+    class AssetDatabase;
     class CommandStack;
     class SelectionContext;
 
@@ -36,9 +37,15 @@ namespace fluxion::editor
         // provided, name edits and component add / remove route
         // through the undo/redo system. Without them the panel
         // mutates the actor directly (legacy / test path).
+        // assetDatabase is also optional — when present, the
+        // inspector renders AssetReference fields with resolved
+        // names + a drag-drop receptor and routes drops as
+        // SetAssetCommand. When absent, asset fields fall back to
+        // the engine-side raw uuid display.
         explicit InspectorPanel(SelectionContext* selection,
                                 scene::Layer* userLayer = nullptr,
-                                CommandStack* commandStack = nullptr);
+                                CommandStack* commandStack = nullptr,
+                                const AssetDatabase* assetDatabase = nullptr);
 
         void draw() override;
 
@@ -51,6 +58,7 @@ namespace fluxion::editor
         SelectionContext* selection_;       // not owned
         scene::Layer* userLayer_;           // not owned; nullptr OK
         CommandStack* commandStack_;        // not owned; nullptr OK
+        const AssetDatabase* assetDatabase_;// not owned; nullptr OK
 
         // Captured-on-activate value for the name InputText. Used
         // to push a SetNameCommand on commit (IsItemDeactivatedAfterEdit)

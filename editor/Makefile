@@ -40,9 +40,11 @@ OBJCXXFLAGS=-std=c++17 \
 	-I"../external/imgui"
 
 SOURCES=main.cpp \
+	asset/AssetAwareInspector.cpp \
 	asset/AssetDatabase.cpp \
 	asset/AssetImportPipeline.cpp \
 	commands/ActorCommands.cpp \
+	commands/AssetCommands.cpp \
 	commands/ComponentCommands.cpp \
 	commands/TransformCommands.cpp \
 	CommandStack.cpp \
@@ -52,6 +54,7 @@ SOURCES=main.cpp \
 	SceneIO.cpp \
 	SceneLookup.cpp \
 	SelectionContext.cpp \
+	panels/AssetBrowserPanel.cpp \
 	panels/InfoPanel.cpp \
 	panels/InspectorPanel.cpp \
 	panels/PlayControlPanel.cpp \

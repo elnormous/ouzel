@@ -9,7 +9,12 @@ namespace fluxion::gui::imgui
     // All methods must be called from the render thread, between
     // ImGui::NewFrame and ImGui::Render — the same constraint that already
     // applies to ImGui::* calls.
-    class Inspector final : public reflection::Inspector
+    //
+    // Not `final`: the editor subclasses this to add asset-database-aware
+    // rendering for AssetReference fields (see editor/AssetAwareInspector).
+    // Other host applications can do the same when they want to extend
+    // the inspector's vocabulary.
+    class Inspector : public reflection::Inspector
     {
     public:
         Inspector() = default;

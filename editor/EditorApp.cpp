@@ -27,6 +27,7 @@
 #include "../engine/storage/Path.hpp"
 #include "asset/AssetImportPipeline.hpp"
 #include "SceneIO.hpp"
+#include "panels/AssetBrowserPanel.hpp"
 #include "panels/InfoPanel.hpp"
 #include "panels/InspectorPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
@@ -164,8 +165,10 @@ namespace fluxion::editor
                                                            &editorLayer_,
                                                            viewportPanel_->getCameraActor()));
         panels_.push_back(std::make_unique<InspectorPanel>(
-            &selection_, &workingLayer_, &commandStack_));
+            &selection_, &workingLayer_, &commandStack_, &assetDatabase_));
         panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
+        panels_.push_back(std::make_unique<AssetBrowserPanel>(
+            &assetDatabase_, &engine->getCache(), &imgui_));
 
         imgui_.setDrawCallback([this]() {
             drawMainMenu();
@@ -590,11 +593,22 @@ namespace fluxion::editor
         engine->getFileSystem().addResourcePath(
             storage::Path{assetDatabase_.getProjectRoot()});
 
+        // Push every importable asset through the loader chain so
+        // the Cache becomes addressable by both name and uuid. Image
+        // thumbnails in the AssetBrowser come from cache.getTexture(id)
+        // — without this the panel would show only fallback tiles.
+        // Failures (corrupt files, dependencies missing) are logged
+        // by importAll itself and counted here for the InfoPanel.
+        const auto imp = importAll(projectBundle_, assetDatabase_);
+
         std::string out = "PASS scanned=" + std::to_string(scan.scanned)
             + " loaded=" + std::to_string(scan.metaLoaded)
-            + " created=" + std::to_string(scan.metaCreated);
+            + " created=" + std::to_string(scan.metaCreated)
+            + " imported=" + std::to_string(imp.imported);
+        if (imp.failed > 0)
+            out += " (" + std::to_string(imp.failed) + " import-fail)";
         if (scan.metaInvalid > 0)
-            out += " (" + std::to_string(scan.metaInvalid) + " invalid)";
+            out += " (" + std::to_string(scan.metaInvalid) + " meta-invalid)";
         return out;
     }
 
