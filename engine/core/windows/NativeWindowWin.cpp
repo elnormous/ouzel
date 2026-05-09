@@ -387,6 +387,21 @@ namespace
             }
             case WM_CREATE:
                 return 0;
+            case WM_CLOSE:
+            {
+                // Host-injectable confirmation hook. The editor sets
+                // this to "if dirty, pop a 'Discard unsaved changes?'
+                // modal and return false until the user picks". When
+                // not set the engine closes immediately like before.
+                // Returning 0 here without DestroyWindow keeps the
+                // window alive for another frame so the modal can
+                // show; the editor then re-invokes close once the
+                // user confirms.
+                if (auto* eng = fluxion::engine; eng && !eng->requestCloseConfirmation())
+                    return 0;
+                DestroyWindow(window);
+                return 0;
+            }
             case WM_DESTROY:
                 PostQuitMessage(0);
                 return 0;

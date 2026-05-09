@@ -112,6 +112,20 @@ namespace fluxion::editor
     {
         forceLinkRegisteredComponents();
 
+        // Hook the engine's OS-window close confirmation. When
+        // the user clicks the X with unsaved changes pending,
+        // queue the discard modal and refuse the close; the
+        // modal's Discard button will set userConfirmedClose_
+        // true and re-trigger close, which the handler then lets
+        // through. Capture `this` by value (engine outlives
+        // EditorApp inside main).
+        engine->setCloseConfirmHandler([this]() -> bool {
+            if (userConfirmedClose_) return true;
+            if (!dirty_) return true;
+            pendingDiscardAction_ = PendingDiscard::Close;
+            return false;
+        });
+
         // Enable ImGui's docking system so panel windows can be
         // tabbed / split / re-arranged by dragging their title bars.
         // ImGui persists the layout to imgui.ini in the working
@@ -258,10 +272,13 @@ namespace fluxion::editor
                  (ctrl && !shift && ImGui::IsKeyPressed(ImGuiKey_Y, false))))
                 commandStack_.redo();
 
+            updateDirty();
+
             for (const auto& p : panels_)
                 if (p && p->isVisible())
                     p->draw();
             drawFileDialog();
+            drawDiscardModal();
         });
         // Picking + AABB overlay live entirely inside ViewportPanel
         // now: clicks come from ImGui::IsItemClicked on the image,
@@ -320,17 +337,27 @@ namespace fluxion::editor
             if (ImGui::MenuItem("New Scene", nullptr,
                                 /*selected*/ false,
                                 /*enabled*/ isEditing))
-                doNewScene();
+            {
+                if (dirty_) pendingDiscardAction_ = PendingDiscard::NewScene;
+                else        doNewScene();
+            }
 
             if (ImGui::MenuItem("Open Scene...", nullptr,
                                 /*selected*/ false,
                                 /*enabled*/ isEditing))
             {
-                fileDialogMode_ = FileDialogMode::Open;
-                std::memset(fileDialogBuf_, 0, sizeof(fileDialogBuf_));
-                if (!currentScenePath_.empty())
-                    std::snprintf(fileDialogBuf_, sizeof(fileDialogBuf_),
-                                  "%s", currentScenePath_.c_str());
+                if (dirty_)
+                {
+                    pendingDiscardAction_ = PendingDiscard::OpenScene;
+                }
+                else
+                {
+                    fileDialogMode_ = FileDialogMode::Open;
+                    std::memset(fileDialogBuf_, 0, sizeof(fileDialogBuf_));
+                    if (!currentScenePath_.empty())
+                        std::snprintf(fileDialogBuf_, sizeof(fileDialogBuf_),
+                                      "%s", currentScenePath_.c_str());
+                }
             }
 
             // "Save" only enabled once we know where the scene came
@@ -405,12 +432,14 @@ namespace fluxion::editor
         // Right-side info: current scene path + a transient status
         // message after save/load. Helps the user see at a glance
         // which file they're editing without having to dig into the
-        // file dialog.
+        // file dialog. The trailing "*" appears whenever dirty_ is
+        // set — Unity-style unsaved indicator.
         ImGui::SameLine(ImGui::GetWindowWidth() - 480.0F);
+        const char* dirtyMark = dirty_ ? "*" : "";
         if (!currentScenePath_.empty())
-            ImGui::TextDisabled("[%s]", currentScenePath_.c_str());
+            ImGui::TextDisabled("[%s%s]", currentScenePath_.c_str(), dirtyMark);
         else
-            ImGui::TextDisabled("[unsaved]");
+            ImGui::TextDisabled("[unsaved%s]", dirtyMark);
         if (statusFramesRemaining_ > 0)
         {
             ImGui::SameLine();
@@ -484,6 +513,7 @@ namespace fluxion::editor
         // which no longer match — drop it.
         commandStack_.clear();
         currentScenePath_.clear();
+        savedUndoCount_ = commandStack_.undoCount();      // baseline = 0
         statusMessage_ = "New scene";
         statusFramesRemaining_ = 120;
     }
@@ -495,6 +525,9 @@ namespace fluxion::editor
         {
             sceneIO::saveUserScene(workingLayer_,
                                    storage::Path{currentScenePath_});
+            // Successfully written: snapshot the undo count so the
+            // dirty mark clears until the next mutation.
+            savedUndoCount_ = commandStack_.undoCount();
             statusMessage_ = "Saved";
             log(Log::Level::info)
                 << "Editor: saved scene to " << currentScenePath_;
@@ -523,6 +556,9 @@ namespace fluxion::editor
             commandStack_.clear();
             sceneIO::loadUserScene(workingLayer_,
                                    storage::Path{currentScenePath_});
+            // Just-loaded scene matches its on-disk form, so reset
+            // the dirty baseline.
+            savedUndoCount_ = commandStack_.undoCount();
             statusMessage_ = "Loaded";
             log(Log::Level::info)
                 << "Editor: loaded scene from " << currentScenePath_;
@@ -753,6 +789,80 @@ namespace fluxion::editor
         if (scan.metaInvalid > 0)
             out += " (" + std::to_string(scan.metaInvalid) + " meta-invalid)";
         return out;
+    }
+
+    void EditorApp::updateDirty()
+    {
+        // Coarse but cheap dirty signal: undo-count delta from the
+        // last save. Every Command::push grows undoStack_; an undo
+        // shrinks it. Rolling back to exactly the saved count still
+        // reads as dirty when intermediate redo-only commands are
+        // pending — acceptable for the badge, since "exactly the
+        // bytes on disk" tracking would need content hashing.
+        dirty_ = (commandStack_.undoCount() != savedUndoCount_);
+    }
+
+    void EditorApp::drawDiscardModal()
+    {
+        if (pendingDiscardAction_ == PendingDiscard::None) return;
+
+        constexpr const char* popupId = "Discard unsaved changes?##editor_discard";
+        if (!ImGui::IsPopupOpen(popupId))
+            ImGui::OpenPopup(popupId);
+
+        if (ImGui::BeginPopupModal(popupId, nullptr,
+                                    ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            ImGui::TextWrapped(
+                "The current scene has unsaved changes. "
+                "Continue and lose them, or cancel to keep editing?");
+            ImGui::Separator();
+
+            const bool discard = ImGui::Button("Discard");
+            ImGui::SameLine();
+            const bool cancel = ImGui::Button("Cancel");
+
+            if (discard)
+            {
+                executePendingDiscard();
+                ImGui::CloseCurrentPopup();
+            }
+            else if (cancel)
+            {
+                pendingDiscardAction_ = PendingDiscard::None;
+                ImGui::CloseCurrentPopup();
+            }
+
+            ImGui::EndPopup();
+        }
+    }
+
+    void EditorApp::executePendingDiscard()
+    {
+        const auto action = pendingDiscardAction_;
+        pendingDiscardAction_ = PendingDiscard::None;
+        switch (action)
+        {
+            case PendingDiscard::None: return;
+            case PendingDiscard::NewScene:
+                doNewScene();
+                break;
+            case PendingDiscard::OpenScene:
+                fileDialogMode_ = FileDialogMode::Open;
+                std::memset(fileDialogBuf_, 0, sizeof(fileDialogBuf_));
+                if (!currentScenePath_.empty())
+                    std::snprintf(fileDialogBuf_, sizeof(fileDialogBuf_),
+                                  "%s", currentScenePath_.c_str());
+                break;
+            case PendingDiscard::Close:
+                // Mark the close as confirmed and trigger another
+                // exit so the engine's WM_CLOSE handler lets it
+                // through this time. engine->exit() does the
+                // cross-platform shutdown shake-down.
+                userConfirmedClose_ = true;
+                engine->exit();
+                break;
+        }
     }
 
     std::string EditorApp::runAssetReferenceRoundTripSelfTest()

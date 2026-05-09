@@ -89,6 +89,26 @@ namespace fluxion::core
         void resume();
         void exit();
 
+        // Editor-friendly hook: when the user clicks the OS window's
+        // close button, the native window handler invokes this
+        // callback (if set) and only proceeds with destroy when it
+        // returns true. Returning false leaves the window open so
+        // the host can pop a "Discard unsaved changes?" modal first.
+        // On platforms where we haven't wired the WM_CLOSE / NSWindow
+        // shouldClose: / WM_DELETE_WINDOW path yet (anything beyond
+        // Windows for now), the handler is simply not invoked and
+        // the engine closes normally — host should fall back to its
+        // own dirty-state tracking on those targets.
+        using CloseConfirmHandler = std::function<bool()>;
+        void setCloseConfirmHandler(CloseConfirmHandler h)
+        {
+            closeConfirmHandler = std::move(h);
+        }
+        [[nodiscard]] bool requestCloseConfirmation()
+        {
+            return closeConfirmHandler ? closeConfirmHandler() : true;
+        }
+
         [[nodiscard]] bool isPaused() const noexcept { return paused; }
         [[nodiscard]] bool isActive() const noexcept { return active; }
 
@@ -181,6 +201,7 @@ namespace fluxion::core
         std::chrono::steady_clock::time_point previousUpdateTime;
 
         std::atomic_bool active{false};
+        CloseConfirmHandler closeConfirmHandler;
         std::atomic_bool paused{false};
         std::atomic_bool oneUpdatePerFrame{false};
         bool refillRenderQueue = true;

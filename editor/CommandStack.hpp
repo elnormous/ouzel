@@ -41,6 +41,14 @@ namespace fluxion::editor
         [[nodiscard]] bool canUndo() const noexcept { return !undoStack_.empty(); }
         [[nodiscard]] bool canRedo() const noexcept { return !redoStack_.empty(); }
 
+        // Total number of recorded undo entries. The editor reads
+        // this to detect "the scene has un-saved mutations" — every
+        // push grows it, every undo() shrinks it. A simple count
+        // delta from the last save is enough for the dirty badge,
+        // even though it's a coarse signal (undo back to the saved
+        // state still reads as dirty until the next save).
+        [[nodiscard]] std::size_t undoCount() const noexcept { return undoStack_.size(); }
+
         void undo();
         void redo();
 

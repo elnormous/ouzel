@@ -47,6 +47,7 @@ namespace fluxion::editor
         // Main menu + file dialog plumbing (phase 7).
         void drawMainMenu();
         void drawFileDialog();
+        void drawDiscardModal();
         void doNewScene();
         void doSaveScene();
         void doOpenScene();
@@ -56,6 +57,28 @@ namespace fluxion::editor
 
         enum class FileDialogMode { None, Save, Open };
         FileDialogMode fileDialogMode_ = FileDialogMode::None;
+
+        // "Are you sure?" deferred-action machinery for unsaved
+        // changes. The user kicks off a destructive flow (New /
+        // Open / OS window close); when dirty_, we intercept and
+        // queue the action via pendingDiscardAction_, then show
+        // a modal in the next frame's draw. The modal's Discard
+        // button executes the queued action; Cancel clears it.
+        enum class PendingDiscard { None, NewScene, OpenScene, Close };
+        PendingDiscard pendingDiscardAction_ = PendingDiscard::None;
+        // Set true once the user has confirmed they want to close
+        // an unsaved scene. The engine's close-confirm handler
+        // returns true while this is set so the second WM_CLOSE
+        // proceeds without re-prompting.
+        bool userConfirmedClose_ = false;
+        // Dirty state is derived each frame from the command-stack
+        // delta against the last-save snapshot — see updateDirty().
+        // Coarse but cheap: undo back to the saved state still
+        // reads as dirty until the next save.
+        std::size_t savedUndoCount_ = 0;
+        bool dirty_ = false;
+        void updateDirty();
+        void executePendingDiscard();
         // Fixed-size path buffer is enough for the editor's purposes
         // (the engine's storage::Path itself takes a string-view-ish
         // input); MAX_PATH on Windows is 260 and POSIX is typically
