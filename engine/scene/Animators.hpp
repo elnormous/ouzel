@@ -18,13 +18,27 @@ namespace fluxion::scene
     class Ease final: public Animator
     {
     public:
-        Ease(Animator& animator, easing::Func initFunc, easing::Mode initModee);
+        FLUXION_COMPONENT_DECL(Ease, "scene.Ease")
+
+        // Default-construct an empty Ease (no wrapped animator yet,
+        // sineIn easing). Editor's "Add Component" path uses this;
+        // the user attaches a child animator through (future) drag
+        // in the inspector. Until then it produces a no-op tween.
+        Ease();
+        Ease(Animator& animator, easing::Func initFunc, easing::Mode initMode);
+
+        auto getFunc() const noexcept { return func; }
+        void setFunc(easing::Func newFunc) noexcept { func = newFunc; }
+        auto getMode() const noexcept { return mode; }
+        void setMode(easing::Mode newMode) noexcept { mode = newMode; }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
 
-        easing::Func func;
-        easing::Mode mode;
+        easing::Func func = easing::Func::sine;
+        easing::Mode mode = easing::Mode::easeIn;
     };
 
     class Fade final: public Animator
@@ -88,8 +102,16 @@ namespace fluxion::scene
     class Parallel final: public Animator
     {
     public:
+        FLUXION_COMPONENT_DECL(Parallel, "scene.Parallel")
+
+        // Default-construct an empty group (no children). The
+        // editor's TypeRegistry uses this; subsequent "+ child"
+        // actions in the inspector populate it.
+        Parallel();
         explicit Parallel(const std::vector<Animator*>& initAnimators);
         explicit Parallel(const std::vector<std::unique_ptr<Animator>>& initAnimators);
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
@@ -98,9 +120,19 @@ namespace fluxion::scene
     class Repeat final: public Animator
     {
     public:
+        FLUXION_COMPONENT_DECL(Repeat, "scene.Repeat")
+
+        // Default-construct an infinite-repeat with no inner animator
+        // (count=0 means "forever" per the runtime semantics).
+        Repeat();
         explicit Repeat(Animator& animator, std::uint32_t initCount = 0);
 
+        auto getCount() const noexcept { return count; }
+        void setCount(std::uint32_t newCount) noexcept { count = newCount; }
+
         void reset() override;
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
@@ -166,10 +198,18 @@ namespace fluxion::scene
     class Sequence final: public Animator
     {
     public:
+        FLUXION_COMPONENT_DECL(Sequence, "scene.Sequence")
+
+        // Default-construct an empty sequence. The editor's
+        // TypeRegistry uses this — children get appended later
+        // through (future) inspector tooling.
+        Sequence();
         explicit Sequence(const std::vector<Animator*>& initAnimators);
         explicit Sequence(const std::vector<std::unique_ptr<Animator>>& initAnimators);
 
         void play() override;
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
@@ -180,16 +220,29 @@ namespace fluxion::scene
     class Shake final: public Animator
     {
     public:
+        FLUXION_COMPONENT_DECL(Shake, "scene.Shake")
+
+        // Default-construct a 1-second shake along (5, 5, 0) at
+        // 10x time-scale so the editor's TypeRegistry produces
+        // something visible out of the gate.
+        Shake();
         Shake(float initLength, const math::Vector<float, 3>& initDistance, float initTimeScale);
 
+        auto& getDistance() const noexcept { return distance; }
+        void setDistance(const math::Vector<float, 3>& newDistance) noexcept { distance = newDistance; }
+        auto getTimeScale() const noexcept { return timeScale; }
+        void setTimeScale(float newScale) noexcept { timeScale = newScale; }
+
         void play() override;
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void updateProgress() override;
 
-        std::uint32_t seedX;
-        std::uint32_t seedY;
-        std::uint32_t seedZ;
+        std::uint32_t seedX = 0;
+        std::uint32_t seedY = 0;
+        std::uint32_t seedZ = 0;
         math::Vector<float, 3> distance{};
         float timeScale = 1.0F;
         math::Vector<float, 3> startPosition{};

@@ -45,12 +45,17 @@
 namespace fluxion::scene
 {
     extern const volatile bool CameraForceLink;
+    extern const volatile bool EaseForceLink;
     extern const volatile bool FadeForceLink;
     extern const volatile bool LightForceLink;
     extern const volatile bool MoveForceLink;
+    extern const volatile bool ParallelForceLink;
     extern const volatile bool ParticleSystemForceLink;
+    extern const volatile bool RepeatForceLink;
     extern const volatile bool RotateForceLink;
     extern const volatile bool ScaleForceLink;
+    extern const volatile bool SequenceForceLink;
+    extern const volatile bool ShakeForceLink;
     extern const volatile bool ShapeRendererForceLink;
     extern const volatile bool SkinnedMeshRendererForceLink;
     extern const volatile bool SpriteRendererForceLink;
@@ -91,12 +96,17 @@ namespace fluxion::editor
             // engine? Add an extern + a sink line here.
             volatile bool sink = false;
             sink ^= scene::CameraForceLink;
+            sink ^= scene::EaseForceLink;
             sink ^= scene::FadeForceLink;
             sink ^= scene::LightForceLink;
             sink ^= scene::MoveForceLink;
+            sink ^= scene::ParallelForceLink;
             sink ^= scene::ParticleSystemForceLink;
+            sink ^= scene::RepeatForceLink;
             sink ^= scene::RotateForceLink;
             sink ^= scene::ScaleForceLink;
+            sink ^= scene::SequenceForceLink;
+            sink ^= scene::ShakeForceLink;
             sink ^= scene::ShapeRendererForceLink;
             sink ^= scene::SkinnedMeshRendererForceLink;
             sink ^= scene::SpriteRendererForceLink;

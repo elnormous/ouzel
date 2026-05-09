@@ -14,6 +14,16 @@ namespace fluxion::scene
     FLUXION_COMPONENT_REGISTER(Rotate)
     FLUXION_COMPONENT_REGISTER(Scale)
     FLUXION_COMPONENT_REGISTER(Fade)
+    FLUXION_COMPONENT_REGISTER(Ease)
+    FLUXION_COMPONENT_REGISTER(Parallel)
+    FLUXION_COMPONENT_REGISTER(Repeat)
+    FLUXION_COMPONENT_REGISTER(Sequence)
+    FLUXION_COMPONENT_REGISTER(Shake)
+
+    Ease::Ease():
+        Animator{0.0F}, func{easing::Func::sine}, mode{easing::Mode::easeIn}
+    {
+    }
 
     Ease::Ease(Animator& animator, easing::Func initFunc, easing::Mode initMode):
         Animator{animator.getLength()}, func{initFunc}, mode{initMode}
@@ -30,6 +40,36 @@ namespace fluxion::scene
         progress = easing::ease(func, mode, progress);
 
         animators.front()->setProgress(progress);
+    }
+
+    void Ease::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+
+        // Easing function picker. The names map 1:1 to the
+        // easing::Func enum order — adding a new entry to the
+        // enum requires bumping this array.
+        static const char* funcNames[] = {
+            "sine", "quad", "cubic", "quart", "quint",
+            "expo", "circ", "back", "elastic", "bounce"
+        };
+        int funcIndex = static_cast<int>(func);
+        inspector.enumField("Function", funcIndex, funcNames,
+                             sizeof(funcNames) / sizeof(funcNames[0]));
+        if (funcIndex != static_cast<int>(func))
+            func = static_cast<easing::Func>(funcIndex);
+
+        static const char* modeNames[] = {"easeIn", "easeOut", "easeInOut"};
+        int modeIndex = static_cast<int>(mode);
+        inspector.enumField("Mode", modeIndex, modeNames,
+                             sizeof(modeNames) / sizeof(modeNames[0]));
+        if (modeIndex != static_cast<int>(mode))
+            mode = static_cast<easing::Mode>(modeIndex);
+
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%zu",
+                      animators.size());
+        inspector.readOnlyText("Wrapped animators", buf);
     }
 
     // Default-constructed fade: 1-second tween to fully opaque. The
@@ -130,6 +170,18 @@ namespace fluxion::scene
             targetActor->setPosition(startPosition + (diff * progress));
     }
 
+    Parallel::Parallel(): Animator{0.0F}
+    {
+    }
+
+    void Parallel::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%zu", animators.size());
+        inspector.readOnlyText("Children", buf);
+    }
+
     Parallel::Parallel(const std::vector<Animator*>& initAnimators):
         Animator(0.0F)
     {
@@ -171,6 +223,22 @@ namespace fluxion::scene
             else
                 animator->setProgress(currentTime / animationLength);
         }
+    }
+
+    Repeat::Repeat(): Animator{0.0F}, count{0}, currentCount{0}
+    {
+    }
+
+    void Repeat::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+        int countCopy = static_cast<int>(count);
+        inspector.intField("Count (0 = infinite)", countCopy);
+        if (countCopy >= 0 && static_cast<std::uint32_t>(countCopy) != count)
+            count = static_cast<std::uint32_t>(countCopy);
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%zu", animators.size());
+        inspector.readOnlyText("Wrapped animators", buf);
     }
 
     Repeat::Repeat(Animator& animator, std::uint32_t initCount):
@@ -323,6 +391,18 @@ namespace fluxion::scene
             targetActor->setScale(startScale + (diff * progress));
     }
 
+    Sequence::Sequence(): Animator{0.0F}
+    {
+    }
+
+    void Sequence::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%zu", animators.size());
+        inspector.readOnlyText("Children", buf);
+    }
+
     Sequence::Sequence(const std::vector<Animator*>& initAnimators):
         Animator(std::accumulate(initAnimators.begin(), initAnimators.end(), 0.0F, [](float a, Animator* b) noexcept { return a + b->getLength(); }))
     {
@@ -394,6 +474,29 @@ namespace fluxion::scene
 
             time += animator->getLength();
         }
+    }
+
+    Shake::Shake():
+        Animator{1.0F},
+        distance{math::Vector<float, 3>{5.0F, 5.0F, 0.0F}},
+        timeScale{10.0F}
+    {
+    }
+
+    void Shake::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+
+        math::Vector<float, 3> distCopy = distance;
+        inspector.vector3Field("Distance", distCopy);
+        if (distCopy.v[0] != distance.v[0] ||
+            distCopy.v[1] != distance.v[1] ||
+            distCopy.v[2] != distance.v[2])
+            distance = distCopy;
+
+        float scaleCopy = timeScale;
+        inspector.floatField("Time scale", scaleCopy);
+        if (scaleCopy != timeScale) timeScale = scaleCopy;
     }
 
     Shake::Shake(float initLength, const math::Vector<float, 3>& initDistance, float initTimeScale):

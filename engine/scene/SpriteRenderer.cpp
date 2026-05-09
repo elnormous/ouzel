@@ -619,6 +619,41 @@ namespace fluxion::scene
         inspector.boolField("Loop", loopCopy);
         if (loopCopy != loop) setLoop(loopCopy);
 
+        // Material tweaks. The diffuseColor here is the renderer's
+        // multiplicative tint — white = pass-through. Blend mode
+        // picks one of the engine's pre-built presets cached under
+        // the well-known names in Engine.hpp; "Custom" appears
+        // greyed out when the current state isn't any of them
+        // (e.g. a user-supplied state via setMaterial).
+        if (material)
+        {
+            math::Color tintCopy = material->diffuseColor;
+            inspector.colorField("Color tint", tintCopy);
+            if (tintCopy.v[0] != material->diffuseColor.v[0] ||
+                tintCopy.v[1] != material->diffuseColor.v[1] ||
+                tintCopy.v[2] != material->diffuseColor.v[2] ||
+                tintCopy.v[3] != material->diffuseColor.v[3])
+                material->diffuseColor = tintCopy;
+
+            const graphics::BlendState* presetPtrs[5] = {
+                engine->getCache().getBlendState(blendNoBlend),
+                engine->getCache().getBlendState(blendAlpha),
+                engine->getCache().getBlendState(blendAdd),
+                engine->getCache().getBlendState(blendMultiply),
+                engine->getCache().getBlendState(blendScreen)
+            };
+            static const char* presetNames[6] = {
+                "None (Opaque)", "Alpha", "Add", "Multiply", "Screen", "Custom"
+            };
+            int blendIndex = 5;       // Custom by default
+            for (int i = 0; i < 5; ++i)
+                if (presetPtrs[i] == material->blendState) { blendIndex = i; break; }
+            const int initialBlend = blendIndex;
+            inspector.enumField("Blend mode", blendIndex, presetNames, 6);
+            if (blendIndex != initialBlend && blendIndex >= 0 && blendIndex < 5)
+                material->blendState = presetPtrs[blendIndex];
+        }
+
         // Sorting controls — surfaced via the shared Component
         // helper so labels stay uniform across renderers (Shape,
         // Text, Sprite all use the same field names).
