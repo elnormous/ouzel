@@ -143,6 +143,7 @@ SOURCES=assets/Bundle.cpp \
 	scene/SceneManager.cpp \
 	scene/ShapeRenderer.cpp \
 	scene/SkinnedMeshRenderer.cpp \
+	scene/SortingLayers.cpp \
 	scene/SpriteRenderer.cpp \
 	scene/StaticMeshRenderer.cpp \
 	scene/TextRenderer.cpp \

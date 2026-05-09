@@ -2,6 +2,7 @@
 #define FLUXION_SCENE_COMPONENT_HPP
 
 #include <memory>
+#include <string>
 #include <string_view>
 #include <vector>
 #include "../graphics/Texture.hpp"
@@ -63,6 +64,16 @@ namespace fluxion::scene
         [[nodiscard]] auto isHidden() const noexcept { return hidden; }
         void setHidden(bool newHidden) { hidden = newHidden; }
 
+        // Sorting controls (used by 2D renderers — Sprite, Shape,
+        // Text). Components that don't render geometry (Animator,
+        // Camera, Light) inherit the fields too but ignore them.
+        // Resolved against the project-wide SortingLayers registry
+        // when the renderer queue is sorted.
+        [[nodiscard]] const std::string& getSortingLayer() const noexcept { return sortingLayer; }
+        void setSortingLayer(std::string newLayer) noexcept { sortingLayer = std::move(newLayer); }
+        [[nodiscard]] int getOrderInLayer() const noexcept { return orderInLayer; }
+        void setOrderInLayer(int newOrder) noexcept { orderInLayer = newOrder; }
+
         [[nodiscard]] auto getActor() const noexcept { return actor; }
         void removeFromActor();
 
@@ -71,8 +82,18 @@ namespace fluxion::scene
         virtual void setLayer(Layer* newLayer);
         virtual void updateTransform();
 
+        // Subclass helper: surfaces the sortingLayer + orderInLayer
+        // fields through an Inspector. Keeps the field labels and
+        // ordering uniform across renderer subclasses without
+        // forcing every component to remember the magic strings.
+        // Called explicitly from a subclass's inspect() override
+        // when it wants the fields exposed.
+        void inspectSorting(reflection::Inspector& inspector);
+
         math::Box<float, 3> boundingBox;
         bool hidden = false;
+        std::string sortingLayer = "Default";
+        int orderInLayer = 0;
 
         Layer* layer = nullptr;
         Actor* actor = nullptr;

@@ -163,6 +163,7 @@
     <ClCompile Include="scene\Scene.cpp" />
     <ClCompile Include="scene\SceneManager.cpp" />
     <ClCompile Include="scene\ShapeRenderer.cpp" />
+    <ClCompile Include="scene\SortingLayers.cpp" />
     <ClCompile Include="scene\SpriteRenderer.cpp" />
     <ClCompile Include="scene\TextRenderer.cpp" />
     <ClCompile Include="utils\Log.cpp" />

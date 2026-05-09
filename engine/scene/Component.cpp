@@ -1,5 +1,6 @@
 ﻿#include "Component.hpp"
 #include "Actor.hpp"
+#include "../reflection/Inspector.hpp"
 
 namespace fluxion::scene
 {
@@ -107,5 +108,11 @@ namespace fluxion::scene
 
     void Component::updateTransform()
     {
+    }
+
+    void Component::inspectSorting(reflection::Inspector& inspector)
+    {
+        inspector.stringField("Sorting Layer", sortingLayer);
+        inspector.intField("Order in Layer", orderInLayer);
     }
 }
