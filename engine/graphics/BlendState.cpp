@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "BlendState.hpp"
+﻿#include "BlendState.hpp"
 #include "Graphics.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     BlendState::BlendState(Graphics& initGraphics):
         resource{*initGraphics.getDevice()}

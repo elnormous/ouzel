@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "Sound.hpp"
+﻿#include "Sound.hpp"
 #include "Audio.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     Sound::Sound(Audio& initAudio, std::size_t initSourceId, Format initFormat):
         audio{initAudio},

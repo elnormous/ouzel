@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifdef __APPLE__
+﻿#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 #include <stdexcept>
@@ -39,7 +37,7 @@
 #include "direct3d11/D3D11RenderDevice.hpp"
 #include "metal/MetalRenderDevice.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     std::set<Driver> getAvailableRenderDrivers()
     {
@@ -49,13 +47,13 @@ namespace ouzel::graphics
         {
             availableDrivers.insert(Driver::empty);
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
             availableDrivers.insert(Driver::openGl);
 #endif
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
             availableDrivers.insert(Driver::direct3D11);
 #endif
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
             if (metal::RenderDevice::available())
                 availableDrivers.insert(Driver::metal);
 #endif
@@ -91,6 +89,18 @@ namespace ouzel::graphics
             throw Error{"Invalid graphics driver"};
     }
 
+    std::string_view getDriverName(Driver driver) noexcept
+    {
+        switch (driver)
+        {
+            case Driver::empty:      return "empty";
+            case Driver::openGl:     return "opengl";
+            case Driver::direct3D11: return "direct3d11";
+            case Driver::metal:      return "metal";
+        }
+        return "unknown";
+    }
+
     namespace
     {
         std::unique_ptr<RenderDevice> createRenderDevice(Driver driver,
@@ -99,7 +109,7 @@ namespace ouzel::graphics
         {
             switch (driver)
             {
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
                 case Driver::openGl:
                     log(Log::Level::info) << "Using OpenGL render driver";
 #  if TARGET_OS_IOS
@@ -120,12 +130,12 @@ namespace ouzel::graphics
                     return std::make_unique<opengl::RenderDevice>(settings, window);
 #  endif
 #endif
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
                 case Driver::direct3D11:
                     log(Log::Level::info) << "Using Direct3D 11 render driver";
                     return std::make_unique<d3d11::RenderDevice>(settings, window);
 #endif
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
                 case Driver::metal:
                     log(Log::Level::info) << "Using Metal render driver";
 #  if TARGET_OS_IOS

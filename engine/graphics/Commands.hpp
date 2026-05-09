@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_COMMANDS_HPP
-#define OUZEL_GRAPHICS_COMMANDS_HPP
+﻿#ifndef FLUXION_GRAPHICS_COMMANDS_HPP
+#define FLUXION_GRAPHICS_COMMANDS_HPP
 
 #include <set>
 #include <string>
@@ -25,7 +23,7 @@
 #include "../math/Color.hpp"
 #include "../math/Rect.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     using ResourceId = std::size_t;
 
@@ -600,4 +598,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_COMMANDS_HPP
+#endif // FLUXION_GRAPHICS_COMMANDS_HPP

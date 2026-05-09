@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <cmath>
 #include "Effects.hpp"
 #include "Audio.hpp"
@@ -8,7 +6,7 @@
 #include "../math/Scalar.hpp"
 #include "smbPitchShift.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class DelayProcessor final: public mixer::Processor
     {

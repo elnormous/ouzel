@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_AUDIOERROR_HPP
-#define OUZEL_AUDIO_AUDIOERROR_HPP
+﻿#ifndef FLUXION_AUDIO_AUDIOERROR_HPP
+#define FLUXION_AUDIO_AUDIOERROR_HPP
 
 #include <stdexcept>
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Error final: public std::runtime_error
     {
@@ -14,4 +12,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_AUDIOERROR_HPP
+#endif // FLUXION_AUDIO_AUDIOERROR_HPP

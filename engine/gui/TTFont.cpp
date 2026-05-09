@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <cassert>
 #include <stdexcept>
 #include "TTFont.hpp"
@@ -25,7 +23,7 @@
 #  pragma GCC diagnostic pop
 #endif
 
-namespace ouzel::gui
+namespace fluxion::gui
 {
     TTFont::TTFont(const std::vector<std::byte>& initData, bool initMipmaps):
         data{initData},

@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include <stdexcept>
+﻿#include <stdexcept>
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "NativeWindowEm.hpp"
 
-namespace ouzel::core::emscripten
+namespace fluxion::core::emscripten
 {
     namespace
     {

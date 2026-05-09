@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPAD_HPP
-#define OUZEL_INPUT_GAMEPAD_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPAD_HPP
+#define FLUXION_INPUT_GAMEPAD_HPP
 
 #include <array>
 #include <bitset>
@@ -9,7 +7,7 @@
 #include <string>
 #include "Controller.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class InputManager;
 
@@ -107,4 +105,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPAD_HPP
+#endif // FLUXION_INPUT_GAMEPAD_HPP

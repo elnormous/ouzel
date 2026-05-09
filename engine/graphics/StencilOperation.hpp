@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_GRAPHICS_STENCILPERATION_HPP
+#define FLUXION_GRAPHICS_STENCILPERATION_HPP
 
-#ifndef OUZEL_GRAPHICS_STENCILPERATION_HPP
-#define OUZEL_GRAPHICS_STENCILPERATION_HPP
-
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     enum class StencilOperation
     {
@@ -18,4 +16,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_STENCILPERATION_HPP
+#endif // FLUXION_GRAPHICS_STENCILPERATION_HPP

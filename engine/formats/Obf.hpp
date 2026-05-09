@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_FORMATS_OBF_HPP
-#define OUZEL_FORMATS_OBF_HPP
+﻿#ifndef FLUXION_FORMATS_OBF_HPP
+#define FLUXION_FORMATS_OBF_HPP
 
 #include <array>
 #include <cstdint>
@@ -13,7 +11,7 @@
 #include <vector>
 #include "../utils/Utils.hpp"
 
-namespace ouzel::obf
+namespace fluxion::obf
 {
     class DecodeError final: public std::logic_error
     {
@@ -1078,4 +1076,4 @@ namespace ouzel::obf
     };
 }
 
-#endif // OUZEL_FORMATS_OBF_HPP
+#endif // FLUXION_FORMATS_OBF_HPP

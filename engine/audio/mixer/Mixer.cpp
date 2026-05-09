@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include "Mixer.hpp"
 #include "Bus.hpp"
 #include "Data.hpp"
@@ -8,7 +6,7 @@
 #include "Stream.hpp"
 #include "../../math/Scalar.hpp"
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     Mixer::Mixer(std::uint32_t initBufferSize,
                  std::uint32_t initChannels):

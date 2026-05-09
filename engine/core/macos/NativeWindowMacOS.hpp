@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_NATIVEWINDOWMACOS_HPP
-#define OUZEL_CORE_NATIVEWINDOWMACOS_HPP
+﻿#ifndef FLUXION_CORE_NATIVEWINDOWMACOS_HPP
+#define FLUXION_CORE_NATIVEWINDOWMACOS_HPP
 
 #include <CoreGraphics/CoreGraphics.h>
 
@@ -23,7 +21,7 @@ using CGDirectDisplayID = UInt32;
 #include "../NativeWindow.hpp"
 #include "../../graphics/Driver.hpp"
 
-namespace ouzel::core::macos
+namespace fluxion::core::macos
 {
     class NativeWindow final: public core::NativeWindow
     {
@@ -76,4 +74,4 @@ namespace ouzel::core::macos
     };
 }
 
-#endif // OUZEL_CORE_NATIVEWINDOWMACOS_HPP
+#endif // FLUXION_CORE_NATIVEWINDOWMACOS_HPP

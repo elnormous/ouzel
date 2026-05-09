@@ -168,6 +168,7 @@ namespace ouzel::graphics::metal
         executeAll();
 
         id<CAMetalDrawable> currentMetalDrawable = [metalLayer nextDrawable];
+        currentFrameDrawable = (__bridge void*)currentMetalDrawable;
 
         if (!currentMetalDrawable)
             throw Error{"Failed to get Metal drawable"};
@@ -242,6 +243,8 @@ namespace ouzel::graphics::metal
         if (!currentCommandBuffer)
             throw Error{"Failed to create Metal command buffer"};
 
+        currentFrameCommandBuffer = (__bridge void*)currentCommandBuffer;
+
         [currentCommandBuffer addCompletedHandler:^(id<MTLCommandBuffer>) {
             inflightSemaphore.signal();
          }];
@@ -287,13 +290,20 @@ namespace ouzel::graphics::metal
                     case Command::Type::present:
                     {
                         if (currentRenderCommandEncoder)
+                        {
                             [currentRenderCommandEncoder endEncoding];
+                            currentRenderCommandEncoder = nil;
+                        }
+
+                        runPreSwapHook();
 
                         if (currentCommandBuffer)
                         {
                             [currentCommandBuffer presentDrawable:currentMetalDrawable];
                             [currentCommandBuffer commit];
                         }
+                        currentFrameCommandBuffer = nullptr;
+                        currentFrameDrawable = nullptr;
                         break;
                     }
 
@@ -936,6 +946,12 @@ namespace ouzel::graphics::metal
             samplerStates[descriptor] = samplerState;
 
             return samplerState;
+        }
+
+        void* RenderDevice::getCurrentDrawableTexture() const noexcept
+        {
+            id<CAMetalDrawable> drawable = (__bridge id<CAMetalDrawable>)currentFrameDrawable;
+            return (__bridge void*)drawable.texture;
         }
     }
 }

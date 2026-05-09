@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_CORE_APPLICATION_HPP
+#define FLUXION_CORE_APPLICATION_HPP
 
-#ifndef OUZEL_CORE_APPLICATION_HPP
-#define OUZEL_CORE_APPLICATION_HPP
-
-namespace ouzel
+namespace fluxion
 {
     class Application
     {
@@ -12,4 +10,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_CORE_APPLICATION_HPP
+#endif // FLUXION_CORE_APPLICATION_HPP

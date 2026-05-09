@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_OPENSL
+#if FLUXION_COMPILE_OPENSL
 
 #include <array>
 #include <system_error>
@@ -11,7 +9,7 @@
 #include "../../core/Engine.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::audio::opensl
+namespace fluxion::audio::opensl
 {
     namespace
     {

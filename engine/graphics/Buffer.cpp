@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "Buffer.hpp"
+﻿#include "Buffer.hpp"
 #include "Graphics.hpp"
 #include "GraphicsError.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     Buffer::Buffer(Graphics& initGraphics):
         graphics{&initGraphics},

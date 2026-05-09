@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_STORAGE_FILESYSTEM_HPP
-#define OUZEL_STORAGE_FILESYSTEM_HPP
+﻿#ifndef FLUXION_STORAGE_FILESYSTEM_HPP
+#define FLUXION_STORAGE_FILESYSTEM_HPP
 
 #include <algorithm>
 #include <cstdint>
@@ -33,12 +31,12 @@
 #include "Path.hpp"
 #include "StorageError.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     class Engine;
 }
 
-namespace ouzel::storage
+namespace fluxion::storage
 {
     enum class FileType
     {
@@ -637,4 +635,4 @@ namespace ouzel::storage
     };
 }
 
-#endif // OUZEL_STORAGE_FILESYSTEM_HPP
+#endif // FLUXION_STORAGE_FILESYSTEM_HPP

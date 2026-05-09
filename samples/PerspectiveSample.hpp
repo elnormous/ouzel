@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef PERSPECTIVESAMPLE_HPP
+﻿#ifndef PERSPECTIVESAMPLE_HPP
 #define PERSPECTIVESAMPLE_HPP
 
 #include "audio/Effects.hpp"
@@ -15,7 +13,7 @@
 
 namespace samples
 {
-    class PerspectiveSample: public ouzel::scene::Scene
+    class PerspectiveSample: public fluxion::scene::Scene
     {
     public:
         PerspectiveSample();
@@ -23,41 +21,41 @@ namespace samples
     private:
         void updateArrowPosition();
 
-        ouzel::audio::Submix submix;
-        ouzel::audio::Listener listener;
+        fluxion::audio::Submix submix;
+        fluxion::audio::Listener listener;
 
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
+        fluxion::scene::Layer layer;
+        fluxion::scene::Camera camera;
+        fluxion::scene::Actor cameraActor;
 
-        ouzel::math::Vector<float, 3> cameraRotation{};
+        fluxion::math::Vector<float, 3> cameraRotation{};
 
-        ouzel::scene::SpriteRenderer floorSprite;
-        ouzel::scene::Actor floor;
+        fluxion::scene::SpriteRenderer floorSprite;
+        fluxion::scene::Actor floor;
 
-        ouzel::scene::SpriteRenderer characterSprite;
-        ouzel::scene::Actor character;
-        ouzel::audio::Submix jumpSubmix;
-        ouzel::audio::Voice jumpVoice;
-        ouzel::audio::Panner jumpPanner;
+        fluxion::scene::SpriteRenderer characterSprite;
+        fluxion::scene::Actor character;
+        fluxion::audio::Submix jumpSubmix;
+        fluxion::audio::Voice jumpVoice;
+        fluxion::audio::Panner jumpPanner;
 
-        ouzel::scene::StaticMeshRenderer boxModel;
-        ouzel::scene::Actor box;
+        fluxion::scene::StaticMeshRenderer boxModel;
+        fluxion::scene::Actor box;
 
-        ouzel::scene::SpriteRenderer arrowSprite;
-        ouzel::scene::Actor arrow;
+        fluxion::scene::SpriteRenderer arrowSprite;
+        fluxion::scene::Actor arrow;
 
-        ouzel::scene::Rotate rotate;
+        fluxion::scene::Rotate rotate;
 
-        ouzel::EventHandler handler;
+        fluxion::EventHandler handler;
 
-        ouzel::scene::Layer guiLayer;
-        ouzel::scene::Camera guiCamera;
-        ouzel::scene::Actor guiCameraActor;
-        ouzel::gui::Menu menu;
-        ouzel::gui::Button backButton;
+        fluxion::scene::Layer guiLayer;
+        fluxion::scene::Camera guiCamera;
+        fluxion::scene::Actor guiCameraActor;
+        fluxion::gui::Menu menu;
+        fluxion::gui::Button backButton;
 
-        ouzel::input::Cursor cursor;
+        fluxion::input::Cursor cursor;
     };
 }
 

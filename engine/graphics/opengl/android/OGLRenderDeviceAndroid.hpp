@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
-#define OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
+#define FLUXION_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
 
 #include "../../../core/Setup.h"
 
-#if defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
+#if defined(__ANDROID__) && FLUXION_COMPILE_OPENGL
 
 #include <atomic>
 #include <thread>
@@ -15,7 +13,7 @@
 #include "../../../core/Window.hpp"
 #include "../../../thread/Thread.hpp"
 
-namespace ouzel::graphics::opengl::android
+namespace fluxion::graphics::opengl::android
 {
     class RenderDevice final: public opengl::RenderDevice
     {
@@ -43,4 +41,4 @@ namespace ouzel::graphics::opengl::android
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLRENDERDEVICEANDROID_HPP
+#endif // FLUXION_GRAPHICS_OGLRENDERDEVICEANDROID_HPP

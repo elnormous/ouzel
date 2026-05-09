@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <system_error>
 
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
@@ -23,7 +21,7 @@
 #include "../../utils/Bit.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::core::windows
+namespace fluxion::core::windows
 {
     namespace
     {

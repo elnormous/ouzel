@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_COCOA_WINDOW_HPP
-#define OUZEL_PLATFORM_COCOA_WINDOW_HPP
+﻿#ifndef FLUXION_PLATFORM_COCOA_WINDOW_HPP
+#define FLUXION_PLATFORM_COCOA_WINDOW_HPP
 
 #ifdef __OBJC__
 #  import <Cocoa/Cocoa.h>
@@ -11,7 +9,7 @@ using NSWindowPtr = NSWindow*;
 using NSWindowPtr = id;
 #endif
 
-namespace ouzel::platform::cocoa
+namespace fluxion::platform::cocoa
 {
     class Window final
     {
@@ -29,4 +27,4 @@ namespace ouzel::platform::cocoa
     };
 }
 
-#endif // OUZEL_PLATFORM_COCOA_WINDOW_HPP
+#endif // FLUXION_PLATFORM_COCOA_WINDOW_HPP

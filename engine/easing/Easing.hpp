@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_EASING_EASING_HPP
-#define OUZEL_EASING_EASING_HPP
+﻿#ifndef FLUXION_EASING_EASING_HPP
+#define FLUXION_EASING_EASING_HPP
 
 #include <cmath>
 
-namespace ouzel::easing
+namespace fluxion::easing
 {
     enum class Mode
     {
@@ -313,4 +311,4 @@ namespace ouzel::easing
     }
 }
 
-#endif // OUZEL_EASING_EASING_HPP
+#endif // FLUXION_EASING_EASING_HPP

@@ -1,15 +1,13 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_OSLPOINTER_HPP
-#define OUZEL_AUDIO_OSLPOINTER_HPP
+﻿#ifndef FLUXION_AUDIO_OSLPOINTER_HPP
+#define FLUXION_AUDIO_OSLPOINTER_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENSL
+#if FLUXION_COMPILE_OPENSL
 
 #include <SLES/OpenSLES.h>
 
-namespace ouzel::audio::opensl
+namespace fluxion::audio::opensl
 {
     template <class T>
     class Pointer final
@@ -68,4 +66,4 @@ namespace ouzel::audio::opensl
 }
 #endif
 
-#endif // OUZEL_AUDIO_OSLPOINTER_HPP
+#endif // FLUXION_AUDIO_OSLPOINTER_HPP

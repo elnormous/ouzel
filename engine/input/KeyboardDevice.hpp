@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_KEYBOARDDEVICE_HPP
-#define OUZEL_INPUT_KEYBOARDDEVICE_HPP
+﻿#ifndef FLUXION_INPUT_KEYBOARDDEVICE_HPP
+#define FLUXION_INPUT_KEYBOARDDEVICE_HPP
 
 #include <future>
 #include "InputDevice.hpp"
 #include "Keyboard.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class KeyboardDevice: public InputDevice
     {
@@ -20,4 +18,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_KEYBOARDDEVICE_HPP
+#endif // FLUXION_INPUT_KEYBOARDDEVICE_HPP

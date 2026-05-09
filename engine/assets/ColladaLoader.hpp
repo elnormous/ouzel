@@ -1,17 +1,16 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_COLLADALOADER_HPP
-#define OUZEL_ASSETS_COLLADALOADER_HPP
+﻿#ifndef FLUXION_ASSETS_COLLADALOADER_HPP
+#define FLUXION_ASSETS_COLLADALOADER_HPP
 
 #include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "../scene/SkinnedMeshRenderer.hpp"
 #include "../formats/Xml.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadCollada(Cache&,
                             Bundle& bundle,
+                            const Uuid& uuid,
                             const std::string& name,
                             const std::vector<std::byte>& data,
                             const Asset::Options&)
@@ -30,10 +29,10 @@ namespace ouzel::assets
 
         // TODO: load the model
 
-        bundle.setSkinnedMeshData(name, std::move(meshData));
+        bundle.setSkinnedMeshData(name, std::move(meshData), uuid);
 
         return true;
     }
 }
 
-#endif // OUZEL_ASSETS_COLLADALOADER_HPP
+#endif // FLUXION_ASSETS_COLLADALOADER_HPP

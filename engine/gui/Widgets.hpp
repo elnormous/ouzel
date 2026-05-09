@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GUI_BUTTON_HPP
-#define OUZEL_GUI_BUTTON_HPP
+﻿#ifndef FLUXION_GUI_BUTTON_HPP
+#define FLUXION_GUI_BUTTON_HPP
 
 #include <functional>
 #include <memory>
@@ -12,7 +10,7 @@
 #include "../events/EventHandler.hpp"
 #include "../math/Color.hpp"
 
-namespace ouzel::gui
+namespace fluxion::gui
 {
     class Button: public Widget
     {
@@ -207,4 +205,4 @@ namespace ouzel::gui
     };
 }
 
-#endif // OUZEL_GUI_BUTTON_HPP
+#endif // FLUXION_GUI_BUTTON_HPP

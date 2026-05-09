@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <iterator>
 #include "Mouse.hpp"
 #include "InputManager.hpp"
@@ -8,7 +6,7 @@
 #include "../core/Engine.hpp"
 #include "../events/EventDispatcher.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     Mouse::Mouse(InputManager& initInputManager, DeviceId initDeviceId):
         Controller{initInputManager, Controller::Type::mouse, initDeviceId}

@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_BUS_HPP
-#define OUZEL_AUDIO_MIXER_BUS_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_BUS_HPP
+#define FLUXION_AUDIO_MIXER_BUS_HPP
 
 #include <vector>
 #include "Object.hpp"
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     class Processor;
     class Stream;
@@ -50,4 +48,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_BUS_HPP
+#endif // FLUXION_AUDIO_MIXER_BUS_HPP

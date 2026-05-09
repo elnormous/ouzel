@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_MATRIX_HPP
-#define OUZEL_MATH_MATRIX_HPP
+﻿#ifndef FLUXION_MATH_MATRIX_HPP
+#define FLUXION_MATH_MATRIX_HPP
 
 #include <algorithm>
 #include <cassert>
@@ -17,7 +15,7 @@
 #include "Quaternion.hpp"
 #include "Vector.hpp"
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T, std::size_t rows, std::size_t cols = rows>
     struct MatrixElements final
@@ -1075,4 +1073,4 @@ namespace ouzel::math
 #include "MatrixNeon.hpp"
 #include "MatrixSse.hpp"
 
-#endif // OUZEL_MATH_MATRIX_HPP
+#endif // FLUXION_MATH_MATRIX_HPP

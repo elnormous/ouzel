@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_STORAGE_ARCHIVE_HPP
-#define OUZEL_STORAGE_ARCHIVE_HPP
+﻿#ifndef FLUXION_STORAGE_ARCHIVE_HPP
+#define FLUXION_STORAGE_ARCHIVE_HPP
 
 #include <cstdint>
 #include <fstream>
@@ -13,7 +11,7 @@
 #include "StorageError.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::storage
+namespace fluxion::storage
 {
     class Archive final
     {
@@ -112,4 +110,4 @@ namespace ouzel::storage
     };
 }
 
-#endif // OUZEL_STORAGE_ARCHIVE_HPP
+#endif // FLUXION_STORAGE_ARCHIVE_HPP

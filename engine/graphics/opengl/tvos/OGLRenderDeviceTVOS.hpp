@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICETVOS_HPP
-#define OUZEL_GRAPHICS_OGLRENDERDEVICETVOS_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLRENDERDEVICETVOS_HPP
+#define FLUXION_GRAPHICS_OGLRENDERDEVICETVOS_HPP
 
 #include "../../../core/Setup.h"
 
@@ -9,7 +7,7 @@
 #  include <TargetConditionals.h>
 #endif
 
-#if TARGET_OS_TV && OUZEL_COMPILE_OPENGL
+#if TARGET_OS_TV && FLUXION_COMPILE_OPENGL
 
 #include "../OGLRenderDevice.hpp"
 #include "../../../thread/Thread.hpp"
@@ -28,7 +26,7 @@ using EAGLContextPtr = id;
 using CAEAGLLayerPtr = id;
 #endif
 
-namespace ouzel::graphics::opengl::tvos
+namespace fluxion::graphics::opengl::tvos
 {
     class RenderDevice final: public opengl::RenderDevice
     {
@@ -72,4 +70,4 @@ namespace ouzel::graphics::opengl::tvos
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLRENDERDEVICETVOS_HPP
+#endif // FLUXION_GRAPHICS_OGLRENDERDEVICETVOS_HPP

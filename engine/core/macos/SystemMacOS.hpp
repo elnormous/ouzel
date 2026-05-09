@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_SYSTEMMACOS_HPP
-#define OUZEL_CORE_SYSTEMMACOS_HPP
+﻿#ifndef FLUXION_CORE_SYSTEMMACOS_HPP
+#define FLUXION_CORE_SYSTEMMACOS_HPP
 
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
@@ -15,7 +13,7 @@ using NSApplicationDelegatePtr = id;
 #include "../System.hpp"
 #include "EngineMacOS.hpp"
 
-namespace ouzel::core::macos
+namespace fluxion::core::macos
 {
     class System final: public core::System
     {
@@ -39,4 +37,4 @@ namespace ouzel::core::macos
     };
 }
 
-#endif // OUZEL_CORE_SYSTEMMACOS_HPP
+#endif // FLUXION_CORE_SYSTEMMACOS_HPP

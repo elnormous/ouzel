@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP
-#define OUZEL_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP
+﻿#ifndef FLUXION_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP
+#define FLUXION_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP
 
 #include <objc/message.h>
 #include <objc/objc.h>
 
-namespace ouzel::platform::foundation
+namespace fluxion::platform::foundation
 {
     class AutoreleasePool final
     {
@@ -79,4 +77,4 @@ namespace ouzel::platform::foundation
     };
 }
 
-#endif // OUZEL_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP
+#endif // FLUXION_PLATFORM_FOUNDATION_AUTORELEASEPOOL_HPP

@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include <iterator>
+﻿#include <iterator>
 #include "Keyboard.hpp"
 #include "../core/Engine.hpp"
 #include "../events/EventDispatcher.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     Keyboard::Keyboard(InputManager& initInputManager, DeviceId initDeviceId):
         Controller{initInputManager, Controller::Type::keyboard, initDeviceId}

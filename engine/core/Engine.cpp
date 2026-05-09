@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifdef __APPLE__
+﻿#ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif
 #include <algorithm>
@@ -10,9 +8,9 @@
 #include "../scene/Scene.hpp"
 #include "../utils/Utils.hpp"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 #  include "../graphics/opengl/OGL.h"
-#  if OUZEL_OPENGLES
+#  if FLUXION_OPENGLES
 #    include "opengl/ColorPSGLES2.h"
 #    include "opengl/ColorVSGLES2.h"
 #    include "opengl/TexturePSGLES2.h"
@@ -37,14 +35,14 @@
 #  endif
 #endif
 
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 #  include "direct3d11/TexturePSD3D11.h"
 #  include "direct3d11/TextureVSD3D11.h"
 #  include "direct3d11/ColorPSD3D11.h"
 #  include "direct3d11/ColorVSD3D11.h"
 #endif
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
 #  if TARGET_OS_IOS
 #    include "metal/ColorPSIOS.h"
 #    include "metal/ColorVSIOS.h"
@@ -75,7 +73,7 @@
 #  endif
 #endif
 
-namespace ouzel::core
+namespace fluxion::core
 {
     namespace
     {
@@ -152,11 +150,38 @@ namespace ouzel::core
             return settings;
         }
 
-        auto getSettings(storage::FileSystem& fileSystem)
+        auto getSettings(storage::FileSystem& fileSystem,
+                         const std::vector<std::string>& args)
         {
             const auto settingsPath = fileSystem.getStorageDirectory() / "settings.ini";
-            return parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
-                                                fileSystem.fileExists(settingsPath) ? ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{});
+            auto settings = parseSettings(fileSystem.resourceFileExists("settings.ini") ? ini::parse(fileSystem.readFile("settings.ini")) : ini::Data{},
+                                          fileSystem.fileExists(settingsPath) ? ini::parse(fileSystem.readFile(settingsPath)) : ini::Data{});
+
+            // Command-line override of the graphics driver. Recognized form:
+            //   --graphics <name>   or   -graphics <name>
+            // where <name> is a token accepted by graphics::getDriver
+            // ("opengl", "direct3d11", "metal", "empty", "default").
+            for (auto it = args.begin(); it != args.end(); ++it)
+            {
+                if (*it == "-graphics" || *it == "--graphics")
+                {
+                    if (++it == args.end())
+                    {
+                        log(Log::Level::warning) << "Missing value for " << *(it - 1) << " argument";
+                        break;
+                    }
+                    try
+                    {
+                        settings.graphicsDriver = graphics::getDriver(*it);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        log(Log::Level::warning) << "Ignoring " << *(it - 1) << ' ' << *it << ": " << e.what();
+                    }
+                }
+            }
+
+            return settings;
         }
 
         auto getWindowFlags(const Settings& settings) noexcept
@@ -170,8 +195,8 @@ namespace ouzel::core
 
     Engine::Engine(const std::vector<std::string>& initArgs):
         fileSystem{*this},
-        settings{getSettings(fileSystem)},
-        window{settings.size, getWindowFlags(settings), OUZEL_APPLICATION_NAME, settings.graphicsDriver},
+        settings{getSettings(fileSystem, initArgs)},
+        window{settings.size, getWindowFlags(settings), FLUXION_APPLICATION_NAME, settings.graphicsDriver},
         graphics{settings.graphicsDriver, window, settings.graphicsSettings},
         audio{settings.audioDriver, settings.audioSettings},
         assetBundle(cache, fileSystem),
@@ -182,14 +207,14 @@ namespace ouzel::core
         // default assets
         switch (settings.graphicsDriver)
         {
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
             case graphics::Driver::openGl:
             {
                 std::unique_ptr<graphics::Shader> textureShader;
 
                 switch (graphics.getDevice()->getAPIMajorVersion())
                 {
-#  if OUZEL_OPENGLES
+#  if FLUXION_OPENGLES
                     case 2:
                         textureShader = std::make_unique<graphics::Shader>(graphics,
                                                                            std::vector<std::uint8_t>(std::begin(TexturePSGLES2_glsl),
@@ -292,7 +317,7 @@ namespace ouzel::core
 
                 switch (graphics.getDevice()->getAPIMajorVersion())
                 {
-#  if OUZEL_OPENGLES
+#  if FLUXION_OPENGLES
                     case 2:
                         colorShader = std::make_unique<graphics::Shader>(graphics,
                                                                          std::vector<std::uint8_t>(std::begin(ColorPSGLES2_glsl),
@@ -389,7 +414,7 @@ namespace ouzel::core
             }
 #endif
 
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
             case graphics::Driver::direct3D11:
             {
                 auto textureShader = std::make_unique<graphics::Shader>(graphics,
@@ -432,7 +457,7 @@ namespace ouzel::core
             }
 #endif
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
             case graphics::Driver::metal:
             {
                 auto textureShader = std::make_unique<graphics::Shader>(graphics,
@@ -666,11 +691,28 @@ namespace ouzel::core
                 diff = std::chrono::milliseconds(1000 / 20); // limit the update rate to a minimum 20 FPS
 
             previousUpdateTime = currentTime;
-            const auto delta = static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(diff).count()) / 1000000.0F;
+            const auto rawDelta = static_cast<float>(std::chrono::duration_cast<std::chrono::microseconds>(diff).count()) / 1000000.0F;
+
+            // Editor "Step one frame" path: when pendingSteps > 0 we
+            // deliver real-time delta regardless of timeScale, then
+            // decrement the counter so the next frame returns to the
+            // scaled clock. Otherwise apply timeScale (may be 0 = pause).
+            float effectiveDelta;
+            int expected = pendingSteps.load(std::memory_order_acquire);
+            if (expected > 0 &&
+                pendingSteps.compare_exchange_strong(expected, expected - 1,
+                                                     std::memory_order_acq_rel))
+            {
+                effectiveDelta = rawDelta;
+            }
+            else
+            {
+                effectiveDelta = rawDelta * timeScale.load(std::memory_order_acquire);
+            }
 
             auto updateEvent = std::make_unique<UpdateEvent>();
             updateEvent->type = Event::Type::update;
-            updateEvent->delta = delta;
+            updateEvent->delta = effectiveDelta;
             eventDispatcher.dispatchEvent(std::move(updateEvent));
         }
 
@@ -696,7 +738,7 @@ namespace ouzel::core
     {
         try
         {
-            std::unique_ptr<Application> application = ouzel::main(args);
+            std::unique_ptr<Application> application = fluxion::main(args);
 
 #ifndef __EMSCRIPTEN__
             while (active)

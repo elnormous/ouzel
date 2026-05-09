@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_KEYBOARDDEVICEWIN_HPP
-#define OUZEL_INPUT_KEYBOARDDEVICEWIN_HPP
+﻿#ifndef FLUXION_INPUT_KEYBOARDDEVICEWIN_HPP
+#define FLUXION_INPUT_KEYBOARDDEVICEWIN_HPP
 
 #include "../KeyboardDevice.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     class InputSystem;
 
@@ -24,4 +22,4 @@ namespace ouzel::input::windows
     };
 }
 
-#endif // OUZEL_INPUT_KEYBOARDDEVICEWIN_HPP
+#endif // FLUXION_INPUT_KEYBOARDDEVICEWIN_HPP

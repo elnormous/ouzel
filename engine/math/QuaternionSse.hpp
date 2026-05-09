@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_QUATERNION_SSE_HPP
-#define OUZEL_MATH_QUATERNION_SSE_HPP
+﻿#ifndef FLUXION_MATH_QUATERNION_SSE_HPP
+#define FLUXION_MATH_QUATERNION_SSE_HPP
 
 #include "Quaternion.hpp"
 
@@ -17,7 +15,7 @@
 #  include <pmmintrin.h>
 #endif // __SSE3__
 
-namespace ouzel::math
+namespace fluxion::math
 {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
     template <>
@@ -225,4 +223,4 @@ namespace ouzel::math
 #endif // __SSE3__
 }
 
-#endif // OUZEL_MATH_QUATERNION_SSE_HPP
+#endif // FLUXION_MATH_QUATERNION_SSE_HPP

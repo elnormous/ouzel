@@ -1,17 +1,17 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_ACTOR_HPP
-#define OUZEL_SCENE_ACTOR_HPP
+﻿#ifndef FLUXION_SCENE_ACTOR_HPP
+#define FLUXION_SCENE_ACTOR_HPP
 
 #include <memory>
+#include <string>
 #include <vector>
 #include "../math/Box.hpp"
 #include "../math/Color.hpp"
 #include "../math/Matrix.hpp"
 #include "../math/Quaternion.hpp"
 #include "../math/Vector.hpp"
+#include "../utils/Uuid.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Actor;
     class Camera;
@@ -68,6 +68,28 @@ namespace ouzel::scene
 
         Actor() = default;
         ~Actor() override;
+
+        // Stable, scene-file-portable identity. Generated lazily on first
+        // read so the cost of UUID generation (a syscall on most platforms)
+        // is paid only by actors that actually need a stable identity —
+        // typically those that are inspected or saved. Once generated, the
+        // value never changes for the lifetime of the Actor.
+        const Uuid& getId() const
+        {
+            if (id_.isNull()) id_ = Uuid::generate();
+            return id_;
+        }
+
+        // Used by the deserializer to restore the saved identity. After
+        // calling this, getId() returns `newId` instead of generating a
+        // fresh value. Passing a nil Uuid resets to "not yet generated".
+        void setId(const Uuid& newId) noexcept { id_ = newId; }
+
+        // Editor-friendly display name. Empty by default. Has no semantic
+        // effect at runtime; the editor uses it for the scene tree label
+        // and the serializer round-trips it for human-readable .scene files.
+        const std::string& getName() const noexcept { return name_; }
+        void setName(std::string newName) { name_ = std::move(newName); }
 
         virtual void visit(std::vector<Actor*>& drawQueue,
                            const math::Matrix<float, 4>& newParentTransform,
@@ -145,11 +167,24 @@ namespace ouzel::scene
         auto getParent() const noexcept { return parent; }
         void removeFromParent();
 
+        // Bring the unique_ptr-taking overload from ActorContainer into
+        // scope; the reference-taking override below would otherwise
+        // hide it via name lookup.
+        using ActorContainer::addChild;
         void addChild(Actor& actor) override;
 
         void addComponent(std::unique_ptr<Component> component);
         void addComponent(Component& component);
         bool removeComponent(Component& component);
+
+        // Detaches an OWNED component and returns its unique_ptr.
+        // Symmetric counterpart to addComponent(unique_ptr): mirrors
+        // releaseChild for actors. Returns nullptr if the component
+        // is attached but not owned (added by reference) or if it
+        // isn't on this actor at all. Used by editor undo / redo so
+        // a removed component can be re-attached with its tweaked
+        // state intact.
+        std::unique_ptr<Component> releaseComponent(const Component& component);
 
         void removeAllComponents();
         auto& getComponents() const noexcept { return components; }
@@ -196,7 +231,12 @@ namespace ouzel::scene
 
         std::vector<Component*> components;
         std::vector<std::unique_ptr<Component>> ownedComponents;
+
+    private:
+        // Mutable so getId() can lazily fill it from a const accessor.
+        mutable Uuid id_;
+        std::string name_;
     };
 }
 
-#endif // OUZEL_SCENE_ACTOR_HPP
+#endif // FLUXION_SCENE_ACTOR_HPP

@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_SYSTEMWIN_HPP
-#define OUZEL_CORE_SYSTEMWIN_HPP
+﻿#ifndef FLUXION_CORE_SYSTEMWIN_HPP
+#define FLUXION_CORE_SYSTEMWIN_HPP
 
 #include "../System.hpp"
 #include "EngineWin.hpp"
 
-namespace ouzel::core::windows
+namespace fluxion::core::windows
 {
     class System final: public core::System
     {
@@ -21,4 +19,4 @@ namespace ouzel::core::windows
     };
 }
 
-#endif // OUZEL_CORE_SYSTEMWIN_HPP
+#endif // FLUXION_CORE_SYSTEMWIN_HPP

@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_SYSTEM_HPP
-#define OUZEL_CORE_SYSTEM_HPP
+﻿#ifndef FLUXION_CORE_SYSTEM_HPP
+#define FLUXION_CORE_SYSTEM_HPP
 
 #include <string>
 #include <vector>
 
-namespace ouzel::core
+namespace fluxion::core
 {
     class System
     {
@@ -43,4 +41,4 @@ namespace ouzel::core
     };
 }
 
-#endif // OUZEL_CORE_SYSTEM_HPP
+#endif // FLUXION_CORE_SYSTEM_HPP

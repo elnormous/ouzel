@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../../core/Setup.h"
 
-#include "../../../core/Setup.h"
-
-#if defined(__EMSCRIPTEN__) && OUZEL_COMPILE_OPENGL
+#if defined(__EMSCRIPTEN__) && FLUXION_COMPILE_OPENGL
 
 #include <array>
 #include <utility>
@@ -10,7 +8,7 @@
 #include "../../../core/Window.hpp"
 #include "../../../utils/Log.hpp"
 
-namespace ouzel::graphics::opengl::emscripten
+namespace fluxion::graphics::opengl::emscripten
 {
     namespace
     {

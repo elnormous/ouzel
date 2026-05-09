@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_BUFFER_HPP
-#define OUZEL_GRAPHICS_BUFFER_HPP
+﻿#ifndef FLUXION_GRAPHICS_BUFFER_HPP
+#define FLUXION_GRAPHICS_BUFFER_HPP
 
 #include <vector>
 #include "RenderDevice.hpp"
 #include "BufferType.hpp"
 #include "Flags.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Graphics;
 
@@ -52,4 +50,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_BUFFER_HPP
+#endif // FLUXION_GRAPHICS_BUFFER_HPP

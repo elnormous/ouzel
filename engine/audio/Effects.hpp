@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_EFFECTS_HPP
-#define OUZEL_AUDIO_EFFECTS_HPP
+﻿#ifndef FLUXION_AUDIO_EFFECTS_HPP
+#define FLUXION_AUDIO_EFFECTS_HPP
 
 #include <cfloat>
 #include <utility>
@@ -9,7 +7,7 @@
 #include "../math/Vector.hpp"
 #include "../scene/Component.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Delay final: public Effect
     {
@@ -167,4 +165,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_EFFECTS_HPP
+#endif // FLUXION_AUDIO_EFFECTS_HPP

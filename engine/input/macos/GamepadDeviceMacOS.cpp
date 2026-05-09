@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "GamepadDeviceMacOS.hpp"
+﻿#include "GamepadDeviceMacOS.hpp"
 #include "InputSystemMacOS.hpp"
 
-namespace ouzel::input::macos
+namespace fluxion::input::macos
 {
     GamepadDevice::GamepadDevice(InputSystem& initInputSystem, DeviceId initId):
         input::GamepadDevice{initInputSystem, initId}

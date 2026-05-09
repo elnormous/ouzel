@@ -1,14 +1,13 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
-#define OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
+﻿#ifndef FLUXION_SCENE_SKINNEDMESHRENDERER_HPP
+#define FLUXION_SCENE_SKINNEDMESHRENDERER_HPP
 
 #include <memory>
 #include <vector>
 #include "Component.hpp"
 #include "../graphics/Material.hpp"
+#include "../reflection/Macros.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class SkinnedMeshData final
     {
@@ -35,6 +34,8 @@ namespace ouzel::scene
     class SkinnedMeshRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(SkinnedMeshRenderer, "scene.SkinnedMeshRenderer")
+
         SkinnedMeshRenderer();
         explicit SkinnedMeshRenderer(const SkinnedMeshData& meshData);
 
@@ -48,9 +49,11 @@ namespace ouzel::scene
         auto& getMaterial() const noexcept { return material; }
         void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
+        void inspect(reflection::Inspector& inspector) override;
+
     private:
         std::shared_ptr<graphics::Material> material;
     };
 }
 
-#endif // OUZEL_SCENE_SKINNEDMESHRENDERER_HPP
+#endif // FLUXION_SCENE_SKINNEDMESHRENDERER_HPP

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_RENDERDEVICE_HPP
-#define OUZEL_GRAPHICS_RENDERDEVICE_HPP
+﻿#ifndef FLUXION_GRAPHICS_RENDERDEVICE_HPP
+#define FLUXION_GRAPHICS_RENDERDEVICE_HPP
 
 #include <array>
 #include <atomic>
@@ -19,12 +17,12 @@
 #include "../math/Size.hpp"
 #include "../utils/Log.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     class Window;
 }
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Graphics;
 
@@ -130,6 +128,17 @@ namespace ouzel::graphics
 
         void executeOnRenderThread(const std::function<void()>& func);
 
+        using PreSwapHook = std::function<void()>;
+        // Hook invoked on the render thread immediately before each backbuffer
+        // swap. Used by the ImGui integration to issue overlay draw calls.
+        // Setting and clearing the hook is thread-safe with respect to the
+        // render thread reading it; the hook itself runs on the render thread.
+        void setPreSwapHook(PreSwapHook hook)
+        {
+            std::lock_guard lock{preSwapHookMutex};
+            preSwapHook = std::move(hook);
+        }
+
         using ResourceId = std::size_t;
         class Resource final
         {
@@ -220,6 +229,27 @@ namespace ouzel::graphics
         std::queue<std::function<void()>> executeQueue;
         std::mutex executeMutex;
 
+        // Run the swap hook in a way that is safe against concurrent setPreSwapHook
+        // calls. Returns silently if no hook is installed.
+        void runPreSwapHook()
+        {
+            PreSwapHook hookCopy;
+            {
+                std::lock_guard lock{preSwapHookMutex};
+                hookCopy = preSwapHook;
+            }
+            if (hookCopy) hookCopy();
+        }
+
+        bool hasPreSwapHook() const noexcept
+        {
+            std::lock_guard lock{preSwapHookMutex};
+            return static_cast<bool>(preSwapHook);
+        }
+
+        mutable std::mutex preSwapHookMutex;
+        PreSwapHook preSwapHook;
+
     private:
         ResourceId createResourceId()
         {
@@ -254,4 +284,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_RENDERDEVICE_HPP
+#endif // FLUXION_GRAPHICS_RENDERDEVICE_HPP

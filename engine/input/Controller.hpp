@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_CONTROLLER_HPP
-#define OUZEL_INPUT_CONTROLLER_HPP
+﻿#ifndef FLUXION_INPUT_CONTROLLER_HPP
+#define FLUXION_INPUT_CONTROLLER_HPP
 
 #include "DeviceId.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class InputManager;
 
@@ -36,4 +34,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_CONTROLLER_HPP
+#endif // FLUXION_INPUT_CONTROLLER_HPP

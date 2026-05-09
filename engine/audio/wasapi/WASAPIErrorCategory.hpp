@@ -1,16 +1,14 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_WASAPIERRORCATEGORY_HPP
-#define OUZEL_AUDIO_WASAPIERRORCATEGORY_HPP
+﻿#ifndef FLUXION_AUDIO_WASAPIERRORCATEGORY_HPP
+#define FLUXION_AUDIO_WASAPIERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_WASAPI
+#if FLUXION_COMPILE_WASAPI
 
 #include <system_error>
 #include <Audioclient.h>
 
-namespace ouzel::audio::wasapi
+namespace fluxion::audio::wasapi
 {
     class ErrorCategory final: public std::error_category
     {
@@ -75,4 +73,4 @@ namespace ouzel::audio::wasapi
 }
 #endif
 
-#endif // OUZEL_AUDIO_WASAPIERRORCATEGORY_HPP
+#endif // FLUXION_AUDIO_WASAPIERRORCATEGORY_HPP

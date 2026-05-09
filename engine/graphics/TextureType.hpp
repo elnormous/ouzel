@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_GRAPHICS_TEXTURETYPE_HPP
+#define FLUXION_GRAPHICS_TEXTURETYPE_HPP
 
-#ifndef OUZEL_GRAPHICS_TEXTURETYPE_HPP
-#define OUZEL_GRAPHICS_TEXTURETYPE_HPP
-
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     enum class TextureType
     {
@@ -14,4 +12,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_TEXTURETYPE_HPP
+#endif // FLUXION_GRAPHICS_TEXTURETYPE_HPP

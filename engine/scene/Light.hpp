@@ -1,17 +1,18 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_LIGHT_HPP
-#define OUZEL_SCENE_LIGHT_HPP
+﻿#ifndef FLUXION_SCENE_LIGHT_HPP
+#define FLUXION_SCENE_LIGHT_HPP
 
 #include "Component.hpp"
 #include "../math/Color.hpp"
 #include "../math/Quaternion.hpp"
+#include "../reflection/Macros.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Light: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(Light, "scene.Light")
+
         enum class Type
         {
             point,
@@ -41,6 +42,8 @@ namespace ouzel::scene
         auto getIntensity() const noexcept { return intensity; }
         void setIntensity(float newIntensity) { intensity = newIntensity; }
 
+        void inspect(reflection::Inspector& inspector) override;
+
     private:
         void setLayer(Layer* newLayer) override;
 
@@ -53,4 +56,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_LIGHT_HPP
+#endif // FLUXION_SCENE_LIGHT_HPP

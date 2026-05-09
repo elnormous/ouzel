@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_IOKIT_HIDMANAGER_HPP
-#define OUZEL_PLATFORM_IOKIT_HIDMANAGER_HPP
+﻿#ifndef FLUXION_PLATFORM_IOKIT_HIDMANAGER_HPP
+#define FLUXION_PLATFORM_IOKIT_HIDMANAGER_HPP
 
 #include <system_error>
 #include <IOKit/hid/IOHIDManager.h>
 #include "ErrorCategory.hpp"
 
-namespace ouzel::platform::iokit
+namespace fluxion::platform::iokit
 {
     class HidManager final
     {
@@ -92,4 +90,4 @@ namespace ouzel::platform::iokit
     };
 }
 
-#endif // OUZEL_PLATFORM_IOKIT_HIDMANAGER_HPP
+#endif // FLUXION_PLATFORM_IOKIT_HIDMANAGER_HPP

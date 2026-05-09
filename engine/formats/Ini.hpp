@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_FORMATS_INI_HPP
-#define OUZEL_FORMATS_INI_HPP
+﻿#ifndef FLUXION_FORMATS_INI_HPP
+#define FLUXION_FORMATS_INI_HPP
 
 #include <algorithm>
 #include <array>
@@ -13,7 +11,7 @@
 #include <string>
 #include <string_view>
 
-namespace ouzel::ini
+namespace fluxion::ini
 {
     class ParseError final: public std::logic_error
     {
@@ -421,4 +419,4 @@ namespace ouzel::ini
     }
 }
 
-#endif // OUZEL_FORMATS_INI_HPP
+#endif // FLUXION_FORMATS_INI_HPP

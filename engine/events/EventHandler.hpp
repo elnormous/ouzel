@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_EVENTS_EVENTHANDLER_HPP
-#define OUZEL_EVENTS_EVENTHANDLER_HPP
+﻿#ifndef FLUXION_EVENTS_EVENTHANDLER_HPP
+#define FLUXION_EVENTS_EVENTHANDLER_HPP
 
 #include <functional>
 #include <cstdint>
 #include "Event.hpp"
 #include "EventDispatcher.hpp"
 
-namespace ouzel
+namespace fluxion
 {
     class EventHandler final
     {
@@ -55,4 +53,4 @@ namespace ouzel
     };
 }
 
-#endif // OUZEL_EVENTS_EVENTHANDLER_HPP
+#endif // FLUXION_EVENTS_EVENTHANDLER_HPP

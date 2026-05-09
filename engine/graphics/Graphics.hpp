@@ -1,12 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_GRAPHICS_HPP
-#define OUZEL_GRAPHICS_GRAPHICS_HPP
+﻿#ifndef FLUXION_GRAPHICS_GRAPHICS_HPP
+#define FLUXION_GRAPHICS_GRAPHICS_HPP
 
 #include <cstdint>
 #include <memory>
 #include <set>
 #include <string>
+#include <string_view>
 #include <vector>
 #include "Commands.hpp"
 #include "Driver.hpp"
@@ -17,16 +16,17 @@
 #include "../math/Size.hpp"
 #include "../math/Color.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     class Engine;
     class Window;
 }
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     std::set<Driver> getAvailableRenderDrivers();
     Driver getDriver(const std::string& driver);
+    std::string_view getDriverName(Driver driver) noexcept;
 
     class Graphics final
     {
@@ -108,4 +108,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_GRAPHICS_HPP
+#endif // FLUXION_GRAPHICS_GRAPHICS_HPP

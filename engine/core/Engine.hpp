@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_ENGINE_HPP
-#define OUZEL_CORE_ENGINE_HPP
+﻿#ifndef FLUXION_CORE_ENGINE_HPP
+#define FLUXION_CORE_ENGINE_HPP
 
 #include <atomic>
 #include <chrono>
@@ -27,7 +25,7 @@
 #include "../utils/Log.hpp"
 #include "../thread/Thread.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     inline std::mt19937 randomEngine{std::random_device{}()};
 
@@ -91,6 +89,26 @@ namespace ouzel::core
         void resume();
         void exit();
 
+        // Editor-friendly hook: when the user clicks the OS window's
+        // close button, the native window handler invokes this
+        // callback (if set) and only proceeds with destroy when it
+        // returns true. Returning false leaves the window open so
+        // the host can pop a "Discard unsaved changes?" modal first.
+        // On platforms where we haven't wired the WM_CLOSE / NSWindow
+        // shouldClose: / WM_DELETE_WINDOW path yet (anything beyond
+        // Windows for now), the handler is simply not invoked and
+        // the engine closes normally — host should fall back to its
+        // own dirty-state tracking on those targets.
+        using CloseConfirmHandler = std::function<bool()>;
+        void setCloseConfirmHandler(CloseConfirmHandler h)
+        {
+            closeConfirmHandler = std::move(h);
+        }
+        [[nodiscard]] bool requestCloseConfirmation()
+        {
+            return closeConfirmHandler ? closeConfirmHandler() : true;
+        }
+
         [[nodiscard]] bool isPaused() const noexcept { return paused; }
         [[nodiscard]] bool isActive() const noexcept { return active; }
 
@@ -105,6 +123,40 @@ namespace ouzel::core
 
         [[nodiscard]] bool isOneUpdatePerFrame() const noexcept { return oneUpdatePerFrame; }
         void setOneUpdatePerFrame(bool value) noexcept { oneUpdatePerFrame = value; }
+
+        // Multiplier applied to the per-frame delta delivered to game-side
+        // UpdateEvent listeners (animations, sprite playback, etc.).
+        // Default 1.0 = real time. 0.0 freezes simulation (rendering stays
+        // live so editor gizmos / panels remain interactive). 0.5 = half
+        // speed, 2.0 = double, and so on.
+        //
+        // Only the user-visible logical clock is scaled: input polling,
+        // audio mixing, and the host platform's frame pacing are
+        // unaffected. Atomic so the editor (host thread) and the engine
+        // update loop don't race on this value.
+        void setTimeScale(float scale) noexcept
+        {
+            timeScale.store(scale, std::memory_order_release);
+        }
+        [[nodiscard]] float getTimeScale() const noexcept
+        {
+            return timeScale.load(std::memory_order_acquire);
+        }
+
+        // Request that the next `n` update ticks run at real-time delta
+        // regardless of the current timeScale. Intended for the editor's
+        // "Step one frame" button while paused: a pause is timeScale=0,
+        // and a step is requestStep(1) that briefly bypasses the scale.
+        // The counter saturates at INT_MAX; calling with n<=0 is a no-op.
+        void requestStep(int n = 1) noexcept
+        {
+            if (n <= 0) return;
+            pendingSteps.fetch_add(n, std::memory_order_acq_rel);
+        }
+        [[nodiscard]] int getPendingSteps() const noexcept
+        {
+            return pendingSteps.load(std::memory_order_acquire);
+        }
 
     protected:
         class Command final
@@ -149,15 +201,19 @@ namespace ouzel::core
         std::chrono::steady_clock::time_point previousUpdateTime;
 
         std::atomic_bool active{false};
+        CloseConfirmHandler closeConfirmHandler;
         std::atomic_bool paused{false};
         std::atomic_bool oneUpdatePerFrame{false};
         bool refillRenderQueue = true;
 
         std::atomic_bool screenSaverEnabled{true};
+
+        std::atomic<float> timeScale{1.0F};
+        std::atomic<int> pendingSteps{0};
     };
 }
 
-namespace ouzel
+namespace fluxion
 {
     const std::string shaderTexture = "shaderTexture";
     const std::string shaderColor = "shaderColor";
@@ -174,4 +230,4 @@ namespace ouzel
     inline core::Engine* engine = nullptr;
 }
 
-#endif // OUZEL_CORE_ENGINE_HPP
+#endif // FLUXION_CORE_ENGINE_HPP

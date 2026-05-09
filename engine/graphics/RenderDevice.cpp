@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include "RenderDevice.hpp"
 #include "GraphicsError.hpp"
 #include "stb_image_write.h"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     RenderDevice::RenderDevice(Driver initDriver,
                                const Settings& settings,

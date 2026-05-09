@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#pragma push_macro("WIN32_LEAN_AND_MEAN")
+﻿#pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
 #ifndef WIN32_LEAN_AND_MEAN
 #  define WIN32_LEAN_AND_MEAN
@@ -24,7 +22,7 @@
 #include "../../core/windows/NativeWindowWin.hpp"
 #include "../../utils/Log.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     namespace
     {

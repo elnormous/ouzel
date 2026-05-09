@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_INPUTSYSTEMIOS_HPP
-#define OUZEL_INPUT_INPUTSYSTEMIOS_HPP
+﻿#ifndef FLUXION_INPUT_INPUTSYSTEMIOS_HPP
+#define FLUXION_INPUT_INPUTSYSTEMIOS_HPP
 
 #include <memory>
 #include <unordered_map>
@@ -16,7 +14,7 @@ using GCControllerPtr = id;
 
 #include "../InputSystem.hpp"
 
-namespace ouzel::input::ios
+namespace fluxion::input::ios
 {
     class GamepadDevice;
 
@@ -57,4 +55,4 @@ namespace ouzel::input::ios
     };
 }
 
-#endif // OUZEL_INPUT_INPUTSYSTEMIOS_HPP
+#endif // FLUXION_INPUT_INPUTSYSTEMIOS_HPP

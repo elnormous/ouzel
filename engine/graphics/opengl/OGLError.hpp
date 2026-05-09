@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLERROR_HPP
-#define OUZEL_GRAPHICS_OGLERROR_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLERROR_HPP
+#define FLUXION_GRAPHICS_OGLERROR_HPP
 
 #include <stdexcept>
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     class Error final: public std::runtime_error
     {
@@ -14,4 +12,4 @@ namespace ouzel::graphics::opengl
     };
 }
 
-#endif // OUZEL_GRAPHICS_OGLERROR_HPP
+#endif // FLUXION_GRAPHICS_OGLERROR_HPP

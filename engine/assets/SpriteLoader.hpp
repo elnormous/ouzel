@@ -1,17 +1,16 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_SPRITELOADER_HPP
-#define OUZEL_ASSETS_SPRITELOADER_HPP
+﻿#ifndef FLUXION_ASSETS_SPRITELOADER_HPP
+#define FLUXION_ASSETS_SPRITELOADER_HPP
 
 #include <algorithm>
 #include "Bundle.hpp"
 #include "../scene/SpriteRenderer.hpp"
 #include "../formats/Json.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadSprite(Cache&,
                            Bundle& bundle,
+                           const Uuid& uuid,
                            const std::string& name,
                            const std::vector<std::byte>& data,
                            const Asset::Options& options)
@@ -131,10 +130,10 @@ namespace ouzel::assets
 
         spriteData.animations[""] = std::move(animation);
 
-        bundle.setSpriteData(name, spriteData);
+        bundle.setSpriteData(name, spriteData, uuid);
 
         return true;
     }
 }
 
-#endif // OUZEL_ASSETS_SPRITELOADER_HPP
+#endif // FLUXION_ASSETS_SPRITELOADER_HPP

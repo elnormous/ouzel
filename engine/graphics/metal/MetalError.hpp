@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALERROR_HPP
-#define OUZEL_GRAPHICS_METALERROR_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALERROR_HPP
+#define FLUXION_GRAPHICS_METALERROR_HPP
 
 #include <stdexcept>
 
-namespace ouzel::graphics::metal
+namespace fluxion::graphics::metal
 {
     class Error final: public std::runtime_error
     {
@@ -14,4 +12,4 @@ namespace ouzel::graphics::metal
     };
 }
 
-#endif // OUZEL_GRAPHICS_METALERROR_HPP
+#endif // FLUXION_GRAPHICS_METALERROR_HPP

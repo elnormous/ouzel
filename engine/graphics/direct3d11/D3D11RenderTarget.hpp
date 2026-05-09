@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_D3D11RENDERTARGET_HPP
-#define OUZEL_GRAPHICS_D3D11RENDERTARGET_HPP
+﻿#ifndef FLUXION_GRAPHICS_D3D11RENDERTARGET_HPP
+#define FLUXION_GRAPHICS_D3D11RENDERTARGET_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_DIRECT3D11
+#if FLUXION_COMPILE_DIRECT3D11
 
 #include <set>
 #include <vector>
@@ -25,7 +23,7 @@
 #include "D3D11RenderResource.hpp"
 #include "../../math/Color.hpp"
 
-namespace ouzel::graphics::d3d11
+namespace fluxion::graphics::d3d11
 {
     class RenderDevice;
     class Texture;
@@ -52,4 +50,4 @@ namespace ouzel::graphics::d3d11
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_D3D11RENDERTARGET_HPP
+#endif // FLUXION_GRAPHICS_D3D11RENDERTARGET_HPP

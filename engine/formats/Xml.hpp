@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_FORMATS_XML_HPP
-#define OUZEL_FORMATS_XML_HPP
+﻿#ifndef FLUXION_FORMATS_XML_HPP
+#define FLUXION_FORMATS_XML_HPP
 
 #include <array>
 #include <cctype>
@@ -13,7 +11,7 @@
 #include <vector>
 #include "../utils/Utf8.hpp"
 
-namespace ouzel::xml
+namespace fluxion::xml
 {
     class ParseError final: public std::logic_error
     {
@@ -1234,4 +1232,4 @@ namespace ouzel::xml
     }
 }
 
-#endif // OUZEL_FORMATS_XML_HPP
+#endif // FLUXION_FORMATS_XML_HPP

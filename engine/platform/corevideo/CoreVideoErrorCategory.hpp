@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_COREVIDEO_COREVIDEOERRORCATEGORY_HPP
-#define OUZEL_PLATFORM_COREVIDEO_COREVIDEOERRORCATEGORY_HPP
+﻿#ifndef FLUXION_PLATFORM_COREVIDEO_COREVIDEOERRORCATEGORY_HPP
+#define FLUXION_PLATFORM_COREVIDEO_COREVIDEOERRORCATEGORY_HPP
 
 #include <system_error>
 #include <CoreVideo/CVReturn.h>
 
-namespace ouzel::platform::corevideo
+namespace fluxion::platform::corevideo
 {
     class ErrorCategory final: public std::error_category
     {
@@ -51,4 +49,4 @@ namespace ouzel::platform::corevideo
     inline const ErrorCategory errorCategory;
 }
 
-#endif // OUZEL_PLATFORM_COREVIDEO_COREVIDEOERRORCATEGORY_HPP
+#endif // FLUXION_PLATFORM_COREVIDEO_COREVIDEOERRORCATEGORY_HPP

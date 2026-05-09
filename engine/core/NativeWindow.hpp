@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_NATIVEWINDOW_HPP
-#define OUZEL_CORE_NATIVEWINDOW_HPP
+﻿#ifndef FLUXION_CORE_NATIVEWINDOW_HPP
+#define FLUXION_CORE_NATIVEWINDOW_HPP
 
 #include <condition_variable>
 #include <functional>
@@ -10,7 +8,7 @@
 #include <string>
 #include "../math/Size.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     class NativeWindow
     {
@@ -120,4 +118,4 @@ namespace ouzel::core
     };
 }
 
-#endif // OUZEL_CORE_NATIVEWINDOW_HPP
+#endif // FLUXION_CORE_NATIVEWINDOW_HPP

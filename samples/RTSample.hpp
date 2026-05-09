@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef RTSAMPLE_HPP
+﻿#ifndef RTSAMPLE_HPP
 #define RTSAMPLE_HPP
 
 #include "gui/Widgets.hpp"
@@ -10,42 +8,42 @@
 
 namespace samples
 {
-    class RTSample: public ouzel::scene::Scene
+    class RTSample: public fluxion::scene::Scene
     {
     public:
         RTSample();
 
     private:
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
+        fluxion::scene::Layer layer;
+        fluxion::scene::Camera camera;
+        fluxion::scene::Actor cameraActor;
 
-        ouzel::scene::Layer rtLayer;
+        fluxion::scene::Layer rtLayer;
 
-        ouzel::scene::Camera rtCamera;
-        ouzel::scene::Actor rtCameraActor;
-        ouzel::scene::Camera camera1;
-        ouzel::scene::Actor camera1Actor;
-        ouzel::scene::Camera camera2;
-        ouzel::scene::Actor camera2Actor;
+        fluxion::scene::Camera rtCamera;
+        fluxion::scene::Actor rtCameraActor;
+        fluxion::scene::Camera camera1;
+        fluxion::scene::Actor camera1Actor;
+        fluxion::scene::Camera camera2;
+        fluxion::scene::Actor camera2Actor;
 
-        ouzel::scene::SpriteRenderer characterSprite;
-        ouzel::scene::Actor rtCharacter;
+        fluxion::scene::SpriteRenderer characterSprite;
+        fluxion::scene::Actor rtCharacter;
 
-        ouzel::scene::SpriteRenderer rtSprite;
-        ouzel::scene::Actor rtActor;
+        fluxion::scene::SpriteRenderer rtSprite;
+        fluxion::scene::Actor rtActor;
 
-        ouzel::EventHandler handler;
+        fluxion::EventHandler handler;
 
-        ouzel::scene::Layer guiLayer;
-        ouzel::scene::Camera guiCamera;
-        ouzel::scene::Actor guiCameraActor;
-        ouzel::gui::Menu menu;
-        ouzel::gui::Button backButton;
+        fluxion::scene::Layer guiLayer;
+        fluxion::scene::Camera guiCamera;
+        fluxion::scene::Actor guiCameraActor;
+        fluxion::gui::Menu menu;
+        fluxion::gui::Button backButton;
 
-        std::shared_ptr<ouzel::graphics::Texture> renderTexture;
-        ouzel::graphics::Texture depthTexture;
-        ouzel::graphics::RenderTarget renderTarget;
+        std::shared_ptr<fluxion::graphics::Texture> renderTexture;
+        fluxion::graphics::Texture depthTexture;
+        fluxion::graphics::RenderTarget renderTarget;
     };
 }
 

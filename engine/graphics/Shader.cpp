@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "Shader.hpp"
+﻿#include "Shader.hpp"
 #include "Graphics.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     Shader::Shader(Graphics& initGraphics):
         resource{*initGraphics.getDevice()}

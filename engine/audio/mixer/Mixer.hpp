@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_MIXER_HPP
-#define OUZEL_AUDIO_MIXER_MIXER_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_MIXER_HPP
+#define FLUXION_AUDIO_MIXER_MIXER_HPP
 
 #include <condition_variable>
 #include <cstdint>
@@ -16,7 +14,7 @@
 #include "Processor.hpp"
 #include "../../thread/Thread.hpp"
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     class RootObject final: public Object
     {
@@ -158,4 +156,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_MIXER_HPP
+#endif // FLUXION_AUDIO_MIXER_MIXER_HPP

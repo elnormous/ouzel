@@ -1,15 +1,14 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_STATICMESHRENDERER_HPP
-#define OUZEL_SCENE_STATICMESHRENDERER_HPP
+﻿#ifndef FLUXION_SCENE_STATICMESHRENDERER_HPP
+#define FLUXION_SCENE_STATICMESHRENDERER_HPP
 
 #include <vector>
 #include "Component.hpp"
 #include "../graphics/Buffer.hpp"
 #include "../graphics/Material.hpp"
 #include "../graphics/Vertex.hpp"
+#include "../reflection/Macros.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class StaticMeshData final
     {
@@ -31,6 +30,8 @@ namespace ouzel::scene
     class StaticMeshRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(StaticMeshRenderer, "scene.StaticMeshRenderer")
+
         StaticMeshRenderer() = default;
         explicit StaticMeshRenderer(const StaticMeshData& meshData);
 
@@ -47,6 +48,8 @@ namespace ouzel::scene
             material = newMaterial;
         }
 
+        void inspect(reflection::Inspector& inspector) override;
+
     private:
         const graphics::Material* material = nullptr;
         std::uint32_t indexCount = 0;
@@ -56,4 +59,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_STATICMESHRENDERER_HPP
+#endif // FLUXION_SCENE_STATICMESHRENDERER_HPP

@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_SILENCESOUND_HPP
-#define OUZEL_AUDIO_SILENCESOUND_HPP
+﻿#ifndef FLUXION_AUDIO_SILENCESOUND_HPP
+#define FLUXION_AUDIO_SILENCESOUND_HPP
 
 #include "Sound.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class SilenceData;
 
@@ -20,4 +18,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_SILENCESOUND_HPP
+#endif // FLUXION_AUDIO_SILENCESOUND_HPP

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "../core/Setup.h"
+﻿#include "../core/Setup.h"
 
 #include <algorithm>
 #include <fstream>
@@ -39,7 +37,7 @@
 #  include "../platform/corefoundation/Pointer.hpp"
 #endif
 
-namespace ouzel::storage
+namespace fluxion::storage
 {
     FileSystem::FileSystem(core::Engine& initEngine):
         engine{initEngine}
@@ -205,7 +203,7 @@ namespace ouzel::storage
         if (companyName)
             path /= companyName;
         else
-            path /= OUZEL_DEVELOPER_NAME;
+            path /= FLUXION_DEVELOPER_NAME;
 
         if (getFileType(path) != FileType::directory)
             createDirectory(path);
@@ -213,7 +211,7 @@ namespace ouzel::storage
         if (productName)
             path /= productName;
         else
-            path /= OUZEL_APPLICATION_NAME;
+            path /= FLUXION_APPLICATION_NAME;
 
         if (getFileType(path) != FileType::directory)
             createDirectory(path);
@@ -252,7 +250,7 @@ namespace ouzel::storage
 
         CFStringRef identifier = CFBundleGetIdentifier(bundle);
         if (!identifier)
-            identifier = CFSTR(OUZEL_DEVELOPER_NAME "." OUZEL_APPLICATION_NAME);
+            identifier = CFSTR(FLUXION_DEVELOPER_NAME "." FLUXION_APPLICATION_NAME);
 
         const auto path = reinterpret_cast<id (*)(id, SEL, CFStringRef)>(&objc_msgSend)(applicationSupportDirectory, sel_getUid("URLByAppendingPathComponent:"), identifier);
         reinterpret_cast<void (*)(id, SEL, id, BOOL, id, id)>(&objc_msgSend)(fileManager, sel_getUid("createDirectoryAtURL:withIntermediateDirectories:attributes:error:"), path, YES, nil, nil);
@@ -295,12 +293,12 @@ namespace ouzel::storage
                 createDirectory(path);
         }
 
-        path /= OUZEL_DEVELOPER_NAME;
+        path /= FLUXION_DEVELOPER_NAME;
 
         if (getFileType(path) != FileType::directory)
             createDirectory(path);
 
-        path /= OUZEL_APPLICATION_NAME;
+        path /= FLUXION_APPLICATION_NAME;
 
         if (getFileType(path) != FileType::directory)
             createDirectory(path);

@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_SOURCE_HPP
-#define OUZEL_AUDIO_MIXER_SOURCE_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_SOURCE_HPP
+#define FLUXION_AUDIO_MIXER_SOURCE_HPP
 
 #include <cstdint>
 #include <vector>
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     class Source
     {
@@ -21,4 +19,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_SOURCE_HPP
+#endif // FLUXION_AUDIO_MIXER_SOURCE_HPP

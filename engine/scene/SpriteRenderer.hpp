@@ -1,13 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_SPRITE_HPP
-#define OUZEL_SCENE_SPRITE_HPP
+﻿#ifndef FLUXION_SCENE_SPRITE_HPP
+#define FLUXION_SCENE_SPRITE_HPP
 
 #include <list>
 #include <map>
 #include <memory>
 #include <vector>
 #include "Component.hpp"
+#include "../assets/Asset.hpp"
 #include "../events/EventHandler.hpp"
 #include "../graphics/BlendState.hpp"
 #include "../graphics/Buffer.hpp"
@@ -19,8 +18,9 @@
 #include "../math/Rect.hpp"
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
+#include "../reflection/Macros.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class SpriteData final
     {
@@ -68,6 +68,15 @@ namespace ouzel::scene
             std::string name;
             std::vector<Frame> frames;
             float frameInterval = 0.1F;
+            // Default loop behaviour for the editor's transport
+            // controls. The runtime QueuedAnimation::repeat field
+            // is what actually drives Animator::update; this is
+            // a per-animation editor preference that the
+            // SpriteAnimationPanel reads when it (re)starts a
+            // playback. Saved to the scene file via the existing
+            // serializer once SpriteRenderer rounds animations
+            // through inspect().
+            bool repeat = true;
         };
 
         std::map<std::string, Animation> animations;
@@ -79,6 +88,8 @@ namespace ouzel::scene
     class SpriteRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(SpriteRenderer, "scene.SpriteRenderer")
+
         SpriteRenderer();
         explicit SpriteRenderer(const SpriteData& spriteData);
         explicit SpriteRenderer(const std::string& filename);
@@ -94,6 +105,8 @@ namespace ouzel::scene
 
         void update(float delta);
 
+        void inspect(reflection::Inspector& inspector) override;
+
         void draw(const math::Matrix<float, 4>& transformMatrix,
                   float opacity,
                   const math::Matrix<float, 4>& renderViewProjection,
@@ -101,6 +114,32 @@ namespace ouzel::scene
 
         auto& getMaterial() const noexcept { return material; }
         void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
+
+        // Editor-driven asset binding. Stores the reference and, if
+        // the Cache currently knows the sprite (or texture, as a
+        // fallback for raw images), re-initialises the renderer with
+        // it. A null ref clears the binding without touching the
+        // existing material — useful when the user drags an asset
+        // off the receptor. The reference is what the JsonInspector
+        // round-trips, so scenes saved at phase 11c+ re-resolve the
+        // sprite by uuid on load.
+        [[nodiscard]] const assets::AssetReference& getSpriteReference() const noexcept
+        {
+            return spriteRef;
+        }
+        void setSpriteReference(const assets::AssetReference& ref);
+
+        // Component-level Loop flag. The simple, "I want this
+        // animation to keep playing" toggle the user reaches for
+        // first. play() syncs every queued animation's repeat to
+        // this value, so toggling Loop while paused or stopped
+        // takes effect on the next play(). The per-animation
+        // SpriteData::Animation::repeat field is still respected
+        // by callers who pass it explicitly to setAnimation —
+        // SpriteRenderer.loop is the default for the auto-play
+        // path (Play Mode entry, inspector "Playing" checkbox).
+        [[nodiscard]] bool isLooping() const noexcept { return loop; }
+        void setLoop(bool newLoop) noexcept;
 
         auto& getOffset() const noexcept { return offset; }
         void setOffset(const math::Vector<float, 2>& newOffset);
@@ -111,6 +150,11 @@ namespace ouzel::scene
         auto isPlaying() const noexcept { return playing; }
 
         auto& getAnimations() const noexcept { return animations; }
+        // Mutable accessor for the editor's SpriteAnimationPanel —
+        // lets the user tune frameInterval and (in a future
+        // iteration) rename / reorder animations. Game code should
+        // continue to use the const overload above.
+        auto& getAnimationsMutable() noexcept { return animations; }
         auto getAnimation() const noexcept { return currentAnimation->animation; }
         auto& getAnimationName() const noexcept { return currentAnimation->animation->name; }
         bool hasAnimation(const std::string& animation) const;
@@ -124,6 +168,7 @@ namespace ouzel::scene
 
         std::shared_ptr<graphics::Material> material;
         std::map<std::string, SpriteData::Animation> animations;
+        assets::AssetReference spriteRef;
 
         struct QueuedAnimation final
         {
@@ -139,10 +184,12 @@ namespace ouzel::scene
 
         bool playing = false;
         bool running = false;
+        bool loop = true;             // component-level Loop default;
+                                       // see setLoop / isLooping above
         float currentTime = 0.0F;
 
         EventHandler updateHandler;
     };
 }
 
-#endif // OUZEL_SCENE_SPRITE_HPP
+#endif // FLUXION_SCENE_SPRITE_HPP

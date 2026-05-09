@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_DATA_HPP
-#define OUZEL_AUDIO_MIXER_DATA_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_DATA_HPP
+#define FLUXION_AUDIO_MIXER_DATA_HPP
 
 #include <memory>
 #include "Object.hpp"
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     class Stream;
 
@@ -30,4 +28,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_DATA_HPP
+#endif // FLUXION_AUDIO_MIXER_DATA_HPP

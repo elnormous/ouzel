@@ -1,15 +1,30 @@
-// Ouzel by Elviss Strazdins
-
-#include <cmath>
+﻿#include <cmath>
+#include <cstdio>
 #include <limits>
 #include "Animators.hpp"
 #include "Actor.hpp"
 #include "../core/Engine.hpp"
 #include "../hash/Fnv1.hpp"
+#include "../reflection/Inspector.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
+    FLUXION_COMPONENT_REGISTER(Move)
+    FLUXION_COMPONENT_REGISTER(Rotate)
+    FLUXION_COMPONENT_REGISTER(Scale)
+    FLUXION_COMPONENT_REGISTER(Fade)
+    FLUXION_COMPONENT_REGISTER(Ease)
+    FLUXION_COMPONENT_REGISTER(Parallel)
+    FLUXION_COMPONENT_REGISTER(Repeat)
+    FLUXION_COMPONENT_REGISTER(Sequence)
+    FLUXION_COMPONENT_REGISTER(Shake)
+
+    Ease::Ease():
+        Animator{0.0F}, func{easing::Func::sine}, mode{easing::Mode::easeIn}
+    {
+    }
+
     Ease::Ease(Animator& animator, easing::Func initFunc, easing::Mode initMode):
         Animator{animator.getLength()}, func{initFunc}, mode{initMode}
     {
@@ -27,9 +42,64 @@ namespace ouzel::scene
         animators.front()->setProgress(progress);
     }
 
+    void Ease::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+
+        // Easing function picker. The names map 1:1 to the
+        // easing::Func enum order — adding a new entry to the
+        // enum requires bumping this array.
+        static const char* funcNames[] = {
+            "sine", "quad", "cubic", "quart", "quint",
+            "expo", "circ", "back", "elastic", "bounce"
+        };
+        int funcIndex = static_cast<int>(func);
+        inspector.enumField("Function", funcIndex, funcNames,
+                             sizeof(funcNames) / sizeof(funcNames[0]));
+        if (funcIndex != static_cast<int>(func))
+            func = static_cast<easing::Func>(funcIndex);
+
+        static const char* modeNames[] = {"easeIn", "easeOut", "easeInOut"};
+        int modeIndex = static_cast<int>(mode);
+        inspector.enumField("Mode", modeIndex, modeNames,
+                             sizeof(modeNames) / sizeof(modeNames[0]));
+        if (modeIndex != static_cast<int>(mode))
+            mode = static_cast<easing::Mode>(modeIndex);
+
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%zu",
+                      animators.size());
+        inspector.readOnlyText("Wrapped animators", buf);
+    }
+
+    // Default-constructed fade: 1-second tween to fully opaque. The
+    // editor's Add Component path uses this; the user adjusts target
+    // and duration through the Inspector.
+    Fade::Fade():
+        Animator{1.0F}, opacity{1.0F}, relative{false}
+    {
+    }
+
     Fade::Fade(float initLength, float initOpacity, bool initRelative):
         Animator{initLength}, opacity{initOpacity}, relative{initRelative}
     {
+    }
+
+    void Fade::inspect(reflection::Inspector& inspector)
+    {
+        // Common Animator controls (Hidden / Length / Play / Stop /
+        // Reset / State) live in the base. The specific fields the
+        // user tweaks for a Fade — target opacity + relative flag
+        // — are appended below.
+        Animator::inspect(inspector);
+
+        float targetCopy = opacity;
+        inspector.floatRangeField("Target opacity", targetCopy, 0.0F, 1.0F);
+        if (targetCopy != opacity) opacity = targetCopy;
+
+        bool relCopy = relative;
+        inspector.boolField("Relative", relCopy);
+        if (relCopy != relative) relative = relCopy;
     }
 
     void Fade::play()
@@ -53,9 +123,30 @@ namespace ouzel::scene
             targetActor->setOpacity(startOpacity + (diff * progress));
     }
 
+    Move::Move():
+        Animator{1.0F}, position{}, relative{false}
+    {
+    }
+
     Move::Move(float initLength, const math::Vector<float, 3>& initPosition, bool initRelative):
         Animator{initLength}, position{initPosition}, relative{initRelative}
     {
+    }
+
+    void Move::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+
+        math::Vector<float, 3> posCopy = position;
+        inspector.vector3Field("Target position", posCopy);
+        if (posCopy.v[0] != position.v[0] ||
+            posCopy.v[1] != position.v[1] ||
+            posCopy.v[2] != position.v[2])
+            position = posCopy;
+
+        bool relCopy = relative;
+        inspector.boolField("Relative", relCopy);
+        if (relCopy != relative) relative = relCopy;
     }
 
     void Move::play()
@@ -77,6 +168,18 @@ namespace ouzel::scene
 
         if (targetActor)
             targetActor->setPosition(startPosition + (diff * progress));
+    }
+
+    Parallel::Parallel(): Animator{0.0F}
+    {
+    }
+
+    void Parallel::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%zu", animators.size());
+        inspector.readOnlyText("Children", buf);
     }
 
     Parallel::Parallel(const std::vector<Animator*>& initAnimators):
@@ -120,6 +223,22 @@ namespace ouzel::scene
             else
                 animator->setProgress(currentTime / animationLength);
         }
+    }
+
+    Repeat::Repeat(): Animator{0.0F}, count{0}, currentCount{0}
+    {
+    }
+
+    void Repeat::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+        int countCopy = static_cast<int>(count);
+        inspector.intField("Count (0 = infinite)", countCopy);
+        if (countCopy >= 0 && static_cast<std::uint32_t>(countCopy) != count)
+            count = static_cast<std::uint32_t>(countCopy);
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%zu", animators.size());
+        inspector.readOnlyText("Wrapped animators", buf);
     }
 
     Repeat::Repeat(Animator& animator, std::uint32_t initCount):
@@ -171,9 +290,34 @@ namespace ouzel::scene
         }
     }
 
+    Rotate::Rotate():
+        Animator{1.0F}, rotation{}, relative{false}
+    {
+    }
+
     Rotate::Rotate(float initLength, const math::Vector<float, 3>& initRotation, bool initRelative):
         Animator{initLength}, rotation{initRotation}, relative{initRelative}
     {
+    }
+
+    void Rotate::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+
+        // Target rotation is stored as an Euler-angle vector (radians);
+        // setRotation(Vector3) on Actor reads it the same way. The
+        // Inspector exposes raw radians for now — a future Inspector
+        // upgrade can present this as Euler-degrees.
+        math::Vector<float, 3> rotCopy = rotation;
+        inspector.vector3Field("Target rotation (rad)", rotCopy);
+        if (rotCopy.v[0] != rotation.v[0] ||
+            rotCopy.v[1] != rotation.v[1] ||
+            rotCopy.v[2] != rotation.v[2])
+            rotation = rotCopy;
+
+        bool relCopy = relative;
+        inspector.boolField("Relative", relCopy);
+        if (relCopy != relative) relative = relCopy;
     }
 
     void Rotate::play()
@@ -198,9 +342,32 @@ namespace ouzel::scene
             targetActor->setRotation(startRotation + diff * progress);
     }
 
+    Scale::Scale():
+        Animator{1.0F},
+        scale{math::Vector<float, 3>{1.0F, 1.0F, 1.0F}},
+        relative{false}
+    {
+    }
+
     Scale::Scale(float initLength, const math::Vector<float, 3>& initScale, bool initRelative):
         Animator{initLength}, scale{initScale}, relative{initRelative}
     {
+    }
+
+    void Scale::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+
+        math::Vector<float, 3> scaleCopy = scale;
+        inspector.vector3Field("Target scale", scaleCopy);
+        if (scaleCopy.v[0] != scale.v[0] ||
+            scaleCopy.v[1] != scale.v[1] ||
+            scaleCopy.v[2] != scale.v[2])
+            scale = scaleCopy;
+
+        bool relCopy = relative;
+        inspector.boolField("Relative", relCopy);
+        if (relCopy != relative) relative = relCopy;
     }
 
     void Scale::play()
@@ -222,6 +389,18 @@ namespace ouzel::scene
 
         if (targetActor)
             targetActor->setScale(startScale + (diff * progress));
+    }
+
+    Sequence::Sequence(): Animator{0.0F}
+    {
+    }
+
+    void Sequence::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%zu", animators.size());
+        inspector.readOnlyText("Children", buf);
     }
 
     Sequence::Sequence(const std::vector<Animator*>& initAnimators):
@@ -295,6 +474,29 @@ namespace ouzel::scene
 
             time += animator->getLength();
         }
+    }
+
+    Shake::Shake():
+        Animator{1.0F},
+        distance{math::Vector<float, 3>{5.0F, 5.0F, 0.0F}},
+        timeScale{10.0F}
+    {
+    }
+
+    void Shake::inspect(reflection::Inspector& inspector)
+    {
+        Animator::inspect(inspector);
+
+        math::Vector<float, 3> distCopy = distance;
+        inspector.vector3Field("Distance", distCopy);
+        if (distCopy.v[0] != distance.v[0] ||
+            distCopy.v[1] != distance.v[1] ||
+            distCopy.v[2] != distance.v[2])
+            distance = distCopy;
+
+        float scaleCopy = timeScale;
+        inspector.floatField("Time scale", scaleCopy);
+        if (scaleCopy != timeScale) timeScale = scaleCopy;
     }
 
     Shake::Shake(float initLength, const math::Vector<float, 3>& initDistance, float initTimeScale):

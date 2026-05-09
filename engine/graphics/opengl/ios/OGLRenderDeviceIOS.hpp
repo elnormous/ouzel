@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEIOS_HPP
-#define OUZEL_GRAPHICS_OGLRENDERDEVICEIOS_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLRENDERDEVICEIOS_HPP
+#define FLUXION_GRAPHICS_OGLRENDERDEVICEIOS_HPP
 
 #include "../../../core/Setup.h"
 
@@ -9,7 +7,7 @@
 #  include <TargetConditionals.h>
 #endif
 
-#if TARGET_OS_IOS && OUZEL_COMPILE_OPENGL
+#if TARGET_OS_IOS && FLUXION_COMPILE_OPENGL
 
 #include "../OGLRenderDevice.hpp"
 #include "../../../thread/Thread.hpp"
@@ -28,7 +26,7 @@ using EAGLContextPtr = id;
 using CAEAGLLayerPtr = id;
 #endif
 
-namespace ouzel::graphics::opengl::ios
+namespace fluxion::graphics::opengl::ios
 {
     class RenderDevice final: public opengl::RenderDevice
     {
@@ -72,4 +70,4 @@ namespace ouzel::graphics::opengl::ios
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLRENDERDEVICEIOS_HPP
+#endif // FLUXION_GRAPHICS_OGLRENDERDEVICEIOS_HPP

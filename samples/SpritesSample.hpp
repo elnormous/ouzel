@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef SPRITESSAMPLE_HPP
+﻿#ifndef SPRITESSAMPLE_HPP
 #define SPRITESSAMPLE_HPP
 
 #include "gui/Widgets.hpp"
@@ -11,35 +9,35 @@
 
 namespace samples
 {
-    class SpritesSample: public ouzel::scene::Scene
+    class SpritesSample: public fluxion::scene::Scene
     {
     public:
         SpritesSample();
 
     private:
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
+        fluxion::scene::Layer layer;
+        fluxion::scene::Camera camera;
+        fluxion::scene::Actor cameraActor;
 
-        ouzel::scene::SpriteRenderer characterSprite;
-        ouzel::scene::Actor character;
-        ouzel::scene::SpriteRenderer fireSprite;
-        ouzel::scene::Actor fireActor;
-        ouzel::scene::SpriteRenderer triangleSprite;
-        ouzel::scene::Actor triangleActor;
+        fluxion::scene::SpriteRenderer characterSprite;
+        fluxion::scene::Actor character;
+        fluxion::scene::SpriteRenderer fireSprite;
+        fluxion::scene::Actor fireActor;
+        fluxion::scene::SpriteRenderer triangleSprite;
+        fluxion::scene::Actor triangleActor;
 
-        ouzel::scene::Move move;
+        fluxion::scene::Move move;
 
-        ouzel::EventHandler handler;
+        fluxion::EventHandler handler;
 
-        ouzel::gui::Button hideButton;
-        ouzel::gui::Button wireframeButton;
+        fluxion::gui::Button hideButton;
+        fluxion::gui::Button wireframeButton;
 
-        ouzel::scene::Layer guiLayer;
-        ouzel::scene::Camera guiCamera;
-        ouzel::scene::Actor guiCameraActor;
-        ouzel::gui::Menu menu;
-        ouzel::gui::Button backButton;
+        fluxion::scene::Layer guiLayer;
+        fluxion::scene::Camera guiCamera;
+        fluxion::scene::Actor guiCameraActor;
+        fluxion::gui::Menu menu;
+        fluxion::gui::Button backButton;
     };
 }
 

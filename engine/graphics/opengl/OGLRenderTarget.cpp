@@ -1,15 +1,13 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include "OGLRenderTarget.hpp"
 #include "OGLError.hpp"
 #include "OGLRenderDevice.hpp"
 #include "OGLTexture.hpp"
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     namespace
     {
@@ -21,7 +19,7 @@ namespace ouzel::graphics::opengl
                     return "GL_FRAMEBUFFER_COMPLETE";
                 case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
                     return "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
-#ifdef OUZEL_OPENGLES
+#ifdef FLUXION_OPENGLES
                 case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
 #else
                 case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:

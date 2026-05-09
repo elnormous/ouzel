@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_BOX_HPP
-#define OUZEL_MATH_BOX_HPP
+﻿#ifndef FLUXION_MATH_BOX_HPP
+#define FLUXION_MATH_BOX_HPP
 
 #include <cstdint>
 #include <limits>
 #include "Size.hpp"
 #include "Vector.hpp"
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T, std::size_t dims> class Box final
     {
@@ -158,4 +156,4 @@ namespace ouzel::math
     }
 }
 
-#endif // OUZEL_MATH_BOX_HPP
+#endif // FLUXION_MATH_BOX_HPP

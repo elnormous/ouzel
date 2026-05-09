@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALDEPTHSTENCILSTATE_HPP
-#define OUZEL_GRAPHICS_METALDEPTHSTENCILSTATE_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALDEPTHSTENCILSTATE_HPP
+#define FLUXION_GRAPHICS_METALDEPTHSTENCILSTATE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
 
 #ifdef __OBJC__
 #  import <CoreVideo/CoreVideo.h>
@@ -22,7 +20,7 @@ using MTLDepthStencilStatePtr = id;
 #include "../StencilOperation.hpp"
 #include "../../platform/objc/Pointer.hpp"
 
-namespace ouzel::graphics::metal
+namespace fluxion::graphics::metal
 {
     class RenderDevice;
 
@@ -54,4 +52,4 @@ namespace ouzel::graphics::metal
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALDEPTHSTENCILSTATE_HPP
+#endif // FLUXION_GRAPHICS_METALDEPTHSTENCILSTATE_HPP

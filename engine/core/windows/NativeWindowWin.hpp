@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_NATIVEWINDOWWIN_HPP
-#define OUZEL_CORE_NATIVEWINDOWWIN_HPP
+﻿#ifndef FLUXION_CORE_NATIVEWINDOWWIN_HPP
+#define FLUXION_CORE_NATIVEWINDOWWIN_HPP
 
 #include <set>
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
@@ -18,7 +16,7 @@
 
 #include "../NativeWindow.hpp"
 
-namespace ouzel::core::windows
+namespace fluxion::core::windows
 {
     class Engine;
 
@@ -82,4 +80,4 @@ namespace ouzel::core::windows
     };
 }
 
-#endif // OUZEL_CORE_NATIVEWINDOWWIN_HPP
+#endif // FLUXION_CORE_NATIVEWINDOWWIN_HPP

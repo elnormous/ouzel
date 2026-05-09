@@ -1,9 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "Component.hpp"
+﻿#include "Component.hpp"
 #include "Actor.hpp"
+#include "../reflection/Inspector.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Component::~Component()
     {
@@ -109,5 +108,11 @@ namespace ouzel::scene
 
     void Component::updateTransform()
     {
+    }
+
+    void Component::inspectSorting(reflection::Inspector& inspector)
+    {
+        inspector.stringField("Sorting Layer", sortingLayer);
+        inspector.intField("Order in Layer", orderInLayer);
     }
 }

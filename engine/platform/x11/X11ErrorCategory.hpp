@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_X11_X11ERRORCATEGORY_HPP
-#define OUZEL_PLATFORM_X11_X11ERRORCATEGORY_HPP
+﻿#ifndef FLUXION_PLATFORM_X11_X11ERRORCATEGORY_HPP
+#define FLUXION_PLATFORM_X11_X11ERRORCATEGORY_HPP
 
 #include <system_error>
 #include <X11/Xlib.h>
 
-namespace ouzel::platform::x11
+namespace fluxion::platform::x11
 {
     class ErrorCategory final: public std::error_category
     {
@@ -45,4 +43,4 @@ namespace ouzel::platform::x11
     inline const ErrorCategory errorCategory;
 }
 
-#endif // OUZEL_PLATFORM_X11_X11ERRORCATEGORY_HPP
+#endif // FLUXION_PLATFORM_X11_X11ERRORCATEGORY_HPP

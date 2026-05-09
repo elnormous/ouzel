@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_LAYER_HPP
-#define OUZEL_SCENE_LAYER_HPP
+﻿#ifndef FLUXION_SCENE_LAYER_HPP
+#define FLUXION_SCENE_LAYER_HPP
 
 #include <cstdint>
 #include <vector>
@@ -10,7 +8,7 @@
 #include "Light.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Scene;
 
@@ -27,6 +25,10 @@ namespace ouzel::scene
 
         virtual void draw();
 
+        // Bring the unique_ptr-taking overload from ActorContainer into
+        // scope; the reference-taking override below would otherwise
+        // hide it via name lookup.
+        using ActorContainer::addChild;
         void addChild(Actor& actor) override;
 
         auto& getCameras() const noexcept { return cameras; }
@@ -60,4 +62,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_LAYER_HPP
+#endif // FLUXION_SCENE_LAYER_HPP

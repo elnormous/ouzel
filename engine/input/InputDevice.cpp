@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "InputDevice.hpp"
+﻿#include "InputDevice.hpp"
 #include "InputSystem.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     InputDevice::InputDevice(InputSystem& initInputSystem, DeviceId initId, Controller::Type initType):
         inputSystem{initInputSystem}, id{initId}, type{initType}

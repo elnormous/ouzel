@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "InputSystem.hpp"
+﻿#include "InputSystem.hpp"
 #include "InputManager.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     void InputSystem::addCommand(const Command& command)
     {

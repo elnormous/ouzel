@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GUI_WIDGET_HPP
-#define OUZEL_GUI_WIDGET_HPP
+﻿#ifndef FLUXION_GUI_WIDGET_HPP
+#define FLUXION_GUI_WIDGET_HPP
 
 #include "../scene/Actor.hpp"
 
-namespace ouzel::gui
+namespace fluxion::gui
 {
     class Menu;
 
@@ -31,4 +29,4 @@ namespace ouzel::gui
     };
 }
 
-#endif // OUZEL_GUI_WIDGET_HPP
+#endif // FLUXION_GUI_WIDGET_HPP

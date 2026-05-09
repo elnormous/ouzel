@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_ENGINEANDROID_HPP
-#define OUZEL_CORE_ENGINEANDROID_HPP
+﻿#ifndef FLUXION_CORE_ENGINEANDROID_HPP
+#define FLUXION_CORE_ENGINEANDROID_HPP
 
 #include <array>
 #include <system_error>
@@ -11,7 +9,7 @@
 #include <android/looper.h>
 #include "../Engine.hpp"
 
-namespace ouzel::core::android
+namespace fluxion::core::android
 {
     class Engine final: public core::Engine
     {
@@ -69,4 +67,4 @@ namespace ouzel::core::android
     };
 }
 
-#endif // OUZEL_CORE_ENGINEANDROID_HPP
+#endif // FLUXION_CORE_ENGINEANDROID_HPP

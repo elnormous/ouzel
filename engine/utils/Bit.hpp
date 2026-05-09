@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_UTILS_BIT_HPP
-#define OUZEL_UTILS_BIT_HPP
+﻿#ifndef FLUXION_UTILS_BIT_HPP
+#define FLUXION_UTILS_BIT_HPP
 
 #include <cstring>
 #include <type_traits>
 
-namespace ouzel
+namespace fluxion
 {
     template <typename To, typename From>
     std::enable_if_t<
@@ -24,4 +22,4 @@ namespace ouzel
     }
 }
 
-#endif // OUZEL_UTILS_BIT_HPP
+#endif // FLUXION_UTILS_BIT_HPP

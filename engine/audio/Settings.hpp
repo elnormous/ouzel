@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_SETTINGS_HPP
-#define OUZEL_AUDIO_SETTINGS_HPP
+﻿#ifndef FLUXION_AUDIO_SETTINGS_HPP
+#define FLUXION_AUDIO_SETTINGS_HPP
 
 #include <cstdint>
 #include "SampleFormat.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     struct Settings final
     {
@@ -19,4 +17,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_SETTINGS_HPP
+#endif // FLUXION_AUDIO_SETTINGS_HPP

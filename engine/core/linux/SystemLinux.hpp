@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_SYSTEMLINUX_HPP
-#define OUZEL_CORE_SYSTEMLINUX_HPP
+﻿#ifndef FLUXION_CORE_SYSTEMLINUX_HPP
+#define FLUXION_CORE_SYSTEMLINUX_HPP
 
 #include "../System.hpp"
 #include "EngineLinux.hpp"
 
-namespace ouzel::core::linux
+namespace fluxion::core::linux
 {
     class System final: public core::System
     {
@@ -21,4 +19,4 @@ namespace ouzel::core::linux
     };
 }
 
-#endif // OUZEL_CORE_SYSTEMLINUX_HPP
+#endif // FLUXION_CORE_SYSTEMLINUX_HPP

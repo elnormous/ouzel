@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_OALAUDIODEVICE_HPP
-#define OUZEL_AUDIO_OALAUDIODEVICE_HPP
+﻿#ifndef FLUXION_AUDIO_OALAUDIODEVICE_HPP
+#define FLUXION_AUDIO_OALAUDIODEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENAL
+#if FLUXION_COMPILE_OPENAL
 
 #include <array>
 #include <atomic>
@@ -22,7 +20,7 @@
 #include "../AudioDevice.hpp"
 #include "../../thread/Thread.hpp"
 
-namespace ouzel::audio::openal
+namespace fluxion::audio::openal
 {
     class AudioDevice final: public audio::AudioDevice
     {
@@ -62,4 +60,4 @@ namespace ouzel::audio::openal
 }
 #endif
 
-#endif // OUZEL_AUDIO_OALAUDIODEVICE_HPP
+#endif // FLUXION_AUDIO_OALAUDIODEVICE_HPP

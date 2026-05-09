@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALRENDERDEVICETVOS_HPP
-#define OUZEL_GRAPHICS_METALRENDERDEVICETVOS_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALRENDERDEVICETVOS_HPP
+#define FLUXION_GRAPHICS_METALRENDERDEVICETVOS_HPP
 
 #include "../../../core/Setup.h"
 
@@ -9,14 +7,14 @@
 #  include <TargetConditionals.h>
 #endif
 
-#if TARGET_OS_TV && OUZEL_COMPILE_METAL
+#if TARGET_OS_TV && FLUXION_COMPILE_METAL
 
 #include "../MetalRenderDevice.hpp"
 #include "../../../thread/Thread.hpp"
 #include "../../../platform/foundation/RunLoop.hpp"
 #include "../../../platform/quartzcore/DisplayLink.hpp"
 
-namespace ouzel::graphics::metal::tvos
+namespace fluxion::graphics::metal::tvos
 {
     class RenderDevice final: public metal::RenderDevice
     {
@@ -44,4 +42,4 @@ namespace ouzel::graphics::metal::tvos
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALRENDERDEVICETVOS_HPP
+#endif // FLUXION_GRAPHICS_METALRENDERDEVICETVOS_HPP

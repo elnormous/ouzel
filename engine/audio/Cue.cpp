@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
+﻿#include "Cue.hpp"
 
-#include "Cue.hpp"
-
-namespace ouzel::audio
+namespace fluxion::audio
 {
 }

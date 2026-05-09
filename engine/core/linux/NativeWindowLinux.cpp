@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include "../Setup.h"
+﻿#include "../Setup.h"
 
 #include <stdexcept>
 #include <X11/extensions/Xrandr.h> 
 #include "NativeWindowLinux.hpp"
 #include "EngineLinux.hpp"
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
 #  include "../../platform/x11/X11ErrorCategory.hpp"
 
 namespace
@@ -18,7 +16,7 @@ namespace
 }
 #endif
 
-namespace ouzel::core::linux
+namespace fluxion::core::linux
 {
     NativeWindow::NativeWindow(const math::Size<std::uint32_t, 2>& newSize,
                                bool newResizable,
@@ -34,7 +32,7 @@ namespace ouzel::core::linux
             true
         }
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         const auto engineLinux = static_cast<Engine*>(engine);
         display = engineLinux->getDisplay();
 
@@ -141,7 +139,7 @@ namespace ouzel::core::linux
                            SubstructureNotifyMask | SubstructureRedirectMask, &event) == 0)
                 throw std::system_error{getLastError(), platform::x11::errorCategory, "Failed to send X11 fullscreen message"};
         }
-#elif OUZEL_SUPPORTS_DISPMANX
+#elif FLUXION_SUPPORTS_DISPMANX
         const auto engineLinux = static_cast<Engine*>(engine);
         auto display = engineLinux->getDisplay();
 
@@ -189,10 +187,10 @@ namespace ouzel::core::linux
 
     NativeWindow::~NativeWindow()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         if (display && window)
             XDestroyWindow(display, window);
-#elif OUZEL_SUPPORTS_DISPMANX
+#elif FLUXION_SUPPORTS_DISPMANX
         if (dispmanUpdate != DISPMANX_NO_HANDLE && dispmanElement != DISPMANX_NO_HANDLE)
             vc_dispmanx_element_remove(dispmanUpdate, dispmanElement);
 #endif
@@ -239,7 +237,7 @@ namespace ouzel::core::linux
 
     void NativeWindow::close()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         if (!protocolsAtom || !deleteAtom) return;
 
         XEvent event;
@@ -261,7 +259,7 @@ namespace ouzel::core::linux
     {
         size = newSize;
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         XWindowChanges changes;
         changes.width = static_cast<int>(size.v[0]);
         changes.height = static_cast<int>(size.v[1]);
@@ -288,7 +286,7 @@ namespace ouzel::core::linux
 
     void NativeWindow::setFullscreen(bool newFullscreen)
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         if (fullscreen != newFullscreen)
         {
             XEvent event;
@@ -313,7 +311,7 @@ namespace ouzel::core::linux
 
     void NativeWindow::setTitle(const std::string& newTitle)
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         if (title != newTitle) XStoreName(display, window, newTitle.c_str());
 #endif
 
@@ -322,7 +320,7 @@ namespace ouzel::core::linux
 
     void NativeWindow::bringToFront()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         XRaiseWindow(display, window);
 
         XEvent event;
@@ -344,7 +342,7 @@ namespace ouzel::core::linux
 
     void NativeWindow::show()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         if (!isMapped())
         {
             XMapRaised(display, window);
@@ -355,7 +353,7 @@ namespace ouzel::core::linux
 
     void NativeWindow::hide()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         if (isMapped())
         {
             XWithdrawWindow(display, window, screenNumber);
@@ -366,7 +364,7 @@ namespace ouzel::core::linux
 
     void NativeWindow::minimize()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         XIconifyWindow(display, window, screenNumber);
         XFlush(display);
 #endif
@@ -378,7 +376,7 @@ namespace ouzel::core::linux
 
     void NativeWindow::restore()
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         XRaiseWindow(display, window);
 
         XEvent event;
@@ -398,7 +396,7 @@ namespace ouzel::core::linux
 #endif
     }
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
     void NativeWindow::handleFocusIn()
     {
         Event focusChangeEvent{Event::Type::focusChange};

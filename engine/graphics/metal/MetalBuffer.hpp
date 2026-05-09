@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALBUFFER_HPP
-#define OUZEL_GRAPHICS_METALBUFFER_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALBUFFER_HPP
+#define FLUXION_GRAPHICS_METALBUFFER_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
 
 #ifdef __OBJC__
 #  import <Metal/Metal.h>
@@ -20,7 +18,7 @@ using MTLBufferPtr = id;
 #include "../Flags.hpp"
 #include "../../platform/objc/Pointer.hpp"
 
-namespace ouzel::graphics::metal
+namespace fluxion::graphics::metal
 {
     class RenderDevice;
 
@@ -54,4 +52,4 @@ namespace ouzel::graphics::metal
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALBUFFER_HPP
+#endif // FLUXION_GRAPHICS_METALBUFFER_HPP

@@ -27,24 +27,28 @@ endif
 CFLAGS=-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
-	-I"../external/stb"
+	-I"../external/stb" \
+	-I"../external/imgui"
 CXXFLAGS=-std=c++17 \
 	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual -Wold-style-cast \
 	-I"../shaders" \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
-	-I"../external/stb"
+	-I"../external/stb" \
+	-I"../external/imgui"
 OBJCFLAGS=-fno-objc-arc \
 	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
-	-I"../external/stb"
+	-I"../external/stb" \
+	-I"../external/imgui"
 OBJCXXFLAGS=-std=c++17 \
 	-fno-objc-arc \
 	-Wall -Wpedantic -Wextra -Wshadow -Wdouble-promotion -Woverloaded-virtual -Wold-style-cast \
 	-I"../external/khronos" \
 	-I"../external/smbPitchShift" \
-	-I"../external/stb"
+	-I"../external/stb" \
+	-I"../external/imgui"
 SOURCES=assets/Bundle.cpp \
 	assets/Cache.cpp \
 	assets/ImageLoader.cpp \
@@ -93,6 +97,24 @@ SOURCES=assets/Bundle.cpp \
 	gui/BMFont.cpp \
 	gui/TTFont.cpp \
 	gui/Widgets.cpp \
+	gui/imgui/ImGuiBackendD3D11.cpp \
+	gui/imgui/ImGuiBackendFactory.cpp \
+	gui/imgui/ImGuiBackendOGL.cpp \
+	gui/imgui/ImGuiContext.cpp \
+	gui/imgui/ImGuiInputBridge.cpp \
+	gui/imgui/ImGuiInspector.cpp \
+	gui/imgui/ImGuiKeyMap.cpp \
+	reflection/JsonInspector.cpp \
+	reflection/TypeRegistry.cpp \
+	scene/SceneSerializer.cpp \
+	storage/AtomicFile.cpp \
+	utils/Uuid.cpp \
+	../external/imgui/imgui.cpp \
+	../external/imgui/imgui_demo.cpp \
+	../external/imgui/imgui_draw.cpp \
+	../external/imgui/imgui_tables.cpp \
+	../external/imgui/imgui_widgets.cpp \
+	../external/imgui/backends/imgui_impl_opengl3.cpp \
 	input/Cursor.cpp \
 	input/Gamepad.cpp \
 	input/GamepadDevice.cpp \
@@ -121,6 +143,7 @@ SOURCES=assets/Bundle.cpp \
 	scene/SceneManager.cpp \
 	scene/ShapeRenderer.cpp \
 	scene/SkinnedMeshRenderer.cpp \
+	scene/SortingLayers.cpp \
 	scene/SpriteRenderer.cpp \
 	scene/StaticMeshRenderer.cpp \
 	scene/TextRenderer.cpp \
@@ -143,7 +166,8 @@ SOURCES+=core/windows/EngineWin.cpp \
 	input/windows/InputSystemWin.cpp \
 	input/windows/KeyboardDeviceWin.cpp \
 	input/windows/MouseDeviceWin.cpp \
-	input/windows/CursorWin.cpp
+	input/windows/CursorWin.cpp \
+	../external/imgui/backends/imgui_impl_dx11.cpp
 CPPFLAGS+=-DWINVER=0x0601 -D_WIN32_WINNT=0x0601
 else ifeq ($(PLATFORM),linux)
 SOURCES+=audio/alsa/ALSAAudioDevice.cpp \
@@ -187,7 +211,9 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	input/macos/MouseDeviceMacOS.mm \
 	input/macos/CursorMacOS.cpp \
 	platform/cocoa/Window.mm \
-	platform/foundation/RunLoop.mm
+	platform/foundation/RunLoop.mm \
+	gui/imgui/ImGuiBackendMetal.mm \
+	../external/imgui/backends/imgui_impl_metal.mm
 else ifeq ($(PLATFORM),ios)
 SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	audio/openal/OALAudioDevice.cpp \
@@ -209,7 +235,9 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	input/ios/GamepadDeviceIOS.mm \
 	input/ios/InputSystemIOS.mm \
 	platform/foundation/RunLoop.mm \
-	platform/quartzcore/DisplayLink.mm
+	platform/quartzcore/DisplayLink.mm \
+	gui/imgui/ImGuiBackendMetal.mm \
+	../external/imgui/backends/imgui_impl_metal.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk iphoneos --show-sdk-path) -miphoneos-version-min=8.0
@@ -235,7 +263,9 @@ SOURCES+=audio/coreaudio/CAAudioDevice.mm \
 	input/tvos/GamepadDeviceTVOS.mm \
 	input/tvos/InputSystemTVOS.mm \
 	platform/foundation/RunLoop.mm \
-	platform/quartzcore/DisplayLink.mm
+	platform/quartzcore/DisplayLink.mm \
+	gui/imgui/ImGuiBackendMetal.mm \
+	../external/imgui/backends/imgui_impl_metal.mm
 CFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 CXXFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0
 OBJCFLAGS+=-arch arm64 -isysroot $(shell xcrun --sdk appletvos --show-sdk-path) -mtvos-version-min=9.0

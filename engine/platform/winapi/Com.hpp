@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_WINAPI_COM_HPP
-#define OUZEL_PLATFORM_WINAPI_COM_HPP
+﻿#ifndef FLUXION_PLATFORM_WINAPI_COM_HPP
+#define FLUXION_PLATFORM_WINAPI_COM_HPP
 
 #include <system_error>
 #include <Combaseapi.h>
 
-namespace ouzel::platform::winapi
+namespace fluxion::platform::winapi
 {
     class Com final
     {
@@ -44,4 +42,4 @@ namespace ouzel::platform::winapi
     };
 }
 
-#endif // OUZEL_PLATFORM_WINAPI_COM_HPP
+#endif // FLUXION_PLATFORM_WINAPI_COM_HPP

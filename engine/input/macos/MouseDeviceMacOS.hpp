@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_MOUSEDEVICEMACOS_HPP
-#define OUZEL_INPUT_MOUSEDEVICEMACOS_HPP
+﻿#ifndef FLUXION_INPUT_MOUSEDEVICEMACOS_HPP
+#define FLUXION_INPUT_MOUSEDEVICEMACOS_HPP
 
 #include "../MouseDevice.hpp"
 #include "../Mouse.hpp"
 
-namespace ouzel::input::macos
+namespace fluxion::input::macos
 {
     class InputSystem;
     class Cursor;
@@ -30,4 +28,4 @@ namespace ouzel::input::macos
     };
 }
 
-#endif // OUZEL_INPUT_MOUSEDEVICEMACOS_HPP
+#endif // FLUXION_INPUT_MOUSEDEVICEMACOS_HPP

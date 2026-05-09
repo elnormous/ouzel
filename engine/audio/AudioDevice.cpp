@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "AudioDevice.hpp"
+﻿#include "AudioDevice.hpp"
 #include "AudioError.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     AudioDevice::AudioDevice(Driver initDriver,
                              const Settings& settings,

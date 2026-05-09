@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_TEXTRENDERER_HPP
-#define OUZEL_SCENE_TEXTRENDERER_HPP
+﻿#ifndef FLUXION_SCENE_TEXTRENDERER_HPP
+#define FLUXION_SCENE_TEXTRENDERER_HPP
 
 #include <string>
 #include "Component.hpp"
@@ -11,12 +9,23 @@
 #include "../graphics/Texture.hpp"
 #include "../gui/BMFont.hpp"
 #include "../math/Color.hpp"
+#include "../reflection/Macros.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class TextRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(TextRenderer, "scene.TextRenderer")
+
+        // Default-constructible so the editor's TypeRegistry can
+        // instantiate one from "Add Component". The fresh instance
+        // has no font and renders nothing until setFont() / setText()
+        // assign meaningful state — same end-result as constructing
+        // with empty strings, just without forcing the editor to
+        // know a font path up front.
+        TextRenderer();
+
         TextRenderer(const std::string& fontFile,
                      float initFontSize = 1.0F,
                      const std::string& initText = std::string(),
@@ -63,6 +72,8 @@ namespace ouzel::scene
             blendState = newBlendState;
         }
 
+        void inspect(reflection::Inspector& inspector) override;
+
     private:
         void updateText();
 
@@ -89,4 +100,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_TEXTRENDERER_HPP
+#endif // FLUXION_SCENE_TEXTRENDERER_HPP

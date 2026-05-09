@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cassert>
+﻿#include <cassert>
 #include <algorithm>
 #include "Camera.hpp"
 #include "Actor.hpp"
@@ -8,9 +6,12 @@
 #include "../core/Engine.hpp"
 #include "../graphics/Graphics.hpp"
 #include "../graphics/RenderDevice.hpp"
+#include "../reflection/Inspector.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
+    FLUXION_COMPONENT_REGISTER(Camera)
+
     Camera::Camera(const math::Matrix<float, 4>& initProjection):
         projectionMode{ProjectionMode::custom}, projection{initProjection}
     {
@@ -329,5 +330,68 @@ namespace ouzel::scene
                                                                               graphics::CompareFunction::always);
         else
             depthStencilState.reset();
+    }
+
+    void Camera::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        // Projection mode is shown read-only here: switching a Camera to
+        // ProjectionMode::perspective triggers setPerspective() with
+        // contentSize, but contentSize is only populated once the camera is
+        // attached to a Layer. For an "orphan" camera shown in the editor's
+        // type-registry demo, that path divides by zero (aspect = 0/0 = NaN)
+        // and produces NaN matrices that downstream rendering chokes on.
+        // Once phase 5 wires the inspector to real scene cameras (with valid
+        // contentSize), this can become a writable enumField again.
+        static const char* projectionModes[] = {"custom", "orthographic", "perspective"};
+        const int modeIdx = static_cast<int>(projectionMode);
+        inspector.readOnlyText("Projection mode",
+                               (modeIdx >= 0 && modeIdx < 3) ? projectionModes[modeIdx] : "?");
+
+        float fovCopy = fov;
+        inspector.floatRangeField("Field of view", fovCopy, 0.1F, math::pi<float>);
+        if (fovCopy != fov) setFov(fovCopy);
+
+        float nearCopy = nearPlane;
+        inspector.floatField("Near plane", nearCopy);
+        if (nearCopy != nearPlane) setNearPlane(nearCopy);
+
+        float farCopy = farPlane;
+        inspector.floatField("Far plane", farCopy);
+        if (farCopy != farPlane) setFarPlane(farCopy);
+
+        static const char* scaleModes[] = {"noScale", "exactFit", "noBorder", "showAll"};
+        int scale = static_cast<int>(scaleMode);
+        inspector.enumField("Scale mode", scale, scaleModes,
+                            sizeof(scaleModes) / sizeof(scaleModes[0]));
+        if (scale != static_cast<int>(scaleMode))
+            setScaleMode(static_cast<ScaleMode>(scale));
+
+        // Depth test creates an engine-managed DepthStencilState (GPU resource).
+        // For the orphan-camera demo path that's fine on Windows but can race
+        // with engine teardown if the static reflection instance outlives the
+        // graphics device. Read-only for now; phase 5 will edit live cameras.
+        inspector.readOnlyText("Depth test", depthTest ? "true" : "false");
+
+        bool wireCopy = wireframe;
+        inspector.boolField("Wireframe", wireCopy);
+        if (wireCopy != wireframe) wireframe = wireCopy;
+
+        inspector.beginGroup("Clear");
+        bool clearC = clearColorBuffer;
+        inspector.boolField("Color buffer", clearC);
+        if (clearC != clearColorBuffer) clearColorBuffer = clearC;
+
+        bool clearD = clearDepthBuffer;
+        inspector.boolField("Depth buffer", clearD);
+        if (clearD != clearDepthBuffer) clearDepthBuffer = clearD;
+
+        math::Color clearColorCopy = clearColor;
+        inspector.colorField("Clear color", clearColorCopy);
+        if (clearColorCopy.v != clearColor.v) clearColor = clearColorCopy;
+        inspector.endGroup();
     }
 }

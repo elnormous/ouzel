@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADDEVICEIOKIT_HPP
-#define OUZEL_INPUT_GAMEPADDEVICEIOKIT_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADDEVICEIOKIT_HPP
+#define FLUXION_INPUT_GAMEPADDEVICEIOKIT_HPP
 
 #include <unordered_map>
 #include <IOKit/hid/IOHIDManager.h>
@@ -9,7 +7,7 @@
 #include "GamepadDeviceMacOS.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input::macos
+namespace fluxion::input::macos
 {
     class GamepadDeviceIOKit final: public GamepadDevice
     {
@@ -59,4 +57,4 @@ namespace ouzel::input::macos
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPADDEVICEIOKIT_HPP
+#endif // FLUXION_INPUT_GAMEPADDEVICEIOKIT_HPP

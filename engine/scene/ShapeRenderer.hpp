@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_SHAPERENDERER_HPP
-#define OUZEL_SCENE_SHAPERENDERER_HPP
+﻿#ifndef FLUXION_SCENE_SHAPERENDERER_HPP
+#define FLUXION_SCENE_SHAPERENDERER_HPP
 
 #include <vector>
 #include "Component.hpp"
@@ -10,12 +8,15 @@
 #include "../graphics/Buffer.hpp"
 #include "../graphics/Shader.hpp"
 #include "../math/Color.hpp"
+#include "../reflection/Macros.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class ShapeRenderer: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(ShapeRenderer, "scene.ShapeRenderer")
+
         ShapeRenderer();
 
         void draw(const math::Matrix<float, 4>& transformMatrix,
@@ -64,6 +65,8 @@ namespace ouzel::scene
             blendState = newBlendState;
         }
 
+        void inspect(reflection::Inspector& inspector) override;
+
     private:
         struct DrawCommand final
         {
@@ -85,4 +88,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_SHAPERENDERER_HPP
+#endif // FLUXION_SCENE_SHAPERENDERER_HPP

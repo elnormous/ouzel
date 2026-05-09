@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_KEYBOARD_HPP
-#define OUZEL_INPUT_KEYBOARD_HPP
+﻿#ifndef FLUXION_INPUT_KEYBOARD_HPP
+#define FLUXION_INPUT_KEYBOARD_HPP
 
 #include <bitset>
 #include <cstdint>
 #include "Controller.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class InputManager;
 
@@ -198,4 +196,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_KEYBOARD_HPP
+#endif // FLUXION_INPUT_KEYBOARD_HPP

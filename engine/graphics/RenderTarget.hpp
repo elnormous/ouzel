@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_RENDERTARGET_HPP
-#define OUZEL_GRAPHICS_RENDERTARGET_HPP
+﻿#ifndef FLUXION_GRAPHICS_RENDERTARGET_HPP
+#define FLUXION_GRAPHICS_RENDERTARGET_HPP
 
 #include <memory>
 #include <vector>
@@ -9,7 +7,7 @@
 #include "../math/Color.hpp"
 #include "../math/Size.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Graphics;
     class Texture;
@@ -36,4 +34,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_RENDERTARGET_HPP
+#endif // FLUXION_GRAPHICS_RENDERTARGET_HPP

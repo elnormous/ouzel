@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_GRAPHICS_BUFFERTYPE_HPP
+#define FLUXION_GRAPHICS_BUFFERTYPE_HPP
 
-#ifndef OUZEL_GRAPHICS_BUFFERTYPE_HPP
-#define OUZEL_GRAPHICS_BUFFERTYPE_HPP
-
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     enum class BufferType
     {
@@ -12,4 +10,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_BUFFERTYPE_HPP
+#endif // FLUXION_GRAPHICS_BUFFERTYPE_HPP

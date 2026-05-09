@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_WASAPIPOINTER_HPP
-#define OUZEL_AUDIO_WASAPIPOINTER_HPP
+﻿#ifndef FLUXION_AUDIO_WASAPIPOINTER_HPP
+#define FLUXION_AUDIO_WASAPIPOINTER_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_WASAPI
+#if FLUXION_COMPILE_WASAPI
 
-namespace ouzel::audio::wasapi
+namespace fluxion::audio::wasapi
 {
     template <class T>
     class Pointer final
@@ -76,4 +74,4 @@ namespace ouzel::audio::wasapi
 }
 #endif
 
-#endif // OUZEL_AUDIO_WASAPIPOINTER_HPP
+#endif // FLUXION_AUDIO_WASAPIPOINTER_HPP

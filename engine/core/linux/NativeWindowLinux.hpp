@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_NATIVEWINDOWLINUX_HPP
-#define OUZEL_CORE_NATIVEWINDOWLINUX_HPP
+﻿#ifndef FLUXION_CORE_NATIVEWINDOWLINUX_HPP
+#define FLUXION_CORE_NATIVEWINDOWLINUX_HPP
 
 #include "../Setup.h"
 #include <cstdint>
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
 #  include <X11/Xlib.h>
 #  include <X11/Xutil.h>
-#elif OUZEL_SUPPORTS_DISPMANX
+#elif FLUXION_SUPPORTS_DISPMANX
 #  include <bcm_host.h>
 typedef struct
 {
@@ -20,7 +18,7 @@ typedef struct
 
 #include "../NativeWindow.hpp"
 
-namespace ouzel::core::linux
+namespace fluxion::core::linux
 {
     class Engine;
 
@@ -49,7 +47,7 @@ namespace ouzel::core::linux
 
         auto& getNativeWindow() const noexcept { return window; }
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         auto& getDisplay() const noexcept { return display; }
         auto getProtocolsAtom() const noexcept { return protocolsAtom; }
         auto getDeleteAtom() const noexcept { return deleteAtom; }
@@ -58,7 +56,7 @@ namespace ouzel::core::linux
     private:
         void executeCommand(const Command& command) final;
 
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         void handleFocusIn();
         void handleFocusOut();
         void handleResize(const math::Size<std::uint32_t, 2>& newSize);
@@ -74,7 +72,7 @@ namespace ouzel::core::linux
         Atom stateAtom = None;
         Atom stateFullscreenAtom = None;
         Atom activateWindowAtom = None;
-#elif OUZEL_SUPPORTS_DISPMANX
+#elif FLUXION_SUPPORTS_DISPMANX
         EGL_DISPMANX_WINDOW_T window;
         DISPMANX_UPDATE_HANDLE_T dispmanUpdate = DISPMANX_NO_HANDLE;
         DISPMANX_ELEMENT_HANDLE_T dispmanElement = DISPMANX_NO_HANDLE;
@@ -82,4 +80,4 @@ namespace ouzel::core::linux
     };
 }
 
-#endif // OUZEL_CORE_NATIVEWINDOWLINUX_HPP
+#endif // FLUXION_CORE_NATIVEWINDOWLINUX_HPP

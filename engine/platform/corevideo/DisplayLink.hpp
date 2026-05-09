@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_COREVIDEO_DISPLAYLINK_HPP
-#define OUZEL_PLATFORM_COREVIDEO_DISPLAYLINK_HPP
+﻿#ifndef FLUXION_PLATFORM_COREVIDEO_DISPLAYLINK_HPP
+#define FLUXION_PLATFORM_COREVIDEO_DISPLAYLINK_HPP
 
 #include <system_error>
 #include <CoreVideo/CVDisplayLink.h>
 #include "CoreVideoErrorCategory.hpp"
 
-namespace ouzel::platform::corevideo
+namespace fluxion::platform::corevideo
 {
     class DisplayLink final
     {
@@ -88,4 +86,4 @@ namespace ouzel::platform::corevideo
     };
 }
 
-#endif // OUZEL_PLATFORM_COREVIDEO_DISPLAYLINK_HPP
+#endif // FLUXION_PLATFORM_COREVIDEO_DISPLAYLINK_HPP

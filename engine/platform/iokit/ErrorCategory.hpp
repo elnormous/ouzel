@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_IOKIT_ERRORCATEGORY_HPP
-#define OUZEL_PLATFORM_IOKIT_ERRORCATEGORY_HPP
+﻿#ifndef FLUXION_PLATFORM_IOKIT_ERRORCATEGORY_HPP
+#define FLUXION_PLATFORM_IOKIT_ERRORCATEGORY_HPP
 
 #include <system_error>
 #include <IOKit/IOReturn.h>
 
-namespace ouzel::platform::iokit
+namespace fluxion::platform::iokit
 {
     class ErrorCategory final: public std::error_category
     {
@@ -80,4 +78,4 @@ namespace ouzel::platform::iokit
     inline const ErrorCategory errorCategory;
 }
 
-#endif // OUZEL_PLATFORM_IOKIT_ERRORCATEGORY_HPP
+#endif // FLUXION_PLATFORM_IOKIT_ERRORCATEGORY_HPP

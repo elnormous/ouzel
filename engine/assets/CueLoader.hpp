@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_CUELOADER_HPP
-#define OUZEL_ASSETS_CUELOADER_HPP
+﻿#ifndef FLUXION_ASSETS_CUELOADER_HPP
+#define FLUXION_ASSETS_CUELOADER_HPP
 
 #include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "../audio/Cue.hpp"
 #include "../formats/Json.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     namespace
     {
@@ -100,6 +98,7 @@ namespace ouzel::assets
 
     inline bool loadCue(Cache&,
                         Bundle& bundle,
+                        const Uuid& uuid,
                         const std::string& name,
                         const std::vector<std::byte>& data,
                         const Asset::Options&)
@@ -112,10 +111,10 @@ namespace ouzel::assets
 
         auto cue = std::make_unique<audio::Cue>(sourceDefinition);
 
-        bundle.setCue(name, std::move(cue));
+        bundle.setCue(name, std::move(cue), uuid);
 
         return true;
     }
 }
 
-#endif // OUZEL_ASSETS_CUELOADER_HPP
+#endif // FLUXION_ASSETS_CUELOADER_HPP

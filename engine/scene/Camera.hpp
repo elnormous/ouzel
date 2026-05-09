@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_CAMERA_HPP
-#define OUZEL_SCENE_CAMERA_HPP
+﻿#ifndef FLUXION_SCENE_CAMERA_HPP
+#define FLUXION_SCENE_CAMERA_HPP
 
 #include <memory>
 #include "Component.hpp"
@@ -10,8 +8,9 @@
 #include "../math/Rect.hpp"
 #include "../graphics/DepthStencilState.hpp"
 #include "../graphics/RenderTarget.hpp"
+#include "../reflection/Macros.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Layer;
 
@@ -19,6 +18,8 @@ namespace ouzel::scene
     {
         friend Layer;
     public:
+        FLUXION_COMPONENT_DECL(Camera, "scene.Camera")
+
         enum class ProjectionMode
         {
             custom,
@@ -134,6 +135,8 @@ namespace ouzel::scene
         [[nodiscard]] auto getClearStencil() const noexcept { return clearStencil; }
         void setClearDepth(std::uint32_t stencil) { clearStencil = stencil; }
 
+        void inspect(reflection::Inspector& inspector) override;
+
     private:
         void setActor(Actor* newActor) override;
         void setLayer(Layer* newLayer) override;
@@ -182,4 +185,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_CAMERA_HPP
+#endif // FLUXION_SCENE_CAMERA_HPP

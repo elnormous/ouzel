@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_INPUTSYSTEMEM_HPP
-#define OUZEL_INPUT_INPUTSYSTEMEM_HPP
+﻿#ifndef FLUXION_INPUT_INPUTSYSTEMEM_HPP
+#define FLUXION_INPUT_INPUTSYSTEMEM_HPP
 
 #include <memory>
 #include <unordered_map>
@@ -10,7 +8,7 @@
 #include "GamepadDeviceEm.hpp"
 #include "MouseDeviceEm.hpp"
 
-namespace ouzel::input::emscripten
+namespace fluxion::input::emscripten
 {
     class InputSystem final: public input::InputSystem
     {
@@ -43,4 +41,4 @@ namespace ouzel::input::emscripten
     };
 }
 
-#endif // OUZEL_INPUT_INPUTSYSTEMEM_HPP
+#endif // FLUXION_INPUT_INPUTSYSTEMEM_HPP

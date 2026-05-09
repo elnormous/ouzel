@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../../core/Setup.h"
 
-#include "../../../core/Setup.h"
+#if defined(__linux__) && !defined(__ANDROID__) && FLUXION_COMPILE_OPENGL
 
-#if defined(__linux__) && !defined(__ANDROID__) && OUZEL_COMPILE_OPENGL
-
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
 #  include <X11/Xlib.h>
 #  include <X11/extensions/xf86vmode.h>
 #endif
@@ -16,7 +14,7 @@
 #include "../../../utils/Bit.hpp"
 #include "../../../utils/Utils.hpp"
 
-namespace ouzel::graphics::opengl::linux
+namespace fluxion::graphics::opengl::linux
 {
     namespace
     {
@@ -36,7 +34,7 @@ namespace ouzel::graphics::opengl::linux
                 EGL_DEPTH_SIZE, depth ? 24 : 0,
                 EGL_STENCIL_SIZE, stencil ? 8 : 0,
                 EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
                 EGL_RENDERABLE_TYPE, (version >= 3) ? EGL_OPENGL_ES3_BIT :
                                      (version == 2) ? EGL_OPENGL_ES2_BIT :
                                      EGL_OPENGL_ES_BIT,
@@ -66,7 +64,7 @@ namespace ouzel::graphics::opengl::linux
                                core::Window& initWindow):
         opengl::RenderDevice{settings, initWindow}
     {
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
         embedded = true;
 #else
         embedded = false;
@@ -74,7 +72,7 @@ namespace ouzel::graphics::opengl::linux
 
         const auto& windowLinux = window.getNativeWindow();
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
         const auto nativeDisplay = EGL_DEFAULT_DISPLAY;
 #else
         const auto nativeDisplay = bitCast<EGLNativeDisplayType>(windowLinux.getDisplay());
@@ -98,13 +96,13 @@ namespace ouzel::graphics::opengl::linux
         const auto eglExtensions = explodeString(eglExtensionsPtr, ' ');
         log(Log::Level::all) << "Supported EGL extensions: " << eglExtensions;
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
         const auto nativeWindow = bitCast<EGLNativeWindowType>(&windowLinux.getNativeWindow());
 #else
         const auto nativeWindow = bitCast<EGLNativeWindowType>(windowLinux.getNativeWindow());
 #endif
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
         for (const EGLint version : {3, 2})
 #else
         for (const EGLint version : {4, 3})
@@ -113,7 +111,7 @@ namespace ouzel::graphics::opengl::linux
             const auto configs = chooseConfig(display, settings.depth, settings.stencil, settings.sampleCount, version);
             if (configs.empty()) continue;
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
             if (!eglBindAPI(EGL_OPENGL_ES_API))
                 throw std::system_error{eglGetError(), eglErrorCategory, "Failed to bind OpenGL ES API"};
 #else
@@ -136,7 +134,7 @@ namespace ouzel::graphics::opengl::linux
             if (context != EGL_NO_CONTEXT)
             {
                 apiVersion = ApiVersion{version, 0};
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
                 log(Log::Level::info) << "EGL OpenGL ES " << version << " context created";
 #else
                 log(Log::Level::info) << "EGL OpenGL " << version << " context created";
@@ -191,7 +189,7 @@ namespace ouzel::graphics::opengl::linux
     {
         std::vector<math::Size<std::uint32_t, 2>> result;
 
-#if OUZEL_OPENGL_INTERFACE_GLX
+#if FLUXION_OPENGL_INTERFACE_GLX
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
 
         int modeCount;
@@ -210,7 +208,7 @@ namespace ouzel::graphics::opengl::linux
         }
 
         XFree(modeInfo);
-#elif OUZEL_OPENGL_INTERFACE_EGL
+#elif FLUXION_OPENGL_INTERFACE_EGL
         // TODO: return screen resolution
 #endif
 

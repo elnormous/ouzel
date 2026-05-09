@@ -1,18 +1,16 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLPROCEDUREGETTER_HPP
-#define OUZEL_GRAPHICS_OGLPROCEDUREGETTER_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLPROCEDUREGETTER_HPP
+#define FLUXION_GRAPHICS_OGLPROCEDUREGETTER_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include <algorithm>
 #include <stdexcept>
 
 #include "OGL.h"
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
@@ -22,9 +20,9 @@
 #  include "GL/glext.h"
 #endif
 
-#if OUZEL_OPENGL_INTERFACE_EGL
+#if FLUXION_OPENGL_INTERFACE_EGL
 #  include "EGL/egl.h"
-#elif OUZEL_OPENGL_INTERFACE_WGL
+#elif FLUXION_OPENGL_INTERFACE_WGL
 #  include "GL/wglext.h"
 #  include "../../platform/winapi/Library.hpp"
 #endif
@@ -32,7 +30,7 @@
 #include "../../core/Engine.hpp"
 #include "../../utils/Utils.hpp"
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     class ProcedureGetter final
     {
@@ -117,8 +115,8 @@ namespace ouzel::graphics::opengl
         template <typename T>
         T getProcAddress(const char* name, ApiVersion procApiVersion) const
         {
-#if OUZEL_OPENGL_INTERFACE_EGL
-#  if OUZEL_OPENGLES
+#if FLUXION_OPENGL_INTERFACE_EGL
+#  if FLUXION_OPENGLES
             if  (procApiVersion >= ApiVersion{3, 0})
                 return reinterpret_cast<T>(eglGetProcAddress(name));
             else if (auto p = dlsym(RTLD_DEFAULT, name); p)
@@ -129,7 +127,7 @@ namespace ouzel::graphics::opengl
             (void)procApiVersion;
             return reinterpret_cast<T>(eglGetProcAddress(name));
 #  endif
-#elif OUZEL_OPENGL_INTERFACE_WGL
+#elif FLUXION_OPENGL_INTERFACE_WGL
             return procApiVersion > ApiVersion{1, 1} ?
                 reinterpret_cast<T>(wglGetProcAddress(name)) :
                 reinterpret_cast<T>(library.getProcAddress(name));
@@ -145,9 +143,9 @@ namespace ouzel::graphics::opengl
         template <typename T>
         T getProcAddress(const char* name) const
         {
-#if OUZEL_OPENGL_INTERFACE_EGL
+#if FLUXION_OPENGL_INTERFACE_EGL
             return reinterpret_cast<T>(eglGetProcAddress(name));
-#elif OUZEL_OPENGL_INTERFACE_WGL
+#elif FLUXION_OPENGL_INTERFACE_WGL
             return reinterpret_cast<T>(wglGetProcAddress(name));
 #else
             if (auto p = dlsym(RTLD_DEFAULT, name); p)
@@ -159,11 +157,11 @@ namespace ouzel::graphics::opengl
 
         ApiVersion apiVersion;
         std::vector<std::string> extensions;
-#if OUZEL_OPENGL_INTERFACE_WGL
+#if FLUXION_OPENGL_INTERFACE_WGL
         platform::winapi::Library library{"opengl32.dll"};
 #endif
     };
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLPROCEDUREGETTER_HPP
+#endif // FLUXION_GRAPHICS_OGLPROCEDUREGETTER_HPP

@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_SOURCE_HPP
-#define OUZEL_AUDIO_SOURCE_HPP
+﻿#ifndef FLUXION_AUDIO_SOURCE_HPP
+#define FLUXION_AUDIO_SOURCE_HPP
 
 #include <vector>
 #include "Effect.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Source
     {
@@ -24,4 +22,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_SOURCE_HPP
+#endif // FLUXION_AUDIO_SOURCE_HPP

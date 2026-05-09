@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../../core/Setup.h"
 
-#include "../../../core/Setup.h"
-
-#if defined(_WIN32) && OUZEL_COMPILE_OPENGL
+#if defined(_WIN32) && FLUXION_COMPILE_OPENGL
 
 #include <string_view>
 #include <system_error>
@@ -16,7 +14,7 @@
 #include "../../../utils/Log.hpp"
 #include "../../../platform/winapi/Library.hpp"
 
-namespace ouzel::graphics::opengl::windows
+namespace fluxion::graphics::opengl::windows
 {
     namespace
     {

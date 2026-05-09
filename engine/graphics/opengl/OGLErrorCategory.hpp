@@ -1,20 +1,18 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLERRORCATEGORY_HPP
-#define OUZEL_GRAPHICS_OGLERRORCATEGORY_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLERRORCATEGORY_HPP
+#define FLUXION_GRAPHICS_OGLERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include <system_error>
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
 #  include "GLES3/gl32.h"
 #else
 #  include "GL/glcorearb.h"
 #endif
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     class ErrorCategory final: public std::error_category
     {
@@ -49,4 +47,4 @@ namespace ouzel::graphics::opengl
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLERRORCATEGORY_HPP
+#endif // FLUXION_GRAPHICS_OGLERRORCATEGORY_HPP

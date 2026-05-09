@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_NATIVEWINDOWEM_HPP
-#define OUZEL_CORE_NATIVEWINDOWEM_HPP
+﻿#ifndef FLUXION_CORE_NATIVEWINDOWEM_HPP
+#define FLUXION_CORE_NATIVEWINDOWEM_HPP
 
 #include "../NativeWindow.hpp"
 
-namespace ouzel::core::emscripten
+namespace fluxion::core::emscripten
 {
     class NativeWindow final: public core::NativeWindow
     {
@@ -26,4 +24,4 @@ namespace ouzel::core::emscripten
     };
 }
 
-#endif // OUZEL_CORE_NATIVEWINDOWEM_HPP
+#endif // FLUXION_CORE_NATIVEWINDOWEM_HPP

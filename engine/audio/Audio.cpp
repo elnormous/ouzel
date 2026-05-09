@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include "../core/Setup.h"
 #include "Audio.hpp"
 #include "AudioDevice.hpp"
@@ -16,7 +14,7 @@
 #include "../core/Engine.hpp"
 #include "../utils/Log.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     std::set<Driver> getAvailableAudioDrivers()
     {
@@ -26,22 +24,22 @@ namespace ouzel::audio
         {
             availableDrivers.insert(Driver::empty);
 
-#if OUZEL_COMPILE_OPENAL
+#if FLUXION_COMPILE_OPENAL
             availableDrivers.insert(Driver::openAl);
 #endif
-#if OUZEL_COMPILE_XAUDIO2
+#if FLUXION_COMPILE_XAUDIO2
             availableDrivers.insert(Driver::xAudio2);
 #endif
-#if OUZEL_COMPILE_OPENSL
+#if FLUXION_COMPILE_OPENSL
             availableDrivers.insert(Driver::openSl);
 #endif
-#if OUZEL_COMPILE_COREAUDIO
+#if FLUXION_COMPILE_COREAUDIO
             availableDrivers.insert(Driver::coreAudio);
 #endif
-#if OUZEL_COMPILE_ALSA
+#if FLUXION_COMPILE_ALSA
             availableDrivers.insert(Driver::alsa);
 #endif
-#if OUZEL_COMPILE_WASAPI
+#if FLUXION_COMPILE_WASAPI
             availableDrivers.insert(Driver::wasapi);
 #endif
         }
@@ -99,32 +97,32 @@ namespace ouzel::audio
         {
             switch (driver)
             {
-#if OUZEL_COMPILE_OPENAL
+#if FLUXION_COMPILE_OPENAL
                 case Driver::openAl:
                     log(Log::Level::info) << "Using OpenAL audio driver";
                     return std::make_unique<openal::AudioDevice>(settings, dataGetter);
 #endif
-#if OUZEL_COMPILE_XAUDIO2
+#if FLUXION_COMPILE_XAUDIO2
                 case Driver::xAudio2:
                     log(Log::Level::info) << "Using XAudio 2 audio driver";
                     return std::make_unique<xaudio2::AudioDevice>(settings, dataGetter);
 #endif
-#if OUZEL_COMPILE_OPENSL
+#if FLUXION_COMPILE_OPENSL
                 case Driver::openSl:
                     log(Log::Level::info) << "Using OpenSL ES audio driver";
                     return std::make_unique<opensl::AudioDevice>(settings, dataGetter);
 #endif
-#if OUZEL_COMPILE_COREAUDIO
+#if FLUXION_COMPILE_COREAUDIO
                 case Driver::coreAudio:
                     log(Log::Level::info) << "Using CoreAudio audio driver";
                     return std::make_unique<coreaudio::AudioDevice>(settings, dataGetter);
 #endif
-#if OUZEL_COMPILE_ALSA
+#if FLUXION_COMPILE_ALSA
                 case Driver::alsa:
                     log(Log::Level::info) << "Using ALSA audio driver";
                     return std::make_unique<alsa::AudioDevice>(settings, dataGetter);
 #endif
-#if OUZEL_COMPILE_WASAPI
+#if FLUXION_COMPILE_WASAPI
                 case Driver::wasapi:
                     log(Log::Level::info) << "Using WASAPI audio driver";
                     return std::make_unique<wasapi::AudioDevice>(settings, dataGetter);

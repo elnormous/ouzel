@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_FORMATS_PLIST_HPP
-#define OUZEL_FORMATS_PLIST_HPP
+﻿#ifndef FLUXION_FORMATS_PLIST_HPP
+#define FLUXION_FORMATS_PLIST_HPP
 
 #include <chrono>
 #include <map>
@@ -12,7 +10,7 @@
 #include <vector>
 #include <utility>
 
-namespace ouzel::plist
+namespace fluxion::plist
 {
     class TypeError final: public std::runtime_error
     {
@@ -635,4 +633,4 @@ namespace ouzel::plist
     }
 }
 
-#endif // OUZEL_FORMATS_PLIST_HPP
+#endif // FLUXION_FORMATS_PLIST_HPP

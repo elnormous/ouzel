@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_EVENTDEVICE_HPP
-#define OUZEL_INPUT_EVENTDEVICE_HPP
+﻿#ifndef FLUXION_INPUT_EVENTDEVICE_HPP
+#define FLUXION_INPUT_EVENTDEVICE_HPP
 
 #include <cstdint>
 #include <array>
@@ -11,13 +9,13 @@
 #include <vector>
 #include "../Gamepad.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class GamepadDevice;
     class TouchpadDevice;
 }
 
-namespace ouzel::input::linux
+namespace fluxion::input::linux
 {
     class InputSystem;
     class KeyboardDevice;
@@ -116,4 +114,4 @@ namespace ouzel::input::linux
     };
 }
 
-#endif // OUZEL_INPUT_EVENTDEVICE_HPP
+#endif // FLUXION_INPUT_EVENTDEVICE_HPP

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_NETWORK_NETWORK_HPP
-#define OUZEL_NETWORK_NETWORK_HPP
+﻿#ifndef FLUXION_NETWORK_NETWORK_HPP
+#define FLUXION_NETWORK_NETWORK_HPP
 
 #if defined(_WIN32)
 #  pragma push_macro("WIN32_LEAN_AND_MEAN")
@@ -23,7 +21,7 @@
 #include <string>
 #include <vector>
 
-namespace ouzel::network
+namespace fluxion::network
 {
     class Client;
 
@@ -53,4 +51,4 @@ namespace ouzel::network
     };
 }
 
-#endif // OUZEL_NETWORK_NETWORK_HPP
+#endif // FLUXION_NETWORK_NETWORK_HPP

@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <string>
+﻿#include <string>
 #include <iterator>
 #include <stdexcept>
 #include "BMFont.hpp"
@@ -8,7 +6,7 @@
 #include "../assets/Cache.hpp"
 #include "../utils/Utf8.hpp"
 
-namespace ouzel::gui
+namespace fluxion::gui
 {
     namespace
     {

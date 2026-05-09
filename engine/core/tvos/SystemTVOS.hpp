@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_SYSTEMTVOS_HPP
-#define OUZEL_CORE_SYSTEMTVOS_HPP
+﻿#ifndef FLUXION_CORE_SYSTEMTVOS_HPP
+#define FLUXION_CORE_SYSTEMTVOS_HPP
 
 #include "../System.hpp"
 #include "EngineTVOS.hpp"
 
-namespace ouzel::core::tvos
+namespace fluxion::core::tvos
 {
     class System final: public core::System
     {
@@ -29,4 +27,4 @@ namespace ouzel::core::tvos
     };
 }
 
-#endif // OUZEL_CORE_SYSTEMTVOS_HPP
+#endif // FLUXION_CORE_SYSTEMTVOS_HPP

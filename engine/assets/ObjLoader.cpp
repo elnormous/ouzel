@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <map>
 #include <tuple>
 #include "ObjLoader.hpp"
 #include "AssetError.hpp"
 #include "../graphics/Material.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     namespace
     {
@@ -178,6 +176,7 @@ namespace ouzel::assets
 
     bool loadObj(Cache&,
                  Bundle& bundle,
+                 const Uuid& uuid,
                  const std::string& name,
                  const std::vector<std::byte>& data,
                  const Asset::Options& options)
@@ -235,7 +234,7 @@ namespace ouzel::assets
                     if (objectCount)
                     {
                         scene::StaticMeshData meshData(boundingBox, indices, vertices, material);
-                        bundle.setStaticMeshData(objectName, std::move(meshData));
+                        bundle.setStaticMeshData(objectName, std::move(meshData), uuid);
                     }
 
                     skipWhiteSpaces(iterator, data.end());
@@ -391,7 +390,7 @@ namespace ouzel::assets
         if (objectCount)
         {
             scene::StaticMeshData meshData(boundingBox, indices, vertices, material);
-            bundle.setStaticMeshData(objectName, std::move(meshData));
+            bundle.setStaticMeshData(objectName, std::move(meshData), uuid);
         }
 
         return true;

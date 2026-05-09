@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GUI_TTFONT_HPP
-#define OUZEL_GUI_TTFONT_HPP
+﻿#ifndef FLUXION_GUI_TTFONT_HPP
+#define FLUXION_GUI_TTFONT_HPP
 
 #include "../gui/Font.hpp"
 
 struct stbtt_fontinfo;
 
-namespace ouzel::gui
+namespace fluxion::gui
 {
     class TTFont final: public Font
     {
@@ -27,4 +25,4 @@ namespace ouzel::gui
     };
 }
 
-#endif // OUZEL_GUI_TTFONT_HPP
+#endif // FLUXION_GUI_TTFONT_HPP

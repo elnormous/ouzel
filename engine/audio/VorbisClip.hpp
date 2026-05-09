@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_VORBISCLIP_HPP
-#define OUZEL_AUDIO_VORBISCLIP_HPP
+﻿#ifndef FLUXION_AUDIO_VORBISCLIP_HPP
+#define FLUXION_AUDIO_VORBISCLIP_HPP
 
 #include <cstdint>
 #include <vector>
 #include "Sound.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class VorbisData;
 
@@ -21,4 +19,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_VORBISCLIP_HPP
+#endif // FLUXION_AUDIO_VORBISCLIP_HPP

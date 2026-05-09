@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_MIXER_OBJECT_HPP
-#define OUZEL_AUDIO_MIXER_OBJECT_HPP
+﻿#ifndef FLUXION_AUDIO_MIXER_OBJECT_HPP
+#define FLUXION_AUDIO_MIXER_OBJECT_HPP
 
 #include <cstdint>
 #include <memory>
@@ -10,7 +8,7 @@
 #include "../../math/Quaternion.hpp"
 #include "../../math/Vector.hpp"
 
-namespace ouzel::audio::mixer
+namespace fluxion::audio::mixer
 {
     class Object
     {
@@ -87,4 +85,4 @@ namespace ouzel::audio::mixer
     };
 }
 
-#endif // OUZEL_AUDIO_MIXER_OBJECT_HPP
+#endif // FLUXION_AUDIO_MIXER_OBJECT_HPP

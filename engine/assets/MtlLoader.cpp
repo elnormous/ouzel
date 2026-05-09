@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include <iterator>
+﻿#include <iterator>
 #include <string>
 #include "MtlLoader.hpp"
 #include "AssetError.hpp"
 #include "Cache.hpp"
 #include "../core/Engine.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     namespace
     {
@@ -211,6 +209,7 @@ namespace ouzel::assets
 
     bool loadMtl(Cache& cache,
                  Bundle& bundle,
+                 const Uuid& uuid,
                  const std::string& name,
                  const std::vector<std::byte>& data,
                  const Asset::Options& options)
@@ -253,7 +252,7 @@ namespace ouzel::assets
                         material->opacity = opacity;
                         material->cullMode = graphics::CullMode::back;
 
-                        bundle.setMaterial(materialName, std::move(material));
+                        bundle.setMaterial(materialName, std::move(material), uuid);
                     }
 
                     skipWhiteSpaces(iterator, data.end());
@@ -377,7 +376,7 @@ namespace ouzel::assets
             material->opacity = opacity;
             material->cullMode = graphics::CullMode::back;
 
-            bundle.setMaterial(materialName, std::move(material));
+            bundle.setMaterial(materialName, std::move(material), uuid);
         }
 
         return true;

@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_XAUDIO27_HPP
-#define OUZEL_AUDIO_XAUDIO27_HPP
+﻿#ifndef FLUXION_AUDIO_XAUDIO27_HPP
+#define FLUXION_AUDIO_XAUDIO27_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_XAUDIO2
+#if FLUXION_COMPILE_XAUDIO2
 
 #include <xaudio2.h>
 
@@ -29,4 +27,4 @@ HRESULT IXAudio2CreateSourceVoice(IXAudio2* pXAudio2,
 
 #endif
 
-#endif // OUZEL_AUDIO_XAUDIO27_HPP
+#endif // FLUXION_AUDIO_XAUDIO27_HPP

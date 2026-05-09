@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALRENDERDEVICE_HPP
-#define OUZEL_GRAPHICS_METALRENDERDEVICE_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALRENDERDEVICE_HPP
+#define FLUXION_GRAPHICS_METALRENDERDEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
 
 #include <array>
 #include <map>
@@ -48,7 +46,7 @@ using MTLPixelFormat = NSUInteger;
 #include "../../platform/dispatch/Semaphore.hpp"
 #include "../../platform/objc/Pointer.hpp"
 
-namespace ouzel::graphics::metal
+namespace fluxion::graphics::metal
 {
     class BlendState;
     class Shader;
@@ -64,12 +62,24 @@ namespace ouzel::graphics::metal
 
         auto& getDevice() const noexcept { return device; }
 
+        // Set inside process() at the start of each frame, cleared at frame end.
+        // Used by the ImGui Metal integration via preSwapHook to attach an
+        // overlay encoder to the current frame's command buffer.
+        void* getCurrentCommandBuffer() const noexcept { return currentFrameCommandBuffer; }
+        void* getCurrentDrawableTexture() const noexcept;
+
         MTLSamplerStatePtr getSamplerState(const SamplerStateDescriptor& descriptor);
 
         template <class T>
         auto getResource(std::size_t id) const
         {
-            return id ? static_cast<T*>(resources[id - 1].get()) : nullptr;
+            // Bounds check matches D3D11RenderDevice::getResource:
+            // returns null when the id was allocated on the host but
+            // its Init command has not yet been processed by the
+            // render thread. See the D3D11 sibling for the rationale.
+            return (id && id <= resources.size())
+                ? static_cast<T*>(resources[id - 1].get())
+                : nullptr;
         }
 
     protected:
@@ -102,6 +112,10 @@ namespace ouzel::graphics::metal
         platform::objc::Pointer<MTLCommandQueuePtr> metalCommandQueue;
         CAMetalLayerPtr metalLayer = nil;
         platform::objc::Pointer<MTLTexturePtr> currentMetalTexture;
+        // Raw weak references valid only during a frame's process() iteration.
+        // Used by the ImGui integration; not retained.
+        void* currentFrameCommandBuffer = nullptr;
+        void* currentFrameDrawable = nullptr;
 
         struct ShaderConstantBuffer final
         {
@@ -134,4 +148,4 @@ namespace ouzel::graphics::metal
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALRENDERDEVICE_HPP
+#endif // FLUXION_GRAPHICS_METALRENDERDEVICE_HPP

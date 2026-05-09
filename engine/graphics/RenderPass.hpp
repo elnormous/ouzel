@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_RENDERPASS_HPP
-#define OUZEL_GRAPHICS_RENDERPASS_HPP
+﻿#ifndef FLUXION_GRAPHICS_RENDERPASS_HPP
+#define FLUXION_GRAPHICS_RENDERPASS_HPP
 
 #include "RenderDevice.hpp"
 #include "RenderTarget.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Graphics;
     class Texture;
@@ -30,4 +28,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_RENDERPASS_HPP
+#endif // FLUXION_GRAPHICS_RENDERPASS_HPP

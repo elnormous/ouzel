@@ -1,16 +1,21 @@
-// Ouzel by Elviss Strazdins
-
-#include "SpriteRenderer.hpp"
+﻿#include "SpriteRenderer.hpp"
+#include <cstdio>
 #include "Camera.hpp"
 #include "SceneManager.hpp"
 #include "Layer.hpp"
 #include "../assets/Cache.hpp"
 #include "../core/Engine.hpp"
 #include "../graphics/Graphics.hpp"
+#include "../reflection/Inspector.hpp"
 #include "../storage/FileSystem.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
+{
+    FLUXION_COMPONENT_REGISTER(SpriteRenderer)
+}
+
+namespace fluxion::scene
 {
     SpriteData::Frame::Frame(const std::string& frameName,
                              const math::Size<float, 2>& textureSize,
@@ -417,10 +422,28 @@ namespace ouzel::scene
     {
         if (!playing)
         {
+            // Sync every queued animation's repeat flag to the
+            // component-level Loop setting at play time. Lets the
+            // Inspector's Loop checkbox win without forcing the
+            // user to also touch the per-animation Loop in the
+            // SpriteAnimationPanel — most cases just want "make
+            // this loop" once.
+            for (auto& q : animationQueue)
+                q.repeat = loop;
             engine->getEventDispatcher().addEventHandler(updateHandler);
             playing = true;
             running = true;
         }
+    }
+
+    void SpriteRenderer::setLoop(bool newLoop) noexcept
+    {
+        loop = newLoop;
+        // Apply to the live queue so a mid-play toggle starts
+        // (or stops) looping on the very next animation cycle
+        // without needing a stop+play round.
+        for (auto& q : animationQueue)
+            q.repeat = loop;
     }
 
     void SpriteRenderer::stop(bool resetAnimation)
@@ -537,5 +560,110 @@ namespace ouzel::scene
         }
         else
             math::reset(boundingBox);
+    }
+
+    void SpriteRenderer::setSpriteReference(const assets::AssetReference& ref)
+    {
+        spriteRef = ref;
+        if (ref.isNull()) return;
+
+        // Try sprite-data first (TexturePacker JSON). Fall back to a
+        // single-frame texture binding so dropping a raw .png still
+        // produces a visible sprite — same logic as init(filename).
+        if (const auto* spriteData = engine->getCache().getSpriteData(ref.id))
+        {
+            init(*spriteData);
+        }
+        else if (const auto tex = engine->getCache().getTexture(ref.id))
+        {
+            init(tex);
+        }
+        // If neither is in the Cache yet (e.g., the project hasn't
+        // imported this asset on this run), the reference stays
+        // recorded but the renderer keeps its previous material.
+        // The next setSpriteReference call after import will resolve.
+    }
+
+    void SpriteRenderer::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        // Asset-driven sprite binding. assetField mutates the local
+        // copy live (drag-drop fills it; JsonReader fills it on
+        // scene load). On change we call setSpriteReference so the
+        // renderer rebuilds from the new SpriteData / Texture.
+        auto refCopy = spriteRef;
+        refCopy.type = assets::Asset::Type::sprite;
+        inspector.assetField("Sprite", refCopy);
+        if (refCopy != spriteRef) setSpriteReference(refCopy);
+
+        auto offsetCopy = offset;
+        inspector.vector2Field("Offset", offsetCopy);
+        if (offsetCopy.v[0] != offset.v[0] || offsetCopy.v[1] != offset.v[1])
+            setOffset(offsetCopy);
+
+        bool playingCopy = playing;
+        inspector.boolField("Playing", playingCopy);
+        if (playingCopy != playing)
+        {
+            if (playingCopy) play();
+            else stop(false);
+        }
+
+        // Component-level Loop. Simple toggle that drives whether
+        // the next play() call queues the animation as repeating.
+        // Per-animation overrides live in SpriteAnimationPanel.
+        bool loopCopy = loop;
+        inspector.boolField("Loop", loopCopy);
+        if (loopCopy != loop) setLoop(loopCopy);
+
+        // Material tweaks. The diffuseColor here is the renderer's
+        // multiplicative tint — white = pass-through. Blend mode
+        // picks one of the engine's pre-built presets cached under
+        // the well-known names in Engine.hpp; "Custom" appears
+        // greyed out when the current state isn't any of them
+        // (e.g. a user-supplied state via setMaterial).
+        if (material)
+        {
+            math::Color tintCopy = material->diffuseColor;
+            inspector.colorField("Color tint", tintCopy);
+            if (tintCopy.v[0] != material->diffuseColor.v[0] ||
+                tintCopy.v[1] != material->diffuseColor.v[1] ||
+                tintCopy.v[2] != material->diffuseColor.v[2] ||
+                tintCopy.v[3] != material->diffuseColor.v[3])
+                material->diffuseColor = tintCopy;
+
+            const graphics::BlendState* presetPtrs[5] = {
+                engine->getCache().getBlendState(blendNoBlend),
+                engine->getCache().getBlendState(blendAlpha),
+                engine->getCache().getBlendState(blendAdd),
+                engine->getCache().getBlendState(blendMultiply),
+                engine->getCache().getBlendState(blendScreen)
+            };
+            static const char* presetNames[6] = {
+                "None (Opaque)", "Alpha", "Add", "Multiply", "Screen", "Custom"
+            };
+            int blendIndex = 5;       // Custom by default
+            for (int i = 0; i < 5; ++i)
+                if (presetPtrs[i] == material->blendState) { blendIndex = i; break; }
+            const int initialBlend = blendIndex;
+            inspector.enumField("Blend mode", blendIndex, presetNames, 6);
+            if (blendIndex != initialBlend && blendIndex >= 0 && blendIndex < 5)
+                material->blendState = presetPtrs[blendIndex];
+        }
+
+        // Sorting controls — surfaced via the shared Component
+        // helper so labels stay uniform across renderers (Shape,
+        // Text, Sprite all use the same field names).
+        inspectSorting(inspector);
+
+        char buf[64];
+        std::snprintf(buf, sizeof(buf), "%.3f s", currentTime);
+        inspector.readOnlyText("Animation time", buf);
+
+        std::snprintf(buf, sizeof(buf), "%zu animation(s)", animations.size());
+        inspector.readOnlyText("Loaded", buf);
     }
 }

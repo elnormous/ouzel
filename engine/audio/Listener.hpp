@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_LISTENER_HPP
-#define OUZEL_AUDIO_LISTENER_HPP
+﻿#ifndef FLUXION_AUDIO_LISTENER_HPP
+#define FLUXION_AUDIO_LISTENER_HPP
 
 #include <cfloat>
 #include "AudioDevice.hpp"
@@ -9,7 +7,7 @@
 #include "../math/Quaternion.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Audio;
     class Mix;
@@ -50,4 +48,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_LISTENER_HPP
+#endif // FLUXION_AUDIO_LISTENER_HPP

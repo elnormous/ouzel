@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_INPUTDEVICE_HPP
-#define OUZEL_INPUT_INPUTDEVICE_HPP
+﻿#ifndef FLUXION_INPUT_INPUTDEVICE_HPP
+#define FLUXION_INPUT_INPUTDEVICE_HPP
 
 #include <cstdint>
 #include "Controller.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class InputSystem;
 
@@ -31,4 +29,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_INPUTDEVICE_HPP
+#endif // FLUXION_INPUT_INPUTDEVICE_HPP

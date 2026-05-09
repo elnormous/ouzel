@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_QUATERNION_NEON_HPP
-#define OUZEL_MATH_QUATERNION_NEON_HPP
+﻿#ifndef FLUXION_MATH_QUATERNION_NEON_HPP
+#define FLUXION_MATH_QUATERNION_NEON_HPP
 
 #include "Quaternion.hpp"
 
 #ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <>
     inline auto operator-(const Quaternion<float>& quat) noexcept
@@ -99,4 +97,4 @@ namespace ouzel::math
 
 #endif // __ARM_NEON__
 
-#endif // OUZEL_MATH_QUATERNION_NEON_HPP
+#endif // FLUXION_MATH_QUATERNION_NEON_HPP

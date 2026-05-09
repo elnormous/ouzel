@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALRENDERRESOURCE_HPP
-#define OUZEL_GRAPHICS_METALRENDERRESOURCE_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALRENDERRESOURCE_HPP
+#define FLUXION_GRAPHICS_METALRENDERRESOURCE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
 
-namespace ouzel::graphics::metal
+namespace fluxion::graphics::metal
 {
     class RenderDevice;
 
@@ -34,4 +32,4 @@ namespace ouzel::graphics::metal
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALRENDERRESOURCE_HPP
+#endif // FLUXION_GRAPHICS_METALRENDERRESOURCE_HPP

@@ -1,17 +1,16 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_WAVELOADER_HPP
-#define OUZEL_ASSETS_WAVELOADER_HPP
+﻿#ifndef FLUXION_ASSETS_WAVELOADER_HPP
+#define FLUXION_ASSETS_WAVELOADER_HPP
 
 #include "Bundle.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     bool loadWave(Cache& cache,
                   Bundle& bundle,
+                  const Uuid& uuid,
                   const std::string& name,
                   const std::vector<std::byte>& data,
                   const Asset::Options& options);
 }
 
-#endif // OUZEL_ASSETS_WAVELOADER_HPP
+#endif // FLUXION_ASSETS_WAVELOADER_HPP

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_THREAD_CHANNEL_HPP
-#define OUZEL_THREAD_CHANNEL_HPP
+﻿#ifndef FLUXION_THREAD_CHANNEL_HPP
+#define FLUXION_THREAD_CHANNEL_HPP
 
 #include <condition_variable>
 #include <memory>
@@ -9,7 +7,7 @@
 #include <vector>
 #include "Semaphore.hpp"
 
-namespace ouzel::thread
+namespace fluxion::thread
 {
     template <class Type>
     class ChannelContainer final
@@ -146,4 +144,4 @@ namespace ouzel::thread
     };
 }
 
-#endif // OUZEL_THREAD_CHANNEL_HPP
+#endif // FLUXION_THREAD_CHANNEL_HPP

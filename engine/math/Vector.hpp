@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_VECTOR_HPP
-#define OUZEL_MATH_VECTOR_HPP
+﻿#ifndef FLUXION_MATH_VECTOR_HPP
+#define FLUXION_MATH_VECTOR_HPP
 
 #include <algorithm>
 #include <cassert>
@@ -11,7 +9,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T, std::size_t dims> class Vector final
     {
@@ -396,4 +394,4 @@ namespace ouzel::math
 #include "VectorNeon.hpp"
 #include "VectorSse.hpp"
 
-#endif // OUZEL_MATH_VECTOR_HPP
+#endif // FLUXION_MATH_VECTOR_HPP

@@ -1,16 +1,14 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_EGLERRORCATEGORY_HPP
-#define OUZEL_GRAPHICS_EGLERRORCATEGORY_HPP
+﻿#ifndef FLUXION_GRAPHICS_EGLERRORCATEGORY_HPP
+#define FLUXION_GRAPHICS_EGLERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include <system_error>
 #include "EGL/egl.h"
 
-namespace ouzel::graphics::egl
+namespace fluxion::graphics::egl
 {
     class ErrorCategory final: public std::error_category
     {
@@ -47,4 +45,4 @@ namespace ouzel::graphics::egl
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_EGLERRORCATEGORY_HPP
+#endif // FLUXION_GRAPHICS_EGLERRORCATEGORY_HPP

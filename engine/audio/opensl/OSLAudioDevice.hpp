@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_OSLAUDIODEVICE_HPP
-#define OUZEL_AUDIO_OSLAUDIODEVICE_HPP
+﻿#ifndef FLUXION_AUDIO_OSLAUDIODEVICE_HPP
+#define FLUXION_AUDIO_OSLAUDIODEVICE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENSL
+#if FLUXION_COMPILE_OPENSL
 
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
@@ -14,7 +12,7 @@
 #include "../AudioDevice.hpp"
 #include "OSLPointer.hpp"
 
-namespace ouzel::audio::opensl
+namespace fluxion::audio::opensl
 {
     class AudioDevice final: public audio::AudioDevice
     {
@@ -47,4 +45,4 @@ namespace ouzel::audio::opensl
 }
 #endif
 
-#endif // OUZEL_AUDIO_OSLAUDIODEVICE_HPP
+#endif // FLUXION_AUDIO_OSLAUDIODEVICE_HPP

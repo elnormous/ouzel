@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_SCENEMANAGER_HPP
-#define OUZEL_SCENE_SCENEMANAGER_HPP
+﻿#ifndef FLUXION_SCENE_SCENEMANAGER_HPP
+#define FLUXION_SCENE_SCENEMANAGER_HPP
 
 #include <memory>
 #include <vector>
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     class Scene;
 
@@ -44,4 +42,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_SCENEMANAGER_HPP
+#endif // FLUXION_SCENE_SCENEMANAGER_HPP

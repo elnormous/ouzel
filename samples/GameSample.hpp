@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef GAMESAMPLE_HPP
+﻿#ifndef GAMESAMPLE_HPP
 #define GAMESAMPLE_HPP
 
 #include "scene/Camera.hpp"
@@ -9,17 +7,17 @@
 
 namespace samples
 {
-    class GameSample: public ouzel::scene::Scene
+    class GameSample: public fluxion::scene::Scene
     {
     public:
         GameSample();
 
     private:
-        ouzel::scene::Layer layer;
-        ouzel::scene::Camera camera;
-        ouzel::scene::Actor cameraActor;
+        fluxion::scene::Layer layer;
+        fluxion::scene::Camera camera;
+        fluxion::scene::Actor cameraActor;
 
-        ouzel::EventHandler handler;
+        fluxion::EventHandler handler;
     };
 }
 

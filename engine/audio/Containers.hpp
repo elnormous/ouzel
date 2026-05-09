@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_CONTAINERS_HPP
-#define OUZEL_AUDIO_CONTAINERS_HPP
+﻿#ifndef FLUXION_AUDIO_CONTAINERS_HPP
+#define FLUXION_AUDIO_CONTAINERS_HPP
 
 #include <algorithm>
 #include <vector>
 #include "Source.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Container: public Source
     {
@@ -39,4 +37,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_CONTAINERS_HPP
+#endif // FLUXION_AUDIO_CONTAINERS_HPP

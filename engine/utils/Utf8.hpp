@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_UTILS_UTF8_HPP
-#define OUZEL_UTILS_UTF8_HPP
+﻿#ifndef FLUXION_UTILS_UTF8_HPP
+#define FLUXION_UTILS_UTF8_HPP
 
 #include <cstdint>
 #include <string>
 
-namespace ouzel::utf8
+namespace fluxion::utf8
 {
     class ParseError final: public std::logic_error
     {
@@ -135,4 +133,4 @@ namespace ouzel::utf8
     }
 }
 
-#endif // OUZEL_UTILS_UTF8_HPP
+#endif // FLUXION_UTILS_UTF8_HPP

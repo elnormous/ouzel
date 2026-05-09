@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <memory>
+﻿#include <memory>
 #include "ImageLoader.hpp"
 #include "AssetError.hpp"
 #include "../core/Engine.hpp"
@@ -41,10 +39,11 @@
 #  pragma GCC diagnostic pop
 #endif
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     bool loadImage(Cache&,
                    Bundle& bundle,
+                   const Uuid& uuid,
                    const std::string& name,
                    const std::vector<std::byte>& data,
                    const Asset::Options& options)
@@ -151,7 +150,7 @@ namespace ouzel::assets
                                                            options.mipmaps ? 0 : 1,
                                                            image.getPixelFormat());
 
-        bundle.setTexture(name, texture);
+        bundle.setTexture(name, texture, uuid);
 
         return true;
     }

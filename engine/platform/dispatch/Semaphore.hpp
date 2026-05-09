@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_DISPATCH_SEMAPHORE_HPP
-#define OUZEL_PLATFORM_DISPATCH_SEMAPHORE_HPP
+﻿#ifndef FLUXION_PLATFORM_DISPATCH_SEMAPHORE_HPP
+#define FLUXION_PLATFORM_DISPATCH_SEMAPHORE_HPP
 
 #include <dispatch/dispatch.h>
 
-namespace ouzel::platform::dispatch
+namespace fluxion::platform::dispatch
 {
     class Semaphore final
     {
@@ -75,4 +73,4 @@ namespace ouzel::platform::dispatch
     };
 }
 
-#endif // OUZEL_PLATFORM_DISPATCH_SEMAPHORE_HPP
+#endif // FLUXION_PLATFORM_DISPATCH_SEMAPHORE_HPP

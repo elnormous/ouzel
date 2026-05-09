@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "Effect.hpp"
+﻿#include "Effect.hpp"
 #include "Audio.hpp"
 #include "Submix.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     Effect::Effect(Audio& initAudio,
                    std::size_t initProcessorId):

@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include <system_error>
+﻿#include <system_error>
 #include "CursorWin.hpp"
 #include "../../platform/winapi/DeviceContext.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     namespace
     {

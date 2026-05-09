@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_OBJC_POINTER_HPP
-#define OUZEL_PLATFORM_OBJC_POINTER_HPP
+﻿#ifndef FLUXION_PLATFORM_OBJC_POINTER_HPP
+#define FLUXION_PLATFORM_OBJC_POINTER_HPP
 
 #include <type_traits>
 #include <objc/message.h>
 #include <objc/objc.h>
 
-namespace ouzel::platform::objc
+namespace fluxion::platform::objc
 {
     template <class T = id, typename std::enable_if_t<std::is_pointer_v<T>>* = nullptr>
     class Pointer final
@@ -88,4 +86,4 @@ namespace ouzel::platform::objc
     };
 }
 
-#endif // OUZEL_PLATFORM_OBJC_POINTER_HPP
+#endif // FLUXION_PLATFORM_OBJC_POINTER_HPP

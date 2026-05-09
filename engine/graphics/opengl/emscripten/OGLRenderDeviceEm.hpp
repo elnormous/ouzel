@@ -1,17 +1,15 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLRENDERDEVICEEM_HPP
-#define OUZEL_GRAPHICS_OGLRENDERDEVICEEM_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLRENDERDEVICEEM_HPP
+#define FLUXION_GRAPHICS_OGLRENDERDEVICEEM_HPP
 
 #include "../../../core/Setup.h"
 
-#if defined(__EMSCRIPTEN__) && OUZEL_COMPILE_OPENGL
+#if defined(__EMSCRIPTEN__) && FLUXION_COMPILE_OPENGL
 
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "../OGLRenderDevice.hpp"
 
-namespace ouzel::graphics::opengl::emscripten
+namespace fluxion::graphics::opengl::emscripten
 {
     class RenderDevice final: public opengl::RenderDevice
     {
@@ -32,4 +30,4 @@ namespace ouzel::graphics::opengl::emscripten
 }
 #endif
 
-#endif // OUZEL_GRAPHICS_OGLRENDERDEVICEEM_HPP
+#endif // FLUXION_GRAPHICS_OGLRENDERDEVICEEM_HPP

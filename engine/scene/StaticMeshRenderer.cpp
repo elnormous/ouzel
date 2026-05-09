@@ -1,12 +1,13 @@
-// Ouzel by Elviss Strazdins
-
-#include <limits>
+﻿#include <limits>
 #include "StaticMeshRenderer.hpp"
 #include "../core/Engine.hpp"
+#include "../reflection/Inspector.hpp"
 #include "../utils/Utils.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
+    FLUXION_COMPONENT_REGISTER(StaticMeshRenderer)
+
     StaticMeshData::StaticMeshData(const math::Box<float, 3>& initBoundingBox,
                                    const std::vector<std::uint32_t> indices,
                                    const std::vector<graphics::Vertex>& vertices,
@@ -108,5 +109,21 @@ namespace ouzel::scene
                                    vertexBuffer->getResource(),
                                    graphics::DrawMode::triangleList,
                                    0);
+    }
+
+    void StaticMeshRenderer::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        // Mesh + material are loaded by the asset system and bound
+        // via init(). Until the asset browser (phase 11) adds asset
+        // references, the inspector just surfaces the load state so
+        // the user can see whether init() ran successfully.
+        inspector.readOnlyText("Material",
+                               material ? "<assigned>" : "(none)");
+        inspector.readOnlyText("Mesh",
+                               indexBuffer ? "<bound>" : "(none)");
     }
 }

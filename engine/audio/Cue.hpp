@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_BANK_HPP
-#define OUZEL_AUDIO_BANK_HPP
+﻿#ifndef FLUXION_AUDIO_BANK_HPP
+#define FLUXION_AUDIO_BANK_HPP
 
 #include <queue>
 #include <string>
 #include <vector>
 #include "Oscillator.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Audio;
     class Sound;
@@ -88,4 +86,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_BANK_HPP
+#endif // FLUXION_AUDIO_BANK_HPP

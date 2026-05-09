@@ -1,16 +1,14 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_CAERRORCATEGORY_HPP
-#define OUZEL_AUDIO_CAERRORCATEGORY_HPP
+﻿#ifndef FLUXION_AUDIO_CAERRORCATEGORY_HPP
+#define FLUXION_AUDIO_CAERRORCATEGORY_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_COREAUDIO
+#if FLUXION_COMPILE_COREAUDIO
 
 #include <system_error>
 #include <CoreAudio/CoreAudioTypes.h>
 
-namespace ouzel::audio::coreaudio
+namespace fluxion::audio::coreaudio
 {
     class ErrorCategory final: public std::error_category
     {
@@ -40,4 +38,4 @@ namespace ouzel::audio::coreaudio
 }
 #endif
 
-#endif // OUZEL_AUDIO_CAERRORCATEGORY_HPP
+#endif // FLUXION_AUDIO_CAERRORCATEGORY_HPP

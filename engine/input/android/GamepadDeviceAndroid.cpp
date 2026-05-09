@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "GamepadDeviceAndroid.hpp"
+﻿#include "GamepadDeviceAndroid.hpp"
 #include "InputSystemAndroid.hpp"
 
-namespace ouzel::input::android
+namespace fluxion::input::android
 {
     GamepadDevice::GamepadDevice(InputSystem& initInputSystem,
                                  DeviceId initId):

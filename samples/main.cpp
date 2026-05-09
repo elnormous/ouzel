@@ -1,5 +1,3 @@
-// Ouzel by Elviss Strazdins
-
 #include "MainMenu.hpp"
 #include "SpritesSample.hpp"
 #include "GUISample.hpp"
@@ -8,17 +6,128 @@
 #include "InputSample.hpp"
 #include "SoundSample.hpp"
 #include "PerspectiveSample.hpp"
+#include "ImGuiSample.hpp"
+#include "ImGuiHost.hpp"
+#include "imgui.h"
 
-using namespace ouzel;
+using namespace fluxion;
 
 namespace samples
 {
-    class Samples: public ouzel::Application
+    ImGuiHost& imguiHost() noexcept
+    {
+        static ImGuiHost instance;
+        return instance;
+    }
+
+    namespace
+    {
+        // The samples binary now demonstrates only the engine-level ImGui
+        // integration (smoke test + text reference + the stock demo). The
+        // editor-specific panels (Reflection, scene save/load, future
+        // inspector / scene tree / etc.) live in editor/ and ship as a
+        // standalone editor.exe — see docs/EDITOR_IMPLEMENTATION_PLAN.md.
+
+        void drawTextRefWindow()
+        {
+            ImGui::SetNextWindowPos(ImVec2(20, 220), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowSize(ImVec2(640, 280), ImGuiCond_FirstUseEver);
+            ImGui::Begin("Text rendering reference");
+            ImGui::TextUnformatted("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            ImGui::TextUnformatted("abcdefghijklmnopqrstuvwxyz");
+            ImGui::TextUnformatted("0123456789  !@#$%^&*()_+-=[]{}|;:,.<>?/");
+            ImGui::TextUnformatted("The quick brown fox jumps over the lazy dog.");
+            ImGui::Separator();
+            ImGui::TextColored(ImVec4(1.0F, 0.4F, 0.4F, 1.0F), "Red text  - kerning: AVA TaT WoWo fl ffi rn cl");
+            ImGui::TextColored(ImVec4(0.4F, 1.0F, 0.4F, 1.0F), "Green text - small chars: i.l!1Il|");
+            ImGui::TextColored(ImVec4(0.4F, 0.7F, 1.0F, 1.0F), "Blue text - wide letters: WMmwHX@#%%");
+            ImGui::Separator();
+            ImGui::Text("Color block test:");
+            ImDrawList* dl = ImGui::GetWindowDrawList();
+            ImVec2 p = ImGui::GetCursorScreenPos();
+            for (int i = 0; i < 8; ++i)
+            {
+                const float v = i / 7.0F;
+                dl->AddRectFilled(ImVec2(p.x + i * 24, p.y),
+                                  ImVec2(p.x + i * 24 + 22, p.y + 22),
+                                  IM_COL32(static_cast<int>(v * 255),
+                                           static_cast<int>(v * 255),
+                                           static_cast<int>(v * 255), 255));
+            }
+            ImGui::Dummy(ImVec2(0, 26));
+            ImGui::Text("(grayscale ramp: black -> white)");
+            ImGui::End();
+        }
+
+        void drawSmokeTestWindow(const std::string& driverName)
+        {
+            ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowSize(ImVec2(420, 180), ImGuiCond_FirstUseEver);
+            ImGui::Begin("Fluxion ImGui smoke test");
+            const ImGuiIO& io = ImGui::GetIO();
+            ImGui::Text("Renderer: %s", driverName.c_str());
+            ImGui::Text("Display: %.0f x %.0f", io.DisplaySize.x, io.DisplaySize.y);
+            const bool hasMouse = io.MousePos.x > -1.0e6F;
+            if (hasMouse)
+                ImGui::Text("Mouse: %.0f, %.0f  Frame %d  %.1f FPS",
+                            io.MousePos.x, io.MousePos.y,
+                            ImGui::GetFrameCount(), io.Framerate);
+            else
+                ImGui::Text("Mouse: (move pointer over window)  Frame %d  %.1f FPS",
+                            ImGui::GetFrameCount(), io.Framerate);
+            static float slider = 0.5F;
+            ImGui::SliderFloat("slider", &slider, 0.0F, 1.0F);
+            ImGui::Text("WantCapture: kbd=%d mouse=%d",
+                        io.WantCaptureKeyboard ? 1 : 0,
+                        io.WantCaptureMouse ? 1 : 0);
+            ImGui::TextWrapped("Open the \"ImGui\" sample to toggle these windows from native Fluxion buttons. "
+                               "For the Reflection / scene editor demos, run editor.exe.");
+            ImGui::End();
+        }
+    }
+
+    class Samples: public fluxion::Application
     {
     public:
         explicit Samples(const std::vector<std::string>& args):
-            bundle{engine->getCache(), engine->getFileSystem()}
+            bundle{engine->getCache(), engine->getFileSystem()},
+            imgui{*engine}
         {
+            // Publish the context to the ImGuiSample scene through the shared
+            // ImGuiHost. Toggle flags drive what the per-frame draw callback
+            // emits; the master switch is on the Context itself.
+            imguiHost().context = &imgui;
+
+            const auto driverName = std::string{graphics::getDriverName(engine->getGraphics().getDevice()->getDriver())};
+            imgui.setDrawCallback([driverName]() {
+                const auto& host = imguiHost();
+                if (host.showSmokeTest.load(std::memory_order_acquire))
+                    drawSmokeTestWindow(driverName);
+                if (host.showTextRef.load(std::memory_order_acquire))
+                    drawTextRefWindow();
+                if (host.showDemo.load(std::memory_order_acquire))
+                {
+                    ImGui::ShowDemoWindow();
+                    // ShowDemoWindow internally calls SetNextWindowPos with
+                    // FirstUseEver. We pin its position by name once (on the
+                    // first frame the demo appears) so the centered native
+                    // Fluxion buttons stay clickable. Track whether we've
+                    // already pinned to avoid fighting the user's drags.
+                    static bool demoPinned = false;
+                    if (!demoPinned)
+                    {
+                        const ImVec2 dispSize = ImGui::GetIO().DisplaySize;
+                        constexpr ImVec2 demoSize{540.0F, 680.0F};
+                        ImGui::SetWindowPos("Dear ImGui Demo",
+                                            ImVec2(dispSize.x - demoSize.x - 10.0F, 10.0F),
+                                            ImGuiCond_Always);
+                        ImGui::SetWindowSize("Dear ImGui Demo", demoSize,
+                                             ImGuiCond_Always);
+                        demoPinned = true;
+                    }
+                }
+            });
+
             // disable screen saver
             engine->setScreenSaverEnabled(false);
 
@@ -37,20 +146,20 @@ namespace samples
                     if (++arg != args.end())
                         sample = *arg;
                     else
-                        ouzel::log(ouzel::Log::Level::warning) << "No sample specified";
+                        fluxion::log(fluxion::Log::Level::warning) << "No sample specified";
                 }
                 else
-                    ouzel::log(ouzel::Log::Level::warning) << "Invalid argument \"" << *arg << "\"";
+                    fluxion::log(fluxion::Log::Level::warning) << "Invalid argument \"" << *arg << "\"";
             }
 
 #ifndef __ANDROID__
-            ouzel::storage::Archive archive{engine->getFileSystem().getPath("gui.zip")};
+            fluxion::storage::Archive archive{engine->getFileSystem().getPath("gui.zip")};
             engine->getFileSystem().addArchive("gui.zip", std::move(archive));
 #endif
 
             bundle.loadAssets("assets.json");
 
-            std::unique_ptr<ouzel::scene::Scene> currentScene;
+            std::unique_ptr<fluxion::scene::Scene> currentScene;
 
             if (!sample.empty())
             {
@@ -61,6 +170,7 @@ namespace samples
                 else if (sample == "input") currentScene = std::make_unique<InputSample>();
                 else if (sample == "sound") currentScene = std::make_unique<SoundSample>();
                 else if (sample == "perspective") currentScene = std::make_unique<PerspectiveSample>();
+                else if (sample == "imgui") currentScene = std::make_unique<ImGuiSample>();
             }
 
             if (!currentScene) currentScene = std::make_unique<MainMenu>();
@@ -69,10 +179,11 @@ namespace samples
         }
     private:
         assets::Bundle bundle;
+        gui::imgui::Context imgui;
     };
 }
 
-std::unique_ptr<ouzel::Application> ouzel::main(const std::vector<std::string>& args)
+std::unique_ptr<fluxion::Application> fluxion::main(const std::vector<std::string>& args)
 {
     return std::make_unique<samples::Samples>(args);
 }

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_WORKERPOOL_HPP
-#define OUZEL_CORE_WORKERPOOL_HPP
+﻿#ifndef FLUXION_CORE_WORKERPOOL_HPP
+#define FLUXION_CORE_WORKERPOOL_HPP
 
 #include <condition_variable>
 #include <functional>
@@ -12,7 +10,7 @@
 #include "../thread/Thread.hpp"
 #include "../utils/Log.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     class TaskGroup final
     {
@@ -159,4 +157,4 @@ namespace ouzel::core
     };
 }
 
-#endif // OUZEL_CORE_WORKERPOOL_HPP
+#endif // FLUXION_CORE_WORKERPOOL_HPP

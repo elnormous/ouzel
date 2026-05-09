@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_NATIVECURSORMACOS_HPP
-#define OUZEL_INPUT_NATIVECURSORMACOS_HPP
+﻿#ifndef FLUXION_INPUT_NATIVECURSORMACOS_HPP
+#define FLUXION_INPUT_NATIVECURSORMACOS_HPP
 
 #include <cstdint>
 #include <vector>
@@ -17,7 +15,7 @@ using NSCursorPtr = id;
 #include "../Cursor.hpp"
 #include "../../math/Size.hpp"
 
-namespace ouzel::input::macos
+namespace fluxion::input::macos
 {
     class Cursor final
     {
@@ -42,4 +40,4 @@ namespace ouzel::input::macos
     };
 }
 
-#endif // OUZEL_INPUT_NATIVECURSORMACOS_HPP
+#endif // FLUXION_INPUT_NATIVECURSORMACOS_HPP

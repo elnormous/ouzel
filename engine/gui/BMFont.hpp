@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GUI_BMFONT_HPP
-#define OUZEL_GUI_BMFONT_HPP
+﻿#ifndef FLUXION_GUI_BMFONT_HPP
+#define FLUXION_GUI_BMFONT_HPP
 
 #include <map>
 #include <unordered_map>
 #include "Font.hpp"
 
-namespace ouzel::gui
+namespace fluxion::gui
 {
     class BMFont final: public Font
     {
@@ -48,4 +46,4 @@ namespace ouzel::gui
     };
 }
 
-#endif // OUZEL_GUI_BMFONT_HPP
+#endif // FLUXION_GUI_BMFONT_HPP

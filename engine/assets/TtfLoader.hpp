@@ -1,16 +1,15 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_TTFLOADER_HPP
-#define OUZEL_ASSETS_TTFLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_TTFLOADER_HPP
+#define FLUXION_ASSETS_TTFLOADER_HPP
 
 #include "Bundle.hpp"
 #include "../gui/TTFont.hpp"
 #include "stb_truetype.h"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadTtf(Cache&,
                         Bundle& bundle,
+                        const Uuid& uuid,
                         const std::string& name,
                         const std::vector<std::byte>& data,
                         const Asset::Options& options)
@@ -19,7 +18,7 @@ namespace ouzel::assets
         {
             // TODO: move the loader here
             auto font = std::make_unique<gui::TTFont>(data, options.mipmaps);
-            bundle.setFont(name, std::move(font));
+            bundle.setFont(name, std::move(font), uuid);
         }
         catch (const std::exception&)
         {
@@ -30,4 +29,4 @@ namespace ouzel::assets
     }
 }
 
-#endif // OUZEL_ASSETS_TTFLOADER_HPP
+#endif // FLUXION_ASSETS_TTFLOADER_HPP

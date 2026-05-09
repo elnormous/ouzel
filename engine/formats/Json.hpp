@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_FORMATS_JSON_HPP
-#define OUZEL_FORMATS_JSON_HPP
+﻿#ifndef FLUXION_FORMATS_JSON_HPP
+#define FLUXION_FORMATS_JSON_HPP
 
 #include <algorithm>
 #include <array>
@@ -17,7 +15,7 @@
 #include <variant>
 #include <vector>
 
-namespace ouzel::json
+namespace fluxion::json
 {
     class ParseError final: public std::logic_error
     {
@@ -844,4 +842,4 @@ namespace ouzel::json
     }
 }
 
-#endif // OUZEL_FORMATS_JSON_HPP
+#endif // FLUXION_FORMATS_JSON_HPP

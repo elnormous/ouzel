@@ -1,12 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <cassert>
+#include <cstdio>
 #include "Animator.hpp"
 #include "Actor.hpp"
 #include "../core/Engine.hpp"
+#include "../reflection/Inspector.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     Animator::Animator(float initLength):
         length{initLength}
@@ -170,5 +170,50 @@ namespace ouzel::scene
     void Animator::removeFromParent()
     {
         if (parent) parent->removeAnimator(*this);
+    }
+
+    void Animator::inspect(reflection::Inspector& inspector)
+    {
+        bool hiddenCopy = isHidden();
+        inspector.boolField("Hidden", hiddenCopy);
+        if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        float lenCopy = length;
+        inspector.floatField("Length", lenCopy);
+        if (lenCopy != length) length = lenCopy;
+
+        // One-shot transport buttons. start() (used by sample code)
+        // does the dispatcher subscription bookkeeping; for the
+        // editor's "Play" the user typically wants both the
+        // subscription AND the play() call, so we route to start().
+        if (inspector.actionField("Play"))   start();
+        if (inspector.actionField("Stop"))   stop(false);
+        if (inspector.actionField("Reset"))  reset();
+
+        char status[80];
+        std::snprintf(status, sizeof(status),
+                      "%s, t=%.2f / %.2f",
+                      isRunning() ? "running" : (isDone() ? "done" : "idle"),
+                      currentTime, length);
+        inspector.readOnlyText("State", status);
+
+        // Runtime state. Saved + restored alongside the user-edited
+        // fields so a Play-Mode snapshot taken mid-animation, then
+        // restored on Stop, brings the animator back to where it
+        // was rather than to t=0. ImGui shows them under a section
+        // header (collapsible group); JsonInspector reads / writes
+        // them transparently. Subclasses that compute additional
+        // mid-play state (Move::startPosition, Fade::diff, ...) can
+        // append their own runtime fields after calling this base.
+        inspector.beginGroup("Runtime State");
+        inspector.floatField("currentTime", currentTime);
+        inspector.floatField("progress", progress);
+        bool runningCopy = running;
+        inspector.boolField("running", runningCopy);
+        if (runningCopy != running) running = runningCopy;
+        bool doneCopy = done;
+        inspector.boolField("done", doneCopy);
+        if (doneCopy != done) done = doneCopy;
+        inspector.endGroup();
     }
 }

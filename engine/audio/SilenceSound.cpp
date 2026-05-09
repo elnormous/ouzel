@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include "SilenceSound.hpp"
+﻿#include "SilenceSound.hpp"
 #include "Audio.hpp"
 #include "mixer/Data.hpp"
 #include "mixer/Stream.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class SilenceData;
 

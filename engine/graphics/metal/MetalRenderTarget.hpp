@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_METALRENDERTARGET_HPP
-#define OUZEL_GRAPHICS_METALRENDERTARGET_HPP
+﻿#ifndef FLUXION_GRAPHICS_METALRENDERTARGET_HPP
+#define FLUXION_GRAPHICS_METALRENDERTARGET_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_METAL
+#if FLUXION_COMPILE_METAL
 
 #ifdef __OBJC__
 #  import <Metal/Metal.h>
@@ -21,7 +19,7 @@ using MTLLoadAction = NSUInteger;
 #include "../../math/Color.hpp"
 #include "../../platform/objc/Pointer.hpp"
 
-namespace ouzel::graphics::metal
+namespace fluxion::graphics::metal
 {
     class RenderDevice;
     class Texture;
@@ -58,4 +56,4 @@ namespace ouzel::graphics::metal
 
 #endif
 
-#endif // OUZEL_GRAPHICS_METALRENDERTARGET_HPP
+#endif // FLUXION_GRAPHICS_METALRENDERTARGET_HPP

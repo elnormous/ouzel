@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#include <system_error>
+﻿#include <system_error>
 #include "MouseDeviceWin.hpp"
 #include "InputSystemWin.hpp"
 #include "../../core/Engine.hpp"
 #include "../../core/windows/NativeWindowWin.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     MouseDevice::MouseDevice(InputSystem& initInputSystem,
                              DeviceId initId):

@@ -1,17 +1,16 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
-#define OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
+﻿#ifndef FLUXION_ASSETS_PARTICLESYSTEMLOADER_HPP
+#define FLUXION_ASSETS_PARTICLESYSTEMLOADER_HPP
 
 #include "AssetError.hpp"
 #include "Bundle.hpp"
 #include "../scene/ParticleSystem.hpp"
 #include "../formats/Json.hpp"
 
-namespace ouzel::assets
+namespace fluxion::assets
 {
     inline bool loadParticleSystem(Cache&,
                                    Bundle& bundle,
+                                   const Uuid& uuid,
                                    const std::string& name,
                                    const std::vector<std::byte>& data,
                                    const Asset::Options& options)
@@ -118,10 +117,10 @@ namespace ouzel::assets
 
         particleSystemData.emissionRate = static_cast<float>(particleSystemData.maxParticles) / particleSystemData.particleLifespan;
 
-        bundle.setParticleSystemData(name, particleSystemData);
+        bundle.setParticleSystemData(name, particleSystemData, uuid);
 
         return true;
     }
 }
 
-#endif // OUZEL_ASSETS_PARTICLESYSTEMLOADER_HPP
+#endif // FLUXION_ASSETS_PARTICLESYSTEMLOADER_HPP

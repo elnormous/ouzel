@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_SETTINGS_HPP
-#define OUZEL_GRAPHICS_SETTINGS_HPP
+﻿#ifndef FLUXION_GRAPHICS_SETTINGS_HPP
+#define FLUXION_GRAPHICS_SETTINGS_HPP
 
 #include <cstdint>
 #include "SamplerFilter.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     struct Settings final
     {
@@ -21,4 +19,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_SETTINGS_HPP
+#endif // FLUXION_GRAPHICS_SETTINGS_HPP

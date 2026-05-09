@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_CURSOR_HPP
-#define OUZEL_INPUT_CURSOR_HPP
+﻿#ifndef FLUXION_INPUT_CURSOR_HPP
+#define FLUXION_INPUT_CURSOR_HPP
 
 #include <cstdint>
 #include <string>
@@ -12,7 +10,7 @@
 #include "../math/Size.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     class Cursor final
     {
@@ -43,4 +41,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_CURSOR_HPP
+#endif // FLUXION_INPUT_CURSOR_HPP

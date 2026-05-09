@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#pragma push_macro("WIN32_LEAN_AND_MEAN")
+﻿#pragma push_macro("WIN32_LEAN_AND_MEAN")
 #pragma push_macro("NOMINMAX")
 #ifndef WIN32_LEAN_AND_MEAN
 #  define WIN32_LEAN_AND_MEAN
@@ -14,7 +12,7 @@
 #include "KeyboardDeviceWin.hpp"
 #include "InputSystemWin.hpp"
 
-namespace ouzel::input::windows
+namespace fluxion::input::windows
 {
     KeyboardDevice::KeyboardDevice(InputSystem& initInputSystem,
                                    DeviceId initId):

@@ -1,8 +1,6 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_WASAPI
+#if FLUXION_COMPILE_WASAPI
 
 #include <cstring>
 #include <mmdeviceapi.h>
@@ -18,7 +16,7 @@ const IID IID_IAudioRenderClient = __uuidof(IAudioRenderClient);
 const IID IID_IAudioCaptureClient = __uuidof(IAudioCaptureClient);
 const GUID IDevice_FriendlyName = {0xa45c254e, 0xdf1c, 0x4efd, {0x80, 0x20, 0x67, 0xd1, 0x46, 0xa8, 0x50, 0xe0}};
 
-namespace ouzel::audio::wasapi
+namespace fluxion::audio::wasapi
 {
     namespace
     {
@@ -149,7 +147,7 @@ namespace ouzel::audio::wasapi
             {
                 auto name = std::make_unique<char[]>(static_cast<std::size_t>(charCount));
                 if (WideCharToMultiByte(CP_UTF8, 0, nameVariant.pwszVal, -1, name.get(), charCount, nullptr, nullptr) != 0)
-                    ouzel::log(ouzel::Log::Level::info) << "Using " << name.get() << " for audio";
+                    fluxion::log(fluxion::Log::Level::info) << "Using " << name.get() << " for audio";
             }
 
         PropVariantClear(&nameVariant);

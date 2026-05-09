@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#include <stdexcept>
+﻿#include <stdexcept>
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include "GamepadDeviceEm.hpp"
 #include "InputSystemEm.hpp"
 
-namespace ouzel::input::emscripten
+namespace fluxion::input::emscripten
 {
     namespace
     {

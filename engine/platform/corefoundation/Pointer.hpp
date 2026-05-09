@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_COREFOUNDATION_POINTER_HPP
-#define OUZEL_PLATFORM_COREFOUNDATION_POINTER_HPP
+﻿#ifndef FLUXION_PLATFORM_COREFOUNDATION_POINTER_HPP
+#define FLUXION_PLATFORM_COREFOUNDATION_POINTER_HPP
 
 #include <type_traits>
 #include <CoreFoundation/CoreFoundation.h>
 
-namespace ouzel::platform::corefoundation
+namespace fluxion::platform::corefoundation
 {
     template <class T = CFTypeRef, typename std::enable_if_t<std::is_pointer_v<T>>* = nullptr>
     class Pointer final
@@ -84,4 +82,4 @@ namespace ouzel::platform::corefoundation
     };
 }
 
-#endif // OUZEL_PLATFORM_COREFOUNDATION_POINTER_HPP
+#endif // FLUXION_PLATFORM_COREFOUNDATION_POINTER_HPP

@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_VOICE_HPP
-#define OUZEL_AUDIO_VOICE_HPP
+﻿#ifndef FLUXION_AUDIO_VOICE_HPP
+#define FLUXION_AUDIO_VOICE_HPP
 
 #include <memory>
 #include "Cue.hpp"
 #include "Node.hpp"
 #include "../math/Vector.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class Audio;
     class Mix;
@@ -67,4 +65,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_VOICE_HPP
+#endif // FLUXION_AUDIO_VOICE_HPP

@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_MATH_SCALAR_HPP
-#define OUZEL_MATH_SCALAR_HPP
+﻿#ifndef FLUXION_MATH_SCALAR_HPP
+#define FLUXION_MATH_SCALAR_HPP
 
 #include "Constants.hpp"
 
-namespace ouzel::math
+namespace fluxion::math
 {
     template <typename T>
     constexpr auto lerp(const T v0, const T v1, const T t) noexcept
@@ -30,4 +28,4 @@ namespace ouzel::math
     }
 }
 
-#endif // OUZEL_MATH_SCALAR_HPP
+#endif // FLUXION_MATH_SCALAR_HPP

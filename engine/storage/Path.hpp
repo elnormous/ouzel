@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_STORAGE_PATH_HPP
-#define OUZEL_STORAGE_PATH_HPP
+﻿#ifndef FLUXION_STORAGE_PATH_HPP
+#define FLUXION_STORAGE_PATH_HPP
 
 #include <chrono>
 #include <cstdint>
@@ -9,7 +7,7 @@
 #include <vector>
 #include "StorageError.hpp"
 
-namespace ouzel::storage
+namespace fluxion::storage
 {
     class Path final
     {

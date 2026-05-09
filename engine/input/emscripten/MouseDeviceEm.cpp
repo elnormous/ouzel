@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#include <emscripten.h>
+﻿#include <emscripten.h>
 #include <emscripten/html5.h>
 #include "MouseDeviceEm.hpp"
 #include "InputSystemEm.hpp"
 
-namespace ouzel::input::emscripten
+namespace fluxion::input::emscripten
 {
     MouseDevice::MouseDevice(InputSystem& initInputSystem,
                              DeviceId initId):

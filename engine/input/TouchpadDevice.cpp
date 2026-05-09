@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "TouchpadDevice.hpp"
+﻿#include "TouchpadDevice.hpp"
 #include "InputSystem.hpp"
 
-namespace ouzel::input
+namespace fluxion::input
 {
     TouchpadDevice::TouchpadDevice(InputSystem& initInputSystem, DeviceId initId, bool screen):
         InputDevice{initInputSystem, initId, Controller::Type::touchpad}

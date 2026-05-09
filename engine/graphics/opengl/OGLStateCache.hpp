@@ -1,18 +1,16 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_OGLSTATECACHE_HPP
-#define OUZEL_GRAPHICS_OGLSTATECACHE_HPP
+﻿#ifndef FLUXION_GRAPHICS_OGLSTATECACHE_HPP
+#define FLUXION_GRAPHICS_OGLSTATECACHE_HPP
 
 #include "../../core/Setup.h"
 
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include <array>
 #include <unordered_map>
 
 #include "OGL.h"
 
-#if OUZEL_OPENGLES
+#if FLUXION_OPENGLES
 #  include "GLES/gl.h"
 #  include "GLES2/gl2.h"
 #  include "GLES2/gl2ext.h"
@@ -24,14 +22,14 @@
 #  include "GL/glext.h"
 #endif
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     struct StateCache final
     {
         GLenum frontFace = GL_CCW;
 
         std::unordered_map<GLenum, std::array<GLuint, 16>> textures{
-#if !OUZEL_OPENGLES
+#if !FLUXION_OPENGLES
             {GL_TEXTURE_1D, std::array<GLuint, 16>{}},
 #endif
             {GL_TEXTURE_2D, std::array<GLuint, 16>{}},
@@ -58,7 +56,7 @@ namespace ouzel::graphics::opengl
         GLboolean blueMask = GL_TRUE;
         GLboolean alphaMask = GL_TRUE;
 
-#if !OUZEL_OPENGLES
+#if !FLUXION_OPENGLES
         GLenum polygonFillMode = GL_FILL;
 #endif
 
@@ -89,4 +87,4 @@ namespace ouzel::graphics::opengl
 
 #endif
 
-#endif //OUZEL_GRAPHICS_OGLSTATECACHE_HPP
+#endif //FLUXION_GRAPHICS_OGLSTATECACHE_HPP

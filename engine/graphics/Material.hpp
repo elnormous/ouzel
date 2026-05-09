@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_MATERIAL_HPP
-#define OUZEL_GRAPHICS_MATERIAL_HPP
+﻿#ifndef FLUXION_GRAPHICS_MATERIAL_HPP
+#define FLUXION_GRAPHICS_MATERIAL_HPP
 
 #include <memory>
 #include "Graphics.hpp"
@@ -10,7 +8,7 @@
 #include "Texture.hpp"
 #include "../math/Color.hpp"
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     class Material final
     {
@@ -35,4 +33,4 @@ namespace ouzel::graphics
     };
 }
 
-#endif // OUZEL_GRAPHICS_MATERIAL_HPP
+#endif // FLUXION_GRAPHICS_MATERIAL_HPP

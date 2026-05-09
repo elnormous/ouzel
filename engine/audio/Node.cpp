@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include "Node.hpp"
+﻿#include "Node.hpp"
 #include "Audio.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     void Node::addChild(Node& child)
     {

@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_PLATFORM_WINAPI_DEVICECONTEXT_HPP
-#define OUZEL_PLATFORM_WINAPI_DEVICECONTEXT_HPP
+﻿#ifndef FLUXION_PLATFORM_WINAPI_DEVICECONTEXT_HPP
+#define FLUXION_PLATFORM_WINAPI_DEVICECONTEXT_HPP
 
 #include <stdexcept>
 #pragma push_macro("WIN32_LEAN_AND_MEAN")
@@ -16,7 +14,7 @@
 #pragma pop_macro("WIN32_LEAN_AND_MEAN")
 #pragma pop_macro("NOMINMAX")
 
-namespace ouzel::platform::winapi
+namespace fluxion::platform::winapi
 {
     class DeviceContext final
     {
@@ -61,4 +59,4 @@ namespace ouzel::platform::winapi
     };
 }
 
-#endif // OUZEL_PLATFORM_WINAPI_DEVICECONTEXT_HPP
+#endif // FLUXION_PLATFORM_WINAPI_DEVICECONTEXT_HPP

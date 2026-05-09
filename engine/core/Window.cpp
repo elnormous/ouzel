@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
-
-#include <stdexcept>
+﻿#include <stdexcept>
 #include "Window.hpp"
 
-namespace ouzel::core
+namespace fluxion::core
 {
     Window::Window([[maybe_unused]] const math::Size<std::uint32_t, 2>& newSize,
                    Flags flags,

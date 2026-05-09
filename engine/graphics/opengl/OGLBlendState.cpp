@@ -1,14 +1,12 @@
-// Ouzel by Elviss Strazdins
+﻿#include "../../core/Setup.h"
 
-#include "../../core/Setup.h"
-
-#if OUZEL_COMPILE_OPENGL
+#if FLUXION_COMPILE_OPENGL
 
 #include "OGLBlendState.hpp"
 #include "OGLError.hpp"
 #include "OGLRenderDevice.hpp"
 
-namespace ouzel::graphics::opengl
+namespace fluxion::graphics::opengl
 {
     namespace
     {
@@ -40,7 +38,7 @@ namespace ouzel::graphics::opengl
                 case BlendOperation::add: return GL_FUNC_ADD;
                 case BlendOperation::subtract: return GL_FUNC_SUBTRACT;
                 case BlendOperation::reverseSubtract: return GL_FUNC_REVERSE_SUBTRACT;
-#if !OUZEL_OPENGLES
+#if !FLUXION_OPENGLES
                 case BlendOperation::min: return GL_MIN;
                 case BlendOperation::max: return GL_MAX;
 #endif

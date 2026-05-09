@@ -1,13 +1,11 @@
-// Ouzel by Elviss Strazdins
-
-#include <stdexcept>
+﻿#include <stdexcept>
 #include "../../core/Setup.h"
 #include "MouseDeviceLinux.hpp"
 #include "InputSystemLinux.hpp"
 #include "../../core/linux/EngineLinux.hpp"
 #include "../../core/linux/NativeWindowLinux.hpp"
 
-namespace ouzel::input::linux
+namespace fluxion::input::linux
 {
     MouseDevice::MouseDevice(InputSystem& initInputSystem,
                              DeviceId initId):
@@ -17,7 +15,7 @@ namespace ouzel::input::linux
 
     void MouseDevice::setPosition(const math::Vector<float, 2>& position)
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         const auto& windowLinux = engine->getWindow().getNativeWindow();
         auto display = engineLinux->getDisplay();
@@ -42,7 +40,7 @@ namespace ouzel::input::linux
 
     void MouseDevice::setCursorLocked(bool locked)
     {
-#if OUZEL_SUPPORTS_X11
+#if FLUXION_SUPPORTS_X11
         const auto engineLinux = static_cast<core::linux::Engine*>(engine);
         const auto& windowLinux = engine->getWindow().getNativeWindow();
         auto display = engineLinux->getDisplay();

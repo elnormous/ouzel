@@ -1,7 +1,5 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_SCENE_PARTICLESYSTEM_HPP
-#define OUZEL_SCENE_PARTICLESYSTEM_HPP
+﻿#ifndef FLUXION_SCENE_PARTICLESYSTEM_HPP
+#define FLUXION_SCENE_PARTICLESYSTEM_HPP
 
 #include <string>
 #include <vector>
@@ -15,8 +13,9 @@
 #include "../graphics/Texture.hpp"
 #include "../math/Color.hpp"
 #include "../math/Vector.hpp"
+#include "../reflection/Macros.hpp"
 
-namespace ouzel::scene
+namespace fluxion::scene
 {
     struct ParticleSystemData final
     {
@@ -116,6 +115,8 @@ namespace ouzel::scene
     class ParticleSystem final: public Component
     {
     public:
+        FLUXION_COMPONENT_DECL(ParticleSystem, "scene.ParticleSystem")
+
         ParticleSystem();
         explicit ParticleSystem(const ParticleSystemData& initParticleSystemData);
 
@@ -142,6 +143,8 @@ namespace ouzel::scene
         {
             particleSystemData.positionType = newPositionType;
         }
+
+        void inspect(reflection::Inspector& inspector) override;
 
     private:
         void update(const float delta);
@@ -215,4 +218,4 @@ namespace ouzel::scene
     };
 }
 
-#endif // OUZEL_SCENE_PARTICLESYSTEM_HPP
+#endif // FLUXION_SCENE_PARTICLESYSTEM_HPP

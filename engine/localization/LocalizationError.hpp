@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_LOCALIZATION_LOCALIZATIONERROR_HPP
-#define OUZEL_LOCALIZATION_LOCALIZATIONERROR_HPP
+﻿#ifndef FLUXION_LOCALIZATION_LOCALIZATIONERROR_HPP
+#define FLUXION_LOCALIZATION_LOCALIZATIONERROR_HPP
 
 #include <stdexcept>
 
-namespace ouzel::l10n
+namespace fluxion::l10n
 {
     class Error final: public std::runtime_error
     {
@@ -14,4 +12,4 @@ namespace ouzel::l10n
     };
 }
 
-#endif // OUZEL_LOCALIZATION_LOCALIZATIONERROR_HPP
+#endif // FLUXION_LOCALIZATION_LOCALIZATIONERROR_HPP

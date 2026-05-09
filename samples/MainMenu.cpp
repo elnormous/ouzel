@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include "core/Engine.hpp"
+﻿#include "core/Engine.hpp"
 #include "MainMenu.hpp"
 #include "SpritesSample.hpp"
 #include "GUISample.hpp"
@@ -9,8 +7,9 @@
 #include "InputSample.hpp"
 #include "SoundSample.hpp"
 #include "PerspectiveSample.hpp"
+#include "ImGuiSample.hpp"
 
-using namespace ouzel;
+using namespace fluxion;
 using namespace input;
 using namespace math;
 
@@ -24,13 +23,14 @@ namespace samples
         animationsButton{"button.png", "button_selected.png", "button_down.png", "", "Animations", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
         inputButton{"button.png", "button_selected.png", "button_down.png", "", "Input", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
         soundButton{"button.png", "button_selected.png", "button_down.png", "", "Sound", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
-        perspectiveButton{"button.png", "button_selected.png", "button_down.png", "", "Perspective", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor}
+        perspectiveButton{"button.png", "button_selected.png", "button_down.png", "", "Perspective", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor},
+        imguiButton{"button.png", "button_selected.png", "button_down.png", "", "ImGui", "Arial", 1.0F, Color{20, 0, 0, 255}, blackColor, blackColor}
     {
         handler.uiHandler = [this](const UIEvent& event) {
             if (event.type == Event::Type::actorClick)
             {
                 if (event.actor == &gitHubButton)
-                    engine->openUrl("https://github.com/elnormous/ouzel");
+                    engine->openUrl("https://github.com/elnormous/fluxion");
                 else if (event.actor == &spritesButton)
                     engine->getSceneManager().setScene(std::make_unique<SpritesSample>());
                 else if (event.actor == &guiButton)
@@ -45,6 +45,8 @@ namespace samples
                     engine->getSceneManager().setScene(std::make_unique<SoundSample>());
                 else if (event.actor == &perspectiveButton)
                     engine->getSceneManager().setScene(std::make_unique<PerspectiveSample>());
+                else if (event.actor == &imguiButton)
+                    engine->getSceneManager().setScene(std::make_unique<ImGuiSample>());
             }
 
             return false;
@@ -117,5 +119,8 @@ namespace samples
 
         perspectiveButton.setPosition(Vector<float, 2>{0.0F, -160.0F});
         menu.addWidget(perspectiveButton);
+
+        imguiButton.setPosition(Vector<float, 2>{0.0F, -200.0F});
+        menu.addWidget(imguiButton);
     }
 }

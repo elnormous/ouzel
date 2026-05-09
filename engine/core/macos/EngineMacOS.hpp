@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_CORE_ENGINEMACOS_HPP
-#define OUZEL_CORE_ENGINEMACOS_HPP
+﻿#ifndef FLUXION_CORE_ENGINEMACOS_HPP
+#define FLUXION_CORE_ENGINEMACOS_HPP
 
 #include "../Engine.hpp"
 #include "../../platform/iokit/PmAssertionId.hpp"
 
-namespace ouzel::core::macos
+namespace fluxion::core::macos
 {
     class Engine final: public core::Engine
     {
@@ -34,4 +32,4 @@ namespace ouzel::core::macos
     };
 }
 
-#endif // OUZEL_CORE_ENGINEMACOS_HPP
+#endif // FLUXION_CORE_ENGINEMACOS_HPP

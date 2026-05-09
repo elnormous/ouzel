@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_AUDIO_OSCILLATOR_HPP
-#define OUZEL_AUDIO_OSCILLATOR_HPP
+﻿#ifndef FLUXION_AUDIO_OSCILLATOR_HPP
+#define FLUXION_AUDIO_OSCILLATOR_HPP
 
 #include "Sound.hpp"
 
-namespace ouzel::audio
+namespace fluxion::audio
 {
     class OscillatorData;
 
@@ -33,4 +31,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_OSCILLATOR_HPP
+#endif // FLUXION_AUDIO_OSCILLATOR_HPP

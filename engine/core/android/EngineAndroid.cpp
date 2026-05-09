@@ -1,6 +1,4 @@
-// Ouzel by Elviss Strazdins
-
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <unistd.h>
 #include <android/window.h>
 #include "EngineAndroid.hpp"
@@ -9,7 +7,7 @@
 #include "../../events/EventDispatcher.hpp"
 #include "../../graphics/opengl/android/OGLRenderDeviceAndroid.hpp"
 
-namespace ouzel::core::android
+namespace fluxion::core::android
 {
     namespace
     {

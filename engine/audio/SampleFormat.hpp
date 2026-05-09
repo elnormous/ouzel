@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_AUDIO_SAMPLEFORMAT_HPP
+#define FLUXION_AUDIO_SAMPLEFORMAT_HPP
 
-#ifndef OUZEL_AUDIO_SAMPLEFORMAT_HPP
-#define OUZEL_AUDIO_SAMPLEFORMAT_HPP
-
-namespace ouzel::audio
+namespace fluxion::audio
 {
     enum class SampleFormat
     {
@@ -12,4 +10,4 @@ namespace ouzel::audio
     };
 }
 
-#endif // OUZEL_AUDIO_SAMPLEFORMAT_HPP
+#endif // FLUXION_AUDIO_SAMPLEFORMAT_HPP

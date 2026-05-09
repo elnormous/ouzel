@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_INPUT_GAMEPADDEVICEANDROID_HPP
-#define OUZEL_INPUT_GAMEPADDEVICEANDROID_HPP
+﻿#ifndef FLUXION_INPUT_GAMEPADDEVICEANDROID_HPP
+#define FLUXION_INPUT_GAMEPADDEVICEANDROID_HPP
 
 #include "../GamepadDevice.hpp"
 #include "../Gamepad.hpp"
 
-namespace ouzel::input::android
+namespace fluxion::input::android
 {
     class InputSystem;
 
@@ -18,4 +16,4 @@ namespace ouzel::input::android
     };
 }
 
-#endif // OUZEL_INPUT_GAMEPADDEVICEANDROID_HPP
+#endif // FLUXION_INPUT_GAMEPADDEVICEANDROID_HPP

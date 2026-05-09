@@ -1,10 +1,8 @@
-// Ouzel by Elviss Strazdins
-
-#include "core/Engine.hpp"
+﻿#include "core/Engine.hpp"
 #include "GUISample.hpp"
 #include "MainMenu.hpp"
 
-using namespace ouzel;
+using namespace fluxion;
 using namespace input;
 using namespace math;
 
@@ -121,7 +119,7 @@ namespace samples
         engine->getLocalization().addLanguage("latvian", engine->getFileSystem().readFile("lv.mo"));
         engine->getLocalization().setLanguage("latvian");
 
-        label2.setText(engine->getLocalization().getString("Ouzel"));
+        label2.setText(engine->getLocalization().getString("Fluxion"));
 
         label2.setPosition(Vector<float, 2>{10.0F, 0.0F});
         layer.addChild(label2);

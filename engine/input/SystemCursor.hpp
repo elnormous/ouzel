@@ -1,9 +1,7 @@
-// Ouzel by Elviss Strazdins
+﻿#ifndef FLUXION_INPUT_SYSTEMCURSOR_HPP
+#define FLUXION_INPUT_SYSTEMCURSOR_HPP
 
-#ifndef OUZEL_INPUT_SYSTEMCURSOR_HPP
-#define OUZEL_INPUT_SYSTEMCURSOR_HPP
-
-namespace ouzel::input
+namespace fluxion::input
 {
     enum class SystemCursor
     {
@@ -16,4 +14,4 @@ namespace ouzel::input
     };
 }
 
-#endif // OUZEL_INPUT_SYSTEMCURSOR_HPP
+#endif // FLUXION_INPUT_SYSTEMCURSOR_HPP

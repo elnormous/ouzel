@@ -1,11 +1,9 @@
-// Ouzel by Elviss Strazdins
-
-#ifndef OUZEL_GRAPHICS_COLORMASK_HPP
-#define OUZEL_GRAPHICS_COLORMASK_HPP
+﻿#ifndef FLUXION_GRAPHICS_COLORMASK_HPP
+#define FLUXION_GRAPHICS_COLORMASK_HPP
 
 #include <type_traits>
 
-namespace ouzel::graphics
+namespace fluxion::graphics
 {
     enum class ColorMask: std::uint8_t
     {
@@ -47,4 +45,4 @@ namespace ouzel::graphics
     }
 }
 
-#endif // OUZEL_GRAPHICS_COLORMASK_HPP
+#endif // FLUXION_GRAPHICS_COLORMASK_HPP

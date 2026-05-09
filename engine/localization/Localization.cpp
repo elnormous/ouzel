@@ -1,12 +1,10 @@
-// Ouzel by Elviss Strazdins
-
-#include <functional>
+﻿#include <functional>
 #include <string>
 #include <string_view>
 #include "Localization.hpp"
 #include "LocalizationError.hpp"
 
-namespace ouzel::l10n
+namespace fluxion::l10n
 {
     namespace
     {
