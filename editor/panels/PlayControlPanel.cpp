@@ -6,6 +6,7 @@
 #include "../../engine/scene/Actor.hpp"
 #include "../../engine/scene/Animator.hpp"
 #include "../../engine/scene/Layer.hpp"
+#include "../../engine/scene/ParticleSystem.hpp"
 #include "../../engine/scene/Scene.hpp"
 #include "../../engine/scene/SceneSerializer.hpp"
 #include "../../engine/scene/SpriteRenderer.hpp"
@@ -26,15 +27,23 @@ namespace fluxion::editor
 
     namespace
     {
-        // Recursively call play() / start() on every Animator and
-        // SpriteRenderer attached to any actor in `container`. Used
-        // by enterPlay so the simulation visibly springs to life
-        // the moment the user hits Play, the way Unity's Play Mode
-        // does — sample code historically called start() explicitly
-        // from the actor builder, but the editor has no equivalent
-        // hook. start() / play() are idempotent (the dispatcher's
+        // Recursively call the right "begin running" entry point on
+        // every editor-registered component that has a play/stop
+        // lifecycle. Used by enterPlay so the simulation visibly
+        // springs to life the moment the user hits Play, the way
+        // Unity's Play Mode does — sample code historically called
+        // start() / play() explicitly from the actor builder, but
+        // the editor has no equivalent hook. The dispatcher's
         // addEventHandler removes any existing subscription before
-        // re-adding) so this is safe for already-running ones.
+        // re-adding, so this is safe for components that were
+        // already running.
+        //
+        // Components touched: Animator (start), SpriteRenderer
+        // (play), ParticleSystem (resume). Static / passive
+        // components (Camera, Light, ShapeRenderer, TextRenderer,
+        // StaticMeshRenderer, SkinnedMeshRenderer) need nothing —
+        // they just keep rendering whatever state they're in
+        // because timeScale doesn't gate their draw calls.
         void autoPlayContainer(scene::ActorContainer& container)
         {
             for (auto* a : container.getChildren())
@@ -46,6 +55,8 @@ namespace fluxion::editor
                         anim->start();
                     else if (auto* sprite = dynamic_cast<scene::SpriteRenderer*>(comp))
                         sprite->play();
+                    else if (auto* particles = dynamic_cast<scene::ParticleSystem*>(comp))
+                        particles->resume();
                 }
                 autoPlayContainer(*a);
             }
@@ -68,6 +79,8 @@ namespace fluxion::editor
                         anim->stop(true);
                     else if (auto* sprite = dynamic_cast<scene::SpriteRenderer*>(comp))
                         sprite->stop(true);
+                    else if (auto* particles = dynamic_cast<scene::ParticleSystem*>(comp))
+                        particles->stop();
                 }
                 autoStopContainer(*a);
             }
