@@ -4,13 +4,15 @@
 #include <set>
 #include <string>
 #include "../Panel.hpp"
+#include "../../engine/utils/Uuid.hpp"
 
-namespace fluxion::assets { class Cache; }
+namespace fluxion::assets { class Bundle; class Cache; }
 namespace fluxion::gui::imgui { class Context; }
 
 namespace fluxion::editor
 {
     class AssetDatabase;
+    class PlayControlPanel;
     class SelectionContext;
     class SpriteEditorPanel;
 
@@ -35,7 +37,9 @@ namespace fluxion::editor
                           assets::Cache* cache,
                           gui::imgui::Context* imgui,
                           SelectionContext* selection = nullptr,
-                          SpriteEditorPanel* spriteEditor = nullptr) noexcept;
+                          SpriteEditorPanel* spriteEditor = nullptr,
+                          assets::Bundle* projectBundle = nullptr,
+                          const PlayControlPanel* playControl = nullptr) noexcept;
 
         void draw() override;
 
@@ -54,6 +58,20 @@ namespace fluxion::editor
         gui::imgui::Context* imgui_;  // not owned, may be nullptr
         SelectionContext* selection_; // not owned, may be nullptr
         SpriteEditorPanel* spriteEditor_; // not owned, may be nullptr
+        assets::Bundle* projectBundle_;     // not owned, may be nullptr;
+                                             // used by Reimport
+        const PlayControlPanel* playControl_; // not owned, may be nullptr;
+                                               // gates context-menu mutations
+                                               // during Play Mode
+
+        // Modal state for the Rename / Delete context-menu actions.
+        // Both flows pop a popup the next frame; clicking the
+        // confirm button executes the action through AssetDatabase
+        // and clears the state. None means no modal queued.
+        enum class PendingContextAction { None, Rename, Delete };
+        PendingContextAction pendingAction_ = PendingContextAction::None;
+        Uuid pendingActionId_;
+        char renameBuf_[256] = {};
 
         // Currently-selected folder, relative to project root.
         // Empty string == project root itself.

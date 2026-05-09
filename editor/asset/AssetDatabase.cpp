@@ -410,6 +410,79 @@ namespace fluxion::editor
         return SpriteSliceSet{};
     }
 
+    bool AssetDatabase::renameAsset(const Uuid& id, const std::string& newName)
+    {
+        const auto* entry = findById(id);
+        if (!entry || !entry->parentId.isNull()) return false;
+        if (newName.empty()) return false;
+        if (projectRoot_.empty()) return false;
+
+        // Compose the new path. If the user didn't type an
+        // extension, preserve the existing one — that's the typical
+        // case (rename "player" → "player.png" without forcing them
+        // to retype the suffix).
+        const std::filesystem::path oldPath{absolutePath(*entry)};
+        const auto oldDir = oldPath.parent_path();
+        std::filesystem::path newFilename{newName};
+        if (newFilename.extension().empty() && !oldPath.extension().empty())
+            newFilename += oldPath.extension();
+        const auto newPath = oldDir / newFilename;
+        const auto oldMeta = std::filesystem::path{oldPath.string() + kMetaExtension};
+        const auto newMeta = std::filesystem::path{newPath.string() + kMetaExtension};
+
+        std::error_code ec;
+        if (std::filesystem::exists(newPath, ec))
+        {
+            log(Log::Level::warning)
+                << "AssetDatabase: rename target already exists: "
+                << newPath.string();
+            return false;
+        }
+        std::filesystem::rename(oldPath, newPath, ec);
+        if (ec)
+        {
+            log(Log::Level::warning)
+                << "AssetDatabase: rename failed: " << ec.message();
+            return false;
+        }
+        // .meta may not exist yet for unmetafied files — ignore that
+        // case rather than failing the whole rename.
+        if (std::filesystem::exists(oldMeta, ec))
+        {
+            std::filesystem::rename(oldMeta, newMeta, ec);
+            if (ec)
+                log(Log::Level::warning)
+                    << "AssetDatabase: .meta rename failed: " << ec.message();
+        }
+
+        rescan();
+        return true;
+    }
+
+    bool AssetDatabase::deleteAsset(const Uuid& id)
+    {
+        const auto* entry = findById(id);
+        if (!entry || !entry->parentId.isNull()) return false;
+        if (projectRoot_.empty()) return false;
+
+        const std::filesystem::path filePath{absolutePath(*entry)};
+        const auto metaPath = std::filesystem::path{filePath.string() + kMetaExtension};
+
+        std::error_code ec;
+        std::filesystem::remove(filePath, ec);
+        if (ec)
+        {
+            log(Log::Level::warning)
+                << "AssetDatabase: delete failed: " << ec.message();
+            return false;
+        }
+        // Best-effort .meta cleanup; missing meta isn't a hard fail.
+        std::filesystem::remove(metaPath, ec);
+
+        rescan();
+        return true;
+    }
+
     bool AssetDatabase::saveSliceSet(const Uuid& parentId,
                                      const SpriteSliceSet& set)
     {

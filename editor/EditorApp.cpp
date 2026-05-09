@@ -227,7 +227,8 @@ namespace fluxion::editor
 
         panels_.push_back(std::make_unique<AssetBrowserPanel>(
             &assetDatabase_, &engine->getCache(), &imgui_,
-            &selection_, spriteEditorPtr));
+            &selection_, spriteEditorPtr,
+            &projectBundle_, playControl_));
 
         panels_.push_back(std::make_unique<SpriteAnimationPanel>(&selection_, playControl_));
 

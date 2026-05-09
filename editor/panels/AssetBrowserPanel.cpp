@@ -8,9 +8,11 @@
 #include "imgui.h"
 #include "../SelectionContext.hpp"
 #include "../asset/AssetDatabase.hpp"
+#include "../asset/AssetImportPipeline.hpp"
 #include "../../engine/assets/Cache.hpp"
 #include "../../engine/graphics/Texture.hpp"
 #include "../../engine/gui/imgui/ImGuiContext.hpp"
+#include "PlayControlPanel.hpp"
 #include "SpriteEditorPanel.hpp"
 
 namespace fluxion::editor
@@ -97,13 +99,17 @@ namespace fluxion::editor
                                           assets::Cache* cache,
                                           gui::imgui::Context* imgui,
                                           SelectionContext* selection,
-                                          SpriteEditorPanel* spriteEditor) noexcept:
+                                          SpriteEditorPanel* spriteEditor,
+                                          assets::Bundle* projectBundle,
+                                          const PlayControlPanel* playControl) noexcept:
         Panel{"Asset Browser", true},
         database_{database},
         cache_{cache},
         imgui_{imgui},
         selection_{selection},
-        spriteEditor_{spriteEditor}
+        spriteEditor_{spriteEditor},
+        projectBundle_{projectBundle},
+        playControl_{playControl}
     {
     }
 
@@ -342,17 +348,49 @@ namespace fluxion::editor
                     selection_)
                     selection_->setSelectedAsset(entry.id);
 
-                // Right-click context menu. Single-image parents
-                // get "Open in Sprite Editor"; sub-slices and
-                // non-image entries skip the menu altogether. The
-                // popup id is per-tile (we're inside a PushID).
-                if (entry.type == assets::Asset::Type::image &&
-                    entry.parentId.isNull() &&
-                    spriteEditor_ &&
+                // Right-click context menu. Top-level parent assets
+                // (parentId null) get the full Reimport / Rename /
+                // Delete + Sprite-Editor entry; sub-slice tiles get
+                // nothing because their identity lives inside the
+                // parent's .meta and editing them happens via the
+                // SpriteEditor flow. Mutating ops are gated when
+                // play mode != Editing.
+                if (entry.parentId.isNull() &&
                     ImGui::BeginPopupContextItem("##tile_ctx"))
                 {
-                    if (ImGui::MenuItem("Open in Sprite Editor"))
-                        spriteEditor_->setTarget(entry.id);
+                    const bool isEditing = !playControl_ ||
+                        playControl_->state() == PlayControlPanel::State::Editing;
+
+                    if (entry.type == assets::Asset::Type::image && spriteEditor_)
+                    {
+                        if (ImGui::MenuItem("Open in Sprite Editor"))
+                            spriteEditor_->setTarget(entry.id);
+                        ImGui::Separator();
+                    }
+
+                    // Reimport: re-runs the loader for this asset
+                    // through the project bundle. Useful after
+                    // editing the source file outside the editor.
+                    if (ImGui::MenuItem("Reimport", nullptr, false,
+                                          isEditing && projectBundle_ != nullptr))
+                    {
+                        importEntry(*projectBundle_, entry);
+                    }
+
+                    if (ImGui::MenuItem("Rename...", nullptr, false, isEditing))
+                    {
+                        pendingAction_ = PendingContextAction::Rename;
+                        pendingActionId_ = entry.id;
+                        std::snprintf(renameBuf_, sizeof(renameBuf_),
+                                      "%s", entry.name.c_str());
+                    }
+
+                    if (ImGui::MenuItem("Delete...", nullptr, false, isEditing))
+                    {
+                        pendingAction_ = PendingContextAction::Delete;
+                        pendingActionId_ = entry.id;
+                    }
+
                     ImGui::EndPopup();
                 }
 
@@ -387,6 +425,84 @@ namespace fluxion::editor
                 ImGui::TextDisabled("(empty folder)");
         }
         ImGui::EndChild();
+
+        // Modals for the deferred Rename / Delete context-menu
+        // actions. ImGui shows them on the frame after the menu
+        // item was clicked, on top of the panel.
+        if (pendingAction_ == PendingContextAction::Rename && database_)
+        {
+            const auto* entry = database_->findById(pendingActionId_);
+            constexpr const char* popupId = "Rename##asset_rename";
+            if (entry && !ImGui::IsPopupOpen(popupId))
+                ImGui::OpenPopup(popupId);
+
+            if (ImGui::BeginPopupModal(popupId, nullptr,
+                                        ImGuiWindowFlags_AlwaysAutoResize))
+            {
+                ImGui::Text("Rename '%s' to:",
+                            entry ? entry->name.c_str() : "?");
+                ImGui::SetNextItemWidth(280.0F);
+                const bool entered = ImGui::InputText("##rename_input",
+                                                       renameBuf_, sizeof(renameBuf_),
+                                                       ImGuiInputTextFlags_EnterReturnsTrue);
+                const bool confirm = entered || ImGui::Button("Rename");
+                ImGui::SameLine();
+                const bool cancel = ImGui::Button("Cancel");
+
+                if (confirm && entry && renameBuf_[0] != '\0')
+                {
+                    database_->renameAsset(pendingActionId_, renameBuf_);
+                    pendingAction_ = PendingContextAction::None;
+                    pendingActionId_ = Uuid{};
+                    ImGui::CloseCurrentPopup();
+                }
+                else if (cancel || !entry)
+                {
+                    pendingAction_ = PendingContextAction::None;
+                    pendingActionId_ = Uuid{};
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::EndPopup();
+            }
+        }
+
+        if (pendingAction_ == PendingContextAction::Delete && database_)
+        {
+            const auto* entry = database_->findById(pendingActionId_);
+            constexpr const char* popupId = "Delete asset?##asset_delete";
+            if (entry && !ImGui::IsPopupOpen(popupId))
+                ImGui::OpenPopup(popupId);
+
+            if (ImGui::BeginPopupModal(popupId, nullptr,
+                                        ImGuiWindowFlags_AlwaysAutoResize))
+            {
+                ImGui::TextWrapped(
+                    "Permanently delete '%s' and its .meta sidecar? "
+                    "This cannot be undone — scenes referencing this asset "
+                    "will fail to resolve it on next load.",
+                    entry ? entry->relativePath.c_str() : "?");
+                ImGui::Separator();
+
+                const bool confirm = ImGui::Button("Delete");
+                ImGui::SameLine();
+                const bool cancel = ImGui::Button("Cancel");
+
+                if (confirm && entry)
+                {
+                    database_->deleteAsset(pendingActionId_);
+                    pendingAction_ = PendingContextAction::None;
+                    pendingActionId_ = Uuid{};
+                    ImGui::CloseCurrentPopup();
+                }
+                else if (cancel || !entry)
+                {
+                    pendingAction_ = PendingContextAction::None;
+                    pendingActionId_ = Uuid{};
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::EndPopup();
+            }
+        }
 
         ImGui::End();
     }

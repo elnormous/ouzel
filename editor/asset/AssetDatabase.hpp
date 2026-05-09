@@ -144,6 +144,20 @@ namespace fluxion::editor
         // success, false on filesystem / json errors.
         bool saveSliceSet(const Uuid& parentId, const SpriteSliceSet& set);
 
+        // Rename a top-level asset's file on disk (and its .meta
+        // sidecar) to `newName`. Sub-slice entries (parentId set)
+        // can't be renamed this way — their names live inside the
+        // parent's .meta and are edited via the SpriteEditor.
+        // newName is the new filename only (extension preserved
+        // when not given). Returns true on success.
+        bool renameAsset(const Uuid& id, const std::string& newName);
+
+        // Delete a top-level asset's file + .meta from disk. Sub-
+        // slices vanish via the natural rescan (their parent is
+        // gone). The Uuid is no longer reachable through findById
+        // after this call. Returns true on success.
+        bool deleteAsset(const Uuid& id);
+
     private:
         std::string projectRoot_;            // normalised absolute, no trailing slash
         std::vector<AssetEntry> entries_;
