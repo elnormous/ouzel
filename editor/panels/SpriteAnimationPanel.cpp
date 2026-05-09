@@ -57,15 +57,27 @@ namespace fluxion::editor
             return;
         }
 
-        // Top-level transport: drives whichever animation is current.
-        // Mirrors what the Inspector's "Playing" boolField does, but
-        // exposes the explicit Pause/Stop separation that the
-        // animation panel UX expects.
+        // Top-level transport. Play does a full restart sequence
+        // (stop + setAnimation with repeat=true + play) so the
+        // button keeps working after a non-looping animation has
+        // played itself out — SpriteRenderer::play() is a no-op
+        // when `playing` is already true, which it stays after
+        // natural end, so a plain play() click would do nothing.
         const bool isPlaying = sprite->isPlaying();
         if (ImGui::Button(isPlaying ? "Pause" : "Play"))
         {
-            if (isPlaying) sprite->stop(false);
-            else           sprite->play();
+            if (isPlaying)
+            {
+                sprite->stop(false);     // pause without resetting time
+            }
+            else
+            {
+                const auto* cur = sprite->getAnimation();
+                const std::string name = cur ? cur->name : std::string{};
+                sprite->stop(true);      // ensure playing=false, time=0
+                sprite->setAnimation(name, /*repeat*/ true);
+                sprite->play();
+            }
         }
         ImGui::SameLine();
         if (ImGui::Button("Stop"))
