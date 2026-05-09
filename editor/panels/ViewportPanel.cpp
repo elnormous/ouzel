@@ -386,7 +386,14 @@ namespace fluxion::editor
             // a drag, or drag in progress), the click MUST NOT also
             // re-pick the actor under the cursor. The return value
             // gates the pick path.
-            const bool gizmoUsedMouse = gizmo_.update(
+            //
+            // Frozen during Play / Pause — gizmo manipulation is a
+            // scene mutation that would diverge the live scene from
+            // the pre-Play snapshot. Selection (picking) stays
+            // enabled so the user can inspect actor state mid-play.
+            const bool isEditing = !playControl_ ||
+                playControl_->state() == PlayControlPanel::State::Editing;
+            const bool gizmoUsedMouse = isEditing && gizmo_.update(
                 selection_.getSelected(), camera_, rectMin, rectMax);
 
             if (!gizmoUsedMouse &&

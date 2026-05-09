@@ -130,6 +130,15 @@ namespace fluxion::editor
         // Pause / Stop transitions the panel exposes. Lifetime is
         // governed by panels_.
         class PlayControlPanel* playControl_ = nullptr;
+
+        // Last-frame play state snapshot, used by the per-frame
+        // poll in setDrawCallback to detect Stop transitions and
+        // clear the CommandStack when re-entering Editing — Play
+        // Mode's snapshot/restore returns the scene to its pre-
+        // Play state, but any commands the user pushed during
+        // Play would still reference Play-only actor UUIDs. Set
+        // to Editing on construction since that's the entry state.
+        int lastPlayState_ = 0;     // PlayControlPanel::State as int
     };
 }
 

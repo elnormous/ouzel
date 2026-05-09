@@ -218,17 +218,44 @@ namespace fluxion::editor
             ImGui::DockSpaceOverViewport(0, nullptr,
                 ImGuiDockNodeFlags_PassthruCentralNode);
 
+            // Detect Play -> Editing transitions (= Stop) so we can
+            // clear the undo history. The snapshot/restore that
+            // Stop performs returns the scene to its pre-Play
+            // state, but any commands the user pushed during Play
+            // (drop-to-create, asset re-bind, ...) still reference
+            // actor UUIDs that no longer exist. Wiping the stack
+            // avoids the ensuing inconsistencies on future undo /
+            // redo. Per-frame poll keeps the EditorApp / panel
+            // contract loose — no panel-state callback machinery.
+            if (playControl_)
+            {
+                const int curState =
+                    static_cast<int>(playControl_->state());
+                const int editingValue =
+                    static_cast<int>(PlayControlPanel::State::Editing);
+                if (lastPlayState_ != editingValue && curState == editingValue)
+                    commandStack_.clear();
+                lastPlayState_ = curState;
+            }
+
             drawMainMenu();
             // Top-level keyboard shortcuts: Ctrl+Z / Ctrl+Y / Ctrl+
             // Shift+Z drive undo/redo regardless of which panel has
             // focus, so the user can hit them after any mutation.
+            // Frozen during Play / Pause for the same reason the
+            // Edit menu items are frozen — undo/redo would diverge
+            // the live scene from the pre-Play snapshot.
             const ImGuiIO& io = ImGui::GetIO();
             const bool ctrl = io.KeyCtrl;
             const bool shift = io.KeyShift;
-            if (ctrl && !shift && ImGui::IsKeyPressed(ImGuiKey_Z, false))
+            const bool isEditingForUndo = !playControl_ ||
+                playControl_->state() == PlayControlPanel::State::Editing;
+            if (isEditingForUndo &&
+                ctrl && !shift && ImGui::IsKeyPressed(ImGuiKey_Z, false))
                 commandStack_.undo();
-            if ((ctrl && shift && ImGui::IsKeyPressed(ImGuiKey_Z, false)) ||
-                (ctrl && !shift && ImGui::IsKeyPressed(ImGuiKey_Y, false)))
+            if (isEditingForUndo &&
+                ((ctrl && shift && ImGui::IsKeyPressed(ImGuiKey_Z, false)) ||
+                 (ctrl && !shift && ImGui::IsKeyPressed(ImGuiKey_Y, false))))
                 commandStack_.redo();
 
             for (const auto& p : panels_)
@@ -246,6 +273,15 @@ namespace fluxion::editor
     void EditorApp::drawEditMenu()
     {
         if (!ImGui::BeginMenu("Edit")) return;
+
+        // Undo/redo are scene-mutation operations: running them
+        // mid-Play would diverge the live scene from the pre-Play
+        // snapshot, breaking Stop's restore. Frozen during
+        // Playing/Paused; the menu items show the same labels but
+        // greyed out so the user can see what would be there.
+        const bool isEditing = !playControl_ ||
+            playControl_->state() == PlayControlPanel::State::Editing;
+
         const auto undoLabel = commandStack_.undoLabel();
         const auto redoLabel = commandStack_.redoLabel();
         char buf[160];
@@ -254,14 +290,14 @@ namespace fluxion::editor
                       undoLabel.c_str());
         if (ImGui::MenuItem(buf, "Ctrl+Z",
                             /*selected*/ false,
-                            /*enabled*/ commandStack_.canUndo()))
+                            /*enabled*/ isEditing && commandStack_.canUndo()))
             commandStack_.undo();
         std::snprintf(buf, sizeof(buf), "Redo%s%s",
                       redoLabel.empty() ? "" : " ",
                       redoLabel.c_str());
         if (ImGui::MenuItem(buf, "Ctrl+Y",
                             /*selected*/ false,
-                            /*enabled*/ commandStack_.canRedo()))
+                            /*enabled*/ isEditing && commandStack_.canRedo()))
             commandStack_.redo();
         ImGui::EndMenu();
     }
@@ -272,10 +308,23 @@ namespace fluxion::editor
 
         if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::MenuItem("New Scene"))
+            // File ops mutate or replace the live scene, which would
+            // either invalidate Play Mode's pre-Play snapshot
+            // (Save Scene serialises the post-Play, possibly
+            // already-mutated state) or wipe the scene the snapshot
+            // refers to (New / Open). Frozen until Stop returns the
+            // editor to Editing state.
+            const bool isEditing = !playControl_ ||
+                playControl_->state() == PlayControlPanel::State::Editing;
+
+            if (ImGui::MenuItem("New Scene", nullptr,
+                                /*selected*/ false,
+                                /*enabled*/ isEditing))
                 doNewScene();
 
-            if (ImGui::MenuItem("Open Scene..."))
+            if (ImGui::MenuItem("Open Scene...", nullptr,
+                                /*selected*/ false,
+                                /*enabled*/ isEditing))
             {
                 fileDialogMode_ = FileDialogMode::Open;
                 std::memset(fileDialogBuf_, 0, sizeof(fileDialogBuf_));
@@ -290,10 +339,12 @@ namespace fluxion::editor
             const bool haveSavePath = !currentScenePath_.empty();
             if (ImGui::MenuItem("Save Scene", "Ctrl+S",
                                 /*selected*/ false,
-                                /*enabled*/ haveSavePath))
+                                /*enabled*/ isEditing && haveSavePath))
                 doSaveScene();
 
-            if (ImGui::MenuItem("Save Scene As..."))
+            if (ImGui::MenuItem("Save Scene As...", nullptr,
+                                /*selected*/ false,
+                                /*enabled*/ isEditing))
             {
                 fileDialogMode_ = FileDialogMode::Save;
                 std::memset(fileDialogBuf_, 0, sizeof(fileDialogBuf_));
