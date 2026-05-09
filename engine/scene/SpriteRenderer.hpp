@@ -68,6 +68,15 @@ namespace fluxion::scene
             std::string name;
             std::vector<Frame> frames;
             float frameInterval = 0.1F;
+            // Default loop behaviour for the editor's transport
+            // controls. The runtime QueuedAnimation::repeat field
+            // is what actually drives Animator::update; this is
+            // a per-animation editor preference that the
+            // SpriteAnimationPanel reads when it (re)starts a
+            // playback. Saved to the scene file via the existing
+            // serializer once SpriteRenderer rounds animations
+            // through inspect().
+            bool repeat = true;
         };
 
         std::map<std::string, Animation> animations;

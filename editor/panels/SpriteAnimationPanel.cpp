@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "imgui.h"
 #include "../SelectionContext.hpp"
+#include "../../engine/core/Engine.hpp"
 #include "../../engine/scene/Actor.hpp"
 #include "../../engine/scene/SpriteRenderer.hpp"
 
@@ -58,11 +59,12 @@ namespace fluxion::editor
         }
 
         // Top-level transport. Play does a full restart sequence
-        // (stop + setAnimation with repeat=true + play) so the
-        // button keeps working after a non-looping animation has
-        // played itself out — SpriteRenderer::play() is a no-op
-        // when `playing` is already true, which it stays after
-        // natural end, so a plain play() click would do nothing.
+        // (stop + setAnimation with repeat from the current anim's
+        // Loop flag + play) so the button keeps working after a
+        // non-looping animation has played itself out —
+        // SpriteRenderer::play() is a no-op when `playing` is
+        // already true, which it stays after natural end, so a
+        // plain play() click would do nothing.
         const bool isPlaying = sprite->isPlaying();
         if (ImGui::Button(isPlaying ? "Pause" : "Play"))
         {
@@ -74,8 +76,10 @@ namespace fluxion::editor
             {
                 const auto* cur = sprite->getAnimation();
                 const std::string name = cur ? cur->name : std::string{};
+                const auto i = animations.find(name);
+                const bool wantRepeat = (i != animations.end()) ? i->second.repeat : true;
                 sprite->stop(true);      // ensure playing=false, time=0
-                sprite->setAnimation(name, /*repeat*/ true);
+                sprite->setAnimation(name, wantRepeat);
                 sprite->play();
             }
         }
@@ -86,6 +90,18 @@ namespace fluxion::editor
         if (ImGui::Button("Reset"))
             sprite->reset();
         ImGui::Separator();
+
+        // Edit-time tick. The PlayControlPanel sets engine.timeScale
+        // to 0 in the default Editing state, which means the
+        // dispatcher fires UpdateEvents with delta=0 — the
+        // SpriteRenderer's own update() advances currentTime by 0,
+        // so animation never visually progresses. To make the
+        // panel's Play button useful in Editing mode, manually
+        // drive update() here with the panel's real-time delta.
+        // Gated on timeScale==0 so we don't double-update once
+        // Phase 14's Play Mode sets a non-zero scale.
+        if (sprite->isPlaying() && engine->getTimeScale() == 0.0F)
+            sprite->update(ImGui::GetIO().DeltaTime);
 
         // Per-animation rows. The map is keyed by name; we walk it
         // alphabetically so the order matches whatever the user sees
@@ -124,6 +140,24 @@ namespace fluxion::editor
                                    0.01F, 1.0F, "%.3f s"))
                 anim.frameInterval = interval;
 
+            // Loop toggle. Stored on the Animation itself so it
+            // survives across actor reselection and (future) scene
+            // round-trip. The runtime QueuedAnimation::repeat is
+            // what actually loops the playback; mutating this
+            // checkbox while the animation is current re-applies
+            // setAnimation so the change takes effect immediately.
+            bool repeatCopy = anim.repeat;
+            if (ImGui::Checkbox("Loop", &repeatCopy))
+            {
+                anim.repeat = repeatCopy;
+                if (sprite->isPlaying())
+                {
+                    const auto* cur = sprite->getAnimation();
+                    if (cur && cur->name == anim.name)
+                        sprite->setAnimation(name, anim.repeat);
+                }
+            }
+
             // "Set as current" button — switches the playing
             // animation without restarting playback. Useful if the
             // SpriteRenderer has multiple named animations and
@@ -132,7 +166,7 @@ namespace fluxion::editor
             std::snprintf(setLabel, sizeof(setLabel),
                           "Set as current##%s", name.c_str());
             if (ImGui::Button(setLabel))
-                sprite->setAnimation(name, /*repeat*/ true);
+                sprite->setAnimation(name, anim.repeat);
 
             // Frame strip: tiny buttons labeled by index. Clicking
             // jumps the renderer to the start time of that frame
