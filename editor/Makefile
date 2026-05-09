@@ -59,6 +59,7 @@ SOURCES=main.cpp \
 	panels/InspectorPanel.cpp \
 	panels/PlayControlPanel.cpp \
 	panels/SceneTreePanel.cpp \
+	panels/SpriteAnimationPanel.cpp \
 	panels/SpriteEditorPanel.cpp \
 	panels/ViewportPanel.cpp
 

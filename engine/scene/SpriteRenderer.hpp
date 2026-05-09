@@ -129,6 +129,11 @@ namespace fluxion::scene
         auto isPlaying() const noexcept { return playing; }
 
         auto& getAnimations() const noexcept { return animations; }
+        // Mutable accessor for the editor's SpriteAnimationPanel —
+        // lets the user tune frameInterval and (in a future
+        // iteration) rename / reorder animations. Game code should
+        // continue to use the const overload above.
+        auto& getAnimationsMutable() noexcept { return animations; }
         auto getAnimation() const noexcept { return currentAnimation->animation; }
         auto& getAnimationName() const noexcept { return currentAnimation->animation->name; }
         bool hasAnimation(const std::string& animation) const;

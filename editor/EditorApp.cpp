@@ -32,6 +32,7 @@
 #include "panels/InspectorPanel.hpp"
 #include "panels/PlayControlPanel.hpp"
 #include "panels/SceneTreePanel.hpp"
+#include "panels/SpriteAnimationPanel.hpp"
 #include "panels/SpriteEditorPanel.hpp"
 #include "panels/ViewportPanel.hpp"
 
@@ -194,6 +195,8 @@ namespace fluxion::editor
         panels_.push_back(std::make_unique<AssetBrowserPanel>(
             &assetDatabase_, &engine->getCache(), &imgui_,
             &selection_, spriteEditorPtr));
+
+        panels_.push_back(std::make_unique<SpriteAnimationPanel>(&selection_));
 
         imgui_.setDrawCallback([this]() {
             // Fullscreen dockspace host that covers the main viewport.
