@@ -856,11 +856,18 @@ namespace fluxion::editor
                 break;
             case PendingDiscard::Close:
                 // Mark the close as confirmed and trigger another
-                // exit so the engine's WM_CLOSE handler lets it
-                // through this time. engine->exit() does the
-                // cross-platform shutdown shake-down.
+                // close request through the platform window so the
+                // engine's WM_CLOSE handler lets it through this
+                // time. engine->exit() alone only flips the
+                // `active` flag — the OS window stays alive and
+                // shows "Not Responding" because no DestroyWindow
+                // call happened. Window::close() sends a fresh
+                // WM_CLOSE; our requestCloseConfirmation now sees
+                // userConfirmedClose_=true and returns true,
+                // letting DestroyWindow fire and the main loop
+                // shut down cleanly.
                 userConfirmedClose_ = true;
-                engine->exit();
+                engine->getWindow().close();
                 break;
         }
     }
