@@ -1,8 +1,10 @@
 ﻿#include <cassert>
 #include <algorithm>
+#include <utility>
 #include "Layer.hpp"
 #include "Scene.hpp"
 #include "Component.hpp"
+#include "SortingLayers.hpp"
 #include "../core/Engine.hpp"
 #include "../graphics/Graphics.hpp"
 #include "../math/Matrix.hpp"
@@ -19,6 +21,30 @@ namespace fluxion::scene
         if (scene) scene->removeLayer(*this);
     }
 
+    namespace
+    {
+        // Sort key for an actor in the draw queue. The renderer's
+        // sortingLayer + orderInLayer live on Component (any
+        // component, but in practice only the renderer subclasses
+        // care about z-order); we pick the first component that
+        // sets non-default values, falling back to "Default" / 0
+        // for actors with only-defaulted (or missing) renderers.
+        // That keeps existing samples drawing in their old order
+        // while new sprites can be reordered explicitly.
+        std::pair<std::size_t, int> drawSortKey(const Actor& actor) noexcept
+        {
+            for (const auto* comp : actor.getComponents())
+            {
+                if (!comp) continue;
+                const auto& layerName = comp->getSortingLayer();
+                const auto orderInLayer = comp->getOrderInLayer();
+                if (layerName != "Default" || orderInLayer != 0)
+                    return {sortingLayers::indexOf(layerName), orderInLayer};
+            }
+            return {sortingLayers::indexOfDefault(), 0};
+        }
+    }
+
     void Layer::draw()
     {
         for (const auto camera : cameras)
@@ -27,6 +53,15 @@ namespace fluxion::scene
 
             for (const auto actor : children)
                 actor->visit(drawQueue, math::identityMatrix<float, 4>, false, camera, 0, false);
+
+            // Stable-sort by (sortingLayerIndex, orderInLayer) so
+            // the visit-order tie-break is preserved for actors
+            // that share a sort key. Stable_sort is O(n log n) and
+            // the queue is typically small (per-camera per-frame).
+            std::stable_sort(drawQueue.begin(), drawQueue.end(),
+                             [](const Actor* a, const Actor* b) {
+                                 return drawSortKey(*a) < drawSortKey(*b);
+                             });
 
             engine->getGraphics().setRenderTarget(camera->getRenderTarget() ? camera->getRenderTarget()->getResource() : 0);
             engine->getGraphics().setViewport(camera->getRenderViewport());

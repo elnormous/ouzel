@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include "Component.hpp"
+#include "../assets/Asset.hpp"
 #include "../events/EventHandler.hpp"
 #include "../graphics/BlendState.hpp"
 #include "../graphics/Buffer.hpp"
@@ -105,6 +106,20 @@ namespace fluxion::scene
         auto& getMaterial() const noexcept { return material; }
         void setMaterial(const std::shared_ptr<graphics::Material>& newMaterial) { material = newMaterial; }
 
+        // Editor-driven asset binding. Stores the reference and, if
+        // the Cache currently knows the sprite (or texture, as a
+        // fallback for raw images), re-initialises the renderer with
+        // it. A null ref clears the binding without touching the
+        // existing material — useful when the user drags an asset
+        // off the receptor. The reference is what the JsonInspector
+        // round-trips, so scenes saved at phase 11c+ re-resolve the
+        // sprite by uuid on load.
+        [[nodiscard]] const assets::AssetReference& getSpriteReference() const noexcept
+        {
+            return spriteRef;
+        }
+        void setSpriteReference(const assets::AssetReference& ref);
+
         auto& getOffset() const noexcept { return offset; }
         void setOffset(const math::Vector<float, 2>& newOffset);
 
@@ -127,6 +142,7 @@ namespace fluxion::scene
 
         std::shared_ptr<graphics::Material> material;
         std::map<std::string, SpriteData::Animation> animations;
+        assets::AssetReference spriteRef;
 
         struct QueuedAnimation final
         {

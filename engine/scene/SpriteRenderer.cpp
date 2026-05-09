@@ -544,11 +544,42 @@ namespace fluxion::scene
             math::reset(boundingBox);
     }
 
+    void SpriteRenderer::setSpriteReference(const assets::AssetReference& ref)
+    {
+        spriteRef = ref;
+        if (ref.isNull()) return;
+
+        // Try sprite-data first (TexturePacker JSON). Fall back to a
+        // single-frame texture binding so dropping a raw .png still
+        // produces a visible sprite — same logic as init(filename).
+        if (const auto* spriteData = engine->getCache().getSpriteData(ref.id))
+        {
+            init(*spriteData);
+        }
+        else if (const auto tex = engine->getCache().getTexture(ref.id))
+        {
+            init(tex);
+        }
+        // If neither is in the Cache yet (e.g., the project hasn't
+        // imported this asset on this run), the reference stays
+        // recorded but the renderer keeps its previous material.
+        // The next setSpriteReference call after import will resolve.
+    }
+
     void SpriteRenderer::inspect(reflection::Inspector& inspector)
     {
         bool hiddenCopy = isHidden();
         inspector.boolField("Hidden", hiddenCopy);
         if (hiddenCopy != isHidden()) setHidden(hiddenCopy);
+
+        // Asset-driven sprite binding. assetField mutates the local
+        // copy live (drag-drop fills it; JsonReader fills it on
+        // scene load). On change we call setSpriteReference so the
+        // renderer rebuilds from the new SpriteData / Texture.
+        auto refCopy = spriteRef;
+        refCopy.type = assets::Asset::Type::sprite;
+        inspector.assetField("Sprite", refCopy);
+        if (refCopy != spriteRef) setSpriteReference(refCopy);
 
         auto offsetCopy = offset;
         inspector.vector2Field("Offset", offsetCopy);
@@ -562,6 +593,11 @@ namespace fluxion::scene
             if (playingCopy) play();
             else stop(false);
         }
+
+        // Sorting controls — surfaced via the shared Component
+        // helper so labels stay uniform across renderers (Shape,
+        // Text, Sprite all use the same field names).
+        inspectSorting(inspector);
 
         char buf[64];
         std::snprintf(buf, sizeof(buf), "%.3f s", currentTime);
