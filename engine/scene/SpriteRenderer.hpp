@@ -129,6 +129,18 @@ namespace fluxion::scene
         }
         void setSpriteReference(const assets::AssetReference& ref);
 
+        // Component-level Loop flag. The simple, "I want this
+        // animation to keep playing" toggle the user reaches for
+        // first. play() syncs every queued animation's repeat to
+        // this value, so toggling Loop while paused or stopped
+        // takes effect on the next play(). The per-animation
+        // SpriteData::Animation::repeat field is still respected
+        // by callers who pass it explicitly to setAnimation —
+        // SpriteRenderer.loop is the default for the auto-play
+        // path (Play Mode entry, inspector "Playing" checkbox).
+        [[nodiscard]] bool isLooping() const noexcept { return loop; }
+        void setLoop(bool newLoop) noexcept;
+
         auto& getOffset() const noexcept { return offset; }
         void setOffset(const math::Vector<float, 2>& newOffset);
 
@@ -172,6 +184,8 @@ namespace fluxion::scene
 
         bool playing = false;
         bool running = false;
+        bool loop = true;             // component-level Loop default;
+                                       // see setLoop / isLooping above
         float currentTime = 0.0F;
 
         EventHandler updateHandler;

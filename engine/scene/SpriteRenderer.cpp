@@ -422,10 +422,28 @@ namespace fluxion::scene
     {
         if (!playing)
         {
+            // Sync every queued animation's repeat flag to the
+            // component-level Loop setting at play time. Lets the
+            // Inspector's Loop checkbox win without forcing the
+            // user to also touch the per-animation Loop in the
+            // SpriteAnimationPanel — most cases just want "make
+            // this loop" once.
+            for (auto& q : animationQueue)
+                q.repeat = loop;
             engine->getEventDispatcher().addEventHandler(updateHandler);
             playing = true;
             running = true;
         }
+    }
+
+    void SpriteRenderer::setLoop(bool newLoop) noexcept
+    {
+        loop = newLoop;
+        // Apply to the live queue so a mid-play toggle starts
+        // (or stops) looping on the very next animation cycle
+        // without needing a stop+play round.
+        for (auto& q : animationQueue)
+            q.repeat = loop;
     }
 
     void SpriteRenderer::stop(bool resetAnimation)
@@ -593,6 +611,13 @@ namespace fluxion::scene
             if (playingCopy) play();
             else stop(false);
         }
+
+        // Component-level Loop. Simple toggle that drives whether
+        // the next play() call queues the animation as repeating.
+        // Per-animation overrides live in SpriteAnimationPanel.
+        bool loopCopy = loop;
+        inspector.boolField("Loop", loopCopy);
+        if (loopCopy != loop) setLoop(loopCopy);
 
         // Sorting controls — surfaced via the shared Component
         // helper so labels stay uniform across renderers (Shape,
