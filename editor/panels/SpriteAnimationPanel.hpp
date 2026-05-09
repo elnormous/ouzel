@@ -5,6 +5,7 @@
 
 namespace fluxion::editor
 {
+    class PlayControlPanel;
     class SelectionContext;
 
     // Shows the SpriteRenderer animation map of the currently
@@ -23,12 +24,23 @@ namespace fluxion::editor
     class SpriteAnimationPanel final : public Panel
     {
     public:
-        explicit SpriteAnimationPanel(SelectionContext* selection) noexcept;
+        // playControl is optional but recommended: when provided,
+        // the panel knows whether the editor is in Editing /
+        // Playing / Paused state, and gates its edit-time manual
+        // update() tick to Editing only — otherwise the manual
+        // tick would keep animations advancing during Pause /
+        // Step (both report engine.timeScale == 0 just like Edit
+        // mode). Without playControl the panel falls back to a
+        // pure timeScale check that's right for Edit but
+        // incorrect for Pause.
+        explicit SpriteAnimationPanel(SelectionContext* selection,
+                                       const PlayControlPanel* playControl = nullptr) noexcept;
 
         void draw() override;
 
     private:
         SelectionContext* selection_;
+        const PlayControlPanel* playControl_;
     };
 }
 

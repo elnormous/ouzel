@@ -6,12 +6,15 @@
 #include "../../engine/core/Engine.hpp"
 #include "../../engine/scene/Actor.hpp"
 #include "../../engine/scene/SpriteRenderer.hpp"
+#include "PlayControlPanel.hpp"
 
 namespace fluxion::editor
 {
-    SpriteAnimationPanel::SpriteAnimationPanel(SelectionContext* selection) noexcept:
+    SpriteAnimationPanel::SpriteAnimationPanel(SelectionContext* selection,
+                                                 const PlayControlPanel* playControl) noexcept:
         Panel{"Sprite Animation", true},
-        selection_{selection}
+        selection_{selection},
+        playControl_{playControl}
     {
     }
 
@@ -98,9 +101,18 @@ namespace fluxion::editor
         // so animation never visually progresses. To make the
         // panel's Play button useful in Editing mode, manually
         // drive update() here with the panel's real-time delta.
-        // Gated on timeScale==0 so we don't double-update once
-        // Phase 14's Play Mode sets a non-zero scale.
-        if (sprite->isPlaying() && engine->getTimeScale() == 0.0F)
+        //
+        // Gating: Editing state only. Pause and Step also report
+        // timeScale==0 (the engine's freeze mechanism), so a
+        // pure timeScale check would override Pause and keep
+        // animations running — exactly what the user noticed.
+        // The PlayControlPanel back-pointer lets us tell Editing
+        // from Paused. Falls back to the old timeScale check
+        // when no playControl was wired (defensive default).
+        const bool isEditing = playControl_
+            ? (playControl_->state() == PlayControlPanel::State::Editing)
+            : (engine->getTimeScale() == 0.0F);
+        if (isEditing && sprite->isPlaying())
             sprite->update(ImGui::GetIO().DeltaTime);
 
         // Per-animation rows. The map is keyed by name; we walk it

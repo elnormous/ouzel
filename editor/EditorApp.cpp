@@ -205,7 +205,7 @@ namespace fluxion::editor
             &assetDatabase_, &engine->getCache(), &imgui_,
             &selection_, spriteEditorPtr));
 
-        panels_.push_back(std::make_unique<SpriteAnimationPanel>(&selection_));
+        panels_.push_back(std::make_unique<SpriteAnimationPanel>(&selection_, playControl_));
 
         imgui_.setDrawCallback([this]() {
             // Fullscreen dockspace host that covers the main viewport.
