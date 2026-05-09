@@ -109,6 +109,17 @@ namespace fluxion::editor
         projectBundle_{engine->getCache(), engine->getFileSystem()}
     {
         forceLinkRegisteredComponents();
+
+        // Enable ImGui's docking system so panel windows can be
+        // tabbed / split / re-arranged by dragging their title bars.
+        // ImGui persists the layout to imgui.ini in the working
+        // directory, so the user's arrangement survives across runs.
+        // We deliberately do NOT enable Viewports (panels in
+        // separate OS windows) — that needs platform backend
+        // support our engine doesn't ship for mobile / web targets,
+        // and intra-window docking covers the editor's UX needs.
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
         engine->setScreenSaverEnabled(false);
         // Override the engine-baked FLUXION_APPLICATION_NAME ("sample") at
         // runtime; we share a single libfluxion with the samples binary.
@@ -172,6 +183,16 @@ namespace fluxion::editor
             &assetDatabase_, &engine->getCache(), &imgui_, &selection_));
 
         imgui_.setDrawCallback([this]() {
+            // Fullscreen dockspace host that covers the main viewport.
+            // PassthruCentralNode keeps the central area transparent
+            // so the engine's back-buffer clear (editor camera) shows
+            // through wherever no panel is docked. Each panel ImGui
+            // window can be dragged onto an edge / centre of this
+            // dockspace to dock it; ImGui persists the layout in
+            // imgui.ini between runs.
+            ImGui::DockSpaceOverViewport(0, nullptr,
+                ImGuiDockNodeFlags_PassthruCentralNode);
+
             drawMainMenu();
             // Top-level keyboard shortcuts: Ctrl+Z / Ctrl+Y / Ctrl+
             // Shift+Z drive undo/redo regardless of which panel has
