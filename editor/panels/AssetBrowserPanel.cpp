@@ -6,6 +6,7 @@
 #include <optional>
 #include <vector>
 #include "imgui.h"
+#include "../SelectionContext.hpp"
 #include "../asset/AssetDatabase.hpp"
 #include "../../engine/assets/Cache.hpp"
 #include "../../engine/graphics/Texture.hpp"
@@ -93,11 +94,13 @@ namespace fluxion::editor
 
     AssetBrowserPanel::AssetBrowserPanel(AssetDatabase* database,
                                           assets::Cache* cache,
-                                          gui::imgui::Context* imgui) noexcept:
+                                          gui::imgui::Context* imgui,
+                                          SelectionContext* selection) noexcept:
         Panel{"Asset Browser", true},
         database_{database},
         cache_{cache},
-        imgui_{imgui}
+        imgui_{imgui},
+        selection_{selection}
     {
     }
 
@@ -215,16 +218,17 @@ namespace fluxion::editor
                 ImGui::PushID(static_cast<int>(count++));
 
                 const ImVec2 cursor = ImGui::GetCursorScreenPos();
+                const ImVec2 tileSize{kTileSize, kTileSize};
+                const ImVec2 tileEnd{cursor.x + kTileSize, cursor.y + kTileSize};
 
-                // Backdrop tile so audio/font/etc. files have a
-                // visible click target the same size as the texture
-                // thumbnails.
+                // Decoration drawn first via the window's draw list:
+                // backdrop, then the image or fallback glyph. The
+                // interactive InvisibleButton is stacked on top so it
+                // owns click + drag-source semantics regardless of
+                // whether we managed to render a thumbnail.
                 ImDrawList* dl = ImGui::GetWindowDrawList();
-                dl->AddRectFilled(cursor,
-                                  ImVec2(cursor.x + kTileSize,
-                                         cursor.y + kTileSize),
-                                  typeTileColour(entry.type),
-                                  4.0F);
+                dl->AddRectFilled(cursor, tileEnd,
+                                  typeTileColour(entry.type), 4.0F);
 
                 bool drewThumbnail = false;
                 if (entry.type == assets::Asset::Type::image && cache_ && imgui_)
@@ -234,29 +238,43 @@ namespace fluxion::editor
                         const auto handle = imgui_->textureNativeHandle(*tex);
                         if (handle)
                         {
-                            ImGui::SetCursorScreenPos(cursor);
                             // ImTextureID is ImU64 in this ImGui build
-                            // (see external/imgui/imgui.h: typedef ImU64
-                            // ImTextureID), same as in ViewportPanel.
-                            ImGui::Image(static_cast<ImTextureID>(handle),
-                                         ImVec2(kTileSize, kTileSize));
+                            // (typedef ImU64 ImTextureID in imgui.h).
+                            dl->AddImage(static_cast<ImTextureID>(handle),
+                                         cursor, tileEnd);
                             drewThumbnail = true;
                         }
                     }
                 }
                 if (!drewThumbnail)
                 {
-                    // Draw the type glyph centred on the backdrop. We
-                    // still need an ImGui item that occupies the same
-                    // rect so drag-drop and click detection work.
-                    ImGui::SetCursorScreenPos(cursor);
-                    ImGui::InvisibleButton("##tile",
-                                           ImVec2(kTileSize, kTileSize));
                     const ImVec2 textSize = ImGui::CalcTextSize(typeGlyph(entry.type));
                     dl->AddText(ImVec2(cursor.x + (kTileSize - textSize.x) * 0.5F,
                                        cursor.y + (kTileSize - textSize.y) * 0.5F),
                                 IM_COL32_WHITE, typeGlyph(entry.type));
                 }
+
+                // Selection highlight: a 2px outline drawn over the
+                // decoration but under the InvisibleButton (which is
+                // invisible by definition). Uses the SelectionContext's
+                // asset channel so clicking a tree-row in the Scene
+                // panel doesn't leave a stale highlight here.
+                const bool isSelected = selection_ &&
+                                        !selection_->getSelectedAssetId().isNull() &&
+                                        selection_->getSelectedAssetId() == entry.id;
+                if (isSelected)
+                    dl->AddRect(cursor, tileEnd,
+                                IM_COL32(255, 200, 60, 255),
+                                4.0F, 0, 2.5F);
+
+                // Stack the click target. ImGui::InvisibleButton
+                // becomes the "current item" so BeginDragDropSource
+                // and IsItemClicked attach to this rect, regardless
+                // of which decoration we drew above.
+                ImGui::SetCursorScreenPos(cursor);
+                ImGui::InvisibleButton("##tile", tileSize);
+                if (ImGui::IsItemClicked() && selection_)
+                    selection_->setSelectedAsset(entry.id);
 
                 // Drag source: emit the AssetReference payload.
                 if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))

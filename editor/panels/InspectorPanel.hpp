@@ -4,6 +4,8 @@
 #include <string>
 #include "../Panel.hpp"
 
+namespace fluxion::assets { class Cache; }
+namespace fluxion::gui::imgui { class Context; }
 namespace fluxion::scene
 {
     class Actor;
@@ -45,7 +47,9 @@ namespace fluxion::editor
         explicit InspectorPanel(SelectionContext* selection,
                                 scene::Layer* userLayer = nullptr,
                                 CommandStack* commandStack = nullptr,
-                                const AssetDatabase* assetDatabase = nullptr);
+                                const AssetDatabase* assetDatabase = nullptr,
+                                assets::Cache* cache = nullptr,
+                                gui::imgui::Context* imgui = nullptr);
 
         void draw() override;
 
@@ -54,11 +58,18 @@ namespace fluxion::editor
         void drawTransform(scene::Actor& actor);
         void drawDisplayFlags(scene::Actor& actor);
         void drawComponents(scene::Actor& actor);
+        // Asset-selection branch: renders the .meta data for the
+        // currently-selected AssetEntry plus a preview tile for
+        // image assets. Used when the AssetBrowser sets the asset
+        // selection channel on SelectionContext.
+        void drawAssetInspector();
 
         SelectionContext* selection_;       // not owned
         scene::Layer* userLayer_;           // not owned; nullptr OK
         CommandStack* commandStack_;        // not owned; nullptr OK
         const AssetDatabase* assetDatabase_;// not owned; nullptr OK
+        assets::Cache* cache_;              // not owned; nullptr OK
+        gui::imgui::Context* imgui_;        // not owned; nullptr OK
 
         // Captured-on-activate value for the name InputText. Used
         // to push a SetNameCommand on commit (IsItemDeactivatedAfterEdit)

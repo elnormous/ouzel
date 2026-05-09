@@ -8,9 +8,13 @@
 #include "../CommandStack.hpp"
 #include "../SelectionContext.hpp"
 #include "../asset/AssetAwareInspector.hpp"
+#include "../asset/AssetDatabase.hpp"
 #include "../commands/AssetCommands.hpp"
 #include "../commands/ComponentCommands.hpp"
 #include "../commands/TransformCommands.hpp"
+#include "../../engine/assets/Cache.hpp"
+#include "../../engine/graphics/Texture.hpp"
+#include "../../engine/gui/imgui/ImGuiContext.hpp"
 #include "../../engine/math/Constants.hpp"
 #include "../../engine/math/Quaternion.hpp"
 #include "../../engine/reflection/TypeRegistry.hpp"
@@ -42,12 +46,16 @@ namespace fluxion::editor
     InspectorPanel::InspectorPanel(SelectionContext* selection,
                                    scene::Layer* userLayer,
                                    CommandStack* commandStack,
-                                   const AssetDatabase* assetDatabase):
+                                   const AssetDatabase* assetDatabase,
+                                   assets::Cache* cache,
+                                   gui::imgui::Context* imgui):
         Panel{"Inspector", true},
         selection_{selection},
         userLayer_{userLayer},
         commandStack_{commandStack},
-        assetDatabase_{assetDatabase}
+        assetDatabase_{assetDatabase},
+        cache_{cache},
+        imgui_{imgui}
     {
     }
 
@@ -57,11 +65,23 @@ namespace fluxion::editor
         ImGui::SetNextWindowSize(ImVec2(360, 500), ImGuiCond_FirstUseEver);
         ImGui::Begin(displayName_.c_str());
 
+        // Asset selection channel takes precedence: clicking a tile
+        // in the AssetBrowser switches the inspector to a read-only
+        // .meta view. SelectionContext guarantees at-most-one of the
+        // two selection kinds is set at any time.
+        if (selection_ && selection_->hasAssetSelection())
+        {
+            drawAssetInspector();
+            ImGui::End();
+            return;
+        }
+
         scene::Actor* actor = selection_ ? selection_->getSelected() : nullptr;
         if (!actor)
         {
             ImGui::TextDisabled("(no selection)");
             ImGui::TextDisabled("Click an actor in the Scene panel.");
+            ImGui::TextDisabled("Or click an asset in the Asset Browser.");
             ImGui::End();
             return;
         }
@@ -75,6 +95,59 @@ namespace fluxion::editor
         drawComponents(*actor);
 
         ImGui::End();
+    }
+
+    void InspectorPanel::drawAssetInspector()
+    {
+        const auto id = selection_->getSelectedAssetId();
+        if (!assetDatabase_)
+        {
+            ImGui::TextDisabled("(no asset database)");
+            return;
+        }
+        const auto* entry = assetDatabase_->findById(id);
+        if (!entry)
+        {
+            ImGui::TextDisabled("(asset id not in database)");
+            ImGui::TextDisabled("uuid: %s", id.toString().c_str());
+            return;
+        }
+
+        ImGui::Text("Asset: %s", entry->name.c_str());
+        ImGui::Separator();
+
+        ImGui::TextDisabled("uuid: %s", id.toString().c_str());
+        ImGui::Text("Type: %s", assets::typeName(entry->type));
+        ImGui::Text("Path: %s", entry->relativePath.c_str());
+        ImGui::Text("Importable: %s", entry->importable ? "yes" : "no");
+
+        // .meta options surfaced read-only — editing them is a
+        // future "Reimport" flow that rewrites the sidecar.
+        ImGui::Separator();
+        ImGui::Text("Options:");
+        ImGui::BulletText("mipmaps: %s",
+                          entry->options.mipmaps ? "true" : "false");
+
+        // Image preview: a square tile sized to fit the panel width
+        // (with sane min/max). The preview goes through the engine's
+        // ImGui texture-handle accessor — same path the AssetBrowser
+        // and ViewportPanel use, so it works on every backend.
+        if (entry->type == assets::Asset::Type::image && cache_ && imgui_)
+        {
+            if (const auto tex = cache_->getTexture(entry->id))
+            {
+                const auto handle = imgui_->textureNativeHandle(*tex);
+                if (handle)
+                {
+                    ImGui::Separator();
+                    ImGui::Text("Preview:");
+                    const float avail = ImGui::GetContentRegionAvail().x;
+                    const float side = std::max(64.0F, std::min(avail - 8.0F, 256.0F));
+                    ImGui::Image(static_cast<ImTextureID>(handle),
+                                 ImVec2(side, side));
+                }
+            }
+        }
     }
 
     void InspectorPanel::drawActorHeader(scene::Actor& actor)

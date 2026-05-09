@@ -27,8 +27,21 @@ namespace fluxion::editor
 
     void SelectionContext::setSelected(scene::Actor* actor)
     {
-        if (selected_ == actor) return;
+        const bool actorChanged = (selected_ != actor);
+        const bool assetCleared = (actor != nullptr && !selectedAssetId_.isNull());
+        if (!actorChanged && !assetCleared) return;
         selected_ = actor;
+        if (assetCleared) selectedAssetId_ = Uuid{};
+        notify();
+    }
+
+    void SelectionContext::setSelectedAsset(const Uuid& id)
+    {
+        const bool assetChanged = (selectedAssetId_ != id);
+        const bool actorCleared = (!id.isNull() && selected_ != nullptr);
+        if (!assetChanged && !actorCleared) return;
+        selectedAssetId_ = id;
+        if (actorCleared) selected_ = nullptr;
         notify();
     }
 

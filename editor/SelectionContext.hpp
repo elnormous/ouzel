@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <functional>
 #include <vector>
+#include "../engine/utils/Uuid.hpp"
 
 namespace fluxion::scene
 {
@@ -49,10 +50,21 @@ namespace fluxion::editor
         // Updates the selection. Fires listeners only when the value
         // actually changes — duplicate selects on the same actor are
         // ignored, which keeps the inspector from rebuilding state on
-        // every tree-row redraw.
+        // every tree-row redraw. Setting a non-null actor implicitly
+        // clears any active asset selection (the two channels are
+        // either-or so the Inspector knows which one to render).
         void setSelected(scene::Actor* actor);
 
         void clear() { setSelected(nullptr); }
+
+        // Asset selection channel. The Inspector treats actor and
+        // asset selection as mutually exclusive: setting one clears
+        // the other. A null Uuid (the default) means "no asset
+        // selected" — same isNull() sentinel used elsewhere.
+        [[nodiscard]] const Uuid& getSelectedAssetId() const noexcept { return selectedAssetId_; }
+        [[nodiscard]] bool hasAssetSelection() const noexcept { return !selectedAssetId_.isNull(); }
+        void setSelectedAsset(const Uuid& id);
+        void clearAssetSelection() { setSelectedAsset(Uuid{}); }
 
         // Walks `scene` and clears the selection if the currently
         // selected pointer is no longer in any layer. Cheap, intended
@@ -71,6 +83,7 @@ namespace fluxion::editor
         void notify();
 
         scene::Actor* selected_ = nullptr;
+        Uuid selectedAssetId_;
 
         struct ListenerSlot
         {

@@ -165,10 +165,11 @@ namespace fluxion::editor
                                                            &editorLayer_,
                                                            viewportPanel_->getCameraActor()));
         panels_.push_back(std::make_unique<InspectorPanel>(
-            &selection_, &workingLayer_, &commandStack_, &assetDatabase_));
+            &selection_, &workingLayer_, &commandStack_, &assetDatabase_,
+            &engine->getCache(), &imgui_));
         panels_.push_back(std::make_unique<PlayControlPanel>(&workingScene_));
         panels_.push_back(std::make_unique<AssetBrowserPanel>(
-            &assetDatabase_, &engine->getCache(), &imgui_));
+            &assetDatabase_, &engine->getCache(), &imgui_, &selection_));
 
         imgui_.setDrawCallback([this]() {
             drawMainMenu();
