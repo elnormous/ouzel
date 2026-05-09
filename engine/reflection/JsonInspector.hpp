@@ -49,6 +49,8 @@ namespace fluxion::reflection
 
         void enumField(const char* label, int& value, const char* const* options, std::size_t count) override;
 
+        void assetField(const char* label, assets::AssetReference& value) override;
+
         // Read-only fields are derived state and intentionally not written.
         void readOnlyText(const char* /*label*/, const char* /*text*/) override {}
 
@@ -85,6 +87,8 @@ namespace fluxion::reflection
         void vector4Field(const char* label, math::Vector<float, 4>& value) override;
 
         void enumField(const char* label, int& value, const char* const* options, std::size_t count) override;
+
+        void assetField(const char* label, assets::AssetReference& value) override;
 
         void readOnlyText(const char* /*label*/, const char* /*text*/) override {}
 

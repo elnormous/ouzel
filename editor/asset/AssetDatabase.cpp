@@ -74,41 +74,6 @@ namespace fluxion::editor
             }
         }
 
-        const char* assetTypeToString(assets::Asset::Type t)
-        {
-            using T = assets::Asset::Type;
-            switch (t)
-            {
-                case T::bank: return "bank";
-                case T::font: return "font";
-                case T::staticMesh: return "staticMesh";
-                case T::skinnedMesh: return "skinnedMesh";
-                case T::image: return "image";
-                case T::material: return "material";
-                case T::particleSystem: return "particleSystem";
-                case T::sprite: return "sprite";
-                case T::sound: return "sound";
-                case T::cue: return "cue";
-            }
-            return "image";
-        }
-
-        std::optional<assets::Asset::Type> assetTypeFromString(const std::string& s)
-        {
-            using T = assets::Asset::Type;
-            if (s == "bank") return T::bank;
-            if (s == "font") return T::font;
-            if (s == "staticMesh") return T::staticMesh;
-            if (s == "skinnedMesh") return T::skinnedMesh;
-            if (s == "image") return T::image;
-            if (s == "material") return T::material;
-            if (s == "particleSystem") return T::particleSystem;
-            if (s == "sprite") return T::sprite;
-            if (s == "sound") return T::sound;
-            if (s == "cue") return T::cue;
-            return std::nullopt;
-        }
-
         // Build the JSON body for a fresh .meta sidecar. Encodes the
         // schema version, the v4 Uuid, the sniffed type and the
         // import options. Editor-only: not part of the engine's scene
@@ -120,7 +85,7 @@ namespace fluxion::editor
             root = json::Object{};
             root["fluxion_meta_version"] = static_cast<std::int64_t>(kMetaSchemaVersion);
             root["id"] = id.toString();
-            root["type"] = std::string{assetTypeToString(type)};
+            root["type"] = std::string{assets::typeName(type)};
 
             json::Value opts;
             opts = json::Object{};
@@ -154,7 +119,7 @@ namespace fluxion::editor
                 out.id = *parsed;
 
                 if (root.hasMember("type"))
-                    out.type = assetTypeFromString(root["type"].as<std::string>());
+                    out.type = assets::parseTypeName(root["type"].as<std::string>());
 
                 if (root.hasMember("options") && root["options"].is<json::Object>())
                 {

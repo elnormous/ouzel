@@ -1,4 +1,5 @@
 #include "JsonInspector.hpp"
+#include "../assets/Asset.hpp"
 #include "../scene/Component.hpp"
 
 namespace fluxion::reflection
@@ -122,6 +123,21 @@ namespace fluxion::reflection
             current()[label] = static_cast<std::int64_t>(value);
     }
 
+    void JsonWriter::assetField(const char* label, assets::AssetReference& value)
+    {
+        // Persisted as { "id": "<uuid>", "type": "<typeName>" } so the
+        // type round-trips alongside the id — handy when scene files
+        // outlive the running editor and the AssetDatabase isn't
+        // around to tell us what kind of asset the id should resolve
+        // to. A null id encodes "no asset assigned" and produces
+        // { "id": "00000000-...-...", "type": "<...>" }.
+        json::Value sub;
+        sub = json::Object{};
+        sub["id"] = value.id.toString();
+        sub["type"] = std::string{assets::typeName(value.type)};
+        current()[label] = sub;
+    }
+
     void JsonWriter::beginGroup(const char* label)
     {
         json::Value sub;
@@ -232,6 +248,25 @@ namespace fluxion::reflection
             // Backwards-compat for anyone who saved as an integer.
             value = v->as<int>();
         }
+    }
+
+    void JsonReader::assetField(const char* label, assets::AssetReference& value)
+    {
+        // Tolerant on shape: missing object, missing id, or unparseable
+        // id all leave the AssetReference at its current default. This
+        // matches the rest of JsonReader's "old schema is fine" policy
+        // — a scene saved before AssetReference existed simply has no
+        // entry for this label, and the component sees value unchanged.
+        const auto* v = find(label);
+        if (!v || !v->is<json::Object>()) return;
+
+        if (v->hasMember("id") && (*v)["id"].is<std::string>())
+            if (auto parsed = Uuid::parse((*v)["id"].as<std::string>()))
+                value.id = *parsed;
+
+        if (v->hasMember("type") && (*v)["type"].is<std::string>())
+            if (auto parsedType = assets::parseTypeName((*v)["type"].as<std::string>()))
+                value.type = *parsedType;
     }
 
     void JsonReader::beginGroup(const char* label)

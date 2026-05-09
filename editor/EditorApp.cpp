@@ -23,6 +23,7 @@
 #include "../engine/scene/SpriteRenderer.hpp"
 #include "../engine/scene/StaticMeshRenderer.hpp"
 #include "../engine/scene/TextRenderer.hpp"
+#include "../engine/assets/Asset.hpp"
 #include "../engine/storage/Path.hpp"
 #include "asset/AssetImportPipeline.hpp"
 #include "SceneIO.hpp"
@@ -128,17 +129,20 @@ namespace fluxion::editor
         const auto sceneResult = runSceneRoundTripSelfTest();
         const auto playResult = runPlayControlSelfTest();
         const auto assetResult = runAssetDatabaseSelfTest();
+        const auto assetRefResult = runAssetReferenceRoundTripSelfTest();
         log(Log::Level::info) << "Editor reflection self-test: " << reflectionResult;
         log(Log::Level::info) << "Editor scene round-trip self-test: " << sceneResult;
         log(Log::Level::info) << "Editor play-control self-test: " << playResult;
         log(Log::Level::info) << "Editor asset DB self-test: " << assetResult;
+        log(Log::Level::info) << "Editor asset reference round-trip self-test: " << assetRefResult;
 
         const auto driverName =
             std::string{graphics::getDriverName(engine->getGraphics().getDevice()->getDriver())};
 
         panels_.push_back(std::make_unique<InfoPanel>(driverName,
                                                        reflectionResult + " | play=" + playResult,
-                                                       sceneResult + " | " + assetResult));
+                                                       sceneResult + " | " + assetResult
+                                                       + " | assetRef=" + assetRefResult));
 
         // Viewport panel owns its render target + camera. Built first
         // so the SceneTreePanel can be told which camera-actor to hide
@@ -592,5 +596,54 @@ namespace fluxion::editor
         if (scan.metaInvalid > 0)
             out += " (" + std::to_string(scan.metaInvalid) + " invalid)";
         return out;
+    }
+
+    std::string EditorApp::runAssetReferenceRoundTripSelfTest()
+    {
+        // Phase 11c verification: drive a JsonWriter + JsonReader pair
+        // directly with a fabricated AssetReference and confirm the
+        // id and type round-trip through the JSON form. No real
+        // component is involved — we only need to prove the new
+        // assetField virtual is wired into both inspectors.
+        assets::AssetReference written{Uuid::generate(),
+                                       assets::Asset::Type::sprite};
+        json::Value root;
+        {
+            reflection::JsonWriter writer{root};
+            writer.assetField("texture", written);
+        }
+
+        // Sanity: the writer must have produced { "texture": { "id":..., "type":"sprite" } }
+        if (!root.is<json::Object>() ||
+            !root.hasMember("texture") ||
+            !root["texture"].is<json::Object>())
+            return "FAIL writer shape";
+        const auto& sub = root["texture"];
+        if (!sub.hasMember("id") || !sub["id"].is<std::string>())
+            return "FAIL writer id";
+        if (!sub.hasMember("type") || !sub["type"].is<std::string>() ||
+            sub["type"].as<std::string>() != "sprite")
+            return "FAIL writer type";
+
+        assets::AssetReference read{};   // null id, default type=image
+        {
+            reflection::JsonReader reader{root};
+            reader.assetField("texture", read);
+        }
+        if (read.id != written.id) return "FAIL reader id";
+        if (read.type != written.type) return "FAIL reader type";
+
+        // Verify forwards-compat: a JSON object missing the asset
+        // field leaves the destination at its constructor default.
+        json::Value empty;
+        empty = json::Object{};
+        assets::AssetReference fallback{};
+        {
+            reflection::JsonReader reader{empty};
+            reader.assetField("texture", fallback);
+        }
+        if (!fallback.id.isNull()) return "FAIL missing-field default";
+
+        return "PASS";
     }
 }

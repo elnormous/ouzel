@@ -1,5 +1,6 @@
 #include "ImGuiInspector.hpp"
 #include "imgui.h"
+#include "../../assets/Asset.hpp"
 
 namespace fluxion::gui::imgui
 {
@@ -103,6 +104,27 @@ namespace fluxion::gui::imgui
             }
             ImGui::EndCombo();
         }
+    }
+
+    void Inspector::assetField(const char* label, assets::AssetReference& value)
+    {
+        // Engine-side default is intentionally minimal: just shows
+        // "<typeName> <id>" or "(none)" so the data is at least
+        // visible. The editor subclasses this to render a draggable
+        // asset receptor that resolves the id back to a name through
+        // its AssetDatabase — but that subclass lives in editor/, so
+        // the engine doesn't need to know about asset metadata UI.
+        char buf[80];
+        if (value.id.isNull())
+            std::snprintf(buf, sizeof(buf), "(none, %s)",
+                          assets::typeName(value.type));
+        else
+        {
+            const auto idStr = value.id.toString();
+            std::snprintf(buf, sizeof(buf), "[%s] %s",
+                          assets::typeName(value.type), idStr.c_str());
+        }
+        ImGui::LabelText(label, "%s", buf);
     }
 
     void Inspector::readOnlyText(const char* label, const char* text)

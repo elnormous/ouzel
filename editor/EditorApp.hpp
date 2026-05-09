@@ -42,6 +42,7 @@ namespace fluxion::editor
         std::string runSceneRoundTripSelfTest();
         std::string runPlayControlSelfTest();
         std::string runAssetDatabaseSelfTest();
+        std::string runAssetReferenceRoundTripSelfTest();
 
         // Main menu + file dialog plumbing (phase 7).
         void drawMainMenu();

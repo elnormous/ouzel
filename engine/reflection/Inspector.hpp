@@ -6,6 +6,15 @@
 #include "../math/Color.hpp"
 #include "../math/Vector.hpp"
 
+namespace fluxion::assets
+{
+    // Forward decl: kept opaque at the reflection layer so the
+    // Inspector header stays free of asset-pipeline dependencies.
+    // Concrete inspector implementations include Asset.hpp themselves
+    // when they need to read or write an AssetReference.
+    struct AssetReference;
+}
+
 namespace fluxion::reflection
 {
     // UI-independent abstraction over a property editor. The same Inspector
@@ -41,6 +50,16 @@ namespace fluxion::reflection
         // Discrete choice from a fixed set of labels (options[0]..options[count-1]).
         // value is interpreted as an index into options.
         virtual void enumField(const char* label, int& value, const char* const* options, std::size_t count) = 0;
+
+        // Reference to an AssetDatabase-tracked resource (texture,
+        // sprite, sound, ...). Persisted as the asset's stable Uuid;
+        // the editor renders a draggable receptor that resolves the
+        // id back to a human-readable name. Default impl is a no-op
+        // so legacy inspector subclasses that don't care still link
+        // — concrete inspectors that DO care (JsonInspector,
+        // ImGuiInspector, ...) override this.
+        virtual void assetField(const char* /*label*/,
+                                assets::AssetReference& /*value*/) {}
 
         // Read-only display of derived state (e.g., "boundingBox")
         virtual void readOnlyText(const char* label, const char* text) = 0;

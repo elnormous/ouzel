@@ -1,7 +1,9 @@
 #ifndef FLUXION_ASSETS_ASSET_HPP
 #define FLUXION_ASSETS_ASSET_HPP
 
+#include <optional>
 #include <string>
+#include <string_view>
 #include "../utils/Uuid.hpp"
 
 namespace fluxion::assets
@@ -64,6 +66,45 @@ namespace fluxion::assets
             return !(*this == other);
         }
     };
+
+    // Stable string form of Asset::Type. Used by .meta sidecars and
+    // scene-file AssetReferences so reordering or inserting enum
+    // values in the source code doesn't silently change the meaning
+    // of saved data. The names match the enumerator spelling.
+    [[nodiscard]] inline const char* typeName(Asset::Type t) noexcept
+    {
+        switch (t)
+        {
+            case Asset::Type::bank: return "bank";
+            case Asset::Type::font: return "font";
+            case Asset::Type::staticMesh: return "staticMesh";
+            case Asset::Type::skinnedMesh: return "skinnedMesh";
+            case Asset::Type::image: return "image";
+            case Asset::Type::material: return "material";
+            case Asset::Type::particleSystem: return "particleSystem";
+            case Asset::Type::sprite: return "sprite";
+            case Asset::Type::sound: return "sound";
+            case Asset::Type::cue: return "cue";
+        }
+        return "image";
+    }
+
+    [[nodiscard]] inline std::optional<Asset::Type>
+    parseTypeName(std::string_view s) noexcept
+    {
+        using T = Asset::Type;
+        if (s == "bank") return T::bank;
+        if (s == "font") return T::font;
+        if (s == "staticMesh") return T::staticMesh;
+        if (s == "skinnedMesh") return T::skinnedMesh;
+        if (s == "image") return T::image;
+        if (s == "material") return T::material;
+        if (s == "particleSystem") return T::particleSystem;
+        if (s == "sprite") return T::sprite;
+        if (s == "sound") return T::sound;
+        if (s == "cue") return T::cue;
+        return std::nullopt;
+    }
 }
 
 #endif // FLUXION_ASSETS_ASSET_HPP
