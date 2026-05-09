@@ -269,20 +269,18 @@ namespace fluxion::editor
 
                 // Stack the click target. ImGui::InvisibleButton
                 // becomes the "current item" so BeginDragDropSource
-                // and the click test attach to this rect, regardless
+                // and the release test attach to this rect, regardless
                 // of which decoration we drew above.
                 ImGui::SetCursorScreenPos(cursor);
                 ImGui::InvisibleButton("##tile", tileSize);
-                // Select on press. The fact that this also fires
-                // for the press that begins a drag isn't a problem
-                // for the receptor flow: InspectorPanel falls back
-                // to the actor view while a drag is active, so the
-                // SpriteRenderer's drop target stays visible during
-                // the drag motion.
-                if (ImGui::IsItemClicked() && selection_)
-                    selection_->setSelectedAsset(entry.id);
 
                 // Drag source: emit the AssetReference payload.
+                // Submitted before the click test so ImGui has a
+                // chance to flag this item as a drag source — when
+                // the user drags, IsItemHovered() returns false on
+                // the source (ImGui's default behaviour without
+                // SourceNoDisableHover), so the click-on-release
+                // path below correctly skips firing a selection.
                 if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
                 {
                     assets::AssetReference ref{entry.id, entry.type};
@@ -292,6 +290,20 @@ namespace fluxion::editor
                     ImGui::TextUnformatted(entry.name.c_str());
                     ImGui::EndDragDropSource();
                 }
+
+                // Select on release-while-hovered. This deliberately
+                // does NOT fire on press: a press that begins a drag
+                // would otherwise immediately switch the Inspector to
+                // the asset-meta view and tear down the drop receptor
+                // before the drag even starts moving. The hover check
+                // also handles drag-then-release-elsewhere — ImGui
+                // disables IsItemHovered on the source while a drag
+                // is active, so dropping on a different target leaves
+                // the source's selection state untouched.
+                if (ImGui::IsItemHovered() &&
+                    ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
+                    selection_)
+                    selection_->setSelectedAsset(entry.id);
 
                 // Caption underneath the tile, clipped to the tile
                 // width so long names don't overflow into the next
