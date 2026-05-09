@@ -127,6 +127,11 @@ namespace fluxion::gui::imgui
         ImGui::LabelText(label, "%s", buf);
     }
 
+    bool Inspector::actionField(const char* label)
+    {
+        return ImGui::Button(label);
+    }
+
     void Inspector::readOnlyText(const char* label, const char* text)
     {
         ImGui::LabelText(label, "%s", text);

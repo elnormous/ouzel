@@ -35,6 +35,8 @@ namespace fluxion::gui::imgui
 
         void assetField(const char* label, assets::AssetReference& value) override;
 
+        [[nodiscard]] bool actionField(const char* label) override;
+
         void readOnlyText(const char* label, const char* text) override;
 
         void beginGroup(const char* label) override;

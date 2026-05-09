@@ -61,6 +61,14 @@ namespace fluxion::reflection
         virtual void assetField(const char* /*label*/,
                                 assets::AssetReference& /*value*/) {}
 
+        // One-shot button. Returns true exactly on the frame the
+        // user clicked it; the inspect() body should react inline
+        // (call play(), reset(), ...). Persisting inspectors
+        // (JsonInspector) and silent ones return false so the
+        // action never fires during save/load — buttons are pure
+        // UI affordance, not state.
+        [[nodiscard]] virtual bool actionField(const char* /*label*/) { return false; }
+
         // Read-only display of derived state (e.g., "boundingBox")
         virtual void readOnlyText(const char* label, const char* text) = 0;
 

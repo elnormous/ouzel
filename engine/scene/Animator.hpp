@@ -25,6 +25,16 @@ namespace fluxion::scene
 
         virtual void update(float delta);
 
+        // Default inspect() exposes the controls every animator
+        // shares: Hidden, Length, Play / Stop / Reset buttons, and
+        // a read-only state line. Subclasses override and call
+        // Animator::inspect(inspector) first, then add their type-
+        // specific fields (Move's Target Position, Fade's Target
+        // Opacity, ...). Keeps the Inspector layout consistent
+        // across the whole Animator family without duplicating
+        // boilerplate per subclass.
+        void inspect(reflection::Inspector& inspector) override;
+
         void start();
         virtual void play();
 
