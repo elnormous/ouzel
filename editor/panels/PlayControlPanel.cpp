@@ -3,8 +3,12 @@
 #include "imgui.h"
 #include "../../engine/core/Engine.hpp"
 #include "../../engine/core/Window.hpp"
+#include "../../engine/scene/Actor.hpp"
+#include "../../engine/scene/Animator.hpp"
+#include "../../engine/scene/Layer.hpp"
 #include "../../engine/scene/Scene.hpp"
 #include "../../engine/scene/SceneSerializer.hpp"
+#include "../../engine/scene/SpriteRenderer.hpp"
 
 namespace fluxion::editor
 {
@@ -18,6 +22,56 @@ namespace fluxion::editor
         // constructed (EditorApp's ImGui Context ctor depends on it).
         engine->setTimeScale(0.0F);
         updateWindowTitle();
+    }
+
+    namespace
+    {
+        // Recursively call play() / start() on every Animator and
+        // SpriteRenderer attached to any actor in `container`. Used
+        // by enterPlay so the simulation visibly springs to life
+        // the moment the user hits Play, the way Unity's Play Mode
+        // does — sample code historically called start() explicitly
+        // from the actor builder, but the editor has no equivalent
+        // hook. start() / play() are idempotent (the dispatcher's
+        // addEventHandler removes any existing subscription before
+        // re-adding) so this is safe for already-running ones.
+        void autoPlayContainer(scene::ActorContainer& container)
+        {
+            for (auto* a : container.getChildren())
+            {
+                if (!a) continue;
+                for (auto* comp : a->getComponents())
+                {
+                    if (auto* anim = dynamic_cast<scene::Animator*>(comp))
+                        anim->start();
+                    else if (auto* sprite = dynamic_cast<scene::SpriteRenderer*>(comp))
+                        sprite->play();
+                }
+                autoPlayContainer(*a);
+            }
+        }
+
+        // Symmetric stop pass for enterStop. Snapshot/restore would
+        // recreate components anyway, but stopping first detaches
+        // the dispatcher subscriptions cleanly before the destroy
+        // pass so there's no transient frame where two subscribers
+        // (the about-to-die one and the freshly-created one) tick
+        // the same scene.
+        void autoStopContainer(scene::ActorContainer& container)
+        {
+            for (auto* a : container.getChildren())
+            {
+                if (!a) continue;
+                for (auto* comp : a->getComponents())
+                {
+                    if (auto* anim = dynamic_cast<scene::Animator*>(comp))
+                        anim->stop(true);
+                    else if (auto* sprite = dynamic_cast<scene::SpriteRenderer*>(comp))
+                        sprite->stop(true);
+                }
+                autoStopContainer(*a);
+            }
+        }
     }
 
     void PlayControlPanel::updateWindowTitle()
@@ -129,6 +183,16 @@ namespace fluxion::editor
 
         state_ = State::Playing;
         engine->setTimeScale(playbackSpeed_);
+
+        // Auto-start every Animator + SpriteRenderer in the scene
+        // so the user gets a Unity-style "press Play, see things
+        // move" experience without having to remember to hit Play
+        // on each animator manually. The pre-Play snapshot we
+        // already took above captures the not-yet-running state,
+        // so Stop restores cleanly to the editor view.
+        for (auto* layer : scene_->getLayers())
+            if (layer) autoPlayContainer(*layer);
+
         statusMessage_ = "Play started; scene snapshotted.";
         updateWindowTitle();
     }
@@ -164,6 +228,13 @@ namespace fluxion::editor
     void PlayControlPanel::enterStop()
     {
         if (state_ == State::Editing) return;       // already stopped
+        // Detach dispatcher subscriptions before the snapshot
+        // restore destroys + recreates the actors, avoiding a
+        // brief window where both the dying and the freshly-made
+        // components might handle the same UpdateEvent.
+        if (scene_)
+            for (auto* layer : scene_->getLayers())
+                if (layer) autoStopContainer(*layer);
         if (hasSnapshot_ && scene_)
         {
             try
