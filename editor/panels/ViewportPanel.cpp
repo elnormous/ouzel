@@ -75,7 +75,15 @@ namespace fluxion::editor
         camera_.setClearColorBuffer(true);
         camera_.setClearDepthBuffer(true);
         camera_.setClearColor(math::Color{32, 32, 40, 255});
-        camera_.setScaleMode(scene::Camera::ScaleMode::showAll);
+        // exactFit (NOT showAll): stretches the world rectangle to
+        // fill the SQUARE render target anisotropically. ImGui::Image
+        // then stretches the square RT to the (typically rectangular)
+        // panel, exactly cancelling out the per-axis distortion when
+        // we set targetContentSize aspect = panel aspect every frame
+        // (see draw()). With showAll the camera kept the world aspect
+        // intact inside the square RT, but the RT-to-panel stretch
+        // re-broke it — hence sprites coming out wide on a wide panel.
+        camera_.setScaleMode(scene::Camera::ScaleMode::exactFit);
         camera_.setTargetContentSize(math::Size<float, 2>{60.0F, 60.0F});
 
         cameraActor_.setName("<viewport camera>");
@@ -171,13 +179,14 @@ namespace fluxion::editor
         }
 
         // Match the camera's content aspect to the panel's aspect.
-        // ImGui::Image stretches the square render-target uniformly
-        // to the panel rect, so without this step a non-square panel
-        // would produce a non-uniformly stretched image. With the
-        // content aspect tracking the panel, showAll renders into
-        // the square RT with letterbox bars whose sizes exactly
-        // match the stretch ratios — the bars are clear-color (dark
-        // grey) and visually blend with the surrounding editor.
+        // The camera renders in exactFit mode, anisotropically
+        // stretching the (panelAspect * H, H) world rectangle to the
+        // square render-target. ImGui::Image then stretches the RT
+        // to the (panelW, panelH) panel — the X stretch is panelW/1024
+        // and the Y stretch is panelH/1024, so a unit world square
+        // becomes (panelW/(panelAspect*H), panelH/H) = (panelH/H,
+        // panelH/H) panel pixels. The panelAspect cancels out and
+        // sprites display at correct aspect regardless of panel shape.
         // contentHeight_ is the user-controlled "zoom" parameter;
         // the wheel modifies that, the width follows from aspect.
         const float panelAspect = avail.x / avail.y;
