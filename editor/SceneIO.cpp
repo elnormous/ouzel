@@ -1,5 +1,6 @@
 #include "SceneIO.hpp"
 
+#include <algorithm>
 #include <cstdint>
 #include "../engine/formats/Json.hpp"
 #include "../engine/scene/Layer.hpp"
@@ -28,6 +29,36 @@ namespace fluxion::editor::sceneIO
         }
     }
 
+    namespace
+    {
+        // Drop editor-internal actors from a serialised layer's
+        // "actors" array. The convention is that any actor whose
+        // name starts with "<" (e.g. "<viewport camera>") is owned
+        // by the editor's panels rather than the user — saving them
+        // and re-loading would duplicate the panel's instance, and
+        // re-anchoring on load is fragile (the new actor's pointer
+        // wouldn't match the panel's exclude-actor pointer until the
+        // scene-tree filter's name-based check kicks in too).
+        // Keeps the .flux file free of editor scaffolding.
+        void stripEditorActors(json::Value& layerJson)
+        {
+            if (!layerJson.is<json::Object>()) return;
+            if (!layerJson.hasMember("actors")) return;
+            auto& actors = layerJson["actors"];
+            if (!actors.is<json::Array>()) return;
+
+            auto& arr = actors.as<json::Array>();
+            arr.erase(std::remove_if(arr.begin(), arr.end(),
+                [](const json::Value& a) {
+                    if (!a.is<json::Object>()) return false;
+                    if (!a.hasMember("name")) return false;
+                    if (!a["name"].is<std::string>()) return false;
+                    const auto& n = a["name"].as<std::string>();
+                    return !n.empty() && n.front() == '<';
+                }), arr.end());
+        }
+    }
+
     void saveUserScene(const scene::Layer& userLayer,
                        const storage::Path& path)
     {
@@ -38,7 +69,9 @@ namespace fluxion::editor::sceneIO
 
         json::Value layers;
         layers = json::Array{};
-        layers.pushBack(scene::serialization::layerToJson(userLayer));
+        auto layerJson = scene::serialization::layerToJson(userLayer);
+        stripEditorActors(layerJson);
+        layers.pushBack(std::move(layerJson));
         root["layers"] = layers;
 
         const auto text = json::encode(root, /*whitespace*/ true);

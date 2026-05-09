@@ -104,7 +104,20 @@ namespace fluxion::editor
     {
         const auto& kids = container.getChildren();
         for (auto* a : kids)
-            if (a && a != excludeActor_) drawActor(*a);
+        {
+            if (!a) continue;
+            if (a == excludeActor_) continue;
+            // Editor-internal actors use a "<...>" naming convention
+            // so the user can recognise (and so post-save/load round-
+            // trips that lose pointer identity still hide them).
+            // The viewport camera lives in workingLayer_ alongside
+            // user content because the engine ties Camera component
+            // membership to layer.children — but the user shouldn't
+            // see it in their hierarchy.
+            const auto& name = a->getName();
+            if (!name.empty() && name.front() == '<') continue;
+            drawActor(*a);
+        }
     }
 
     void SceneTreePanel::drawActor(scene::Actor& actor)
